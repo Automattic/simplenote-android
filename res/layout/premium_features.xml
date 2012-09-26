@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	android:background="@color/grey">
+	<Button android:id="@+id/PremiumFeaturesBackButton" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:text="@string/ButtonBack" 
+		android:layout_alignParentLeft="true">
+	</Button>
+	<TextView android:id="@+id/PremiumFeaturesTitle" 
+		android:layout_alignParentTop="true" 
+		android:layout_alignParentRight="false" 
+		android:text="@string/Name" 
+		android:typeface="sans" 
+		android:textSize="25sp"
+		android:gravity="center_vertical|center_horizontal" 
+		android:layout_centerHorizontal="true" 
+		android:layout_centerVertical="true" 
+		android:padding="9sp" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:textColor="@color/white">
+	</TextView>
+	<ListView android:id="@+id/PremiumFeaturesList" 
+		android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_below="@+id/PremiumFeaturesBackButton" android:background="@color/white">
+	</ListView>
+</RelativeLayout>
+	

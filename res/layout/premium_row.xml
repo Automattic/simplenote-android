@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:id="@+id/RelativeLayout01" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android" android:background="@color/white">
+	<TextView android:text="@+id/featureName"
+ 		android:id="@+id/FeatureName" 
+ 		android:layout_height="wrap_content" 
+ 		android:layout_alignParentLeft="true" 
+ 		android:layout_width="wrap_content" 
+ 		android:textColor="@color/black">
+ 	</TextView>
+ 	
+ 
+	<ImageView android:id="@+id/PremiumImage" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_gravity="right" 
+		android:layout_alignParentRight="true" 
+		android:background="@drawable/btn_circle_normal" 
+		android:src="@drawable/ic_btn_round_more_normal">
+	</ImageView>	
+</RelativeLayout>

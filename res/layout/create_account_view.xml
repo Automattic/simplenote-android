@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	android:orientation="vertical" 
+	android:gravity="center_horizontal" 
+	android:background="@color/white">
+	<RelativeLayout android:id="@+id/CreateRelativeLayout" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:background="@color/grey">
+		<Button android:text="@string/Accept" 
+			android:id="@+id/CreateAccept" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true" 
+			android:layout_alignParentRight="true">
+		</Button>
+		<Button android:id="@+id/CreateCancel" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:text="@string/ButtonBack">
+		</Button>
+		<TextView android:id="@+id/TextView02" 
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true" 
+			android:layout_toLeftOf="@+id/CreateCancel" 
+			android:layout_toRightOf="@+id/CreateAccept"
+			android:selectAllOnFocus="true"
+			android:typeface="sans" 
+			android:height="50px" 
+			android:clickable="false" 
+			android:text="@string/Name" 
+			android:layout_centerVertical="true" 
+			android:layout_centerInParent="false" 
+			android:gravity="center_vertical|center_horizontal" 
+			android:layout_width="fill_parent" 
+			android:textColor="@color/white" 
+			android:textSize="25sp">
+		</TextView>
+	</RelativeLayout>
+		
+	<LinearLayout android:id="@+id/CreateEmailLayout" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView android:text="@string/Email"
+			android:id="@+id/CreateEmailLabel" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:minWidth="70sp"
+			android:textColor="@color/black">
+		</TextView>
+		<EditText android:text="" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:id="@+id/CreateEmailField" 
+			android:singleLine="true">
+		</EditText>
+
+	</LinearLayout>
+	<LinearLayout android:id="@+id/CreatePasswordLayout" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView android:text="@string/Password" 
+			android:id="@+id/CreatePasswordLabel" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:minWidth="70sp"
+			android:textColor="@color/black">
+		</TextView>
+		<EditText android:text="" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:id="@+id/CreatePasswordField" 
+			android:singleLine="true" 
+			android:password="true">
+		</EditText>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/CreateConfirmLayout" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView android:text="@string/Password2" 
+			android:id="@+id/CreateConfirmLabel" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:minWidth="70sp"
+			android:textColor="@color/black">
+		</TextView>
+		<EditText android:text=""
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:id="@+id/CreateConfirmField" 
+			android:singleLine="true" 
+			android:password="true">
+		</EditText>
+	</LinearLayout>
+
+
+</LinearLayout>

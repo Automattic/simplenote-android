@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+	
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" android:background="@color/grey">
+
+	<EditText android:id="@+id/body" 
+		android:layout_width="fill_parent" 
+		android:scrollbars="vertical" 
+		android:gravity="top" 
+		android:layout_alignParentLeft="true" 
+		android:layout_alignParentRight="true" 
+		android:layout_height="fill_parent" 
+		android:layout_above="@+id/EditNoteShare" 
+		android:layout_below="@+id/EditNoteAccept"/>
+	<Button android:layout_height="wrap_content" 
+		android:id="@+id/EditNoteAccept" 
+		android:layout_width="wrap_content" 
+		android:layout_alignParentLeft="true" 
+		android:layout_centerVertical="true" 
+		android:layout_centerHorizontal="true" 
+		android:text="@string/ButtonBack" 
+		android:layout_alignParentTop="true"/>
+	
+	<ImageButton android:layout_height="wrap_content" 
+		android:id="@+id/EditNoteNew" 
+		android:layout_width="wrap_content" 
+		android:layout_alignParentRight="true" 
+		android:layout_centerHorizontal="true" 
+		android:layout_centerVertical="true" 
+		android:layout_alignParentTop="true" 
+		android:src="@drawable/plus_white"/>
+	
+	<Button android:layout_height="wrap_content" 
+		android:id="@+id/EditNoteShare" 
+		android:layout_width="wrap_content" 
+		android:layout_alignParentLeft="true" 
+		android:layout_centerVertical="true" 
+		android:layout_centerHorizontal="true" 
+		android:text="Share" 
+		android:layout_alignParentBottom="true"/>
+
+	
+	
+	<ImageButton android:layout_height="wrap_content" 
+		android:id="@+id/EditNoteDelete" 
+		android:layout_width="wrap_content" 
+		android:layout_alignParentRight="true" 
+		android:src="@drawable/trashcan" 
+		android:layout_centerHorizontal="true" 
+		android:layout_centerVertical="true" 
+		android:layout_alignParentBottom="true"/>
+
+	
+	<TextView android:id="@+id/TimeStamp" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:text="@string/Name" 
+		android:layout_alignParentBottom="true" 
+		android:layout_toLeftOf="@+id/EditNoteDelete" 
+		android:layout_toRightOf="@+id/EditNoteShare" 
+		android:layout_alignTop="@+id/EditNoteShare" 
+		android:textSize="25sp" 
+		android:textColor="@color/white" 
+		android:gravity="center_vertical|center_horizontal">
+	</TextView>
+	<TextView android:text="@string/Name" 
+		android:id="@+id/EditTitle" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_alignParentTop="true" 
+		android:layout_toLeftOf="@+id/EditNoteNew" 
+		android:layout_toRightOf="@+id/EditNoteAccept" 
+		android:layout_alignBottom="@+id/EditNoteAccept" 
+		android:gravity="center_vertical|center_horizontal" 
+		android:textColor="@color/white" 
+		android:textSize="25sp" android:singleLine="true">
+	</TextView>
+</RelativeLayout>
