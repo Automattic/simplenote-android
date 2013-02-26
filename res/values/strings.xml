@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Name">Simplenote</string>
-    <string name="app_name">SimpleNote</string>
-    <string name="EditNote">Edit Note</string>
-    <string name="confirm">Finish Editing</string>
-<string name="SearchBoxText">Search</string>
-<string name="Email">Email:</string>
-<string name="Password">Password:</string>
-<string name="Password2">Confirm:</string>
-<string name="Accept">Accept</string>
-<string name="Cancel">Cancel</string>
-<string name="LoginAccount">Login to Existing Account</string>
-<string name="Num_Rows_Dialog_Title">Number of Preview Rows</string>
-<string name="Sort_Order_Dialog_Title">Select Sort Order</string>
-<string name="ButtonBack">Back</string>
-<string name="ModificationDateLabel">Modification Date</string>
-<string name="CreationDateLabel">Creation Date</string>
-<string name="AlphaNumericLabel">Alphabetic</string>
 
-<string name="InvalidEmailAddress">You have entered an invalid email address</string>
-<string name="Ok">Ok</string>
-<string name="PasswordLength">&quot;Your password must contain at least 4 characters&quot;</string>
-<string name="ClearSearch">X</string>
+    <string name="app_name">Simplenote</string>
+    <string name="title_note_detail">Note Detail</string>
+
 </resources>

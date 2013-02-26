@@ -1,0 +1,11 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="Simplenote" parent="Theme.Sherlock.Light">
+       
+    </style>
+
+</resources>
