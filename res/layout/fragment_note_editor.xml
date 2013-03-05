@@ -18,11 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:freezesText="true"
         android:gravity="top"
         android:padding="16dp"
         android:scrollHorizontally="false"
-        android:textIsSelectable="true"
         tools:context=".NoteEditorFragment" />
 
 </LinearLayout>
