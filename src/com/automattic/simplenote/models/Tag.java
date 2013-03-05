@@ -2,7 +2,7 @@ package com.automattic.simplenote.models;
 
 public class Tag {
 	protected String simperiumKey;
-	protected int index;
+	protected int tagIndex;
 	
 	// Map "name" to simperimKey for convenience (they could one day be different)
 	public String getName() {
@@ -21,11 +21,11 @@ public class Tag {
 		this.simperiumKey = simperiumKey;
 	}
 	
-	public int getIndex() {
-		return index;
+	public int getTagIndex() {
+		return tagIndex;
 	}
 	
-	public void setIndex(int index) {
-		this.index = index;
+	public void setTagIndex(int tagIndex) {
+		this.tagIndex = tagIndex;
 	}
 }

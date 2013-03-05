@@ -1,6 +1,10 @@
 package com.automattic.simplenote;
 
+import java.util.Calendar;
+import java.util.Vector;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.automattic.simplenote.models.Note;
 
 import android.content.Intent;
 import android.os.Bundle;

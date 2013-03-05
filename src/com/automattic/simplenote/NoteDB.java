@@ -1,5 +1,8 @@
 package com.automattic.simplenote;
 
+import java.util.Calendar;
+import java.util.Vector;
+
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 
@@ -15,10 +18,10 @@ public class NoteDB {
 	private static final String DATABASE_NAME = "simplenote";
 
 	private static final String CREATE_TABLE_NOTES = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, simperiumKey TEXT, content TEXT, creationDate DATE, modificationDate DATE, deleted BOOLEAN, lastPosition INTEGER, pinned BOOLEAN, shareURL TEXT, systemTags TEXT, tags TEXT);";
-	private static final String ADD_NOTES_INDEX = "CREATE INDEX simperiumKeyIndex ON notes(simperiumKey);";
+	private static final String ADD_NOTES_INDEX = "CREATE INDEX simperiumKeyNotesIndex ON notes(simperiumKey);";
 
-	private static final String CREATE_TABLE_TAGS = "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, index INTEGER, simperiumKey TEXT, name TEXT);";
-	private static final String ADD_TAGS_INDEX = "CREATE INDEX simperiumKeyIndex ON tags(simperiumKey);";
+	private static final String CREATE_TABLE_TAGS = "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, tagIndex INTEGER, simperiumKey TEXT, name TEXT);";
+	private static final String ADD_TAGS_INDEX = "CREATE INDEX simperiumKeyTagsIndex ON tags(simperiumKey);";
 
 	private static final String NOTES_TABLE = "notes";
 	private static final String TAGS_TABLE = "tags";
@@ -65,7 +68,7 @@ public class NoteDB {
 
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", tag.getSimperiumKey());
-		values.put("index", tag.getIndex());
+		values.put("index", tag.getTagIndex());
 		values.put("name", tag.getName());
 
 		return db.insert(TAGS_TABLE, null, values) >= 0;
@@ -96,7 +99,7 @@ public class NoteDB {
 
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", tag.getSimperiumKey());
-		values.put("index", tag.getIndex());
+		values.put("index", tag.getTagIndex());
 		values.put("name", tag.getName());
 
 		return db.update(TAGS_TABLE, values, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
