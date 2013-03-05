@@ -15,8 +15,10 @@ public class Note {
 	protected Vector<String> systemTags;
 	protected boolean deleted;
 	protected boolean pinned;
-		    
-    public Note()
+	protected int lastPosition;
+	protected String shareURL;
+
+	public Note()
     {
     }
 
@@ -82,6 +84,22 @@ public class Note {
 
 	public void setPinned(boolean pinned) {
 		this.pinned = pinned;
+	}
+	
+	public int getLastPosition() {
+		return lastPosition;
+	}
+
+	public void setLastPosition(int lastPosition) {
+		this.lastPosition = lastPosition;
+	}
+
+	public String getShareURL() {
+		return shareURL;
+	}
+
+	public void setShareURL(String shareURL) {
+		this.shareURL = shareURL;
 	}
 	
 	public static String dateString(Calendar c, boolean useShortFormat)
