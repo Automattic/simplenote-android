@@ -1,7 +1,9 @@
 package com.automattic.simplenote.models;
 
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Vector;
 
 public class Note {
@@ -80,5 +82,46 @@ public class Note {
 
 	public void setPinned(boolean pinned) {
 		this.pinned = pinned;
-	}	
+	}
+	
+	public static String dateString(Calendar c, boolean useShortFormat)
+	{
+		int year, month, day;
+
+		String time, date, retVal;
+		time = date = "";
+		
+		Calendar diff = Calendar.getInstance();
+		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());		
+				
+		year = diff.get(Calendar.YEAR);
+		month = diff.get(Calendar.MONTH);
+		day = diff.get(Calendar.DAY_OF_MONTH) ;
+		
+		diff.setTimeInMillis(0); // starting time
+		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+		if(	(year == diff.get(Calendar.YEAR)) &&(month == diff.get(Calendar.MONTH))&&(day == diff.get(Calendar.DAY_OF_MONTH)))
+		{
+			date = "Today";
+			if(useShortFormat)
+				retVal = time;
+			else
+				retVal = date +", " + time;
+		}
+		else if((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1))
+		{
+				date = "Yesterday";
+				if(useShortFormat)
+					retVal = date;
+				else
+					retVal = date + ", " + time;
+		}
+		else
+		{
+			date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
+			retVal = date + ", " + time;
+		}
+
+		return retVal;
+	}
 }
