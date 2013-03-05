@@ -3,5 +3,6 @@
 
     <string name="app_name">Simplenote</string>
     <string name="title_note_detail">Note Detail</string>
+    <string name="tag_hint">Add tag...</string>
 
 </resources>

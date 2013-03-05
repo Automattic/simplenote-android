@@ -14,13 +14,13 @@ import android.support.v4.app.FragmentActivity;
  * An activity representing a list of Notes. This activity has different
  * presentations for handset and tablet-size devices. On handsets, the activity
  * presents a list of items, which when touched, lead to a
- * {@link NoteDetailActivity} representing item details. On tablets, the
+ * {@link NoteEditorActivity} representing item details. On tablets, the
  * activity presents the list of items and item details side-by-side using two
  * vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link NoteListFragment} and the item details (if present) is a
- * {@link NoteDetailFragment}.
+ * {@link NoteEditorFragment}.
  * <p>
  * This activity also implements the required {@link NoteListFragment.Callbacks}
  * interface to listen for item selections.
@@ -64,16 +64,16 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(NoteDetailFragment.ARG_ITEM_ID, id);
-			NoteDetailFragment fragment = new NoteDetailFragment();
+			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, id);
+			NoteEditorFragment fragment = new NoteEditorFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction().replace(R.id.note_detail_container, fragment).commit();
 
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this, NoteDetailActivity.class);
-			detailIntent.putExtra(NoteDetailFragment.ARG_ITEM_ID, id);
+			Intent detailIntent = new Intent(this, NoteEditorActivity.class);
+			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
 	}

@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.NoteDetailActivity"
+            android:name="com.automattic.simplenote.NoteEditorActivity"
             android:label="@string/title_note_detail"
             android:parentActivityName=".NoteListActivity" >
             <meta-data

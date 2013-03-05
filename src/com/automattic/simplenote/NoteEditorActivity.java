@@ -13,14 +13,14 @@ import com.actionbarsherlock.view.MenuItem;
  * side-by-side with a list of items in a {@link NoteListActivity}.
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing more than
- * a {@link NoteDetailFragment}.
+ * a {@link NoteEditorFragment}.
  */
-public class NoteDetailActivity extends SherlockFragmentActivity {
+public class NoteEditorActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_note_detail);
+		setContentView(R.layout.activity_note_editor);
 
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,8 +38,8 @@ public class NoteDetailActivity extends SherlockFragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(NoteDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(NoteDetailFragment.ARG_ITEM_ID));
-			NoteDetailFragment fragment = new NoteDetailFragment();
+			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, getIntent().getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
+			NoteEditorFragment fragment = new NoteEditorFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction().add(R.id.note_detail_container, fragment).commit();
 		}
