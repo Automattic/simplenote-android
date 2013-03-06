@@ -46,6 +46,7 @@ public class NoteDB {
 			    ContentValues values = new ContentValues();
 		        values.put("simperiumKey", String.valueOf(i));
 		        values.put("title", "example title #" + i);
+		        
 		        if (i % 2 == 0)
                     values.put("content", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n" + "Here's some more content for this note.");
                 else 
@@ -55,7 +56,13 @@ public class NoteDB {
 		        values.put("modificationDate", Calendar.getInstance().getTimeInMillis() - (i * 1000));
 		        values.put("deleted", false);
 		        values.put("lastPosition", 0);
-		        values.put("pinned", false);
+		        
+		        if (i == 20 || i == 30) {
+		            values.put("pinned", true);
+                } else {
+                    values.put("pinned", false);
+                }
+		        
 		        values.put("shareURL", "url");
 		        values.put("systemTags", "");
 		        values.put("tags", "");

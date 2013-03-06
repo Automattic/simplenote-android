@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,7 +34,6 @@ public class NoteListFragment extends SherlockListFragment {
 	private NotesCursorAdapter mNotesAdapter;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
-	
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -90,7 +90,7 @@ public class NoteListFragment extends SherlockListFragment {
 
 		String[] columns = new String[] { "content", "content", "creationDate" };
 		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
-		
+
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		mNumPreviewLines = Integer.valueOf(sharedPref.getString("pref_key_preview_lines", "2"));
 		mShowDate = sharedPref.getBoolean("pref_key_show_dates", true);
@@ -100,7 +100,7 @@ public class NoteListFragment extends SherlockListFragment {
 		setListAdapter(mNotesAdapter);
 	}
 
-    @Override
+	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
@@ -178,7 +178,7 @@ public class NoteListFragment extends SherlockListFragment {
 
 		mActivatedPosition = position;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
 		mNotesAdapter.c.requery();
@@ -186,10 +186,10 @@ public class NoteListFragment extends SherlockListFragment {
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter {
-		
+
 		Cursor c;
-	    Context context;
-	    LinearLayout.LayoutParams lp;
+		Context context;
+		LinearLayout.LayoutParams lp;
 
 		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
 			super(context, layout, c, from, to, flags);
@@ -198,45 +198,52 @@ public class NoteListFragment extends SherlockListFragment {
 			lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		}
 
-        @Override
+		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			if (view == null)
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
-			
+
 			c.moveToPosition(position);
-			
+
 			TextView titleTextView = (TextView) view.findViewById(R.id.note_title);
-	        TextView contentTextView = (TextView) view.findViewById(R.id.note_content);
-	        TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
-	        
-	        contentTextView.setMaxLines(mNumPreviewLines);
-	        
-	        if (mShowDate) {
-	            dateTextView.setVisibility(View.VISIBLE);
-	            lp.setMargins(0, 0, Math.round(60 * context.getResources().getDisplayMetrics().density), 0);
-	            titleTextView.setLayoutParams(lp);
-	        } else {
-	            dateTextView.setVisibility(View.GONE);
-	            lp.setMargins(0, 0, 0, 0);
-                titleTextView.setLayoutParams(lp);
-	        }
-	        
-	        String title = c.getString(3);
-	        if (title != null) {
-	        	titleTextView.setText(c.getString(3));
-	        	if (c.getString(5) != null)
-	        		contentTextView.setText(c.getString(5));
-	        	else
-	        		contentTextView.setText(c.getString(4));
-	        } else {
-	        	titleTextView.setText(c.getString(4));
-	        	contentTextView.setText(c.getString(4));
-	        }
-	        
-	        String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(4)));
-	        
-	        dateTextView.setText(formattedDate);
-			
+			TextView contentTextView = (TextView) view.findViewById(R.id.note_content);
+			TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
+			ImageView pinImageView = (ImageView) view.findViewById(R.id.note_pin);
+
+			contentTextView.setMaxLines(mNumPreviewLines);
+
+			if (mShowDate) {
+				dateTextView.setVisibility(View.VISIBLE);
+				lp.setMargins(0, 0, Math.round(60 * context.getResources().getDisplayMetrics().density), 0);
+				titleTextView.setLayoutParams(lp);
+			} else {
+				dateTextView.setVisibility(View.GONE);
+				lp.setMargins(0, 0, 0, 0);
+				titleTextView.setLayoutParams(lp);
+			}
+
+			if (c.getInt(10) > 0) {
+				pinImageView.setImageResource(R.drawable.ic_item_list_default_pin_active);
+			} else {
+				pinImageView.setImageResource(R.drawable.ic_item_list_default_pin);
+			}
+
+			String title = c.getString(3);
+			if (title != null) {
+				titleTextView.setText(c.getString(3));
+				if (c.getString(5) != null)
+					contentTextView.setText(c.getString(5));
+				else
+					contentTextView.setText(c.getString(4));
+			} else {
+				titleTextView.setText(c.getString(4));
+				contentTextView.setText(c.getString(4));
+			}
+
+			String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(4)));
+
+			dateTextView.setText(formattedDate);
+
 			return view;
 		}
 

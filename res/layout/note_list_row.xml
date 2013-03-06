@@ -41,4 +41,12 @@
         android:textColor="#777777"
         android:gravity="top|right"
         android:layout_marginTop="4dp" />
+    
+    <ImageView
+        android:id="@+id/note_pin"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_item_list_default_pin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
