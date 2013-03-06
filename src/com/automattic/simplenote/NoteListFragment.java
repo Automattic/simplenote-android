@@ -1,12 +1,16 @@
 package com.automattic.simplenote;
 
+import java.util.Date;
+
 import android.app.Activity;
-import android.os.Build;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.dummy.DummyContent;
@@ -21,6 +25,8 @@ import com.automattic.simplenote.dummy.DummyContent;
  * interface.
  */
 public class NoteListFragment extends SherlockListFragment {
+
+	private NotesCursorAdapter notesAdapter;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -72,12 +78,15 @@ public class NoteListFragment extends SherlockListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int layout = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ?
-	            android.R.layout.simple_list_item_activated_1 :
-	            android.R.layout.simple_list_item_1;
+		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		Cursor cursor = db.fetchAllNotes();
 
-	        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-	            layout, DummyContent.ITEMS));
+		String[] columns = new String[] { "content", "content", "creationDate" };
+		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
+
+		notesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+
+		setListAdapter(notesAdapter);
 	}
 
 	@Override
@@ -146,5 +155,48 @@ public class NoteListFragment extends SherlockListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+
+	public class NotesCursorAdapter extends SimpleCursorAdapter {
+		
+		Cursor c;
+	    Context context;
+
+		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+			super(context, layout, c, from, to, flags);
+			this.c = c;
+			this.context = context;
+		}
+
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null)
+				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
+			
+			c.moveToPosition(position);
+			
+			TextView titleTextView = (TextView) view.findViewById(R.id.note_title);
+	        TextView contentTextView = (TextView) view.findViewById(R.id.note_content);
+	        TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
+	        
+	        String title = c.getString(3);
+	        if (title != null) {
+	        	titleTextView.setText(c.getString(3));
+	        	if (c.getString(5) != null)
+	        		contentTextView.setText(c.getString(5));
+	        	else
+	        		contentTextView.setText(c.getString(4));
+	        } else {
+	        	titleTextView.setText(c.getString(4));
+	        	contentTextView.setText(c.getString(4));
+	        }
+	        
+	        String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(4)));
+	        
+	        dateTextView.setText(formattedDate);
+			
+			return view;
+		}
+
 	}
 }

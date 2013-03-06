@@ -8,6 +8,7 @@ import com.automattic.simplenote.models.Tag;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import org.json.*;
 
@@ -17,7 +18,7 @@ public class NoteDB {
 	private SQLiteDatabase db;
 	private static final String DATABASE_NAME = "simplenote";
 
-	private static final String CREATE_TABLE_NOTES = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, simperiumKey TEXT, content TEXT, creationDate DATE, modificationDate DATE, deleted BOOLEAN, lastPosition INTEGER, pinned BOOLEAN, shareURL TEXT, systemTags TEXT, tags TEXT);";
+	private static final String CREATE_TABLE_NOTES = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, simperiumKey TEXT, title TEXT, content TEXT, contentPreview TEXT, creationDate DATE, modificationDate DATE, deleted BOOLEAN, lastPosition INTEGER, pinned BOOLEAN, shareURL TEXT, systemTags TEXT, tags TEXT);";
 	private static final String ADD_NOTES_INDEX = "CREATE INDEX simperiumKeyNotesIndex ON notes(simperiumKey);";
 
 	private static final String CREATE_TABLE_TAGS = "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, tagIndex INTEGER, simperiumKey TEXT, name TEXT);";
@@ -37,6 +38,27 @@ public class NoteDB {
 			// Create indexes for new install
 			db.execSQL(ADD_NOTES_INDEX);
 			db.execSQL(ADD_TAGS_INDEX);
+
+			// Test notes!
+			/*for (int i = 0; i < 100; i++) {
+				Note note = new Note();
+				note.setSimperiumKey(String.valueOf(i));
+				if (i % 2 == 0)
+					note.setContent("Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n" + "Here's some more content for this note.");
+				else 
+					note.setContent("I'm just a simple note. A Simplenote, get it?");
+				note.setCreationDate(Calendar.getInstance());
+				note.setDeleted(false);
+				note.setLastPosition(0);
+				note.setModificationDate(Calendar.getInstance());
+				note.setPinned(false);
+				note.setShareURL("");
+				Vector<String> systemTags = new Vector();
+				systemTags.add(String.valueOf(i));
+				note.setSystemTags(systemTags);
+				note.setTags(systemTags);
+				create(note);
+			}*/
 		}
 
 		db.setVersion(DATABASE_VERSION);
@@ -49,7 +71,9 @@ public class NoteDB {
 
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", note.getSimperiumKey());
+		values.put("title", note.getTitle());
 		values.put("content", note.getContent());
+		values.put("contentPreview", note.getContentPreview());
 		values.put("creationDate", note.getCreationDate().getTimeInMillis());
 		values.put("modificationDate", note.getModificationDate().getTimeInMillis());
 		values.put("deleted", note.isDeleted());
@@ -80,7 +104,9 @@ public class NoteDB {
 
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", note.getSimperiumKey());
+		values.put("title", note.getTitle());
 		values.put("content", note.getContent());
+		values.put("contentPreview", note.getContentPreview());
 		values.put("creationDate", note.getCreationDate().getTimeInMillis());
 		values.put("modificationDate", note.getModificationDate().getTimeInMillis());
 		values.put("deleted", note.isDeleted());
@@ -117,6 +143,15 @@ public class NoteDB {
 			return false;
 
 		return db.delete(TAGS_TABLE, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
+	}
+
+	public Cursor fetchAllNotes() {
+
+		Cursor mCursor = db.rawQuery( "select rowid _id,* from notes", null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
 	}
 
 }

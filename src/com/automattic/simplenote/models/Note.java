@@ -8,7 +8,10 @@ import java.util.Vector;
 
 public class Note {
 	protected String simperiumKey;
+
+	protected String title;
 	protected String content;
+	protected String contentPreview;
 	protected Calendar creationDate;
 	protected Calendar modificationDate;
 	protected Vector<String> tags;
@@ -18,9 +21,8 @@ public class Note {
 	protected int lastPosition;
 	protected String shareURL;
 
-	public Note()
-    {
-    }
+	public Note() {
+	}
 
 	public String getSimperiumKey() {
 		return simperiumKey;
@@ -29,13 +31,50 @@ public class Note {
 	public void setSimperiumKey(String simperiumKey) {
 		this.simperiumKey = simperiumKey;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getContent() {
 		return content;
 	}
 
 	public void setContent(String content) {
+		String thisLine;
+		String[] lines = content.split("\n");
+		boolean foundTitle, foundContent;
+		foundTitle = foundContent = false;
+
+		for (int i = 0; i < lines.length; i++) {
+			thisLine = lines[i];
+			if (!foundContent) {
+				if (thisLine != null) {
+					if (!foundTitle) {
+						setTitle(thisLine);
+						foundTitle = true;
+					} else {
+						this.contentPreview = thisLine;
+						foundContent = true;
+					}
+				}
+			} else {
+				this.contentPreview += thisLine;
+			}
+		}
 		this.content = content;
+	}
+	
+	public String getContentPreview() {
+		return contentPreview;
+	}
+
+	public void setContentPreview(String contentPreview) {
+		this.contentPreview = contentPreview;
 	}
 
 	public Calendar getCreationDate() {
@@ -85,7 +124,7 @@ public class Note {
 	public void setPinned(boolean pinned) {
 		this.pinned = pinned;
 	}
-	
+
 	public int getLastPosition() {
 		return lastPosition;
 	}
@@ -101,41 +140,35 @@ public class Note {
 	public void setShareURL(String shareURL) {
 		this.shareURL = shareURL;
 	}
-	
-	public static String dateString(Calendar c, boolean useShortFormat)
-	{
+
+	public static String dateString(Calendar c, boolean useShortFormat) {
 		int year, month, day;
 
 		String time, date, retVal;
 		time = date = "";
-		
+
 		Calendar diff = Calendar.getInstance();
-		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());		
-				
+		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
+
 		year = diff.get(Calendar.YEAR);
 		month = diff.get(Calendar.MONTH);
-		day = diff.get(Calendar.DAY_OF_MONTH) ;
-		
+		day = diff.get(Calendar.DAY_OF_MONTH);
+
 		diff.setTimeInMillis(0); // starting time
 		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-		if(	(year == diff.get(Calendar.YEAR)) &&(month == diff.get(Calendar.MONTH))&&(day == diff.get(Calendar.DAY_OF_MONTH)))
-		{
+		if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
 			date = "Today";
-			if(useShortFormat)
+			if (useShortFormat)
 				retVal = time;
 			else
-				retVal = date +", " + time;
-		}
-		else if((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1))
-		{
-				date = "Yesterday";
-				if(useShortFormat)
-					retVal = date;
-				else
-					retVal = date + ", " + time;
-		}
-		else
-		{
+				retVal = date + ", " + time;
+		} else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
+			date = "Yesterday";
+			if (useShortFormat)
+				retVal = date;
+			else
+				retVal = date + ", " + time;
+		} else {
 			date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
 			retVal = date + ", " + time;
 		}

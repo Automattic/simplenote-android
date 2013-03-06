@@ -5,7 +5,13 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="Simplenote" parent="Theme.Sherlock.Light">
+        
+        <item name="android:textViewStyle">@style/SimplenoteTextAppearance</item>
        
+    </style>
+    
+   <style name="SimplenoteTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FF464646</item>
     </style>
 
 </resources>
