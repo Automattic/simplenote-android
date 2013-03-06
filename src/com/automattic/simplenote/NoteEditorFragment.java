@@ -43,7 +43,9 @@ public class NoteEditorFragment extends SherlockFragment {
 	        Simplenote application = (Simplenote)getActivity().getApplication();
 			Bucket<Note> notesBucket = application.getNotesBucket();
 			String key = getArguments().getString(ARG_ITEM_ID);
-			mNote = (Note) notesBucket.get(key);
+			
+			// TODO: get note from Simperium bucket
+			//mNote = (Note) notesBucket.get(key);
 		}
 	}
 
@@ -53,8 +55,10 @@ public class NoteEditorFragment extends SherlockFragment {
 		mContentView = ((EditText) rootView.findViewById(R.id.note_content));
 
 		if (mNote != null) {
-			mContentView.setText(mNote.getContent());
+			// TODO: populate note contents
+			// mContentView.setText(mNote.getContent());			
 		}
+		mContentView.setText("This is not real note text yet.");
 
 		return rootView;
 	}

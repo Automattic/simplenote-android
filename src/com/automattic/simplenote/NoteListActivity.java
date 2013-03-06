@@ -118,12 +118,14 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	 */
 	@Override
 	public void onNoteSelected(Note note) {
+		String noteKey = note == null ? "none" : note.getSimperiumKey();
+		
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteKey);
 			NoteEditorFragment fragment = new NoteEditorFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -133,7 +135,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, NoteEditorActivity.class);
-			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, noteKey);
 			startActivity(detailIntent);
 		}
 	}
