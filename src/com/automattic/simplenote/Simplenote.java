@@ -11,7 +11,7 @@ import com.simperium.client.storage.MemoryStore;
 import android.content.Intent;
 import android.util.Log;
 
-public class Application extends android.app.Application implements User.AuthenticationListener {
+public class Simplenote extends android.app.Application implements User.AuthenticationListener {
 	
 	public static final String TAG="SimpleNote";
 	

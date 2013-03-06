@@ -45,7 +45,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
 		
-        Application application = (Application)getApplication();
+        Simplenote application = (Simplenote)getApplication();
 		mNotesBucket = application.getNotesBucket();
 
 		ActionBar ab = getSupportActionBar();

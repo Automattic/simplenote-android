@@ -40,7 +40,7 @@ public class NoteEditorFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
-	        Application application = (Application)getActivity().getApplication();
+	        Simplenote application = (Simplenote)getActivity().getApplication();
 			Bucket<Note> notesBucket = application.getNotesBucket();
 			String key = getArguments().getString(ARG_ITEM_ID);
 			mNote = (Note) notesBucket.get(key);

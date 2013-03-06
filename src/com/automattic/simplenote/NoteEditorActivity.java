@@ -27,7 +27,7 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_editor);
 
-		Application application = (Application) getApplication();
+		Simplenote application = (Simplenote) getApplication();
 		mNotesBucket = application.getNotesBucket();
 
 		// Show the Up button in the action bar.

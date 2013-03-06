@@ -144,7 +144,7 @@ public class NoteListFragment extends SherlockListFragment {
 		
 		// Get the simperiumKey and retrieve the note via Simperium
 		String simperiumKey = cursor.getString(2);
-		Application application = (Application)getActivity().getApplication();
+		Simplenote application = (Simplenote)getActivity().getApplication();
 		Bucket<Note> notesBucket = application.getNotesBucket();
 		Note note = notesBucket.get(simperiumKey);
 		mCallbacks.onNoteSelected(note);
