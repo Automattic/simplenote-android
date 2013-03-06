@@ -10,14 +10,10 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-<<<<<<< HEAD
 import com.simperium.client.*;
 
-
 import com.automattic.simplenote.models.*;
-=======
 import com.actionbarsherlock.view.MenuItem;
->>>>>>> Adding preferences activity. Not all settings are wired up yet.
 
 /**
  * An activity representing a list of Notes. This activity has different

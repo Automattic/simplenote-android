@@ -33,11 +33,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NoteListActivity" />
         </activity>
-<<<<<<< HEAD
         <activity android:name="com.simperium.client.LoginActivity"></activity>
-=======
         <activity android:name="PreferencesActivity"></activity>
->>>>>>> Adding preferences activity. Not all settings are wired up yet.
     </application>
 
 </manifest>
