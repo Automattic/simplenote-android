@@ -85,7 +85,7 @@ public class NoteListFragment extends SherlockListFragment {
 		super.onCreate(savedInstanceState);
 
 		NoteDB db = new NoteDB(getActivity().getApplicationContext());
-		Cursor cursor = db.fetchAllNotes();
+		Cursor cursor = db.fetchAllNotes(getActivity());
 
 		String[] columns = new String[] { "content", "content", "creationDate" };
 		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
@@ -135,7 +135,7 @@ public class NoteListFragment extends SherlockListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		Note note = (Note) notesAdapter.getItem(position);
+		Note note = (Note) mNotesAdapter.getItem(position);
 		mCallbacks.onNoteSelected(note);
 	}
 
@@ -170,8 +170,8 @@ public class NoteListFragment extends SherlockListFragment {
 	
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
-		notesAdapter.c.requery();
-		notesAdapter.notifyDataSetChanged();
+		mNotesAdapter.c.requery();
+		mNotesAdapter.notifyDataSetChanged();
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter {
@@ -187,7 +187,7 @@ public class NoteListFragment extends SherlockListFragment {
 			lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		}
 
-		@Override
+        @Override
 		public View getView(int position, View view, ViewGroup parent) {
 			if (view == null)
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);

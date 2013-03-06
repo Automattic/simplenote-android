@@ -35,7 +35,7 @@
         <ListPreference
             android:defaultValue="@string/modified_date"
             android:entries="@array/array_sort_order"
-            android:entryValues="@array/array_sort_order"
+            android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"
             android:title="@string/sort_order" />
     </PreferenceCategory>
