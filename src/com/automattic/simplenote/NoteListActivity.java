@@ -14,6 +14,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
+import com.simperium.client.*;
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -89,6 +90,19 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.notes_list, menu);
 		return true;
+	}
+	
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		if (item.getItemId() == R.id.menu_preferences) {
+			Intent i = new Intent(this, PreferencesActivity.class);
+			this.startActivity(i);
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 
 	/**

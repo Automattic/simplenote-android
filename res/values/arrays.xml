@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- This is a string array because integer-array doesn't play nice with Android Preferences -->
+    <string-array name="array_preview_lines">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+  
+    <string-array name="array_font_size">
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Extra large</item>
+    </string-array>
+    
+    <string-array name="array_sort_order">
+        <item>Modified date</item>
+        <item>Created date</item>
+        <item>Alphabetically</item>
+        <item>Modified date, reversed</item>
+        <item>Created date, reversed</item>
+        <item>Alphabetically, reversed</item>
+    </string-array>
+
+</resources>

@@ -34,6 +34,7 @@
                 android:value=".NoteListActivity" />
         </activity>
         <activity android:name="com.simperium.client.LoginActivity"></activity>
+        <activity android:name="PreferencesActivity"></activity>
     </application>
 
 </manifest>

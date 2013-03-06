@@ -4,8 +4,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import com.automattic.simplenote.models.Note;
 public class NoteListFragment extends SherlockListFragment {
 
 	private NotesCursorAdapter notesAdapter;
+	private int mNumPreviewLines;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -83,6 +86,9 @@ public class NoteListFragment extends SherlockListFragment {
 
 		String[] columns = new String[] { "content", "content", "creationDate" };
 		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
+		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		mNumPreviewLines = Integer.valueOf(sharedPref.getString("pref_key_preview_lines", "2"));
 
 		notesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
 
@@ -185,6 +191,8 @@ public class NoteListFragment extends SherlockListFragment {
 			TextView titleTextView = (TextView) view.findViewById(R.id.note_title);
 	        TextView contentTextView = (TextView) view.findViewById(R.id.note_content);
 	        TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
+	        
+	        contentTextView.setMaxLines(mNumPreviewLines);
 	        
 	        String title = c.getString(3);
 	        if (title != null) {
