@@ -31,7 +31,7 @@ import com.simperium.client.*;
  * interface to listen for item selections.
  */
 public class NoteListActivity extends SherlockFragmentActivity implements
-		NoteListFragment.Callbacks, OnNavigationListener {
+		NoteListFragment.Callbacks, OnNavigationListener, User.AuthenticationListener {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -71,6 +71,11 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 					R.id.note_list)).setActivateOnItemClick(true);
 		}
 
+		Application currentApp = (Application) getApplication();
+		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
+			startLoginActivity();
+		}
+		currentApp.getSimperium().setAuthenticationListener(this);
 	}
 
 	@Override
@@ -135,4 +140,27 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		return false;
 	}
 	
+	
+	public void onAuthenticationStatusChange(User.AuthenticationStatus status){
+		if ( status == User.AuthenticationStatus.NOT_AUTHENTICATED ) {
+			startLoginActivity();
+		}
+	}
+	
+	public void startLoginActivity(){
+		Intent loginIntent = new Intent(this, LoginActivity.class);
+		startActivityForResult(loginIntent, 0);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (data != null) {
+			Bundle bundle = data.getExtras();
+			int status = bundle.getInt("returnStatus");
+			if (status == -1) {
+				finish();
+			} 
+		}
+	}
 }
