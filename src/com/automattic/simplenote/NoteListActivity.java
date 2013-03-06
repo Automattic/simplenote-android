@@ -10,6 +10,9 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.simperium.client.*;
+import com.simperium.client.storage.MemoryStore;
+
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -26,13 +29,18 @@ import com.actionbarsherlock.view.MenuInflater;
  * This activity also implements the required {@link NoteListFragment.Callbacks}
  * interface to listen for item selections.
  */
-public class NoteListActivity extends SherlockFragmentActivity implements NoteListFragment.Callbacks, OnNavigationListener {
+public class NoteListActivity extends SherlockFragmentActivity implements NoteListFragment.Callbacks, OnNavigationListener, User.AuthenticationListener{
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
 	private boolean mTwoPane;
+	
+    private Simperium simperium;
+    static private final String SIMPERIUM_APP_ID  = "XXXX";
+    static private final String SIMPERIUM_API_KEY = "ROBERTO!!!";
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,14 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+		
+        simperium = new Simperium(
+                SIMPERIUM_APP_ID,
+                SIMPERIUM_API_KEY,
+                getApplicationContext(),
+                new MemoryStore(),
+                this
+            );
 	}
 
 	@Override
@@ -71,6 +87,22 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 		return true;
 	}
 
+    public void onAuthenticationStatusChange(User.AuthenticationStatus status){
+        if ( status == User.AuthenticationStatus.NOT_AUTHENTICATED ) {
+            startLoginActivity();
+        }
+    }
+	
+    public void startLoginActivity(){
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        loginIntent.setFlags(
+            Intent.FLAG_ACTIVITY_SINGLE_TOP |
+            Intent.FLAG_ACTIVITY_NEW_TASK
+        );
+    
+        startActivity(loginIntent);
+    }
+    
 	/**
 	 * Callback method from {@link NoteListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
