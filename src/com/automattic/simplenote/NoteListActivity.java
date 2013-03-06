@@ -77,7 +77,11 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.notes_list, menu);
+		if (mTwoPane) {
+			inflater.inflate(R.menu.notes_list_twopane, menu);
+		} else {
+			inflater.inflate(R.menu.notes_list, menu);
+		}
 		return true;
 	}
 	
