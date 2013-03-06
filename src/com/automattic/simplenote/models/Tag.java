@@ -30,15 +30,7 @@ public class Tag extends Bucket.Object {
 	public void setName(String name) {
 		this.simperiumKey = name;
 	}
-	
-	public String getSimperiumKey() {
-		return simperiumKey;
-	}
-	
-	public void setSimperiumKey(String simperiumKey) {
-		this.simperiumKey = simperiumKey;
-	}
-	
+		
 	public int getTagIndex() {
 		return tagIndex;
 	}

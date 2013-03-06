@@ -85,7 +85,7 @@ public class NoteListFragment extends SherlockListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
 
 		String[] columns = new String[] { "content", "content", "creationDate" };

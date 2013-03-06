@@ -55,14 +55,6 @@ public class Note extends Bucket.Object {
     	properties.put("shareURL", shareURL);
         return properties;
     }
-
-	public String getSimperiumKey() {
-		return simperiumKey;
-	}
-
-	public void setSimperiumKey(String simperiumKey) {
-		this.simperiumKey = simperiumKey;
-	}
 	
 	public String getTitle() {
 		return title;

@@ -2,6 +2,16 @@ package com.automattic.simplenote;
 
 import org.json.JSONArray;
 
+import java.util.Calendar;
+import java.util.Vector;
+import java.util.List;
+
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
+
+import com.simperium.client.StorageProvider;
+import com.simperium.client.Bucket;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,9 +25,11 @@ import java.util.Calendar;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 
+import android.util.Log;
+
 public class NoteDB {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private SQLiteDatabase db;
 	private static final String DATABASE_NAME = "simplenote";
 
@@ -26,6 +38,8 @@ public class NoteDB {
 
 	private static final String CREATE_TABLE_TAGS = "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, tagIndex INTEGER, simperiumKey TEXT, name TEXT);";
 	private static final String ADD_TAGS_INDEX = "CREATE INDEX simperiumKeyTagsIndex ON tags(simperiumKey);";
+	
+	private static final String CREATE_TABLE_BUCKETS = "CREATE TABLE IF NOT EXISTS buckets (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, cv TEXT);";
 
 	private static final String NOTES_TABLE = "notes";
 	private static final String TAGS_TABLE = "tags";
@@ -76,11 +90,14 @@ public class NoteDB {
 			}*/
 
 		}
+		if (db.getVersion() < 2) {
+			db.execSQL(CREATE_TABLE_BUCKETS);
+		}
 
 		db.setVersion(DATABASE_VERSION);
 
 	}
-
+	
 	boolean create(Note note) {
 		if (note == null)
 			return false;
@@ -205,4 +222,59 @@ public class NoteDB {
 
 		return cursor;
 	}
+	
+	public SimperiumStore getSimperiumStore(){
+		return new SimperiumStore();
+	}
+	public static final String TAG = "Simplenote";
+	private class SimperiumStore implements StorageProvider {
+	    /**
+	     * Store the change version for a bucket
+	     */
+	    public String getChangeVersion(Bucket bucket){
+	    	return null;
+	    }
+	    public void setChangeVersion(Bucket bucket, String version){
+	    	
+	    }
+	    public Boolean hasChangeVersion(Bucket bucket){
+			return false;
+	    	
+	    }
+	    public Boolean hasChangeVersion(Bucket bucket, String version){
+	    	return false;
+	    }
+	    /**
+	     * Store bucket object data
+	     */
+	    public void addObject(Bucket bucket, String key, Bucket.Syncable object){
+	    	Log.d(TAG, String.format("Time to save %s in %s", key, bucket.getName()));
+	    }
+	    public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
+	    	
+	    }
+	    public void removeObject(Bucket bucket, String key){
+	    	
+	    }
+	    /**
+	     * Retrieve entities and details
+	     */
+	    public <T extends Bucket.Syncable> T getObject(Bucket<T> bucket, String key){
+	    	return null;
+	    }
+	    public Boolean containsKey(Bucket bucket, String key){
+	    	return false;
+	    }
+	    public Boolean hasKeyVersion(Bucket bucket, String key, Integer version){
+	    	return false;
+	    }
+	    public Integer getKeyVersion(Bucket bucket, String key){
+	    	return null;
+	    }
+	    public <T extends Bucket.Syncable> List<T> allEntities(Bucket<T> bucket){
+	    	return null;
+	    }
+		
+	}
+
 }
