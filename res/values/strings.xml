@@ -5,6 +5,10 @@
     <string name="title_note_detail">Note Detail</string>
     <string name="tag_hint">Add tag&#8230;</string>
     <string name="preferences">Preferences</string>
+    <string name="share">Share</string>
+    <string name="info">Info</string>
+    <string name="delete">Delete</string>
+    <string name="preferences">Preferences</string>
     <string name="new_note">Add Note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>

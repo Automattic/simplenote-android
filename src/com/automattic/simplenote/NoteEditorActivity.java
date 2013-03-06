@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import com.simperium.client.Bucket;
@@ -52,6 +54,19 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 			getSupportFragmentManager().beginTransaction().add(R.id.note_detail_container, fragment).commit();
 		}
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean twoPane = findViewById(R.id.note_detail_container) != null;
+
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		if (!twoPane)
+			inflater.inflate(R.menu.note_editor, menu);
+
+		return true;
+	}
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
