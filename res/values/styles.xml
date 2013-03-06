@@ -5,12 +5,56 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="Simplenote" parent="Theme.Sherlock.Light">
-        
         <item name="android:textViewStyle">@style/SimplenoteTextAppearance</item>
-       
+        <item name="actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Simplestyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Simplestyle</item>
     </style>
-    
-   <style name="SimplenoteTextAppearance" parent="@android:style/TextAppearance">
+
+    <style name="ActionBar.Solid.Simplestyle" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
+        <item name="background">@drawable/ab_solid_simplestyle</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
+        <item name="progressBarStyle">@style/ProgressBar.Simplestyle</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Simplestyle" parent="@style/Widget.Sherlock.Light.ActionBar">
+        <item name="background">@drawable/ab_transparent_simplestyle</item>
+        <item name="progressBarStyle">@style/ProgressBar.Simplestyle</item>
+    </style>
+
+    <style name="PopupMenu.Simplestyle" parent="@style/Widget.Sherlock.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
+    </style>
+
+    <style name="DropDownListView.Simplestyle" parent="@style/Widget.Sherlock.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_simplestyle</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Simplestyle" parent="@style/Widget.Sherlock.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
+    </style>
+
+    <style name="DropDownNav.Simplestyle" parent="@style/Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_simplestyle</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_simplestyle</item>
+    </style>
+
+    <style name="ProgressBar.Simplestyle" parent="@style/Widget.Sherlock.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Simplestyle.Widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/PopupMenu.Simplestyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
+    </style>
+
+    <style name="SimplenoteTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">#FF464646</item>
     </style>
 

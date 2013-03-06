@@ -1,14 +1,15 @@
 package com.automattic.simplenote;
 
-import java.util.Calendar;
-import java.util.Vector;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.automattic.simplenote.models.Note;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -25,7 +26,7 @@ import android.support.v4.app.FragmentActivity;
  * This activity also implements the required {@link NoteListFragment.Callbacks}
  * interface to listen for item selections.
  */
-public class NoteListActivity extends SherlockFragmentActivity implements NoteListFragment.Callbacks {
+public class NoteListActivity extends SherlockFragmentActivity implements NoteListFragment.Callbacks, OnNavigationListener {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -37,6 +38,15 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
+
+		ActionBar ab = getSupportActionBar();
+		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		ab.setDisplayShowTitleEnabled(false);
+
+		String[] items = { "Notes", "Trash", "RADWHIMPS" };
+		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(getSupportActionBar().getThemedContext(),
+				R.layout.sherlock_spinner_dropdown_item, items);
+		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 
 		if (findViewById(R.id.note_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -51,6 +61,14 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.notes_list, menu);
+		return true;
 	}
 
 	/**
@@ -76,5 +94,11 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
