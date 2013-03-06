@@ -84,7 +84,7 @@ public class NoteListFragment extends SherlockListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = new NoteDB(getActivity().getApplicationContext());
 		Cursor cursor = db.fetchAllNotes(getActivity());
 

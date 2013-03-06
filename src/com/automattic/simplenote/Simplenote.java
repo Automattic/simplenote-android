@@ -9,10 +9,9 @@ import com.simperium.client.*;
 import com.simperium.client.storage.MemoryStore;
 
 import android.util.Log;
+import android.app.Application;
 
-
-public class Simplenote extends android.app.Application {
-
+public class Simplenote extends Application implements User.AuthenticationListener {
 	
 	public static final String TAG="SimpleNote";
 	
@@ -23,6 +22,8 @@ public class Simplenote extends android.app.Application {
 	private Simperium simperium;
 	private Bucket<Note> notesBucket;
 	private Bucket<Tag> tagsBucket;
+	
+	private StorageProvider mStorageProvider = new MemoryStore();
 		
 	public void onCreate(){
 		super.onCreate();
@@ -31,8 +32,8 @@ public class Simplenote extends android.app.Application {
 			config.getProperty(SIMPERIUM_APP_CONFIG_KEY),
 			config.getProperty(SIMPERIUM_KEY_CONFIG_KEY),
 			getApplicationContext(),
-			new MemoryStore(),
-			null
+			mStorageProvider,
+			this
 		);
 		
 		notesBucket = simperium.bucket(Note.BUCKET_NAME, new Note.Schema());
@@ -40,6 +41,10 @@ public class Simplenote extends android.app.Application {
 
 		notesBucket.start();
 		tagsBucket.start();
+	}
+	
+	public StorageProvider getStorageProvider(){
+		return mStorageProvider;
 	}
 	
 	public Simperium getSimperium(){
