@@ -1,16 +1,14 @@
 package com.automattic.simplenote;
 
-import java.util.Calendar;
-import java.util.Vector;
-
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
+import org.json.JSONArray;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import org.json.*;
+
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 
 public class NoteDB {
 
@@ -153,5 +151,4 @@ public class NoteDB {
 		}
 		return mCursor;
 	}
-
 }

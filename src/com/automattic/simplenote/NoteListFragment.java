@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.automattic.simplenote.dummy.DummyContent;
+import com.automattic.simplenote.models.Note;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -38,7 +38,7 @@ public class NoteListFragment extends SherlockListFragment {
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
-	private Callbacks mCallbacks = sDummyCallbacks;
+	private Callbacks mCallbacks = sCallbacks;
 
 	/**
 	 * The current activated item position. Only used on tablets.
@@ -52,18 +52,18 @@ public class NoteListFragment extends SherlockListFragment {
 	 */
 	public interface Callbacks {
 		/**
-		 * Callback for when an item has been selected.
+		 * Callback for when a note has been selected.
 		 */
-		public void onItemSelected(String id);
+		public void onNoteSelected(Note note);
 	}
 
 	/**
 	 * A dummy implementation of the {@link Callbacks} interface that does
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
-	private static Callbacks sDummyCallbacks = new Callbacks() {
+	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onItemSelected(String id) {
+		public void onNoteSelected(Note note) {
 		}
 	};
 
@@ -116,7 +116,7 @@ public class NoteListFragment extends SherlockListFragment {
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+		mCallbacks = sCallbacks;
 	}
 
 	@Override
@@ -125,7 +125,8 @@ public class NoteListFragment extends SherlockListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		Note note = (Note) notesAdapter.getItem(position);
+		mCallbacks.onNoteSelected(note);
 	}
 
 	@Override
@@ -155,6 +156,12 @@ public class NoteListFragment extends SherlockListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void refreshList() {
+		notesAdapter.c.requery();
+		notesAdapter.notifyDataSetChanged();
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter {

@@ -10,6 +10,8 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.automattic.simplenote.models.Note;
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -26,13 +28,26 @@ import com.actionbarsherlock.view.MenuInflater;
  * This activity also implements the required {@link NoteListFragment.Callbacks}
  * interface to listen for item selections.
  */
-public class NoteListActivity extends SherlockFragmentActivity implements NoteListFragment.Callbacks, OnNavigationListener {
+public class NoteListActivity extends SherlockFragmentActivity implements
+		NoteListFragment.Callbacks, OnNavigationListener {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
 	private boolean mTwoPane;
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_create_note) {
+			Note note = new Note();
+			NoteDB db = new NoteDB(getApplicationContext());
+			db.create(note);
+			((NoteListFragment) getSupportFragmentManager().findFragmentById(
+					R.id.note_list)).refreshList();
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +59,8 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 		ab.setDisplayShowTitleEnabled(false);
 
 		String[] items = { "Notes", "Trash", "RADWHIMPS" };
-		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(getSupportActionBar().getThemedContext(),
+		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(
+				getSupportActionBar().getThemedContext(),
 				R.layout.sherlock_spinner_dropdown_item, items);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 
@@ -57,7 +73,8 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((NoteListFragment) getSupportFragmentManager().findFragmentById(R.id.note_list)).setActivateOnItemClick(true);
+			((NoteListFragment) getSupportFragmentManager().findFragmentById(
+					R.id.note_list)).setActivateOnItemClick(true);
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
@@ -76,22 +93,23 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 	 * the item with the given ID was selected.
 	 */
 	@Override
-	public void onItemSelected(String id) {
+	public void onNoteSelected(Note note) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, id);
+			arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
 			NoteEditorFragment fragment = new NoteEditorFragment();
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction().replace(R.id.note_detail_container, fragment).commit();
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.note_detail_container, fragment).commit();
 
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, NoteEditorActivity.class);
-			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
 			startActivity(detailIntent);
 		}
 	}

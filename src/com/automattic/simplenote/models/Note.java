@@ -22,6 +22,11 @@ public class Note {
 	protected String shareURL;
 
 	public Note() {
+		content = "Testing";
+		tags = new Vector<String>();
+		systemTags = new Vector<String>();
+		creationDate = Calendar.getInstance();
+		modificationDate = Calendar.getInstance();
 	}
 
 	public String getSimperiumKey() {
