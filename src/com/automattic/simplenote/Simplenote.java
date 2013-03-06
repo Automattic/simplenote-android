@@ -8,10 +8,11 @@ import java.util.Properties;
 import com.simperium.client.*;
 import com.simperium.client.storage.MemoryStore;
 
-import android.content.Intent;
 import android.util.Log;
 
-public class Simplenote extends android.app.Application implements User.AuthenticationListener {
+
+public class Simplenote extends android.app.Application {
+
 	
 	public static final String TAG="SimpleNote";
 	
@@ -31,7 +32,7 @@ public class Simplenote extends android.app.Application implements User.Authenti
 			config.getProperty(SIMPERIUM_KEY_CONFIG_KEY),
 			getApplicationContext(),
 			new MemoryStore(),
-			this
+			null
 		);
 		
 		notesBucket = simperium.bucket(Note.BUCKET_NAME, new Note.Schema());
@@ -65,22 +66,6 @@ public class Simplenote extends android.app.Application implements User.Authenti
 			}
 		}
 		return config;
-	}
-	
-	public void onAuthenticationStatusChange(User.AuthenticationStatus status){
-		if ( status == User.AuthenticationStatus.NOT_AUTHENTICATED ) {
-			startLoginActivity();
-		}
-	}
-	
-	public void startLoginActivity(){
-		Intent loginIntent = new Intent(this, LoginActivity.class);
-		loginIntent.setFlags(
-			Intent.FLAG_ACTIVITY_SINGLE_TOP |
-			Intent.FLAG_ACTIVITY_NEW_TASK
-		);
-	
-		startActivity(loginIntent);
 	}
 	
 }
