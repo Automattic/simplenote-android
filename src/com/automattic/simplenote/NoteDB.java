@@ -4,8 +4,12 @@ import org.json.JSONArray;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
+
+import java.util.Calendar;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -39,23 +43,24 @@ public class NoteDB {
 
 			// Test notes!
 			/*for (int i = 0; i < 100; i++) {
-				Note note = new Note();
-				note.setSimperiumKey(String.valueOf(i));
-				if (i % 2 == 0)
-					note.setContent("Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n" + "Here's some more content for this note.");
-				else 
-					note.setContent("I'm just a simple note. A Simplenote, get it?");
-				note.setCreationDate(Calendar.getInstance());
-				note.setDeleted(false);
-				note.setLastPosition(0);
-				note.setModificationDate(Calendar.getInstance());
-				note.setPinned(false);
-				note.setShareURL("");
-				Vector<String> systemTags = new Vector();
-				systemTags.add(String.valueOf(i));
-				note.setSystemTags(systemTags);
-				note.setTags(systemTags);
-				create(note);
+			    ContentValues values = new ContentValues();
+		        values.put("simperiumKey", String.valueOf(i));
+		        values.put("title", "example title #" + i);
+		        if (i % 2 == 0)
+                    values.put("content", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n" + "Here's some more content for this note.");
+                else 
+                    values.put("content", "I'm just a simple note. A Simplenote, get it?");
+		        values.put("contentPreview", i + " Blah blah content preview");
+		        values.put("creationDate", Calendar.getInstance().getTimeInMillis());
+		        values.put("modificationDate", Calendar.getInstance().getTimeInMillis() - (i * 1000));
+		        values.put("deleted", false);
+		        values.put("lastPosition", 0);
+		        values.put("pinned", false);
+		        values.put("shareURL", "url");
+		        values.put("systemTags", "");
+		        values.put("tags", "");
+
+		        db.insert(NOTES_TABLE, null, values);
 			}*/
 		}
 
@@ -143,9 +148,32 @@ public class NoteDB {
 		return db.delete(TAGS_TABLE, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
 	}
 
-	public Cursor fetchAllNotes() {
+	public Cursor fetchAllNotes(Context context) {
 
-		Cursor mCursor = db.rawQuery( "select rowid _id,* from notes", null);
+	    // Get sort preference
+	    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+	    int sortPref = Integer.parseInt(sharedPref.getString("pref_key_sort_order", "0"));
+	    String orderBy = "modificationDate DESC";
+	    
+	    switch (sortPref) {
+	        case 1:
+	            orderBy = "creationDate DESC";
+	            break;
+	        case 2:
+	            orderBy = "content ASC";
+	            break;
+	        case 3:
+	            orderBy = "modificationDate ASC";
+	            break;
+	        case 4:
+	            orderBy = "creationDate ASC";
+	            break;
+	        case 5:
+	            orderBy = "content DESC";
+	            break;
+	    }
+	    
+		Cursor mCursor = db.rawQuery( "SELECT rowid _id,* FROM notes ORDER BY PINNED DESC, " + orderBy, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
