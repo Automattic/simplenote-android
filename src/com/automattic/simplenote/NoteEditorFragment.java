@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
+import com.simperium.client.Bucket;
 
 /**
  * A fragment representing a single Note detail screen. This fragment is either
@@ -40,7 +40,10 @@ public class NoteEditorFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			//mNote = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+	        Application application = (Application)getActivity().getApplication();
+			Bucket<Note> notesBucket = application.getNotesBucket();
+			String key = getArguments().getString(ARG_ITEM_ID);
+			mNote = (Note) notesBucket.get(key);
 		}
 	}
 
@@ -48,7 +51,7 @@ public class NoteEditorFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
 		mContentView = ((EditText) rootView.findViewById(R.id.note_content));
-		// Show the dummy content as text in a TextView.
+
 		if (mNote != null) {
 			mContentView.setText(mNote.getContent());
 		}

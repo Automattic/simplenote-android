@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.models.Note;
+import com.simperium.client.Bucket;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -135,7 +136,17 @@ public class NoteListFragment extends SherlockListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		Note note = (Note) mNotesAdapter.getItem(position);
+		
+		// Move cursor to this row
+		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		Cursor cursor = db.fetchAllNotes(getActivity());
+		cursor.moveToPosition(position);
+		
+		// Get the simperiumKey and retrieve the note via Simperium
+		String simperiumKey = cursor.getString(2);
+		Application application = (Application)getActivity().getApplication();
+		Bucket<Note> notesBucket = application.getNotesBucket();
+		Note note = notesBucket.get(simperiumKey);
 		mCallbacks.onNoteSelected(note);
 	}
 

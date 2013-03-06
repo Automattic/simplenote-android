@@ -173,10 +173,11 @@ public class NoteDB {
 	            break;
 	    }
 	    
+	    // TODO: probably don't select *
 		Cursor mCursor = db.rawQuery( "SELECT rowid _id,* FROM notes ORDER BY PINNED DESC, " + orderBy, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
 		return mCursor;
-	}
+	}	
 }

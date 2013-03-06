@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -12,7 +13,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.automattic.simplenote.models.Note;
-import com.simperium.client.Bucket;
 import com.simperium.client.*;
 
 /**
@@ -90,9 +90,13 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 			Intent i = new Intent(this, PreferencesActivity.class);
 			this.startActivity(i);
 		} else if (item.getItemId() == R.id.menu_create_note) {
-			Note note = (Note) mNotesBucket.newObject();
+			
+			Note note = mNotesBucket.newObject();
+			
 			((NoteListFragment) getSupportFragmentManager().findFragmentById(
 					R.id.note_list)).refreshList();
+			
+			// TODO: select the new note here
 		}
 
 		
