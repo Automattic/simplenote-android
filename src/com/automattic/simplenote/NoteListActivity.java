@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
