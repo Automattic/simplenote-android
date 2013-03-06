@@ -13,6 +13,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.simperium.client.*;
 
 
+import com.automattic.simplenote.models.*;
+
 /**
  * An activity representing a list of Notes. This activity has different
  * presentations for handset and tablet-size devices. On handsets, the activity
@@ -35,11 +37,16 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 	 * device.
 	 */
 	private boolean mTwoPane;
-
+	private Bucket<Note> mNotesBucket;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
+		
+        Application application = (Application)getApplication();
+		mNotesBucket = application.getNotesBucket();
+		
 
 		ActionBar ab = getSupportActionBar();
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -102,4 +109,5 @@ public class NoteListActivity extends SherlockFragmentActivity implements NoteLi
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 }
