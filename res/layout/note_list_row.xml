@@ -22,17 +22,14 @@
             android:id="@+id/note_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Title Text"
             android:textColor="#222222"
             android:textSize="20sp"
-            android:layout_marginRight="70dp"
             android:maxLines="2" />
 
         <TextView
             android:id="@+id/note_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Content text goes here, notes are so rad aren&apos;t they?"
             android:textColor="#777777"
             android:maxLines="2" />
     </LinearLayout>
@@ -41,7 +38,6 @@
         android:id="@+id/note_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="12:07pm"
         android:textColor="#777777"
         android:gravity="top|right"
         android:layout_marginTop="4dp" />

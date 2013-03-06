@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,8 +29,10 @@ import com.automattic.simplenote.models.Note;
  */
 public class NoteListFragment extends SherlockListFragment {
 
-	private NotesCursorAdapter notesAdapter;
+	private NotesCursorAdapter mNotesAdapter;
 	private int mNumPreviewLines;
+	private boolean mShowDate;
+	
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -89,13 +92,14 @@ public class NoteListFragment extends SherlockListFragment {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		mNumPreviewLines = Integer.valueOf(sharedPref.getString("pref_key_preview_lines", "2"));
+		mShowDate = sharedPref.getBoolean("pref_key_show_dates", true);
 
-		notesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+		mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
 
-		setListAdapter(notesAdapter);
+		setListAdapter(mNotesAdapter);
 	}
 
-	@Override
+    @Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
@@ -174,11 +178,13 @@ public class NoteListFragment extends SherlockListFragment {
 		
 		Cursor c;
 	    Context context;
+	    LinearLayout.LayoutParams lp;
 
 		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
 			super(context, layout, c, from, to, flags);
 			this.c = c;
 			this.context = context;
+			lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		}
 
 		@Override
@@ -193,6 +199,16 @@ public class NoteListFragment extends SherlockListFragment {
 	        TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
 	        
 	        contentTextView.setMaxLines(mNumPreviewLines);
+	        
+	        if (mShowDate) {
+	            dateTextView.setVisibility(View.VISIBLE);
+	            lp.setMargins(0, 0, Math.round(60 * context.getResources().getDisplayMetrics().density), 0);
+	            titleTextView.setLayoutParams(lp);
+	        } else {
+	            dateTextView.setVisibility(View.GONE);
+	            lp.setMargins(0, 0, 0, 0);
+                titleTextView.setLayoutParams(lp);
+	        }
 	        
 	        String title = c.getString(3);
 	        if (title != null) {
