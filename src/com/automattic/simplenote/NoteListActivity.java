@@ -42,16 +42,6 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	private Bucket<Note> mNotesBucket;
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_create_note) {
-			Note note = (Note) mNotesBucket.newObject();
-			((NoteListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.note_list)).refreshList();
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
@@ -100,7 +90,12 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		if (item.getItemId() == R.id.menu_preferences) {
 			Intent i = new Intent(this, PreferencesActivity.class);
 			this.startActivity(i);
+		} else if (item.getItemId() == R.id.menu_create_note) {
+			Note note = (Note) mNotesBucket.newObject();
+			((NoteListFragment) getSupportFragmentManager().findFragmentById(
+					R.id.note_list)).refreshList();
 		}
+
 		
 		return super.onOptionsItemSelected(item);
 	}
