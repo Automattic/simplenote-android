@@ -29,14 +29,15 @@ public class Note extends Bucket.Object {
 	protected String shareURL;
 
 	public static class Schema extends Bucket.Schema<Note> {
-		public Note build(String key, Integer version, Map<String,Object>properties){
-			return new Note(key, version, properties);
+		public Note build(String key, Map<String,Object>properties){
+			return new Note(key, properties);
 		}
 	}
 
-	public Note(String key, Integer version, Map<String,Object>properties) {
-		super(key, version, properties);
+	public Note(String key, Map<String,Object>properties) {
+		super(key, properties);
 		
+		content = "Testing!";
 		tags = new Vector<String>();
 		systemTags = new Vector<String>();
 		creationDate = Calendar.getInstance();

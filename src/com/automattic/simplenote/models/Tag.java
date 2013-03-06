@@ -13,13 +13,13 @@ public class Tag extends Bucket.Object {
 	protected int tagIndex;
 	
 	public static class Schema extends Bucket.Schema<Tag> {
-		public Tag build(String key, Integer version, Map<String,Object>properties){
-			return new Tag(key, version, properties);
+		public Tag build(String key, Map<String,Object>properties){
+			return new Tag(key, properties);
 		}
 	}
 	
-	public Tag(String key, Integer version, Map<String,Object>properties){
-		super(key, version, properties);
+	public Tag(String key, Map<String,Object>properties){
+		super(key, properties);
 	}
 	
 	// Map "name" to simperimKey for convenience (they could one day be different)
