@@ -3,8 +3,17 @@
 
     <string name="app_name">Simplenote</string>
     <string name="title_note_detail">Note Detail</string>
-    <string name="tag_hint">Add tag...</string>
+    <string name="tag_hint">Add tag&#8230;</string>
     <string name="preferences">Preferences</string>
     <string name="new_note">Add Note</string>
-
+    <string name="account">Account</string>
+    <string name="sign_out">Sign out</string>
+    <string name="show_dates">Show dates</string>
+    <string name="detect_links">Detect links</string>
+    <string name="font_size">Font size</string>
+    <string name="normal">Normal</string>
+    <string name="preview_lines">Preview lines</string>
+    
+    <string name="sort_order">Sort order</string>
+    <string name="modified_date">Modified date</string>
 </resources>
