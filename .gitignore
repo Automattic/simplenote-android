@@ -19,3 +19,5 @@ local.properties
 .classpath
 .project
 .DS_Store
+
+project.properties

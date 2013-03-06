@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_create_note"
+        android:icon="@drawable/ic_ab_default_content_new"
+        android:showAsAction="always"
+        android:title="@string/new_note"/>
     <item
         android:id="@+id/menu_preferences"
         android:showAsAction="never"
