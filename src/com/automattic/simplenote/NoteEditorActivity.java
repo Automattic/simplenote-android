@@ -7,6 +7,9 @@ import android.support.v4.app.NavUtils;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import com.simperium.client.Bucket;
+import com.automattic.simplenote.models.Note;
+
 /**
  * An activity representing a single Note detail screen. This activity is only
  * used on handset devices. On tablet-size devices, item details are presented
@@ -16,11 +19,16 @@ import com.actionbarsherlock.view.MenuItem;
  * a {@link NoteEditorFragment}.
  */
 public class NoteEditorActivity extends SherlockFragmentActivity {
-
+	
+	private Bucket<Note> mNotesBucket;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_editor);
+
+		Application application = (Application) getApplication();
+		mNotesBucket = application.getNotesBucket();
 
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

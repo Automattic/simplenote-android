@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.automattic.simplenote.models.Note;
+import com.simperium.client.Bucket;
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -36,13 +38,12 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
-
+	private Bucket<Note> mNotesBucket;
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_create_note) {
-			Note note = new Note();
-			NoteDB db = new NoteDB(getApplicationContext());
-			db.create(note);
+			Note note = (Note) mNotesBucket.newObject();
 			((NoteListFragment) getSupportFragmentManager().findFragmentById(
 					R.id.note_list)).refreshList();
 		}
@@ -53,6 +54,9 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
+		
+        Application application = (Application)getApplication();
+		mNotesBucket = application.getNotesBucket();
 
 		ActionBar ab = getSupportActionBar();
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -77,7 +81,6 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 					R.id.note_list)).setActivateOnItemClick(true);
 		}
 
-		// TODO: If exposing deep links into your app, handle intents here.
 	}
 
 	@Override
@@ -119,4 +122,5 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 }
