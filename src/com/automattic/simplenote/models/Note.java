@@ -1,12 +1,19 @@
 package com.automattic.simplenote.models;
 
+import com.simperium.client.Bucket;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Vector;
 
-public class Note {
+import java.util.Map;
+
+public class Note extends Bucket.Object {
+	
+	public static final String BUCKET_NAME="note";
+	
 	protected String simperiumKey;
 
 	protected String title;
@@ -21,8 +28,15 @@ public class Note {
 	protected int lastPosition;
 	protected String shareURL;
 
-	public Note() {
-		content = "Testing";
+	public static class Schema extends Bucket.Schema<Note> {
+		public Note build(String key, Integer version, Map<String,Object>properties){
+			return new Note(key, version, properties);
+		}
+	}
+
+	public Note(String key, Integer version, Map<String,Object>properties) {
+		super(key, version, properties);
+		
 		tags = new Vector<String>();
 		systemTags = new Vector<String>();
 		creationDate = Calendar.getInstance();
