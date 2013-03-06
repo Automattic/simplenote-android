@@ -71,7 +71,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 					R.id.note_list)).setActivateOnItemClick(true);
 		}
 
-		Application currentApp = (Application) getApplication();
+		Simplenote currentApp = (Simplenote) getApplication();
 		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
 			startLoginActivity();
 		}

@@ -10,11 +10,9 @@ import com.simperium.client.storage.MemoryStore;
 
 import android.util.Log;
 
-<<<<<<< HEAD:src/com/automattic/simplenote/Simplenote.java
-public class Simplenote extends android.app.Application implements User.AuthenticationListener {
-=======
-public class Application extends android.app.Application {
->>>>>>> Start the login activity in the NotesList and close the app if the user tap back on the login screen.:src/com/automattic/simplenote/Application.java
+
+public class Simplenote extends android.app.Application {
+
 	
 	public static final String TAG="SimpleNote";
 	
