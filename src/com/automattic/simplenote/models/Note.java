@@ -43,6 +43,18 @@ public class Note extends Bucket.Object {
 		creationDate = Calendar.getInstance();
 		modificationDate = Calendar.getInstance();
 	}
+	
+    public Map<String, java.lang.Object> getDiffableValue() {
+    	properties.put("content", content);
+    	properties.put("tags", tags);
+    	properties.put("systemTags", systemTags);
+    	properties.put("deleted", deleted);
+    	properties.put("pinned", pinned);
+    	properties.put("creationDate", creationDate);
+    	properties.put("modificationDate", modificationDate);
+    	properties.put("shareURL", shareURL);
+        return properties;
+    }
 
 	public String getSimperiumKey() {
 		return simperiumKey;
