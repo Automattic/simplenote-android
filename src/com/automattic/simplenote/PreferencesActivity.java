@@ -1,8 +1,5 @@
 package com.automattic.simplenote;
 
-import com.simperium.client.Simperium;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -19,6 +16,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		findPreference("pref_key_sign_out").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
+				
                 Simplenote application = (Simplenote)getApplication();
                 application.getSimperium().deAuthorizeUser();
 				return true;
@@ -27,12 +25,12 @@ public class PreferencesActivity extends PreferenceActivity {
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		 if (requestCode == Simperium.SIGNUP_SIGNIN_REQUEST) {
-			 if (resultCode == RESULT_CANCELED) {
-				 finish();
-			 }
-		 }
+	protected void onResume() {
+		super.onResume();
+		Simplenote currentApp = (Simplenote) getApplication();
+		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
+			finish();
+		}
 	}
+	
 }

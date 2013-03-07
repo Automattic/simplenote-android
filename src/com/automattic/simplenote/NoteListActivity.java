@@ -181,7 +181,6 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	
 	public void startLoginActivity(){
 		Intent loginIntent = new Intent(this, LoginActivity.class);
-		loginIntent.setFlags( Intent.FLAG_ACTIVITY_SINGLE_TOP );
 		startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
 	}
 	
