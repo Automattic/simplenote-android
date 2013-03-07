@@ -3,6 +3,9 @@ package com.automattic.simplenote;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
@@ -12,6 +15,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.*;
 
@@ -52,6 +56,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ab.setDisplayShowTitleEnabled(false);
 
+		// TODO load tags here 
 		String[] items = { "Notes", "Trash", "RADWHIMPS" };
 		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(
 				getSupportActionBar().getThemedContext(),
@@ -82,15 +87,36 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getSupportMenuInflater();
+		
 		if (mTwoPane) {
 			inflater.inflate(R.menu.notes_list_twopane, menu);
 		} else {
 			inflater.inflate(R.menu.notes_list, menu);
 		}
+		
+		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
+	        @Override
+	        public boolean onQueryTextChange(String newText) {
+	            if (newText != null) {
+	            	((NoteListFragment) getSupportFragmentManager().findFragmentById(
+	    					R.id.note_list)).searchNotes(newText);
+	            }
+	            return true;
+	        }
+
+	        @Override
+	        public boolean onQueryTextSubmit(String queryText) {
+	        	if (queryText != null) {
+	        		((NoteListFragment) getSupportFragmentManager().findFragmentById(
+	    					R.id.note_list)).searchNotes(queryText);
+	            }
+	            return true;
+	        }
+	    });
+		
 		return true;
 	}
-	
-	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -169,4 +195,6 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 			} 
 		}
 	}
+	
+	
 }

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 
 import java.util.Calendar;
 
@@ -43,32 +44,37 @@ public class NoteDB {
 
 			// Test notes!
 			/*for (int i = 0; i < 100; i++) {
-			    ContentValues values = new ContentValues();
-		        values.put("simperiumKey", String.valueOf(i));
-		        values.put("title", "example title #" + i);
-		        
-		        if (i % 2 == 0)
-                    values.put("content", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n" + "Here's some more content for this note.");
-                else 
-                    values.put("content", "I'm just a simple note. A Simplenote, get it?");
-		        values.put("contentPreview", i + " Blah blah content preview");
-		        values.put("creationDate", Calendar.getInstance().getTimeInMillis());
-		        values.put("modificationDate", Calendar.getInstance().getTimeInMillis() - (i * 1000));
-		        values.put("deleted", false);
-		        values.put("lastPosition", 0);
-		        
-		        if (i == 20 || i == 30) {
-		            values.put("pinned", true);
-                } else {
-                    values.put("pinned", false);
-                }
-		        
-		        values.put("shareURL", "url");
-		        values.put("systemTags", "");
-		        values.put("tags", "");
+				ContentValues values = new ContentValues();
+				values.put("simperiumKey", String.valueOf(i));
+				values.put("title", "example title #" + i);
 
-		        db.insert(NOTES_TABLE, null, values);
+				if (i % 2 == 0) {
+					values.put("content", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n"
+							+ "Here's some more content for this note.");
+					values.put("contentPreview", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n"
+							+ "Here's some more content for this note.");
+				} else {
+					values.put("content", "I'm just a simple note. A Simplenote, get it?");
+					values.put("contentPreview", "I'm just a simple note. A Simplenote, get it?");
+				}
+				values.put("creationDate", Calendar.getInstance().getTimeInMillis());
+				values.put("modificationDate", Calendar.getInstance().getTimeInMillis() - (i * 1000));
+				values.put("deleted", false);
+				values.put("lastPosition", 0);
+
+				if (i == 20 || i == 30) {
+					values.put("pinned", true);
+				} else {
+					values.put("pinned", false);
+				}
+
+				values.put("shareURL", "url");
+				values.put("systemTags", "");
+				values.put("tags", "");
+
+				db.insert(NOTES_TABLE, null, values);
 			}*/
+
 		}
 
 		db.setVersion(DATABASE_VERSION);
@@ -157,34 +163,46 @@ public class NoteDB {
 
 	public Cursor fetchAllNotes(Context context) {
 
-	    // Get sort preference
-	    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-	    int sortPref = Integer.parseInt(sharedPref.getString("pref_key_sort_order", "0"));
-	    String orderBy = "modificationDate DESC";
-	    
-	    switch (sortPref) {
-	        case 1:
-	            orderBy = "creationDate DESC";
-	            break;
-	        case 2:
-	            orderBy = "content ASC";
-	            break;
-	        case 3:
-	            orderBy = "modificationDate ASC";
-	            break;
-	        case 4:
-	            orderBy = "creationDate ASC";
-	            break;
-	        case 5:
-	            orderBy = "content DESC";
-	            break;
-	    }
-	    
-	    // TODO: probably don't select *
-		Cursor mCursor = db.rawQuery( "SELECT rowid _id,* FROM notes ORDER BY PINNED DESC, " + orderBy, null);
-		if (mCursor != null) {
-			mCursor.moveToFirst();
+		// Get sort preference
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		int sortPref = Integer.parseInt(sharedPref.getString("pref_key_sort_order", "0"));
+		String orderBy = "modificationDate DESC";
+
+		switch (sortPref) {
+		case 1:
+			orderBy = "creationDate DESC";
+			break;
+		case 2:
+			orderBy = "content ASC";
+			break;
+		case 3:
+			orderBy = "modificationDate ASC";
+			break;
+		case 4:
+			orderBy = "creationDate ASC";
+			break;
+		case 5:
+			orderBy = "content DESC";
+			break;
 		}
-		return mCursor;
-	}	
+
+		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
+				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, null, null,
+				null, null, orderBy);
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+
+	public Cursor searchNotes(String searchString) {
+		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
+				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },
+				"content like " + "'%" + searchString + "%'", null, null, null, "PINNED DESC");
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
+
+		return cursor;
+	}
 }

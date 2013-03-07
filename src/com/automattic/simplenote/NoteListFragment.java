@@ -228,24 +228,32 @@ public class NoteListFragment extends SherlockListFragment {
 				pinImageView.setImageResource(R.drawable.ic_item_list_default_pin);
 			}
 
-			String title = c.getString(3);
+			String title = c.getString(2);
 			if (title != null) {
-				titleTextView.setText(c.getString(3));
-				if (c.getString(5) != null)
-					contentTextView.setText(c.getString(5));
-				else
+				titleTextView.setText(c.getString(2));
+				if (c.getString(4) != null)
 					contentTextView.setText(c.getString(4));
+				else
+					contentTextView.setText(c.getString(3));
 			} else {
-				titleTextView.setText(c.getString(4));
-				contentTextView.setText(c.getString(4));
+				titleTextView.setText(c.getString(3));
+				contentTextView.setText(c.getString(3));
 			}
 
-			String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(4)));
+			String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(6)));
 
 			dateTextView.setText(formattedDate);
 
 			return view;
 		}
 
+	}
+
+	public void searchNotes(String searchString) {
+		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		Cursor cursor = db.searchNotes(searchString);
+		mNotesAdapter.swapCursor(cursor);
+		mNotesAdapter.notifyDataSetChanged();
+		
 	}
 }
