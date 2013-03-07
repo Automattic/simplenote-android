@@ -30,7 +30,9 @@ public class Note extends Bucket.Object {
 
 	public static class Schema extends Bucket.Schema<Note> {
 		public Note build(String key, Map<String,Object>properties){
-			return new Note(key, properties);
+			Note note = new Note(key, properties);
+			note.setContent((String)properties.get("content"));
+			return note;
 		}
 	}
 

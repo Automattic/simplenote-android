@@ -11,7 +11,7 @@ import com.simperium.client.storage.MemoryStore;
 import android.util.Log;
 import android.app.Application;
 
-public class Simplenote extends Application implements User.AuthenticationListener {
+public class Simplenote extends Application {
 	
 	public static final String TAG="Simplenote";
 	
@@ -36,14 +36,18 @@ public class Simplenote extends Application implements User.AuthenticationListen
 			mConfig.getProperty(SIMPERIUM_KEY_CONFIG_KEY),
 			getApplicationContext(),
 			mNoteDB.getSimperiumStore(),
-			this
+			null
 		);
 
 		mNotesBucket = mSimperium.bucket(Note.BUCKET_NAME, new Note.Schema());
 		mTagsBucket = mSimperium.bucket(Tag.BUCKET_NAME, new Tag.Schema());
-
+		// FIXME: Remove resets!
+		mNotesBucket.reset();
+		mTagsBucket.reset();
+		// Start the bucket sockets
 		mNotesBucket.start();
 		mTagsBucket.start();
+		Log.d("Simplenote", "Simplenote launched");
 	}
 	
 	public NoteDB getNoteDB(){

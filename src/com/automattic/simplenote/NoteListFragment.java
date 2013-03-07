@@ -20,6 +20,10 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
 
+import com.simperium.client.Bucket;
+
+import android.util.Log;
+
 /**
  * A list fragment representing a list of Notes. This fragment also supports
  * tablet devices by allowing list items to be given an 'activated' state upon
@@ -32,6 +36,7 @@ import com.simperium.client.Bucket;
 public class NoteListFragment extends SherlockListFragment {
 
 	private NotesCursorAdapter mNotesAdapter;
+	private Bucket<Note> mNotesBucket;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
 
@@ -87,7 +92,8 @@ public class NoteListFragment extends SherlockListFragment {
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
-
+		mNotesBucket = application.getNotesBucket();
+		
 		String[] columns = new String[] { "content", "content", "creationDate" };
 		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
 
@@ -96,6 +102,7 @@ public class NoteListFragment extends SherlockListFragment {
 		mShowDate = sharedPref.getBoolean("pref_key_show_dates", true);
 
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+		mNotesBucket.addListener(mNotesAdapter);
 
 		setListAdapter(mNotesAdapter);
 	}
@@ -185,8 +192,8 @@ public class NoteListFragment extends SherlockListFragment {
 		mNotesAdapter.notifyDataSetChanged();
 	}
 
-	public class NotesCursorAdapter extends SimpleCursorAdapter {
-
+	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {
+		
 		Cursor c;
 		Context context;
 		LinearLayout.LayoutParams lp;
@@ -246,7 +253,21 @@ public class NoteListFragment extends SherlockListFragment {
 
 			return view;
 		}
-
+		
+		public void onObjectRemoved(String key, Note object){
+			notifyDataSetChanged();
+		}
+		public void onObjectUpdated(String key, Note object){
+			notifyDataSetChanged();        	
+		}
+		public void onObjectAdded(String key, Note object){
+			Log.d("Simplenote", "Object added, reload list view");
+			getActivity().runOnUiThread(new Runnable(){
+				public void run(){
+					refreshList();
+				}
+			});
+		}
 	}
 
 	public void searchNotes(String searchString) {
