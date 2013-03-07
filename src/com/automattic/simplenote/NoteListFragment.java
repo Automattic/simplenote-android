@@ -167,6 +167,13 @@ public class NoteListFragment extends SherlockListFragment {
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+		
+		// Also select the first item by default
+		// TODO: persist the last selected item and restore that instead
+		if (!mNotesAdapter.isEmpty()) {
+			View v = mNotesAdapter.getView(0, null, null);
+			getListView().performItemClick(v, 0, 0);
+		}
 	}
 
 	private void setActivatedPosition(int position) {
