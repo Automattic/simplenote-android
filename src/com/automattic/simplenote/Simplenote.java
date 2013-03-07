@@ -42,8 +42,8 @@ public class Simplenote extends Application {
 		mNotesBucket = mSimperium.bucket(Note.BUCKET_NAME, new Note.Schema());
 		mTagsBucket = mSimperium.bucket(Tag.BUCKET_NAME, new Tag.Schema());
 		// FIXME: Remove resets!
-		mNotesBucket.reset();
-		mTagsBucket.reset();
+		// mNotesBucket.reset();
+		// mTagsBucket.reset();
 		// Start the bucket sockets
 		mNotesBucket.start();
 		mTagsBucket.start();
