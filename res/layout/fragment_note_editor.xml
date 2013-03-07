@@ -11,16 +11,33 @@
        	android:layout_height="wrap_content"
        	android:orientation="vertical" >            
 
-    	<MultiAutoCompleteTextView
-	        android:id="@+id/multiAutoCompleteTextView1"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:hint="@string/tag_hint"
-	        android:adjustViewBounds="true">
-	    </MultiAutoCompleteTextView>
+	    <LinearLayout
+			android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal" >            
+	    
+	    	<MultiAutoCompleteTextView
+		        android:id="@+id/multiAutoCompleteTextView1"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:ems="10"
+		        android:hint="@string/tag_hint"
+		        android:adjustViewBounds="true">
+		    </MultiAutoCompleteTextView>
 
-       <EditText
+	    	<ToggleButton
+	    	    android:id="@+id/toggleButton1"
+	    	    android:layout_width="48dp"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_weight="0.01"
+	    	    android:textOn=""
+	    	    android:textOff=""
+	    	    android:background="@drawable/pin_bg_selector" />
+		    
+		</LinearLayout>
+
+     	<EditText
 			android:id="@+id/note_content"
 			style="?android:attr/textAppearanceLarge"
 			android:layout_width="fill_parent"
