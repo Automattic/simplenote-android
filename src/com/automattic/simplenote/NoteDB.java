@@ -15,6 +15,12 @@ import java.util.Calendar;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 
+import com.simperium.client.Bucket;
+import com.simperium.client.StorageProvider;
+import android.util.Log;
+
+import java.util.List;
+
 public class NoteDB {
 
 	private static final int DATABASE_VERSION = 1;
@@ -205,4 +211,39 @@ public class NoteDB {
 
 		return cursor;
 	}
+	
+	public SimperiumStore getSimperiumStore(){
+		return new SimperiumStore();
+	}
+	private static final String TAG="Simplenote";
+	private class SimperiumStore implements StorageProvider {
+		/**
+		 * Store bucket object data
+		 */
+		public void addObject(Bucket bucket, String key, Bucket.Syncable object){
+			Log.d(TAG, String.format("Time to save %s in %s", key, bucket.getName()));
+			Log.d(TAG, String.format("Properties: %s", object.getDiffableValue()));
+			if (object instanceof Note) {
+				Log.d(TAG, String.format("You should add a note!"));
+				create((Note) object);
+			}
+		}
+		public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
+			Log.d(TAG, String.format("Time to update %s in %s", key, bucket.getName()));
+		}
+		public void removeObject(Bucket bucket, String key){
+			Log.d(TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
+		}
+		/**
+		 * Retrieve entities and details
+		 */
+		public <T extends Bucket.Syncable> T getObject(Bucket<T> bucket, String key){
+			return null;
+		}
+		public <T extends Bucket.Syncable> List<T> allEntities(Bucket<T> bucket){
+			return null;
+		}
+		
+	}
+	
 }
