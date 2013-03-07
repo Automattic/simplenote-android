@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_search"
+        android:actionViewClass="com.actionbarsherlock.widget.SearchView"
+        android:icon="@drawable/ic_ab_item_default_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/search" />
+    <item
         android:id="@+id/menu_create_note"
         android:icon="@drawable/ic_ab_default_content_new"
         android:showAsAction="always"
