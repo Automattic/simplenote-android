@@ -1,13 +1,11 @@
 package com.automattic.simplenote;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
@@ -17,7 +15,10 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.automattic.simplenote.models.Note;
-import com.simperium.client.*;
+import com.simperium.client.Bucket;
+import com.simperium.client.LoginActivity;
+import com.simperium.client.Simperium;
+import com.simperium.client.User;
 
 /**
  * An activity representing a list of Notes. This activity has different
@@ -63,7 +64,8 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 				R.layout.sherlock_spinner_dropdown_item, items);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 
-		if (findViewById(R.id.note_detail_container) != null) {
+		int orientation = getResources().getConfiguration().orientation;
+		if (findViewById(R.id.note_detail_container) != null && orientation == Configuration.ORIENTATION_LANDSCAPE ) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
@@ -165,6 +167,18 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 			startActivity(detailIntent);
 		}
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+
+	    // Checks the orientation of the screen
+	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	        Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	        Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+	    }
+	  }
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
