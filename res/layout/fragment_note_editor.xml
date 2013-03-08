@@ -14,7 +14,11 @@
 	    <LinearLayout
 			android:layout_width="fill_parent"
 	       	android:layout_height="wrap_content"
-	       	android:orientation="horizontal" >            
+	       	android:orientation="horizontal"
+	       	android:gravity="center_horizontal"
+	       	android:paddingLeft="16dp"
+	       	android:paddingRight="16dp"
+	       	android:paddingTop="16dp" >            
 	    
 	    	<MultiAutoCompleteTextView
 		        android:id="@+id/multiAutoCompleteTextView1"
@@ -28,9 +32,9 @@
 
 	    	<ToggleButton
 	    	    android:id="@+id/toggleButton1"
-	    	    android:layout_width="48dp"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_weight="0.01"
+	    	    android:layout_width="16dp"
+	    	    android:layout_height="16dp"
+	    	    android:layout_marginLeft="16dp"
 	    	    android:textOn=""
 	    	    android:textOff=""
 	    	    android:background="@drawable/pin_bg_selector" />
