@@ -18,16 +18,23 @@
 	       	android:gravity="center_horizontal"
 	       	android:paddingLeft="16dp"
 	       	android:paddingRight="16dp"
-	       	android:paddingTop="16dp" >            
+	       	android:paddingTop="16dp" > 
+	       	
+	        <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+	        <LinearLayout
+			    android:focusable="true" android:focusableInTouchMode="true"
+    			android:layout_width="0px" android:layout_height="0px"/>
 	    
 	    	<MultiAutoCompleteTextView
-		        android:id="@+id/multiAutoCompleteTextView1"
+		        android:id="@+id/tagView"
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:ems="10"
 		        android:hint="@string/tag_hint"
-		        android:adjustViewBounds="true">
+		        android:adjustViewBounds="true"
+		        android:nextFocusUp="@id/tagView"
+		        android:nextFocusLeft="@id/tagView">
 		    </MultiAutoCompleteTextView>
 
 	    	<ToggleButton
