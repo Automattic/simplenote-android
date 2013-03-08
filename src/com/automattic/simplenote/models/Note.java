@@ -48,10 +48,10 @@ public class Note extends Bucket.Object {
 		if (content == null)
 			content = "";
 		
-		tags = (Vector<String>)properties.get("tags");
+//		tags = (Vector<String>)properties.get("tags");
 //		if (tags == null)
-//			tags = new Vector<String>();
-//		
+			tags = new Vector<String>();
+		
 		systemTags = new Vector<String>();
 		creationDate = Calendar.getInstance();
 		modificationDate = Calendar.getInstance();

@@ -131,6 +131,11 @@ public class NoteListFragment extends SherlockListFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
 
@@ -204,7 +209,8 @@ public class NoteListFragment extends SherlockListFragment {
 	public void addNote() {
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
-		notesBucket.newObject();
+		Note note = notesBucket.newObject();
+		note.save();
 		refreshList();
 		
 		// Select the new note

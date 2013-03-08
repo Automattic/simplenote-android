@@ -64,10 +64,10 @@ public class NoteEditorFragment extends SherlockFragment {
 	}
 
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		
-		// Save here
+	public void onPause() {
+		mNote.setContent(mContentView.getText().toString());
+		mNote.save();
+		super.onPause();
 	}
 	
 	
