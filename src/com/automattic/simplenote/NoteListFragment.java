@@ -92,6 +92,7 @@ public class NoteListFragment extends SherlockListFragment {
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
+		
 		mNotesBucket = application.getNotesBucket();
 		
 		String[] columns = new String[] { "content", "content", "creationDate" };
@@ -195,6 +196,7 @@ public class NoteListFragment extends SherlockListFragment {
 
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
+		Log.d("Simplenote", "Refresh the list");
 		mNotesAdapter.c.requery();
 		mNotesAdapter.notifyDataSetChanged();
 	}
@@ -225,6 +227,7 @@ public class NoteListFragment extends SherlockListFragment {
 
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
+			Log.d("Simplenote", String.format("Get view %d", position));
 			if (view == null)
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
 
