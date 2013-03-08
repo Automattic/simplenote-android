@@ -103,7 +103,7 @@ public class NoteDB {
 		values.put("systemTags", new JSONArray(note.getSystemTags()).toString());
 		values.put("tags", new JSONArray(note.getTags()).toString());
 
-		return db.update(NOTES_TABLE, values, "simperiumKey=?", new String[]{ note.getSimperiumKey() }) > 0;
+		return db.update(NOTES_TABLE, values, "simperiumKey=?", new String[] { note.getSimperiumKey() }) > 0;
 	}
 
 	boolean update(Tag tag) {
@@ -133,54 +133,73 @@ public class NoteDB {
 	}
 
 	public Cursor fetchAllNotes(Context context) {
+		return fetchNotes(context, false, null);
+	}
+
+	public Cursor fetchDeletedNotes(Context context) {
+		return fetchNotes(context, true, null);
+	}
+
+	public Cursor fetchNotesByTag(Context context, String tagName) {
+		return fetchNotes(context, false, tagName);
+	}
+
+	public Cursor fetchNotes(Context context, boolean deleted, String tagName) {
 
 		// Get sort preference
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		int sortPref = Integer.parseInt(sharedPref.getString("pref_key_sort_order", "0"));
 		String orderBy = "modificationDate DESC";
 
-		switch (sortPref) {
-		case 1:
-			orderBy = "creationDate DESC";
-			break;
-		case 2:
-			orderBy = "content ASC";
-			break;
-		case 3:
-			orderBy = "modificationDate ASC";
-			break;
-		case 4:
-			orderBy = "creationDate ASC";
-			break;
-		case 5:
-			orderBy = "content DESC";
-			break;
+		String whereClause = "deleted = ?";
+		String[] whereArgs = new String[] { deleted ? "1" : "0" };
+		if (tagName == null) {
+			switch (sortPref) {
+			case 1:
+				orderBy = "creationDate DESC";
+				break;
+			case 2:
+				orderBy = "content ASC";
+				break;
+			case 3:
+				orderBy = "modificationDate ASC";
+				break;
+			case 4:
+				orderBy = "creationDate ASC";
+				break;
+			case 5:
+				orderBy = "content DESC";
+				break;
+			}
+		} else {
+			whereClause += " AND tags LIKE ?";
+			whereArgs = new String[] { deleted ? "1" : "0", "%\"" + tagName + "\"%"};
 		}
 
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
-				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, "deleted = ?", new String[] { "0" },
-				null, null, orderBy);
+				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, whereClause,
+				whereArgs, null, null, orderBy);
 		// if (cursor != null) {
-		// 	cursor.moveToFirst();
+		// cursor.moveToFirst();
 		// }
 		Log.d("Simplenote", String.format("Found %d notes", cursor.getCount()));
 
 		return cursor;
 	}
-	
+
 	public String[] fetchAllTags() {
 		String[] tags = null;
-		Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, null, null,
-				null, null, "simperiumKey ASC");
+		Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, null, null, null, null,
+				"simperiumKey ASC");
 		int numRows = c.getCount();
 		tags = new String[numRows];
-        c.moveToFirst();
+		c.moveToFirst();
 
-        for (int i = 0; i < numRows; ++i) {
-            tags[i] = c.getString(1);
-            c.moveToNext();
-        }
-        c.close();
+		for (int i = 0; i < numRows; ++i) {
+			tags[i] = c.getString(1);
+			c.moveToNext();
+		}
+		c.close();
 		Log.d("Simplenote", String.format("Found %d tags", c.getCount()));
 
 		return tags;
@@ -189,23 +208,25 @@ public class NoteDB {
 	public Cursor searchNotes(String searchString) {
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },
-				"content like " + "'%" + searchString + "%'", null, null, null, "PINNED DESC");
+				"content like ? AND deleted = ?", new String[]{"%" + searchString + "%", "0"}, null, null, "PINNED DESC");
 		// if (cursor != null) {
-		// 	cursor.moveToFirst();
+		// cursor.moveToFirst();
 		// }
 
 		return cursor;
 	}
 
-	public SimperiumStore getSimperiumStore(){
+	public SimperiumStore getSimperiumStore() {
 		return new SimperiumStore();
 	}
-	private static final String TAG="Simplenote";
+
+	private static final String TAG = "Simplenote";
+
 	private class SimperiumStore implements StorageProvider {
 		/**
 		 * Store bucket object data
 		 */
-		public void addObject(Bucket bucket, String key, Bucket.Syncable object){
+		public void addObject(Bucket bucket, String key, Bucket.Syncable object) {
 			if (object instanceof Note) {
 				Log.d(TAG, String.format("Adding note %s", object));
 				create((Note) object);
@@ -214,27 +235,30 @@ public class NoteDB {
 				create((Tag) object);
 			}
 		}
-		public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
-			if(object instanceof Note){
+
+		public void updateObject(Bucket bucket, String key, Bucket.Syncable object) {
+			if (object instanceof Note) {
 				update((Note) object);
-			} else if(object instanceof Tag){
+			} else if (object instanceof Tag) {
 				update((Tag) object);
 			}
 		}
-		public void removeObject(Bucket bucket, String key){
+
+		public void removeObject(Bucket bucket, String key) {
 			Log.d(TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
 		}
+
 		/**
 		 * Retrieve entities and details
 		 */
-		public Map<String,Object> getObject(Bucket<?> bucket, String key) {
+		public Map<String, Object> getObject(Bucket<?> bucket, String key) {
 
 			String[] args = { key };
 			Cursor c;
 			if (bucket.getName().equals(Note.BUCKET_NAME)) {
-				c = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
-						"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },
-						"simperiumKey=?", args, null, null, null);
+				c = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview", "creationDate",
+						"modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, "simperiumKey=?",
+						args, null, null, null);
 				int count = c.getCount();
 				c.moveToFirst();
 				if (count > 0) {
@@ -273,8 +297,7 @@ public class NoteDB {
 					return noteMap;
 				}
 			} else if (bucket.getName().equals(Tag.BUCKET_NAME)) {
-				c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" },
-						"simperiumKey=?", args, null, null, null);
+				c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, "simperiumKey=?", args, null, null, null);
 				int count = c.getCount();
 				c.moveToFirst();
 				if (count > 0) {

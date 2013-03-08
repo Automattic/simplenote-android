@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import android.app.Activity;
@@ -11,11 +12,16 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
@@ -33,12 +39,13 @@ import android.util.Log;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends SherlockListFragment {
+public class NoteListFragment extends SherlockListFragment implements OnNavigationListener {
 
 	private NotesCursorAdapter mNotesAdapter;
 	private Bucket<Note> mNotesBucket;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
+	private String[] mMenuItems;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -90,22 +97,14 @@ public class NoteListFragment extends SherlockListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		Cursor cursor = db.fetchAllNotes(getActivity());
-		
+
 		mNotesBucket = application.getNotesBucket();
-		
-		String[] columns = new String[] { "content", "content", "creationDate" };
-		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		mNumPreviewLines = Integer.valueOf(sharedPref.getString("pref_key_preview_lines", "2"));
 		mShowDate = sharedPref.getBoolean("pref_key_show_dates", true);
 
-		mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
 		mNotesBucket.addListener(mNotesAdapter);
-
-		setListAdapter(mNotesAdapter);
 	}
 
 	@Override
@@ -133,6 +132,7 @@ public class NoteListFragment extends SherlockListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		updateMenuItems();
 	}
 
 	@Override
@@ -149,13 +149,13 @@ public class NoteListFragment extends SherlockListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		
+
 		// Move cursor to this row
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		NoteDB db = simplenote.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
 		cursor.moveToPosition(position);
-		
+
 		// Get the simperiumKey and retrieve the note via Simperium
 		String simperiumKey = cursor.getString(1);
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
@@ -180,7 +180,7 @@ public class NoteListFragment extends SherlockListFragment {
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
-		
+
 		// Also select the first item by default
 		// TODO: persist the last selected item and restore that instead
 		if (!mNotesAdapter.isEmpty()) {
@@ -204,22 +204,37 @@ public class NoteListFragment extends SherlockListFragment {
 		Log.d("Simplenote", "Refresh the list");
 		mNotesAdapter.c.requery();
 		mNotesAdapter.notifyDataSetChanged();
+
+		updateMenuItems();
 	}
-	
+
+	private void updateMenuItems() {
+		// Update ActionBar menu
+		Simplenote application = (Simplenote) getActivity().getApplication();
+		String[] tags = application.getNoteDB().fetchAllTags();
+		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
+		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
+
+		ActionBar ab = ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
+		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), R.layout.sherlock_spinner_dropdown_item, mMenuItems);
+		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
+	}
+
 	public void addNote() {
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.newObject();
 		note.save();
 		refreshList();
-		
+
 		// Select the new note
 		View v = mNotesAdapter.getView(0, null, null);
 		getListView().performItemClick(v, 0, 0);
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {
-		
+
 		Cursor c;
 		Context context;
 		LinearLayout.LayoutParams lp;
@@ -280,21 +295,23 @@ public class NoteListFragment extends SherlockListFragment {
 
 			return view;
 		}
-		
-		public void onObjectRemoved(String key, Note object){
+
+		public void onObjectRemoved(String key, Note object) {
 			refreshUI();
 		}
-		public void onObjectUpdated(String key, Note object){
+
+		public void onObjectUpdated(String key, Note object) {
 			refreshUI();
 		}
-		public void onObjectAdded(String key, Note object){
+
+		public void onObjectAdded(String key, Note object) {
 			Log.d("Simplenote", "Object added, reload list view");
 			refreshUI();
 		}
-		
-		private void refreshUI(){
-			getActivity().runOnUiThread(new Runnable(){
-				public void run(){
+
+		private void refreshUI() {
+			getActivity().runOnUiThread(new Runnable() {
+				public void run() {
 					refreshList();
 				}
 			});
@@ -302,10 +319,44 @@ public class NoteListFragment extends SherlockListFragment {
 	}
 
 	public void searchNotes(String searchString) {
-		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		Simplenote application = (Simplenote) getActivity().getApplication();
+		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.searchNotes(searchString);
+		// TODO Revisit this as this doesn't seem like the right way to change the cursor
+		mNotesAdapter.c = cursor;
 		mNotesAdapter.swapCursor(cursor);
-		mNotesAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		
+		Simplenote application = (Simplenote) getActivity().getApplication();
+		NoteDB db = application.getNoteDB();
+		Cursor cursor = null;
+		
+		if (itemPosition == 0) {
+			// All notes
+			cursor = db.fetchAllNotes(getActivity().getBaseContext());
+		} else if (itemPosition == 1) {
+			// Trashed notes
+			cursor = db.fetchDeletedNotes(getActivity().getBaseContext());
+		} else {
+			cursor = db.fetchNotesByTag(getActivity().getBaseContext(), mMenuItems[itemPosition]);
+		}
+		
+		if (mNotesAdapter == null) {
+			String[] columns = new String[] { "content", "content", "creationDate" };
+			int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
+			mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+			setListAdapter(mNotesAdapter);
+		}
+		
+		if (cursor != null) {
+			// TODO Revisit this as this doesn't seem like the right way to change the cursor
+			mNotesAdapter.c = cursor;
+			mNotesAdapter.swapCursor(cursor);
+		}
+		
+		return true;
 	}
 }

@@ -59,16 +59,6 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ab.setDisplayShowTitleEnabled(false);
 
-		String[] tags = application.getNoteDB().fetchAllTags();
-		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
-		String[] menu = Arrays.copyOf(topItems, tags.length + 2);
-		
-		System.arraycopy(tags, 0, menu, 2, tags.length);
-		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(
-				getSupportActionBar().getThemedContext(),
-				R.layout.sherlock_spinner_dropdown_item, menu);
-		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
-
 		int orientation = getResources().getConfiguration().orientation;
 		if (findViewById(R.id.note_detail_container) != null && orientation == Configuration.ORIENTATION_LANDSCAPE ) {
 			// The detail container view will be present only in the
