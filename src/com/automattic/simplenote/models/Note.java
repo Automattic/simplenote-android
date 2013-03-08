@@ -50,11 +50,11 @@ public class Note extends Bucket.Object {
 		if (deletedProp != null)
 			deleted = deletedProp.booleanValue();
 		
-		tags = (ArrayList<String>)properties.get("tags");
+		setTags((ArrayList<String>)properties.get("tags"));
 		if (tags == null)
 			tags = new ArrayList<String>();
 
-		systemTags = (ArrayList<String>)properties.get("systemTags");
+		setSystemTags((ArrayList<String>)properties.get("systemTags"));
 		if (systemTags == null)
 			systemTags = new ArrayList<String>();
 
@@ -167,6 +167,7 @@ public class Note extends Bucket.Object {
 
 	public void setSystemTags(ArrayList<String> systemTags) {
 		this.systemTags = systemTags;
+		pinned = systemTags.contains("pinned");
 	}
 
 	public boolean isDeleted() {
