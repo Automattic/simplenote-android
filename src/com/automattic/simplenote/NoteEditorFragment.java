@@ -1,5 +1,9 @@
 package com.automattic.simplenote;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,6 +19,7 @@ import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
+
 
 /**
  * A fragment representing a single Note detail screen. This fragment is either
@@ -76,6 +81,13 @@ public class NoteEditorFragment extends SherlockFragment {
                 android.R.layout.simple_dropdown_item_1line, tags);
         mTagView.setAdapter(adapter);
         mTagView.setTokenizer(new SpaceTokenizer());
+        
+        // Populate this note's tags in the tagView
+        String tagListString = "";
+        for (String tag : mNote.getTags()) {
+        	tagListString += tag + " ";
+        }
+        mTagView.setText(tagListString);
 
 		return rootView;
 	}
@@ -83,6 +95,11 @@ public class NoteEditorFragment extends SherlockFragment {
 	@Override
 	public void onPause() {
 		mNote.setContent(mContentView.getText().toString());
+		String tagString = mTagView.getText().toString();
+		List<String> tagList = Arrays.asList(tagString.split(" "));
+		
+		// TODO: make sure any new tags get added to the Tag database
+		mNote.setTags(new ArrayList<String>(tagList));
 		mNote.save();
 		super.onPause();
 	}
