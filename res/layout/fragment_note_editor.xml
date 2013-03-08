@@ -26,15 +26,16 @@
     			android:layout_width="0px" android:layout_height="0px"/>
 	    
 	    	<MultiAutoCompleteTextView
-		        android:id="@+id/tagView"
+		        android:id="@+id/tag_view"
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:ems="10"
 		        android:hint="@string/tag_hint"
 		        android:adjustViewBounds="true"
-		        android:nextFocusUp="@id/tagView"
-		        android:nextFocusLeft="@id/tagView">
+		        android:completionThreshold="1"
+		        android:nextFocusUp="@id/tag_view"
+		        android:nextFocusLeft="@id/tag_view">
 		    </MultiAutoCompleteTextView>
 
 	    	<ToggleButton

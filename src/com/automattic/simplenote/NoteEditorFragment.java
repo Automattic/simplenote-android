@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 
 /**
@@ -59,6 +62,16 @@ public class NoteEditorFragment extends SherlockFragment {
 		if (mNote.getContent().isEmpty()) {
 			mContentView.requestFocus();
 		}
+		
+		// Populate tag list
+        Simplenote simplenote = (Simplenote)getActivity().getApplication();
+		String[] tags = simplenote.getNoteDB().fetchAllTags();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, tags);
+        MultiAutoCompleteTextView textView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        textView.setAdapter(adapter);
+        textView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 		return rootView;
 	}
