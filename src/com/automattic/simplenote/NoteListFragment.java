@@ -145,13 +145,13 @@ public class NoteListFragment extends SherlockListFragment {
 		// fragment is attached to one) that an item has been selected.
 		
 		// Move cursor to this row
-		NoteDB db = new NoteDB(getActivity().getApplicationContext());
+		Simplenote application = (Simplenote) getActivity().getApplication();
+		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
 		cursor.moveToPosition(position);
 		
 		// Get the simperiumKey and retrieve the note via Simperium
-		String simperiumKey = cursor.getString(2);
-		Simplenote application = (Simplenote)getActivity().getApplication();
+		String simperiumKey = cursor.getString(1);
 		Bucket<Note> notesBucket = application.getNotesBucket();
 		Note note = notesBucket.get(simperiumKey);
 		mCallbacks.onNoteSelected(note);
