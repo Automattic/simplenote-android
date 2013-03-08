@@ -20,6 +20,11 @@ import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 import com.simperium.client.StorageProvider;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
 public class NoteDB {
 
 	private static final int DATABASE_VERSION = 1;
@@ -34,6 +39,10 @@ public class NoteDB {
 
 	private static final String NOTES_TABLE = "notes";
 	private static final String TAGS_TABLE = "tags";
+
+	private static final String[] NOTES_FIELDS = new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
+						"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" };
+	private static final String[] TAGS_FIELDS = new String[] { "rowid _id", "simperiumKey", "tagIndex" };
 
 	public NoteDB(Context ctx) {
 
@@ -215,6 +224,53 @@ public class NoteDB {
 
 		return cursor;
 	}
+	/**
+	 * Given a cursor from a notes query retrive the properties as a Map
+	 */
+	public Map<String,Object> notePropertiesFromCursor(Cursor c){
+
+		Map<String, Object> noteMap = new HashMap<String, Object>();
+		noteMap.put("simperiumKey", c.getString(1));
+		noteMap.put("title", c.getString(2));
+		noteMap.put("content", c.getString(3));
+		noteMap.put("contentPreview", c.getString(4));
+		noteMap.put("creationDate", c.getLong(5));
+		noteMap.put("modificationDate", c.getLong(6));
+		noteMap.put("deleted", c.getInt(7));
+		noteMap.put("lastPosition", c.getInt(8));
+		noteMap.put("pinned", c.getInt(9));
+		noteMap.put("shareURL", c.getString(10));
+
+		// Convert JSON strings to ArrayList instances
+		try {
+			JSONArray systemTagArray = new JSONArray(c.getString(11));
+			JSONArray tagArray = new JSONArray(c.getString(12));
+
+			ArrayList<String> systemTagList = new ArrayList<String>();
+			for (int i=0; i<systemTagArray.length(); i++) {
+			    systemTagList.add( systemTagArray.getString(i) );
+			}
+
+			ArrayList<String> tagList = new ArrayList<String>();
+			for (int i=0; i<tagArray.length(); i++) {
+			    tagList.add( tagArray.getString(i) );
+			}
+			noteMap.put("systemTags", systemTagList);
+			noteMap.put("tags", tagList);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return noteMap;
+	}
+	/**
+	 * Given a cursor from tags query retrive the properties as a Map
+	 */
+	public Map<String,Object> tagPropertiesFromCursor(Cursor c) {
+		Map<String, Object> tagMap = new HashMap<String, Object>();
+		tagMap.put("simperiumKey", c.getString(1));
+		tagMap.put("tagIndex", c.getString(2));
+		return tagMap;
+	}
 
 	public SimperiumStore getSimperiumStore() {
 		return new SimperiumStore();
@@ -256,57 +312,58 @@ public class NoteDB {
 			String[] args = { key };
 			Cursor c;
 			if (bucket.getName().equals(Note.BUCKET_NAME)) {
-				c = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview", "creationDate",
-						"modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, "simperiumKey=?",
-						args, null, null, null);
+				c = db.query(NOTES_TABLE, NOTES_FIELDS,
+						"simperiumKey=?", args, null, null, null);
 				int count = c.getCount();
 				c.moveToFirst();
 				if (count > 0) {
-					Map<String, Object> noteMap = new HashMap<String, Object>();
-					noteMap.put("simperiumKey", c.getString(1));
-					noteMap.put("title", c.getString(2));
-					noteMap.put("content", c.getString(3));
-					noteMap.put("contentPreview", c.getString(4));
-					noteMap.put("creationDate", c.getLong(5));
-					noteMap.put("modificationDate", c.getLong(6));
-					noteMap.put("deleted", c.getInt(7));
-					noteMap.put("lastPosition", c.getInt(8));
-					noteMap.put("pinned", c.getInt(9));
-					noteMap.put("shareURL", c.getString(10));
-					
-					// Convert JSON strings to ArrayList instances
-					try {
-						JSONArray systemTagArray = new JSONArray(c.getString(11));
-						JSONArray tagArray = new JSONArray(c.getString(12));
-
-						ArrayList<String> systemTagList = new ArrayList<String>();
-						for (int i=0; i<systemTagArray.length(); i++) {
-						    systemTagList.add( systemTagArray.getString(i) );
-						}
-
-						ArrayList<String> tagList = new ArrayList<String>();
-						for (int i=0; i<tagArray.length(); i++) {
-						    tagList.add( tagArray.getString(i) );
-						}
-						noteMap.put("systemTags", systemTagList);
-						noteMap.put("tags", tagList);
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}					
+					Map<String, Object> noteMap = notePropertiesFromCursor(c);
 					c.close();
 					return noteMap;
 				}
+				c.close();
 			} else if (bucket.getName().equals(Tag.BUCKET_NAME)) {
-				c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, "simperiumKey=?", args, null, null, null);
+				c = db.query(TAGS_TABLE, TAGS_FIELDS,
+						"simperiumKey=?", args, null, null, null);
 				int count = c.getCount();
 				c.moveToFirst();
 				if (count > 0) {
-					Map<String, Object> tagMap = new HashMap<String, Object>();
-					tagMap.put("simperiumKey", c.getString(1));
-					tagMap.put("tagIndex", c.getString(2));
+					Map<String, Object> tagMap = tagPropertiesFromCursor(c);
 					c.close();
 					return tagMap;
 				}
+				c.close();
+			}
+			return null;
+		}
+		/**
+		 * Retrieve properties for every object in the bucket
+		 */
+		public List<Map<String,Object>> allObjects(Bucket<?> bucket) {
+			Cursor c;
+			if (bucket.getName().equals(Note.BUCKET_NAME)) {
+				// get all notes
+				c = db.query(NOTES_TABLE, NOTES_FIELDS, null, null, null, null, null);
+				List<Map<String,Object>> notesData = new ArrayList<Map<String,Object>>();
+				if (c.getCount() > 0) {
+					c.moveToFirst();
+					do {
+						notesData.add(notePropertiesFromCursor(c));
+					} while(c.moveToNext());
+				}
+				c.close();
+				return notesData;
+			} else if (bucket.getName().equals(Tag.BUCKET_NAME)) {
+				c = db.query(TAGS_TABLE, TAGS_FIELDS, null, null, null, null, null);
+				List<Map<String,Object>> tagsData = new ArrayList<Map<String,Object>>();
+				if (c.getCount() > 0) {
+					c.moveToFirst();
+					do {
+						tagsData.add(tagPropertiesFromCursor(c));
+					} while(c.moveToNext());
+				}
+				c.close();
+				return tagsData;
 			}
 			return null;
 		}
