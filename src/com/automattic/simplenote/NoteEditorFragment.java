@@ -1,16 +1,19 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.MultiAutoCompleteTextView.Tokenizer;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 
 /**
@@ -30,6 +33,7 @@ public class NoteEditorFragment extends SherlockFragment {
 	 */
 	private Note mNote;
 	private EditText mContentView;
+	private MultiAutoCompleteTextView mTagView;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,6 +58,7 @@ public class NoteEditorFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
 		mContentView = ((EditText) rootView.findViewById(R.id.note_content));
+        mTagView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
 
 		if (mNote != null) {
 			mContentView.setText(mNote.getContent());			
@@ -69,9 +74,8 @@ public class NoteEditorFragment extends SherlockFragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, tags);
-        MultiAutoCompleteTextView textView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
-        textView.setAdapter(adapter);
-        textView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        mTagView.setAdapter(adapter);
+        mTagView.setTokenizer(new SpaceTokenizer());
 
 		return rootView;
 	}
@@ -83,5 +87,57 @@ public class NoteEditorFragment extends SherlockFragment {
 		super.onPause();
 	}
 	
+	// Use spaces in tag autocompletion list
+	// From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
+	public class SpaceTokenizer implements Tokenizer {
+
+		public int findTokenStart(CharSequence text, int cursor) {
+			int i = cursor;
 	
+			while (i > 0 && text.charAt(i - 1) != ' ') {
+			    i--;
+			}
+			while (i < cursor && text.charAt(i) == ' ') {
+			    i++;
+			}
+	
+			return i;
+		}
+
+		public int findTokenEnd(CharSequence text, int cursor) {
+			int i = cursor;
+			int len = text.length();
+	
+			while (i < len) {
+			    if (text.charAt(i) == ' ') {
+			        return i;
+			    } else {
+			        i++;
+			    }
+			}
+	
+			return len;
+		}
+
+		public CharSequence terminateToken(CharSequence text) {
+			int i = text.length();
+	
+			while (i > 0 && text.charAt(i - 1) == ' ') {
+			    i--;
+			}
+	
+			if (i > 0 && text.charAt(i - 1) == ' ') {
+			    return text;
+			} else {
+			    if (text instanceof Spanned) {
+			        SpannableString sp = new SpannableString(text + " ");
+			        TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
+			                Object.class, sp, 0);
+			        return sp;
+			    } else {
+			        return text + " ";
+			    }
+			}
+		}
+	}
 }
