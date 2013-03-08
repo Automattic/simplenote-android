@@ -161,7 +161,7 @@ public class NoteDB {
 		}
 
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
-				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, null, null,
+				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, "deleted = ?", new String[] { "0" },
 				null, null, orderBy);
 		// if (cursor != null) {
 		// 	cursor.moveToFirst();
