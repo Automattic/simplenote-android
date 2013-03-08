@@ -1,11 +1,11 @@
 package com.automattic.simplenote;
 
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
-import com.simperium.client.Bucket;
-import com.simperium.client.StorageProvider;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,8 +15,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
+import com.simperium.client.Bucket;
+import com.simperium.client.StorageProvider;
 
 public class NoteDB {
 
@@ -247,8 +249,26 @@ public class NoteDB {
 					noteMap.put("lastPosition", c.getInt(8));
 					noteMap.put("pinned", c.getInt(9));
 					noteMap.put("shareURL", c.getString(10));
-					noteMap.put("systemTags", c.getString(11));
-					noteMap.put("tags", c.getString(12));
+					
+					// Convert JSON strings to ArrayList instances
+					try {
+						JSONArray systemTagArray = new JSONArray(c.getString(11));
+						JSONArray tagArray = new JSONArray(c.getString(12));
+
+						ArrayList<String> systemTagList = new ArrayList<String>();
+						for (int i=0; i<systemTagArray.length(); i++) {
+						    systemTagList.add( systemTagArray.getString(i) );
+						}
+
+						ArrayList<String> tagList = new ArrayList<String>();
+						for (int i=0; i<tagArray.length(); i++) {
+						    tagList.add( tagArray.getString(i) );
+						}
+						noteMap.put("systemTags", systemTagList);
+						noteMap.put("tags", tagList);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}					
 					c.close();
 					return noteMap;
 				}

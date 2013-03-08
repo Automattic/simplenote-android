@@ -46,9 +46,7 @@ public class Note extends Bucket.Object {
 		if (content == null)
 			content = "";
 		
-		Boolean deletedProp = (Boolean)properties.get("deleted");
-		if (deletedProp != null)
-			deleted = deletedProp.booleanValue();
+		setDeleted(properties.get("deleted"));
 		
 		setTags((ArrayList<String>)properties.get("tags"));
 		if (tags == null)
@@ -173,9 +171,22 @@ public class Note extends Bucket.Object {
 	public boolean isDeleted() {
 		return deleted;
 	}
+	
+	public void setDeleted(Object deleted) {
+		if (deleted != null) {
+			if (deleted instanceof Boolean) {
+				this.deleted = ((Boolean)deleted).booleanValue();
+			} else if (deleted instanceof Number) {
+				this.deleted = ((Number)deleted).intValue() == 0 ? false : true;
+			}
+		}
+	}
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	
+	public void setDeleted(Number deleted) {
 	}
 
 	public boolean isPinned() {
