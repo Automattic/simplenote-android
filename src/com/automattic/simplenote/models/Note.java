@@ -164,6 +164,9 @@ public class Note extends Bucket.Object {
 	}
 
 	public void setSystemTags(ArrayList<String> systemTags) {
+		if (systemTags == null) {
+			systemTags = new ArrayList();
+		}
 		this.systemTags = systemTags;
 		pinned = systemTags.contains("pinned");
 	}
