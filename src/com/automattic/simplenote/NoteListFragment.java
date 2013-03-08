@@ -97,7 +97,14 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Simplenote application = (Simplenote) getActivity().getApplication();
-
+		
+		NoteDB db = application.getNoteDB();
+		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+		String[] columns = new String[] { "content", "content", "creationDate" };
+		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
+		mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+		setListAdapter(mNotesAdapter);
+		
 		mNotesBucket = application.getNotesBucket();
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -329,10 +336,9 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		
+		Cursor cursor = null;
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
-		Cursor cursor = null;
 		
 		if (itemPosition == 0) {
 			// All notes
@@ -342,13 +348,6 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 			cursor = db.fetchDeletedNotes(getActivity().getBaseContext());
 		} else {
 			cursor = db.fetchNotesByTag(getActivity().getBaseContext(), mMenuItems[itemPosition]);
-		}
-		
-		if (mNotesAdapter == null) {
-			String[] columns = new String[] { "content", "content", "creationDate" };
-			int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
-			mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
-			setListAdapter(mNotesAdapter);
 		}
 		
 		if (cursor != null) {
