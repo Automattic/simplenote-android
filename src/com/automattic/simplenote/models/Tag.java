@@ -8,8 +8,6 @@ import java.util.Map;
 public class Tag extends Bucket.Object {
 	
 	public static final String BUCKET_NAME="tag";
-
-	protected String simperiumKey;
 	protected int tagIndex;
 	protected String name = "";
 

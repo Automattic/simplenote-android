@@ -34,6 +34,8 @@
 		        android:hint="@string/tag_hint"
 		        android:adjustViewBounds="true"
 		        android:completionThreshold="1"
+		        android:textColor="@color/gray"
+        		android:inputType="textNoSuggestions"
 		        android:nextFocusUp="@id/tag_view"
 		        android:nextFocusLeft="@id/tag_view">
 		    </MultiAutoCompleteTextView>

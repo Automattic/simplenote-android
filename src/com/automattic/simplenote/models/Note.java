@@ -17,8 +17,6 @@ public class Note extends Bucket.Object {
 	
 	public static final String BUCKET_NAME="note";
 	
-	protected String simperiumKey;
-
 	protected String title;
 	protected String content;
 	protected String contentPreview;

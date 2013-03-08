@@ -18,4 +18,6 @@
 
 <resources>
     <color name="pressed_simplestyle">#66368cd0</color>
+    <color name="dark_gray">#ff444444</color>
+    <color name="gray">#ff888888</color>
 </resources>
