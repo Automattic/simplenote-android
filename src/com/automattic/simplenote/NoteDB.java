@@ -198,14 +198,14 @@ public class NoteDB {
 
 	public String[] fetchAllTags() {
 		String[] tags = null;
-		Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, null, null, null, null,
+		Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "name", "tagIndex" }, null, null, null, null,
 				"simperiumKey ASC");
 		int numRows = c.getCount();
 		tags = new String[numRows];
 		c.moveToFirst();
 
 		for (int i = 0; i < numRows; ++i) {
-			tags[i] = c.getString(1);
+			tags[i] = c.getString(2);
 			c.moveToNext();
 		}
 		c.close();
