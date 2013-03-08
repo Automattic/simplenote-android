@@ -1,5 +1,10 @@
 package com.automattic.simplenote;
 
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
+import com.simperium.client.Bucket;
+import com.simperium.client.StorageProvider;
+
 import org.json.JSONArray;
 
 import android.content.ContentValues;
@@ -8,20 +13,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
-
-import com.simperium.client.Bucket;
-import com.simperium.client.StorageProvider;
 import android.util.Log;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NoteDB {
 
@@ -82,8 +77,8 @@ public class NoteDB {
 
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", tag.getSimperiumKey());
-		values.put("index", tag.getTagIndex());
-		values.put("name", tag.getName());
+		values.put("tagIndex", tag.getTagIndex());
+		values.put("name", tag.getSimperiumKey());
 
 		return db.insert(TAGS_TABLE, null, values) >= 0;
 	}
@@ -167,8 +162,26 @@ public class NoteDB {
 		// 	cursor.moveToFirst();
 		// }
 		Log.d("Simplenote", String.format("Found %d notes", cursor.getCount()));
-		
+
 		return cursor;
+	}
+	
+	public String[] fetchAllTags() {
+		String[] tags = null;
+		Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" }, null, null,
+				null, null, "simperiumKey ASC");
+		int numRows = c.getCount();
+		tags = new String[numRows];
+        c.moveToFirst();
+
+        for (int i = 0; i < numRows; ++i) {
+            tags[i] = c.getString(1);
+            c.moveToNext();
+        }
+        c.close();
+		Log.d("Simplenote", String.format("Found %d tags", c.getCount()));
+
+		return tags;
 	}
 
 	public Cursor searchNotes(String searchString) {
@@ -181,7 +194,7 @@ public class NoteDB {
 
 		return cursor;
 	}
-	
+
 	public SimperiumStore getSimperiumStore(){
 		return new SimperiumStore();
 	}
@@ -194,11 +207,16 @@ public class NoteDB {
 			if (object instanceof Note) {
 				Log.d(TAG, String.format("Adding note %s", object));
 				create((Note) object);
+			} else if (object instanceof Tag) {
+				Log.d(TAG, String.format("Adding tag %s", object));
+				create((Tag) object);
 			}
 		}
 		public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
 			if(object instanceof Note){
 				update((Note) object);
+			} else if(object instanceof Tag){
+				update((Tag) object);
 			}
 		}
 		public void removeObject(Bucket bucket, String key){
@@ -208,7 +226,7 @@ public class NoteDB {
 		 * Retrieve entities and details
 		 */
 		public Map<String,Object> getObject(Bucket<?> bucket, String key) {
-			
+
 			String[] args = { key };
 			Cursor c;
 			if (bucket.getName().equals(Note.BUCKET_NAME)) {
@@ -249,7 +267,7 @@ public class NoteDB {
 			}
 			return null;
 		}
-		
+
 	}
-	
+
 }

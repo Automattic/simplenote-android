@@ -7,6 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -57,11 +59,14 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ab.setDisplayShowTitleEnabled(false);
 
-		// TODO load tags here 
-		String[] items = { "Notes", "Trash", "RADWHIMPS" };
+		String[] tags = application.getNoteDB().fetchAllTags();
+		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
+		String[] menu = Arrays.copyOf(topItems, tags.length + 2);
+		
+		System.arraycopy(tags, 0, menu, 2, tags.length);
 		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(
 				getSupportActionBar().getThemedContext(),
-				R.layout.sherlock_spinner_dropdown_item, items);
+				R.layout.sherlock_spinner_dropdown_item, menu);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 
 		int orientation = getResources().getConfiguration().orientation;

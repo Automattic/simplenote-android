@@ -21,4 +21,7 @@
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>
     <string name="search">Search</string>
+    
+    <string name="notes">Notes</string>
+    <string name="trash">Trash</string>
 </resources>
