@@ -54,7 +54,7 @@ public class Note extends Bucket.Object {
 		if (tags == null)
 			tags = new ArrayList<String>();
 
-		systemTags = (ArrayList<String>)properties.get("tags");
+		systemTags = (ArrayList<String>)properties.get("systemTags");
 		if (systemTags == null)
 			systemTags = new ArrayList<String>();
 
