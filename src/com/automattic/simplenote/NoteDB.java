@@ -106,7 +106,7 @@ public class NoteDB {
 		values.put("systemTags", new JSONArray(note.getSystemTags()).toString());
 		values.put("tags", new JSONArray(note.getTags()).toString());
 
-		return db.update(NOTES_TABLE, values, "simperiumKey=" + note.getSimperiumKey(), null) > 0;
+		return db.update(NOTES_TABLE, values, "simperiumKey=?", new String[]{ note.getSimperiumKey() }) > 0;
 	}
 
 	boolean update(Tag tag) {
@@ -163,9 +163,11 @@ public class NoteDB {
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, null, null,
 				null, null, orderBy);
-		if (cursor != null) {
-			cursor.moveToFirst();
-		}
+		// if (cursor != null) {
+		// 	cursor.moveToFirst();
+		// }
+		Log.d("Simplenote", String.format("Found %d notes", cursor.getCount()));
+		
 		return cursor;
 	}
 
@@ -173,9 +175,9 @@ public class NoteDB {
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },
 				"content like " + "'%" + searchString + "%'", null, null, null, "PINNED DESC");
-		if (cursor != null) {
-			cursor.moveToFirst();
-		}
+		// if (cursor != null) {
+		// 	cursor.moveToFirst();
+		// }
 
 		return cursor;
 	}
@@ -190,6 +192,7 @@ public class NoteDB {
 		 */
 		public void addObject(Bucket bucket, String key, Bucket.Syncable object){
 			if (object instanceof Note) {
+				Log.d(TAG, String.format("Adding note %s", object));
 				create((Note) object);
 			}
 		}
@@ -244,9 +247,6 @@ public class NoteDB {
 					return tagMap;
 				}
 			}
-			return null;
-		}
-		public <T extends Bucket.Syncable> List<T> allEntities(Bucket<T> bucket) {
 			return null;
 		}
 		

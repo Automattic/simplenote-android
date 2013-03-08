@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 import java.util.Map;
+import java.util.HashMap;
 
 public class Note extends Bucket.Object {
 	
@@ -27,6 +28,7 @@ public class Note extends Bucket.Object {
 	protected boolean pinned;
 	protected int lastPosition;
 	protected String shareURL;
+	protected String publishURL;
 
 	public static class Schema extends Bucket.Schema<Note> {
 		public Note build(String key, Map<String,Object>properties){
@@ -44,17 +46,20 @@ public class Note extends Bucket.Object {
 		systemTags = new Vector<String>();
 		creationDate = Calendar.getInstance();
 		modificationDate = Calendar.getInstance();
+		shareURL = "";
+		publishURL = "";
 	}
 	
-    public Map<String, java.lang.Object> getDiffableValue() {
+    public Map<String, Object> getDiffableValue() {
+		Map<String, Object> properties = new HashMap<String,Object>();
     	properties.put("content", content);
     	properties.put("tags", tags);
     	properties.put("systemTags", systemTags);
     	properties.put("deleted", deleted);
-    	properties.put("pinned", pinned);
-    	properties.put("creationDate", creationDate);
-    	properties.put("modificationDate", modificationDate);
+    	properties.put("creationDate", creationDate.getTimeInMillis()/1000);
+    	properties.put("modificationDate", modificationDate.getTimeInMillis()/1000);
     	properties.put("shareURL", shareURL);
+    	properties.put("publishURL", publishURL);
         return properties;
     }
 	
