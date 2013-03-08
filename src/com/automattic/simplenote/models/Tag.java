@@ -8,27 +8,32 @@ import java.util.Map;
 public class Tag extends Bucket.Object {
 	
 	public static final String BUCKET_NAME="tag";
-	
+
 	protected String simperiumKey;
 	protected int tagIndex;
-	
+	protected String name = "";
+
 	public static class Schema extends Bucket.Schema<Tag> {
 		public Tag build(String key, Map<String,Object>properties){
 			return new Tag(key, properties);
 		}
 	}
-	
+
 	public Tag(String key, Map<String,Object>properties){
 		super(key, properties);
+		setName((String) properties.get("name"));
 	}
-	
-	// Map "name" to simperimKey for convenience (they could one day be different)
+
 	public String getName() {
-		return simperiumKey;
+		return name;
 	}
 	
 	public void setName(String name) {
-		this.simperiumKey = name;
+		if (name == null) {
+			this.name = "";
+		} else {
+			this.name = name;
+		}
 	}
 		
 	public int getTagIndex() {

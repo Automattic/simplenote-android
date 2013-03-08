@@ -42,7 +42,7 @@ public class NoteDB {
 
 	private static final String[] NOTES_FIELDS = new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 						"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" };
-	private static final String[] TAGS_FIELDS = new String[] { "rowid _id", "simperiumKey", "tagIndex" };
+	private static final String[] TAGS_FIELDS = new String[] { "rowid _id", "simperiumKey", "tagIndex", "name" };
 
 	public NoteDB(Context ctx) {
 
@@ -89,7 +89,7 @@ public class NoteDB {
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", tag.getSimperiumKey());
 		values.put("tagIndex", tag.getTagIndex());
-		values.put("name", tag.getSimperiumKey());
+		values.put("name", tag.getName());
 
 		return db.insert(TAGS_TABLE, null, values) >= 0;
 	}
@@ -269,6 +269,7 @@ public class NoteDB {
 		Map<String, Object> tagMap = new HashMap<String, Object>();
 		tagMap.put("simperiumKey", c.getString(1));
 		tagMap.put("tagIndex", c.getString(2));
+		tagMap.put("name", c.getString(3));
 		return tagMap;
 	}
 
