@@ -126,16 +126,11 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		if (item.getItemId() == R.id.menu_preferences) {
 			Intent i = new Intent(this, PreferencesActivity.class);
 			this.startActivity(i);
-		} else if (item.getItemId() == R.id.menu_create_note) {
-			
-			Note note = mNotesBucket.newObject();
-			
-			((NoteListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.note_list)).refreshList();
-			
-			// TODO: select the new note here
+		} else if (item.getItemId() == R.id.menu_create_note) {			
+			NoteListFragment noteListFragment = ((NoteListFragment) getSupportFragmentManager().findFragmentById(
+					R.id.note_list));
+			noteListFragment.addNote();
 		}
-
 		
 		return super.onOptionsItemSelected(item);
 	}

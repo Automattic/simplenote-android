@@ -145,14 +145,14 @@ public class NoteListFragment extends SherlockListFragment {
 		// fragment is attached to one) that an item has been selected.
 		
 		// Move cursor to this row
-		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
+		Simplenote simplenote = (Simplenote) getActivity().getApplication();
+		NoteDB db = simplenote.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
 		cursor.moveToPosition(position);
 		
 		// Get the simperiumKey and retrieve the note via Simperium
 		String simperiumKey = cursor.getString(1);
-		Bucket<Note> notesBucket = application.getNotesBucket();
+		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.get(simperiumKey);
 		mCallbacks.onNoteSelected(note);
 	}
@@ -197,6 +197,17 @@ public class NoteListFragment extends SherlockListFragment {
 	public void refreshList() {
 		mNotesAdapter.c.requery();
 		mNotesAdapter.notifyDataSetChanged();
+	}
+	
+	public void addNote() {
+		Simplenote simplenote = (Simplenote) getActivity().getApplication();
+		Bucket<Note> notesBucket = simplenote.getNotesBucket();
+		notesBucket.newObject();
+		refreshList();
+		
+		// Select the new note
+		View v = mNotesAdapter.getView(0, null, null);
+		getListView().performItemClick(v, 0, 0);
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {

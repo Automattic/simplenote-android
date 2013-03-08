@@ -55,6 +55,10 @@ public class NoteEditorFragment extends SherlockFragment {
 		if (mNote != null) {
 			mContentView.setText(mNote.getContent());			
 		}
+		
+		if (mNote.getContent().isEmpty()) {
+			mContentView.requestFocus();
+		}
 
 		return rootView;
 	}

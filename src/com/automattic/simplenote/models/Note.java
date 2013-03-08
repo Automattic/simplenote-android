@@ -1,14 +1,15 @@
 package com.automattic.simplenote.models;
 
-import com.simperium.client.Bucket;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Vector;
 
-import java.util.Map;
+import android.util.Log;
+
+import com.simperium.client.Bucket;
 
 public class Note extends Bucket.Object {
 	
@@ -31,7 +32,6 @@ public class Note extends Bucket.Object {
 	public static class Schema extends Bucket.Schema<Note> {
 		public Note build(String key, Map<String,Object>properties){
 			Note note = new Note(key, properties);
-			note.setContent((String)properties.get("content"));
 			return note;
 		}
 	}
@@ -39,8 +39,16 @@ public class Note extends Bucket.Object {
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
 		
-		content = "Testing!";
-		tags = new Vector<String>();
+		Log.d("Simplenote", "New note properties: " + properties);
+		
+		content = (String)properties.get("content");
+		if (content == null)
+			content = "";
+		
+		tags = (Vector<String>)properties.get("tags");
+//		if (tags == null)
+//			tags = new Vector<String>();
+//		
 		systemTags = new Vector<String>();
 		creationDate = Calendar.getInstance();
 		modificationDate = Calendar.getInstance();
