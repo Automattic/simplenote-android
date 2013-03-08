@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -47,40 +49,6 @@ public class NoteDB {
 			// Create indexes for new install
 			db.execSQL(ADD_NOTES_INDEX);
 			db.execSQL(ADD_TAGS_INDEX);
-
-			// Test notes!
-			/*for (int i = 0; i < 100; i++) {
-				ContentValues values = new ContentValues();
-				values.put("simperiumKey", String.valueOf(i));
-				values.put("title", "example title #" + i);
-
-				if (i % 2 == 0) {
-					values.put("content", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n"
-							+ "Here's some more content for this note.");
-					values.put("contentPreview", "Wow, would you look at that, it's note #" + String.valueOf(i) + "!" + "\n"
-							+ "Here's some more content for this note.");
-				} else {
-					values.put("content", "I'm just a simple note. A Simplenote, get it?");
-					values.put("contentPreview", "I'm just a simple note. A Simplenote, get it?");
-				}
-				values.put("creationDate", Calendar.getInstance().getTimeInMillis());
-				values.put("modificationDate", Calendar.getInstance().getTimeInMillis() - (i * 1000));
-				values.put("deleted", false);
-				values.put("lastPosition", 0);
-
-				if (i == 20 || i == 30) {
-					values.put("pinned", true);
-				} else {
-					values.put("pinned", false);
-				}
-
-				values.put("shareURL", "url");
-				values.put("systemTags", "");
-				values.put("tags", "");
-
-				db.insert(NOTES_TABLE, null, values);
-			}*/
-
 		}
 
 		db.setVersion(DATABASE_VERSION);
@@ -221,15 +189,14 @@ public class NoteDB {
 		 * Store bucket object data
 		 */
 		public void addObject(Bucket bucket, String key, Bucket.Syncable object){
-			Log.d(TAG, String.format("Time to save %s in %s", key, bucket.getName()));
-			Log.d(TAG, String.format("Properties: %s", object.getDiffableValue()));
 			if (object instanceof Note) {
-				Log.d(TAG, String.format("You should add a note!"));
 				create((Note) object);
 			}
 		}
 		public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
-			Log.d(TAG, String.format("Time to update %s in %s", key, bucket.getName()));
+			if(object instanceof Note){
+				update((Note) object);
+			}
 		}
 		public void removeObject(Bucket bucket, String key){
 			Log.d(TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
@@ -237,10 +204,49 @@ public class NoteDB {
 		/**
 		 * Retrieve entities and details
 		 */
-		public <T extends Bucket.Syncable> T getObject(Bucket<T> bucket, String key){
+		public Map<String,Object> getObject(Bucket<?> bucket, String key) {
+			
+			String[] args = { key };
+			Cursor c;
+			if (bucket.getName().equals(Note.BUCKET_NAME)) {
+				c = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
+						"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },
+						"simperiumKey=?", args, null, null, null);
+				int count = c.getCount();
+				c.moveToFirst();
+				if (count > 0) {
+					Map<String, Object> noteMap = new HashMap<String, Object>();
+					noteMap.put("simperiumKey", c.getString(1));
+					noteMap.put("title", c.getString(2));
+					noteMap.put("content", c.getString(3));
+					noteMap.put("contentPreview", c.getString(4));
+					noteMap.put("creationDate", c.getLong(5));
+					noteMap.put("modificationDate", c.getLong(6));
+					noteMap.put("deleted", c.getInt(7));
+					noteMap.put("lastPosition", c.getInt(8));
+					noteMap.put("pinned", c.getInt(9));
+					noteMap.put("shareURL", c.getString(10));
+					noteMap.put("systemTags", c.getString(11));
+					noteMap.put("tags", c.getString(12));
+					c.close();
+					return noteMap;
+				}
+			} else if (bucket.getName().equals(Tag.BUCKET_NAME)) {
+				c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "tagIndex" },
+						"simperiumKey=?", args, null, null, null);
+				int count = c.getCount();
+				c.moveToFirst();
+				if (count > 0) {
+					Map<String, Object> tagMap = new HashMap<String, Object>();
+					tagMap.put("simperiumKey", c.getString(1));
+					tagMap.put("tagIndex", c.getString(2));
+					c.close();
+					return tagMap;
+				}
+			}
 			return null;
 		}
-		public <T extends Bucket.Syncable> List<T> allEntities(Bucket<T> bucket){
+		public <T extends Bucket.Syncable> List<T> allEntities(Bucket<T> bucket) {
 			return null;
 		}
 		

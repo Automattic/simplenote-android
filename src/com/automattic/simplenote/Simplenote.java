@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.simperium.client.*;
-import com.simperium.client.storage.MemoryStore;
 
 import android.util.Log;
 import android.app.Application;
@@ -23,8 +22,6 @@ public class Simplenote extends Application {
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
 	private NoteDB mNoteDB;
-	
-	private StorageProvider mStorageProvider = new MemoryStore();
 		
 	public void onCreate(){
 		super.onCreate();
@@ -52,10 +49,6 @@ public class Simplenote extends Application {
 	
 	public NoteDB getNoteDB(){
 		return mNoteDB;
-	}
-	
-	public StorageProvider getStorageProvider(){
-		return mStorageProvider;
 	}
 	
 	public Simperium getSimperium(){
