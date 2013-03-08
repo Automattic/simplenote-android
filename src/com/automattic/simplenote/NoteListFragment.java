@@ -262,13 +262,17 @@ public class NoteListFragment extends SherlockListFragment {
 		}
 		
 		public void onObjectRemoved(String key, Note object){
-			notifyDataSetChanged();
+			refreshUI();
 		}
 		public void onObjectUpdated(String key, Note object){
-			notifyDataSetChanged();        	
+			refreshUI();
 		}
 		public void onObjectAdded(String key, Note object){
 			Log.d("Simplenote", "Object added, reload list view");
+			refreshUI();
+		}
+		
+		private void refreshUI(){
 			getActivity().runOnUiThread(new Runnable(){
 				public void run(){
 					refreshList();
