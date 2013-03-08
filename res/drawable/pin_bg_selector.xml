@@ -20,5 +20,5 @@
     <item android:drawable="@drawable/ic_item_list_focused_pin_active" android:state_checked="true" android:state_pressed="true" />
     <item android:drawable="@drawable/ic_item_list_default_pin_active" android:state_pressed="true" />
     <item android:drawable="@drawable/ic_item_list_focused_pin" android:state_checked="true" />
-    <item />
+    <item android:drawable="@android:color/transparent" />
 </selector>

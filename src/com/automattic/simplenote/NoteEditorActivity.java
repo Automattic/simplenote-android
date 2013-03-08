@@ -27,6 +27,13 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+        // If we are in two-pane layout mode, this activity is no longer necessary
+        if (getResources().getBoolean(R.bool.has_two_panes)) {
+            finish();
+            return;
+        }
+
 		setContentView(R.layout.activity_note_editor);
 
 		Simplenote application = (Simplenote) getApplication();
