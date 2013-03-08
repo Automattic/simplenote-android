@@ -2,7 +2,9 @@ package com.automattic.simplenote.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
@@ -10,8 +12,6 @@ import java.util.Vector;
 import android.util.Log;
 
 import com.simperium.client.Bucket;
-import java.util.Map;
-import java.util.HashMap;
 
 public class Note extends Bucket.Object {
 	
@@ -24,8 +24,8 @@ public class Note extends Bucket.Object {
 	protected String contentPreview;
 	protected Calendar creationDate;
 	protected Calendar modificationDate;
-	protected Vector<String> tags;
-	protected Vector<String> systemTags;
+	protected ArrayList<String> tags;
+	protected ArrayList<String> systemTags;
 	protected boolean deleted;
 	protected boolean pinned;
 	protected int lastPosition;
@@ -42,21 +42,41 @@ public class Note extends Bucket.Object {
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
 		
-		Log.d("Simplenote", "New note properties: " + properties);
-		
 		content = (String)properties.get("content");
 		if (content == null)
 			content = "";
 		
-//		tags = (Vector<String>)properties.get("tags");
-//		if (tags == null)
-			tags = new Vector<String>();
+		Boolean deletedProp = (Boolean)properties.get("deleted");
+		if (deletedProp != null)
+			deleted = deletedProp.booleanValue();
 		
-		systemTags = new Vector<String>();
+		tags = (ArrayList<String>)properties.get("tags");
+		if (tags == null)
+			tags = new ArrayList<String>();
+
+		systemTags = (ArrayList<String>)properties.get("tags");
+		if (systemTags == null)
+			systemTags = new ArrayList<String>();
+
 		creationDate = Calendar.getInstance();
+		Number creationProp = (Number)properties.get("creationDate");
+		if (creationProp != null) {
+			creationDate.setTimeInMillis(creationProp.longValue()*1000);
+		}
+		
 		modificationDate = Calendar.getInstance();
-		shareURL = "";
-		publishURL = "";
+		Number modificationProp = (Number)properties.get("modificationDate");
+		if (modificationProp != null) {
+			modificationDate.setTimeInMillis(modificationProp.longValue()*1000);
+		}
+
+		shareURL = (String)properties.get("shareURL");
+		if (shareURL == null)
+			shareURL = "";
+		
+		publishURL = (String)properties.get("publishURL");
+		if (publishURL == null)
+			publishURL = "";
 	}
 	
     public Map<String, Object> getDiffableValue() {
@@ -133,19 +153,19 @@ public class Note extends Bucket.Object {
 		this.modificationDate = modificationDate;
 	}
 
-	public Vector<String> getTags() {
+	public ArrayList<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(Vector<String> tags) {
+	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
 
-	public Vector<String> getSystemTags() {
+	public ArrayList<String> getSystemTags() {
 		return systemTags;
 	}
 
-	public void setSystemTags(Vector<String> systemTags) {
+	public void setSystemTags(ArrayList<String> systemTags) {
 		this.systemTags = systemTags;
 	}
 
