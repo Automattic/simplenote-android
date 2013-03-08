@@ -221,15 +221,14 @@ public class NoteDB {
 		 * Store bucket object data
 		 */
 		public void addObject(Bucket bucket, String key, Bucket.Syncable object){
-			Log.d(TAG, String.format("Time to save %s in %s", key, bucket.getName()));
-			Log.d(TAG, String.format("Properties: %s", object.getDiffableValue()));
 			if (object instanceof Note) {
-				Log.d(TAG, String.format("You should add a note!"));
 				create((Note) object);
 			}
 		}
 		public void updateObject(Bucket bucket, String key, Bucket.Syncable object){
-			Log.d(TAG, String.format("Time to update %s in %s", key, bucket.getName()));
+			if(object instanceof Note){
+				update((Note) object);
+			}
 		}
 		public void removeObject(Bucket bucket, String key){
 			Log.d(TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
