@@ -5,16 +5,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -24,11 +22,8 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
-
-import com.simperium.client.Bucket;
-
-import android.util.Log;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -46,7 +41,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 	private int mNumPreviewLines;
 	private boolean mShowDate;
 	private String[] mMenuItems;
-
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -107,11 +102,15 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		
 		mNotesBucket = application.getNotesBucket();
 
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		mNumPreviewLines = Integer.valueOf(sharedPref.getString("pref_key_preview_lines", "2"));
-		mShowDate = sharedPref.getBoolean("pref_key_show_dates", true);
+		getPrefs();
 
 		mNotesBucket.addListener(mNotesAdapter);
+	}
+	
+	// nbradbury - load values from preferences
+	protected void getPrefs() {
+		mNumPreviewLines = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_NUM_PREVIEW_LINES, 2);
+		mShowDate = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_SHOW_DATES, true);
 	}
 
 	@Override
@@ -208,8 +207,8 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
-		Log.d("Simplenote", "Refresh the list");
-		mNotesAdapter.c.requery();
+		Log.d(Simplenote.TAG, "Refresh the list");
+		mNotesAdapter.getCursor().requery();
 		mNotesAdapter.notifyDataSetChanged();
 
 		updateMenuItems();
@@ -229,90 +228,100 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 	}
 
 	public void addNote() {
+		// TODO: nbradbury - creating & saving a new note here causes an empty note to appear which doesn't go away if user backs out
+		// of editing the note (iOS app suffers from the same problem) - instead NoteEditorFragment should be changed to handle new
+		// note creation and only save the note if user has entered any content
+		
+		// create & save new note
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.newObject();
-		note.save();
+		note.save(); 
+		
+		// refresh listview so new note appears
 		refreshList();
-
+		
+		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
+		mCallbacks.onNoteSelected(note);
+		
 		// Select the new note
-		View v = mNotesAdapter.getView(0, null, null);
-		getListView().performItemClick(v, 0, 0);
+		//View v = mNotesAdapter.getView(0, null, null);
+		//getListView().performItemClick(v, 0, 0);
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {
-
-		Cursor c;
+		//Cursor c; // nbradbury - removed - redundant, adapter already supplies getCursor()
 		Context context;
-		LinearLayout.LayoutParams lp;
 
 		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
 			super(context, layout, c, from, to, flags);
-			this.c = c;
 			this.context = context;
-			lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		}
 
+		/*
+		 *  nbradbury - implemented "holder pattern" to boost performance with large note lists
+		 */
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
-			Log.d("Simplenote", String.format("Get view %d", position));
-			if (view == null)
+			Log.d(Simplenote.TAG, String.format("Get view %d", position));
+
+			NoteViewHolder holder;
+			if (view == null) {
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
+				holder = new NoteViewHolder();
+				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
+				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
+				holder.dateTextView = (TextView) view.findViewById(R.id.note_date);
+				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
+				view.setTag(holder);
+			} else {
+				holder = (NoteViewHolder) view.getTag();
+			}
 
+			holder.contentTextView.setMaxLines(mNumPreviewLines);
+
+			// TODO: nbradbury - get rid of magic numbers for column indexes
+			Cursor c = getCursor();
 			c.moveToPosition(position);
-
-			TextView titleTextView = (TextView) view.findViewById(R.id.note_title);
-			TextView contentTextView = (TextView) view.findViewById(R.id.note_content);
-			TextView dateTextView = (TextView) view.findViewById(R.id.note_date);
-			ImageView pinImageView = (ImageView) view.findViewById(R.id.note_pin);
-
-			contentTextView.setMaxLines(mNumPreviewLines);
-
-			if (mShowDate) {
-				dateTextView.setVisibility(View.VISIBLE);
-				lp.setMargins(0, 0, Math.round(60 * context.getResources().getDisplayMetrics().density), 0);
-				titleTextView.setLayoutParams(lp);
-			} else {
-				dateTextView.setVisibility(View.GONE);
-				lp.setMargins(0, 0, 0, 0);
-				titleTextView.setLayoutParams(lp);
-			}
-
-			if (c.getInt(10) > 0) {
-				pinImageView.setImageResource(R.drawable.ic_item_list_default_pin_active);
-			} else {
-				pinImageView.setImageResource(R.drawable.ic_item_list_default_pin);
-			}
-
 			String title = c.getString(2);
+			String content = c.getString(3);
+			String contentPreview = c.getString(4);
+			long modDateLong = c.getLong(6);
+			boolean isPinned = (c.getInt(10) > 0);
+			
+			// nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
+			holder.pinImageView.setVisibility(isPinned ? View.VISIBLE : View.GONE);
+
 			if (title != null) {
-				titleTextView.setText(c.getString(2));
-				if (c.getString(4) != null)
-					contentTextView.setText(c.getString(4));
-				else
-					contentTextView.setText(c.getString(3));
+				holder.titleTextView.setText(title);
+				holder.contentTextView.setText(contentPreview!=null ? contentPreview : content);
 			} else {
-				titleTextView.setText(c.getString(3));
-				contentTextView.setText(c.getString(3));
+				holder.titleTextView.setText(content);
+				holder.contentTextView.setText(content);
 			}
 
-			String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(new Date(c.getLong(6)));
-
-			dateTextView.setText(formattedDate);
-
+			holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
+			if (mShowDate) {
+				java.util.Date dtDisplay = new Date(modDateLong);
+				String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(dtDisplay);
+				holder.dateTextView.setText(formattedDate);
+			}
+			
 			return view;
 		}
 
 		public void onObjectRemoved(String key, Note object) {
+			Log.d(Simplenote.TAG, "Object removed, reload list view");
 			refreshUI();
 		}
 
 		public void onObjectUpdated(String key, Note object) {
+			Log.d(Simplenote.TAG, "Object updated, reload list view");
 			refreshUI();
 		}
 
 		public void onObjectAdded(String key, Note object) {
-			Log.d("Simplenote", "Object added, reload list view");
+			Log.d(Simplenote.TAG, "Object added, reload list view");
 			refreshUI();
 		}
 
@@ -324,14 +333,24 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 			});
 		}
 	}
+	
+	// view holder for NotesCursorAdapter
+	private static class NoteViewHolder {
+		TextView titleTextView;
+		TextView contentTextView;
+		TextView dateTextView;
+		ImageView pinImageView;
+	}
 
 	public void searchNotes(String searchString) {
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.searchNotes(searchString);
 		// TODO Revisit this as this doesn't seem like the right way to change the cursor
-		mNotesAdapter.c = cursor;
-		mNotesAdapter.swapCursor(cursor);
+		//mNotesAdapter.c = cursor;
+		//mNotesAdapter.swapCursor(cursor);
+		// nbradbury - changeCursor() does what we need
+		mNotesAdapter.changeCursor(cursor);
 	}
 
 	@Override
@@ -340,6 +359,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		
+		// TODO: nbradbury - get rid of magic numbers here
 		if (itemPosition == 0) {
 			// All notes
 			cursor = db.fetchAllNotes(getActivity().getBaseContext());
@@ -352,8 +372,10 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		
 		if (cursor != null) {
 			// TODO Revisit this as this doesn't seem like the right way to change the cursor
-			mNotesAdapter.c = cursor;
-			mNotesAdapter.swapCursor(cursor);
+			//mNotesAdapter.c = cursor;
+			//mNotesAdapter.swapCursor(cursor);
+			// nbradbury - changeCursor() does what we need
+			mNotesAdapter.changeCursor(cursor);
 		}
 		
 		return true;

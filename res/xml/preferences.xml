@@ -7,7 +7,12 @@
         <Preference
             android:key="pref_key_sign_out"
             android:title="@string/sign_out" />
+        <Preference
+            android:key="pref_key_billing"
+            android:persistent="false"
+            android:title="@string/premium_title" />
     </PreferenceCategory>
+    
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/preferences" >
@@ -33,7 +38,7 @@
             android:key="pref_key_font_size"
             android:title="@string/font_size" />
         <ListPreference
-            android:defaultValue="@string/modified_date"
+            android:defaultValue="0"
             android:entries="@array/array_sort_order"
             android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"

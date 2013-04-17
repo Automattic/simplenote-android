@@ -3,11 +3,6 @@ package com.automattic.simplenote;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
-
-import java.util.Arrays;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
@@ -17,7 +12,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.automattic.simplenote.models.Note;
-import com.simperium.client.Bucket;
 import com.simperium.client.LoginActivity;
 import com.simperium.client.Simperium;
 import com.simperium.client.User;
@@ -45,16 +39,12 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
-	private Bucket<Note> mNotesBucket;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note_list);
 		
-        Simplenote application = (Simplenote)getApplication();
-		mNotesBucket = application.getNotesBucket();
-
 		ActionBar ab = getSupportActionBar();
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ab.setDisplayShowTitleEnabled(false);
@@ -69,8 +59,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((NoteListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.note_list)).setActivateOnItemClick(true);
+			getNoteListFragment().setActivateOnItemClick(true);
 		}
 
 		Simplenote currentApp = (Simplenote) getApplication();
@@ -80,6 +69,11 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		currentApp.getSimperium().setAuthenticationListener(this);
 	}
 
+	// nbradbury 01-Apr-2013
+	private NoteListFragment getNoteListFragment() {
+		return ((NoteListFragment) getSupportFragmentManager().findFragmentById(R.id.note_list));
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -95,19 +89,15 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
 	        @Override
 	        public boolean onQueryTextChange(String newText) {
-	            if (newText != null) {
-	            	((NoteListFragment) getSupportFragmentManager().findFragmentById(
-	    					R.id.note_list)).searchNotes(newText);
-	            }
+	            if (newText != null) 
+	            	getNoteListFragment().searchNotes(newText);
 	            return true;
 	        }
 
 	        @Override
 	        public boolean onQueryTextSubmit(String queryText) {
-	        	if (queryText != null) {
-	        		((NoteListFragment) getSupportFragmentManager().findFragmentById(
-	    					R.id.note_list)).searchNotes(queryText);
-	            }
+	        	if (queryText != null) 
+	        		getNoteListFragment().searchNotes(queryText);
 	            return true;
 	        }
 	    });
@@ -117,17 +107,18 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		if (item.getItemId() == R.id.menu_preferences) {
+		switch (item.getItemId()) {
+		case R.id.menu_preferences :
+			// nbradbury - use startActivityForResult so onActivityResult can detect when user returns from preferences
 			Intent i = new Intent(this, PreferencesActivity.class);
-			this.startActivity(i);
-		} else if (item.getItemId() == R.id.menu_create_note) {			
-			NoteListFragment noteListFragment = ((NoteListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.note_list));
-			noteListFragment.addNote();
+			startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+			return true;
+		case R.id.menu_create_note :
+			getNoteListFragment().addNote();
+			return true;
+		default :
+			return super.onOptionsItemSelected(item);
 		}
-		
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**
@@ -176,14 +167,24 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
 	}
 	
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		 if (requestCode == Simperium.SIGNUP_SIGNIN_REQUEST) {
-			 if (resultCode == RESULT_CANCELED) {
+		switch (requestCode) {
+		case Simperium.SIGNUP_SIGNIN_REQUEST :
+			if (resultCode == RESULT_CANCELED) 
 				 finish();
-			 }
-		 }
+			break;
+		case Simplenote.INTENT_PREFERENCES :
+			// nbradbury - refresh note list when user returns from preferences (in case they changed anything)
+			NoteListFragment fragment = getNoteListFragment();
+			if (fragment!=null) {
+				fragment.getPrefs();
+				fragment.refreshList();
+			}
+			break;
+		}
 	}
 	
 	

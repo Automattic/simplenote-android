@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:background="@drawable/selectable_background_simplestyle" >
+    android:background="@drawable/selectable_background_simplestyle"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large" >
 
-    <!--  <CheckBox
+    <!--
+          <CheckBox
         android:id="@+id/noteCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_centerVertical="true" />-->
-
-    <LinearLayout
-        android:id="@+id/noteTextWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/note_title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#222222"
-            android:textSize="20sp"
-            android:maxLines="2" />
-
-        <TextView
-            android:id="@+id/note_content"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#777777"
-            android:maxLines="2" />
-    </LinearLayout>
+        android:layout_centerVertical="true" />
+    -->
 
     <TextView
         android:id="@+id/note_date"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#777777"
-        android:gravity="top|right"
-        android:layout_marginTop="4dp" />
-    
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/padding_extra_small"
+        android:layout_marginTop="@dimen/padding_extra_small"
+        android:text="note_date"
+        android:textColor="#777777" />
+
     <ImageView
         android:id="@+id/note_pin"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/ic_item_list_default_pin"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignTop="@+id/note_date"
+        android:layout_marginRight="@dimen/padding_extra_small"
+        android:src="@drawable/ic_item_list_default_pin_active" />
+
+    <TextView
+        android:id="@+id/note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/note_date"
+        android:layout_toRightOf="@+id/note_pin"
+        android:maxLines="1"
+        android:text="note_title"
+        android:textColor="#222222"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/note_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/note_title"
+        android:maxLines="2"
+        android:text="note_content"
+        android:textColor="#777777" />
+
 </RelativeLayout>

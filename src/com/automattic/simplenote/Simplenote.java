@@ -1,21 +1,28 @@
 package com.automattic.simplenote;
 
-import com.automattic.simplenote.models.*;
-
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.simperium.client.*;
-
-import android.util.Log;
 import android.app.Application;
+import android.util.Log;
+
+import com.automattic.simplenote.R;
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
+import com.simperium.client.Bucket;
+import com.simperium.client.Simperium;
 
 public class Simplenote extends Application {
 	
-	public static final String TAG="Simplenote";
+	// log tag
+	public static final String TAG = "Simplenote";
 	
-	private static final String SIMPERIUM_APP_CONFIG_KEY="simperium.appid";
-	private static final String SIMPERIUM_KEY_CONFIG_KEY="simperium.key";
+	private static final String SIMPERIUM_APP_CONFIG_KEY = "simperium.appid";
+	private static final String SIMPERIUM_KEY_CONFIG_KEY = "simperium.key";
+	
+	// intent IDs
+	public static final int INTENT_PREFERENCES  = 1;
+	public static final int INTENT_BILLING		= 2;
 	
 	private Properties mConfig;
 	private Simperium mSimperium;
@@ -44,7 +51,7 @@ public class Simplenote extends Application {
 		// Start the bucket sockets
 		mNotesBucket.start();
 		mTagsBucket.start();
-		Log.d("Simplenote", "Simplenote launched");
+		Log.d(Simplenote.TAG, "Simplenote launched");
 	}
 	
 	public NoteDB getNoteDB(){

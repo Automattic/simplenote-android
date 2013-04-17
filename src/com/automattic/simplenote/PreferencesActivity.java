@@ -1,12 +1,16 @@
 package com.automattic.simplenote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 
+import com.automattic.simplenote.R;
+
 public class PreferencesActivity extends PreferenceActivity {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,6 +23,15 @@ public class PreferencesActivity extends PreferenceActivity {
 				
                 Simplenote application = (Simplenote)getApplication();
                 application.getSimperium().deAuthorizeUser();
+				return true;
+			}
+		});
+		
+		findPreference("pref_key_billing").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(PreferencesActivity.this, BillingActivity.class);
+                PreferencesActivity.this.startActivityForResult(intent, Simplenote.INTENT_BILLING);
 				return true;
 			}
 		});

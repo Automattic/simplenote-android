@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,21 +10,17 @@ import org.json.JSONException;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
+import android.database.sqlite.SQLiteDoneException;
 import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.StorageProvider;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
 
 public class NoteDB {
 
@@ -97,7 +94,7 @@ public class NoteDB {
 	boolean update(Note note) {
 		if (note == null)
 			return false;
-
+		
 		ContentValues values = new ContentValues();
 		values.put("simperiumKey", note.getSimperiumKey());
 		values.put("title", note.getTitle());
@@ -114,6 +111,18 @@ public class NoteDB {
 
 		return db.update(NOTES_TABLE, values, "simperiumKey=?", new String[] { note.getSimperiumKey() }) > 0;
 	}
+	
+	// nbradbury - returns true if passed note exists
+	boolean exists(Note note) {
+		if (note==null)
+			return false;
+		try {
+			long value = DatabaseUtils.longForQuery(db, "SELECT 1 FROM " + NOTES_TABLE + " WHERE simperiumKey=?", new String[]{note.getSimperiumKey()});
+			return (value==1);
+		} catch (SQLiteDoneException e) {
+			return false;
+		}
+	}
 
 	boolean update(Tag tag) {
 		if (tag == null)
@@ -127,6 +136,18 @@ public class NoteDB {
 		return db.update(TAGS_TABLE, values, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
 	}
 
+	// nbradbury - returns true if passed tag exists
+	boolean exists(Tag tag) {
+		if (tag==null)
+			return false;
+		try {
+			long value = DatabaseUtils.longForQuery(db, "SELECT 1 FROM " + TAGS_TABLE + " WHERE simperiumKey=?", new String[]{tag.getSimperiumKey()});
+			return (value==1);
+		} catch (SQLiteDoneException e) {
+			return false;
+		}
+	}
+	
 	boolean delete(Note note) {
 		if (note == null)
 			return false;
@@ -155,20 +176,20 @@ public class NoteDB {
 
 	public Cursor fetchNotes(Context context, boolean deleted, String tagName) {
 
-		// Get sort preference
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-		int sortPref = Integer.parseInt(sharedPref.getString("pref_key_sort_order", "0"));
+		// get sort preference, default to sorting by modified date
+		int sortPref = PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER);
 		String orderBy = "modificationDate DESC";
 
 		String whereClause = "deleted = ?";
 		String[] whereArgs = new String[] { deleted ? "1" : "0" };
 		if (tagName == null) {
+			// nbradbury - changed content sorting to use COLLATE NOCASE for case-insensitive sorting
 			switch (sortPref) {
 			case 1:
 				orderBy = "creationDate DESC";
 				break;
 			case 2:
-				orderBy = "content ASC";
+				orderBy = "content COLLATE NOCASE ASC";
 				break;
 			case 3:
 				orderBy = "modificationDate ASC";
@@ -177,7 +198,7 @@ public class NoteDB {
 				orderBy = "creationDate ASC";
 				break;
 			case 5:
-				orderBy = "content DESC";
+				orderBy = "content COLLATE NOCASE DESC";
 				break;
 			}
 		} else {
@@ -191,7 +212,7 @@ public class NoteDB {
 		// if (cursor != null) {
 		// cursor.moveToFirst();
 		// }
-		Log.d("Simplenote", String.format("Found %d notes", cursor.getCount()));
+		Log.d(Simplenote.TAG, String.format("Found %d notes", cursor.getCount()));
 
 		return cursor;
 	}
@@ -209,7 +230,7 @@ public class NoteDB {
 			c.moveToNext();
 		}
 		c.close();
-		Log.d("Simplenote", String.format("Found %d tags", c.getCount()));
+		Log.d(Simplenote.TAG, String.format("Found %d tags", c.getCount()));
 
 		return tags;
 	}
@@ -277,32 +298,46 @@ public class NoteDB {
 		return new SimperiumStore();
 	}
 
-	private static final String TAG = "Simplenote";
-
 	private class SimperiumStore implements StorageProvider {
 		/**
 		 * Store bucket object data
 		 */
 		public void addObject(Bucket bucket, String key, Bucket.Syncable object) {
 			if (object instanceof Note) {
-				Log.d(TAG, String.format("Adding note %s", object));
+				Log.d(Simplenote.TAG, String.format("Adding note %s", object));
 				create((Note) object);
 			} else if (object instanceof Tag) {
-				Log.d(TAG, String.format("Adding tag %s", object));
+				Log.d(Simplenote.TAG, String.format("Adding tag %s", object));
 				create((Tag) object);
 			}
 		}
 
 		public void updateObject(Bucket bucket, String key, Bucket.Syncable object) {
 			if (object instanceof Note) {
-				update((Note) object);
+				Note note = (Note)object;
+				// nbradbury - create note if it doesn't exist - added after noticing that addNote() in NoteListFragment was triggering this method (updateObject) even though
+				// it should've triggered addObject() since it's a new note - TODO: determine why this is happening so we can avoid exists() every time updateObject is called
+				if (!exists(note)) {
+					Log.d(Simplenote.TAG, String.format("Adding rather than updating note %s", object));
+					create(note);
+				} else {
+					Log.d(Simplenote.TAG, String.format("Updating note %s", object));
+					update(note);
+				}
 			} else if (object instanceof Tag) {
-				update((Tag) object);
+				// nbradbury - create tag if it doesn't exist
+				Tag tag = (Tag)object;
+				if (!exists(tag)) {
+					Log.d(Simplenote.TAG, String.format("Adding rather than updating tag %s", object));
+				} else {
+					Log.d(Simplenote.TAG, String.format("Updating tag %s", object));
+					update(tag);
+				}
 			}
 		}
 
 		public void removeObject(Bucket bucket, String key) {
-			Log.d(TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
+			Log.d(Simplenote.TAG, String.format("Time to remove %s in %s", key, bucket.getName()));
 		}
 
 		/**
