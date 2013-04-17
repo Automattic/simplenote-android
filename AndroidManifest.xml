@@ -9,24 +9,25 @@
         android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Simplenote"
-        android:name="com.automattic.simplenote.Simplenote">
+		android:hardwareAccelerated="true"
+        android:name=".Simplenote">
         <activity
-            android:name="com.automattic.simplenote.NoteListActivity"
+            android:name=".NoteListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.NoteEditorActivity"
+            android:name=".NoteEditorActivity"
             android:label="@string/title_note_detail"
             android:parentActivityName=".NoteListActivity" >
             <meta-data
@@ -34,7 +35,7 @@
                 android:value=".NoteListActivity" />
         </activity>
         <activity android:name="com.simperium.client.LoginActivity"></activity>
-        <activity android:name="PreferencesActivity"></activity>
+        <activity android:name=".PreferencesActivity"></activity>
     </application>
 
 </manifest>
