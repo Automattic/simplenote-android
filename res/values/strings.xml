@@ -8,7 +8,6 @@
     <string name="share">Share</string>
     <string name="info">Info</string>
     <string name="delete">Delete</string>
-    <string name="preferences">Preferences</string>
     <string name="new_note">Add Note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
@@ -24,4 +23,19 @@
     
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
+    
+    <!-- in-app billing -->
+	<string name="btn_buy">Buy</string>
+    <string name="premium_title">Go Premium!</string>
+    <string name="premium_subtitle">Become a Premium subscriber to get rid of ads and gain more features</string>
+    <string name="premium_link_title">Tell me more about Premium</string>
+    <string name="premium_link_url">http://simplenote.com/premium/</string>
+    <string name="premium_add">Add 12 Months</string>
+    <string name="premium_price">$19.99 US</string>
+    <string name="billing_err_subscription_not_supported">Sorry, subscriptions are not supported on your device yet.</string>
+    <string name="billing_err_setup_failed">Sorry, there was a problem setting up in-app purchasing (%s)</string>
+	<string name="billing_err_query_inventory_failed">Sorry, there was a problem querying in-app purchasing (%s)</string>
+	<string name="billing_err_purchasing">Sorry, there was a problem purchasing a subscription (%s)</string>
+	<string name="billing_err_payload_verification_failed">Unable to verify subscription purchase</string>
+	<string name="billing_toast_purchase_success">Thank you for subscribing to Simplenote!</string>
 </resources>

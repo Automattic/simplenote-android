@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	nbradbury - basic color values
+ -->
+<resources>
+	<color name="translucent">#80000000</color>
+	<color name="transparent">#00000000</color>
+
+	<!-- percentages of white -->
+	<color name="white">#ffffff</color>
+	<color name="white_95">#f2f2f2</color>	<!-- 95% white -->
+	<color name="white_90">#e6e6e6</color>	<!-- 90% white -->
+	<color name="white_85">#d8d8d8</color>	<!-- 85% white -->
+	<color name="white_75">#bfbfbf</color>	<!-- 75% white -->
+	<color name="white_70">#b2b2b2</color>	<!-- 70% white -->
+	<color name="white_65">#a6a6a6</color>	<!-- 65% white -->
+	<color name="white_50">#808080</color>	<!-- 50% white -->
+	<color name="white_35">#595959</color>	<!-- 35% white -->
+	<color name="white_25">#404040</color>	<!-- 25% white -->
+	
+	<color name="black">#000000</color>
+	<color name="lightblue">#e3f5ff</color>
+	<color name="mediumblue">#4f86ff</color> 
+	<color name="darkgrey">#303030</color>
+	<color name="mediumgrey">#7a7a7a</color>
+	<color name="grey">#969696</color>
+	<color name="lightgrey">#cccccc</color>
+	<color name="verylightgrey">#eeeeee</color>
+
+	<color name="red">#ff0000</color>
+	<color name="yellow">#ffffff00</color>
+	<color name="darkblue">#000080</color>
+	<color name="blue">#0000ff</color>
+	
+	<!-- 
+		holo theme colors - copied here so they can be used on pre-holo devices
+		https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/colors.xml
+	 -->
+	 <!-- A light Holo shade of blue -->
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <!-- A light Holo shade of green -->
+    <color name="holo_green_light">#ff99cc00</color>
+    <!-- A light Holo shade of red -->
+    <color name="holo_red_light">#ffff4444</color>
+    <!-- A dark Holo shade of blue -->
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <!-- A dark Holo shade of green -->
+    <color name="holo_green_dark">#ff669900</color>
+    <!-- A dark Holo shade of red -->
+    <color name="holo_red_dark">#ffcc0000</color>
+    <!-- A Holo shade of purple -->
+    <color name="holo_purple">#ffaa66cc</color>
+    <!-- A light Holo shade of orange -->
+    <color name="holo_orange_light">#ffffbb33</color>
+    <!-- A dark Holo shade of orange -->
+    <color name="holo_orange_dark">#ffff8800</color>
+    <!-- A really bright Holo shade of blue -->
+    <color name="holo_blue_bright">#ff00ddff</color>
+</resources>
