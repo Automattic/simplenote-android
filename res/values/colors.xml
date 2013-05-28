@@ -26,6 +26,7 @@
 	<color name="grey">#969696</color>
 	<color name="lightgrey">#cccccc</color>
 	<color name="verylightgrey">#eeeeee</color>
+    <color name="almost_white">#f7f7f7</color>
 
 	<color name="red">#ff0000</color>
 	<color name="yellow">#ffffff00</color>

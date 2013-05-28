@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
@@ -92,7 +93,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		
+
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
 		String[] columns = new String[] { "content", "content", "creationDate" };
@@ -106,8 +107,16 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 
 		mNotesBucket.addListener(mNotesAdapter);
 	}
-	
-	// nbradbury - load values from preferences
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
+        getListView().setDividerHeight(1);
+        getListView().setBackgroundColor(getResources().getColor(R.color.almost_white));
+    }
+
+    // nbradbury - load values from preferences
 	protected void getPrefs() {
 		mNumPreviewLines = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_NUM_PREVIEW_LINES, 2);
 		mShowDate = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_SHOW_DATES, true);
@@ -302,9 +311,9 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 
 			holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
 			if (mShowDate) {
-				java.util.Date dtDisplay = new Date(modDateLong);
-				String formattedDate = android.text.format.DateFormat.getTimeFormat(context).format(dtDisplay);
-				holder.dateTextView.setText(formattedDate);
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(modDateLong * 1000);
+				holder.dateTextView.setText(Note.dateString(cal, true));
 			}
 			
 			return view;

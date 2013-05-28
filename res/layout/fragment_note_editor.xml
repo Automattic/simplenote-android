@@ -9,7 +9,8 @@
 	<LinearLayout
 		android:layout_width="fill_parent"
        	android:layout_height="wrap_content"
-       	android:orientation="vertical" >            
+       	android:orientation="vertical"
+        android:background="@color/almost_white">
 
 	    <LinearLayout
 			android:layout_width="fill_parent"
@@ -57,9 +58,11 @@
 			android:layout_width="fill_parent"
 			android:layout_height="0dp"
 			android:layout_weight="1"
-			android:ems="10"
 			android:gravity="top"
 			android:padding="16dp"
+            android:textColor="#464646"
+            android:textSize="20sp"
+            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"
 			tools:context=".NoteEditorFragment" />
    </LinearLayout>

@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:background="@drawable/selectable_background_simplestyle"
     android:paddingLeft="@dimen/padding_large"
-    android:paddingRight="@dimen/padding_large" >
+    android:paddingRight="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_small"
+    android:paddingBottom="@dimen/padding_small">
 
     <!--
           <CheckBox
@@ -22,7 +24,8 @@
         android:layout_marginLeft="@dimen/padding_extra_small"
         android:layout_marginTop="@dimen/padding_extra_small"
         android:text="note_date"
-        android:textColor="#777777" />
+        android:textColor="#777777"
+        android:fontFamily="sans-serif-condensed"/>
 
     <ImageView
         android:id="@+id/note_pin"
@@ -50,6 +53,8 @@
         android:layout_below="@+id/note_title"
         android:maxLines="2"
         android:text="note_content"
-        android:textColor="#777777" />
+        android:textColor="#777777"
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"/>
 
 </RelativeLayout>

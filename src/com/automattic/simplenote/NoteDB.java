@@ -67,8 +67,8 @@ public class NoteDB {
 		values.put("title", note.getTitle());
 		values.put("content", note.getContent());
 		values.put("contentPreview", note.getContentPreview());
-		values.put("creationDate", note.getCreationDate().getTimeInMillis());
-		values.put("modificationDate", note.getModificationDate().getTimeInMillis());
+		values.put("creationDate", note.getCreationDate().getTimeInMillis() / 1000);
+		values.put("modificationDate", note.getModificationDate().getTimeInMillis() / 1000);
 		values.put("deleted", note.isDeleted());
 		values.put("lastPosition", note.getLastPosition());
 		values.put("pinned", note.isPinned());
@@ -100,8 +100,8 @@ public class NoteDB {
 		values.put("title", note.getTitle());
 		values.put("content", note.getContent());
 		values.put("contentPreview", note.getContentPreview());
-		values.put("creationDate", note.getCreationDate().getTimeInMillis());
-		values.put("modificationDate", note.getModificationDate().getTimeInMillis());
+		values.put("creationDate", note.getCreationDate().getTimeInMillis() / 1000);
+		values.put("modificationDate", note.getModificationDate().getTimeInMillis() / 1000);
 		values.put("deleted", note.isDeleted());
 		values.put("lastPosition", note.getLastPosition());
 		values.put("pinned", note.isPinned());
