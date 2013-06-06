@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_search"
+        android:actionViewClass="com.actionbarsherlock.widget.SearchView"
+        android:icon="@drawable/ic_ab_item_default_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/search" />
+    <item
+            android:id="@+id/menu_share"
+            android:showAsAction="ifRoom"
+            android:icon="@drawable/ab_icon_share"
+            android:title="@string/share"/>
+    <item
+        android:id="@+id/menu_create_note"
+        android:icon="@drawable/ic_ab_default_content_new"
+        android:showAsAction="always"
+        android:title="@string/new_note"/>
+    <item
+        android:id="@+id/menu_preferences"
+        android:showAsAction="never"
+        android:title="@string/preferences"/>
+    <item
+        android:id="@+id/menu_info"
+        android:showAsAction="never"
+        android:title="@string/info"/>
+    <item
+        android:id="@+id/menu_delete"
+        android:showAsAction="never"
+        android:title="@string/delete"/>
+        
+</menu>

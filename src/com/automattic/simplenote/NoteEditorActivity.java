@@ -22,14 +22,14 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
         // If we are in two-pane layout mode, this activity is no longer necessary
         if (getResources().getBoolean(R.bool.has_two_panes)) {
             finish();
             return;
         }
 
-		setContentView(R.layout.activity_note_editor);
+        setContentView(R.layout.activity_note_editor);
 
 		// Show the Up button in the action bar.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,10 +53,10 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 			getSupportFragmentManager().beginTransaction().add(R.id.note_detail_container, fragment).commit();
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean twoPane = findViewById(R.id.note_detail_container) != null;
+		boolean twoPane = getResources().getBoolean(R.bool.has_two_panes);
 
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getSupportMenuInflater();
@@ -80,6 +80,15 @@ public class NoteEditorActivity extends SherlockFragmentActivity {
 			//
 			NavUtils.navigateUpTo(this, new Intent(this, NoteListActivity.class));
 			return true;
+            case R.id.menu_share:
+               NoteEditorFragment noteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentById(R.id.note_detail_container);
+                if (noteEditorFragment != null) {
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, noteEditorFragment.getNoteContent());
+                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                }
+                return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

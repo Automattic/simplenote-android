@@ -159,4 +159,8 @@ public class NoteEditorFragment extends SherlockFragment {
 			}
 		}
 	}
+
+    public String getNoteContent() {
+        return mNote.getContent();
+    }
 }

@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.automattic.simplenote.models.Note;
+import com.simperium.client.Bucket;
 import com.simperium.client.LoginActivity;
 import com.simperium.client.Simperium;
 import com.simperium.client.User;
@@ -67,6 +68,23 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 			startLoginActivity();
 		}
 		currentApp.getSimperium().setAuthenticationListener(this);
+
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            // Check share action
+            Intent intent = getIntent();
+            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            if (text != null) {
+                Simplenote simplenote = (Simplenote) getApplication();
+                Bucket<Note> notesBucket = simplenote.getNotesBucket();
+                Note note = notesBucket.newObject();
+                note.setContent(text);
+                if (title != null)
+                    note.setTitle(title);
+                note.save();
+                onNoteSelected(note);
+            }
+        }
 	}
 
 	// nbradbury 01-Apr-2013
@@ -78,12 +96,7 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getSupportMenuInflater();
-		
-		if (mTwoPane) {
-			inflater.inflate(R.menu.notes_list_twopane, menu);
-		} else {
-			inflater.inflate(R.menu.notes_list, menu);
-		}
+		inflater.inflate(R.menu.notes_list, menu);
 		
 		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 	    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
@@ -116,6 +129,15 @@ public class NoteListActivity extends SherlockFragmentActivity implements
 		case R.id.menu_create_note :
 			getNoteListFragment().addNote();
 			return true;
+        case R.id.menu_share:
+            NoteEditorFragment noteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentById(R.id.note_detail_container);
+            if (noteEditorFragment != null) {
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, noteEditorFragment.getNoteContent());
+                startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+            }
+            return true;
 		default :
 			return super.onOptionsItemSelected(item);
 		}

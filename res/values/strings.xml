@@ -16,6 +16,7 @@
     <string name="font_size">Font size</string>
     <string name="normal">Normal</string>
     <string name="preview_lines">Preview lines</string>
+    <string name="share_note">Share Note</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>
@@ -23,6 +24,7 @@
     
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
+
     
     <!-- in-app billing -->
 	<string name="btn_buy">Buy</string>
