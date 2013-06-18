@@ -112,7 +112,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
         super.onActivityCreated(savedInstanceState);
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
-        getListView().setBackgroundColor(getResources().getColor(R.color.almost_white));
+        getListView().setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     // nbradbury - load values from preferences

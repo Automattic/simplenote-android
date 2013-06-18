@@ -3,40 +3,32 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/note_editor"
 	android:layout_width="fill_parent"
-	android:layout_height="match_parent"	
+	android:layout_height="match_parent"
 	android:fillViewport="true"
 	android:fadingEdge="none" >
 	<LinearLayout
 		android:layout_width="fill_parent"
        	android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
        	android:orientation="vertical"
-        android:background="@color/almost_white">
+        android:background="@color/white">
 
-	    <LinearLayout
-			android:layout_width="fill_parent"
-	       	android:layout_height="wrap_content"
-	       	android:orientation="horizontal"
-	       	android:gravity="center_horizontal"
-	       	android:paddingLeft="16dp"
-	       	android:paddingRight="16dp"
-	       	android:paddingTop="16dp" > 
-	       	
-	        <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
 	        <LinearLayout
-			    android:focusable="true" android:focusableInTouchMode="true"
-    			android:layout_width="0px" android:layout_height="0px"
-                android:divider="?android:attr/dividerVertical"
-                android:showDividers=""
-                android:orientation="horizontal"/>
-	    
+			    android:focusable="true"
+                android:focusableInTouchMode="true"
+    			android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
 	    	<MultiAutoCompleteTextView
 		        android:id="@+id/tag_view"
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
-		        android:ems="10"
+                android:layout_weight="1"
 		        android:hint="@string/tag_hint"
-		        android:adjustViewBounds="true"
 		        android:completionThreshold="1"
 		        android:textColor="@color/gray"
         		android:inputType="textNoSuggestions"
@@ -46,15 +38,13 @@
 
 	    	<ToggleButton
 	    	    android:id="@+id/pinButton"
-	    	    android:layout_width="32dp"
-	    	    android:layout_height="32dp"
-	    	    android:layout_marginLeft="16dp"
+	    	    android:layout_width="20dp"
+	    	    android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
 	    	    android:textOn=""
 	    	    android:textOff=""
 	    	    android:background="@drawable/pin_bg_selector" />
-		    
-		</LinearLayout>
-
+        </LinearLayout>
      	<EditText
 			android:id="@+id/note_content"
 			style="?android:attr/textAppearanceLarge"
@@ -63,8 +53,8 @@
 			android:layout_weight="1"
             android:fontFamily="sans-serif-light"
 			android:gravity="top"
-			android:padding="16dp"
-            android:textColor="#464646"
+			android:paddingTop="8dp"
+            android:textColor="@color/darkgrey"
             android:textSize="20sp"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"

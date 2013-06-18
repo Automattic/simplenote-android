@@ -67,15 +67,6 @@ public class NoteEditorFragment extends SherlockFragment {
         mTagView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
 
-        mPinButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if (mNote != null && mNote.isPinned() != checked) {
-                    mNote.setPinned(checked);
-                }
-            }
-        });
-
 		refreshContent();
 		
 		// Populate tag list
@@ -123,17 +114,17 @@ public class NoteEditorFragment extends SherlockFragment {
 	@Override
 	public void onPause() {
 		String content = mContentView.getText().toString();
-		String tagString = mTagView.getText().toString();
+		String tagString = mTagView.getText().toString().trim();
 		List<String> tagList = Arrays.asList(tagString.split(" "));
-		ArrayList<String> tags = new ArrayList<String>(tagList);
+		ArrayList<String> tags = tagString.equals("") ? new ArrayList<String>() : new ArrayList<String>(tagList);
 		
-		// TODO: nbradbury - detect whether note has been modified, don't bother saving if unchanged
 		// TODO: make sure any new tags get added to the Tag database
-        if (mNote != null && !mNote.isDeleted()) {
-            ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
+        if (mNote != null && !mNote.isDeleted() && mNote.hasChanges(content, tags, mPinButton.isChecked())) {
             mNote.setContent(content);
             mNote.setTags(tags);
             mNote.setModificationDate(Calendar.getInstance());
+            mNote.setPinned(mPinButton.isChecked());
+            ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
             mNote.save();
         }
 

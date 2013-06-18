@@ -30,7 +30,7 @@ public class Note extends Bucket.Object {
 	protected String shareURL;
 	protected String publishURL;
 
-	public static class Schema extends Bucket.Schema<Note> {
+    public static class Schema extends Bucket.Schema<Note> {
 		public Note build(String key, Map<String,Object>properties){
 			Note note = new Note(key, properties);
 			return note;
@@ -203,9 +203,9 @@ public class Note extends Bucket.Object {
 
 	public void setPinned(boolean isPinned) {
         if (isPinned)
-		    systemTags.remove("pinned");
+		    systemTags.add("pinned");
         else
-            systemTags.add("pinned");
+            systemTags.remove("pinned");
         pinned = isPinned;
 	}
 
@@ -259,4 +259,19 @@ public class Note extends Bucket.Object {
 
 		return retVal;
 	}
+
+    /**
+     * Check if the note has any changes
+     * @param content the new note content
+     * @param tags array of tags
+     * @param isPinned note is pinned
+     * @return true if note has changes, false if it is unchanged.
+     */
+    public boolean hasChanges(String content, ArrayList<String> tags, boolean isPinned) {
+
+        if (content.equals(this.getContent()) && tags.equals(this.getTags()) && this.isPinned() == isPinned)
+            return false;
+        else
+            return true;
+    }
 }

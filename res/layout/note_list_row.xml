@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:textSize="12sp"
         android:layout_marginLeft="@dimen/padding_extra_small"
         android:layout_marginTop="@dimen/padding_extra_small"
         android:text="note_date"
@@ -43,7 +44,7 @@
         android:layout_toRightOf="@+id/note_pin"
         android:maxLines="1"
         android:text="note_title"
-        android:textColor="#222222"
+        android:textColor="#464646"
         android:textSize="20sp" />
 
     <TextView
@@ -53,7 +54,7 @@
         android:layout_below="@+id/note_title"
         android:maxLines="2"
         android:text="note_content"
-        android:textColor="#777777"
+        android:textColor="@color/darkgrey"
         android:fontFamily="sans-serif-light"
         android:textSize="16sp"/>
 
