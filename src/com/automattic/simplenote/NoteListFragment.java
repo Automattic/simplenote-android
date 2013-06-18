@@ -3,24 +3,22 @@ package com.automattic.simplenote;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
@@ -34,7 +32,7 @@ import com.simperium.client.Bucket;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends SherlockListFragment implements OnNavigationListener {
+public class NoteListFragment extends ListFragment implements ActionBar.OnNavigationListener {
 
 	private NotesCursorAdapter mNotesAdapter;
 	private Bucket<Note> mNotesBucket;
@@ -232,9 +230,9 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
 		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
 
-		ActionBar ab = ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+        ActionBar ab = getActivity().getActionBar();
 		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
-		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), R.layout.sherlock_spinner_dropdown_item, mMenuItems);
+		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 	}
 

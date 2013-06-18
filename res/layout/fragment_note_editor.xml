@@ -30,7 +30,7 @@
                 android:layout_weight="1"
 		        android:hint="@string/tag_hint"
 		        android:completionThreshold="1"
-		        android:textColor="@color/gray"
+		        android:textColor="@color/mediumgrey"
         		android:inputType="textNoSuggestions"
 		        android:nextFocusUp="@id/tag_view"
 		        android:nextFocusLeft="@id/tag_view">

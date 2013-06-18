@@ -1,20 +1,18 @@
 package com.automattic.simplenote;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.simperium.client.Bucket;
@@ -39,30 +37,30 @@ import java.util.Calendar;
  * This activity also implements the required {@link NoteListFragment.Callbacks}
  * interface to listen for item selections.
  */
-public class NotesActivity extends SherlockFragmentActivity implements
-		NoteListFragment.Callbacks, OnNavigationListener, User.AuthenticationListener, UndoBarController.UndoListener, FragmentManager.OnBackStackChangedListener {
+public class NotesActivity extends Activity implements
+		NoteListFragment.Callbacks, ActionBar.OnNavigationListener, User.AuthenticationListener, UndoBarController.UndoListener, FragmentManager.OnBackStackChangedListener {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
-	private boolean mTwoPane, mHasSearchListeners;
+	private boolean mTwoPane;
     private UndoBarController mUndoBarController;
-    private NoteListFragment noteList;
     private SearchView mSearchView;
+    private NoteEditorFragment mNoteEditorFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notes);
-		
-		ActionBar ab = getSupportActionBar();
+
+		ActionBar ab = getActionBar();
 		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		ab.setDisplayShowTitleEnabled(false);
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        getFragmentManager().addOnBackStackChangedListener(this);
 
 		int orientation = getResources().getConfiguration().orientation;
 		if (getNoteEditorFragment() != null && orientation == Configuration.ORIENTATION_LANDSCAPE ) {
@@ -70,6 +68,7 @@ public class NotesActivity extends SherlockFragmentActivity implements
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			getNoteListFragment().setActivateOnItemClick(true);
+            mNoteEditorFragment = getNoteEditorFragment();
 		}
 
 		Simplenote currentApp = (Simplenote) getApplication();
@@ -95,19 +94,25 @@ public class NotesActivity extends SherlockFragmentActivity implements
         }
 	}
 
-	// nbradbury 01-Apr-2013
+    @Override
+    protected void onResume() {
+        super.onResume();
+        configureActionBar();
+    }
+
+    // nbradbury 01-Apr-2013
 	private NoteListFragment getNoteListFragment() {
-		return ((NoteListFragment) getSupportFragmentManager().findFragmentById(R.id.note_list));
+		return ((NoteListFragment) getFragmentManager().findFragmentById(R.id.note_list));
 	}
 
     private NoteEditorFragment getNoteEditorFragment() {
-        return ((NoteEditorFragment) getSupportFragmentManager().findFragmentById(R.id.noteEditorFragment));
+        return ((NoteEditorFragment) getFragmentManager().findFragmentById(R.id.noteEditorFragment));
     }
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.notes_list, menu);
 
         if (mSearchView == null) {
@@ -129,23 +134,23 @@ public class NotesActivity extends SherlockFragmentActivity implements
             });
         }
 
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setDisplayHomeAsUpEnabled(true);
             menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_preferences).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_delete).setVisible(true);
         } else if (mTwoPane) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getActionBar().setDisplayHomeAsUpEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_delete).setVisible(true);
         } else  {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getActionBar().setDisplayHomeAsUpEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -168,18 +173,16 @@ public class NotesActivity extends SherlockFragmentActivity implements
 			getNoteListFragment().addNote();
 			return true;
         case R.id.menu_share:
-            NoteEditorFragment noteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentById(R.id.noteEditorFragment);
-            if (noteEditorFragment != null) {
+            if (mNoteEditorFragment != null) {
                 Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, noteEditorFragment.getNoteContent());
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNoteEditorFragment.getNoteContent());
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
             }
             return true;
         case R.id.menu_delete:
-            NoteEditorFragment noteFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentById(R.id.noteEditorFragment);
-            if (noteFragment != null) {
-                Note note = noteFragment.getNote();
+            if (mNoteEditorFragment != null) {
+                Note note = mNoteEditorFragment.getNote();
                 if (note != null) {
                     note.setDeleted(true);
                     note.setModificationDate(Calendar.getInstance());
@@ -200,7 +203,7 @@ public class NotesActivity extends SherlockFragmentActivity implements
             return true;
         case android.R.id.home:
             popNoteDetail();
-            supportInvalidateOptionsMenu();
+            invalidateOptionsMenu();
             return true;
 		default :
 			return super.onOptionsItemSelected(item);
@@ -208,7 +211,7 @@ public class NotesActivity extends SherlockFragmentActivity implements
 	}
 
     protected void popNoteDetail() {
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         NoteEditorFragment f = (NoteEditorFragment) fm.findFragmentById(R.id.note_editor);
         if (f == null) {
             try {
@@ -227,17 +230,21 @@ public class NotesActivity extends SherlockFragmentActivity implements
 	public void onNoteSelected(Note note) {
 		String noteKey = note == null ? "none" : note.getSimperiumKey();
 
-        FragmentManager fm = getSupportFragmentManager();
-        NoteEditorFragment f = (NoteEditorFragment) fm.findFragmentById(R.id.noteEditorFragment);
+        FragmentManager fm = getFragmentManager();
+        NoteEditorFragment f = getNoteEditorFragment();
 
         if (f == null || !f.isInLayout()) {
+            ActionBar ab = getActionBar();
+            ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            ab.setDisplayShowTitleEnabled(true);
             FragmentTransaction ft = fm.beginTransaction();
             ft.hide(getNoteListFragment());
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteKey);
             f = new NoteEditorFragment();
             f.setArguments(arguments);
-            ft.add(R.id.noteEditorFragment, f);
+            mNoteEditorFragment = f;
+            ft.add(R.id.noteFragmentContainer, f);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();
@@ -246,7 +253,7 @@ public class NotesActivity extends SherlockFragmentActivity implements
             f.setNote(note);
         }
 
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
 	}
 
 	@Override
@@ -316,7 +323,21 @@ public class NotesActivity extends SherlockFragmentActivity implements
 
     @Override
     public void onBackStackChanged() {
-        supportInvalidateOptionsMenu();
+
+        configureActionBar();
+        invalidateOptionsMenu();
+    }
+
+    private void configureActionBar() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            ActionBar ab = getActionBar();
+            ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            ab.setDisplayShowTitleEnabled(true);
+        } else {
+            ActionBar ab = getActionBar();
+            ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+            ab.setDisplayShowTitleEnabled(false);
+        }
     }
 }
 

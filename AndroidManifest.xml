@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="13"
+        android:minSdkVersion="15"
         android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Simplenote"
+        android:theme="@style/Theme.Simplestyle"
 		android:hardwareAccelerated="true"
         android:name=".Simplenote">
         <activity
@@ -30,14 +30,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".NoteEditorActivity"
-            android:label="@string/title_note_detail"
-            android:parentActivityName=".NoteListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NoteListActivity" />
         </activity>
         <activity android:name="com.simperium.client.LoginActivity"></activity>
         <activity android:name=".BillingActivity"></activity>

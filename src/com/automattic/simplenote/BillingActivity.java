@@ -1,10 +1,12 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -12,15 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.automattic.simplenote.billing.IabHelper;
 import com.automattic.simplenote.billing.IabResult;
 import com.automattic.simplenote.billing.Inventory;
 import com.automattic.simplenote.billing.Purchase;
 import com.simperium.client.User;
 
-public class BillingActivity extends SherlockFragmentActivity {
+public class BillingActivity extends Activity {
 	
 	/***
 	 * in-app purchasing - added by nbradbury 01-Apr-2013 - still a work-in-progress (currently uses a test SKU)
@@ -57,7 +57,7 @@ public class BillingActivity extends SherlockFragmentActivity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		
 		setContentView(R.layout.activity_billing);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		// locate controls
 		Button btnBuy = (Button) findViewById(R.id.button_buy);

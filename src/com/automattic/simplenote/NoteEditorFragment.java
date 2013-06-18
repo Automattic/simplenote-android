@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -15,17 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.ToggleButton;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
 
-public class NoteEditorFragment extends SherlockFragment {
+public class NoteEditorFragment extends Fragment {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -39,6 +39,7 @@ public class NoteEditorFragment extends SherlockFragment {
 	private EditText mContentView;
 	private MultiAutoCompleteTextView mTagView;
     private ToggleButton mPinButton;
+    private boolean mShowNoteTitle;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,13 +52,16 @@ public class NoteEditorFragment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// TODO: nbradbury - what if ARG_ITEM_ID argument doesn't exist?
 		if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
 	        Simplenote application = (Simplenote)getActivity().getApplication();
 			Bucket<Note> notesBucket = application.getNotesBucket();
 			String key = getArguments().getString(ARG_ITEM_ID);			
-			mNote = (Note) notesBucket.get(key);
+			mNote = notesBucket.get(key);
 		}
+
+        NoteListFragment listFragment = (NoteListFragment)getFragmentManager().findFragmentById(R.id.note_list);
+        if (!listFragment.isVisible())
+            mShowNoteTitle = true;
 	}
 
 	@Override
@@ -108,6 +112,9 @@ public class NoteEditorFragment extends SherlockFragment {
             mTagView.setText(tagListString);
 
             mPinButton.setChecked(mNote.isPinned());
+
+            if (mShowNoteTitle)
+                getActivity().getActionBar().setTitle(mNote.getTitle());
         }
     }
 	
@@ -117,7 +124,7 @@ public class NoteEditorFragment extends SherlockFragment {
 		String tagString = mTagView.getText().toString().trim();
 		List<String> tagList = Arrays.asList(tagString.split(" "));
 		ArrayList<String> tags = tagString.equals("") ? new ArrayList<String>() : new ArrayList<String>(tagList);
-		
+
 		// TODO: make sure any new tags get added to the Tag database
         if (mNote != null && !mNote.isDeleted() && mNote.hasChanges(content, tags, mPinButton.isChecked())) {
             mNote.setContent(content);
@@ -132,10 +139,10 @@ public class NoteEditorFragment extends SherlockFragment {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(mContentView.getWindowToken(), 0);
-		
+
 		super.onPause();
 	}
-	
+
 	// Use spaces in tag autocompletion list
 	// From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
 	public class SpaceTokenizer implements Tokenizer {

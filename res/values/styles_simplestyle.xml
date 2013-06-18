@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File created by the Android Action Bar Style Generator
 
+     Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,43 +19,63 @@
 
 <resources>
 
-    <style name="Simplenote" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.Simplestyle" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Simplestyle</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_simplestyle</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
         
-        
+                <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Simplestyle.Widget</item>
+
     </style>
 
-    <style name="ActionBar.Solid.Simplestyle" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
+    <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_solid_simplestyle</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+        <item name="android:icon">@drawable/ab_icon_logo</item>
     </style>
 
-    <style name="ActionBar.Transparent.Simplestyle" parent="@style/Widget.Sherlock.Light.ActionBar">
+    <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@drawable/ab_transparent_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
     </style>
-	
-    <style name="PopupMenu.Simplestyle" parent="@style/Widget.Sherlock.Light.ListPopupWindow">	
+
+    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>	
     </style>
-	
-    <style name="DropDownListView.Simplestyle" parent="@style/Widget.Sherlock.Light.ListView.DropDown">
+
+    <style name="DropDownListView.Simplestyle" parent="@android:style/Widget.Holo.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_simplestyle</item>
     </style>
+
+    <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
+    </style>
+
+    <style name="DropDownNav.Simplestyle" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_simplestyle</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_simplestyle</item>
+    </style>
     
-    <style name="ProgressBar.Simplestyle" parent="@style/Widget.Sherlock.Light.ProgressBar.Horizontal">
+    <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
     </style>
     
+    <style name="ActionButton.CloseMode.Simplestyle" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_simplestyle</item>
+    </style>
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Simplestyle.Widget" parent="@style/Theme.Sherlock">
+    <style name="Theme.Simplestyle.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
     </style>

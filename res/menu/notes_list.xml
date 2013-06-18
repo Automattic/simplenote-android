@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/menu_search"
-        android:actionViewClass="com.actionbarsherlock.widget.SearchView"
-        android:icon="@drawable/ic_ab_item_default_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ab_icon_search"
         android:showAsAction="ifRoom|collapseActionView"
         android:title="@string/search" />
     <item
         android:id="@+id/menu_create_note"
-        android:icon="@drawable/ic_ab_default_content_new"
+        android:icon="@drawable/ab_icon_new"
         android:showAsAction="always"
         android:title="@string/new_note"/>
     <item

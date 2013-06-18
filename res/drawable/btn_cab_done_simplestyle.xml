@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File created by the Android Action Bar Style Generator
 
+     Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,11 @@
      limitations under the License.
 -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/pressed_simplestyle" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@drawable/btn_cab_done_pressed_simplestyle" />
+    <item android:state_focused="true" android:state_enabled="true"
+        android:drawable="@drawable/btn_cab_done_focused_simplestyle" />
+    <item android:state_enabled="true"
+        android:drawable="@drawable/btn_cab_done_default_simplestyle" />
+</selector>

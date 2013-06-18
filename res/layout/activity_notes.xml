@@ -25,7 +25,7 @@
                 android:layout_height="match_parent">
 
             <LinearLayout
-                    android:id="@+id/noteEditorFragment"
+                    android:id="@+id/noteFragmentContainer"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
