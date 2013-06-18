@@ -2,8 +2,10 @@ package com.automattic.simplenote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,21 +13,18 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
 
-
-/**
- * A fragment representing a single Note detail screen. This fragment is either
- * contained in a {@link NoteListActivity} in two-pane mode (on tablets) or a
- * {@link NoteEditorActivity} on handsets.
- */
 public class NoteEditorFragment extends SherlockFragment {
 	/**
 	 * The fragment argument representing the item ID that this fragment
@@ -39,6 +38,7 @@ public class NoteEditorFragment extends SherlockFragment {
 	private Note mNote;
 	private EditText mContentView;
 	private MultiAutoCompleteTextView mTagView;
+    private ToggleButton mPinButton;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,7 +52,7 @@ public class NoteEditorFragment extends SherlockFragment {
 		super.onCreate(savedInstanceState);
 
 		// TODO: nbradbury - what if ARG_ITEM_ID argument doesn't exist?
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
 	        Simplenote application = (Simplenote)getActivity().getApplication();
 			Bucket<Note> notesBucket = application.getNotesBucket();
 			String key = getArguments().getString(ARG_ITEM_ID);			
@@ -65,17 +65,18 @@ public class NoteEditorFragment extends SherlockFragment {
 		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
 		mContentView = ((EditText) rootView.findViewById(R.id.note_content));
         mTagView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
 
-		if (mNote != null) {
-			mContentView.setText(mNote.getContent());			
-			if (mNote.getContent().isEmpty()) 
-				mContentView.requestFocus();
-			// Populate this note's tags in the tagView - TODO: nbradbury - for a large list of tags, using a StringBuilder here would be more efficient
-	        String tagListString = "";
-	        for (String tag : mNote.getTags()) 
-	        	tagListString += tag + " ";
-	        mTagView.setText(tagListString);
-		}
+        mPinButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (mNote != null && mNote.isPinned() != checked) {
+                    mNote.setPinned(checked);
+                }
+            }
+        });
+
+		refreshContent();
 		
 		// Populate tag list
         Simplenote simplenote = (Simplenote)getActivity().getApplication();
@@ -88,6 +89,36 @@ public class NoteEditorFragment extends SherlockFragment {
         
 		return rootView;
 	}
+
+    public void setNote(Note note) {
+        mNote = note;
+        refreshContent();
+    }
+
+    public Note getNote() {
+        return mNote;
+    }
+
+    public void refreshContent() {
+        if (mNote != null) {
+            mContentView.setText(mNote.getContent());
+            if (mNote.getContent().isEmpty()) {
+                // Show soft keyboard
+                mContentView.requestFocus();
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null)
+                    inputMethodManager.showSoftInput(mContentView, 0);
+            }
+            // Populate this note's tags in the tagView - TODO: nbradbury - for a large list of tags, using a StringBuilder here would be more efficient
+            String tagListString = "";
+            for (String tag : mNote.getTags())
+                tagListString += tag + " ";
+            mTagView.setText(tagListString);
+
+            mPinButton.setChecked(mNote.isPinned());
+        }
+    }
 	
 	@Override
 	public void onPause() {
@@ -97,11 +128,19 @@ public class NoteEditorFragment extends SherlockFragment {
 		ArrayList<String> tags = new ArrayList<String>(tagList);
 		
 		// TODO: nbradbury - detect whether note has been modified, don't bother saving if unchanged
-		// TODO: nbradbury - handle mNote==null
 		// TODO: make sure any new tags get added to the Tag database
-		mNote.setContent(content);
-		mNote.setTags(tags);  
-		mNote.save();
+        if (mNote != null && !mNote.isDeleted()) {
+            ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
+            mNote.setContent(content);
+            mNote.setTags(tags);
+            mNote.setModificationDate(Calendar.getInstance());
+            mNote.save();
+        }
+
+        // Hide soft keyboard
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null)
+            inputMethodManager.hideSoftInputFromWindow(mContentView.getWindowToken(), 0);
 		
 		super.onPause();
 	}

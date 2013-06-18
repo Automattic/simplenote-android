@@ -24,7 +24,10 @@
 	        <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
 	        <LinearLayout
 			    android:focusable="true" android:focusableInTouchMode="true"
-    			android:layout_width="0px" android:layout_height="0px"/>
+    			android:layout_width="0px" android:layout_height="0px"
+                android:divider="?android:attr/dividerVertical"
+                android:showDividers=""
+                android:orientation="horizontal"/>
 	    
 	    	<MultiAutoCompleteTextView
 		        android:id="@+id/tag_view"
@@ -42,9 +45,9 @@
 		    </MultiAutoCompleteTextView>
 
 	    	<ToggleButton
-	    	    android:id="@+id/toggleButton1"
-	    	    android:layout_width="16dp"
-	    	    android:layout_height="16dp"
+	    	    android:id="@+id/pinButton"
+	    	    android:layout_width="32dp"
+	    	    android:layout_height="32dp"
 	    	    android:layout_marginLeft="16dp"
 	    	    android:textOn=""
 	    	    android:textOff=""

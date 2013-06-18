@@ -2,7 +2,6 @@ package com.automattic.simplenote;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -167,15 +166,18 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 
 		// Move cursor to this row
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
-		NoteDB db = simplenote.getNoteDB();
+		/*NoteDB db = simplenote.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity());
-		cursor.moveToPosition(position);
+		cursor.moveToPosition(position);*/
 
-		// Get the simperiumKey and retrieve the note via Simperium
-		String simperiumKey = cursor.getString(1);
-		Bucket<Note> notesBucket = simplenote.getNotesBucket();
-		Note note = notesBucket.get(simperiumKey);
-		mCallbacks.onNoteSelected(note);
+        NoteViewHolder noteViewHolder = (NoteViewHolder)view.getTag();
+        if (noteViewHolder != null && noteViewHolder.getNoteId() != null) {
+		    // Get the simperiumKey and retrieve the note via Simperium
+		    String simperiumKey = noteViewHolder.getNoteId();
+		    Bucket<Note> notesBucket = simplenote.getNotesBucket();
+		    Note note = notesBucket.get(simperiumKey);
+		    mCallbacks.onNoteSelected(note);
+        }
 	}
 
 	@Override
@@ -245,6 +247,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.newObject();
+        note.setCreationDate(Calendar.getInstance());
 		note.save(); 
 		
 		// refresh listview so new note appears
@@ -259,7 +262,6 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 	}
 
 	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {
-		//Cursor c; // nbradbury - removed - redundant, adapter already supplies getCursor()
 		Context context;
 
 		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
@@ -292,11 +294,12 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 			// TODO: nbradbury - get rid of magic numbers for column indexes
 			Cursor c = getCursor();
 			c.moveToPosition(position);
+            holder.setNoteId(c.getString(1));
 			String title = c.getString(2);
 			String content = c.getString(3);
 			String contentPreview = c.getString(4);
 			long modDateLong = c.getLong(6);
-			boolean isPinned = (c.getInt(10) > 0);
+			boolean isPinned = (c.getInt(9) > 0);
 			
 			// nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
 			holder.pinImageView.setVisibility(isPinned ? View.VISIBLE : View.GONE);
@@ -313,7 +316,7 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 			if (mShowDate) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(modDateLong * 1000);
-				holder.dateTextView.setText(Note.dateString(cal, true));
+				holder.dateTextView.setText(Note.dateString(cal, true, getActivity().getBaseContext()));
 			}
 			
 			return view;
@@ -349,22 +352,27 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 		TextView contentTextView;
 		TextView dateTextView;
 		ImageView pinImageView;
+        private String mNoteId;
+
+        public void setNoteId(String noteId) {
+            mNoteId = noteId;
+        }
+
+        public String getNoteId() {
+            return mNoteId;
+        }
 	}
 
 	public void searchNotes(String searchString) {
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.searchNotes(searchString);
-		// TODO Revisit this as this doesn't seem like the right way to change the cursor
-		//mNotesAdapter.c = cursor;
-		//mNotesAdapter.swapCursor(cursor);
-		// nbradbury - changeCursor() does what we need
 		mNotesAdapter.changeCursor(cursor);
 	}
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		Cursor cursor = null;
+		Cursor cursor;
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		
@@ -379,13 +387,8 @@ public class NoteListFragment extends SherlockListFragment implements OnNavigati
 			cursor = db.fetchNotesByTag(getActivity().getBaseContext(), mMenuItems[itemPosition]);
 		}
 		
-		if (cursor != null) {
-			// TODO Revisit this as this doesn't seem like the right way to change the cursor
-			//mNotesAdapter.c = cursor;
-			//mNotesAdapter.swapCursor(cursor);
-			// nbradbury - changeCursor() does what we need
+		if (cursor != null)
 			mNotesAdapter.changeCursor(cursor);
-		}
 		
 		return true;
 	}

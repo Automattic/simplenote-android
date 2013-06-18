@@ -7,10 +7,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Vector;
 
-import android.util.Log;
+import android.content.Context;
 
+import com.automattic.simplenote.R;
 import com.simperium.client.Bucket;
 
 public class Note extends Bucket.Object {
@@ -39,10 +39,15 @@ public class Note extends Bucket.Object {
 
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
-		
+
+        if (properties == null)
+            properties = new HashMap<String, Object>();
+
 		content = (String)properties.get("content");
 		if (content == null)
 			content = "";
+        else
+            setContent(content);
 		
 		setDeleted(properties.get("deleted"));
 		
@@ -108,19 +113,21 @@ public class Note extends Bucket.Object {
 
 		for (int i = 0; i < lines.length; i++) {
 			thisLine = lines[i];
-			if (!foundContent) {
-				if (thisLine != null) {
-					if (!foundTitle) {
-						setTitle(thisLine);
-						foundTitle = true;
-					} else {
-						this.contentPreview = thisLine;
-						foundContent = true;
-					}
-				}
-			} else {
-				this.contentPreview += thisLine;
-			}
+            if (!thisLine.trim().equals("")) {
+                if (!foundContent) {
+                    if (thisLine != null) {
+                        if (!foundTitle) {
+                            setTitle(thisLine);
+                            foundTitle = true;
+                        } else {
+                            this.contentPreview = thisLine;
+                            foundContent = true;
+                        }
+                    }
+                } else {
+                    this.contentPreview += "\n" + thisLine;
+                }
+            }
 		}
 		this.content = content;
 	}
@@ -194,8 +201,12 @@ public class Note extends Bucket.Object {
 		return pinned;
 	}
 
-	public void setPinned(boolean pinned) {
-		this.pinned = pinned;
+	public void setPinned(boolean isPinned) {
+        if (isPinned)
+		    systemTags.remove("pinned");
+        else
+            systemTags.add("pinned");
+        pinned = isPinned;
 	}
 
 	public int getLastPosition() {
@@ -214,7 +225,7 @@ public class Note extends Bucket.Object {
 		this.shareURL = shareURL;
 	}
 
-	public static String dateString(Calendar c, boolean useShortFormat) {
+	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
 		int year, month, day;
 
 		String time, date, retVal;
@@ -230,13 +241,13 @@ public class Note extends Bucket.Object {
 		diff.setTimeInMillis(0); // starting time
 		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
 		if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
-			date = "Today";
+			date = context.getResources().getString(R.string.today);
 			if (useShortFormat)
 				retVal = time;
 			else
 				retVal = date + ", " + time;
 		} else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
-			date = "Yesterday";
+			date = context.getResources().getString(R.string.yesterday);
 			if (useShortFormat)
 				retVal = date;
 			else

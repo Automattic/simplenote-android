@@ -133,7 +133,7 @@ public class NoteDB {
 		values.put("index", tag.getTagIndex());
 		values.put("name", tag.getName());
 
-		return db.update(TAGS_TABLE, values, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
+		return db.update(TAGS_TABLE, values, "simperiumKey=?", new String[] { tag.getSimperiumKey() }) > 0;
 	}
 
 	// nbradbury - returns true if passed tag exists
@@ -152,14 +152,14 @@ public class NoteDB {
 		if (note == null)
 			return false;
 
-		return db.delete(NOTES_TABLE, "simperiumKey=" + note.getSimperiumKey(), null) > 0;
+		return db.delete(NOTES_TABLE, "simperiumKey=?", new String[] { note.getSimperiumKey() }) > 0;
 	}
 
 	boolean delete(Tag tag) {
 		if (tag == null)
 			return false;
 
-		return db.delete(TAGS_TABLE, "simperiumKey=" + tag.getSimperiumKey(), null) > 0;
+		return db.delete(TAGS_TABLE, "simperiumKey=?", new String[] { tag.getSimperiumKey() }) > 0;
 	}
 
 	public Cursor fetchAllNotes(Context context) {
@@ -209,6 +209,7 @@ public class NoteDB {
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, whereClause,
 				whereArgs, null, null, orderBy);
+
 		// if (cursor != null) {
 		// cursor.moveToFirst();
 		// }

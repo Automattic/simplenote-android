@@ -7,6 +7,6 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="activity_note_list" type="layout">@layout/activity_note_onepane</item>
+    <item name="activity_note_list" type="layout">@layout/activity_notes</item>
     <bool name="has_two_panes">false</bool>
 </resources>

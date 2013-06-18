@@ -24,6 +24,12 @@
     
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+    <!-- Undo -->
+    <string name="undo">Undo</string>
+    <string name="note_deleted">Note moved to the trash.</string>
 
     
     <!-- in-app billing -->
