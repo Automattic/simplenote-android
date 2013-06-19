@@ -208,11 +208,8 @@ public class NoteDB {
 
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" }, whereClause,
-				whereArgs, null, null, orderBy);
+				whereArgs, null, null, "pinned DESC, " + orderBy);
 
-		// if (cursor != null) {
-		// cursor.moveToFirst();
-		// }
 		Log.d(Simplenote.TAG, String.format("Found %d notes", cursor.getCount()));
 
 		return cursor;
