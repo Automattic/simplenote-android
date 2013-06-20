@@ -23,12 +23,7 @@ import com.simperium.client.User;
 import java.util.Calendar;
 
 /**
- * An activity representing a list of Notes. This activity has different
- * presentations for handset and tablet-size devices. On handsets, the activity
- * presents a list of items, which when touched, lead to a
- * {@link NoteEditorActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two
- * vertical panes.
+ * An activity representing a list of Notes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link NoteListFragment} and the item details (if present) is a
@@ -48,6 +43,7 @@ public class NotesActivity extends Activity implements
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
     private NoteEditorFragment mNoteEditorFragment;
+    private Note mCurrentNote;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -173,25 +169,24 @@ public class NotesActivity extends Activity implements
 			getNoteListFragment().addNote();
 			return true;
         case R.id.menu_share:
-            if (mNoteEditorFragment != null) {
+            if (mCurrentNote != null) {
                 Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNoteEditorFragment.getNoteContent());
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mCurrentNote.getContent());
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
             }
             return true;
         case R.id.menu_delete:
             if (mNoteEditorFragment != null) {
-                Note note = mNoteEditorFragment.getNote();
-                if (note != null) {
-                    note.setDeleted(true);
-                    note.setModificationDate(Calendar.getInstance());
+                if (mCurrentNote != null) {
+                    mCurrentNote.setDeleted(true);
+                    mCurrentNote.setModificationDate(Calendar.getInstance());
                     // Note will be saved in the onDeleteConfirm method if user doesn't Undo the delete. See UndoBarController.java
                 }
-                boolean result = ((Simplenote)getApplication()).getNoteDB().update(note);
+                boolean result = ((Simplenote)getApplication()).getNoteDB().update(mCurrentNote);
                 if (result) {
                     popNoteDetail();
-                    mUndoBarController.setDeletedNote(note);
+                    mUndoBarController.setDeletedNote(mCurrentNote);
                     mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                     NoteListFragment fragment = getNoteListFragment();
                     if (fragment!=null) {
@@ -228,6 +223,7 @@ public class NotesActivity extends Activity implements
 	 */
 	@Override
 	public void onNoteSelected(Note note) {
+        mCurrentNote = note;
 		String noteKey = note == null ? "none" : note.getSimperiumKey();
 
         FragmentManager fm = getFragmentManager();
@@ -326,6 +322,21 @@ public class NotesActivity extends Activity implements
 
         configureActionBar();
         invalidateOptionsMenu();
+    }
+
+    /**
+     * If a note is changed that is being displayed in the NoteEditorFragment, update its content
+     * @param note
+     */
+    public void onNoteChanged(Note note) {
+        if (mCurrentNote != null && mNoteEditorFragment != null && mNoteEditorFragment.isVisible()) {
+            if (note.getSimperiumKey().equals(mCurrentNote.getSimperiumKey())) {
+                if (note.isDeleted())
+                    popNoteDetail();
+                else
+                    mNoteEditorFragment.setNote(note);
+            }
+        }
     }
 
     private void configureActionBar() {

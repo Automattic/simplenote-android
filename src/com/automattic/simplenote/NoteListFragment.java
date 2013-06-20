@@ -109,7 +109,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
-        getListView().setDividerHeight(1);
+        getListView().setDividerHeight(2);
         getListView().setBackgroundColor(getResources().getColor(R.color.white));
     }
 
@@ -159,15 +159,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
-
-		// Move cursor to this row
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
-		/*NoteDB db = simplenote.getNoteDB();
-		Cursor cursor = db.fetchAllNotes(getActivity());
-		cursor.moveToPosition(position);*/
-
         NoteViewHolder noteViewHolder = (NoteViewHolder)view.getTag();
         if (noteViewHolder != null && noteViewHolder.getNoteId() != null) {
 		    // Get the simperiumKey and retrieve the note via Simperium
@@ -232,7 +224,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         ActionBar ab = getActivity().getActionBar();
 		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
-		SpinnerAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
+		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
 	}
 
@@ -320,18 +313,21 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 			return view;
 		}
 
-		public void onObjectRemoved(String key, Note object) {
+		public void onObjectRemoved(String key, Note note) {
 			Log.d(Simplenote.TAG, "Object removed, reload list view");
+            ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
 		}
 
-		public void onObjectUpdated(String key, Note object) {
+		public void onObjectUpdated(String key, Note note) {
 			Log.d(Simplenote.TAG, "Object updated, reload list view");
+            ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
 		}
 
-		public void onObjectAdded(String key, Note object) {
+		public void onObjectAdded(String key, Note note) {
 			Log.d(Simplenote.TAG, "Object added, reload list view");
+            ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
 		}
 

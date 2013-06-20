@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Simplestyle" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.Simplestyle" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
@@ -29,48 +29,46 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_simplestyle</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
-        
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Simplestyle.Widget</item>
-
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
     </style>
 
-    <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_simplestyle</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
-        <item name="android:icon">@drawable/ab_icon_logo</item>
     </style>
 
-    <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
     </style>
 
-    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>	
+    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
 
-    <style name="DropDownListView.Simplestyle" parent="@android:style/Widget.Holo.ListView.DropDown">
+    <style name="DropDownListView.Simplestyle" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_simplestyle</item>
     </style>
 
-    <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
     </style>
 
-    <style name="DropDownNav.Simplestyle" parent="@android:style/Widget.Holo.Spinner">
+    <style name="DropDownNav.Simplestyle" parent="@android:style/Widget.Holo.Light.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_simplestyle</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_simplestyle</item>
+        <item name="android:textColor">@color/simplenote_blue</item>
     </style>
-    
-    <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+
+    <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
     </style>
-    
-    <style name="ActionButton.CloseMode.Simplestyle" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+
+    <style name="ActionButton.CloseMode.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_simplestyle</item>
     </style>
 
@@ -78,6 +76,24 @@
     <style name="Theme.Simplestyle.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
+    </style>
+
+    <style name="SpinnerItem.Simplestyle" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/SpinnerItemTextAppearance</item>
+    </style>
+
+    <style name="SpinnerItemTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SpinnerDropDownItem.Simplestyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/DropDownTextAppearance</item>
+    </style>
+
+    <style name="DropDownTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/selectable_background_simplestyle"
-    android:paddingLeft="@dimen/padding_large"
-    android:paddingRight="@dimen/padding_large"
-    android:paddingTop="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_small">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/selectable_background_simplestyle"
+              android:paddingLeft="@dimen/padding_large"
+              android:paddingRight="@dimen/padding_large"
+              android:paddingTop="@dimen/padding_small"
+              android:paddingBottom="@dimen/padding_small"
+              android:orientation="vertical">
 
     <!--
           <CheckBox
@@ -16,46 +17,60 @@
         android:layout_centerVertical="true" />
     -->
 
-    <TextView
-        android:id="@+id/note_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textSize="12sp"
-        android:layout_marginLeft="@dimen/padding_extra_small"
-        android:layout_marginTop="@dimen/padding_extra_small"
-        android:text="note_date"
-        android:textColor="#777777"
-        android:fontFamily="sans-serif-condensed"/>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/note_pin"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_alignTop="@+id/note_date"
-        android:layout_marginRight="@dimen/padding_extra_small"
-        android:src="@drawable/ic_item_list_default_pin_active" />
+        <TextView
+                android:id="@+id/note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:text="note_title"
+                android:textColor="#222222"
+                android:textSize="21sp"
+                android:ellipsize="end"/>
 
-    <TextView
-        android:id="@+id/note_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/note_date"
-        android:layout_toRightOf="@+id/note_pin"
-        android:maxLines="1"
-        android:text="note_title"
-        android:textColor="#464646"
-        android:textSize="20sp" />
+        <TextView
+                android:id="@+id/note_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="note_date"
+                android:textColor="#BBBBBB"
+                android:fontFamily="sans-serif-condensed"/>
 
-    <TextView
-        android:id="@+id/note_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/note_title"
-        android:maxLines="2"
-        android:text="note_content"
-        android:textColor="@color/darkgrey"
-        android:fontFamily="sans-serif-light"
-        android:textSize="16sp"/>
+    </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+        <TextView
+                android:id="@+id/note_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:layout_marginTop="-3dp"
+                android:text="note_content"
+                android:textColor="#777777"
+                android:textSize="16sp"
+                android:ellipsize="end"/>
+
+
+        <ImageView
+                android:id="@+id/note_pin"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="13dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/ic_item_list_default_pin_active"/>
+    </LinearLayout>
+
+</LinearLayout>
