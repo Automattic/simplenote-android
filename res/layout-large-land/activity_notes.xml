@@ -18,13 +18,22 @@
                 android:showDividers="middle"
                 android:weightSum="10">
 
+            <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="7">
+                <fragment
+                        android:id="@+id/note_list"
+                        android:name="com.automattic.simplenote.NoteListFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/right_shadow"/>
+            </FrameLayout>
 
-            <fragment
-                    android:id="@+id/note_list"
-                    android:name="com.automattic.simplenote.NoteListFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"/>
 
 
             <fragment

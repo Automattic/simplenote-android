@@ -9,14 +9,6 @@
               android:paddingBottom="@dimen/padding_small"
               android:orientation="vertical">
 
-    <!--
-          <CheckBox
-        android:id="@+id/noteCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_centerVertical="true" />
-    -->
-
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -68,6 +60,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="13dp"
+                android:layout_marginLeft="8dp"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="3dp"
                 android:src="@drawable/ic_item_list_default_pin_active"/>
