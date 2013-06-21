@@ -94,6 +94,7 @@ public class NotesActivity extends Activity implements
     protected void onResume() {
         super.onResume();
         configureActionBar();
+        invalidateOptionsMenu();
     }
 
     // nbradbury 01-Apr-2013
