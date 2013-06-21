@@ -38,11 +38,17 @@
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+        <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
     </style>
 
     <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+    </style>
+
+    <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
