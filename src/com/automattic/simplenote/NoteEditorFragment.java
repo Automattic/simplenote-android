@@ -136,7 +136,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             // Restore the cursor position if possible.
             int cursorPosition = mContentEditText.getSelectionEnd();
             mContentEditText.setText(mNote.getContent());
-            int test = mNote.getContent().length();
             if (cursorPosition > 0 && cursorPosition <= mNote.getContent().length())
                 mContentEditText.setSelection(cursorPosition);
             if (mNote.getContent().isEmpty()) {
