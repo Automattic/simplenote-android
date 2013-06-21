@@ -24,7 +24,8 @@
             android:icon="@drawable/ab_icon_share"/>
     <item
             android:id="@+id/menu_delete"
-            android:showAsAction="never"
+            android:icon="@drawable/ab_icon_trash"
+            android:showAsAction="ifRoom"
             android:title="@string/delete"/>
 
 </menu>

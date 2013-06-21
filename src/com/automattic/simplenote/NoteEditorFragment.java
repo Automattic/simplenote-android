@@ -14,17 +14,19 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.simperium.client.Bucket;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher {
@@ -40,7 +42,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 	 */
 	private Note mNote;
 	private EditText mContentEditText;
-	private MultiAutoCompleteTextView mTagView;
+	private TagsMultiAutoCompleteTextView mTagView;
+    private TextView mCharCountTextView;
     private ToggleButton mPinButton;
     private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
@@ -76,8 +79,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
 		mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addTextChangedListener(this);
-        mTagView = (MultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
+        mCharCountTextView = (TextView) rootView.findViewById(R.id.note_character_count);
 
 		refreshContent();
 		
@@ -128,7 +132,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 
     public void refreshContent() {
         if (mNote != null) {
+            Log.v("Simplenote", "refreshing content");
+            // Restore the cursor position if possible.
+            int cursorPosition = mContentEditText.getSelectionEnd();
             mContentEditText.setText(mNote.getContent());
+            if (cursorPosition > 0 && cursorPosition < mNote.getContent().length())
+                mContentEditText.setSelection(cursorPosition);
             if (mNote.getContent().isEmpty()) {
                 // Show soft keyboard
                 mContentEditText.requestFocus();
@@ -142,6 +151,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             for (String tag : mNote.getTags())
                 tagListString += tag + " ";
             mTagView.setText(tagListString);
+            mTagView.setChips();
 
             mPinButton.setChecked(mNote.isPinned());
 
@@ -165,6 +175,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
         // Unused
+
     }
 
     @Override
@@ -176,6 +187,22 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
             mAutoSaveHandler.postDelayed(autoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
         }
+
+        updateCharacterCount();
+    }
+
+    /**
+     * Calculate character and word count.
+     */
+    private void updateCharacterCount() {
+
+        // TODO: This code doesn't return an accurate word/char count
+        String content = mContentEditText.getText().toString();
+
+        int numChars = content.length();
+        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s").length;
+
+        mCharCountTextView.setText(String.format("%d " + getString(R.string.characters) + ", %d " + getString(R.string.words), numChars, numWords));
     }
 
     private void saveAndSyncNote() {
@@ -194,6 +221,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
             mNote.save();
         }
+
+        Log.v("Simplenote", "autosaving note");
     }
 
     // Use spaces in tag autocompletion list

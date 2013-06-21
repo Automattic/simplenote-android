@@ -23,18 +23,20 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-	    	<MultiAutoCompleteTextView
+	    	<com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
 		        android:id="@+id/tag_view"
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 android:layout_weight="1"
 		        android:hint="@string/tag_hint"
 		        android:completionThreshold="1"
 		        android:textColor="@color/mediumgrey"
         		android:inputType="textNoSuggestions"
 		        android:nextFocusUp="@id/tag_view"
-		        android:nextFocusLeft="@id/tag_view">
-		    </MultiAutoCompleteTextView>
+		        android:nextFocusLeft="@id/tag_view"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-condensed"/>
 
 	    	<ToggleButton
 	    	    android:id="@+id/pinButton"
@@ -59,5 +61,11 @@
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"
 			tools:context=".NoteEditorFragment" />
+        <TextView
+            android:id="@+id/note_character_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#727272" />
    </LinearLayout>
 </ScrollView>

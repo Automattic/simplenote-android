@@ -7,7 +7,7 @@
     <string name="preferences">Settings</string>
     <string name="share">Share</string>
     <string name="info">Info</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Trash Note</string>
     <string name="new_note">Add Note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
@@ -17,6 +17,8 @@
     <string name="normal">Normal</string>
     <string name="preview_lines">Preview lines</string>
     <string name="share_note">Share Note</string>
+    <string name="words">Words</string>
+    <string name="characters">Characters</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>
