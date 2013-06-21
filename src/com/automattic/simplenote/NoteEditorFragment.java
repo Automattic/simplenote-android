@@ -134,9 +134,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
         if (mNote != null) {
             Log.v("Simplenote", "refreshing content");
             // Restore the cursor position if possible.
-            int cursorPosition = mContentEditText.getSelectionEnd();
+            int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
-            if (cursorPosition > 0 && cursorPosition <= mNote.getContent().length())
+            if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
             if (mNote.getContent().isEmpty()) {
                 // Show soft keyboard
@@ -158,6 +158,42 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             if (mShowNoteTitle)
                 getActivity().getActionBar().setTitle(mNote.getTitle());
         }
+    }
+
+    int newCursorLocation(String newText, String oldText, int cursorLocation) {
+        // Ported from the iOS app :)
+        // Cases:
+        // 0. All text after cursor (and possibly more) was removed ==> put cursor at end
+        // 1. Text was added after the cursor ==> no change
+        // 2. Text was added before the cursor ==> location advances
+        // 3. Text was removed after the cursor ==> no change
+        // 4. Text was removed before the cursor ==> location retreats
+        // 5. Text was added/removed on both sides of the cursor ==> not handled
+
+        int newCursorLocation = cursorLocation;
+
+        int deltaLength = newText.length() - oldText.length();
+
+        // Case 0
+        if (newText.length() < cursorLocation)
+            return newText.length();
+
+        boolean beforeCursorMatches = false;
+        boolean afterCursorMatches = false;
+
+        try {
+            beforeCursorMatches = oldText.substring(0, cursorLocation).equals(newText.substring(0, cursorLocation));
+            afterCursorMatches = oldText.substring(cursorLocation, oldText.length()).equals(newText.substring(cursorLocation + deltaLength, newText.length()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Cases 2 and 4
+        if (!beforeCursorMatches && afterCursorMatches)
+            newCursorLocation += deltaLength;
+
+        // Cases 1, 3 and 5 have no change
+        return newCursorLocation;
     }
 
     private Runnable autoSaveRunnable = new Runnable() {
