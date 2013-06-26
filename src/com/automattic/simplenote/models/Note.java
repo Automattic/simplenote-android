@@ -12,8 +12,10 @@ import android.content.Context;
 
 import com.automattic.simplenote.R;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObject;
+import com.simperium.client.BucketSchema;
 
-public class Note extends Bucket.Object {
+public class Note extends BucketObject {
 	
 	public static final String BUCKET_NAME="note";
 	
@@ -30,7 +32,12 @@ public class Note extends Bucket.Object {
 	protected String shareURL;
 	protected String publishURL;
 
-    public static class Schema extends Bucket.Schema<Note> {
+	public static class Schema extends BucketSchema<Note> {
+
+        public String getRemoteName(){
+            return Note.BUCKET_NAME;
+        }
+
 		public Note build(String key, Map<String,Object>properties){
 			Note note = new Note(key, properties);
 			return note;

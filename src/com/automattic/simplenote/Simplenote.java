@@ -10,7 +10,7 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
-import com.simperium.client.Simperium;
+import com.simperium.Simperium;
 
 public class Simplenote extends Application {
 	
@@ -43,8 +43,8 @@ public class Simplenote extends Application {
 			null
 		);
 
-		mNotesBucket = mSimperium.bucket(Note.BUCKET_NAME, new Note.Schema());
-		mTagsBucket = mSimperium.bucket(Tag.BUCKET_NAME, new Tag.Schema());
+		mNotesBucket = mSimperium.bucket(new Note.Schema());
+		mTagsBucket = mSimperium.bucket(new Tag.Schema());
 		// FIXME: Remove resets!
 		// mNotesBucket.reset();
 		// mTagsBucket.reset();

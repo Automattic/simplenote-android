@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -165,8 +166,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		    // Get the simperiumKey and retrieve the note via Simperium
 		    String simperiumKey = noteViewHolder.getNoteId();
 		    Bucket<Note> notesBucket = simplenote.getNotesBucket();
-		    Note note = notesBucket.get(simperiumKey);
-		    mCallbacks.onNoteSelected(note);
+            try {
+                Note note = notesBucket.get(simperiumKey);
+                mCallbacks.onNoteSelected(note);
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle when note no longer exists
+            }
         }
 	}
 

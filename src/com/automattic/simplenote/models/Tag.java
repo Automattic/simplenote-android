@@ -1,17 +1,23 @@
 package com.automattic.simplenote.models;
 
-import com.simperium.client.Bucket;
+import com.simperium.client.BucketObject;
+import com.simperium.client.BucketSchema;
 
 import java.util.Map;
 
 
-public class Tag extends Bucket.Object {
+public class Tag extends BucketObject {
 	
 	public static final String BUCKET_NAME="tag";
 	protected int tagIndex;
 	protected String name = "";
 
-	public static class Schema extends Bucket.Schema<Tag> {
+	public static class Schema extends BucketSchema<Tag> {
+
+        public String getRemoteName(){
+            return Tag.BUCKET_NAME;
+        }
+
 		public Tag build(String key, Map<String,Object>properties){
 			return new Tag(key, properties);
 		}

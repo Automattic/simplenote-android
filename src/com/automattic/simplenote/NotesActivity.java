@@ -15,9 +15,10 @@ import android.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.UndoBarController;
+
+import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.LoginActivity;
-import com.simperium.client.Simperium;
 import com.simperium.client.User;
 
 import java.util.Calendar;

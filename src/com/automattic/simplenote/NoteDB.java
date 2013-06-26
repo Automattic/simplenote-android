@@ -20,7 +20,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
-import com.simperium.client.StorageProvider;
+import com.simperium.client.Syncable;
+import com.simperium.storage.StorageProvider;
 
 public class NoteDB {
 
@@ -300,7 +301,7 @@ public class NoteDB {
 		/**
 		 * Store bucket object data
 		 */
-		public void addObject(Bucket bucket, String key, Bucket.Syncable object) {
+		public void addObject(Bucket bucket, String key, Syncable object) {
 			if (object instanceof Note) {
 				Log.d(Simplenote.TAG, String.format("Adding note %s", object));
 				create((Note) object);
@@ -310,7 +311,7 @@ public class NoteDB {
 			}
 		}
 
-		public void updateObject(Bucket bucket, String key, Bucket.Syncable object) {
+		public void updateObject(Bucket bucket, String key, Syncable object) {
 			if (object instanceof Note) {
 				Note note = (Note)object;
 				// nbradbury - create note if it doesn't exist - added after noticing that addNote() in NoteListFragment was triggering this method (updateObject) even though
@@ -402,6 +403,13 @@ public class NoteDB {
 			return null;
 		}
 
-	}
+        public List<String> allKeys(Bucket<?> bucket){
+            return new ArrayList<String>();
+        }
+
+        public void resetBucket(Bucket<?> bucket){
+            
+        }
+    }
 
 }

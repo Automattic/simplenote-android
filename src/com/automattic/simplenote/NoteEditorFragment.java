@@ -28,6 +28,7 @@ import android.widget.ToggleButton;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher {
 	/**
@@ -62,8 +63,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 		if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
 	        Simplenote application = (Simplenote)getActivity().getApplication();
 			Bucket<Note> notesBucket = application.getNotesBucket();
-			String key = getArguments().getString(ARG_ITEM_ID);			
-			mNote = notesBucket.get(key);
+			String key = getArguments().getString(ARG_ITEM_ID);
+			try {
+    			mNote = notesBucket.get(key);
+			} catch (BucketObjectMissingException e) {
+				// TODO: Handle a missing note
+			}
 		}
 
         NoteListFragment listFragment = (NoteListFragment)getFragmentManager().findFragmentById(R.id.note_list);
