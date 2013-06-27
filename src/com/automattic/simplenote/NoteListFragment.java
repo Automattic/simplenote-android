@@ -160,19 +160,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		Simplenote simplenote = (Simplenote) getActivity().getApplication();
-        NoteViewHolder noteViewHolder = (NoteViewHolder)view.getTag();
-        if (noteViewHolder != null && noteViewHolder.getNoteId() != null) {
-		    // Get the simperiumKey and retrieve the note via Simperium
-		    String simperiumKey = noteViewHolder.getNoteId();
-		    Bucket<Note> notesBucket = simplenote.getNotesBucket();
-            try {
-                Note note = notesBucket.get(simperiumKey);
-                mCallbacks.onNoteSelected(note);
-            } catch (BucketObjectMissingException e) {
-                // TODO: Handle when note no longer exists
-            }
-        }
+		Note note = (Note)getListAdapter().getItem(position);
+        if (note != null)
+            mCallbacks.onNoteSelected(note);
 	}
 
 	@Override
@@ -263,9 +253,26 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 			this.context = context;
 		}
 
-		/*
-		 *  nbradbury - implemented "holder pattern" to boost performance with large note lists
-		 */
+        @Override
+        public Object getItem(int position) {
+
+            Cursor c = getCursor();
+            c.moveToPosition(position);
+            String noteID = c.getString(1);
+
+            try {
+                Note note = ((Simplenote) getActivity().getApplication()).getNotesBucket().get(noteID);
+                return note;
+            } catch (BucketObjectMissingException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /*
+                 *  nbradbury - implemented "holder pattern" to boost performance with large note lists
+                 */
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			Log.d(Simplenote.TAG, String.format("Get view %d", position));

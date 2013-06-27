@@ -291,7 +291,6 @@ public class NotesActivity extends Activity implements
             f.setArguments(arguments);
             mNoteEditorFragment = f;
             ft.add(R.id.noteFragmentContainer, f);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();
             fm.executePendingTransactions();
