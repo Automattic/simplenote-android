@@ -358,5 +358,18 @@ public class NotesActivity extends Activity implements
             ab.setDisplayShowTitleEnabled(false);
         }
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // If we are on a tablet, we will restart the activity to adjust the layout accordingly
+        if ((getBaseContext().getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            finish();
+            startActivity(getIntent());
+        }
+    }
 }
 
