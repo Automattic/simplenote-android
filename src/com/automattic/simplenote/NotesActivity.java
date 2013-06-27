@@ -48,6 +48,7 @@ public class NotesActivity extends Activity implements
 	private boolean mTwoPane;
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
+    private MenuItem mSearchMenuItem;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
     private int TRASH_SELECTED_ID = 1;
@@ -119,24 +120,36 @@ public class NotesActivity extends Activity implements
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.notes_list, menu);
 
-        if (mSearchView == null) {
-		    mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    if (newText != null)
-                        getNoteListFragment().searchNotes(newText);
-                    return true;
-                }
+        mSearchMenuItem = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) mSearchMenuItem.getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText != null)
+                    getNoteListFragment().searchNotes(newText);
+                return true;
+            }
 
-                @Override
-                public boolean onQueryTextSubmit(String queryText) {
-                    if (queryText != null)
-                        getNoteListFragment().searchNotes(queryText);
-                    return true;
-                }
-            });
-        }
+            @Override
+            public boolean onQueryTextSubmit(String queryText) {
+                if (queryText != null)
+                    getNoteListFragment().searchNotes(queryText);
+                return true;
+            }
+        });
+        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                // Show all notes again
+                getNoteListFragment().searchNotes("");
+                return true;
+            }
+        });
 
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
@@ -273,6 +286,10 @@ public class NotesActivity extends Activity implements
 	 */
 	@Override
 	public void onNoteSelected(Note note) {
+
+        if (mSearchMenuItem != null)
+            mSearchMenuItem.collapseActionView();
+
         mCurrentNote = note;
 		String noteKey = note == null ? "none" : note.getSimperiumKey();
 
