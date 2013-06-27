@@ -292,33 +292,28 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 			holder.contentTextView.setMaxLines(mNumPreviewLines);
 
-			// TODO: nbradbury - get rid of magic numbers for column indexes
-			Cursor c = getCursor();
-			c.moveToPosition(position);
-            holder.setNoteId(c.getString(1));
-			String title = c.getString(2);
-			String content = c.getString(3);
-			String contentPreview = c.getString(4);
-			long modDateLong = c.getLong(6);
-			boolean isPinned = (c.getInt(9) > 0);
-			
-			// nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
-			holder.pinImageView.setVisibility(isPinned ? View.VISIBLE : View.GONE);
+            Note note = (Note)getItem(position);
 
-			if (title != null) {
-				holder.titleTextView.setText(title);
-				holder.contentTextView.setText(contentPreview!=null ? contentPreview : content);
-			} else {
-				holder.titleTextView.setText(content);
-				holder.contentTextView.setText(content);
-			}
+            if (note != null) {
+                String title = note.getTitle();
+                String content = note.getContent();
+                String contentPreview = note.getContentPreview();
+                // nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
+                holder.pinImageView.setVisibility(note.isPinned() ? View.VISIBLE : View.GONE);
 
-			holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
-			if (mShowDate) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(modDateLong * 1000);
-				holder.dateTextView.setText(Note.dateString(cal, true, getActivity().getBaseContext()));
-			}
+                if (title != null) {
+                    holder.titleTextView.setText(title);
+                    holder.contentTextView.setText(contentPreview!=null ? contentPreview : content);
+                } else {
+                    holder.titleTextView.setText(content);
+                    holder.contentTextView.setText(content);
+                }
+
+                holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
+                if (mShowDate) {
+                    holder.dateTextView.setText(Note.dateString(note.getModificationDate(), true, getActivity().getBaseContext()));
+                }
+            }
 			
 			return view;
 		}
