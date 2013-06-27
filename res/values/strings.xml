@@ -30,6 +30,8 @@
     <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="character">Character</string>
+    <string name="word">Word</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>

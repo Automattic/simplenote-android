@@ -237,13 +237,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
      */
     private void updateCharacterCount() {
 
-        // TODO: This code doesn't return an accurate word/char count
         String content = mContentEditText.getText().toString();
 
         int numChars = content.length();
-        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s").length;
+        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s+").length;
 
-        mCharCountTextView.setText(String.format("%d " + getString(R.string.characters) + ", %d " + getString(R.string.words), numChars, numWords));
+        String characterCountString = getResources().getQuantityString(R.plurals.characterCount, numChars);
+        String wordCountString = getResources().getQuantityString(R.plurals.wordCount, numWords);
+
+        mCharCountTextView.setText(String.format("%d " + characterCountString + ", %d " + wordCountString, numChars, numWords));
     }
 
     private void saveAndSyncNote() {
