@@ -234,6 +234,15 @@ public class NoteDB {
 		return tags;
 	}
 
+    public Cursor fetchAllTagsCursor() {
+        String[] tags = null;
+        Cursor c = db.query(TAGS_TABLE, new String[] { "rowid _id", "simperiumKey", "name", "tagIndex" }, null, null, null, null,
+                "simperiumKey ASC");
+        Log.d(Simplenote.TAG, String.format("Found %d tags", c.getCount()));
+
+        return c;
+    }
+
 	public Cursor searchNotes(String searchString) {
 		Cursor cursor = db.query(NOTES_TABLE, new String[] { "rowid _id", "simperiumKey", "title", "content", "contentPreview",
 				"creationDate", "modificationDate", "deleted", "lastPosition", "pinned", "shareURL", "systemTags", "tags" },

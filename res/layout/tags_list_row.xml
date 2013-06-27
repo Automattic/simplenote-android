@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:divider="?android:attr/dividerVertical"
+              android:showDividers="middle"
+              android:dividerPadding="8dp"
+              android:background="?android:attr/selectableItemBackground"
+              android:descendantFocusability="blocksDescendants">
+    <TextView
+        android:id="@+id/tag_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginLeft="16dp"
+        android:textColor="#222222"
+        />
+    <ImageButton
+        android:id="@+id/tag_trash"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ab_icon_trash"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_marginRight="16dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
+</LinearLayout>

@@ -19,6 +19,12 @@
     <string name="share_note">Share Note</string>
     <string name="words">Words</string>
     <string name="characters">Characters</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="edit_tag">Edit Tag</string>
+    <string name="tag_name">Tag name</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>

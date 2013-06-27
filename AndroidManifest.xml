@@ -35,6 +35,7 @@
         <activity android:name="com.simperium.client.LoginActivity"></activity>
         <activity android:name=".BillingActivity"></activity>
         <activity android:name=".PreferencesActivity"></activity>
+        <activity android:name=".TagsListActivity"></activity>
     </application>
 
 </manifest>

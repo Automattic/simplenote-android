@@ -167,6 +167,10 @@ public class NotesActivity extends Activity implements
 			Intent i = new Intent(this, PreferencesActivity.class);
 			startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
 			return true;
+        case R.id.menu_edit_tags :
+            Intent editTagsIntent = new Intent(this, TagsListActivity.class);
+            startActivity(editTagsIntent);
+            return true;
 		case R.id.menu_create_note :
 			getNoteListFragment().addNote();
 			return true;
