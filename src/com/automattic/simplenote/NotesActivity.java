@@ -142,6 +142,7 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_delete).setVisible(true);
         } else if (mTwoPane) {
             getActionBar().setDisplayHomeAsUpEnabled(false);
+            getActionBar().setHomeButtonEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -149,6 +150,7 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_delete).setVisible(true);
         } else  {
             getActionBar().setDisplayHomeAsUpEnabled(false);
+            getActionBar().setHomeButtonEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
