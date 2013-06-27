@@ -7,7 +7,8 @@
     <string name="preferences">Settings</string>
     <string name="share">Share</string>
     <string name="info">Info</string>
-    <string name="delete">Trash Note</string>
+    <string name="delete">Delete</string>
+    <string name="undelete">Restore note</string>
     <string name="new_note">Add Note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>

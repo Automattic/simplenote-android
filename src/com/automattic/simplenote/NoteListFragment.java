@@ -216,8 +216,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		Log.d(Simplenote.TAG, "Refresh the list");
 		mNotesAdapter.getCursor().requery();
 		mNotesAdapter.notifyDataSetChanged();
-
-		updateMenuItems();
 	}
 
 	private void updateMenuItems() {

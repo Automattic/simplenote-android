@@ -140,6 +140,8 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_preferences).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_delete).setVisible(true);
+            if (mCurrentNote != null && mCurrentNote.isDeleted())
+                menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
         } else if (mTwoPane) {
             getActionBar().setDisplayHomeAsUpEnabled(false);
             getActionBar().setHomeButtonEnabled(false);
@@ -187,15 +189,17 @@ public class NotesActivity extends Activity implements
         case R.id.menu_delete:
             if (mNoteEditorFragment != null) {
                 if (mCurrentNote != null) {
-                    mCurrentNote.setDeleted(true);
+                    mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
                     mCurrentNote.setModificationDate(Calendar.getInstance());
                     // Note will be saved in the onDeleteConfirm method if user doesn't Undo the delete. See UndoBarController.java
                 }
                 boolean result = ((Simplenote)getApplication()).getNoteDB().update(mCurrentNote);
                 if (result) {
                     popNoteDetail();
-                    mUndoBarController.setDeletedNote(mCurrentNote);
-                    mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                    if (mCurrentNote.isDeleted()) {
+                        mUndoBarController.setDeletedNote(mCurrentNote);
+                        mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                    }
                     NoteListFragment fragment = getNoteListFragment();
                     if (fragment!=null) {
                         fragment.getPrefs();
