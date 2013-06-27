@@ -146,7 +146,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                getNoteListFragment().searchNotes("");
+                getNoteListFragment().clearSearch();
                 return true;
             }
         });

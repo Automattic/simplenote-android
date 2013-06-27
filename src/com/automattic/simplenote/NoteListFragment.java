@@ -369,6 +369,16 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesAdapter.changeCursor(cursor);
 	}
 
+    /**
+     * Clear search and load all notes
+     */
+    public void clearSearch() {
+        Simplenote application = (Simplenote) getActivity().getApplication();
+        NoteDB db = application.getNoteDB();
+        Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+        mNotesAdapter.changeCursor(cursor);
+    }
+
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		Cursor cursor;
