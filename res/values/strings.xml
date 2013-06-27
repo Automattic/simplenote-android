@@ -7,7 +7,7 @@
     <string name="preferences">Settings</string>
     <string name="share">Share</string>
     <string name="info">Info</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete note</string>
     <string name="undelete">Restore note</string>
     <string name="new_note">Add Note</string>
     <string name="account">Account</string>
@@ -26,6 +26,10 @@
     <string name="delete_tag">Delete tag</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="empty_trash">Empty trash</string>
+    <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>

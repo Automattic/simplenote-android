@@ -2,8 +2,10 @@ package com.automattic.simplenote;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,7 +13,10 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.UndoBarController;
@@ -45,6 +50,7 @@ public class NotesActivity extends Activity implements
     private SearchView mSearchView;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
+    private int TRASH_SELECTED_ID = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +148,8 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_delete).setVisible(true);
             if (mCurrentNote != null && mCurrentNote.isDeleted())
                 menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            menu.findItem(R.id.menu_edit_tags).setVisible(false);
+            menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else if (mTwoPane) {
             getActionBar().setDisplayHomeAsUpEnabled(false);
             getActionBar().setHomeButtonEnabled(false);
@@ -150,6 +158,9 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_delete).setVisible(true);
+            menu.findItem(R.id.menu_edit_tags).setVisible(true);
+            menu.findItem(R.id.menu_empty_trash).setVisible(false);
+
         } else  {
             getActionBar().setDisplayHomeAsUpEnabled(false);
             getActionBar().setHomeButtonEnabled(false);
@@ -158,6 +169,16 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_delete).setVisible(false);
+            menu.findItem(R.id.menu_edit_tags).setVisible(true);
+            menu.findItem(R.id.menu_empty_trash).setVisible(false);
+        }
+
+        // Are we looking at the trash? Adjust menu accordingly.
+        if (getActionBar().getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
+            menu.findItem(R.id.menu_empty_trash).setVisible(true);
+            menu.findItem(R.id.menu_create_note).setVisible(false);
+            menu.findItem(R.id.menu_search).setVisible(false);
+            menu.findItem(R.id.menu_share).setVisible(false);
         }
 
 		return true;
@@ -207,6 +228,23 @@ public class NotesActivity extends Activity implements
                     }
                 }
             }
+            return true;
+        case R.id.menu_empty_trash:
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle(R.string.empty_trash);
+            alert.setMessage(R.string.confirm_empty_trash);
+            alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Delete all notes that are isDeleted()
+
+                }
+            });
+            alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
+            alert.show();
             return true;
         case android.R.id.home:
             popNoteDetail();

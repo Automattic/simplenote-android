@@ -386,6 +386,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		
 		if (cursor != null)
 			mNotesAdapter.changeCursor(cursor);
+
+        getActivity().invalidateOptionsMenu();
 		
 		return true;
 	}
