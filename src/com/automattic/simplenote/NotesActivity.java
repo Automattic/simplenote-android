@@ -125,7 +125,7 @@ public class NotesActivity extends Activity implements
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText != null)
+                if (newText != null && mSearchMenuItem.isActionViewExpanded())
                     getNoteListFragment().searchNotes(newText);
                 return true;
             }

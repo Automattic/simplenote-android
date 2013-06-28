@@ -54,6 +54,24 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            // If we reach an image span, let's remove it as well as the tag text behind it.
+            if (before == 1) {
+                SpannableStringBuilder ssb = new SpannableStringBuilder(s);
+                ImageSpan[] imageSpans = ssb.getSpans(start, start, ImageSpan.class);
+                if (imageSpans.length > 0) {
+                    ImageSpan tagImageSpan = imageSpans[0];
+                    int tagStart = ssb.getSpanStart(tagImageSpan);
+                    int tagEnd = ssb.getSpanEnd(tagImageSpan);
+                    ssb.removeSpan(tagImageSpan);
+                    ssb.replace(tagStart, tagEnd, "");
+                    setText(ssb);
+                    setSelection(ssb.length());
+                    return;
+                }
+            }
+
+
             if (count >= 1) {
                 if (s.charAt(start) == ' ')
                     setChips(); // generate chips
