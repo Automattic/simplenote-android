@@ -90,8 +90,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Simplenote application = (Simplenote) getActivity().getApplication();
 
+		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
 		String[] columns = new String[] { "content", "content", "creationDate" };
@@ -123,6 +123,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+
+        setListShown(true);
+        setEmptyText(getString(R.string.no_notes));
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
