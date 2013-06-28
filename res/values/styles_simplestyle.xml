@@ -39,6 +39,7 @@
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
         <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
+        <item name="android:icon">@drawable/ab_icon_logo</item>
     </style>
 
     <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
