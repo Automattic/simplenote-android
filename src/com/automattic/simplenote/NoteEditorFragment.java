@@ -160,8 +160,16 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 
             mPinButton.setChecked(mNote.isPinned());
 
-            if (mShowNoteTitle)
+            setActionBarTitle();
+        }
+    }
+
+    private void setActionBarTitle() {
+        if (mShowNoteTitle) {
+            if (mNote.getTitle() != null && !mNote.getTitle().equals(""))
                 getActivity().getActionBar().setTitle(mNote.getTitle());
+            else
+                getActivity().getActionBar().setTitle(R.string.new_note);
         }
     }
 
@@ -264,6 +272,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
             mNote.save();
         }
+
+        setActionBarTitle();
 
         Log.v("Simplenote", "autosaving note");
     }

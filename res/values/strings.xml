@@ -9,7 +9,7 @@
     <string name="info">Info</string>
     <string name="delete">Delete note</string>
     <string name="undelete">Restore note</string>
-    <string name="new_note">Add Note</string>
+    <string name="new_note">New Note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
     <string name="show_dates">Show dates</string>

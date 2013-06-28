@@ -23,6 +23,8 @@ public class PreferencesActivity extends PreferenceActivity {
 				
                 Simplenote application = (Simplenote)getApplication();
                 application.getSimperium().deAuthorizeUser();
+                application.getNotesBucket().reset();
+                application.getTagsBucket().reset();
 				return true;
 			}
 		});

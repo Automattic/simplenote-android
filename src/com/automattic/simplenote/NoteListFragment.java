@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -94,9 +95,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		NoteDB db = application.getNoteDB();
 		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
-		String[] columns = new String[] { "content", "content", "creationDate" };
-		int[] views = new int[] { R.id.note_title, R.id.note_content, R.id.note_date };
-		mNotesAdapter = new NotesCursorAdapter(getActivity().getApplicationContext(), R.layout.note_list_row, cursor, columns, views, 0);
+		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
 		
 		mNotesBucket = application.getNotesBucket();
@@ -248,13 +247,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		//getListView().performItemClick(v, 0, 0);
 	}
 
-	public class NotesCursorAdapter extends SimpleCursorAdapter implements Bucket.Listener<Note> {
+	public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
 		Context context;
 
-		public NotesCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-			super(context, layout, c, from, to, flags);
-			this.context = context;
-		}
+        public NotesCursorAdapter(Context context, Cursor c, int flags) {
+            super(context, c, flags);
+            this.context = context;
+        }
 
         @Override
         public Object getItem(int position) {
@@ -274,8 +273,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
 
         /*
-                 *  nbradbury - implemented "holder pattern" to boost performance with large note lists
-                 */
+        *  nbradbury - implemented "holder pattern" to boost performance with large note lists
+        */
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			Log.d(Simplenote.TAG, String.format("Get view %d", position));
@@ -299,14 +298,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
             if (note != null) {
                 String title = note.getTitle();
-                String content = note.getContent();
+                String content = note.getContent().trim();
                 String contentPreview = note.getContentPreview();
                 // nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
                 holder.pinImageView.setVisibility(note.isPinned() ? View.VISIBLE : View.GONE);
 
                 if (title != null) {
+                    title = title.trim();
                     holder.titleTextView.setText(title);
-                    holder.contentTextView.setText(contentPreview!=null ? contentPreview : content);
+                    holder.contentTextView.setText(contentPreview!=null ? contentPreview.trim() : content);
                 } else {
                     holder.titleTextView.setText(content);
                     holder.contentTextView.setText(content);
@@ -321,7 +321,17 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 			return view;
 		}
 
-		public void onObjectRemoved(String key, Note note) {
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+            return null;
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+
+        }
+
+        public void onObjectRemoved(String key, Note note) {
 			Log.d(Simplenote.TAG, "Object removed, reload list view");
             ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
