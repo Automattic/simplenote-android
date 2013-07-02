@@ -12,6 +12,9 @@ import android.content.Context;
 
 import com.automattic.simplenote.R;
 import com.simperium.client.Bucket;
+import com.simperium.client.Query;
+import com.simperium.client.Query.ComparisonType;
+import com.simperium.client.Query.SortType;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
 
@@ -43,6 +46,33 @@ public class Note extends BucketObject {
 			return note;
 		}
 	}
+
+    public static Query<Note> all(Bucket<Note> noteBucket){
+        return addDefaultSort(noteBucket.query()
+                .where("deleted", ComparisonType.NOT_EQUAL_TO, true));
+    }
+
+    public static Query<Note> allDeleted(Bucket<Note> noteBucket){
+        return addDefaultSort(noteBucket.query()
+                .where("deleted", ComparisonType.EQUAL_TO, true));
+    }
+
+    public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
+        return addDefaultSort(noteBucket.query()
+                .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
+                .where("content", ComparisonType.LIKE, "% " + searchString + " %"));
+    }
+
+    public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
+        return addDefaultSort(noteBucket.query()
+                .where("tags", ComparisonType.EQUAL_TO, tag));
+    }
+
+    public static Query<Note> addDefaultSort(Query<Note> query){
+        return query
+                .order("pinned", SortType.DESCENDING)
+                .order("modificationDate", SortType.DESCENDING);
+    }
 
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);

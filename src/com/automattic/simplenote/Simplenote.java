@@ -28,19 +28,15 @@ public class Simplenote extends Application {
 	private Simperium mSimperium;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
-	private NoteDB mNoteDB;
 		
 	public void onCreate(){
 		super.onCreate();
 		Properties mConfig = getConfigProperties();
-		mNoteDB = new NoteDB(getApplicationContext());
 		
 		mSimperium = new Simperium(
 			mConfig.getProperty(SIMPERIUM_APP_CONFIG_KEY),
 			mConfig.getProperty(SIMPERIUM_KEY_CONFIG_KEY),
-			getApplicationContext(),
-			mNoteDB.getSimperiumStore(),
-			null
+			getApplicationContext()
 		);
 
 		mNotesBucket = mSimperium.bucket(new Note.Schema());
@@ -53,11 +49,7 @@ public class Simplenote extends Application {
 		mTagsBucket.start();
 		Log.d(Simplenote.TAG, "Simplenote launched");
 	}
-	
-	public NoteDB getNoteDB(){
-		return mNoteDB;
-	}
-	
+		
 	public Simperium getSimperium(){
 		return mSimperium;
 	}

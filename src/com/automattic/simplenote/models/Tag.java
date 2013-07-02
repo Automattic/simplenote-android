@@ -1,7 +1,11 @@
 package com.automattic.simplenote.models;
 
+import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
+import com.simperium.client.Query;
+import com.simperium.client.Query.ComparisonType;
+import com.simperium.client.Query.SortType;
 
 import java.util.Map;
 
@@ -23,28 +27,34 @@ public class Tag extends BucketObject {
 		}
 	}
 
+    public static Query<Tag> all(Bucket<Tag> bucket){
+        return bucket.query().order("name", SortType.ASCENDING);
+    }
+
 	public Tag(String key, Map<String,Object>properties){
 		super(key, properties);
-		setName((String) properties.get("name"));
 	}
 
 	public String getName() {
-		return name;
+		return (String) properties.get("name");
 	}
 	
 	public void setName(String name) {
 		if (name == null) {
-			this.name = "";
-		} else {
-			this.name = name;
+			name = "";
 		}
+        properties.put("name", name);
 	}
 		
-	public int getTagIndex() {
-		return tagIndex;
+	public Integer getIndex() {
+        return (Integer) properties.get("index");
 	}
 	
-	public void setTagIndex(int tagIndex) {
-		this.tagIndex = tagIndex;
+	public void setIndex(Integer tagIndex) {
+        if (tagIndex == null) {
+            properties.remove("index");
+        } else {
+            properties.put("index", tagIndex);
+        }
 	}
 }

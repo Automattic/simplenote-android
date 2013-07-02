@@ -21,8 +21,13 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
+import com.simperium.client.Query;
+import com.simperium.client.Query.SortType;
+import com.simperium.client.Query.ComparisonType;
+import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
 /**
@@ -93,12 +98,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onCreate(savedInstanceState);
 
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+		mNotesBucket = application.getNotesBucket();
+
+        // Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+        ObjectCursor<Note> cursor = Note.all(mNotesBucket).execute();
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
 		
-		mNotesBucket = application.getNotesBucket();
 
 		getPrefs();
 
@@ -217,7 +223,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private void updateMenuItems() {
 		// Update ActionBar menu
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		String[] tags = application.getNoteDB().fetchAllTags();
+		String[] tags = new String[]{};
+        Bucket<Tag> tagBucket = application.getTagsBucket();
+        ObjectCursor<Tag> tagCursor = tagBucket.query().orderByKey().execute();
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
 		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
 
@@ -262,29 +270,23 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     }
 
-    public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
-		Context context;
-
-        public NotesCursorAdapter(Context context, Cursor c, int flags) {
+	public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
+        private ObjectCursor<Note> mCursor;
+        public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);
-            this.context = context;
+            mCursor = c;
+        }
+
+        public void changeCursor(ObjectCursor<Note> cursor){
+            super.changeCursor(cursor);
+            mCursor = cursor;
         }
 
         @Override
-        public Object getItem(int position) {
+        public Note getItem(int position) {
 
-            Cursor c = getCursor();
-            c.moveToPosition(position);
-            String noteID = c.getString(1);
-
-            try {
-                Note note = ((Simplenote) getActivity().getApplication()).getNotesBucket().get(noteID);
-                return note;
-            } catch (BucketObjectMissingException e) {
-                e.printStackTrace();
-            }
-
-            return null;
+            mCursor.moveToPosition(position);
+            return mCursor.getObject();
         }
 
         /*
@@ -309,7 +311,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 			holder.contentTextView.setMaxLines(mNumPreviewLines);
 
-            Note note = (Note)getItem(position);
+            Note note = getItem(position);
 
             if (note != null) {
                 String title = note.getTitle();
@@ -392,9 +394,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	public void searchNotes(String searchString) {
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		Cursor cursor = db.searchNotes(searchString);
-		mNotesAdapter.changeCursor(cursor);
+        Bucket<Note> noteBucket = application.getNotesBucket();
+        ObjectCursor<Note> noteCursor = Note.search(noteBucket, searchString).execute();
+		mNotesAdapter.changeCursor(noteCursor);
 	}
 
     /**
@@ -402,30 +404,33 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
      */
     public void clearSearch() {
         Simplenote application = (Simplenote) getActivity().getApplication();
-        NoteDB db = application.getNoteDB();
-        Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
-        mNotesAdapter.changeCursor(cursor);
+        Bucket<Note> noteBucket = application.getNotesBucket();
+        ObjectCursor<Note> noteCursor = Note.all(noteBucket).execute();
+        mNotesAdapter.changeCursor(noteCursor);
     }
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		Cursor cursor;
+        Log.d(Simplenote.TAG, "onNavigationItemSelected");
+		Query<Note> query;
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
+        Bucket<Note> noteBucket = application.getNotesBucket();
 		
 		// TODO: nbradbury - get rid of magic numbers here
 		if (itemPosition == 0) {
 			// All notes
-			cursor = db.fetchAllNotes(getActivity().getBaseContext());
+			query = Note.all(noteBucket);
 		} else if (itemPosition == 1) {
 			// Trashed notes
-			cursor = db.fetchDeletedNotes(getActivity().getBaseContext());
+			query = Note.allDeleted(noteBucket);
 		} else {
-			cursor = db.fetchNotesByTag(getActivity().getBaseContext(), mMenuItems[itemPosition]);
+			query = Note.allInTag(noteBucket, mMenuItems[itemPosition]);
 		}
 		
-		if (cursor != null)
-			mNotesAdapter.changeCursor(cursor);
+		if (query != null){
+            Log.d(Simplenote.TAG, "Change cursor");
+			mNotesAdapter.changeCursor(query.execute());
+		}
 
         getActivity().invalidateOptionsMenu();
 		

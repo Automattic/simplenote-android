@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
+import com.simperium.client.Bucket.ObjectCursor;
 
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
@@ -53,9 +55,8 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
         listView.setDividerHeight(1);
         Simplenote application = (Simplenote) getApplication();
-        NoteDB db = application.getNoteDB();
-
-        Cursor cursor = db.fetchAllTagsCursor();
+        Bucket<Tag> tagBucket = application.getTagsBucket();
+        ObjectCursor<Tag> cursor = Tag.all(tagBucket).execute();
         TagsAdapter tagsAdapter = new TagsAdapter(getBaseContext(), cursor, 0);
         setListAdapter(tagsAdapter);
 
