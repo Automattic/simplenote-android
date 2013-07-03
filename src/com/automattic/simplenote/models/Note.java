@@ -45,6 +45,10 @@ public class Note extends BucketObject {
 			Note note = new Note(key, properties);
 			return note;
 		}
+
+        public void update(Note note, Map<String,Object>properties){
+            note.updateProperties(properties);
+        }
 	}
 
     public static Query<Note> all(Bucket<Note> noteBucket){
@@ -60,7 +64,7 @@ public class Note extends BucketObject {
     public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
         return addDefaultSort(noteBucket.query()
                 .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
-                .where("content", ComparisonType.LIKE, "% " + searchString + " %"));
+                .where("content", ComparisonType.LIKE, "%" + searchString + "%"));
     }
 
     public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
@@ -76,7 +80,10 @@ public class Note extends BucketObject {
 
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
+        updateProperties(properties);
+	}
 
+    protected void updateProperties(Map<String,Object> properties){
         if (properties == null)
             properties = new HashMap<String, Object>();
 
@@ -115,8 +122,8 @@ public class Note extends BucketObject {
 		publishURL = (String)properties.get("publishURL");
 		if (publishURL == null)
 			publishURL = "";
-	}
-	
+    }
+
     public Map<String, Object> getDiffableValue() {
 		Map<String, Object> properties = new HashMap<String,Object>();
     	properties.put("content", content);

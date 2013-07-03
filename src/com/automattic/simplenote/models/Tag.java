@@ -25,6 +25,10 @@ public class Tag extends BucketObject {
 		public Tag build(String key, Map<String,Object>properties){
 			return new Tag(key, properties);
 		}
+
+        public void update(Tag tag, Map<String,Object>properties){
+            tag.setProperties(properties);
+        }
 	}
 
     public static Query<Tag> all(Bucket<Tag> bucket){
@@ -57,4 +61,8 @@ public class Tag extends BucketObject {
             properties.put("index", tagIndex);
         }
 	}
+
+    protected void setProperties(Map<String,Object> properties){
+        this.properties = properties;
+    }
 }
