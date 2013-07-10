@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-
-import com.automattic.simplenote.R;
+import android.view.MenuItem;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -16,6 +15,10 @@ public class PreferencesActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		
 		addPreferencesFromResource(R.xml.preferences);
+
+        setTitle(R.string.settings);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		findPreference("pref_key_sign_out").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
@@ -47,5 +50,15 @@ public class PreferencesActivity extends PreferenceActivity {
 			finish();
 		}
 	}
-	
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

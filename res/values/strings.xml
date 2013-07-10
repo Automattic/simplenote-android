@@ -4,7 +4,7 @@
     <string name="app_name">Simplenote</string>
     <string name="title_note_detail">Note Detail</string>
     <string name="tag_hint">Add tag&#8230;</string>
-    <string name="preferences">Settings</string>
+    <string name="settings">Settings</string>
     <string name="share">Share</string>
     <string name="info">Info</string>
     <string name="delete">Delete note</string>

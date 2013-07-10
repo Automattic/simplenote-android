@@ -15,7 +15,7 @@
     
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/preferences" >
+        android:title="@string/settings" >
         <SwitchPreference
             android:defaultValue="true"
             android:key="pref_key_show_dates"
