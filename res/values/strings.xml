@@ -37,7 +37,7 @@
     <string name="modified_date">Modified date</string>
     <string name="search">Search</string>
     
-    <string name="notes">Notes</string>
+    <string name="notes">All Notes</string>
     <string name="trash">Trash</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -49,7 +49,7 @@
     
     <!-- in-app billing -->
 	<string name="btn_buy">Buy</string>
-    <string name="premium_title">Go Premium!</string>
+    <string name="premium_title">Go premium!</string>
     <string name="premium_subtitle">Become a Premium subscriber to get rid of ads and gain more features</string>
     <string name="premium_link_title">Tell me more about Premium</string>
     <string name="premium_link_url">http://simplenote.com/premium/</string>
