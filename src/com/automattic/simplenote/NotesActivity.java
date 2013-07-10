@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,6 +50,7 @@ public class NotesActivity extends Activity implements
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
+    private NoteListFragment mNoteListFragment;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
     private int TRASH_SELECTED_ID = 1;
@@ -71,9 +73,15 @@ public class NotesActivity extends Activity implements
 			mTwoPane = true;
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			getNoteListFragment().setActivateOnItemClick(true);
+            mNoteListFragment = ((NoteListFragment) getFragmentManager().findFragmentById(R.id.note_list));
+            mNoteListFragment.setActivateOnItemClick(true);
             mNoteEditorFragment = getNoteEditorFragment();
-		}
+		} else if (savedInstanceState == null){
+            mNoteListFragment = new NoteListFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.noteFragmentContainer, mNoteListFragment);
+            fragmentTransaction.commit();
+        }
 
 		Simplenote currentApp = (Simplenote) getApplication();
 		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
@@ -105,9 +113,13 @@ public class NotesActivity extends Activity implements
         invalidateOptionsMenu();
     }
 
+    public boolean isTwoPane() {
+        return mTwoPane;
+    }
+
     // nbradbury 01-Apr-2013
 	private NoteListFragment getNoteListFragment() {
-		return ((NoteListFragment) getFragmentManager().findFragmentById(R.id.note_list));
+		return mNoteListFragment;
 	}
 
     private NoteEditorFragment getNoteEditorFragment() {
@@ -300,14 +312,18 @@ public class NotesActivity extends Activity implements
             ActionBar ab = getActionBar();
             ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             ab.setDisplayShowTitleEnabled(true);
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.hide(getNoteListFragment());
+
+            // Create editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteKey);
             f = new NoteEditorFragment();
             f.setArguments(arguments);
             mNoteEditorFragment = f;
-            ft.add(R.id.noteFragmentContainer, f);
+
+            // Add editor fragment to stack
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.animator.slide_in, R.animator.zoom_in_and_fade, R.animator.zoom_out_and_fade, R.animator.slide_out);
+            ft.replace(R.id.noteFragmentContainer, f);
             ft.addToBackStack(null);
             ft.commit();
             fm.executePendingTransactions();

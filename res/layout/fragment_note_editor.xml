@@ -1,11 +1,12 @@
-<ScrollView
+<com.automattic.simplenote.utils.AnimatedScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/note_editor"
 	android:layout_width="fill_parent"
 	android:layout_height="match_parent"
 	android:fillViewport="true"
-	android:fadingEdge="none" >
+	android:fadingEdge="none"
+    android:background="@color/white">
 	<LinearLayout
 		android:layout_width="fill_parent"
        	android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
 			android:paddingTop="8dp"
             android:textColor="@color/darkgrey"
             android:textSize="20sp"
+            android:autoLink="all"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"
 			tools:context=".NoteEditorFragment" />
@@ -68,4 +70,4 @@
             android:layout_marginTop="16dp"
             android:textColor="#727272" />
    </LinearLayout>
-</ScrollView>
+</com.automattic.simplenote.utils.AnimatedScrollView>

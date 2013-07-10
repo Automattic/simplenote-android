@@ -3,8 +3,9 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".NotesActivity">
-
+              tools:context=".NotesActivity"
+              android:background="@color/white">
+    ar
     <!--
     This layout is a two-pane layout for the Notes
     master/detail flow. See res/values-large/refs.xml and
@@ -24,17 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <LinearLayout
+            <FrameLayout
                     android:id="@+id/noteFragmentContainer"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
-
-                <fragment
-                        android:id="@+id/note_list"
-                        android:name="com.automattic.simplenote.NoteListFragment"
-                        android:layout_height="fill_parent"
-                        android:layout_width="match_parent"/>
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout

@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,15 +72,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 			}
 		}
 
-        NoteListFragment listFragment = (NoteListFragment)getFragmentManager().findFragmentById(R.id.note_list);
-        if (!listFragment.isVisible())
+        if (!((NotesActivity)getActivity()).isTwoPane())
             mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
 
 	}
 
-	@Override
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
 		mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
@@ -141,6 +141,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             // Restore the cursor position if possible.
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
+            Linkify.addLinks(mContentEditText, Linkify.ALL);
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
             if (mNote.getContent().isEmpty()) {

@@ -108,9 +108,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
-        getListView().setDividerHeight(2);
-        getListView().setBackgroundColor(getResources().getColor(R.color.white));
+
     }
 
     // nbradbury - load values from preferences
@@ -130,6 +128,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
+
+        getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
+        getListView().setDividerHeight(2);
+        getListView().setBackgroundColor(getResources().getColor(R.color.white));
 	}
 
 	@Override
