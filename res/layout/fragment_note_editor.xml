@@ -59,7 +59,6 @@
 			android:paddingTop="8dp"
             android:textColor="@color/darkgrey"
             android:textSize="20sp"
-            android:autoLink="all"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"
 			tools:context=".NoteEditorFragment" />

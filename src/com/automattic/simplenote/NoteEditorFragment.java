@@ -14,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,7 +140,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             // Restore the cursor position if possible.
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
-            Linkify.addLinks(mContentEditText, Linkify.ALL);
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
             if (mNote.getContent().isEmpty()) {
