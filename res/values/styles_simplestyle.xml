@@ -31,6 +31,7 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
     </style>
 
     <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -45,6 +46,10 @@
     <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+    </style>
+
+    <style name="Simplestyle.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ab_icon_overflow</item>
     </style>
 
     <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
