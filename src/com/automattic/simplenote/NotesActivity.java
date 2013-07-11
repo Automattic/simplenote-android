@@ -60,14 +60,6 @@ public class NotesActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notes);
 
-		ActionBar ab = getActionBar();
-		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		ab.setDisplayShowTitleEnabled(false);
-
-        mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
-
-        getFragmentManager().addOnBackStackChangedListener(this);
-
 		int orientation = getResources().getConfiguration().orientation;
 		if (getNoteEditorFragment() != null && orientation == Configuration.ORIENTATION_LANDSCAPE ) {
 			mTwoPane = true;
@@ -82,6 +74,14 @@ public class NotesActivity extends Activity implements
             fragmentTransaction.add(R.id.noteFragmentContainer, mNoteListFragment);
             fragmentTransaction.commit();
         }
+
+        ActionBar ab = getActionBar();
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        ab.setDisplayShowTitleEnabled(false);
+
+        mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
+
+        getFragmentManager().addOnBackStackChangedListener(this);
 
 		Simplenote currentApp = (Simplenote) getApplication();
 		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
