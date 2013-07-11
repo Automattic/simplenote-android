@@ -20,7 +20,7 @@
             android:duration="@android:integer/config_shortAnimTime" />
     <objectAnimator
             android:interpolator="@android:interpolator/accelerate_quad"
-            android:valueFrom="-100"
+            android:valueFrom="-150"
             android:valueTo="0"
             android:propertyName="translationX"
             android:duration="@android:integer/config_mediumAnimTime" />
