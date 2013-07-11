@@ -26,11 +26,14 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
+
+import java.util.List;
 
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
@@ -38,6 +41,9 @@ import com.simperium.client.Bucket.ObjectCursor;
 public class TagsListActivity extends ListActivity implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener {
 
     private ActionMode mActionMode;
+    private Bucket<Tag> mTagBucket;
+    private Bucket<Note> mNotesBucket;
+    private TagsAdapter mTagsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,13 +61,18 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
         listView.setDividerHeight(1);
         Simplenote application = (Simplenote) getApplication();
-        Bucket<Tag> tagBucket = application.getTagsBucket();
-        ObjectCursor<Tag> cursor = Tag.all(tagBucket).execute();
-        TagsAdapter tagsAdapter = new TagsAdapter(getBaseContext(), cursor, 0);
-        setListAdapter(tagsAdapter);
+        mTagBucket = application.getTagsBucket();
+        mNotesBucket = application.getNotesBucket();
+        ObjectCursor<Tag> cursor = Tag.all(mTagBucket).execute();
+        mTagsAdapter = new TagsAdapter(getBaseContext(), cursor, 0);
+        setListAdapter(mTagsAdapter);
 
     }
 
+    protected void refreshTags(){
+        ObjectCursor<Tag> cursor = Tag.all(mTagBucket).execute();
+        mTagsAdapter.changeCursor(cursor);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int row, long l) {
@@ -69,18 +80,22 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         LinearLayout alertView = (LinearLayout)getLayoutInflater().inflate(R.layout.edit_tag, null);
 
+        final Tag tag = mTagsAdapter.getItem(row);
+
         final EditText tagNameEditText = (EditText)alertView.findViewById(R.id.tag_name_edit);
-        tagNameEditText.setText(((TextView)view.findViewById(R.id.tag_name)).getText());
+        tagNameEditText.setText(tag.getName());
         alert.setView(alertView);
         alert.setTitle(R.string.edit_tag);
         alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = tagNameEditText.getText().toString().trim();
-
+                tag.renameTo(value, mNotesBucket);
+                refreshTags();
             }
         });
         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                // Do nothing
             }
         });
         alert.show();
@@ -145,11 +160,22 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
     private class TagsAdapter extends CursorAdapter {
 
-        private Cursor mCursor;
+        private ObjectCursor<Tag> mCursor;
 
-        public TagsAdapter(Context context, Cursor c, int flags) {
+        public TagsAdapter(Context context, ObjectCursor<Tag> c, int flags) {
             super(context, c, flags);
             mCursor = c;
+        }
+
+        public void changeCursor(ObjectCursor<Tag> cursor){
+            super.changeCursor(cursor);
+            mCursor = cursor;
+        }
+
+        @Override
+        public Tag getItem(int row){
+            super.getItem(row);
+            return mCursor.getObject();
         }
 
         @Override
@@ -160,17 +186,28 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             if (convertView == null) {
                 convertView = (LinearLayout)getLayoutInflater().inflate(R.layout.tags_list_row, null);
             }
-
-            convertView.setTag(mCursor.getString(1));
+            final Tag tag = mCursor.getObject();
+            convertView.setTag(tag.getSimperiumKey());
 
             TextView tagTitle = (TextView)convertView.findViewById(R.id.tag_name);
-            tagTitle.setText(mCursor.getString(2));
+            tagTitle.setText(tag.getName());
 
             ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.tag_trash);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getBaseContext(), "YUP" + position, Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getBaseContext(), "YUP" + position, Toast.LENGTH_LONG).show();
+                    tag.delete();
+                    ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
+                    while(notesCursor.moveToNext()){
+                        Note note = notesCursor.getObject();
+                        List<String> tags = note.getTags();
+                        tags.remove(tag.getName());
+                        note.setTags(tags);
+                        note.save();
+                    }
+                    notesCursor.close();
+                    refreshTags();
                 }
             });
 
