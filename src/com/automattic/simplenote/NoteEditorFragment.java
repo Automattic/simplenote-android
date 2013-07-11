@@ -95,8 +95,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
         Simplenote simplenote = (Simplenote)getActivity().getApplication();
         Bucket<Tag> tagBucket = simplenote.getTagsBucket();
         ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
-        String[] allTags = new String[]{};
-
+		String[] allTags = new String[tagsCursor.getCount()];
+        while (tagsCursor.moveToNext()) {
+            allTags[tagsCursor.getPosition()] = tagsCursor.getObject().getName();
+        }
+        tagsCursor.close();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, allTags);
         mTagView.setAdapter(adapter);
