@@ -68,11 +68,13 @@ public class NotesActivity extends Activity implements
             mNoteListFragment = ((NoteListFragment) getFragmentManager().findFragmentById(R.id.note_list));
             mNoteListFragment.setActivateOnItemClick(true);
             mNoteEditorFragment = getNoteEditorFragment();
-		} else if (savedInstanceState == null){
+		} else if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.noteFragmentContainer, mNoteListFragment);
             fragmentTransaction.commit();
+        } else {
+            mNoteListFragment = (NoteListFragment)getFragmentManager().findFragmentById(R.id.noteFragmentContainer);
         }
 
         ActionBar ab = getActionBar();
