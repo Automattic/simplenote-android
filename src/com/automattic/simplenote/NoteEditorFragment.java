@@ -102,21 +102,22 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 	}
 
     @Override
-    public void onPause() {
-        String content = mContentEditText.getText().toString();
-        String tagString = mTagView.getText().toString().trim();
-        List<String> tagList = Arrays.asList(tagString.split(" "));
-        ArrayList<String> tags = tagString.equals("") ? new ArrayList<String>() : new ArrayList<String>(tagList);
+    public void onResume() {
+        super.onResume();
 
-        // TODO: make sure any new tags get added to the Tag database
-        if (mNote != null && !mNote.isDeleted() && mNote.hasChanges(content, tags, mPinButton.isChecked())) {
-            mNote.setContent(content);
-            mNote.setTags(tags);
-            mNote.setModificationDate(Calendar.getInstance());
-            mNote.setPinned(mPinButton.isChecked());
-            ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
-            mNote.save();
+        if (mNote != null && mNote.getContent().isEmpty()) {
+            // Show soft keyboard
+            mContentEditText.requestFocus();
+
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null)
+                inputMethodManager.showSoftInput(mContentEditText, 0);
         }
+    }
+
+    @Override
+    public void onPause() {
+        saveAndSyncNote();
 
         // Hide soft keyboard
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -130,6 +131,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     }
 
     public void setNote(Note note) {
+        // If we have a note already (on a tablet in landscape), save the note.
+        if (mNote != null)
+            saveAndSyncNote();
+
         mNote = note;
         refreshContent();
     }
@@ -142,14 +147,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             mContentEditText.setText(mNote.getContent());
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
-            if (mNote.getContent().isEmpty()) {
-                // Show soft keyboard
-                mContentEditText.requestFocus();
 
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethodManager != null)
-                    inputMethodManager.showSoftInput(mContentEditText, 0);
-            }
             // Populate this note's tags in the tagView - TODO: nbradbury - for a large list of tags, using a StringBuilder here would be more efficient
             String tagListString = "";
             for (String tag : mNote.getTags())

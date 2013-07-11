@@ -331,6 +331,7 @@ public class NotesActivity extends Activity implements
             fm.executePendingTransactions();
         } else {
             f.setNote(note);
+            getNoteListFragment().setNoteSelected(note);
         }
 
         invalidateOptionsMenu();

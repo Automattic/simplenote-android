@@ -196,13 +196,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	}
 
 	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
-			getListView().setItemChecked(mActivatedPosition, false);
-		} else {
-			getListView().setItemChecked(position, true);
-		}
+        if (getListView() != null) {
+            if (position == ListView.INVALID_POSITION) {
+                getListView().setItemChecked(mActivatedPosition, false);
+            } else {
+                getListView().setItemChecked(position, true);
+            }
 
-		mActivatedPosition = position;
+            mActivatedPosition = position;
+        }
 	}
 
 	@SuppressWarnings("deprecation")
@@ -249,7 +251,18 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		//getListView().performItemClick(v, 0, 0);
 	}
 
-	public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
+    public void setNoteSelected(Note selectedNote) {
+        // Loop through notes and set note selected if found
+        for(int i=0; i < mNotesAdapter.getCount(); i++) {
+            Note note = (Note)mNotesAdapter.getItem(i);
+            if (note.getSimperiumKey().equals(selectedNote.getSimperiumKey())) {
+                setActivatedPosition(i);
+                break;
+            }
+        }
+    }
+
+    public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
 		Context context;
 
         public NotesCursorAdapter(Context context, Cursor c, int flags) {
@@ -310,7 +323,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                     holder.titleTextView.setText(title);
                     holder.contentTextView.setText(contentPreview!=null ? contentPreview.trim() : content);
                 } else {
-                    holder.titleTextView.setText(content);
+                    holder.titleTextView.setText(content.equals("") ? getString(R.string.new_note) : content);
                     holder.contentTextView.setText(content);
                 }
 
