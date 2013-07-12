@@ -115,9 +115,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         ObjectCursor<Note> cursor = queryNotes();
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
-		
-
-		getPrefs();
 
 		mNotesBucket.registerOnSaveObjectListener(mNotesAdapter);
 		mNotesBucket.registerOnDeleteObjectListener(mNotesAdapter);
@@ -175,6 +172,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onResume() {
 		super.onResume();
+        getPrefs();
         refreshList();
         updateMenuItems();
 		mTagsBucket.registerOnSaveObjectListener(mTagsMenuUpdater);
@@ -391,10 +389,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                 if (title != null) {
                     title = title.trim();
                     holder.titleTextView.setText(title);
-                    holder.contentTextView.setText(contentPreview!=null ? contentPreview.trim() : content);
+                    if (mNumPreviewLines > 0)
+                        holder.contentTextView.setText((contentPreview != null) ? contentPreview.trim() : content);
                 } else {
                     holder.titleTextView.setText(content.equals("") ? getString(R.string.new_note) : content);
-                    holder.contentTextView.setText(content);
+                    if (mNumPreviewLines > 0)
+                        holder.contentTextView.setText(content);
                 }
 
                 holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
