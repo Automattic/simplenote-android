@@ -152,6 +152,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(2);
         getListView().setBackgroundColor(getResources().getColor(R.color.white));
+
+        updateMenuItems();
 	}
 
 	@Override
@@ -169,7 +171,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onResume() {
 		super.onResume();
-		updateMenuItems();
         refreshList();
         // update the view again
 	}
@@ -456,6 +457,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Log.d(Simplenote.TAG, "onNavigationItemSelected");
+
 		Query<Note> query;
 		Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Note> noteBucket = application.getNotesBucket();
