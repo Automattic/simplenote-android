@@ -39,15 +39,12 @@ public class UndoBarController {
 
     private Note mDeletedNote;
 
-    private boolean mDidUndo;
-
     // State objects
     private Parcelable mUndoToken;
     private CharSequence mUndoMessage;
 
     public interface UndoListener {
         void onUndo(Parcelable token);
-        void onDeleteConfirm();
     }
 
     public UndoBarController(View undoBarView, UndoListener undoListener) {
@@ -60,7 +57,6 @@ public class UndoBarController {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mDidUndo = true;
                         hideUndoBar(false);
                         mUndoListener.onUndo(mUndoToken);
                     }
@@ -142,10 +138,6 @@ public class UndoBarController {
         @Override
         public void run() {
             hideUndoBar(false);
-            if (!mDidUndo) {
-                mUndoListener.onDeleteConfirm();
-                mDidUndo = false;
-            }
         }
     };
 }

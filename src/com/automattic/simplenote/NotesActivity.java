@@ -236,14 +236,14 @@ public class NotesActivity extends Activity implements
                 if (mCurrentNote != null) {
                     mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
                     mCurrentNote.setModificationDate(Calendar.getInstance());
-                    // Note will be saved in the onDeleteConfirm method if user doesn't Undo the delete. See UndoBarController.java
+                    mCurrentNote.save();
+
+                    if (mCurrentNote.isDeleted()) {
+                        mUndoBarController.setDeletedNote(mCurrentNote);
+                        mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                    }
                 }
-                mCurrentNote.save();
                 popNoteDetail();
-                if (mCurrentNote.isDeleted()) {
-                    mUndoBarController.setDeletedNote(mCurrentNote);
-                    mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
-                }
                 NoteListFragment fragment = getNoteListFragment();
                 if (fragment!=null) {
                     fragment.getPrefs();
@@ -384,13 +384,6 @@ public class NotesActivity extends Activity implements
                     fragment.refreshList();
                 }
             }
-        }
-    }
-
-    @Override
-    public void onDeleteConfirm() {
-        if (mUndoBarController != null && mUndoBarController.getDeletedNote() != null) {
-            mUndoBarController.getDeletedNote().save();
         }
     }
 
