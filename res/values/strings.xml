@@ -63,4 +63,5 @@
 	<string name="billing_err_payload_verification_failed">Unable to verify subscription purchase</string>
 	<string name="billing_toast_purchase_success">Thank you for subscribing to Simplenote!</string>
     <string name="no_notes"><b>No notes here.</b>\nWhy not create one?</string>
+    <string name="no_tags_found">No tags found.</string>
 </resources>

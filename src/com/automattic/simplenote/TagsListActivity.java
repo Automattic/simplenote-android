@@ -49,7 +49,11 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.tags_list_activity);
+
         setTitle(getString(R.string.edit_tags));
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView listView = getListView();
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -156,6 +160,17 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             startActionMode(this);
         //isCABDestroyed = false;
         return false; // so this action does not consume the event!!!
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class TagsAdapter extends CursorAdapter {
