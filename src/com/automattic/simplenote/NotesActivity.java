@@ -241,18 +241,16 @@ public class NotesActivity extends Activity implements
                     mCurrentNote.setModificationDate(Calendar.getInstance());
                     // Note will be saved in the onDeleteConfirm method if user doesn't Undo the delete. See UndoBarController.java
                 }
-                boolean result = ((Simplenote)getApplication()).getNoteDB().update(mCurrentNote);
-                if (result) {
-                    popNoteDetail();
-                    if (mCurrentNote.isDeleted()) {
-                        mUndoBarController.setDeletedNote(mCurrentNote);
-                        mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
-                    }
-                    NoteListFragment fragment = getNoteListFragment();
-                    if (fragment!=null) {
-                        fragment.getPrefs();
-                        fragment.refreshList();
-                    }
+                mCurrentNote.save();
+                popNoteDetail();
+                if (mCurrentNote.isDeleted()) {
+                    mUndoBarController.setDeletedNote(mCurrentNote);
+                    mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                }
+                NoteListFragment fragment = getNoteListFragment();
+                if (fragment!=null) {
+                    fragment.getPrefs();
+                    fragment.refreshList();
                 }
             }
             return true;
@@ -383,13 +381,11 @@ public class NotesActivity extends Activity implements
                 deletedNote.setDeleted(false);
                 deletedNote.setModificationDate(Calendar.getInstance());
                 Simplenote currentApp = ((Simplenote)getApplication());
-                boolean result = currentApp.getNoteDB().update(deletedNote);
-                if (result) {
-                    NoteListFragment fragment = getNoteListFragment();
-                    if (fragment!=null) {
-                        fragment.getPrefs();
-                        fragment.refreshList();
-                    }
+                deletedNote.save();
+                NoteListFragment fragment = getNoteListFragment();
+                if (fragment!=null) {
+                    fragment.getPrefs();
+                    fragment.refreshList();
                 }
             }
         }
