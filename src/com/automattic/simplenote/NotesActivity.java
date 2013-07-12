@@ -263,6 +263,7 @@ public class NotesActivity extends Activity implements
             });
             alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
+                    // Do nothing, just closing the dialog
                 }
             });
             alert.show();

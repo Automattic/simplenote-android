@@ -49,6 +49,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	private NotesCursorAdapter mNotesAdapter;
 	private Bucket<Note> mNotesBucket;
+	private Bucket<Tag> mTagsBucket;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
 	private String[] mMenuItems;
@@ -107,8 +108,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		mNotesBucket = application.getNotesBucket();
+        mTagsBucket = application.getTagsBucket();
 
-        // Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
         ObjectCursor<Note> cursor = queryNotes();
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
@@ -119,6 +120,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesBucket.registerOnSaveObjectListener(mNotesAdapter);
 		mNotesBucket.registerOnDeleteObjectListener(mNotesAdapter);
 		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
+
 	}
 
     @Override
@@ -172,8 +174,20 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onResume() {
 		super.onResume();
         refreshList();
+        updateMenuItems();
+		mTagsBucket.registerOnSaveObjectListener(mTagsMenuUpdater);
+		mTagsBucket.registerOnDeleteObjectListener(mTagsMenuUpdater);
+		mTagsBucket.registerOnNetworkChangeListener(mTagsMenuUpdater);
         // update the view again
 	}
+
+    @Override
+    public void onPause(){
+        super.onPause();
+		mTagsBucket.unregisterOnSaveObjectListener(mTagsMenuUpdater);
+		mTagsBucket.unregisterOnDeleteObjectListener(mTagsMenuUpdater);
+		mTagsBucket.unregisterOnNetworkChangeListener(mTagsMenuUpdater);
+    }
 
 	@Override
 	public void onDetach() {
@@ -188,7 +202,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         super.onDestroy();
 		mNotesBucket.unregisterOnSaveObjectListener(mNotesAdapter);
 		mNotesBucket.unregisterOnDeleteObjectListener(mNotesAdapter);
-		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
+		mNotesBucket.unregisterOnNetworkChangeListener(mNotesAdapter);
+
     }
 
 	@Override
@@ -276,10 +291,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
 		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
         ActionBar ab = getActivity().getActionBar();
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
 		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
+        if (mNavigationItem < mMenuItems.length) {
+            ab.setSelectedNavigationItem(mNavigationItem);
+        }
 	}
 
 	public void addNote() {
@@ -499,4 +518,35 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 			break;
 		}
     }
+
+    interface TagBucketListener
+    extends OnSaveObjectListener<Tag>,
+    OnDeleteObjectListener<Tag>,
+    OnNetworkChangeListener {
+        void onSaveObject(Tag tag);
+        void onDeleteObject(Tag tag);
+        void onChange(Bucket.ChangeType type, String key);
+    }
+
+    private TagBucketListener mTagsMenuUpdater = new TagBucketListener(){
+        void updateMenu(){
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    updateMenuItems();
+                }
+            });
+        }
+
+        public void onSaveObject(Tag tag){
+            updateMenu();
+        }
+
+        public void onDeleteObject(Tag tag){
+            updateMenu();
+        }
+
+        public void onChange(Bucket.ChangeType type, String key){
+            updateMenu();
+        }
+    };
 }
