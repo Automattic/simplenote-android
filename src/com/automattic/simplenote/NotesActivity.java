@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,22 +8,20 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.UndoBarController;
-
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.LoginActivity;
+import com.simperium.client.Query;
 import com.simperium.client.User;
 
 import java.util.Calendar;
@@ -261,8 +258,7 @@ public class NotesActivity extends Activity implements
             alert.setMessage(R.string.confirm_empty_trash);
             alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    // Delete all notes that are isDeleted()
-
+                    new emptyTrashTask().execute();
                 }
             });
             alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -444,5 +440,21 @@ public class NotesActivity extends Activity implements
             startActivity(getIntent());
         }
     }
+
+    private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> noteBucket = application.getNotesBucket();
+            Query<Note> query = Note.allDeleted(noteBucket);
+            Bucket.ObjectCursor c = query.execute();
+            while (c.moveToNext()) {
+                c.getObject().delete();
+            }
+            return null;
+        }
+    }
+
 }
 
