@@ -9,6 +9,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private NotesCursorAdapter mNotesAdapter;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
+    private TextView mEmptyListTextView;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
 	private String[] mMenuItems;
@@ -141,10 +143,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         setListShown(true);
 
-        TextView emptyListTextView = (TextView)getActivity().getLayoutInflater().inflate(R.layout.empty_list, null);
-        getListView().setEmptyView(emptyListTextView);
-        emptyListTextView.setVisibility(View.GONE);
-        ((ViewGroup)getListView().getParent()).addView(emptyListTextView);
+        mEmptyListTextView = (TextView)getActivity().getLayoutInflater().inflate(R.layout.empty_list, null);
+        getListView().setEmptyView(mEmptyListTextView);
+        mEmptyListTextView.setVisibility(View.GONE);
+        ((ViewGroup)getListView().getParent()).addView(mEmptyListTextView);
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
@@ -476,6 +478,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Log.d(Simplenote.TAG, "onNavigationItemSelected");
+
+        // Update empty list placeholder text
+        if (mEmptyListTextView != null) {
+            if (itemPosition == NAVIGATION_ITEM_TRASH)
+                mEmptyListTextView.setText(Html.fromHtml(getString(R.string.trash_is_empty)));
+            else
+                mEmptyListTextView.setText(Html.fromHtml(getString(R.string.no_notes)));
+        }
 
 		Query<Note> query;
 		Simplenote application = (Simplenote) getActivity().getApplication();
