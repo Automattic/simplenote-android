@@ -296,7 +296,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
-        ab.setSelectedNavigationItem(mNavigationItem);
+        if (mNavigationItem < mMenuItems.length) {
+            ab.setSelectedNavigationItem(mNavigationItem);
+        }
 	}
 
 	public void addNote() {
