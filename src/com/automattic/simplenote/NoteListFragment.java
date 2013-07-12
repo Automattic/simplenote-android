@@ -121,9 +121,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesBucket.registerOnDeleteObjectListener(mNotesAdapter);
 		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
 
-		mTagsBucket.registerOnSaveObjectListener(mTagsMenuUpdater);
-		mTagsBucket.registerOnDeleteObjectListener(mTagsMenuUpdater);
-		mTagsBucket.registerOnNetworkChangeListener(mTagsMenuUpdater);
 	}
 
     @Override
@@ -177,8 +174,20 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onResume() {
 		super.onResume();
         refreshList();
+        updateMenuItems();
+		mTagsBucket.registerOnSaveObjectListener(mTagsMenuUpdater);
+		mTagsBucket.registerOnDeleteObjectListener(mTagsMenuUpdater);
+		mTagsBucket.registerOnNetworkChangeListener(mTagsMenuUpdater);
         // update the view again
 	}
+
+    @Override
+    public void onPause(){
+        super.onPause();
+		mTagsBucket.unregisterOnSaveObjectListener(mTagsMenuUpdater);
+		mTagsBucket.unregisterOnDeleteObjectListener(mTagsMenuUpdater);
+		mTagsBucket.unregisterOnNetworkChangeListener(mTagsMenuUpdater);
+    }
 
 	@Override
 	public void onDetach() {
@@ -195,9 +204,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesBucket.unregisterOnDeleteObjectListener(mNotesAdapter);
 		mNotesBucket.unregisterOnNetworkChangeListener(mNotesAdapter);
 
-		mTagsBucket.unregisterOnSaveObjectListener(mTagsMenuUpdater);
-		mTagsBucket.unregisterOnDeleteObjectListener(mTagsMenuUpdater);
-		mTagsBucket.unregisterOnNetworkChangeListener(mTagsMenuUpdater);
     }
 
 	@Override
@@ -285,10 +291,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
 		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
         ActionBar ab = getActivity().getActionBar();
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
 		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
+        ab.setSelectedNavigationItem(mNavigationItem);
 	}
 
 	public void addNote() {
