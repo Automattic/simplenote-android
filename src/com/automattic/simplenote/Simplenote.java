@@ -9,6 +9,7 @@ import android.util.Log;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.models.NoteTagger;
 import com.simperium.client.Bucket;
 import com.simperium.Simperium;
 
@@ -28,36 +29,28 @@ public class Simplenote extends Application {
 	private Simperium mSimperium;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
-	private NoteDB mNoteDB;
 		
 	public void onCreate(){
 		super.onCreate();
 		Properties mConfig = getConfigProperties();
-		mNoteDB = new NoteDB(getApplicationContext());
 		
 		mSimperium = new Simperium(
 			mConfig.getProperty(SIMPERIUM_APP_CONFIG_KEY),
 			mConfig.getProperty(SIMPERIUM_KEY_CONFIG_KEY),
-			getApplicationContext(),
-			mNoteDB.getSimperiumStore(),
-			null
+			getApplicationContext()
 		);
 
 		mNotesBucket = mSimperium.bucket(new Note.Schema());
 		mTagsBucket = mSimperium.bucket(new Tag.Schema());
-		// FIXME: Remove resets!
-		// mNotesBucket.reset();
-		// mTagsBucket.reset();
+        // Every time a note is saved the NoteTagger makes sure there's a tag in the tags bucket and creates on if necessary
+        mNotesBucket.registerOnSaveObjectListener(new NoteTagger(mTagsBucket));
+
 		// Start the bucket sockets
 		mNotesBucket.start();
 		mTagsBucket.start();
 		Log.d(Simplenote.TAG, "Simplenote launched");
 	}
-	
-	public NoteDB getNoteDB(){
-		return mNoteDB;
-	}
-	
+		
 	public Simperium getSimperium(){
 		return mSimperium;
 	}

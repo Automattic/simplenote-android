@@ -26,8 +26,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.simperium.client.Bucket;
+import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher {
@@ -91,8 +93,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 		
 		// Populate tag list
         Simplenote simplenote = (Simplenote)getActivity().getApplication();
-		String[] allTags = simplenote.getNoteDB().fetchAllTags();
-
+        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
+        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
+		String[] allTags = new String[tagsCursor.getCount()];
+        while (tagsCursor.moveToNext()) {
+            allTags[tagsCursor.getPosition()] = tagsCursor.getObject().getName();
+        }
+        tagsCursor.close();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, allTags);
         mTagView.setAdapter(adapter);
@@ -266,7 +273,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             mNote.setTags(tags);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setPinned(mPinButton.isChecked());
-            ((Simplenote)getActivity().getApplication()).getNoteDB().update(mNote);
             mNote.save();
         }
 

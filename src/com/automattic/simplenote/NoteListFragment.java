@@ -21,8 +21,16 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
+import com.simperium.client.Bucket.OnSaveObjectListener;
+import com.simperium.client.Bucket.OnDeleteObjectListener;
+import com.simperium.client.Bucket.OnNetworkChangeListener;
+import com.simperium.client.Query;
+import com.simperium.client.Query.SortType;
+import com.simperium.client.Query.ComparisonType;
+import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
 /**
@@ -36,12 +44,17 @@ import com.simperium.client.BucketObjectMissingException;
  */
 public class NoteListFragment extends ListFragment implements ActionBar.OnNavigationListener {
 
+    private static final int NAVIGATION_ITEM_ALL_NOTES=0;
+    private static final int NAVIGATION_ITEM_TRASH=1;
+
 	private NotesCursorAdapter mNotesAdapter;
 	private Bucket<Note> mNotesBucket;
 	private int mNumPreviewLines;
 	private boolean mShowDate;
 	private String[] mMenuItems;
-	
+    private String mSelectedTag;
+    private String mSearchString;
+	private int mNavigationItem;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -93,16 +106,19 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onCreate(savedInstanceState);
 
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+		mNotesBucket = application.getNotesBucket();
+
+        // Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
+        ObjectCursor<Note> cursor = queryNotes();
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
 		
-		mNotesBucket = application.getNotesBucket();
 
 		getPrefs();
 
-		mNotesBucket.addListener(mNotesAdapter);
+		mNotesBucket.registerOnSaveObjectListener(mNotesAdapter);
+		mNotesBucket.registerOnDeleteObjectListener(mNotesAdapter);
+		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
 	}
 
     @Override
@@ -150,6 +166,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onResume() {
 		super.onResume();
 		updateMenuItems();
+        refreshList();
+        // update the view again
 	}
 
 	@Override
@@ -159,6 +177,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		// Reset the active callbacks interface to the dummy implementation.
 		mCallbacks = sCallbacks;
 	}
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+		mNotesBucket.unregisterOnSaveObjectListener(mNotesAdapter);
+		mNotesBucket.unregisterOnDeleteObjectListener(mNotesAdapter);
+		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
+    }
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
@@ -210,17 +236,40 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
 		Log.d(Simplenote.TAG, "Refresh the list");
-		mNotesAdapter.getCursor().requery();
+        mNotesAdapter.changeCursor(queryNotes());
 		mNotesAdapter.notifyDataSetChanged();
 	}
+
+    public ObjectCursor<Note> queryNotes(){
+        Log.d(Simplenote.TAG, String.format("Querying %d %s", mNavigationItem, mSelectedTag));
+        Query<Note> query = null;
+        if (mSearchString != null) {
+            query = Note.search(mNotesBucket, mSearchString);
+        } else if (mNavigationItem == NAVIGATION_ITEM_ALL_NOTES) {
+			// All notes
+			query = Note.all(mNotesBucket);
+		} else if (mNavigationItem == NAVIGATION_ITEM_TRASH) {
+			// Trashed notes
+			query = Note.allDeleted(mNotesBucket);
+		} else {
+			query = Note.allInTag(mNotesBucket, mSelectedTag);
+		}
+        sortNoteQuery(query);
+        return query.execute();
+    }
 
 	private void updateMenuItems() {
 		// Update ActionBar menu
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		String[] tags = application.getNoteDB().fetchAllTags();
+        Bucket<Tag> tagBucket = application.getTagsBucket();
+        ObjectCursor<Tag> tagCursor = tagBucket.query().orderByKey().execute();
+		String[] tags = new String[tagCursor.getCount()];
+        while (tagCursor.moveToNext()) {
+            tags[tagCursor.getPosition()] = tagCursor.getObject().getName();
+        }
+        tagCursor.close();
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
 		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
-
         ActionBar ab = getActivity().getActionBar();
 		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
 		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
@@ -262,29 +311,25 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     }
 
-    public class NotesCursorAdapter extends CursorAdapter implements Bucket.Listener<Note> {
-		Context context;
-
-        public NotesCursorAdapter(Context context, Cursor c, int flags) {
+	public class NotesCursorAdapter extends CursorAdapter
+    implements OnSaveObjectListener<Note>,
+    OnDeleteObjectListener<Note>,
+    OnNetworkChangeListener {
+        private ObjectCursor<Note> mCursor;
+        public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);
-            this.context = context;
+            mCursor = c;
+        }
+
+        public void changeCursor(ObjectCursor<Note> cursor){
+            mCursor = cursor;
+            super.changeCursor(cursor);
         }
 
         @Override
-        public Object getItem(int position) {
-
-            Cursor c = getCursor();
-            c.moveToPosition(position);
-            String noteID = c.getString(1);
-
-            try {
-                Note note = ((Simplenote) getActivity().getApplication()).getNotesBucket().get(noteID);
-                return note;
-            } catch (BucketObjectMissingException e) {
-                e.printStackTrace();
-            }
-
-            return null;
+        public Note getItem(int position) {
+            mCursor.moveToPosition(position);
+            return mCursor.getObject();
         }
 
         /*
@@ -292,7 +337,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         */
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
-			Log.d(Simplenote.TAG, String.format("Get view %d", position));
 
 			NoteViewHolder holder;
 			if (view == null) {
@@ -309,7 +353,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 			holder.contentTextView.setMaxLines(mNumPreviewLines);
 
-            Note note = (Note)getItem(position);
+            Note note = getItem(position);
 
             if (note != null) {
                 String title = note.getTitle();
@@ -346,23 +390,25 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         }
 
-        public void onObjectRemoved(String key, Note note) {
+        @Override
+        public void onDeleteObject(Note note) {
 			Log.d(Simplenote.TAG, "Object removed, reload list view");
             ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
 		}
 
-		public void onObjectUpdated(String key, Note note) {
-			Log.d(Simplenote.TAG, "Object updated, reload list view");
-            ((NotesActivity)getActivity()).onNoteChanged(note);
-			refreshUI();
-		}
-
-		public void onObjectAdded(String key, Note note) {
+        @Override
+		public void onSaveObject(Note note) {
 			Log.d(Simplenote.TAG, "Object added, reload list view");
             ((NotesActivity)getActivity()).onNoteChanged(note);
 			refreshUI();
 		}
+
+        @Override
+        public void onChange(String key, Bucket.ChangeType type){
+			Log.d(Simplenote.TAG, "Network change, reload list view");
+			refreshUI();
+        }
 
 		private void refreshUI() {
 			getActivity().runOnUiThread(new Runnable() {
@@ -391,44 +437,60 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	}
 
 	public void searchNotes(String searchString) {
-		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		Cursor cursor = db.searchNotes(searchString);
-		mNotesAdapter.changeCursor(cursor);
+        mSearchString = searchString;
+		mNotesAdapter.changeCursor(queryNotes());
 	}
 
     /**
      * Clear search and load all notes
      */
     public void clearSearch() {
-        Simplenote application = (Simplenote) getActivity().getApplication();
-        NoteDB db = application.getNoteDB();
-        Cursor cursor = db.fetchAllNotes(getActivity().getBaseContext());
-        mNotesAdapter.changeCursor(cursor);
+        mSearchString = null;
+        mNotesAdapter.changeCursor(queryNotes());
     }
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		Cursor cursor;
+        Log.d(Simplenote.TAG, "onNavigationItemSelected");
+		Query<Note> query;
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		NoteDB db = application.getNoteDB();
-		
-		// TODO: nbradbury - get rid of magic numbers here
-		if (itemPosition == 0) {
-			// All notes
-			cursor = db.fetchAllNotes(getActivity().getBaseContext());
-		} else if (itemPosition == 1) {
-			// Trashed notes
-			cursor = db.fetchDeletedNotes(getActivity().getBaseContext());
-		} else {
-			cursor = db.fetchNotesByTag(getActivity().getBaseContext(), mMenuItems[itemPosition]);
-		}
-		
-		if (cursor != null)
-			mNotesAdapter.changeCursor(cursor);
+        Bucket<Note> noteBucket = application.getNotesBucket();
+		mNavigationItem = itemPosition;
+        if (itemPosition > 1) {
+            mSelectedTag = mMenuItems[itemPosition];
+        } else {
+            mSelectedTag = null;
+        }
+        mNotesAdapter.changeCursor(queryNotes());
 
         getActivity().invalidateOptionsMenu();
 		
 		return true;
 	}
+
+    public void sortNoteQuery(Query<Note> noteQuery){
+        noteQuery.order("pinned", SortType.DESCENDING);
+		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
+		switch (sortPref) {
+        case 0:
+            noteQuery.order("modificationDate", SortType.DESCENDING);
+            break;
+		case 1:
+            // orderBy = "creationDate DESC";
+            noteQuery.order("creationDate", SortType.DESCENDING);
+			break;
+		case 2:
+            noteQuery.order("content", SortType.ASCENDING);
+			break;
+		case 3:
+            noteQuery.order("modificationDate", SortType.ASCENDING);
+			break;
+		case 4:
+            noteQuery.order("creationDate", SortType.ASCENDING);
+			break;
+		case 5:
+            noteQuery.order("content", SortType.DESCENDING);
+			break;
+		}
+    }
 }

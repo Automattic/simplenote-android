@@ -7,13 +7,21 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import android.content.Context;
 
 import com.automattic.simplenote.R;
+
 import com.simperium.client.Bucket;
+import com.simperium.client.Query;
+import com.simperium.client.Query.ComparisonType;
+import com.simperium.client.Query.SortType;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
+import com.simperium.client.BucketSchema.Index;
+import com.simperium.client.BucketSchema.Indexer;
 
 public class Note extends BucketObject {
 	
@@ -24,8 +32,8 @@ public class Note extends BucketObject {
 	protected String contentPreview;
 	protected Calendar creationDate;
 	protected Calendar modificationDate;
-	protected ArrayList<String> tags;
-	protected ArrayList<String> systemTags;
+	protected List<String> tags;
+	protected List<String> systemTags;
 	protected boolean deleted;
 	protected boolean pinned;
 	protected int lastPosition;
@@ -33,6 +41,24 @@ public class Note extends BucketObject {
 	protected String publishURL;
 
 	public static class Schema extends BucketSchema<Note> {
+
+        public Schema(){
+            autoIndex();
+            addIndex(pinnedIndexer);
+        }
+
+        private Indexer pinnedIndexer = new Indexer<Note>(){
+            @Override
+            public List<Index> index(Note note){
+                List<Index> indexes = new ArrayList<Index>();
+                if (note.isPinned()) {
+                    indexes.add(new Index("pinned", true));
+                } else {
+                    indexes.add(new Index("pinned", false));
+                }
+                return indexes;
+            }
+        };
 
         public String getRemoteName(){
             return Note.BUCKET_NAME;
@@ -42,11 +68,39 @@ public class Note extends BucketObject {
 			Note note = new Note(key, properties);
 			return note;
 		}
+
+        public void update(Note note, Map<String,Object>properties){
+            note.updateProperties(properties);
+        }
 	}
+    
+    public static Query<Note> all(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where("deleted", ComparisonType.NOT_EQUAL_TO, true);
+    }
+
+    public static Query<Note> allDeleted(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where("deleted", ComparisonType.EQUAL_TO, true);
+    }
+
+    public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
+        return noteBucket.query()
+                .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
+                .where("content", ComparisonType.LIKE, "%" + searchString + "%");
+    }
+
+    public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
+        return noteBucket.query()
+                .where("tags", ComparisonType.LIKE, tag);
+    }
 
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
+        updateProperties(properties);
+	}
 
+    protected void updateProperties(Map<String,Object> properties){
         if (properties == null)
             properties = new HashMap<String, Object>();
 
@@ -58,11 +112,11 @@ public class Note extends BucketObject {
 		
 		setDeleted(properties.get("deleted"));
 		
-		setTags((ArrayList<String>)properties.get("tags"));
+		setTags((List<String>)properties.get("tags"));
 		if (tags == null)
 			tags = new ArrayList<String>();
 
-		setSystemTags((ArrayList<String>)properties.get("systemTags"));
+		setSystemTags((List<String>)properties.get("systemTags"));
 		if (systemTags == null)
 			systemTags = new ArrayList<String>();
 
@@ -85,8 +139,8 @@ public class Note extends BucketObject {
 		publishURL = (String)properties.get("publishURL");
 		if (publishURL == null)
 			publishURL = "";
-	}
-	
+    }
+
     public Map<String, Object> getDiffableValue() {
 		Map<String, Object> properties = new HashMap<String,Object>();
     	properties.put("content", content);
@@ -163,19 +217,19 @@ public class Note extends BucketObject {
 		this.modificationDate = modificationDate;
 	}
 
-	public ArrayList<String> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(ArrayList<String> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 
-	public ArrayList<String> getSystemTags() {
+	public List<String> getSystemTags() {
 		return systemTags;
 	}
 
-	public void setSystemTags(ArrayList<String> systemTags) {
+	public void setSystemTags(List<String> systemTags) {
 		if (systemTags == null) {
 			systemTags = new ArrayList();
 		}
@@ -209,7 +263,7 @@ public class Note extends BucketObject {
 	}
 
 	public void setPinned(boolean isPinned) {
-        if (isPinned)
+        if (isPinned && !pinned)
 		    systemTags.add("pinned");
         else
             systemTags.remove("pinned");
@@ -274,7 +328,7 @@ public class Note extends BucketObject {
      * @param isPinned note is pinned
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, ArrayList<String> tags, boolean isPinned) {
+    public boolean hasChanges(String content, List<String> tags, boolean isPinned) {
 
         if (content.equals(this.getContent()) && tags.equals(this.getTags()) && this.isPinned() == isPinned)
             return false;
