@@ -46,7 +46,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
 	private Note mNote;
 	private EditText mContentEditText;
 	private TagsMultiAutoCompleteTextView mTagView;
-    private TextView mCharCountTextView;
     private ToggleButton mPinButton;
     private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
@@ -87,7 +86,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
         mContentEditText.addTextChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
-        mCharCountTextView = (TextView) rootView.findViewById(R.id.note_character_count);
 
 		refreshContent();
 		
@@ -240,24 +238,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
             mAutoSaveHandler.postDelayed(autoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
         }
-
-        updateCharacterCount();
-    }
-
-    /**
-     * Calculate character and word count.
-     */
-    private void updateCharacterCount() {
-
-        String content = mContentEditText.getText().toString();
-
-        int numChars = content.length();
-        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s+").length;
-
-        String characterCountString = getResources().getQuantityString(R.plurals.characterCount, numChars);
-        String wordCountString = getResources().getQuantityString(R.plurals.wordCount, numWords);
-
-        mCharCountTextView.setText(String.format("%d " + characterCountString + ", %d " + wordCountString, numChars, numWords));
     }
 
     private void saveAndSyncNote() {

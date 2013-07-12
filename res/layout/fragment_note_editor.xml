@@ -1,20 +1,14 @@
-<com.automattic.simplenote.utils.AnimatedScrollView
+<com.automattic.simplenote.utils.AnimatedLinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/note_editor"
 	android:layout_width="fill_parent"
 	android:layout_height="match_parent"
-	android:fillViewport="true"
-	android:fadingEdge="none"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    android:orientation="vertical"
     android:background="@color/white">
-	<LinearLayout
-		android:layout_width="fill_parent"
-       	android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-       	android:orientation="vertical"
-        android:background="@color/white">
 
 	        <LinearLayout
 			    android:focusable="true"
@@ -24,36 +18,35 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-	    	<com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
-		        android:id="@+id/tag_view"
-		        android:layout_width="0dp"
-		        android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_weight="1"
-		        android:hint="@string/tag_hint"
-		        android:completionThreshold="1"
-		        android:textColor="@color/mediumgrey"
-        		android:inputType="textNoSuggestions"
-		        android:nextFocusUp="@id/tag_view"
-		        android:nextFocusLeft="@id/tag_view"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-condensed"/>
+                <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
+                    android:id="@+id/tag_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_weight="1"
+                    android:hint="@string/tag_hint"
+                    android:completionThreshold="1"
+                    android:textColor="@color/mediumgrey"
+                    android:inputType="textNoSuggestions"
+                    android:nextFocusUp="@id/tag_view"
+                    android:nextFocusLeft="@id/tag_view"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-condensed"/>
 
-	    	<ToggleButton
-	    	    android:id="@+id/pinButton"
-	    	    android:layout_width="20dp"
-	    	    android:layout_height="20dp"
-                android:layout_marginLeft="8dp"
-	    	    android:textOn=""
-	    	    android:textOff=""
-	    	    android:background="@drawable/pin_bg_selector" />
+                <ToggleButton
+                    android:id="@+id/pinButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/pin_bg_selector" />
         </LinearLayout>
      	<EditText
 			android:id="@+id/note_content"
 			style="?android:attr/textAppearanceLarge"
 			android:layout_width="fill_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1"
+			android:layout_height="fill_parent"
             android:fontFamily="sans-serif-light"
 			android:gravity="top"
 			android:paddingTop="8dp"
@@ -62,12 +55,4 @@
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
 			android:scrollHorizontally="false"
 			tools:context=".NoteEditorFragment" />
-        <TextView
-            android:id="@+id/note_character_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textColor="#727272"
-            android:fontFamily="sans-serif-condensed"/>
-   </LinearLayout>
-</com.automattic.simplenote.utils.AnimatedScrollView>
+</com.automattic.simplenote.utils.AnimatedLinearLayout>

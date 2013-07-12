@@ -138,7 +138,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onViewCreated(view, savedInstanceState);
 
         setListShown(true);
-        setEmptyText(getString(R.string.no_notes));
+
+        TextView emptyListTextView = (TextView)getActivity().getLayoutInflater().inflate(R.layout.empty_list, null);
+        getListView().setEmptyView(emptyListTextView);
+        emptyListTextView.setVisibility(View.GONE);
+        ((ViewGroup)getListView().getParent()).addView(emptyListTextView);
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
