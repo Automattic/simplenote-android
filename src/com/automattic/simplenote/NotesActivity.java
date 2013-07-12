@@ -376,7 +376,6 @@ public class NotesActivity extends Activity implements
             if (deletedNote != null) {
                 deletedNote.setDeleted(false);
                 deletedNote.setModificationDate(Calendar.getInstance());
-                Simplenote currentApp = ((Simplenote)getApplication());
                 deletedNote.save();
                 NoteListFragment fragment = getNoteListFragment();
                 if (fragment!=null) {
