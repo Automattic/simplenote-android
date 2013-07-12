@@ -409,7 +409,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		}
 
         @Override
-        public void onChange(String key, Bucket.ChangeType type){
+        public void onChange(Bucket.ChangeType type, String key){
 			Log.d(Simplenote.TAG, "Network change, reload list view");
 			refreshUI();
         }
