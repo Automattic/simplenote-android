@@ -3,7 +3,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:gravity="center"
-              android:text="@string/no_notes"
+              android:text="@string/no_notes_newline"
               android:textColor="@color/mediumgrey"
               android:textSize="20sp"
               android:padding="16dp"
