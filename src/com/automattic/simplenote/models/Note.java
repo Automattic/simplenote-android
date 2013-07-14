@@ -92,6 +92,7 @@ public class Note extends BucketObject {
 
     public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
         return noteBucket.query()
+                .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
                 .where("tags", ComparisonType.LIKE, tag);
     }
 
