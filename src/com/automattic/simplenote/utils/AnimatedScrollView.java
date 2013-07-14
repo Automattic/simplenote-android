@@ -4,19 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 /**
  * Created by dan on 7/10/13.
  */
-public class AnimatedLinearLayout extends LinearLayout
+public class AnimatedScrollView extends ScrollView
 {
-    private static final String TAG = AnimatedLinearLayout.class.getName();
+    private static final String TAG = AnimatedScrollView.class.getName();
 
-    public AnimatedLinearLayout(Context context) {
+    public AnimatedScrollView(Context context) {
         super(context);
     }
 
-    public AnimatedLinearLayout(Context context, AttributeSet attrs) {
+    public AnimatedScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
