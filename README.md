@@ -4,7 +4,8 @@ Handcrafted by the Automattic Mobile Team
 
 ## Requirements
 
-Ice Cream Sandwich
+Target SDK: Jelly Bean (android-17)
+Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure
 
