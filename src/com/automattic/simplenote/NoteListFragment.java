@@ -375,32 +375,38 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 				holder = (NoteViewHolder) view.getTag();
 			}
 
-			holder.contentTextView.setMaxLines(mNumPreviewLines);
-
             Note note = getItem(position);
-
+            holder.contentTextView.setMaxLines(mNumPreviewLines);
+            mCursor.moveToPosition(position);
+            String data = mCursor.getString(mCursor.getColumnIndex("object_data"));
             if (note != null) {
-                String title = note.getTitle();
-                String content = note.getContent().trim();
-                String contentPreview = note.getContentPreview();
-                // nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
+                // String title = note.getTitle();
+                // // String content = note.getContent().trim();
+                // // String contentPreview = note.getContentPreview();
+                // // nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
                 holder.pinImageView.setVisibility(note.isPinned() ? View.VISIBLE : View.GONE);
-
-                if (title != null) {
-                    title = title.trim();
-                    holder.titleTextView.setText(title);
-                    if (mNumPreviewLines > 0)
-                        holder.contentTextView.setText((contentPreview != null) ? contentPreview.trim() : content);
-                } else {
-                    holder.titleTextView.setText(content.equals("") ? getString(R.string.new_note) : content);
-                    if (mNumPreviewLines > 0)
-                        holder.contentTextView.setText(content);
+                holder.titleTextView.setText(note.getTitle(getString(R.string.new_note)));
+                if (mNumPreviewLines > 0) {
+                    holder.contentTextView.setText(note.getContentPreview(mNumPreviewLines));                    
                 }
 
+                // // if (title != null) {
+                // //     title = title.trim();
+                // //     holder.titleTextView.setText(title);
+                // //     if (mNumPreviewLines > 0)
+                // //         holder.contentTextView.setText((contentPreview != null) ? contentPreview.trim() : content);
+                // // } else {
+                // //     holder.titleTextView.setText(content.equals("") ? getString(R.string.new_note) : content);
+                // //     if (mNumPreviewLines > 0)
+                // //         holder.contentTextView.setText(content);
+                // // }
+                // 
                 holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
                 if (mShowDate) {
                     holder.dateTextView.setText(Note.dateString(note.getModificationDate(), true, getActivity().getBaseContext()));
                 }
+            } else {
+                holder.titleTextView.setText("null");
             }
 			
 			return view;
