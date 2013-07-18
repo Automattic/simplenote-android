@@ -48,10 +48,10 @@ public class Note extends BucketObject {
 
         public Schema(){
             autoIndex();
-            addIndex(pinnedIndexer);
+            addIndex(noteIndexer);
         }
 
-        private Indexer pinnedIndexer = new Indexer<Note>(){
+        private Indexer noteIndexer = new Indexer<Note>(){
             @Override
             public List<Index> index(Note note){
                 List<Index> indexes = new ArrayList<Index>();
@@ -60,6 +60,8 @@ public class Note extends BucketObject {
                 } else {
                     indexes.add(new Index("pinned", false));
                 }
+                indexes.add(new Index("contentPreview", note.getContentPreview()));
+                indexes.add(new Index("title", note.getTitle()));
                 return indexes;
             }
         };
@@ -202,12 +204,7 @@ public class Note extends BucketObject {
     }
 
 	public Calendar getCreationDate() {
-		Calendar creationDate = Calendar.getInstance();
-		Number creationProp = (Number)getProperty(CREATION_DATE_PROPERTY);
-		if (creationProp != null) {
-			creationDate.setTimeInMillis(creationProp.longValue()*1000);
-		}
-        return creationDate;
+        return numberToDate((Number)getProperty(CREATION_DATE_PROPERTY));
 	}
 
 	public void setCreationDate(Calendar creationDate) {
@@ -215,12 +212,7 @@ public class Note extends BucketObject {
 	}
 
 	public Calendar getModificationDate() {
-        Calendar modificationDate = Calendar.getInstance();
-        Number modDate = (Number)getProperty(MODIFICATION_DATE_PROPERTY);
-        if (modDate != null) {
-            modificationDate.setTimeInMillis(modDate.longValue()*1000);
-        }
-        return modificationDate;
+        return numberToDate((Number)getProperty(MODIFICATION_DATE_PROPERTY));
 	}
 
 	public void setModificationDate(Calendar modificationDate) {
@@ -278,6 +270,11 @@ public class Note extends BucketObject {
         }
 	}
 
+    public static String dateString(Number time, boolean useShortFormat, Context context){
+        Calendar c = numberToDate(time);
+        return dateString(c, useShortFormat, context);
+    }
+
 	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
 		int year, month, day;
 
@@ -319,6 +316,14 @@ public class Note extends BucketObject {
 
     protected void setProperty(String key, Object value){
         properties.put(key, value);
+    }
+
+    public static Calendar numberToDate(Number time){
+        Calendar date = Calendar.getInstance();
+        if (time != null) {
+            date.setTimeInMillis(time.longValue()*1000);
+        }
+        return date;
     }
 
     /**
