@@ -97,8 +97,6 @@ public class NotesActivity extends Activity implements
                 Bucket<Note> notesBucket = currentApp.getNotesBucket();
                 Note note = notesBucket.newObject();
                 note.setContent(text);
-                if (title != null)
-                    note.setTitle(title);
                 note.save();
                 onNoteSelected(note);
             }
