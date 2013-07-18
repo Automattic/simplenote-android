@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.automattic.simplenote.R;
 
@@ -26,28 +27,31 @@ import com.simperium.client.BucketSchema.Indexer;
 public class Note extends BucketObject {
 	
 	public static final String BUCKET_NAME="note";
+    public static final String PINNED_TAG="pinned";
+    public static final String NEW_LINE="\n";
+    
+    private static final String CONTENT_CONCAT_FORMAT="%s %s";
+    private static final String BLANK_CONTENT="";
+    
+    public static final String CONTENT_PROPERTY="content";
+    public static final String TAGS_PROPERTY="tags";
+    public static final String SYSTEM_TAGS_PROPERTY="systemTags";
+    public static final String CREATION_DATE_PROPERTY="creationDate";
+    public static final String MODIFICATION_DATE_PROPERTY="modificationDate";
+    public static final String SHARE_URL_PROPERTY="shareURL";
+    public static final String DELETED_PROPERTY="deleted";
 	
-	protected String title;
-	protected String content;
-	protected String contentPreview;
-	protected Calendar creationDate;
-	protected Calendar modificationDate;
-	protected List<String> tags;
-	protected List<String> systemTags;
-	protected boolean deleted;
-	protected boolean pinned;
-	protected int lastPosition;
-	protected String shareURL;
-	protected String publishURL;
+	protected String title = null;
+	protected String contentPreview = null;
 
 	public static class Schema extends BucketSchema<Note> {
 
         public Schema(){
             autoIndex();
-            addIndex(pinnedIndexer);
+            addIndex(noteIndexer);
         }
 
-        private Indexer pinnedIndexer = new Indexer<Note>(){
+        private Indexer noteIndexer = new Indexer<Note>(){
             @Override
             public List<Index> index(Note note){
                 List<Index> indexes = new ArrayList<Index>();
@@ -56,6 +60,8 @@ public class Note extends BucketObject {
                 } else {
                     indexes.add(new Index("pinned", false));
                 }
+                indexes.add(new Index("contentPreview", note.getContentPreview()));
+                indexes.add(new Index("title", note.getTitle()));
                 return indexes;
             }
         };
@@ -70,7 +76,9 @@ public class Note extends BucketObject {
 		}
 
         public void update(Note note, Map<String,Object>properties){
-            note.updateProperties(properties);
+            note.properties = properties;
+            note.title = null;
+            note.contentPreview = null;
         }
 	}
     
@@ -98,194 +106,174 @@ public class Note extends BucketObject {
 
 	public Note(String key, Map<String,Object>properties) {
 		super(key, properties);
-        updateProperties(properties);
 	}
 
-    protected void updateProperties(Map<String,Object> properties){
-        if (properties == null)
-            properties = new HashMap<String, Object>();
-
-		content = (String)properties.get("content");
-		if (content == null)
-			content = "";
-        else
-            setContent(content);
-		
-		setDeleted(properties.get("deleted"));
-		
-		setTags((List<String>)properties.get("tags"));
-		if (tags == null)
-			tags = new ArrayList<String>();
-
-		setSystemTags((List<String>)properties.get("systemTags"));
-		if (systemTags == null)
-			systemTags = new ArrayList<String>();
-
-		creationDate = Calendar.getInstance();
-		Number creationProp = (Number)properties.get("creationDate");
-		if (creationProp != null) {
-			creationDate.setTimeInMillis(creationProp.longValue()*1000);
-		}
-		
-		modificationDate = Calendar.getInstance();
-		Number modificationProp = (Number)properties.get("modificationDate");
-		if (modificationProp != null) {
-			modificationDate.setTimeInMillis(modificationProp.longValue()*1000);
-		}
-
-		shareURL = (String)properties.get("shareURL");
-		if (shareURL == null)
-			shareURL = "";
-		
-		publishURL = (String)properties.get("publishURL");
-		if (publishURL == null)
-			publishURL = "";
-    }
-
-    public Map<String, Object> getDiffableValue() {
-		Map<String, Object> properties = new HashMap<String,Object>();
-    	properties.put("content", content);
-    	properties.put("tags", tags);
-    	properties.put("systemTags", systemTags);
-    	properties.put("deleted", deleted);
-    	properties.put("creationDate", creationDate.getTimeInMillis()/1000);
-    	properties.put("modificationDate", modificationDate.getTimeInMillis()/1000);
-    	properties.put("shareURL", shareURL);
-    	properties.put("publishURL", publishURL);
-        return properties;
+    protected void updateTitleAndPreview(){
+        // try to bulid a title and preview property out of content
+        String content = getContent();
+        // title = "Hello World";
+        // contentPreview = "This is a preview";
+        int location = -1;
+        int lines = 0;
+        int content_lines = 0;
+        int start = 0;
+        boolean foundTitle = false;
+        boolean foundContent = false;
+        // loop until we've found all the new lines
+        do {
+            start = location + 1;
+            location = content.indexOf(NEW_LINE, start);
+            if (location > start + 1) {
+                String possible = content.substring(start, location);
+                if (!foundTitle) {
+                    foundTitle = true;
+                    title = possible;
+                }
+            }
+            lines ++;
+        } while(location >= 0 && lines < 5 && !foundTitle);
+        lines = 0;
+        contentPreview = "";
+        do {
+            start = location + 1;
+            location = content.indexOf(NEW_LINE, start);
+            if (location > start + 1) {
+                String possible = content.substring(start, location);
+                contentPreview = String.format(CONTENT_CONCAT_FORMAT, contentPreview, possible);
+                if (contentPreview.length() >= 300) {
+                    foundContent = true;
+                    contentPreview = contentPreview.substring(0, 300);
+                }
+            }
+            lines ++;
+        } while(location >= 0 && !foundContent);
+        if (!foundTitle) {
+            title = content;
+        }
+        if (contentPreview.isEmpty()) {
+            contentPreview = content;
+        } else {
+            contentPreview = contentPreview.trim();
+        }
     }
 	
 	public String getTitle() {
+        if (title == null) {
+            updateTitleAndPreview();
+        }
 		return title;
 	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    
+    public String getTitle(String ifBlank){
+        if (title == null) {
+            updateTitleAndPreview();
+        }
+        if (title.trim().equals("")) {
+            return ifBlank;
+        } else {
+            return title;
+        }
+    }
 
 	public String getContent() {
-		return content;
+        Object content = getProperty(CONTENT_PROPERTY);
+        if (content == null) {
+            return BLANK_CONTENT;
+        }
+        return (String) content;
 	}
 
 	public void setContent(String content) {
-		String thisLine;
-		String[] lines = content.split("\n");
-		boolean foundTitle, foundContent;
-		foundTitle = foundContent = false;
-
-		for (int i = 0; i < lines.length; i++) {
-			thisLine = lines[i];
-            if (!thisLine.trim().equals("")) {
-                if (!foundContent) {
-                    if (thisLine != null) {
-                        if (!foundTitle) {
-                            setTitle(thisLine);
-                            foundTitle = true;
-                        } else {
-                            this.contentPreview = thisLine;
-                            foundContent = true;
-                        }
-                    }
-                } else {
-                    this.contentPreview += "\n" + thisLine;
-                }
-            }
-		}
-		this.content = content;
+        title = null;
+        contentPreview = null;
+        setProperty(CONTENT_PROPERTY, content);
 	}
 	
 	public String getContentPreview() {
+        if (contentPreview == null) {
+            updateTitleAndPreview();
+        }
 		return contentPreview;
 	}
 
-	public void setContentPreview(String contentPreview) {
-		this.contentPreview = contentPreview;
-	}
+    public String getContentPreview(int lines){
+        if (contentPreview == null) {
+            updateTitleAndPreview();
+        }
+        return contentPreview;
+    }
 
 	public Calendar getCreationDate() {
-		return creationDate;
+        return numberToDate((Number)getProperty(CREATION_DATE_PROPERTY));
 	}
 
 	public void setCreationDate(Calendar creationDate) {
-		this.creationDate = creationDate;
+        setProperty(CREATION_DATE_PROPERTY, creationDate.getTimeInMillis()/1000);
 	}
 
 	public Calendar getModificationDate() {
-		return modificationDate;
+        return numberToDate((Number)getProperty(MODIFICATION_DATE_PROPERTY));
 	}
 
 	public void setModificationDate(Calendar modificationDate) {
-		this.modificationDate = modificationDate;
+        setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
 	}
 
 	public List<String> getTags() {
-		return tags;
+        Object tags = getProperty(TAGS_PROPERTY);
+        if (tags == null) {
+            return new ArrayList<String>();
+        } else {
+            return (ArrayList<String>) tags;
+        }
 	}
 
 	public void setTags(List<String> tags) {
-		this.tags = tags;
+        setProperty(TAGS_PROPERTY, tags);
 	}
 
 	public List<String> getSystemTags() {
-		return systemTags;
+        Object tags = getProperty(SYSTEM_TAGS_PROPERTY);
+        if (tags == null) {
+            return new ArrayList<String>();
+        }
+        return (List<String>) tags;
 	}
 
-	public void setSystemTags(List<String> systemTags) {
-		if (systemTags == null) {
-			systemTags = new ArrayList();
-		}
-		this.systemTags = systemTags;
-		pinned = systemTags.contains("pinned");
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-	
-	public void setDeleted(Object deleted) {
-		if (deleted != null) {
-			if (deleted instanceof Boolean) {
-				this.deleted = ((Boolean)deleted).booleanValue();
-			} else if (deleted instanceof Number) {
-				this.deleted = ((Number)deleted).intValue() == 0 ? false : true;
-			}
-		}
+	public Boolean isDeleted() {
+        Object deleted = getProperty(DELETED_PROPERTY);
+        if (deleted == null) {
+            return false;
+        }
+		if (deleted instanceof Boolean) {
+			return (Boolean) deleted;
+		} else if (deleted instanceof Number) {
+			return ((Number)deleted).intValue() == 0 ? false : true;
+        } else {
+            return false;
+        }
 	}
 
 	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-	
-	public void setDeleted(Number deleted) {
+		setProperty(DELETED_PROPERTY, deleted);
 	}
 
 	public boolean isPinned() {
-		return pinned;
+        return getSystemTags().contains(PINNED_TAG);
 	}
 
 	public void setPinned(boolean isPinned) {
-        if (isPinned && !pinned)
-		    systemTags.add("pinned");
-        else
-            systemTags.remove("pinned");
-        pinned = isPinned;
+        if (isPinned && !isPinned()) {
+            getSystemTags().add(PINNED_TAG);
+        } else if (!isPinned && isPinned()){
+            getSystemTags().remove(PINNED_TAG);
+        }
 	}
 
-	public int getLastPosition() {
-		return lastPosition;
-	}
-
-	public void setLastPosition(int lastPosition) {
-		this.lastPosition = lastPosition;
-	}
-
-	public String getShareURL() {
-		return shareURL;
-	}
-
-	public void setShareURL(String shareURL) {
-		this.shareURL = shareURL;
-	}
+    public static String dateString(Number time, boolean useShortFormat, Context context){
+        Calendar c = numberToDate(time);
+        return dateString(c, useShortFormat, context);
+    }
 
 	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
 		int year, month, day;
@@ -321,6 +309,22 @@ public class Note extends BucketObject {
 
 		return retVal;
 	}
+
+    protected Object getProperty(String key){
+        return properties.get(key);
+    }
+
+    protected void setProperty(String key, Object value){
+        properties.put(key, value);
+    }
+
+    public static Calendar numberToDate(Number time){
+        Calendar date = Calendar.getInstance();
+        if (time != null) {
+            date.setTimeInMillis(time.longValue()*1000);
+        }
+        return date;
+    }
 
     /**
      * Check if the note has any changes

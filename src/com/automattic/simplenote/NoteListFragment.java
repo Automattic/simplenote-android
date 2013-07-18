@@ -274,6 +274,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		} else {
 			query = Note.allInTag(mNotesBucket, mSelectedTag);
 		}
+        query.include("title", "contentPreview", "pinned", "modificationDate");
         sortNoteQuery(query);
         return query.execute();
     }
@@ -375,32 +376,32 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 				holder = (NoteViewHolder) view.getTag();
 			}
 
-			holder.contentTextView.setMaxLines(mNumPreviewLines);
+            // for performance reasons we are going to get indexed values
+            // from the cursor instead of instantiating the entire bucket object
+            holder.contentTextView.setMaxLines(mNumPreviewLines);
+            mCursor.moveToPosition(position);
+            int pinned = mCursor.getInt(mCursor.getColumnIndex("pinned"));
+            holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
-            Note note = getItem(position);
+            String title = mCursor.getString(mCursor.getColumnIndex("title"));
+            if (title == null) {
+                title = getString(R.string.new_note);
+            }
+            holder.titleTextView.setText(title);
 
-            if (note != null) {
-                String title = note.getTitle();
-                String content = note.getContent().trim();
-                String contentPreview = note.getContentPreview();
-                // nbradbury - changed so that pin is only shown if note is pinned - appears to the left of title (see note_list_row.xml)
-                holder.pinImageView.setVisibility(note.isPinned() ? View.VISIBLE : View.GONE);
-
-                if (title != null) {
-                    title = title.trim();
-                    holder.titleTextView.setText(title);
-                    if (mNumPreviewLines > 0)
-                        holder.contentTextView.setText((contentPreview != null) ? contentPreview.trim() : content);
-                } else {
-                    holder.titleTextView.setText(content.equals("") ? getString(R.string.new_note) : content);
-                    if (mNumPreviewLines > 0)
-                        holder.contentTextView.setText(content);
+            if (mNumPreviewLines > 0) {
+                holder.contentTextView.setText(mCursor.getString(mCursor.getColumnIndex("contentPreview")));
+            }
+            holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
+            if (mShowDate) {
+                Long modDate = null;
+                try {
+                    long date = mCursor.getLong(mCursor.getColumnIndex(Note.MODIFICATION_DATE_PROPERTY));
+                    modDate = new Long(date);
+                } catch (Exception e) {
+                    modDate = null;
                 }
-
-                holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
-                if (mShowDate) {
-                    holder.dateTextView.setText(Note.dateString(note.getModificationDate(), true, getActivity().getBaseContext()));
-                }
+                holder.dateTextView.setText(Note.dateString(modDate, true, getActivity()));
             }
 			
 			return view;
