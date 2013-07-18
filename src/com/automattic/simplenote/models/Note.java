@@ -39,6 +39,7 @@ public class Note extends BucketObject {
     public static final String CREATION_DATE_PROPERTY="creationDate";
     public static final String MODIFICATION_DATE_PROPERTY="modificationDate";
     public static final String SHARE_URL_PROPERTY="shareURL";
+    public static final String PUBLISH_URL_PROPERTY="publishURL";
     public static final String DELETED_PROPERTY="deleted";
 	
 	protected String title = null;
@@ -49,6 +50,12 @@ public class Note extends BucketObject {
         public Schema(){
             autoIndex();
             addIndex(noteIndexer);
+            setDefault(CONTENT_PROPERTY, "");
+            setDefault(SYSTEM_TAGS_PROPERTY, new ArrayList<Object>());
+            setDefault(TAGS_PROPERTY, new ArrayList<Object>());
+            setDefault(DELETED_PROPERTY, false);
+            setDefault(SHARE_URL_PROPERTY, "");
+            setDefault(PUBLISH_URL_PROPERTY, "");
         }
 
         private Indexer noteIndexer = new Indexer<Note>(){
