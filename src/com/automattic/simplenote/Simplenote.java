@@ -43,7 +43,7 @@ public class Simplenote extends Application {
 		mNotesBucket = mSimperium.bucket(new Note.Schema());
 		mTagsBucket = mSimperium.bucket(new Tag.Schema());
         // Every time a note is saved the NoteTagger makes sure there's a tag in the tags bucket and creates on if necessary
-        mNotesBucket.registerOnSaveObjectListener(new NoteTagger(mTagsBucket));
+        mNotesBucket.addOnSaveObjectListener(new NoteTagger(mTagsBucket));
 
 		// Start the bucket sockets
 		mNotesBucket.start();

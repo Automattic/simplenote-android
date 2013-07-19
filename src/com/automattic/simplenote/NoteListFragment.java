@@ -116,10 +116,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
 
-		mNotesBucket.registerOnSaveObjectListener(mNotesAdapter);
-		mNotesBucket.registerOnDeleteObjectListener(mNotesAdapter);
-		mNotesBucket.registerOnNetworkChangeListener(mNotesAdapter);
-
 	}
 
     @Override
@@ -175,18 +171,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         getPrefs();
         refreshList();
         updateMenuItems();
-		mTagsBucket.registerOnSaveObjectListener(mTagsMenuUpdater);
-		mTagsBucket.registerOnDeleteObjectListener(mTagsMenuUpdater);
-		mTagsBucket.registerOnNetworkChangeListener(mTagsMenuUpdater);
         // update the view again
+        mTagsBucket.addListener(mTagsMenuUpdater);
 	}
 
     @Override
     public void onPause(){
         super.onPause();
-		mTagsBucket.unregisterOnSaveObjectListener(mTagsMenuUpdater);
-		mTagsBucket.unregisterOnDeleteObjectListener(mTagsMenuUpdater);
-		mTagsBucket.unregisterOnNetworkChangeListener(mTagsMenuUpdater);
+        mTagsBucket.removeListener(mTagsMenuUpdater);
     }
 
 	@Override
@@ -200,10 +192,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     @Override
     public void onDestroy(){
         super.onDestroy();
-		mNotesBucket.unregisterOnSaveObjectListener(mNotesAdapter);
-		mNotesBucket.unregisterOnDeleteObjectListener(mNotesAdapter);
-		mNotesBucket.unregisterOnNetworkChangeListener(mNotesAdapter);
-
     }
 
 	@Override
@@ -336,10 +324,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     }
 
-	public class NotesCursorAdapter extends CursorAdapter
-    implements OnSaveObjectListener<Note>,
-    OnDeleteObjectListener<Note>,
-    OnNetworkChangeListener {
+	public class NotesCursorAdapter extends CursorAdapter {
         private ObjectCursor<Note> mCursor;
         public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);
@@ -417,33 +402,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         }
 
-        @Override
-        public void onDeleteObject(Note note) {
-			Log.d(Simplenote.TAG, "Object removed, reload list view");
-            ((NotesActivity)getActivity()).onNoteChanged(note);
-			refreshUI();
-		}
-
-        @Override
-		public void onSaveObject(Note note) {
-			Log.d(Simplenote.TAG, "Object added, reload list view");
-            ((NotesActivity)getActivity()).onNoteChanged(note);
-			refreshUI();
-		}
-
-        @Override
-        public void onChange(Bucket.ChangeType type, String key){
-			Log.d(Simplenote.TAG, "Network change, reload list view");
-			refreshUI();
-        }
-
-		private void refreshUI() {
-			getActivity().runOnUiThread(new Runnable() {
-				public void run() {
-					refreshList();
-				}
-			});
-		}
 	}
 	
 	// view holder for NotesCursorAdapter
@@ -530,16 +488,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		}
     }
 
-    interface TagBucketListener
-    extends OnSaveObjectListener<Tag>,
-    OnDeleteObjectListener<Tag>,
-    OnNetworkChangeListener {
-        void onSaveObject(Tag tag);
-        void onDeleteObject(Tag tag);
-        void onChange(Bucket.ChangeType type, String key);
-    }
 
-    private TagBucketListener mTagsMenuUpdater = new TagBucketListener(){
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>(){
         void updateMenu(){
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
@@ -548,15 +498,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             });
         }
 
-        public void onSaveObject(Tag tag){
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag){
             updateMenu();
         }
 
-        public void onDeleteObject(Tag tag){
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag){
             updateMenu();
         }
 
-        public void onChange(Bucket.ChangeType type, String key){
+        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key){
             updateMenu();
         }
     };

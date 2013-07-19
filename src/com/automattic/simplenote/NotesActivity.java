@@ -37,7 +37,9 @@ import java.util.Calendar;
  * interface to listen for item selections.
  */
 public class NotesActivity extends Activity implements
-		NoteListFragment.Callbacks, ActionBar.OnNavigationListener, User.AuthenticationListener, UndoBarController.UndoListener, FragmentManager.OnBackStackChangedListener {
+		NoteListFragment.Callbacks, ActionBar.OnNavigationListener,
+        User.AuthenticationListener, UndoBarController.UndoListener,
+        FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -50,11 +52,14 @@ public class NotesActivity extends Activity implements
     private NoteListFragment mNoteListFragment;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
+    private Bucket<Note> mNotesBucket;
     private int TRASH_SELECTED_ID = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Simplenote currentApp = (Simplenote) getApplication();
+        mNotesBucket = currentApp.getNotesBucket();
 		setContentView(R.layout.activity_notes);
 
 		int orientation = getResources().getConfiguration().orientation;
@@ -82,7 +87,6 @@ public class NotesActivity extends Activity implements
 
         getFragmentManager().addOnBackStackChangedListener(this);
 
-		Simplenote currentApp = (Simplenote) getApplication();
 		if( currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication() ){
 			startLoginActivity();
 		}
@@ -94,8 +98,7 @@ public class NotesActivity extends Activity implements
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             if (text != null) {
-                Bucket<Note> notesBucket = currentApp.getNotesBucket();
-                Note note = notesBucket.newObject();
+                Note note = mNotesBucket.newObject();
                 note.setContent(text);
                 note.save();
                 onNoteSelected(note);
@@ -106,8 +109,56 @@ public class NotesActivity extends Activity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+        mNotesBucket.addOnNetworkChangeListener(this);
+        mNotesBucket.addOnSaveObjectListener(this);
+        mNotesBucket.addOnDeleteObjectListener(this);
+
         configureActionBar();
         invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        mNotesBucket.removeOnNetworkChangeListener(this);
+        mNotesBucket.removeOnSaveObjectListener(this);
+        mNotesBucket.removeOnDeleteObjectListener(this);
+
+    }
+
+    // received a change from the network, refresh the list and the editor
+    @Override
+    public void onChange(Bucket<Note> bucket, Bucket.ChangeType type, String key){
+        final boolean resetEditor = mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(key);
+        runOnUiThread(new Runnable(){
+            @Override public void run(){
+                mNoteListFragment.refreshList();
+                if (!resetEditor) return;
+                if (mNoteEditorFragment != null) {
+                    mNoteEditorFragment.refreshContent();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> bucket, Note object){
+        runOnUiThread(new Runnable(){
+            @Override public void run(){
+                mNoteListFragment.refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> bucket, Note object){
+        runOnUiThread(new Runnable(){
+            @Override public void run(){
+                mNoteListFragment.refreshList();
+            }
+        });
     }
 
     public boolean isTwoPane() {
@@ -276,6 +327,7 @@ public class NotesActivity extends Activity implements
 	}
 
     protected void popNoteDetail() {
+        mCurrentNote = null;
         FragmentManager fm = getFragmentManager();
         NoteEditorFragment f = (NoteEditorFragment) fm.findFragmentById(R.id.note_editor);
         if (f == null) {

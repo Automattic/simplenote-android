@@ -21,7 +21,7 @@ public class NoteTagger implements OnSaveObjectListener<Note> {
     }
 
     @Override
-    public void onSaveObject(Note note){
+    public void onSaveObject(Bucket<Note> bucket, Note note){
         // make sure we have tags
         List<String> tags = note.getTags();
         for (String tagName : tags) {
