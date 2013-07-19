@@ -33,6 +33,7 @@ public class NoteTagger implements OnSaveObjectListener<Note> {
                 // tag doesn't exist, so we'll create one using the key
                 Tag tag = mTagsBucket.newObject(tagKey);
                 tag.setName(tagName);
+                tag.setIndex(mTagsBucket.count());
                 tag.save();
             }
         }

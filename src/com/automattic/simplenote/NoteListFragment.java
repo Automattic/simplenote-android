@@ -271,10 +271,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		// Update ActionBar menu
 		Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Tag> tagBucket = application.getTagsBucket();
-        ObjectCursor<Tag> tagCursor = tagBucket.query().orderByKey().execute();
+        ObjectCursor<Tag> tagCursor = Tag.all(tagBucket).execute();
 		String[] tags = new String[tagCursor.getCount()];
         while (tagCursor.moveToNext()) {
-            tags[tagCursor.getPosition()] = tagCursor.getObject().getName();
+            Tag tag = tagCursor.getObject();
+            tags[tagCursor.getPosition()] = tag.getName();
         }
         tagCursor.close();
 		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };

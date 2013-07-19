@@ -22,6 +22,10 @@ public class Tag extends BucketObject {
 
 	public static class Schema extends BucketSchema<Tag> {
 
+        public Schema(){
+            autoIndex();
+        }
+
         public String getRemoteName(){
             return Tag.BUCKET_NAME;
         }
@@ -36,7 +40,7 @@ public class Tag extends BucketObject {
 	}
 
     public static Query<Tag> all(Bucket<Tag> bucket){
-        return bucket.query().order("name", SortType.ASCENDING);
+        return bucket.query().order("index").orderByKey();
     }
 
 	public Tag(String key, Map<String,Object>properties){
