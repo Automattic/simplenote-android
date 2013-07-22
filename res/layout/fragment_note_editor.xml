@@ -33,7 +33,6 @@
                     android:textColor="@color/mediumgrey"
                     android:inputType="textNoSuggestions"
                     android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/note_content"
                     android:nextFocusForward="@+id/note_content"
                     android:textSize="16sp"
                     android:fontFamily="sans-serif-condensed"/>
