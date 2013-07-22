@@ -53,7 +53,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private Bucket<Tag> mTagsBucket;
     private TextView mEmptyListTextView;
 	private int mNumPreviewLines;
-	private boolean mShowDate;
 	private String[] mMenuItems;
     private String mSelectedTag;
     private String mSearchString;
@@ -127,7 +126,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     // nbradbury - load values from preferences
 	protected void getPrefs() {
 		mNumPreviewLines = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_NUM_PREVIEW_LINES, 2);
-		mShowDate = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_SHOW_DATES, true);
 	}
 
 	@Override
@@ -355,7 +353,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.dateTextView = (TextView) view.findViewById(R.id.note_date);
 				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
 				view.setTag(holder);
 			} else {
@@ -378,17 +375,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             if (mNumPreviewLines > 0) {
                 holder.contentTextView.setText(mCursor.getString(mCursor.getColumnIndex("contentPreview")));
             }
-            holder.dateTextView.setVisibility(mShowDate ? View.VISIBLE : View.GONE);
-            if (mShowDate) {
-                Long modDate = null;
-                try {
-                    long date = mCursor.getLong(mCursor.getColumnIndex(Note.MODIFICATION_DATE_PROPERTY));
-                    modDate = new Long(date);
-                } catch (Exception e) {
-                    modDate = null;
-                }
-                holder.dateTextView.setText(Note.dateString(modDate, true, getActivity()));
-            }
 			
 			return view;
 		}
@@ -409,7 +395,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private static class NoteViewHolder {
 		TextView titleTextView;
 		TextView contentTextView;
-		TextView dateTextView;
 		ImageView pinImageView;
         private String mNoteId;
 
