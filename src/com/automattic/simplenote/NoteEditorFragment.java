@@ -153,11 +153,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
-            // Populate this note's tags in the tagView - TODO: nbradbury - for a large list of tags, using a StringBuilder here would be more efficient
-            String tagListString = "";
-            for (String tag : mNote.getTags())
-                tagListString += tag + " ";
-            mTagView.setText(tagListString);
+            // Populate this note's tags in the tagView
+            mTagView.setText(mNote.getTagString());
             mTagView.setChips();
 
             mPinButton.setChecked(mNote.isPinned());
