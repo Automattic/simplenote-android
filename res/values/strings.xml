@@ -45,7 +45,7 @@
 
     <!-- Undo -->
     <string name="undo">Undo</string>
-    <string name="note_deleted">Note moved to the trash.</string>
+    <string name="note_deleted">Note trashed.</string>
 
     
     <!-- in-app billing -->
