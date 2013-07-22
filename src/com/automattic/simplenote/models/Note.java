@@ -262,23 +262,30 @@ public class Note extends BucketObject {
 
     /**
      * Sets the note's tags by providing it with a {@link String} of space
-     * seperated tags.
+     * seperated tags. Filters out duplicate tags.
      * 
      * @param tagString a space delimited list of tags
      */
     public void setTagString(String tagString){
         List<String> tags = getTags();
-        // remove all current tags
         tags.clear();
+        if (tagString == null) return;
+        // for comparing case-insensitive strings, would like to find a way to
+        // do this without allocating a new list and strings
+        List<String> tagsUpperCase = new ArrayList<String>();
+        // remove all current tags
         int start = 0;
         int next = -1;
         String possible;
+        String possibleUpperCase;
         // search tag string for space characters and pull out individual tags
         do {
             next = tagString.indexOf(SPACE, start);
             if (next > start) {
                 possible = tagString.substring(start, next);
-                if (!possible.equals(SPACE) && !tags.contains(possible)) {
+                possibleUpperCase = possible.toUpperCase();
+                if (!possible.equals(SPACE) && !tagsUpperCase.contains(possibleUpperCase)) {
+                    tagsUpperCase.add(possibleUpperCase);
                     tags.add(possible);
                 }
             }

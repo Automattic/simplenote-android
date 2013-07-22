@@ -27,10 +27,18 @@ public class NoteTest extends TestCase {
         assertEquals("one two three four", mNote.getTagString().toString());
     }
 
+    public void testTagStringNull(){
+
+        mNote.setTags(tagList("one", "two", "three"));
+
+        mNote.setTagString(null);
+        assertEquals(new ArrayList<String>(), mNote.getTags());
+    }
+
     public void testRemoveDupsFromTagString(){
         List<String> tags = tagList("one", "two", "three", "four");
 
-        mNote.setTagString(" one two two three two four ");
+        mNote.setTagString(" one two tWo three two four ");
 
         assertEquals(tags, mNote.getTags());
         assertEquals("one two three four", mNote.getTagString().toString());
