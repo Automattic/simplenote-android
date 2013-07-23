@@ -9,7 +9,21 @@ Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure
 
-Add Simperium as a library project.
+1) Clone and init/update the submodules.
+
+```bash
+git clone https://github.com/Simperium/simplenote-android.git -b android-studio
+cd simplenote-android
+git submodule init
+git submodule update
+```
+
+2) Import into Android Studio using the "Gradle" build option.
+
+3) You should be set.
+
+
+
 
 ### Simperium
 
