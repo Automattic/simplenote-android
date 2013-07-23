@@ -59,7 +59,8 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(this);
         listView.setOnItemClickListener(this);
-        listView.setOnItemLongClickListener(this);
+        // Disabling long press CAB action for now since bulk deleting is incomplete
+        // listView.setOnItemLongClickListener(this);
         listView.setBackgroundColor(getResources().getColor(R.color.white));
 
         listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
