@@ -27,6 +27,6 @@ git submodule update
 Add your simperium appid and key to /res/raw/config.properties
 
 ```
-simperium.appid=SIMPERIUM\_APP\_ID
-simperium.key=SIMPERIUM\_KEY
+simperium.appid=SIMPERIUM_APP_ID
+simperium.key=SIMPERIUM_KEY
 ```
