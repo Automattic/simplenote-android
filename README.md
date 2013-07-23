@@ -24,7 +24,7 @@ git submodule update
 
 ### Simperium Config
 
-Add your simperium appid and key to /res/raw/config.properties
+Add your simperium appid and key to Simplenote/res/raw/config.properties
 
 ```
 simperium.appid=SIMPERIUM_APP_ID
