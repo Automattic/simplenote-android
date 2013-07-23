@@ -22,11 +22,11 @@ git submodule update
 
 3) You should be set.
 
-
-
-
-### Simperium
-
-Download the simperium library from http://github.com/Simperium/simperium-android
+### Simperium Config
 
 Add your simperium appid and key to /res/raw/config.properties
+
+```
+simperium.appid=SIMPERIUM\_APP\_ID
+simperium.key=SIMPERIUM\_KEY
+```
