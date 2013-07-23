@@ -394,9 +394,9 @@ public class Note extends BucketObject {
      * @param isPinned note is pinned
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, List<String> tags, boolean isPinned) {
+    public boolean hasChanges(String content, boolean isPinned) {
 
-        if (content.equals(this.getContent()) && tags.equals(this.getTags()) && this.isPinned() == isPinned)
+        if (content.equals(this.getContent()) && this.isPinned() == isPinned)
             return false;
         else
             return true;

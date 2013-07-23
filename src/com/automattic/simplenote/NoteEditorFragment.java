@@ -28,11 +28,12 @@ import android.widget.ToggleButton;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
+import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
-public class NoteEditorFragment extends Fragment implements TextWatcher {
+public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -109,7 +110,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     @Override
     public void onResume() {
         super.onResume();
-
+        mTagView.setOnTagAddedListener(this);
         if (mNote != null && mNote.getContent().isEmpty()) {
             // Show soft keyboard
             mContentEditText.requestFocus();
@@ -123,7 +124,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     @Override
     public void onPause() {
         saveAndSyncNote();
-
+        mTagView.setOnTagAddedListener(null);
         // Hide soft keyboard
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
@@ -154,8 +155,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
                 mContentEditText.setSelection(cursorPosition);
 
             // Populate this note's tags in the tagView
-            mTagView.setText(mNote.getTagString());
-            mTagView.setChips();
+            mTagView.setChips(mNote.getTagString());
 
             mPinButton.setChecked(mNote.isPinned());
 
@@ -216,6 +216,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     };
 
     @Override
+    public void onTagsChanged(String tagString){
+        mNote.setTagString(tagString);
+        mNote.setModificationDate(Calendar.getInstance());
+        mTagView.setChips(mNote.getTagString());
+        mNote.save();
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         // Unused
     }
@@ -242,12 +250,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             return;
 
         String content = mContentEditText.getText().toString();
-        String tagString = mTagView.getText().toString().trim();
-        List<String> tagList = Arrays.asList(tagString.split(" "));
-        ArrayList<String> tags = tagString.equals("") ? new ArrayList<String>() : new ArrayList<String>(tagList);
-        if (mNote.hasChanges(content, tags, mPinButton.isChecked())) {
+        if (mNote.hasChanges(content, mPinButton.isChecked())) {
             mNote.setContent(content);
-            mNote.setTags(tags);
+            mNote.setTagString(mTagView.getText().toString());
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
