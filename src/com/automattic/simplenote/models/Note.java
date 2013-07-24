@@ -32,6 +32,7 @@ public class Note extends BucketObject {
     
     private static final String CONTENT_CONCAT_FORMAT="%s %s";
     private static final String BLANK_CONTENT="";
+    private static final String SPACE = " ";
     
     public static final String CONTENT_PROPERTY="content";
     public static final String TAGS_PROPERTY="tags";
@@ -109,6 +110,11 @@ public class Note extends BucketObject {
         return noteBucket.query()
                 .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
                 .where("tags", ComparisonType.LIKE, tag);
+    }
+
+
+    public Note(String key){
+        super(key, new HashMap<String,Object>());
     }
 
 	public Note(String key, Map<String,Object>properties) {
@@ -226,18 +232,74 @@ public class Note extends BucketObject {
         setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
 	}
 
+    public boolean hasTag(Tag tag){
+        List<String> tags = getTags();
+        for (String tagKey : tags) {
+            if (tag.getSimperiumKey().equals(tagKey)) return true;
+        }
+        return false;
+    }
+
 	public List<String> getTags() {
         Object tags = getProperty(TAGS_PROPERTY);
         if (tags == null) {
-            return new ArrayList<String>();
-        } else {
-            return (ArrayList<String>) tags;
+            tags = new ArrayList<String>();
+            setProperty(TAGS_PROPERTY, tags);
         }
+        return (ArrayList<String>) tags;
 	}
 
 	public void setTags(List<String> tags) {
         setProperty(TAGS_PROPERTY, tags);
 	}
+
+    /**
+     * String of tags delimited by a space
+     */
+    public CharSequence getTagString(){
+        StringBuilder tagString = new StringBuilder();
+        List<String> tags = getTags();
+        for(String tag : tags){
+            if (tagString.length() > 0) {
+                tagString.append(SPACE);
+            }
+            tagString.append(tag);
+        }
+        return tagString;
+    }
+
+    /**
+     * Sets the note's tags by providing it with a {@link String} of space
+     * seperated tags. Filters out duplicate tags.
+     * 
+     * @param tagString a space delimited list of tags
+     */
+    public void setTagString(String tagString){
+        List<String> tags = getTags();
+        tags.clear();
+        if (tagString == null) return;
+        // for comparing case-insensitive strings, would like to find a way to
+        // do this without allocating a new list and strings
+        List<String> tagsUpperCase = new ArrayList<String>();
+        // remove all current tags
+        int start = 0;
+        int next = -1;
+        String possible;
+        String possibleUpperCase;
+        // search tag string for space characters and pull out individual tags
+        do {
+            next = tagString.indexOf(SPACE, start);
+            if (next > start) {
+                possible = tagString.substring(start, next);
+                possibleUpperCase = possible.toUpperCase();
+                if (!possible.equals(SPACE) && !tagsUpperCase.contains(possibleUpperCase)) {
+                    tagsUpperCase.add(possibleUpperCase);
+                    tags.add(possible);
+                }
+            }
+            start = next + 1;
+        } while(next > -1);
+    }
 
 	public List<String> getSystemTags() {
         Object tags = getProperty(SYSTEM_TAGS_PROPERTY);
@@ -340,9 +402,9 @@ public class Note extends BucketObject {
      * @param isPinned note is pinned
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, List<String> tags, boolean isPinned) {
+    public boolean hasChanges(String content, boolean isPinned) {
 
-        if (content.equals(this.getContent()) && tags.equals(this.getTags()) && this.isPinned() == isPinned)
+        if (content.equals(this.getContent()) && this.isPinned() == isPinned)
             return false;
         else
             return true;

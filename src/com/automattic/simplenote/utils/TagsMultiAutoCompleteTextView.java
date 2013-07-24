@@ -10,6 +10,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.text.TextUtils.SimpleStringSplitter;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,17 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 
+import java.util.List;
+
 public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
 
+    public interface OnTagAddedListener {
+        public void onTagsChanged(String tagString);
+    }
+
     private final String TAG = "TagsMultiAutoCompleteTextView";
+
+    private OnTagAddedListener mTagsChangedListener;
 
     /* Constructor */
     public TagsMultiAutoCompleteTextView(Context context) {
@@ -43,6 +52,10 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         init(context);
     }
 
+    public void setOnTagAddedListener(OnTagAddedListener listener){
+        mTagsChangedListener = listener;
+    }
+
     /* set listeners for item click and text change */
     public void init(Context context) {
         setOnItemClickListener(this);
@@ -54,7 +67,6 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             // If we reach an image span, let's remove it as well as the tag text behind it.
             if (before == 1) {
                 SpannableStringBuilder ssb = new SpannableStringBuilder(s);
@@ -65,17 +77,13 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
                     int tagEnd = ssb.getSpanEnd(tagImageSpan);
                     ssb.removeSpan(tagImageSpan);
                     ssb.replace(tagStart, tagEnd, "");
-                    setText(ssb);
-                    setSelection(ssb.length());
+                    notifyTagsChanged(ssb.toString());
                     return;
                 }
             }
 
-
-            if (count >= 1) {
-                if (s.charAt(start) == ' ')
-                    setChips(); // generate chips
-            }
+            if (count >= 1 && s.charAt(start) == ' ') notifyTagsChanged();
+            
         }
 
         @Override
@@ -87,52 +95,60 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         }
     };
 
-    /*This function has whole logic for chips generate*/
-    public void setChips() {
-        if (getText().toString().contains(" ")) // check space in string
-        {
-            SpannableStringBuilder ssb = new SpannableStringBuilder(getText());
-            // split string with space
-            String tags[] = getText().toString().trim().split(" ");
-            int x = 0;
-            // Loop will generate ImageSpan for every tag separated by spaces
-            for (String tag : tags) {
-                // Inflate tags_textview layout
-                LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                TextView textView = (TextView) lf.inflate(R.layout.tags_textview, null);
-                textView.setText(tag); // set text
-                // Capture bitmap of generated textview
-                int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-                textView.measure(spec, spec);
-                textView.layout(0, 0, textView.getMeasuredWidth(), textView.getMeasuredHeight());
-                Bitmap b = Bitmap.createBitmap(textView.getWidth(), textView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(b);
-                canvas.translate(-textView.getScrollX(), -textView.getScrollY());
-                textView.draw(canvas);
-                textView.setDrawingCacheEnabled(true);
-                Bitmap cacheBmp = textView.getDrawingCache();
-                Bitmap viewBmp = cacheBmp.copy(Bitmap.Config.ARGB_8888, true);
-                textView.destroyDrawingCache();  // destory drawable
-                // Create bitmap drawable for imagespan
-                BitmapDrawable bmpDrawable = new BitmapDrawable(getContext().getResources(), viewBmp);
-                bmpDrawable.setBounds(0, 0, bmpDrawable.getIntrinsicWidth(), bmpDrawable.getIntrinsicHeight());
-                // Create and set imagespan
-                ssb.setSpan(new ImageSpan(bmpDrawable), x, x + tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                x = x + tag.length() + 1;
-            }
-            // set chips span
-            if (!getText().toString().trim().equals(""))
-                setText(ssb);
-            // move cursor to last
-            setSelection(getText().length());
-        }
+    public void notifyTagsChanged(){
+        notifyTagsChanged(getText().toString());
+    }
 
+    public void notifyTagsChanged(String tagString){
+        if(mTagsChangedListener != null){
+            mTagsChangedListener.onTagsChanged(tagString);
+        }
+    }
+
+    /*This function has whole logic for chips generate*/
+    public void setChips(CharSequence text){
+        // split string with space
+        SimpleStringSplitter tags = new SimpleStringSplitter(' ');
+        tags.setString(text.toString());
+        SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+        int x = 0;
+        // Loop will generate ImageSpan for every tag separated by spaces
+        for (String tag : tags) {
+            // Inflate tags_textview layout
+            LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            TextView textView = (TextView) lf.inflate(R.layout.tags_textview, null);
+            textView.setText(tag); // set text
+            // Capture bitmap of generated textview
+            int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            textView.measure(spec, spec);
+            textView.layout(0, 0, textView.getMeasuredWidth(), textView.getMeasuredHeight());
+            Bitmap b = Bitmap.createBitmap(textView.getWidth(), textView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(b);
+            canvas.translate(-textView.getScrollX(), -textView.getScrollY());
+            textView.draw(canvas);
+            textView.setDrawingCacheEnabled(true);
+            Bitmap cacheBmp = textView.getDrawingCache();
+            Bitmap viewBmp = cacheBmp.copy(Bitmap.Config.ARGB_8888, true);
+            textView.destroyDrawingCache();  // destory drawable
+            // Create bitmap drawable for imagespan
+            BitmapDrawable bmpDrawable = new BitmapDrawable(getContext().getResources(), viewBmp);
+            bmpDrawable.setBounds(0, 0, bmpDrawable.getIntrinsicWidth(), bmpDrawable.getIntrinsicHeight());
+            // Create and set imagespan            
+            ssb.setSpan(new ImageSpan(bmpDrawable), x, x + tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            x = x + tag.length() + 1;
+        }
+        if (ssb.length() > 0) ssb.append(' ');
+        // set chips span
+        setText(ssb);
+        //if (!getText().toString().trim().equals(""))
+        // move cursor to last
+        setSelection(getText().length());
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        setChips(); // call generate chips when user select any item from auto complete
+        notifyTagsChanged();
     }
 
 }
