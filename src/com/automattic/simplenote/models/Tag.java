@@ -9,6 +9,7 @@ import com.simperium.client.Query.ComparisonType;
 import com.simperium.client.Query.SortType;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -41,6 +42,10 @@ public class Tag extends BucketObject {
 
     public static Query<Tag> all(Bucket<Tag> bucket){
         return bucket.query().order("index").orderByKey();
+    }
+
+    public Tag(String key){
+        super(key, new HashMap<String,Object>());
     }
 
 	public Tag(String key, Map<String,Object>properties){

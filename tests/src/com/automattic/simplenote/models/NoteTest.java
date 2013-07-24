@@ -60,6 +60,24 @@ public class NoteTest extends TestCase {
         assertEquals(preview, mNote.getContentPreview());
     }
 
+    public void testNoteDoesHaveTag(){
+        Tag tag = new Tag("tag");
+        tag.setName("Tag");
+
+        mNote.setTagString("tag tag2 tag3");
+
+        assertTrue(mNote.hasTag(tag));
+    }
+
+    public void testNoteDoesNotHaveTag(){
+        Tag tag = new Tag("tag");
+        tag.setName("Tag");
+
+        mNote.setTagString("tag2 tag3");
+
+        assertFalse(mNote.hasTag(tag));
+    }
+
     protected List<String> tagList(String ... tags){
         List<String> tagArray = new ArrayList<String>(tags.length);
         for (String tag : tags) {

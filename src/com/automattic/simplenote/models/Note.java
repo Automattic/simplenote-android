@@ -232,6 +232,14 @@ public class Note extends BucketObject {
         setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
 	}
 
+    public boolean hasTag(Tag tag){
+        List<String> tags = getTags();
+        for (String tagKey : tags) {
+            if (tag.getSimperiumKey().equals(tagKey)) return true;
+        }
+        return false;
+    }
+
 	public List<String> getTags() {
         Object tags = getProperty(TAGS_PROPERTY);
         if (tags == null) {
