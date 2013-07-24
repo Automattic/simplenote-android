@@ -33,6 +33,11 @@
     <string name="character">Character</string>
     <string name="word">Word</string>
     <string name="note_info">Note Info</string>
+    <string name="no_notes_newline"><b>No notes here.</b>\nWhy not create one?</string>
+    <string name="no_notes"><![CDATA[<b>No notes here.</b><br>Why not create one?]]></string>
+    <string name="no_tags_found">No tags found.</string>
+    <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
+    <string name="note_editor_placeholder">Select a note to view it here.</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>
@@ -45,7 +50,7 @@
 
     <!-- Undo -->
     <string name="undo">Undo</string>
-    <string name="note_deleted">Note moved to the trash.</string>
+    <string name="note_deleted">Note trashed.</string>
 
     
     <!-- in-app billing -->
@@ -62,8 +67,4 @@
 	<string name="billing_err_purchasing">Sorry, there was a problem purchasing a subscription (%s)</string>
 	<string name="billing_err_payload_verification_failed">Unable to verify subscription purchase</string>
 	<string name="billing_toast_purchase_success">Thank you for subscribing to Simplenote!</string>
-    <string name="no_notes_newline"><b>No notes here.</b>\nWhy not create one?</string>
-    <string name="no_notes"><![CDATA[<b>No notes here.</b><br>Why not create one?]]></string>
-    <string name="no_tags_found">No tags found.</string>
-    <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
 </resources>

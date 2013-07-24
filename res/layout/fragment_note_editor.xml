@@ -1,63 +1,86 @@
 <com.automattic.simplenote.utils.AnimatedScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/note_editor"
-	android:layout_width="fill_parent"
-	android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/white">
-    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/note_editor"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/white"
+        android:layout_weight="3">
 
-	        <LinearLayout
-			    android:focusable="true"
-                android:focusableInTouchMode="true"
-    			android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+    <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                 <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
-                    android:id="@+id/tag_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:layout_weight="1"
-                    android:hint="@string/tag_hint"
-                    android:completionThreshold="1"
-                    android:textColor="@color/mediumgrey"
-                    android:inputType="textNoSuggestions"
-                    android:nextFocusUp="@id/tag_view"
-                    android:nextFocusLeft="@id/tag_view"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-condensed"/>
+                        android:id="@+id/tag_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:layout_weight="1"
+                        android:hint="@string/tag_hint"
+                        android:completionThreshold="1"
+                        android:textColor="@color/mediumgrey"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/note_content"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed"/>
 
                 <ToggleButton
-                    android:id="@+id/pinButton"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:textOn=""
-                    android:textOff=""
-                    android:background="@drawable/pin_bg_selector" />
+                        android:id="@+id/pinButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:textOn=""
+                        android:textOff=""
+                        android:background="@drawable/pin_bg_selector"/>
+            </LinearLayout>
+
+            <EditText
+                    android:id="@+id/note_content"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="top"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="20sp"
+                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                    android:scrollHorizontally="false"
+                    tools:context=".NoteEditorFragment"/>
         </LinearLayout>
-     	<EditText
-			android:id="@+id/note_content"
-			style="?android:attr/textAppearanceLarge"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-            android:fontFamily="sans-serif-light"
-			android:gravity="top"
-			android:paddingTop="8dp"
-            android:textColor="@color/darkgrey"
-            android:textSize="20sp"
-            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-			android:scrollHorizontally="false"
-			tools:context=".NoteEditorFragment" />
-    </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/placeholder"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:visibility="gone">
+            <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/login_logo"
+                    android:scaleType="centerInside"
+                    android:tint="@color/verylightgrey"/>
+        </LinearLayout>
+    </FrameLayout>
 </com.automattic.simplenote.utils.AnimatedScrollView>

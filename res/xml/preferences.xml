@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <PreferenceCategory
-        android:key="pref_key_account_preferences"
-        android:title="@string/account" >
-        <Preference
-            android:key="pref_key_sign_out"
-            android:title="@string/sign_out" />
-        <Preference
-            android:key="pref_key_billing"
-            android:persistent="false"
-            android:title="@string/premium_title" />
-    </PreferenceCategory>
     
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/settings" >
-        <SwitchPreference
+        <!--<SwitchPreference
             android:defaultValue="true"
             android:key="pref_key_show_dates"
-            android:title="@string/show_dates" />
+            android:title="@string/show_dates" />-->
         <!--<SwitchPreference
             android:defaultValue="true"
             android:key="pref_key_detect_links"
@@ -43,6 +31,18 @@
             android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"
             android:title="@string/sort_order" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="pref_key_account_preferences"
+            android:title="@string/account" >
+        <Preference
+                android:key="pref_key_sign_out"
+                android:title="@string/sign_out" />
+        <Preference
+                android:key="pref_key_billing"
+                android:persistent="false"
+                android:title="@string/premium_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

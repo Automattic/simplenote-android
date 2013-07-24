@@ -25,11 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <FrameLayout
+            <LinearLayout
                     android:id="@+id/noteFragmentContainer"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-            </FrameLayout>
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal"
+                    android:showDividers="middle"
+                    android:weightSum="10">
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

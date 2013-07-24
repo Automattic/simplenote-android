@@ -1,0 +1,28 @@
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="7">
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <TextView
+              android:id="@android:id/empty"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/no_notes_newline"
+              android:textColor="@color/mediumgrey"
+              android:background="@color/white"
+              android:textSize="20sp"
+              android:padding="16dp"
+              android:fontFamily="sans-serif-light" />
+    <LinearLayout
+            android:id="@+id/divider_shadow"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/right_shadow"
+            android:visibility="gone"/>
+</FrameLayout>
