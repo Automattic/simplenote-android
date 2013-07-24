@@ -92,6 +92,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         final EditText tagNameEditText = (EditText)alertView.findViewById(R.id.tag_name_edit);
         tagNameEditText.setText(tag.getName());
+        tagNameEditText.setSelection(tagNameEditText.length());
         alert.setView(alertView);
         alert.setTitle(R.string.edit_tag);
         alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
