@@ -218,12 +218,14 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 showDetailPlaceholder();
+                getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes));
                 getNoteListFragment().clearSearch();
                 return true;
             }

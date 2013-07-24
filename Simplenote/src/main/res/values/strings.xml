@@ -37,6 +37,7 @@
     <string name="no_notes"><![CDATA[<b>No notes here.</b><br>Why not create one?]]></string>
     <string name="no_tags_found">No tags found.</string>
     <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
+    <string name="no_notes_found"><![CDATA[<b>No notes found.</b>]]></string>
     <string name="note_editor_placeholder">Select a note to view it here.</string>
     
     <string name="sort_order">Sort order</string>

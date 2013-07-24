@@ -199,6 +199,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         super.onDestroy();
     }
 
+    public void setEmptyListMessage(String message) {
+        if (mEmptyListTextView != null && message != null)
+            mEmptyListTextView.setText(Html.fromHtml(message));
+    }
+
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
@@ -446,12 +451,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
 
         // Update empty list placeholder text
-        if (mEmptyListTextView != null) {
-            if (itemPosition == NAVIGATION_ITEM_TRASH)
-                mEmptyListTextView.setText(Html.fromHtml(getString(R.string.trash_is_empty)));
-            else
-                mEmptyListTextView.setText(Html.fromHtml(getString(R.string.no_notes)));
-        }
+        if (itemPosition == NAVIGATION_ITEM_TRASH)
+            setEmptyListMessage(getString(R.string.trash_is_empty));
+        else
+            setEmptyListMessage(getString(R.string.no_notes));
 
         NotesActivity notesActivity = (NotesActivity)getActivity();
 		mNavigationItem = itemPosition;
