@@ -28,11 +28,12 @@ import android.widget.ToggleButton;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
+import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
-public class NoteEditorFragment extends Fragment implements TextWatcher {
+public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -86,34 +87,22 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
         mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addTextChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mTagView.setTokenizer(new SpaceTokenizer());
+
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
         if (!((NotesActivity) getActivity()).isLargeScreen())
             mPlaceholderView.setVisibility(View.GONE);
 
-        refreshContent();
+		refreshContent();
 
-        // Populate tag list
-        Simplenote simplenote = (Simplenote) getActivity().getApplication();
-        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
-        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
-        String[] allTags = new String[tagsCursor.getCount()];
-        while (tagsCursor.moveToNext()) {
-            allTags[tagsCursor.getPosition()] = tagsCursor.getObject().getName();
-        }
-        tagsCursor.close();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, allTags);
-        mTagView.setAdapter(adapter);
-        mTagView.setTokenizer(new SpaceTokenizer());
-
-        return rootView;
-    }
+		return rootView;
+	}
 
     @Override
     public void onResume() {
         super.onResume();
-
+        mTagView.setOnTagAddedListener(this);
         if (mNote != null && mNote.getContent().isEmpty()) {
             // Show soft keyboard
             mContentEditText.requestFocus();
@@ -127,7 +116,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     @Override
     public void onPause() {
         saveAndSyncNote();
-
+        mTagView.setOnTagAddedListener(null);
         // Hide soft keyboard
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
@@ -159,17 +148,31 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
-            // Populate this note's tags in the tagView - TODO: nbradbury - for a large list of tags, using a StringBuilder here would be more efficient
-            String tagListString = "";
-            for (String tag : mNote.getTags())
-                tagListString += tag + " ";
-            mTagView.setText(tagListString);
-            mTagView.setChips();
-
             mPinButton.setChecked(mNote.isPinned());
 
             setActionBarTitle();
+
+            updateTagList();
         }
+    }
+
+    public void updateTagList(){
+        // Populate this note's tags in the tagView
+        mTagView.setChips(mNote.getTagString());
+        
+		// Populate tag list
+        Simplenote simplenote = (Simplenote)getActivity().getApplication();
+        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
+        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
+        List<String> allTags = new ArrayList<String>(tagsCursor.getCount());
+        while (tagsCursor.moveToNext()) {
+            Tag tag = tagsCursor.getObject();
+            if (!mNote.hasTag(tag)) allTags.add(tag.getName());
+        }
+        tagsCursor.close();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, allTags);
+        mTagView.setAdapter(adapter);
     }
 
     private void setActionBarTitle() {
@@ -225,6 +228,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     };
 
     @Override
+    public void onTagsChanged(String tagString){
+        mNote.setTagString(tagString);
+        mNote.setModificationDate(Calendar.getInstance());
+        updateTagList();
+        mNote.save();
+
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         // Unused
     }
@@ -251,12 +263,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
             return;
 
         String content = mContentEditText.getText().toString();
-        String tagString = mTagView.getText().toString().trim();
-        List<String> tagList = Arrays.asList(tagString.split(" "));
-        ArrayList<String> tags = tagString.equals("") ? new ArrayList<String>() : new ArrayList<String>(tagList);
-        if (mNote.hasChanges(content, tags, mPinButton.isChecked())) {
+        if (mNote.hasChanges(content, mPinButton.isChecked())) {
             mNote.setContent(content);
-            mNote.setTags(tags);
+            mNote.setTagString(mTagView.getText().toString());
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
