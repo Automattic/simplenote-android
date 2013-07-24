@@ -19,12 +19,12 @@
     </string-array>
     
     <string-array name="array_sort_order">
-        <item>Modified date</item>
-        <item>Created date</item>
-        <item>Alphabetically</item>
-        <item>Modified date, reversed</item>
-        <item>Created date, reversed</item>
-        <item>Alphabetically, reversed</item>
+        <item>Newest modified date</item>
+        <item>Oldest modified date</item>
+        <item>Newest created date</item>
+        <item>Oldest created date</item>
+        <item>Alphabetically, A-Z</item>
+        <item>Alphabetically, Z-A</item>
     </string-array>
     
     <string-array name="array_sort_order_values">

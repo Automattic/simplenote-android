@@ -1,38 +1,38 @@
 package com.automattic.simplenote;
 
-import java.util.Arrays;
-import java.util.Calendar;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.OnSaveObjectListener;
-import com.simperium.client.Bucket.OnDeleteObjectListener;
-import com.simperium.client.Bucket.OnNetworkChangeListener;
+import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
-import com.simperium.client.Query.ComparisonType;
-import com.simperium.client.Bucket.ObjectCursor;
-import com.simperium.client.BucketObjectMissingException;
+
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.prefs.Preferences;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -52,14 +52,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
     private TextView mEmptyListTextView;
+    private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
 	private String[] mMenuItems;
     private String mSelectedTag;
     private String mSearchString;
 	private int mNavigationItem;
+    private boolean mNavListLoaded;
 	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * activated item position. Only used on tablets.
+	 * The preferences key representing the activated item position. Only used on tablets.
 	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -74,7 +75,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
-	/**
+    /**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
 	 * selections.
@@ -128,21 +129,26 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNumPreviewLines = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_NUM_PREVIEW_LINES, 2);
 	}
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View view = inflater.inflate(R.layout.notes_list, container, false);
+        return view;
+    }
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-        setListShown(true);
+        NotesActivity notesActivity = (NotesActivity)getActivity();
 
-        mEmptyListTextView = (TextView)getActivity().getLayoutInflater().inflate(R.layout.empty_list, null);
-        getListView().setEmptyView(mEmptyListTextView);
-        mEmptyListTextView.setVisibility(View.GONE);
-        ((ViewGroup)getListView().getParent()).addView(mEmptyListTextView);
+        mEmptyListTextView = (TextView)view.findViewById(android.R.id.empty);
+        mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
 
-		// Restore the previously serialized activated item position.
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-		}
+        if (notesActivity.isLargeScreenLandscape()) {
+            setActivateOnItemClick(true);
+            mDividerShadow.setVisibility(View.VISIBLE);
+        }
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(2);
@@ -166,6 +172,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onResume() {
 		super.onResume();
+        mNavListLoaded = false;
         getPrefs();
         refreshList();
         updateMenuItems();
@@ -199,16 +206,28 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		Note note = (Note)getListAdapter().getItem(position);
         if (note != null)
             mCallbacks.onNoteSelected(note);
+
+        mActivatedPosition = position;
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
-			// Serialize and persist the activated item position.
-			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-		}
-	}
+    /**
+     * Selects first row in the list if available
+     */
+    public void selectFirstNote() {
+        if (mNotesAdapter.getCount() > 0) {
+            Note selectedNote = mNotesAdapter.getItem(0);
+            mCallbacks.onNoteSelected(selectedNote);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActivatedPosition != ListView.INVALID_POSITION) {
+            // Serialize and persist the activated item position.
+            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+        }
+    }
 
 	/**
 	 * Turns on activate-on-click mode. When this mode is on, list items will be
@@ -218,13 +237,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
-
-		// Also select the first item by default
-		// TODO: persist the last selected item and restore that instead
-		if (!mNotesAdapter.isEmpty()) {
-			View v = mNotesAdapter.getView(0, null, null);
-			getListView().performItemClick(v, 0, 0);
-		}
 	}
 
 	private void setActivatedPosition(int position) {
@@ -238,6 +250,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             mActivatedPosition = position;
         }
 	}
+
+    public void setDividerVisible(boolean visible) {
+        if (visible)
+            mDividerShadow.setVisibility(View.VISIBLE);
+        else
+            mDividerShadow.setVisibility(View.GONE);
+    }
 
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
@@ -290,10 +309,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	}
 
 	public void addNote() {
-		// TODO: nbradbury - creating & saving a new note here causes an empty note to appear which doesn't go away if user backs out
-		// of editing the note (iOS app suffers from the same problem) - instead NoteEditorFragment should be changed to handle new
-		// note creation and only save the note if user has entered any content
-		
 		// create & save new note
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
@@ -306,10 +321,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
 		mCallbacks.onNoteSelected(note);
-		
-		// Select the new note
-		//View v = mNotesAdapter.getView(0, null, null);
-		//getListView().performItemClick(v, 0, 0);
 	}
 
     public void setNoteSelected(Note selectedNote) {
@@ -358,6 +369,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 			} else {
 				holder = (NoteViewHolder) view.getTag();
 			}
+
+            if (position == getListView().getCheckedItemPosition())
+                view.setActivated(true);
+            else
+                view.setActivated(false);
 
             // for performance reasons we are going to get indexed values
             // from the cursor instead of instantiating the entire bucket object
@@ -424,6 +440,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Log.d(Simplenote.TAG, "onNavigationItemSelected");
 
+        if (!mNavListLoaded) {
+            mNavListLoaded = true;
+            return false;
+        }
+
         // Update empty list placeholder text
         if (mEmptyListTextView != null) {
             if (itemPosition == NAVIGATION_ITEM_TRASH)
@@ -432,9 +453,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                 mEmptyListTextView.setText(Html.fromHtml(getString(R.string.no_notes)));
         }
 
-		Query<Note> query;
-		Simplenote application = (Simplenote) getActivity().getApplication();
-        Bucket<Note> noteBucket = application.getNotesBucket();
+        NotesActivity notesActivity = (NotesActivity)getActivity();
 		mNavigationItem = itemPosition;
         if (itemPosition > 1) {
             mSelectedTag = mMenuItems[itemPosition];
@@ -443,7 +462,16 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
         mNotesAdapter.changeCursor(queryNotes());
 
-        getActivity().invalidateOptionsMenu();
+        notesActivity.invalidateOptionsMenu();
+        if (notesActivity.isLargeScreenLandscape()) {
+            if (mNotesAdapter.getCount() == 0) {
+                notesActivity.showDetailPlaceholder();
+            } else {
+                // Select the first note
+                Note firstNote = mNotesAdapter.getItem(0);
+                mCallbacks.onNoteSelected(firstNote);
+            }
+        }
 		
 		return true;
 	}
@@ -456,17 +484,16 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             noteQuery.order("modificationDate", SortType.DESCENDING);
             break;
 		case 1:
-            // orderBy = "creationDate DESC";
-            noteQuery.order("creationDate", SortType.DESCENDING);
-			break;
-		case 2:
-            noteQuery.order("content", SortType.ASCENDING);
-			break;
-		case 3:
             noteQuery.order("modificationDate", SortType.ASCENDING);
 			break;
-		case 4:
+		case 2:
+            noteQuery.order("creationDate", SortType.DESCENDING);
+			break;
+		case 3:
             noteQuery.order("creationDate", SortType.ASCENDING);
+			break;
+		case 4:
+            noteQuery.order("content", SortType.ASCENDING);
 			break;
 		case 5:
             noteQuery.order("content", SortType.DESCENDING);
