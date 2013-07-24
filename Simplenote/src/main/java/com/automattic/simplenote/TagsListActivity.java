@@ -32,6 +32,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.client.Query;
 
 import java.util.List;
 
@@ -68,14 +69,16 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         Simplenote application = (Simplenote) getApplication();
         mTagBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
-        ObjectCursor<Tag> cursor = Tag.all(mTagBucket).execute();
+
+        Query<Tag> tagQuery = Tag.all(mTagBucket).reorder().orderByKey();
+        ObjectCursor<Tag> cursor = tagQuery.execute();
         mTagsAdapter = new TagsAdapter(getBaseContext(), cursor, 0);
         setListAdapter(mTagsAdapter);
 
     }
 
     protected void refreshTags(){
-        ObjectCursor<Tag> cursor = Tag.all(mTagBucket).execute();
+        ObjectCursor<Tag> cursor = Tag.all(mTagBucket).reorder().orderByKey().execute();
         mTagsAdapter.changeCursor(cursor);
     }
 
