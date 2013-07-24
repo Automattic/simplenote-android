@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
@@ -33,67 +33,71 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
+    /**
+     * The fragment argument representing the item ID that this fragment
+     * represents.
+     */
+    public static final String ARG_ITEM_ID = "item_id";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
-	/**
-	 * The dummy content this fragment is presenting.
-	 */
-	private Note mNote;
-	private EditText mContentEditText;
-	private TagsMultiAutoCompleteTextView mTagView;
+    /**
+     * The dummy content this fragment is presenting.
+     */
+    private Note mNote;
+    private EditText mContentEditText;
+    private TagsMultiAutoCompleteTextView mTagView;
     private ToggleButton mPinButton;
     private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
+    private LinearLayout mPlaceholderView;
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
-	public NoteEditorFragment() {
-	}
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public NoteEditorFragment() {
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
-	        Simplenote application = (Simplenote)getActivity().getApplication();
-			Bucket<Note> notesBucket = application.getNotesBucket();
-			String key = getArguments().getString(ARG_ITEM_ID);
-			try {
-    			mNote = notesBucket.get(key);
-			} catch (BucketObjectMissingException e) {
-				// TODO: Handle a missing note
-			}
-		}
+        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
+            Simplenote application = (Simplenote) getActivity().getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            String key = getArguments().getString(ARG_ITEM_ID);
+            try {
+                mNote = notesBucket.get(key);
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle a missing note
+            }
+        }
 
-        if (!((NotesActivity)getActivity()).isTwoPane())
+        if (!((NotesActivity) getActivity()).isLargeScreenLandscape())
             mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
 
-	}
+    }
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-		mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addTextChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
+        mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
+        if (!((NotesActivity) getActivity()).isLargeScreen())
+            mPlaceholderView.setVisibility(View.GONE);
 
-		refreshContent();
-		
-		// Populate tag list
-        Simplenote simplenote = (Simplenote)getActivity().getApplication();
+        refreshContent();
+
+        // Populate tag list
+        Simplenote simplenote = (Simplenote) getActivity().getApplication();
         Bucket<Tag> tagBucket = simplenote.getTagsBucket();
         ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
-		String[] allTags = new String[tagsCursor.getCount()];
+        String[] allTags = new String[tagsCursor.getCount()];
         while (tagsCursor.moveToNext()) {
             allTags[tagsCursor.getPosition()] = tagsCursor.getObject().getName();
         }
@@ -102,9 +106,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
                 android.R.layout.simple_dropdown_item_1line, allTags);
         mTagView.setAdapter(adapter);
         mTagView.setTokenizer(new SpaceTokenizer());
-        
-		return rootView;
-	}
+
+        return rootView;
+    }
 
     @Override
     public void onResume() {
@@ -136,6 +140,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
     }
 
     public void setNote(Note note) {
+        mPlaceholderView.setVisibility(View.GONE);
+
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null)
             saveAndSyncNote();
@@ -261,57 +267,70 @@ public class NoteEditorFragment extends Fragment implements TextWatcher {
         Log.v("Simplenote", "autosaving note");
     }
 
+    public void setPlaceholderVisible(boolean isVisible) {
+        if (isVisible) {
+            mNote = null;
+            mContentEditText.setText("");
+            mTagView.setText("");
+            if (mPlaceholderView != null)
+                mPlaceholderView.setVisibility(View.VISIBLE);
+        } else {
+            if (mPlaceholderView != null)
+                mPlaceholderView.setVisibility(View.GONE);
+        }
+    }
+
     // Use spaces in tag autocompletion list
-	// From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
-	public class SpaceTokenizer implements Tokenizer {
+    // From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
+    public class SpaceTokenizer implements Tokenizer {
 
-		public int findTokenStart(CharSequence text, int cursor) {
-			int i = cursor;
-	
-			while (i > 0 && text.charAt(i - 1) != ' ') {
-			    i--;
-			}
-			while (i < cursor && text.charAt(i) == ' ') {
-			    i++;
-			}
-	
-			return i;
-		}
+        public int findTokenStart(CharSequence text, int cursor) {
+            int i = cursor;
 
-		public int findTokenEnd(CharSequence text, int cursor) {
-			int i = cursor;
-			int len = text.length();
-	
-			while (i < len) {
-			    if (text.charAt(i) == ' ') {
-			        return i;
-			    } else {
-			        i++;
-			    }
-			}
-	
-			return len;
-		}
+            while (i > 0 && text.charAt(i - 1) != ' ') {
+                i--;
+            }
+            while (i < cursor && text.charAt(i) == ' ') {
+                i++;
+            }
 
-		public CharSequence terminateToken(CharSequence text) {
-			int i = text.length();
-	
-			while (i > 0 && text.charAt(i - 1) == ' ') {
-			    i--;
-			}
-	
-			if (i > 0 && text.charAt(i - 1) == ' ') {
-			    return text;
-			} else {
-			    if (text instanceof Spanned) {
-			        SpannableString sp = new SpannableString(text + " ");
-			        TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
-			                Object.class, sp, 0);
-			        return sp;
-			    } else {
-			        return text + " ";
-			    }
-			}
-		}
-	}
+            return i;
+        }
+
+        public int findTokenEnd(CharSequence text, int cursor) {
+            int i = cursor;
+            int len = text.length();
+
+            while (i < len) {
+                if (text.charAt(i) == ' ') {
+                    return i;
+                } else {
+                    i++;
+                }
+            }
+
+            return len;
+        }
+
+        public CharSequence terminateToken(CharSequence text) {
+            int i = text.length();
+
+            while (i > 0 && text.charAt(i - 1) == ' ') {
+                i--;
+            }
+
+            if (i > 0 && text.charAt(i - 1) == ' ') {
+                return text;
+            } else {
+                if (text instanceof Spanned) {
+                    SpannableString sp = new SpannableString(text + " ");
+                    TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
+                            Object.class, sp, 0);
+                    return sp;
+                } else {
+                    return text + " ";
+                }
+            }
+        }
+    }
 }
