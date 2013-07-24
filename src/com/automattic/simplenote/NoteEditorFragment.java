@@ -86,24 +86,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 		mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addTextChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mTagView.setTokenizer(new SpaceTokenizer());
+
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
 
 		refreshContent();
-		
-		// Populate tag list
-        Simplenote simplenote = (Simplenote)getActivity().getApplication();
-        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
-        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
-		String[] allTags = new String[tagsCursor.getCount()];
-        while (tagsCursor.moveToNext()) {
-            allTags[tagsCursor.getPosition()] = tagsCursor.getObject().getName();
-        }
-        tagsCursor.close();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, allTags);
-        mTagView.setAdapter(adapter);
-        mTagView.setTokenizer(new SpaceTokenizer());
-        
+
 		return rootView;
 	}
 
@@ -154,13 +142,31 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
-            // Populate this note's tags in the tagView
-            mTagView.setChips(mNote.getTagString());
-
             mPinButton.setChecked(mNote.isPinned());
 
             setActionBarTitle();
+
+            updateTagList();
         }
+    }
+
+    public void updateTagList(){
+        // Populate this note's tags in the tagView
+        mTagView.setChips(mNote.getTagString());
+        
+		// Populate tag list
+        Simplenote simplenote = (Simplenote)getActivity().getApplication();
+        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
+        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
+        List<String> allTags = new ArrayList<String>(tagsCursor.getCount());
+        while (tagsCursor.moveToNext()) {
+            Tag tag = tagsCursor.getObject();
+            if (!mNote.hasTag(tag)) allTags.add(tag.getName());
+        }
+        tagsCursor.close();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, allTags);
+        mTagView.setAdapter(adapter);
     }
 
     private void setActionBarTitle() {
@@ -219,8 +225,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onTagsChanged(String tagString){
         mNote.setTagString(tagString);
         mNote.setModificationDate(Calendar.getInstance());
-        mTagView.setChips(mNote.getTagString());
+        updateTagList();
         mNote.save();
+
     }
 
     @Override
