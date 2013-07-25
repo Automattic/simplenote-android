@@ -32,6 +32,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
