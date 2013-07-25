@@ -4,8 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               tools:context=".NotesActivity"
-              android:background="@color/white">
-    ar
+              android:background="@android:color/transparent">
     <!--
     This layout is a two-pane layout for the Notes
     master/detail flow. See res/values-large/refs.xml and
