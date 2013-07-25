@@ -24,9 +24,9 @@ git submodule update
 
 ### Simperium Config
 
-Add your simperium appid and key to Simplenote/res/raw/config.properties
+Add your simperium appid and key to Simplenote/gradle.properties
 
 ```
-simperium.appid=SIMPERIUM_APP_ID
-simperium.key=SIMPERIUM_KEY
+simperiumAppId=SIMPERIUM_APP_ID
+simperiumAppKey=SIMPERIUM_KEY
 ```

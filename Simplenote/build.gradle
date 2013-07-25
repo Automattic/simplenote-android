@@ -6,6 +6,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
+
 apply plugin: 'android'
 
 repositories {
@@ -24,5 +25,49 @@ android {
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 16
+    }
+
+}
+
+// Generates the Config.java class using properties defined in gradle.properties
+// or by other means provided by Gradle
+task simplenoteConfig(group: "build", description: "Generate Config class") {
+    def dir = "${buildDir}/source/simplenote"
+    def file = new File(dir, "com/automattic/simplenote/Config.java")
+    android {
+        sourceSets {
+            main {
+                java {
+                    srcDir dir
+                }
+            }
+        }
+    }
+    outputs.file file
+    doLast {
+        file.getParentFile().mkdirs()
+        def writer = new FileWriter(file)
+        writer.write("""/* auto-generated file do not modify */
+package com.automattic.simplenote;
+
+public final class Config {
+
+    public static final String simperium_app_id = "${simperiumAppId}";
+    public static final String simperium_app_key = "${simperiumAppKey}";
+
+}
+""")
+        writer.close()
+    }
+}
+
+// Add the simplenoteConfig task to every flavor's compile tasks
+android.buildTypes.all { buildType ->
+    def name = "compile${buildType.name.capitalize()}"
+    tasks.whenTaskAdded { task ->
+        if (task.name == name) {
+            task.dependsOn(simplenoteConfig)
+            task.mustRunAfter(simplenoteConfig)
+        }
     }
 }

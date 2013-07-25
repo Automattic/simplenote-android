@@ -29,3 +29,5 @@ config.properties
 
 .idea/
 .gradle/
+
+gradle.properties
