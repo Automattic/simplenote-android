@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -32,12 +33,15 @@ public class PreferencesActivity extends PreferenceActivity {
 			}
 		});
 		
-		findPreference("pref_key_billing").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		findPreference("pref_website").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(PreferencesActivity.this, BillingActivity.class);
-                PreferencesActivity.this.startActivityForResult(intent, Simplenote.INTENT_BILLING);
-				return true;
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://simplenote.com")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
 			}
 		});
 	}

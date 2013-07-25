@@ -39,6 +39,8 @@
     <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
     <string name="no_notes_found"><![CDATA[<b>No notes found.</b>]]></string>
     <string name="note_editor_placeholder">Select a note to view it here.</string>
+    <string name="website">Visit simplenote.com</string>
+    <string name="more_info">More Information</string>
     
     <string name="sort_order">Sort order</string>
     <string name="modified_date">Modified date</string>
