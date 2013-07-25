@@ -263,7 +263,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             return;
 
         String content = mContentEditText.getText().toString();
-        if (mNote.hasChanges(content, mPinButton.isChecked())) {
+        String tagString = mTagView.getText().toString();
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
             mNote.setContent(content);
             mNote.setTagString(mTagView.getText().toString());
             mNote.setModificationDate(Calendar.getInstance());

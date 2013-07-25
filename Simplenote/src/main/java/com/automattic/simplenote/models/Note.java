@@ -278,6 +278,9 @@ public class Note extends BucketObject {
         List<String> tags = getTags();
         tags.clear();
         if (tagString == null) return;
+        // Make sure string has a trailing space
+        if (tagString.length() > 1 && !tagString.substring(tagString.length() - 1).equals(SPACE))
+            tagString = tagString + SPACE;
         // for comparing case-insensitive strings, would like to find a way to
         // do this without allocating a new list and strings
         List<String> tagsUpperCase = new ArrayList<String>();
@@ -398,13 +401,13 @@ public class Note extends BucketObject {
     /**
      * Check if the note has any changes
      * @param content the new note content
-     * @param tags array of tags
+     * @param tagString space separated tags
      * @param isPinned note is pinned
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, boolean isPinned) {
+    public boolean hasChanges(String content, String tagString, boolean isPinned) {
 
-        if (content.equals(this.getContent()) && this.isPinned() == isPinned)
+        if (content.equals(this.getContent()) && this.isPinned() == isPinned && tagString.equals(this.getTagString().toString()))
             return false;
         else
             return true;
