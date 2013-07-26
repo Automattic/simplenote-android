@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
@@ -496,6 +497,10 @@ public class NotesActivity extends Activity implements
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
                     onNoteSelected(mCurrentNote);
+                else {
+                    mNoteEditorFragment.setPlaceholderVisible(true);
+                    mNoteListFragment.getListView().clearChoices();
+                }
                 invalidateOptionsMenu();
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
                 // Remove the editor fragment when rotating back to portrait
@@ -503,6 +508,7 @@ public class NotesActivity extends Activity implements
                 mCurrentNote = null;
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(false);
+                    mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
                     mNoteListFragment.refreshList();
                 }
                 FragmentManager fm = getFragmentManager();

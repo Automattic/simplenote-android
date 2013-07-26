@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
@@ -244,7 +245,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 	}
 
-	private void setActivatedPosition(int position) {
+	public void setActivatedPosition(int position) {
         if (getListView() != null) {
             if (position == ListView.INVALID_POSITION) {
                 getListView().setItemChecked(mActivatedPosition, false);
@@ -291,6 +292,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	private void updateMenuItems() {
 		// Update ActionBar menu
+        mNavListLoaded = false;
 		Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Tag> tagBucket = application.getTagsBucket();
         ObjectCursor<Tag> tagCursor = Tag.all(tagBucket).execute();
@@ -447,6 +449,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         if (!mNavListLoaded) {
             mNavListLoaded = true;
+            selectFirstNote();
             return false;
         }
 
@@ -456,7 +459,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         else
             setEmptyListMessage(getString(R.string.no_notes));
 
-        NotesActivity notesActivity = (NotesActivity)getActivity();
 		mNavigationItem = itemPosition;
         if (itemPosition > 1) {
             mSelectedTag = mMenuItems[itemPosition];
@@ -465,16 +467,17 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
         mNotesAdapter.changeCursor(queryNotes());
 
-        notesActivity.invalidateOptionsMenu();
+        NotesActivity notesActivity = (NotesActivity)getActivity();
         if (notesActivity.isLargeScreenLandscape()) {
             if (mNotesAdapter.getCount() == 0) {
                 notesActivity.showDetailPlaceholder();
             } else {
                 // Select the first note
-                Note firstNote = mNotesAdapter.getItem(0);
-                mCallbacks.onNoteSelected(firstNote);
+                selectFirstNote();
             }
         }
+        notesActivity.invalidateOptionsMenu();
+
 		
 		return true;
 	}
