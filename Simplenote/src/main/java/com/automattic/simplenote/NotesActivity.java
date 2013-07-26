@@ -117,7 +117,7 @@ public class NotesActivity extends Activity implements
         FragmentTransaction ft = fm.beginTransaction();
         mNoteEditorFragment = new NoteEditorFragment();
         ft.add(R.id.noteFragmentContainer, mNoteEditorFragment, TAG_NOTE_EDITOR);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         fm.executePendingTransactions();
     }
 
@@ -394,7 +394,7 @@ public class NotesActivity extends Activity implements
             ft.setCustomAnimations(R.animator.slide_in, R.animator.zoom_in_and_fade, R.animator.zoom_out_and_fade, R.animator.slide_out);
             ft.replace(R.id.noteFragmentContainer, mNoteEditorFragment);
             ft.addToBackStack(null);
-            ft.commit();
+            ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         } else {
             mNoteEditorFragment.setNote(note);
@@ -493,6 +493,7 @@ public class NotesActivity extends Activity implements
                 addEditorFragment();
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
+                    mNoteListFragment.setDividerVisible(true);
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
@@ -508,6 +509,7 @@ public class NotesActivity extends Activity implements
                 mCurrentNote = null;
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(false);
+                    mNoteListFragment.setDividerVisible(false);
                     mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
                     mNoteListFragment.refreshList();
                 }
@@ -515,7 +517,7 @@ public class NotesActivity extends Activity implements
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(mNoteEditorFragment);
                 mNoteEditorFragment = null;
-                ft.commit();
+                ft.commitAllowingStateLoss();
                 fm.executePendingTransactions();
                 invalidateOptionsMenu();
             }

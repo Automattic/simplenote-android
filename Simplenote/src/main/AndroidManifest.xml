@@ -34,10 +34,14 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name="com.simperium.client.LoginActivity"></activity>
-        <activity android:name=".BillingActivity"></activity>
-        <activity android:name=".PreferencesActivity"></activity>
-        <activity android:name=".TagsListActivity"></activity>
+        <activity android:name="com.simperium.client.LoginActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity android:name=".BillingActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity android:name=".PreferencesActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity android:name=".TagsListActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
