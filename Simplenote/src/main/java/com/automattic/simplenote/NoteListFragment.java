@@ -447,9 +447,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Log.d(Simplenote.TAG, "onNavigationItemSelected");
 
+        NotesActivity notesActivity = (NotesActivity)getActivity();
         if (!mNavListLoaded) {
             mNavListLoaded = true;
-            selectFirstNote();
+            if (notesActivity.isLargeScreenLandscape() && mActivatedPosition == ListView.INVALID_POSITION)
+                selectFirstNote();
             return false;
         }
 
@@ -467,7 +469,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
         mNotesAdapter.changeCursor(queryNotes());
 
-        NotesActivity notesActivity = (NotesActivity)getActivity();
         if (notesActivity.isLargeScreenLandscape()) {
             if (mNotesAdapter.getCount() == 0) {
                 notesActivity.showDetailPlaceholder();
