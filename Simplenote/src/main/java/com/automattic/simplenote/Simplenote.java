@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import java.io.InputStream;
 import java.util.Properties;
 
 import android.app.Application;
@@ -11,6 +10,7 @@ import com.automattic.simplenote.Config;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.models.NoteTagger;
+import com.automattic.simplenote.utils.NoteCountIndexer;
 import com.simperium.client.Bucket;
 import com.simperium.Simperium;
 
@@ -38,7 +38,10 @@ public class Simplenote extends Application {
         );
 
 		mNotesBucket = mSimperium.bucket(new Note.Schema());
-		mTagsBucket = mSimperium.bucket(new Tag.Schema());
+        Tag.Schema tagSchema = new Tag.Schema();
+        tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
+		mTagsBucket = mSimperium.bucket(tagSchema);
+
         // Every time a note is saved the NoteTagger makes sure there's a tag in the tags bucket and creates on if necessary
         mNotesBucket.addOnSaveObjectListener(new NoteTagger(mTagsBucket));
 

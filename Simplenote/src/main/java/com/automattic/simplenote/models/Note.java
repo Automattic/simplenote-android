@@ -42,6 +42,9 @@ public class Note extends BucketObject {
     public static final String SHARE_URL_PROPERTY="shareURL";
     public static final String PUBLISH_URL_PROPERTY="publishURL";
     public static final String DELETED_PROPERTY="deleted";
+    public static final String TITLE_INDEX_NAME="title";
+    public static final String CONTENT_PREVIEW_INDEX_NAME="contentPreview";
+    public static final String PINNED_INDEX_NAME="pinned";
 	
 	protected String title = null;
 	protected String contentPreview = null;
@@ -63,13 +66,9 @@ public class Note extends BucketObject {
             @Override
             public List<Index> index(Note note){
                 List<Index> indexes = new ArrayList<Index>();
-                if (note.isPinned()) {
-                    indexes.add(new Index("pinned", true));
-                } else {
-                    indexes.add(new Index("pinned", false));
-                }
-                indexes.add(new Index("contentPreview", note.getContentPreview()));
-                indexes.add(new Index("title", note.getTitle()));
+                indexes.add(new Index(PINNED_INDEX_NAME, note.isPinned()));
+                indexes.add(new Index(CONTENT_PREVIEW_INDEX_NAME, note.getContentPreview()));
+                indexes.add(new Index(TITLE_INDEX_NAME, note.getTitle()));
                 return indexes;
             }
         };
@@ -92,24 +91,24 @@ public class Note extends BucketObject {
     
     public static Query<Note> all(Bucket<Note> noteBucket){
         return noteBucket.query()
-                .where("deleted", ComparisonType.NOT_EQUAL_TO, true);
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
     public static Query<Note> allDeleted(Bucket<Note> noteBucket){
         return noteBucket.query()
-                .where("deleted", ComparisonType.EQUAL_TO, true);
+                .where(DELETED_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
     public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
         return noteBucket.query()
-                .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
-                .where("content", ComparisonType.LIKE, "%" + searchString + "%");
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(CONTENT_PROPERTY, ComparisonType.LIKE, "%" + searchString + "%");
     }
 
     public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
         return noteBucket.query()
-                .where("deleted", ComparisonType.NOT_EQUAL_TO, true)
-                .where("tags", ComparisonType.LIKE, tag);
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
 

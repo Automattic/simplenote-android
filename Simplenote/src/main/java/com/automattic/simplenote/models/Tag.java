@@ -18,10 +18,13 @@ import android.util.Log;
 public class Tag extends BucketObject {
 	
 	public static final String BUCKET_NAME="tag";
-	protected int tagIndex;
+    public static final String NOTE_COUNT_INDEX_NAME = "note_count";
+    public static final String NAME_PROPERTY = "name";
+    public static final String INDEX_PROPERTY = "index";
+    protected int tagIndex;
 	protected String name = "";
 
-	public static class Schema extends BucketSchema<Tag> {
+    public static class Schema extends BucketSchema<Tag> {
 
         public Schema(){
             autoIndex();
@@ -41,7 +44,11 @@ public class Tag extends BucketObject {
 	}
 
     public static Query<Tag> all(Bucket<Tag> bucket){
-        return bucket.query().order("index").orderByKey();
+        return bucket.query().order(INDEX_PROPERTY).orderByKey();
+    }
+
+    public static Query<Tag> allWithCount(Bucket<Tag> bucket) {
+        return all(bucket).include(NAME_PROPERTY, NOTE_COUNT_INDEX_NAME);
     }
 
     public Tag(String key){
@@ -53,7 +60,7 @@ public class Tag extends BucketObject {
 	}
 
 	public String getName() {
-		String name = (String) properties.get("name");
+		String name = (String) properties.get(NAME_PROPERTY);
         if (name == null) {
             name = getSimperiumKey();
         }
@@ -64,11 +71,11 @@ public class Tag extends BucketObject {
 		if (name == null) {
 			name = "";
 		}
-        properties.put("name", name);
+        properties.put(NAME_PROPERTY, name);
 	}
 		
 	public Integer getIndex() {
-        return (Integer) properties.get("index");
+        return (Integer) properties.get(INDEX_PROPERTY);
 	}
 	
 	public void setIndex(Integer tagIndex) {

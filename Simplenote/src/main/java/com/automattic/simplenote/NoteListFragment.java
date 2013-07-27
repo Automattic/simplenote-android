@@ -21,11 +21,13 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.TagSpinnerAdapter;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -50,16 +52,16 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     private static final int NAVIGATION_ITEM_TRASH=1;
 
 	private NotesCursorAdapter mNotesAdapter;
+    private TagSpinnerAdapter mSpinnerAdapter;
+    private TagSpinnerAdapter.TagMenuItem mSelectedTag;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
-	private String[] mMenuItems;
-    private String mSelectedTag;
     private String mSearchString;
-	private int mNavigationItem;
     private boolean mNavListLoaded;
+
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
 	 */
@@ -113,6 +115,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		mNotesBucket = application.getNotesBucket();
         mTagsBucket = application.getTagsBucket();
 
+        mSpinnerAdapter = new TagSpinnerAdapter(getActivity(), mNotesBucket);
+        updateMenuItems();
+
         ObjectCursor<Note> cursor = queryNotes();
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
 		setListAdapter(mNotesAdapter);
@@ -155,7 +160,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         getListView().setDividerHeight(2);
         getListView().setBackgroundColor(getResources().getColor(R.color.white));
 
-        updateMenuItems();
 	}
 
 	@Override
@@ -266,26 +270,16 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
-		Log.d(Simplenote.TAG, "Refresh the list");
         mNotesAdapter.changeCursor(queryNotes());
 		mNotesAdapter.notifyDataSetChanged();
 	}
 
     public ObjectCursor<Note> queryNotes(){
-        Log.d(Simplenote.TAG, String.format("Querying %d %s", mNavigationItem, mSelectedTag));
-        Query<Note> query = null;
-        if (mSearchString != null) {
-            query = Note.search(mNotesBucket, mSearchString);
-        } else if (mNavigationItem == NAVIGATION_ITEM_ALL_NOTES) {
-			// All notes
-			query = Note.all(mNotesBucket);
-		} else if (mNavigationItem == NAVIGATION_ITEM_TRASH) {
-			// Trashed notes
-			query = Note.allDeleted(mNotesBucket);
-		} else {
-			query = Note.allInTag(mNotesBucket, mSelectedTag);
-		}
-        query.include("title", "contentPreview", "pinned", "modificationDate");
+        if (mSelectedTag == null){
+            mSelectedTag = mSpinnerAdapter.getItem(0);
+        }
+        Query<Note> query = mSelectedTag.query(mSearchString);
+        query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
         sortNoteQuery(query);
         return query.execute();
     }
@@ -295,23 +289,18 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         mNavListLoaded = false;
 		Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Tag> tagBucket = application.getTagsBucket();
-        ObjectCursor<Tag> tagCursor = Tag.all(tagBucket).execute();
-		String[] tags = new String[tagCursor.getCount()];
-        while (tagCursor.moveToNext()) {
-            Tag tag = tagCursor.getObject();
-            tags[tagCursor.getPosition()] = tag.getName();
-        }
-        tagCursor.close();
-		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
-		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
+        ObjectCursor<Tag> tagCursor = Tag.allWithCount(tagBucket).execute();
+        mSpinnerAdapter.swapCursor(tagCursor);
         ActionBar ab = getActivity().getActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		System.arraycopy(tags, 0, mMenuItems, 2, tags.length);
-		ArrayAdapter mSpinnerAdapter = new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems);
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		ab.setListNavigationCallbacks(mSpinnerAdapter, this);
-        if (mNavigationItem < mMenuItems.length) {
-            ab.setSelectedNavigationItem(mNavigationItem);
+        ab.setListNavigationCallbacks(mSpinnerAdapter, this);
+        if (mSelectedTag != null){
+            int position = mSpinnerAdapter.getPosition(mSelectedTag);
+            if (position > -1){
+                ab.setSelectedNavigationItem(position);
+            } else {
+                mSelectedTag = null;
+            }
         }
 	}
 
@@ -455,18 +444,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             return false;
         }
 
+        mSelectedTag = mSpinnerAdapter.getItem(itemPosition);
+
         // Update empty list placeholder text
         if (itemPosition == NAVIGATION_ITEM_TRASH)
             setEmptyListMessage(getString(R.string.trash_is_empty));
         else
             setEmptyListMessage(getString(R.string.no_notes));
 
-		mNavigationItem = itemPosition;
-        if (itemPosition > 1) {
-            mSelectedTag = mMenuItems[itemPosition];
-        } else {
-            mSelectedTag = null;
-        }
         mNotesAdapter.changeCursor(queryNotes());
 
         if (notesActivity.isLargeScreenLandscape()) {

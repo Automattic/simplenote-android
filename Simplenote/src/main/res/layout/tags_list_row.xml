@@ -3,15 +3,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:divider="?android:attr/dividerVertical"
+              android:layout_height="wrap_content"
               android:showDividers="middle"
               android:dividerPadding="8dp"
               android:background="?android:attr/selectableItemBackground"
-              android:descendantFocusability="blocksDescendants">
+              android:descendantFocusability="blocksDescendants"
+        >
     <TextView
         android:id="@+id/tag_name"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Test"
         style="?android:attr/textAppearanceLarge"
@@ -19,7 +19,29 @@
         android:layout_weight="1"
         android:layout_marginLeft="16dp"
         android:textColor="#222222"
-        />
+        android:layout_marginRight="8dp"/>
+    <TextView
+        android:id="@+id/tag_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24"
+        android:layout_gravity="center_vertical"
+        android:gravity="right"
+        style="?android:attr/textAppearanceLarge"
+        android:textColor="@color/grey"
+        android:layout_marginRight="8dp"/>
+
+    <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageView"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@color/divider_grey"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_vertical"/>
+
     <ImageButton
         android:id="@+id/tag_trash"
         android:layout_width="48dp"

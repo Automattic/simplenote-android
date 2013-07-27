@@ -70,7 +70,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         mTagBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        Query<Tag> tagQuery = Tag.all(mTagBucket).reorder().orderByKey();
+        Query<Tag> tagQuery = Tag.all(mTagBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         ObjectCursor<Tag> cursor = tagQuery.execute();
         mTagsAdapter = new TagsAdapter(getBaseContext(), cursor, 0);
         setListAdapter(mTagsAdapter);
@@ -210,7 +210,14 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             convertView.setTag(tag.getSimperiumKey());
 
             TextView tagTitle = (TextView)convertView.findViewById(R.id.tag_name);
+            TextView tagCount = (TextView)convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
+            int count = mCursor.getInt(mCursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME));
+            if (count > 0){
+                tagCount.setText(Integer.toString(count));
+            } else {
+                tagCount.setText("");
+            }
 
             ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.tag_trash);
             deleteButton.setOnClickListener(new View.OnClickListener() {
