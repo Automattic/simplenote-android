@@ -96,20 +96,19 @@ public class NotesActivity extends Activity implements
 
         if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
             startLoginActivity();
-        }
-        currentApp.getSimperium().setAuthenticationListener(this);
-
-        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        } else if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // Check share action
             Intent intent = getIntent();
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (text != null) {
                 Note note = mNotesBucket.newObject();
+                note.setCreationDate(Calendar.getInstance());
                 note.setContent(text);
                 note.save();
                 onNoteSelected(note);
             }
         }
+        currentApp.getSimperium().setAuthenticationListener(this);
     }
 
     private void addEditorFragment() {
