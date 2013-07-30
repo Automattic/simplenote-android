@@ -20,6 +20,8 @@ public class Simplenote extends Application {
 	// intent IDs
 	public static final int INTENT_PREFERENCES  = 1;
 	public static final int INTENT_BILLING		= 2;
+
+    private static final String AUTH_PROVIDER = "simplenote.com";
 	
 	private Properties mConfig;
 	private Simperium mSimperium;
@@ -34,6 +36,8 @@ public class Simplenote extends Application {
             Config.simperium_app_key,
             this
         );
+
+        mSimperium.setAuthProvider(AUTH_PROVIDER);
 
 		mNotesBucket = mSimperium.bucket(new Note.Schema());
         Tag.Schema tagSchema = new Tag.Schema();
