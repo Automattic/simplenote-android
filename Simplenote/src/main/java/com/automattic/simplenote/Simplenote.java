@@ -1,18 +1,16 @@
 package com.automattic.simplenote;
 
-import java.util.Properties;
-
 import android.app.Application;
 import android.util.Log;
 
-import com.automattic.simplenote.R;
-import com.automattic.simplenote.Config;
 import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
-import com.automattic.simplenote.utils.NoteCountIndexer;
-import com.simperium.client.Bucket;
+import com.automattic.simplenote.models.Tag;
 import com.simperium.Simperium;
+import com.simperium.client.Bucket;
+
+import java.util.Properties;
 
 public class Simplenote extends Application {
 	
@@ -42,8 +40,8 @@ public class Simplenote extends Application {
         tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
 		mTagsBucket = mSimperium.bucket(tagSchema);
 
-        // Every time a note is saved the NoteTagger makes sure there's a tag in the tags bucket and creates on if necessary
-        mNotesBucket.addOnSaveObjectListener(new NoteTagger(mTagsBucket));
+        // Every time a note changes or is deleted we need to reindex the tag counts
+        mNotesBucket.addListener(new NoteTagger(mTagsBucket));
 
 		// Start the bucket sockets
 		mNotesBucket.start();
