@@ -25,13 +25,20 @@ Sample `local.properties`
 sdk.dir=/Applications/Android Studio.app/sdk
 ```
 
-3) You should be set.
-
-### Simperium Config
+3) Simperium Config
 
 Add your simperium appid and key to Simplenote/gradle.properties
 
 ```
 simperiumAppId=SIMPERIUM_APP_ID
 simperiumAppKey=SIMPERIUM_KEY
+```
+4) Install debug build with Android Studio or `./gradlew installDebug`
+
+## Tests
+
+Unit tests are located in `Simplenote/src/instrumentTest`. To run the tests from the command line:
+
+```
+./gradlew :Simplenote:connectedInstrumentTest
 ```
