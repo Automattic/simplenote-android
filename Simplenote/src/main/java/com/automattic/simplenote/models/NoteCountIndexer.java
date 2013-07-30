@@ -1,4 +1,4 @@
-package com.automattic.simplenote.utils;
+package com.automattic.simplenote.models;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;

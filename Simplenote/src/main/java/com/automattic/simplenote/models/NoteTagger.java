@@ -5,12 +5,12 @@
 package com.automattic.simplenote.models;
 
 import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.OnSaveObjectListener;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.Query;
 
 import java.util.List;
 
-public class NoteTagger implements OnSaveObjectListener<Note> {
+public class NoteTagger implements Bucket.Listener<Note> {
 
     private Bucket<Tag> mTagsBucket;
 
@@ -20,7 +20,7 @@ public class NoteTagger implements OnSaveObjectListener<Note> {
 
     /*
     * When a note is saved check its array of tags to make sure there is a corresponding tag
-    * object and create one if necessary. Always save the tag so it's indexes are updated.
+    * object and create one if necessary. Re-save all tags so their indexes are updated.
     * */
     @Override
     public void onSaveObject(Bucket<Note> bucket, Note note){
@@ -37,10 +37,37 @@ public class NoteTagger implements OnSaveObjectListener<Note> {
                 tag = mTagsBucket.newObject(tagKey);
                 tag.setName(tagName);
                 tag.setIndex(mTagsBucket.count());
+                tag.save();
             }
-            // save the tag so all of it's indexes are updated.
-            tag.save();
         }
+        saveAllTags();
+    }
+
+    /*
+    * Reindexes all existing tags so they will have the correct note counts.
+    * */
+    @Override
+    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+        saveAllTags();
+    }
+
+    @Override
+    public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key){
+        saveAllTags();
+    }
+
+    private void saveAllTags(){
+        final Query<Tag> tagQuery = mTagsBucket.query();
+        Thread queryThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
+                while(cursor.moveToNext()){
+                    cursor.getObject().save();
+                }
+            }
+        });
+        queryThread.run();
     }
 
 }

@@ -18,7 +18,12 @@ git submodule init
 git submodule update
 ```
 
-2) Import into Android Studio using the "Gradle" build option.
+2) Import into Android Studio using the "Gradle" build option. You may need to create a `local.properties` file with the absolute path to the Android SDK:
+
+Sample `local.properties`
+```
+sdk.dir=/Applications/Android Studio.app/sdk
+```
 
 3) You should be set.
 
