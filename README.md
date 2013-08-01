@@ -40,5 +40,6 @@ simperiumAppKey=SIMPERIUM_KEY
 Unit tests are located in `Simplenote/src/instrumentTest`. To run the tests from the command line:
 
 ```
-./gradlew :Simplenote:connectedInstrumentTest
+./gradlew :Simplenote:connectedInstrumentTest # :Simplenote:cIT works as well
 ```
+Only test failures will be reported in the terminal. The full results of the test are located in `Simplenote/build/instrumentTest-results`
