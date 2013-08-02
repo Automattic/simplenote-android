@@ -8,6 +8,8 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 public class PreferencesActivity extends PreferenceActivity {
 
 	@SuppressWarnings("deprecation")
@@ -29,6 +31,7 @@ public class PreferencesActivity extends PreferenceActivity {
                 application.getSimperium().deAuthorizeUser();
                 application.getNotesBucket().reset();
                 application.getTagsBucket().reset();
+                EasyTracker.getTracker().sendEvent("user", "signed_out", "preferences_sign_out_button", null);
 				return true;
 			}
 		});
@@ -44,6 +47,8 @@ public class PreferencesActivity extends PreferenceActivity {
                 return true;
 			}
 		});
+
+        EasyTracker.getInstance().activityStart(this);
 	}
 	
 	@Override
@@ -54,6 +59,12 @@ public class PreferencesActivity extends PreferenceActivity {
 			finish();
 		}
 	}
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

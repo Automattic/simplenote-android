@@ -30,6 +30,8 @@ import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -45,6 +47,8 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     private Bucket<Tag> mTagBucket;
     private Bucket<Note> mNotesBucket;
     private TagsAdapter mTagsAdapter;
+
+    private Tracker mTracker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,15 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         mTagsAdapter = new TagsAdapter(getBaseContext(), null, 0);
         setListAdapter(mTagsAdapter);
         refreshTags();
+
+        EasyTracker.getInstance().activityStart(this);
+        mTracker = EasyTracker.getTracker();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     protected void refreshTags(){
@@ -99,6 +112,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
                 String value = tagNameEditText.getText().toString().trim();
                 tag.renameTo(value, mNotesBucket);
                 refreshTags();
+                mTracker.sendEvent("tag", "edited_tag", "tag_alert_edit_box", null);
             }
         });
         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -222,7 +236,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Toast.makeText(getBaseContext(), "YUP" + position, Toast.LENGTH_LONG).show();
                     tag.delete();
                     ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
                     while(notesCursor.moveToNext()){
@@ -234,6 +247,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
                     }
                     notesCursor.close();
                     refreshTags();
+                    mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
                 }
             });
 

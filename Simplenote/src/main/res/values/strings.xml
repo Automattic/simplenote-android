@@ -70,4 +70,24 @@
 	<string name="billing_err_purchasing">Sorry, there was a problem purchasing a subscription (%s)</string>
 	<string name="billing_err_payload_verification_failed">Unable to verify subscription purchase</string>
 	<string name="billing_toast_purchase_success">Thank you for subscribing to Simplenote!</string>
+
+    <!-- welcome note for new users -->
+    <string name="welcome_note">Welcome to Simplenote!
+        Open this for instructions.
+
+        To create a new note, tap the plus button.
+
+        To search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.
+
+        Got a really important note? Press the pin button while viewing a note to pin it to the top of the list.
+
+        Use tags to help organize your notes. You can also add an email address as a tag to share the note with other people.
+
+        Easily share notes to other Android apps by tapping the share button in the Action Bar.
+
+        Deleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.
+
+        You can access your notes on the web, your other devices, and your computers. Go to http://simplenote.com to start accessing your notes from anywhere.
+
+        We hope you enjoy using Simplenote!</string>
 </resources>

@@ -28,6 +28,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagSpinnerAdapter;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -447,10 +448,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         mSelectedTag = mSpinnerAdapter.getItem(itemPosition);
 
         // Update empty list placeholder text
-        if (itemPosition == NAVIGATION_ITEM_TRASH)
+        if (itemPosition == NAVIGATION_ITEM_TRASH) {
             setEmptyListMessage(getString(R.string.trash_is_empty));
-        else
+            EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
+        } else {
             setEmptyListMessage(getString(R.string.no_notes));
+        }
 
         mNotesAdapter.changeCursor(queryNotes());
 

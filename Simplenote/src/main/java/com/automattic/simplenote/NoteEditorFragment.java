@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,6 +28,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
@@ -51,6 +52,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
+
+    // Google Analytics tracker
+    private Tracker mTracker;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,6 +83,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         mAutoSaveHandler = new Handler();
 
+        mTracker = EasyTracker.getTracker();
     }
 
     @Override
@@ -233,7 +238,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mNote.setModificationDate(Calendar.getInstance());
         updateTagList();
         mNote.save();
-
+        mTracker.sendEvent("note", "added_tag", "tag_added_to_note", null);
     }
 
     @Override
@@ -268,8 +273,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mNote.setContent(content);
             mNote.setTagString(mTagView.getText().toString());
             mNote.setModificationDate(Calendar.getInstance());
+            // Send pinned event to google analytics if changed
+            if (mNote.isPinned() != mPinButton.isChecked())
+                mTracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
+            mTracker.sendEvent("note", "edited_note", "editor_save", null);
         }
 
         setActionBarTitle();
