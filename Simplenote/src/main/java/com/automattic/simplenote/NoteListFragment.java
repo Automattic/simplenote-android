@@ -277,7 +277,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
     public ObjectCursor<Note> queryNotes(){
         if (mSelectedTag == null){
-            mSelectedTag = mSpinnerAdapter.getItem(0);
+            mSelectedTag = mSpinnerAdapter.getDefaultItem();
         }
         Query<Note> query = mSelectedTag.query(mSearchString);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
@@ -300,7 +300,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             if (position > -1){
                 ab.setSelectedNavigationItem(position);
             } else {
-                mSelectedTag = null;
+                ab.setSelectedNavigationItem(TagSpinnerAdapter.DEFAULT_ITEM_POSITION);
+                mSelectedTag = mSpinnerAdapter.getDefaultItem();
+                refreshList();
             }
         }
 	}

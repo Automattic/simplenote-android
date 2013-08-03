@@ -24,6 +24,8 @@ public class TagSpinnerAdapter extends BaseAdapter {
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
 
+    public static final int DEFAULT_ITEM_POSITION = 0;
+
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -99,6 +101,10 @@ public class TagSpinnerAdapter extends BaseAdapter {
         } else {
             return mCursor.getCount() + topItems.length;
         }
+    }
+
+    public TagMenuItem getDefaultItem(){
+        return getItem(DEFAULT_ITEM_POSITION);
     }
 
     @Override
