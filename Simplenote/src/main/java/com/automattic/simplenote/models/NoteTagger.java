@@ -57,17 +57,11 @@ public class NoteTagger implements Bucket.Listener<Note> {
     }
 
     private void saveAllTags(){
-        final Query<Tag> tagQuery = mTagsBucket.query();
-        Thread queryThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-                while(cursor.moveToNext()){
-                    cursor.getObject().save();
-                }
-            }
-        });
-        queryThread.run();
+        Query<Tag> tagQuery = mTagsBucket.query();
+        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
+        while(cursor.moveToNext()){
+            cursor.getObject().save();
+        }
     }
 
 }
