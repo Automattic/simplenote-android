@@ -279,7 +279,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         if (mSelectedTag == null){
             mSelectedTag = mSpinnerAdapter.getDefaultItem();
         }
-        Query<Note> query = mSelectedTag.query(mSearchString);
+        Query<Note> query = mSelectedTag.query();
+        if (mSearchString != null) {
+            query.where(Note.CONTENT_PROPERTY, Query.ComparisonType.LIKE, String.format("%%%s%%", mSearchString));
+        }
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
         sortNoteQuery(query);
         return query.execute();
