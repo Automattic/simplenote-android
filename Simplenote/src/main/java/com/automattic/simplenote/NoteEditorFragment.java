@@ -117,10 +117,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onPause() {
         saveAndSyncNote();
         mTagView.setOnTagAddedListener(null);
-        // Hide soft keyboard
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null)
-            inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
 
         if (mAutoSaveHandler != null)
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
