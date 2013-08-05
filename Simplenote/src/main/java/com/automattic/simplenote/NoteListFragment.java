@@ -4,24 +4,18 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
@@ -34,9 +28,7 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.prefs.Preferences;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -184,6 +176,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         updateMenuItems();
         // update the view again
         mTagsBucket.addListener(mTagsMenuUpdater);
+
+        // Hide soft keyboard if it is showing...
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null)
+            inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 	}
 
     @Override
@@ -277,9 +274,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
     public ObjectCursor<Note> queryNotes(){
         if (mSelectedTag == null){
-            mSelectedTag = mSpinnerAdapter.getItem(0);
+            mSelectedTag = mSpinnerAdapter.getDefaultItem();
         }
-        Query<Note> query = mSelectedTag.query(mSearchString);
+        Query<Note> query = mSelectedTag.query();
+        if (mSearchString != null) {
+            query.where(Note.CONTENT_PROPERTY, Query.ComparisonType.LIKE, String.format("%%%s%%", mSearchString));
+        }
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
         sortNoteQuery(query);
         return query.execute();
@@ -300,7 +300,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             if (position > -1){
                 ab.setSelectedNavigationItem(position);
             } else {
-                mSelectedTag = null;
+                ab.setSelectedNavigationItem(TagSpinnerAdapter.DEFAULT_ITEM_POSITION);
+                mSelectedTag = mSpinnerAdapter.getDefaultItem();
+                refreshList();
             }
         }
 	}

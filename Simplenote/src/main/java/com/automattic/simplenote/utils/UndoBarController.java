@@ -71,7 +71,7 @@ public class UndoBarController {
         mMessageView.setText(mUndoMessage);
 
         mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, 5000);
+        mHideHandler.postDelayed(mHideRunnable, 4000);
 
         mBarView.setVisibility(View.VISIBLE);
         if (immediate) {

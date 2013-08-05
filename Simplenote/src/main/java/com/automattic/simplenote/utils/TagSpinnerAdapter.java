@@ -24,6 +24,8 @@ public class TagSpinnerAdapter extends BaseAdapter {
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
 
+    public static final int DEFAULT_ITEM_POSITION = 0;
+
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -47,16 +49,20 @@ public class TagSpinnerAdapter extends BaseAdapter {
         mNotesBucket = notesBucket;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mAllNotesCount = new TagMenuItem(ALL_NOTES_ID, R.string.notes, Note.all(mNotesBucket).count()){
+
             @Override
-            public Query<Note> query(String searchString){
+            public Query<Note> query(){
                 return Note.all(mNotesBucket);
             }
+
         };
         mTrashCount = new TagMenuItem(TRASH_ID, R.string.trash, Note.allDeleted(mNotesBucket).count()){
+
             @Override
-            public Query<Note> query(String searchString){
+            public Query<Note> query(){
                 return Note.allDeleted(mNotesBucket);
             }
+
         };
 
         swapCursor(cursor);
@@ -77,21 +83,6 @@ public class TagSpinnerAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private void makeDefaultTags(){
-        mAllNotesCount = new TagMenuItem(ALL_NOTES_ID, R.string.notes, Note.all(mNotesBucket).count()){
-            @Override
-            public Query<Note> query(String searchString){
-                return Note.all(mNotesBucket);
-            }
-        };
-        mTrashCount = new TagMenuItem(TRASH_ID, R.string.trash, Note.allDeleted(mNotesBucket).count()){
-            @Override
-            public Query<Note> query(String searchString){
-                return Note.allDeleted(mNotesBucket);
-            }
-        };
-    }
-
     @Override
     public int getCount() {
         if (mCursor == null){
@@ -99,6 +90,10 @@ public class TagSpinnerAdapter extends BaseAdapter {
         } else {
             return mCursor.getCount() + topItems.length;
         }
+    }
+
+    public TagMenuItem getDefaultItem(){
+        return getItem(DEFAULT_ITEM_POSITION);
     }
 
     @Override
@@ -189,7 +184,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
             setCount(count);
         }
 
-        public Query<Note> query(String searchString){
+        public Query<Note> query(){
             return Note.allInTag(mNotesBucket, this.name);
         }
 
@@ -202,20 +197,3 @@ public class TagSpinnerAdapter extends BaseAdapter {
         }
     }
 }
-//new ArrayAdapter<String>(ab.getThemedContext(), android.R.layout.simple_spinner_item, mMenuItems){
-//@Override
-//public View getDropDownView(int position, View convertView, ViewGroup parent){
-//        if (convertView == null){
-//        convertView = getActivity().getLayoutInflater().inflate(R.layout.tag_spinner_row, null);
-//}
-//        TextView nameText = (TextView) convertView.findViewById(R.id.tag_name);
-//TextView countText = (TextView) convertView.findViewById(R.id.tag_count);
-//
-//String name = getItem(position);
-//nameText.setText(name);
-//countText.setText("10");
-//return convertView;
-//}
-//        };
-//		String[] topItems = { getResources().getString(R.string.notes), getResources().getString(R.string.trash) };
-//		mMenuItems = Arrays.copyOf(topItems, tags.length + 2);
