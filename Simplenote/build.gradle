@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         mavenCentral()
@@ -16,7 +17,7 @@ repositories {
 dependencies {
     // compile 'com.android.support:support-v4:13.0.+'
     compile project(":libraries:Simperium:Simperium")
-    compile files('libs/libGoogleAnalyticsV2.jar')
+    compile fileTree(dir:"libs", include:"*.jar")
 }
 
 android {
