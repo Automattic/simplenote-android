@@ -53,9 +53,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
 
-    // Google Analytics tracker
-    private Tracker mTracker;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -82,8 +79,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
-
-        mTracker = EasyTracker.getTracker();
     }
 
     @Override
@@ -96,8 +91,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if (!((NotesActivity) getActivity()).isLargeScreen())
-            mPlaceholderView.setVisibility(View.GONE);
+        if (((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
+            mPlaceholderView.setVisibility(View.VISIBLE);
 
 		refreshContent();
 
@@ -238,7 +233,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mNote.setModificationDate(Calendar.getInstance());
         updateTagList();
         mNote.save();
-        mTracker.sendEvent("note", "added_tag", "tag_added_to_note", null);
+        if (getActivity() != null)
+            EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
     }
 
     @Override
@@ -274,11 +270,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mNote.setTagString(mTagView.getText().toString());
             mNote.setModificationDate(Calendar.getInstance());
             // Send pinned event to google analytics if changed
-            if (mNote.isPinned() != mPinButton.isChecked())
-                mTracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
-            mTracker.sendEvent("note", "edited_note", "editor_save", null);
+            if (getActivity() != null) {
+                Tracker tracker = EasyTracker.getTracker();
+                if (mNote.isPinned() != mPinButton.isChecked())
+                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
+                tracker.sendEvent("note", "edited_note", "editor_save", null);
+            }
         }
 
         setActionBarTitle();
