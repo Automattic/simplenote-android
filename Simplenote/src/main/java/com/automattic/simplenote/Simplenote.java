@@ -47,9 +47,6 @@ public class Simplenote extends Application {
         // Every time a note changes or is deleted we need to reindex the tag counts
         mNotesBucket.addListener(new NoteTagger(mTagsBucket));
 
-		// Start the bucket sockets
-		mNotesBucket.start();
-		mTagsBucket.start();
 		Log.d(Simplenote.TAG, "Simplenote launched");
 	}
 		
