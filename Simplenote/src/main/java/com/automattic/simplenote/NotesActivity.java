@@ -20,7 +20,6 @@ import android.widget.SearchView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -54,6 +53,7 @@ public class NotesActivity extends Activity implements
     private Note mCurrentNote;
     private Bucket<Note> mNotesBucket;
     private int TRASH_SELECTED_ID = 1;
+    private ActionBar mActionBar;
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
@@ -92,9 +92,9 @@ public class NotesActivity extends Activity implements
             }
         }
 
-        ActionBar ab = getActionBar();
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ab.setDisplayShowTitleEnabled(false);
+        mActionBar = getActionBar();
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        mActionBar.setDisplayShowTitleEnabled(false);
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
@@ -111,7 +111,7 @@ public class NotesActivity extends Activity implements
                 note.setCreationDate(Calendar.getInstance());
                 note.setContent(text);
                 note.save();
-                onNoteSelected(note);
+                onNoteSelected(note.getSimperiumKey());
                 mTracker.sendEvent("note", "create_note", "external_share", null);
             }
         }
@@ -156,6 +156,10 @@ public class NotesActivity extends Activity implements
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    public void setCurrentNote(Note note) {
+        mCurrentNote = note;
     }
 
     // received a change from the network, refresh the list and the editor
@@ -250,7 +254,7 @@ public class NotesActivity extends Activity implements
 
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+            mActionBar.setDisplayHomeAsUpEnabled(true);
             menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_preferences).setVisible(false);
@@ -261,8 +265,8 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_edit_tags).setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else if (isLargeScreenLandscape()) {
-            getActionBar().setDisplayHomeAsUpEnabled(false);
-            getActionBar().setHomeButtonEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            mActionBar.setHomeButtonEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -276,8 +280,8 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
-            getActionBar().setDisplayHomeAsUpEnabled(false);
-            getActionBar().setHomeButtonEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            mActionBar.setHomeButtonEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -288,7 +292,7 @@ public class NotesActivity extends Activity implements
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        if (getActionBar().getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
+        if (mActionBar.getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
             menu.findItem(R.id.menu_empty_trash).setVisible(true);
             menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
@@ -390,24 +394,20 @@ public class NotesActivity extends Activity implements
      * the item with the given ID was selected.
      */
     @Override
-    public void onNoteSelected(Note note) {
+    public void onNoteSelected(String noteID) {
 
         if (mSearchMenuItem != null)
             mSearchMenuItem.collapseActionView();
 
-        mCurrentNote = note;
-        String noteKey = note == null ? "none" : note.getSimperiumKey();
-
         FragmentManager fm = getFragmentManager();
 
         if (!isLargeScreenLandscape()) {
-            ActionBar ab = getActionBar();
-            ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            ab.setDisplayShowTitleEnabled(true);
+            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            mActionBar.setDisplayShowTitleEnabled(true);
 
             // Create editor fragment
             Bundle arguments = new Bundle();
-            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteKey);
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             mNoteEditorFragment = new NoteEditorFragment();
             mNoteEditorFragment.setArguments(arguments);
 
@@ -417,13 +417,10 @@ public class NotesActivity extends Activity implements
             ft.replace(R.id.noteFragmentContainer, mNoteEditorFragment);
             ft.addToBackStack(null);
             ft.commitAllowingStateLoss();
-            fm.executePendingTransactions();
         } else {
-            mNoteEditorFragment.setNote(note);
-            getNoteListFragment().setNoteSelected(note);
+            mNoteEditorFragment.setNote(noteID);
+            getNoteListFragment().setNoteSelected(noteID);
         }
-
-        invalidateOptionsMenu();
 
         mTracker.sendEvent("note", "viewed_note", "note_list_row_tap", null);
     }
@@ -499,16 +496,16 @@ public class NotesActivity extends Activity implements
 
     private void configureActionBar() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
-            ActionBar ab = getActionBar();
+            ActionBar ab = mActionBar;
             if (ab != null) {
                 ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                ab.setDisplayShowTitleEnabled(true);
             }
         } else {
-            ActionBar ab = getActionBar();
+            ActionBar ab = mActionBar;
             if (ab != null) {
                 ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 ab.setDisplayShowTitleEnabled(false);
+                ab.setTitle("");
             }
         }
     }
@@ -529,7 +526,7 @@ public class NotesActivity extends Activity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote);
+                    onNoteSelected(mCurrentNote.getSimperiumKey());
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();

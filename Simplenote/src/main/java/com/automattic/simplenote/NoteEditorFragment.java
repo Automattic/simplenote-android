@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -64,17 +65,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
-            Simplenote application = (Simplenote) getActivity().getApplication();
-            Bucket<Note> notesBucket = application.getNotesBucket();
-            String key = getArguments().getString(ARG_ITEM_ID);
-            try {
-                mNote = notesBucket.get(key);
-            } catch (BucketObjectMissingException e) {
-                // TODO: Handle a missing note
-            }
-        }
-
         if (!((NotesActivity) getActivity()).isLargeScreenLandscape())
             mShowNoteTitle = true;
 
@@ -94,7 +84,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
             mPlaceholderView.setVisibility(View.VISIBLE);
 
-		refreshContent();
+        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
+            String key = getArguments().getString(ARG_ITEM_ID);
+            new loadNoteTask().execute(key);
+        }
 
 		return rootView;
 	}
@@ -124,14 +117,20 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         super.onPause();
     }
 
-    public void setNote(Note note) {
+    public void setNote(String noteID) {
         mPlaceholderView.setVisibility(View.GONE);
 
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null)
             saveAndSyncNote();
 
-        mNote = note;
+        Simplenote simplenote = (Simplenote)getActivity().getApplication();
+        Bucket<Note> notesBucket = simplenote.getNotesBucket();
+        try {
+            mNote = notesBucket.get(noteID);
+        } catch (BucketObjectMissingException e) {
+            e.printStackTrace();
+        }
         refreshContent();
     }
 
@@ -155,20 +154,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void updateTagList(){
         // Populate this note's tags in the tagView
         mTagView.setChips(mNote.getTagString());
-        
-		// Populate tag list
-        Simplenote simplenote = (Simplenote)getActivity().getApplication();
-        Bucket<Tag> tagBucket = simplenote.getTagsBucket();
-        ObjectCursor<Tag> tagsCursor = tagBucket.query().orderByKey().execute();
-        List<String> allTags = new ArrayList<String>(tagsCursor.getCount());
-        while (tagsCursor.moveToNext()) {
-            Tag tag = tagsCursor.getObject();
-            if (!mNote.hasTag(tag)) allTags.add(tag.getName());
-        }
-        tagsCursor.close();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, allTags);
-        mTagView.setAdapter(adapter);
+
+        new setTagsAdapterTask().execute();
     }
 
     private void setActionBarTitle() {
@@ -344,6 +331,57 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 } else {
                     return text + " ";
                 }
+            }
+        }
+    }
+
+    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... args) {
+            String noteID = args[0];
+            NotesActivity notesActivity = (NotesActivity)getActivity();
+            Simplenote application = (Simplenote) notesActivity.getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            try {
+                mNote = notesBucket.get(noteID);
+                notesActivity.setCurrentNote(mNote);
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle a missing note
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            refreshContent();
+        }
+    }
+
+    private class setTagsAdapterTask extends AsyncTask<Void, List, List> {
+
+        @Override
+        protected List doInBackground(Void... voids) {
+            // Populate tag list
+            Simplenote simplenote = (Simplenote)getActivity().getApplication();
+            Bucket<Tag> tagBucket = simplenote.getTagsBucket();
+            ObjectCursor<Tag> tagsCursor = tagBucket.query().include(Tag.NAME_PROPERTY, Tag.NOTE_COUNT_INDEX_NAME).orderByKey().execute();
+            List<String> allTags = new ArrayList<String>(tagsCursor.getCount());
+            int nameColumnIndex = tagsCursor.getColumnIndex(Tag.NAME_PROPERTY);
+            while (tagsCursor.moveToNext()) {
+                if (!mNote.hasTag(tagsCursor.getSimperiumKey()))
+                    allTags.add(tagsCursor.getString(nameColumnIndex));
+            }
+            tagsCursor.close();
+            return allTags;
+        }
+
+        @Override
+        protected void onPostExecute(List tags) {
+            if (tags.size() > 0) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_dropdown_item_1line, tags);
+                mTagView.setAdapter(adapter);
             }
         }
     }

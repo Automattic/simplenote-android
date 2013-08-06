@@ -80,7 +80,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(Note note);
+		public void onNoteSelected(String noteID);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(Note note) {
+		public void onNoteSelected(String noteID) {
 		}
 	};
 
@@ -172,7 +172,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onResume();
         mNavListLoaded = false;
         getPrefs();
-        refreshList();
         updateMenuItems();
         // update the view again
         mTagsBucket.addListener(mTagsMenuUpdater);
@@ -211,9 +210,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		Note note = (Note)getListAdapter().getItem(position);
-        if (note != null)
-            mCallbacks.onNoteSelected(note);
+        NoteViewHolder holder = (NoteViewHolder)view.getTag();
+        String noteID = holder.getNoteId();
+        if (noteID != null)
+            mCallbacks.onNoteSelected(noteID);
 
         mActivatedPosition = position;
 	}
@@ -224,7 +224,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey());
         }
     }
 
@@ -319,14 +319,14 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		refreshList();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note);
+		mCallbacks.onNoteSelected(note.getSimperiumKey());
 	}
 
-    public void setNoteSelected(Note selectedNote) {
+    public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
         for(int i=0; i < mNotesAdapter.getCount(); i++) {
-            Note note = (Note)mNotesAdapter.getItem(i);
-            if (note.getSimperiumKey().equals(selectedNote.getSimperiumKey())) {
+            String noteKey = ((ObjectCursor<Note>)mNotesAdapter.getCursor()).getSimperiumKey();
+            if (noteKey != null && noteKey.equals(selectedNoteID)) {
                 setActivatedPosition(i);
                 break;
             }
@@ -378,6 +378,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             // from the cursor instead of instantiating the entire bucket object
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
+            holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex("pinned"));
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
