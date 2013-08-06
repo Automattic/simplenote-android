@@ -68,6 +68,9 @@ public class NotesActivity extends Activity implements
         mNotesBucket = currentApp.getNotesBucket();
         setContentView(R.layout.activity_notes);
 
+        EasyTracker.getInstance().activityStart(this); // Add this method.
+        mTracker = EasyTracker.getTracker();
+
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -117,9 +120,6 @@ public class NotesActivity extends Activity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setAuthenticationListener(this);
-
-        EasyTracker.getInstance().activityStart(this); // Add this method.
-        mTracker = EasyTracker.getTracker();
     }
 
     private void addEditorFragment() {
@@ -417,6 +417,7 @@ public class NotesActivity extends Activity implements
             ft.replace(R.id.noteFragmentContainer, mNoteEditorFragment);
             ft.addToBackStack(null);
             ft.commitAllowingStateLoss();
+            fm.executePendingTransactions();
         } else {
             mNoteEditorFragment.setNote(noteID);
             getNoteListFragment().setNoteSelected(noteID);
