@@ -131,16 +131,17 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         } catch (BucketObjectMissingException e) {
             e.printStackTrace();
         }
-        refreshContent();
+        refreshContent(false);
     }
 
-    public void refreshContent() {
+    public void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             Log.v("Simplenote", "refreshing content");
             // Restore the cursor position if possible.
+
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
-            if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
+            if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
             mPinButton.setChecked(mNote.isPinned());
@@ -354,7 +355,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         @Override
         protected void onPostExecute(Void nada) {
-            refreshContent();
+            refreshContent(false);
         }
     }
 

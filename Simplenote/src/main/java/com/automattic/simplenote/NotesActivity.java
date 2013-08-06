@@ -172,7 +172,7 @@ public class NotesActivity extends Activity implements
                 mNoteListFragment.refreshList();
                 if (!resetEditor) return;
                 if (mNoteEditorFragment != null) {
-                    mNoteEditorFragment.refreshContent();
+                    mNoteEditorFragment.refreshContent(true);
                 }
             }
         });

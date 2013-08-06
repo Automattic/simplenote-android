@@ -324,8 +324,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
     public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
-        for(int i=0; i < mNotesAdapter.getCount(); i++) {
-            String noteKey = ((ObjectCursor<Note>)mNotesAdapter.getCursor()).getSimperiumKey();
+        ObjectCursor<Note> cursor = (ObjectCursor<Note>)mNotesAdapter.getCursor();
+        if (cursor == null || cursor.getCount() == 0)
+            return;
+        for(int i=0; i < cursor.getCount(); i++) {
+            cursor.moveToPosition(i);
+            String noteKey = cursor.getSimperiumKey();
             if (noteKey != null && noteKey.equals(selectedNoteID)) {
                 setActivatedPosition(i);
                 break;
