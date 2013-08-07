@@ -7,10 +7,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
@@ -103,9 +106,39 @@ public class NotesActivity extends Activity implements
 
         getFragmentManager().addOnBackStackChangedListener(this);
 
-        if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
-            startLoginActivity();
-        } else if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle(R.string.welcome_to_simplenote);
+            alert.setMessage(R.string.alert_welcome);
+            alert.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    startLoginActivity();
+                }
+            });
+            alert.setNegativeButton(getString(R.string.maybe_later), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Add the default note
+
+                }
+            });
+            alert.show();
+
+            // Create the welcome note
+            Note welcomeNote = mNotesBucket.newObject("welcome-android");
+            welcomeNote.setCreationDate(Calendar.getInstance());
+            welcomeNote.setModificationDate(welcomeNote.getCreationDate());
+            welcomeNote.setContent(getString(R.string.welcome_note));
+            welcomeNote.getTitle();
+            welcomeNote.save();
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
+            editor.commit();
+        }
+
+            if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // Check share action
             Intent intent = getIntent();
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
@@ -252,6 +285,12 @@ public class NotesActivity extends Activity implements
             }
         });
 
+        Simplenote currentApp = (Simplenote) getApplication();
+        if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication())
+            menu.findItem(R.id.menu_sign_in).setVisible(true);
+        else
+            menu.findItem(R.id.menu_sign_in).setVisible(false);
+
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -309,6 +348,9 @@ public class NotesActivity extends Activity implements
                 // nbradbury - use startActivityForResult so onActivityResult can detect when user returns from preferences
                 Intent i = new Intent(this, PreferencesActivity.class);
                 startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+                return true;
+            case R.id.menu_sign_in:
+                startLoginActivity();
                 return true;
             case R.id.menu_edit_tags:
                 Intent editTagsIntent = new Intent(this, TagsListActivity.class);
@@ -439,16 +481,16 @@ public class NotesActivity extends Activity implements
     }
 
     public void onAuthenticationStatusChange(User.AuthenticationStatus status) {
-        if (status == User.AuthenticationStatus.NOT_AUTHENTICATED) {
-            startLoginActivity();
-        } else if (status == User.AuthenticationStatus.AUTHENTICATED) {
+        if (status == User.AuthenticationStatus.AUTHENTICATED) {
             // User signed in
             mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
+            invalidateOptionsMenu();
         }
     }
 
     public void startLoginActivity() {
         Intent loginIntent = new Intent(this, LoginActivity.class);
+        loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 

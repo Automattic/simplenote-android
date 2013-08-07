@@ -18,6 +18,7 @@ public class PrefUtils {
 	public static final String PREF_SORT_ORDER 		  = "pref_key_sort_order";		// integer, determines note sort order
 	public static final String PREF_NUM_PREVIEW_LINES = "pref_key_preview_lines";	// integer, determines # of preview lines
 	public static final String PREF_SHOW_DATES 		  = "pref_key_show_dates";		// boolean, determines whether dates are shown
+    public static final String PREF_FIRST_LAUNCH      = "pref_key_first_launch";	// boolean, set on first launch
 	
 	private static SharedPreferences getPrefs(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
