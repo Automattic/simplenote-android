@@ -36,16 +36,10 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+
     public static final String ARG_ITEM_ID = "item_id";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private Note mNote;
     private EditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
@@ -247,23 +241,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (mNote == null)
             return;
 
-        String content = mContentEditText.getText().toString();
-        String tagString = mTagView.getText().toString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
-            mNote.setContent(content);
-            mNote.setTagString(mTagView.getText().toString());
-            mNote.setModificationDate(Calendar.getInstance());
-            // Send pinned event to google analytics if changed
-            mNote.setPinned(mPinButton.isChecked());
-            mNote.save();
-            if (getActivity() != null) {
-                Tracker tracker = EasyTracker.getTracker();
-                if (mNote.isPinned() != mPinButton.isChecked())
-                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
-                tracker.sendEvent("note", "edited_note", "editor_save", null);
-            }
-        }
-
+        new saveNoteTask().execute();
         setActionBarTitle();
 
         Log.v("Simplenote", "autosaving note");
@@ -364,6 +342,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected List doInBackground(Void... voids) {
             // Populate tag list
+            if (getActivity() == null)
+                return null;
             Simplenote simplenote = (Simplenote)getActivity().getApplication();
             Bucket<Tag> tagBucket = simplenote.getTagsBucket();
             ObjectCursor<Tag> tagsCursor = tagBucket.query().include(Tag.NAME_PROPERTY, Tag.NOTE_COUNT_INDEX_NAME).orderByKey().execute();
@@ -379,11 +359,36 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         @Override
         protected void onPostExecute(List tags) {
-            if (tags.size() > 0) {
+            if (tags != null && tags.size() > 0) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_dropdown_item_1line, tags);
                 mTagView.setAdapter(adapter);
             }
+        }
+    }
+
+    private class saveNoteTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... args) {
+            String content = mContentEditText.getText().toString();
+            String tagString = mTagView.getText().toString();
+            if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+                mNote.setContent(content);
+                mNote.setTagString(mTagView.getText().toString());
+                mNote.setModificationDate(Calendar.getInstance());
+                // Send pinned event to google analytics if changed
+                mNote.setPinned(mPinButton.isChecked());
+                mNote.save();
+                if (getActivity() != null) {
+                    Tracker tracker = EasyTracker.getTracker();
+                    if (mNote.isPinned() != mPinButton.isChecked())
+                        tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
+                    tracker.sendEvent("note", "edited_note", "editor_save", null);
+                }
+            }
+
+            return null;
         }
     }
 }
