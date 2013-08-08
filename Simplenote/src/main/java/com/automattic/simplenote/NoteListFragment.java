@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +25,9 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagSpinnerAdapter;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.simperium.Simperium;
 import com.simperium.client.Bucket;
+import com.simperium.client.LoginActivity;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
@@ -54,6 +58,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private int mNumPreviewLines;
     private String mSearchString;
     private boolean mNavListLoaded;
+    private LinearLayout mWelcomeView;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -143,16 +148,25 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         mEmptyListTextView = (TextView)view.findViewById(android.R.id.empty);
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
+        mWelcomeView = (LinearLayout)view.findViewById(R.id.welcome_view);
 
         if (notesActivity.isLargeScreenLandscape()) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
+        Button signInButton = (Button)view.findViewById(R.id.welcome_signin_button);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginIntent = new Intent(getActivity().getBaseContext(), LoginActivity.class);
+                loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+                startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
+            }
+        });
+
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(2);
-        getListView().setBackgroundColor(getResources().getColor(R.color.white));
-
 	}
 
 	@Override
@@ -176,11 +190,25 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         // update the view again
         mTagsBucket.addListener(mTagsMenuUpdater);
 
+        setWelcomeViewVisiblilty();
+
         // Hide soft keyboard if it is showing...
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 	}
+
+    private void setWelcomeViewVisiblilty() {
+        // TODO: Animate the view in?
+        if (mWelcomeView != null && getActivity() != null) {
+            Simplenote currentApp = (Simplenote) getActivity().getApplication();
+            if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
+                mWelcomeView.setVisibility(View.VISIBLE);
+            } else {
+                mWelcomeView.setVisibility(View.GONE);
+            }
+        }
+    }
 
     @Override
     public void onPause(){

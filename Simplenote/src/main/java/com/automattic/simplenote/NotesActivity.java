@@ -107,23 +107,6 @@ public class NotesActivity extends Activity implements
         getFragmentManager().addOnBackStackChangedListener(this);
 
         if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-            alert.setTitle(R.string.welcome_to_simplenote);
-            alert.setMessage(R.string.alert_welcome);
-            alert.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    startLoginActivity();
-                }
-            });
-            alert.setNegativeButton(getString(R.string.maybe_later), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // Add the default note
-
-                }
-            });
-            alert.show();
-
             // Create the welcome note
             Note welcomeNote = mNotesBucket.newObject("welcome-android");
             welcomeNote.setCreationDate(Calendar.getInstance());

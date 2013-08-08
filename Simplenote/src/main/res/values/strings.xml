@@ -13,6 +13,7 @@
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_in_underlined"><u>Sign in</u></string>
     <string name="show_dates">Show dates</string>
     <string name="detect_links">Detect links</string>
     <string name="font_size">Font size</string>
@@ -75,8 +76,5 @@
     <!-- welcome note for new users -->
     <string name="welcome_note">
         Welcome to Simplenote!\nOpen this for instructions.\n\nTo create a new note, tap the plus button.\n\nTo search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.\n\nGot a really important note? Press the pin button while viewing a note to pin it to the top of the list.\n\nUse tags to help organize your notes. You can also add an email address as a tag to share the note with other people.\n\nEasily share notes to other Android apps by tapping the share button in the Action Bar.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web, your other devices, and your computers. Go to http://simplenote.com to start accessing your notes from anywhere.\n\nWe hope you enjoy using Simplenote!</string>
-    <string name="alert_welcome">Simplenote is an easy way to keep notes, lists, ideas, and more.\n\nTap \'Sign in\' to start syncing your notes or to create a new account.
-    </string>
-    <string name="welcome_to_simplenote">Welcome to Simplenote!</string>
-    <string name="maybe_later">Maybe later</string>
+    <string name="welcome_signup_prompt">Start syncing notes now.</string>
 </resources>
