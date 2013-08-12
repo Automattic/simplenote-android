@@ -121,51 +121,29 @@ public class Note extends BucketObject {
 	}
 
     protected void updateTitleAndPreview(){
-        // try to bulid a title and preview property out of content
-        String content = getContent();
+        // try to build a title and preview property out of content
+        String content = getContent().trim();
         // title = "Hello World";
         // contentPreview = "This is a preview";
-        int location = -1;
-        int lines = 0;
-        int content_lines = 0;
-        int start = 0;
-        boolean foundTitle = false;
-        boolean foundContent = false;
-        // loop until we've found all the new lines
-        do {
-            start = location + 1;
-            location = content.indexOf(NEW_LINE, start);
-            if (location > start + 1) {
-                String possible = content.substring(start, location);
-                if (!foundTitle) {
-                    foundTitle = true;
-                    title = possible;
-                }
-            }
-            lines ++;
-        } while(location >= 0 && lines < 5 && !foundTitle);
-        lines = 0;
-        contentPreview = "";
-        do {
-            start = location + 1;
-            location = content.indexOf(NEW_LINE, start);
-            if (location > start + 1) {
-                String possible = content.substring(start, location);
-                contentPreview = String.format(CONTENT_CONCAT_FORMAT, contentPreview, possible);
+
+        int firstNewLinePosition = content.indexOf(NEW_LINE);
+        if (firstNewLinePosition > -1 && firstNewLinePosition < 200) {
+            title = content.substring(0, firstNewLinePosition).trim();
+
+            if (firstNewLinePosition < content.length()) {
+                contentPreview = content.substring(firstNewLinePosition, content.length());
+                contentPreview = contentPreview.replace(NEW_LINE, " ").trim();
                 if (contentPreview.length() >= 300) {
-                    foundContent = true;
                     contentPreview = contentPreview.substring(0, 300);
                 }
             }
-            lines ++;
-        } while(location >= 0 && !foundContent);
-        if (!foundTitle) {
-            title = content;
+            else {
+                contentPreview = content;
+            }
         }
-        if (contentPreview.isEmpty()) {
+        else {
+            title = content;
             contentPreview = content;
-        } else {
-            contentPreview = contentPreview.trim();
         }
     }
 	
