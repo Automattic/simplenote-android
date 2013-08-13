@@ -173,7 +173,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         });
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
-        getListView().setDividerHeight(2);
+        getListView().setDividerHeight(1);
 
         String[] f = null;
         try {

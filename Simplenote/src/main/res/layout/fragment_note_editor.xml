@@ -29,9 +29,9 @@
 
                 <ToggleButton
                         android:id="@+id/pinButton"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
                         android:layout_alignParentRight="true"
 <<<<<<< HEAD
                         android:layout_marginLeft="8dp"
