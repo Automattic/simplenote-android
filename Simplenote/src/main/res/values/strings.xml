@@ -13,7 +13,7 @@
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
-    <string name="sign_in_underlined"><u>Sign in</u></string>
+    <string name="sign_in_underlined"><i>Sign in</i></string>
     <string name="show_dates">Show dates</string>
     <string name="detect_links">Detect links</string>
     <string name="font_size">Font size</string>

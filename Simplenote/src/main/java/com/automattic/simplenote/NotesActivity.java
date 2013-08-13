@@ -482,10 +482,6 @@ public class NotesActivity extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case Simperium.SIGNUP_SIGNIN_REQUEST:
-                if (resultCode == RESULT_CANCELED)
-                    finish();
-                break;
             case Simplenote.INTENT_PREFERENCES:
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
                 NoteListFragment fragment = getNoteListFragment();

@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
@@ -121,6 +122,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
         }
 
         TextView textView = (TextView) view;
+        textView.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
         TagMenuItem menuItem = getItem(position);
 
         textView.setText(menuItem.name);
@@ -135,6 +137,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
         TagMenuItem tagCount = getItem(position);
 
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
+        labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
         labelText.setText(tagCount.name);
 
         TextView countText = (TextView) view.findViewById(R.id.tag_count);
