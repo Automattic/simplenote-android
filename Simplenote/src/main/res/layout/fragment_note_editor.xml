@@ -20,20 +20,30 @@
                 android:paddingBottom="16dp"
                 android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="8dp">
+
+                <ToggleButton
+                        android:id="@+id/pinButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="8dp"
+                        android:textOn=""
+                        android:textOff=""
+                        android:background="@drawable/pin_bg_selector"/>
 
                 <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                         android:id="@+id/tag_view"
-                        android:layout_width="0dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="48dp"
-                        android:layout_weight="1"
+                        android:layout_toLeftOf="@id/pinButton"
                         android:hint="@string/tag_hint"
                         android:completionThreshold="1"
                         android:textColor="@color/mediumgrey"
@@ -44,15 +54,8 @@
                         android:fontFamily="sans-serif-condensed"
                         android:longClickable="false" />
 
-                <ToggleButton
-                        android:id="@+id/pinButton"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:textOn=""
-                        android:textOff=""
-                        android:background="@drawable/pin_bg_selector"/>
-            </LinearLayout>
+
+            </RelativeLayout>
 
             <EditText
                     android:id="@+id/note_content"

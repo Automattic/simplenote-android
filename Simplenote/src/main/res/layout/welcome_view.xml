@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/welcome_view"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="48dp"
+              android:background="@color/simplenote_blue"
+              android:gravity="center"
+              android:padding="8dp">
+
+    <!--<ImageView android:layout_width="32dp"
+               android:layout_height="32dp"
+               android:src="@drawable/login_logo"
+               android:tint="@color/white"
+               android:scaleType="centerInside" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome_textview"
+        android:text="@string/welcome_signup_prompt"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:fontFamily="sans-serif-light" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome_signin_button"
+        android:text="@string/sign_in_underlined"
+        android:layout_marginLeft="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textStyle="bold"
+        android:textColor="@color/white" />
+
+</LinearLayout>

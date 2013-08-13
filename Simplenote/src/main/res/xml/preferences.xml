@@ -37,7 +37,7 @@
             android:key="pref_key_account_preferences"
             android:title="@string/account" >
         <Preference
-                android:key="pref_key_sign_out"
+                android:key="pref_key_authenticate"
                 android:title="@string/sign_out" />
         <!--<Preference
                 android:key="pref_key_billing"

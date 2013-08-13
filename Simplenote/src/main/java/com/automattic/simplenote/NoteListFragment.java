@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +25,9 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagSpinnerAdapter;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.simperium.Simperium;
 import com.simperium.client.Bucket;
+import com.simperium.client.LoginActivity;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
@@ -54,6 +58,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	private int mNumPreviewLines;
     private String mSearchString;
     private boolean mNavListLoaded;
+    private LinearLayout mWelcomeView;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -80,7 +85,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(Note note);
+		public void onNoteSelected(String noteID);
 	}
 
 	/**
@@ -89,7 +94,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(Note note) {
+		public void onNoteSelected(String noteID) {
 		}
 	};
 
@@ -143,16 +148,25 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         mEmptyListTextView = (TextView)view.findViewById(android.R.id.empty);
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
+        mWelcomeView = (LinearLayout)view.findViewById(R.id.welcome_view);
 
         if (notesActivity.isLargeScreenLandscape()) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
+        Button signInButton = (Button)view.findViewById(R.id.welcome_signin_button);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginIntent = new Intent(getActivity().getBaseContext(), LoginActivity.class);
+                loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+                startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
+            }
+        });
+
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(2);
-        getListView().setBackgroundColor(getResources().getColor(R.color.white));
-
 	}
 
 	@Override
@@ -172,16 +186,29 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		super.onResume();
         mNavListLoaded = false;
         getPrefs();
-        refreshList();
         updateMenuItems();
         // update the view again
         mTagsBucket.addListener(mTagsMenuUpdater);
+
+        setWelcomeViewVisiblilty();
 
         // Hide soft keyboard if it is showing...
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 	}
+
+    private void setWelcomeViewVisiblilty() {
+        // TODO: Animate the view in?
+        if (mWelcomeView != null && getActivity() != null) {
+            Simplenote currentApp = (Simplenote) getActivity().getApplication();
+            if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
+                mWelcomeView.setVisibility(View.VISIBLE);
+            } else {
+                mWelcomeView.setVisibility(View.GONE);
+            }
+        }
+    }
 
     @Override
     public void onPause(){
@@ -211,9 +238,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		Note note = (Note)getListAdapter().getItem(position);
-        if (note != null)
-            mCallbacks.onNoteSelected(note);
+        NoteViewHolder holder = (NoteViewHolder)view.getTag();
+        String noteID = holder.getNoteId();
+        if (noteID != null)
+            mCallbacks.onNoteSelected(noteID);
 
         mActivatedPosition = position;
 	}
@@ -224,7 +252,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey());
         }
     }
 
@@ -319,14 +347,18 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		refreshList();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note);
+		mCallbacks.onNoteSelected(note.getSimperiumKey());
 	}
 
-    public void setNoteSelected(Note selectedNote) {
+    public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
-        for(int i=0; i < mNotesAdapter.getCount(); i++) {
-            Note note = (Note)mNotesAdapter.getItem(i);
-            if (note.getSimperiumKey().equals(selectedNote.getSimperiumKey())) {
+        ObjectCursor<Note> cursor = (ObjectCursor<Note>)mNotesAdapter.getCursor();
+        if (cursor == null || cursor.getCount() == 0)
+            return;
+        for(int i=0; i < cursor.getCount(); i++) {
+            cursor.moveToPosition(i);
+            String noteKey = cursor.getSimperiumKey();
+            if (noteKey != null && noteKey.equals(selectedNoteID)) {
                 setActivatedPosition(i);
                 break;
             }
@@ -378,6 +410,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             // from the cursor instead of instantiating the entire bucket object
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
+            holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex("pinned"));
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 

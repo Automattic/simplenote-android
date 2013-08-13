@@ -236,22 +236,44 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    tag.delete();
-                    ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
-                    while(notesCursor.moveToNext()){
-                        Note note = notesCursor.getObject();
-                        List<String> tags = note.getTags();
-                        tags.remove(tag.getName());
-                        note.setTags(tags);
-                        note.save();
+                    int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+                    if (tagCount == 0) {
+                        deleteTag(tag);
+                    } else if (tagCount > 0){
+                        AlertDialog.Builder alert = new AlertDialog.Builder(TagsListActivity.this);
+                        alert.setTitle(R.string.delete_tag);
+                        alert.setMessage(getString(R.string.confirm_delete_tag));
+                        alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                deleteTag(tag);
+                            }
+                        });
+                        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Do nothing, just closing the dialog
+                            }
+                        });
+                        alert.show();
                     }
-                    notesCursor.close();
-                    refreshTags();
-                    mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
                 }
             });
 
             return convertView;
+        }
+
+        private void deleteTag(Tag tag) {
+            tag.delete();
+            ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
+            while(notesCursor.moveToNext()){
+                Note note = notesCursor.getObject();
+                List<String> tags = note.getTags();
+                tags.remove(tag.getName());
+                note.setTags(tags);
+                note.save();
+            }
+            notesCursor.close();
+            refreshTags();
+            mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
         }
 
         @Override
