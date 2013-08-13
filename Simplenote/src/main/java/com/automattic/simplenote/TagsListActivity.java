@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -30,6 +33,8 @@ import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.TypefaceSpan;
+import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
@@ -56,7 +61,10 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         setContentView(R.layout.tags_list_activity);
 
-        setTitle(getString(R.string.edit_tags));
+        SpannableString s = new SpannableString(getString(R.string.edit_tags));
+        s.setSpan(new TypefaceSpan(this), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getActionBar().setTitle(s);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -223,6 +231,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             convertView.setTag(tag.getSimperiumKey());
 
             TextView tagTitle = (TextView)convertView.findViewById(R.id.tag_name);
+            tagTitle.setTypeface(Typefaces.get(TagsListActivity.this, Simplenote.CUSTOM_FONT_PATH));
             TextView tagCount = (TextView)convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
             int count = mCursor.getInt(mCursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME));

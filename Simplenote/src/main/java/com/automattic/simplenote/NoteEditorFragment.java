@@ -6,10 +6,12 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -29,6 +31,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
+import com.automattic.simplenote.utils.TypefaceSpan;
+import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
@@ -63,6 +67,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
+
     }
 
     @Override
@@ -70,8 +75,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addTextChangedListener(this);
+        mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
+        mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
@@ -154,11 +161,17 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     }
 
     private void setActionBarTitle() {
-        if (mShowNoteTitle) {
+        String title;
+        if (mShowNoteTitle && getActivity() != null) {
             if (mNote.getTitle() != null && !mNote.getTitle().equals(""))
-                getActivity().getActionBar().setTitle(mNote.getTitle());
+                title = mNote.getTitle();
             else
-                getActivity().getActionBar().setTitle(R.string.new_note);
+                title = getString(R.string.new_note);
+
+            SpannableString s = new SpannableString(title);
+            s.setSpan(new TypefaceSpan(getActivity().getBaseContext()), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getActivity().getActionBar().setTitle(s);
         }
     }
 
