@@ -4,6 +4,8 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:minHeight="48dp"
               android:padding="@dimen/padding_small"
               android:divider="@android:drawable/divider_horizontal_dark"
         >
@@ -12,15 +14,16 @@
               android:layout_weight="1"
               android:id="@+id/tag_name"
               android:layout_marginRight="8dp"
+              android:gravity="center_vertical"
               android:textAppearance="@android:style/TextAppearance.Medium"
               android:text="All Notes"/>
     <TextView android:layout_width="40dp"
               android:layout_height="wrap_content"
               android:id="@+id/tag_count"
               android:layout_marginLeft="8dp"
-              android:gravity="right"
+              android:gravity="center_vertical|right"
               android:text="24"
               android:textIsSelectable="false"
-              android:textAppearance="@android:style/TextAppearance.Medium"
+              android:textAppearance="@android:style/TextAppearance.Small"
               android:textColor="@color/grey"/>
 </LinearLayout>

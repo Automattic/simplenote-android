@@ -8,6 +8,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
@@ -272,15 +273,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         private void deleteTag(Tag tag) {
             tag.delete();
-            ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
-            while(notesCursor.moveToNext()){
-                Note note = notesCursor.getObject();
-                List<String> tags = note.getTags();
-                tags.remove(tag.getName());
-                note.setTags(tags);
-                note.save();
-            }
-            notesCursor.close();
+            new removeTagFromNotesTask().execute(tag);
             refreshTags();
             mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
         }
@@ -293,6 +286,26 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
 
+        }
+    }
+
+    private class removeTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Tag... removedTags) {
+            Tag tag = removedTags[0];
+            if (tag != null) {
+                ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
+                while(notesCursor.moveToNext()){
+                    Note note = notesCursor.getObject();
+                    List<String> tags = note.getTags();
+                    tags.remove(tag.getName());
+                    note.setTags(tags);
+                    note.save();
+                }
+                notesCursor.close();
+            }
+            return null;
         }
     }
 }
