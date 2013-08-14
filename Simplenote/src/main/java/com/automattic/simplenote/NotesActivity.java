@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -55,6 +56,7 @@ public class NotesActivity extends Activity implements
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
     private Bucket<Note> mNotesBucket;
+    private Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
 
@@ -69,6 +71,7 @@ public class NotesActivity extends Activity implements
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();
         mNotesBucket = currentApp.getNotesBucket();
+        mTagsBucket = currentApp.getTagsBucket();
         setContentView(R.layout.activity_notes);
 
         EasyTracker.getInstance().activityStart(this); // Add this method.
@@ -151,6 +154,9 @@ public class NotesActivity extends Activity implements
     protected void onResume() {
         super.onResume();
 
+        mNotesBucket.start();
+        mTagsBucket.start();
+
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
         mNotesBucket.addOnDeleteObjectListener(this);
@@ -162,6 +168,9 @@ public class NotesActivity extends Activity implements
     @Override
     protected void onPause() {
         super.onPause();
+
+        mNotesBucket.stop();
+        mTagsBucket.stop();
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);

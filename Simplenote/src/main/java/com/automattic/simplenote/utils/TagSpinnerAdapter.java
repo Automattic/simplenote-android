@@ -69,10 +69,8 @@ public class TagSpinnerAdapter extends BaseAdapter {
         swapCursor(cursor);
     }
 
-    public void swapCursor(Cursor cursor){
-        if (mCursor != null){
-            mCursor.close();
-        }
+    public Cursor swapCursor(Cursor cursor){
+        Cursor oldCursor = mCursor;
         mCursor = cursor;
         if (mCursor != null){
             mNameColumn = cursor.getColumnIndexOrThrow(Tag.NAME_PROPERTY);
@@ -82,6 +80,12 @@ public class TagSpinnerAdapter extends BaseAdapter {
             mTrashCount.setCount(Note.allDeleted(mNotesBucket).count());
         }
         notifyDataSetChanged();
+        return oldCursor;
+    }
+
+    public void changeCursor(Cursor cursor){
+        Cursor oldCursor = swapCursor(cursor);
+        if (oldCursor != null) oldCursor.close();
     }
 
     @Override
