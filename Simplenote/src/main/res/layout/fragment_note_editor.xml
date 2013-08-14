@@ -33,11 +33,7 @@
                         android:layout_height="32dp"
                         android:layout_marginTop="8dp"
                         android:layout_alignParentRight="true"
-<<<<<<< HEAD
-                        android:layout_marginLeft="8dp"
-=======
                         android:layout_marginLeft="4dp"
->>>>>>> 1313389305368e19906ef107703abf7c042e04b9
                         android:textOn=""
                         android:textOff=""
                         android:background="@drawable/pin_bg_selector"/>
