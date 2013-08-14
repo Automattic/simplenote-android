@@ -209,12 +209,17 @@ public class Note extends BucketObject {
         setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
 	}
 
-    public boolean hasTag(String noteTagKey){
+    public boolean hasTag(String tag){
         List<String> tags = getTags();
-        for (String tagKey : tags) {
-            if (noteTagKey.equals(tagKey)) return true;
+        String tagLower = tag.toLowerCase();
+        for (String tagName : tags) {
+            if (tagLower.equals(tagName.toLowerCase())) return true;
         }
         return false;
+    }
+
+    public boolean hasTag(Tag tag){
+        return hasTag(tag.getSimperiumKey());
     }
 
 	public List<String> getTags() {

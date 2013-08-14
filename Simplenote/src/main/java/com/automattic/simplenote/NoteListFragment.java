@@ -6,6 +6,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -116,8 +117,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         mSpinnerAdapter = new TagSpinnerAdapter(getActivity(), mNotesBucket);
         updateMenuItems();
 
-        ObjectCursor<Note> cursor = queryNotes();
-		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), cursor, 0);
+		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
 
 	}
@@ -196,6 +196,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        refreshList();
 	}
 
     private void setWelcomeViewVisiblilty() {
@@ -296,8 +297,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	@SuppressWarnings("deprecation")
 	public void refreshList() {
-        mNotesAdapter.changeCursor(queryNotes());
-		mNotesAdapter.notifyDataSetChanged();
+        Log.d(Simplenote.TAG, "Refresh the list");
+        new refreshListTask().execute();
 	}
 
     public ObjectCursor<Note> queryNotes(){
@@ -319,7 +320,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Tag> tagBucket = application.getTagsBucket();
         ObjectCursor<Tag> tagCursor = Tag.allWithCount(tagBucket).execute();
-        mSpinnerAdapter.swapCursor(tagCursor);
+        mSpinnerAdapter.changeCursor(tagCursor);
         ActionBar ab = getActivity().getActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ab.setListNavigationCallbacks(mSpinnerAdapter, this);
@@ -456,16 +457,20 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	}
 
 	public void searchNotes(String searchString) {
-        mSearchString = searchString;
-		mNotesAdapter.changeCursor(queryNotes());
+        if (!searchString.equals(mSearchString)){
+            mSearchString = searchString;
+            refreshList();
+        }
 	}
 
     /**
      * Clear search and load all notes
      */
     public void clearSearch() {
-        mSearchString = null;
-        mNotesAdapter.changeCursor(queryNotes());
+        if (mSearchString != null && !mSearchString.equals("")){
+            mSearchString = null;
+            refreshList();
+        }
     }
 
 	@Override
@@ -490,7 +495,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             setEmptyListMessage(getString(R.string.no_notes));
         }
 
-        mNotesAdapter.changeCursor(queryNotes());
+        refreshList();
 
         if (notesActivity.isLargeScreenLandscape()) {
             if (mNotesAdapter.getCount() == 0) {
@@ -553,4 +558,20 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             updateMenu();
         }
     };
+
+    private class refreshListTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+
+        @Override
+        protected ObjectCursor<Note> doInBackground(Void ... args) {
+            Log.d(Simplenote.TAG, "Querying in background");
+            return queryNotes();
+        }
+
+        @Override
+        protected void onPostExecute(ObjectCursor<Note> cursor){
+            Log.d(Simplenote.TAG, "Changing cursor");
+            mNotesAdapter.changeCursor(cursor);
+            Log.d(Simplenote.TAG, "Cursor changed");
+        }
+    }
 }

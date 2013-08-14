@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -20,9 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
@@ -34,6 +42,7 @@ import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.Query;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
 
@@ -47,7 +56,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
-
+    private CursorAdapter mAutocompleteAdapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -63,6 +72,44 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
+
+        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
+
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                Activity activity = (Activity) context;
+                if (activity == null) return null;
+                return activity.getLayoutInflater().inflate(R.layout.tag_autocomplete_list_item, null);
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                TextView textView = (TextView) view;
+                textView.setText(convertToString(cursor));
+            }
+
+            @Override
+            public CharSequence convertToString(Cursor cursor){
+                return cursor.getString(cursor.getColumnIndex(Tag.NAME_PROPERTY));
+            }
+
+            @Override
+            public Cursor runQueryOnBackgroundThread(CharSequence filter){
+                Log.v(Simplenote.TAG, String.format("runQueryOnBackgroundThread with filter: %s", filter));
+                Activity activity = (Activity) getActivity();
+                if (activity == null) return null;
+                Simplenote application = (Simplenote) activity.getApplication();
+                Query<Tag> query = application.getTagsBucket().query();
+                // make the tag name available to the cursor
+                query.include(Tag.NAME_PROPERTY);
+                // sort the tags by their names
+                query.order(Tag.NAME_PROPERTY);
+                // if there's a filter string find only matching tag names
+                if (filter != null ) query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
+                return query.execute();
+            }
+        };
+
     }
 
     @Override
@@ -83,6 +130,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             new loadNoteTask().execute(key);
         }
 
+        mTagView.setAdapter(mAutocompleteAdapter);
 		return rootView;
 	}
 
@@ -147,10 +195,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     }
 
     public void updateTagList(){
+        Activity activity = getActivity();
+        if (activity == null) return;
+
         // Populate this note's tags in the tagView
         mTagView.setChips(mNote.getTagString());
-
-        new setTagsAdapterTask().execute();
     }
 
     private void setActionBarTitle() {
@@ -334,36 +383,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected void onPostExecute(Void nada) {
             refreshContent(false);
-        }
-    }
-
-    private class setTagsAdapterTask extends AsyncTask<Void, List, List> {
-
-        @Override
-        protected List doInBackground(Void... voids) {
-            // Populate tag list
-            if (getActivity() == null)
-                return null;
-            Simplenote simplenote = (Simplenote)getActivity().getApplication();
-            Bucket<Tag> tagBucket = simplenote.getTagsBucket();
-            ObjectCursor<Tag> tagsCursor = tagBucket.query().include(Tag.NAME_PROPERTY, Tag.NOTE_COUNT_INDEX_NAME).orderByKey().execute();
-            List<String> allTags = new ArrayList<String>(tagsCursor.getCount());
-            int nameColumnIndex = tagsCursor.getColumnIndex(Tag.NAME_PROPERTY);
-            while (tagsCursor.moveToNext()) {
-                if (!mNote.hasTag(tagsCursor.getSimperiumKey()))
-                    allTags.add(tagsCursor.getString(nameColumnIndex));
-            }
-            tagsCursor.close();
-            return allTags;
-        }
-
-        @Override
-        protected void onPostExecute(List tags) {
-            if (tags != null && tags.size() > 0) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_dropdown_item_1line, tags);
-                mTagView.setAdapter(adapter);
-            }
         }
     }
 
