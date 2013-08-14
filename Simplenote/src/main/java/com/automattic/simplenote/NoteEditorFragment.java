@@ -1,15 +1,10 @@
 package com.automattic.simplenote;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -23,14 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
-import android.widget.FilterQueryProvider;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -44,9 +34,10 @@ import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
+
+import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
 
@@ -155,6 +146,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void onPause() {
+        Log.i("SIMPLENOTE", "EDITOR FRAGMENT PAUSED");
         saveAndSyncNote();
         mTagView.setOnTagAddedListener(null);
 
@@ -303,8 +295,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         new saveNoteTask().execute();
         setActionBarTitle();
-
-        Log.v("Simplenote", "autosaving note");
     }
 
     public void setPlaceholderVisible(boolean isVisible) {

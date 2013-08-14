@@ -1,4 +1,4 @@
-<LinearLayout
+<com.automattic.simplenote.utils.AnimatedLinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -37,4 +37,4 @@
     </FrameLayout>
 
     <include layout="@layout/welcome_view"/>
-</LinearLayout>
+</com.automattic.simplenote.utils.AnimatedLinearLayout>

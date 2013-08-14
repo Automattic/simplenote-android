@@ -174,17 +174,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
-
-        String[] f = null;
-        try {
-            f = getActivity().getAssets().list("");
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        for(String f1:f){
-            Log.i("names",f1);
-        }
 	}
 
 	@Override
@@ -202,6 +191,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	@Override
 	public void onResume() {
 		super.onResume();
+        Log.i("SIMPLENOTE", "LIST FRAGMENT RESUMED");
         mNavListLoaded = false;
         getPrefs();
         updateMenuItems();
