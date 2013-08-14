@@ -5,6 +5,7 @@
 <resources>
 
     <color name="simplenote_blue">#3489d6</color>
+    <color name="simplenote_blue_light">#EEF3F8</color>
 
 	<color name="translucent">#80000000</color>
 	<color name="transparent">#00000000</color>

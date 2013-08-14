@@ -17,6 +17,10 @@
      limitations under the License.
 -->
 
-<resources>
-    <color name="pressed_simplestyle">#44D2E2F0</color>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:exitFadeDuration="@android:integer/config_mediumAnimTime" >
+    <item android:state_pressed="false" android:state_focused="true" android:drawable="@color/simplenote_blue_light" />
+    <item android:state_pressed="true" android:drawable="@color/simplenote_blue_light" />
+    <item android:state_activated="true" android:drawable="@color/simplenote_blue_light"/>
+    <item android:drawable="@android:color/transparent" />
+</selector>
