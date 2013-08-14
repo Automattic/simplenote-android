@@ -32,8 +32,12 @@ Add your simperium appid and key to Simplenote/gradle.properties
 ```
 simperiumAppId=SIMPERIUM_APP_ID
 simperiumAppKey=SIMPERIUM_KEY
+hockeyAppId=HOCKEY_APP_ID
 ```
-4) Install debug build with Android Studio or `./gradlew installDebug`
+
+4) Add the analytics.xml file to support Google Analytics
+
+5) Install debug build with Android Studio or `./gradlew installDebug`
 
 ## Tests
 

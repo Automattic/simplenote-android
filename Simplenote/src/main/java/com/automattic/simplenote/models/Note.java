@@ -132,7 +132,7 @@ public class Note extends BucketObject {
 
             if (firstNewLinePosition < content.length()) {
                 contentPreview = content.substring(firstNewLinePosition, content.length());
-                contentPreview = contentPreview.replace(NEW_LINE, " ").trim();
+                contentPreview = contentPreview.replace(NEW_LINE, SPACE).trim();
                 if (contentPreview.length() >= 300) {
                     contentPreview = contentPreview.substring(0, 300);
                 }

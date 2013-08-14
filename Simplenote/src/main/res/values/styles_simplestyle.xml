@@ -34,6 +34,7 @@
         <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
     </style>
 
     <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -55,7 +56,7 @@
     </style>
 
     <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="android:textColor">@color/simperium_blue</item>
         <item name="android:textSize">20sp</item>
     </style>
 
@@ -75,7 +76,7 @@
         <item name="android:background">@drawable/spinner_background_ab_simplestyle</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_simplestyle</item>
-        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="android:textColor">@color/simperium_blue</item>
     </style>
 
     <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
@@ -97,7 +98,7 @@
     </style>
 
     <style name="SpinnerItemTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="android:textColor">@color/simperium_blue</item>
         <item name="android:textSize">20sp</item>
     </style>
 

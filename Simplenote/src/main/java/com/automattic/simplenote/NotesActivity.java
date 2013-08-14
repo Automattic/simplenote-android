@@ -31,6 +31,9 @@ import com.simperium.client.LoginActivity;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.Calendar;
 
 /**
@@ -139,6 +142,7 @@ public class NotesActivity extends Activity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setAuthenticationListener(this);
+        checkForUpdates();
     }
 
     private void addEditorFragment() {
@@ -163,6 +167,16 @@ public class NotesActivity extends Activity implements
 
         configureActionBar();
         invalidateOptionsMenu();
+        checkForCrashes();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, Config.hockey_app_id);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this, Config.hockey_app_id);
     }
 
     @Override

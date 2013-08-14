@@ -5,7 +5,7 @@
               android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="48dp"
-              android:background="@color/simplenote_blue"
+              android:background="@color/simperium_blue"
               android:gravity="center"
               android:padding="8dp">
 
