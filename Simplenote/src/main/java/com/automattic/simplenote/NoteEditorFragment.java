@@ -134,14 +134,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onResume() {
         super.onResume();
         mTagView.setOnTagAddedListener(this);
-        if (mNote != null && mNote.getContent().isEmpty()) {
-            // Show soft keyboard
-            mContentEditText.requestFocus();
-
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputMethodManager != null)
-                inputMethodManager.showSoftInput(mContentEditText, 0);
-        }
     }
 
     @Override
@@ -384,6 +376,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected void onPostExecute(Void nada) {
             refreshContent(false);
+
+            if (mNote != null && mNote.getContent().isEmpty()) {
+                // Show soft keyboard
+                mContentEditText.requestFocus();
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null)
+                    inputMethodManager.showSoftInput(mContentEditText, 0);
+            }
         }
     }
 
