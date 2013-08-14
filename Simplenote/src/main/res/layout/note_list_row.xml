@@ -49,10 +49,9 @@
                 android:id="@+id/note_pin"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginRight="13dp"
                 android:layout_marginLeft="8dp"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="2dp"
                 android:src="@drawable/ic_item_list_default_pin_active"/>
     </LinearLayout>
 
