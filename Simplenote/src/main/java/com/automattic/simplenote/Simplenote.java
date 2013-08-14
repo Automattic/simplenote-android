@@ -22,6 +22,8 @@ public class Simplenote extends Application {
 	public static final int INTENT_BILLING		= 2;
 
     private static final String AUTH_PROVIDER = "simplenote.com";
+
+    public static final String CUSTOM_FONT_PATH = "fonts/SourceSansPro-Regular.ttf";
 	
 	private Properties mConfig;
 	private Simperium mSimperium;

@@ -25,6 +25,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagSpinnerAdapter;
+import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -33,6 +34,7 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -150,6 +152,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
         mWelcomeView = (LinearLayout)view.findViewById(R.id.welcome_view);
 
+        TextView welcomeTextView = (TextView)view.findViewById(R.id.welcome_textview);
+        Button welcomeSignInButton = (Button)view.findViewById(R.id.welcome_signin_button);
+        welcomeTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        welcomeSignInButton.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+
         if (notesActivity.isLargeScreenLandscape()) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
@@ -166,7 +173,18 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         });
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
-        getListView().setDividerHeight(2);
+        getListView().setDividerHeight(1);
+
+        String[] f = null;
+        try {
+            f = getActivity().getAssets().list("");
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        for(String f1:f){
+            Log.i("names",f1);
+        }
 	}
 
 	@Override
@@ -395,7 +413,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
+                holder.titleTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
+                holder.contentTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
 				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
 				view.setTag(holder);
 			} else {

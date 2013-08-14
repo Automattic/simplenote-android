@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Editable;
 import android.text.Spannable;
@@ -22,6 +23,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.Simplenote;
 
 import java.util.List;
 
@@ -120,6 +122,10 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
             LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             TextView textView = (TextView) lf.inflate(R.layout.tags_textview, null);
             textView.setText(tag); // set text
+            Typeface customType = Typefaces.get(getContext(), Simplenote.CUSTOM_FONT_PATH);
+            if (customType != null)
+                textView.setTypeface(customType);
+
             // Capture bitmap of generated textview
             int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
             textView.measure(spec, spec);

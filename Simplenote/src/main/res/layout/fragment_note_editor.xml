@@ -15,9 +15,9 @@
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingBottom="@dimen/padding_large"
                 android:orientation="vertical">
 
             <RelativeLayout
@@ -29,11 +29,11 @@
 
                 <ToggleButton
                         android:id="@+id/pinButton"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="4dp"
                         android:textOn=""
                         android:textOff=""
                         android:background="@drawable/pin_bg_selector"/>
@@ -52,7 +52,8 @@
                         android:nextFocusForward="@+id/note_content"
                         android:textSize="16sp"
                         android:fontFamily="sans-serif-condensed"
-                        android:longClickable="false" />
+                        android:longClickable="false"
+                        android:layout_marginLeft="-4dp"/>
 
 
             </RelativeLayout>
@@ -65,11 +66,13 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-light"
                     android:gravity="top"
-                    android:paddingTop="8dp"
                     android:textColor="@color/darkgrey"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                     android:scrollHorizontally="false"
+                    android:background="@null"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     tools:context=".NoteEditorFragment"/>
         </LinearLayout>
 
