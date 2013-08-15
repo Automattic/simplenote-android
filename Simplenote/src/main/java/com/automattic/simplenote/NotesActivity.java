@@ -468,6 +468,7 @@ public class NotesActivity extends Activity implements
             ft.addToBackStack(null);
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
+            invalidateOptionsMenu();
         } else {
             mNoteEditorFragment.setNote(noteID);
             getNoteListFragment().setNoteSelected(noteID);

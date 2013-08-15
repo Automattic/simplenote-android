@@ -382,6 +382,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
+        note.setModificationDate(note.getCreationDate());
 		note.save(); 
 		
 		// refresh listview so new note appears
@@ -401,7 +402,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             String noteKey = cursor.getSimperiumKey();
             if (noteKey != null && noteKey.equals(selectedNoteID)) {
                 setActivatedPosition(i);
-                break;
+                return;
             }
         }
     }

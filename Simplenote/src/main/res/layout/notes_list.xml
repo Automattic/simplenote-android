@@ -2,7 +2,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="7">
 
     <FrameLayout
             android:layout_width="fill_parent"
@@ -27,6 +28,8 @@
                 android:padding="16dp"
                 android:fontFamily="sans-serif-light"/>
 
+        <include layout="@layout/welcome_view_switcher" />
+
         <LinearLayout
                 android:id="@+id/divider_shadow"
                 android:layout_width="fill_parent"
@@ -34,6 +37,5 @@
                 android:orientation="vertical"
                 android:background="@drawable/right_shadow"
                 android:visibility="gone"/>
-        <include layout="@layout/welcome_view_switcher" />
     </FrameLayout>
 </com.automattic.simplenote.utils.AnimatedLinearLayout>

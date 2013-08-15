@@ -149,11 +149,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     }
 
     public void setNote(String noteID) {
+        if (mAutoSaveHandler != null)
+            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+
         mPlaceholderView.setVisibility(View.GONE);
 
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null)
-            saveAndSyncNote();
+            saveNote();
 
         Simplenote simplenote = (Simplenote)getActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
@@ -388,28 +391,31 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         }
     }
 
-    private class saveNoteTask extends AsyncTask<String, Void, Void> {
+    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected Void doInBackground(String... args) {
-            String content = mContentEditText.getText().toString();
-            String tagString = mTagView.getText().toString();
-            if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
-                mNote.setContent(content);
-                mNote.setTagString(mTagView.getText().toString());
-                mNote.setModificationDate(Calendar.getInstance());
-                // Send pinned event to google analytics if changed
-                mNote.setPinned(mPinButton.isChecked());
-                mNote.save();
-                if (getActivity() != null) {
-                    Tracker tracker = EasyTracker.getTracker();
-                    if (mNote.isPinned() != mPinButton.isChecked())
-                        tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
-                    tracker.sendEvent("note", "edited_note", "editor_save", null);
-                }
-            }
-
+        protected Void doInBackground(Void... args) {
+            saveNote();
             return null;
+        }
+    }
+
+    private void saveNote() {
+        String content = mContentEditText.getText().toString();
+        String tagString = mTagView.getText().toString();
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+            mNote.setContent(content);
+            mNote.setTagString(mTagView.getText().toString());
+            mNote.setModificationDate(Calendar.getInstance());
+            // Send pinned event to google analytics if changed
+            mNote.setPinned(mPinButton.isChecked());
+            mNote.save();
+            if (getActivity() != null) {
+                Tracker tracker = EasyTracker.getTracker();
+                if (mNote.isPinned() != mPinButton.isChecked())
+                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
+                tracker.sendEvent("note", "edited_note", "editor_save", null);
+            }
         }
     }
 }
