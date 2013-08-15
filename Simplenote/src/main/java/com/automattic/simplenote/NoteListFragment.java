@@ -463,7 +463,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
             String title = mCursor.getString(mCursor.getColumnIndex("title"));
-            if (title.equals("")) {
+            if (title == null || title.equals("")) {
                 title = getString(R.string.new_note);
             }
             holder.titleTextView.setText(title);
