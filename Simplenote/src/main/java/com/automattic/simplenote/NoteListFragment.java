@@ -4,12 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -27,14 +28,11 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagSpinnerAdapter;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.simperium.Simperium;
 import com.simperium.client.Bucket;
-import com.simperium.client.LoginActivity;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -60,13 +58,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
     private String mSearchString;
-    private boolean mNavListLoaded;
-    private LinearLayout mWelcomeView;
+    private boolean mNavListLoaded, mShouldShowWelcomeView;
+    private ViewSwitcher mWelcomeViewSwitcher;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
 	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String TAG_BUTTON_SIGNIN = "sign_in";
+    private static final String TAG_BUTTON_SIGNUP = "sign_up";
 
 	/**
 	 * The fragment's current callback object, which is notified of list item
@@ -150,27 +150,30 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         mEmptyListTextView = (TextView)view.findViewById(android.R.id.empty);
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
-        mWelcomeView = (LinearLayout)view.findViewById(R.id.welcome_view);
+        mWelcomeViewSwitcher = (ViewSwitcher)view.findViewById(R.id.welcome_view_switcher);
 
         TextView welcomeTextView = (TextView)view.findViewById(R.id.welcome_textview);
-        Button welcomeSignInButton = (Button)view.findViewById(R.id.welcome_signin_button);
-        welcomeTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
-        welcomeSignInButton.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        TextView laterTextView = (TextView)view.findViewById(R.id.welcome_later_textview);
+
+        Button signInButton = (Button)view.findViewById(R.id.welcome_sign_in);
+        signInButton.setTag(TAG_BUTTON_SIGNIN);
+        signInButton.setOnClickListener(signInClickListener);
+        Button signUpButton = (Button)view.findViewById(R.id.welcome_sign_up);
+        signUpButton.setTag(TAG_BUTTON_SIGNUP);
+        signUpButton.setOnClickListener(signInClickListener);
+
+        welcomeTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
+        laterTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
+        signInButton.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
+        signUpButton.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
 
         if (notesActivity.isLargeScreenLandscape()) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
-        Button signInButton = (Button)view.findViewById(R.id.welcome_signin_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(getActivity().getBaseContext(), LoginActivity.class);
-                loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
-                startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
-            }
-        });
+        welcomeTextView.setOnClickListener(switcherClickListener);
+        laterTextView.setOnClickListener(switcherClickListener);
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
@@ -205,19 +208,46 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
         refreshList();
+
+        if (mShouldShowWelcomeView) {
+            mWelcomeViewSwitcher.showNext();
+            mShouldShowWelcomeView = false;
+        }
 	}
 
     private void setWelcomeViewVisiblilty() {
-        // TODO: Animate the view in?
-        if (mWelcomeView != null && getActivity() != null) {
+        if (mWelcomeViewSwitcher != null && getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
             if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
-                mWelcomeView.setVisibility(View.VISIBLE);
+                int bottomMargin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
+                mlp.setMargins(0, 0, 0, bottomMargin);
+                mWelcomeViewSwitcher.setVisibility(View.VISIBLE);
             } else {
-                mWelcomeView.setVisibility(View.GONE);
+                mWelcomeViewSwitcher.setVisibility(View.GONE);
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
+                mlp.setMargins(0, 0, 0, 0);
             }
         }
     }
+
+    public void showWelcomeView(boolean showWelcomeView) {
+        mShouldShowWelcomeView = showWelcomeView;
+    }
+
+    private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN) ? true : false);
+        }
+    };
+
+    private Button.OnClickListener switcherClickListener = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mWelcomeViewSwitcher.showNext();
+        }
+    };
 
     @Override
     public void onPause(){

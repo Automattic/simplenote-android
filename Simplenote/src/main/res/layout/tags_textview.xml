@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:background="@drawable/tag_bg"
-    android:textColor="@color/simperium_blue"
+    android:textColor="@color/simplenote_blue"
     android:fontFamily="sans-serif-condensed"
     android:shadowDx="0"
     android:shadowDy="0"

@@ -125,6 +125,8 @@ public class NotesActivity extends Activity implements
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
             editor.commit();
+
+            getNoteListFragment().showWelcomeView(true);
         }
 
             if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
@@ -142,7 +144,7 @@ public class NotesActivity extends Activity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setAuthenticationListener(this);
-        checkForUpdates();
+        //checkForUpdates();
     }
 
     private void addEditorFragment() {
@@ -356,7 +358,7 @@ public class NotesActivity extends Activity implements
                 startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
                 return true;
             case R.id.menu_sign_in:
-                startLoginActivity();
+                startLoginActivity(true);
                 return true;
             case R.id.menu_edit_tags:
                 Intent editTagsIntent = new Intent(this, TagsListActivity.class);
@@ -494,9 +496,10 @@ public class NotesActivity extends Activity implements
         }
     }
 
-    public void startLoginActivity() {
+    public void startLoginActivity(boolean signInFirst) {
         Intent loginIntent = new Intent(this, LoginActivity.class);
-        loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+        if (signInFirst)
+            loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 

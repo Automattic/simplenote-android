@@ -13,7 +13,7 @@
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
 
         <TextView
                 android:id="@android:id/empty"
@@ -34,7 +34,6 @@
                 android:orientation="vertical"
                 android:background="@drawable/right_shadow"
                 android:visibility="gone"/>
+        <include layout="@layout/welcome_view_switcher" />
     </FrameLayout>
-
-    <include layout="@layout/welcome_view"/>
 </com.automattic.simplenote.utils.AnimatedLinearLayout>
