@@ -222,11 +222,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                 int bottomMargin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
                 mlp.setMargins(0, 0, 0, bottomMargin);
+                getListView().getEmptyView().setLayoutParams(mlp);
                 mWelcomeViewSwitcher.setVisibility(View.VISIBLE);
             } else {
                 mWelcomeViewSwitcher.setVisibility(View.GONE);
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
                 mlp.setMargins(0, 0, 0, 0);
+                getListView().getEmptyView().setLayoutParams(mlp);
             }
         }
     }
