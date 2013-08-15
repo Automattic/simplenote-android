@@ -158,14 +158,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (mNote != null)
             saveNote();
 
-        Simplenote simplenote = (Simplenote)getActivity().getApplication();
-        Bucket<Note> notesBucket = simplenote.getNotesBucket();
-        try {
-            mNote = notesBucket.get(noteID);
-        } catch (BucketObjectMissingException e) {
-            e.printStackTrace();
-        }
-        refreshContent(false);
+        new loadNoteTask().execute(noteID);
     }
 
     public void refreshContent(boolean isNoteUpdate) {
@@ -183,6 +176,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             setActionBarTitle();
 
             updateTagList();
+
+            if (getActivity() != null)
+                getActivity().invalidateOptionsMenu();
         }
     }
 

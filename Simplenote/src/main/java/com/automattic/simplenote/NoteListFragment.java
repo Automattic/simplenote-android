@@ -60,6 +60,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     private String mSearchString;
     private boolean mNavListLoaded, mShouldShowWelcomeView;
     private ViewSwitcher mWelcomeViewSwitcher;
+    private String mSelectedNoteId;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -405,6 +406,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                 return;
             }
         }
+
+        // Didn't find the note, let's try again after the cursor updates (see refreshListTask)
+        mSelectedNoteId = selectedNoteID;
     }
 
 	public class NotesCursorAdapter extends CursorAdapter {
@@ -459,7 +463,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
             String title = mCursor.getString(mCursor.getColumnIndex("title"));
-            if (title == null) {
+            if (title.equals("")) {
                 title = getString(R.string.new_note);
             }
             holder.titleTextView.setText(title);
@@ -615,6 +619,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             Log.d(Simplenote.TAG, "Changing cursor");
             mNotesAdapter.changeCursor(cursor);
             Log.d(Simplenote.TAG, "Cursor changed");
+
+            if (mSelectedNoteId != null) {
+                setNoteSelected(mSelectedNoteId);
+                mSelectedNoteId = null;
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_weight="7">
+        android:layout_weight="6.5">
 
     <FrameLayout
             android:layout_width="fill_parent"
