@@ -4,10 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -59,7 +61,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
     private String mSearchString;
-    private boolean mNavListLoaded, mShouldShowWelcomeView;
+    private boolean mNavListLoaded;
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
 
@@ -175,8 +177,22 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
-        welcomeTextView.setOnClickListener(switcherClickListener);
-        laterTextView.setOnClickListener(switcherClickListener);
+        welcomeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWelcomeViewSwitcher.showNext();
+            }
+        });
+        laterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWelcomeViewSwitcher.showNext();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
+                editor.commit();
+            }
+        });
 
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
@@ -213,14 +229,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         checkEmptyListText();
         refreshList();
 
-        if (mShouldShowWelcomeView) {
+        if (!PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_APP_TRIAL, false)) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mWelcomeViewSwitcher.showNext();
                 }
             }, 100);
-            mShouldShowWelcomeView = false;
         }
 	}
 
@@ -242,21 +257,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     }
 
-    public void showWelcomeView(boolean showWelcomeView) {
-        mShouldShowWelcomeView = showWelcomeView;
-    }
-
     private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
             ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN) ? true : false);
-        }
-    };
-
-    private Button.OnClickListener switcherClickListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mWelcomeViewSwitcher.showNext();
         }
     };
 

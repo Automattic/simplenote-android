@@ -125,8 +125,6 @@ public class NotesActivity extends Activity implements
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
             editor.commit();
-
-            getNoteListFragment().showWelcomeView(true);
         }
 
             if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
