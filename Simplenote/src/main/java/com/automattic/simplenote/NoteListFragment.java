@@ -90,7 +90,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(String noteID);
+		public void onNoteSelected(String noteID, boolean isNew);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID) {
+		public void onNoteSelected(String noteID, boolean isNew) {
 		}
 	};
 
@@ -300,7 +300,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null)
-            mCallbacks.onNoteSelected(noteID);
+            mCallbacks.onNoteSelected(noteID, false);
 
         mActivatedPosition = position;
 	}
@@ -311,7 +311,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey());
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), false);
         }
     }
 
@@ -407,7 +407,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		refreshList();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note.getSimperiumKey());
+		mCallbacks.onNoteSelected(note.getSimperiumKey(), true);
 	}
 
     public void setNoteSelected(String selectedNoteID) {

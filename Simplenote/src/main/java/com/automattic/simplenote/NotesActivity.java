@@ -138,13 +138,13 @@ public class NotesActivity extends Activity implements
                 note.setCreationDate(Calendar.getInstance());
                 note.setContent(text);
                 note.save();
-                onNoteSelected(note.getSimperiumKey());
+                onNoteSelected(note.getSimperiumKey(), true);
                 mTracker.sendEvent("note", "create_note", "external_share", null);
             }
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setAuthenticationListener(this);
-        //checkForUpdates();
+        checkForUpdates();
     }
 
     private void addEditorFragment() {
@@ -444,7 +444,7 @@ public class NotesActivity extends Activity implements
      * the item with the given ID was selected.
      */
     @Override
-    public void onNoteSelected(String noteID) {
+    public void onNoteSelected(String noteID, boolean isNew) {
 
         if (mSearchMenuItem != null)
             mSearchMenuItem.collapseActionView();
@@ -458,6 +458,7 @@ public class NotesActivity extends Activity implements
             // Create editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
             mNoteEditorFragment = new NoteEditorFragment();
             mNoteEditorFragment.setArguments(arguments);
 
@@ -470,6 +471,7 @@ public class NotesActivity extends Activity implements
             fm.executePendingTransactions();
             invalidateOptionsMenu();
         } else {
+            mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID);
             getNoteListFragment().setNoteSelected(noteID);
         }
@@ -580,7 +582,7 @@ public class NotesActivity extends Activity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote.getSimperiumKey());
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), false);
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();

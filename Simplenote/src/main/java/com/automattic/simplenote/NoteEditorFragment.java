@@ -40,6 +40,7 @@ import java.util.Calendar;
 public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
 
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_NEW_NOTE = "new_note";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
     private Note mNote;
@@ -49,6 +50,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
+    private boolean mIsNewNote;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -117,6 +119,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
             String key = getArguments().getString(ARG_ITEM_ID);
             new loadNoteTask().execute(key);
+            setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
         mTagView.setAdapter(mAutocompleteAdapter);
@@ -132,13 +135,23 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onPause() {
         Log.i("SIMPLENOTE", "EDITOR FRAGMENT PAUSED");
-        saveAndSyncNote();
+
+        // Delete the note if it is new and has empty fields
+        if (mNote != null && mIsNewNote && noteIsEmpty())
+            mNote.delete();
+        else
+            saveAndSyncNote();
+
         mTagView.setOnTagAddedListener(null);
 
         if (mAutoSaveHandler != null)
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
 
         super.onPause();
+    }
+
+    private boolean noteIsEmpty() {
+        return (mContentEditText.getText().toString().trim().length() == 0 && mTagView.getText().toString().trim().length() == 0);
     }
 
     public void setNote(String noteID) {
@@ -148,8 +161,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mPlaceholderView.setVisibility(View.GONE);
 
         // If we have a note already (on a tablet in landscape), save the note.
-        if (mNote != null)
-            saveNote();
+        if (mNote != null) {
+            if (mIsNewNote && noteIsEmpty())
+                mNote.delete();
+            else if (mNote != null)
+                saveNote();
+        }
 
         new loadNoteTask().execute(noteID);
     }
@@ -277,6 +294,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             if (mPlaceholderView != null)
                 mPlaceholderView.setVisibility(View.GONE);
         }
+    }
+
+    public void setIsNewNote(boolean isNewNote) {
+        this.mIsNewNote = isNewNote;
     }
 
     // Use spaces in tag autocompletion list
