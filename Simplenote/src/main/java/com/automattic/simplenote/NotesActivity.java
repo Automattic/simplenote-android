@@ -493,7 +493,12 @@ public class NotesActivity extends Activity implements
         if (status == User.AuthenticationStatus.AUTHENTICATED) {
             // User signed in
             mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
-            invalidateOptionsMenu();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            });
         }
     }
 
