@@ -197,11 +197,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 title = mNote.getTitle();
             else
                 title = getString(R.string.new_note);
-
-            SpannableString s = new SpannableString(title);
-            s.setSpan(new TypefaceSpan(getActivity().getBaseContext()), 0, s.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            getActivity().getActionBar().setTitle(s);
+            if (title != null) {
+                SpannableString s = new SpannableString(title);
+                s.setSpan(new TypefaceSpan(getActivity().getBaseContext()), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                getActivity().getActionBar().setTitle(s);
+            }
         }
     }
 
