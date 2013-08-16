@@ -82,4 +82,5 @@
     <string name="maybe_later">Maybe later, <u>just try the app</u> »</string>
     <string name="backup_notes">Back up your notes, use them on the web, and sync with other devices.</string>
     <string name="want_more">Want more? <u>Use a Simplenote account</u> »</string>
+    <string name="new_note_list">New note...</string>
 </resources>

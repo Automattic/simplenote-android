@@ -9,7 +9,7 @@
         android:title="@string/search" />
     <item
             android:id="@+id/menu_share"
-            android:showAsAction="never"
+            android:showAsAction="ifRoom"
             android:title="@string/share"
             android:icon="@drawable/ab_icon_share"/>
 

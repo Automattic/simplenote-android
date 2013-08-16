@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -29,7 +28,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
-import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
@@ -48,7 +46,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private EditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private ToggleButton mPinButton;
-    private boolean mShowNoteTitle;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
@@ -62,9 +59,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (!((NotesActivity) getActivity()).isLargeScreenLandscape())
-            mShowNoteTitle = true;
 
         mAutoSaveHandler = new Handler();
 
@@ -110,7 +104,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
-        mContentEditText.addTextChangedListener(this);
         mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
@@ -173,8 +166,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
             mPinButton.setChecked(mNote.isPinned());
 
-            setActionBarTitle();
-
             updateTagList();
 
             if (getActivity() != null)
@@ -182,27 +173,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         }
     }
 
-    public void updateTagList(){
+    public void updateTagList() {
         Activity activity = getActivity();
         if (activity == null) return;
 
         // Populate this note's tags in the tagView
         mTagView.setChips(mNote.getTagString());
-    }
-
-    private void setActionBarTitle() {
-        String title;
-        if (mShowNoteTitle && getActivity() != null) {
-            if (mNote.getTitle() != null && !mNote.getTitle().equals(""))
-                title = mNote.getTitle();
-            else
-                title = getString(R.string.new_note);
-            if (title != null) {
-                SpannableString s = new SpannableString(title);
-                s.setSpan(new TypefaceSpan(getActivity().getBaseContext()), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                getActivity().getActionBar().setTitle(s);
-            }
-        }
     }
 
     int newCursorLocation(String newText, String oldText, int cursorLocation) {
@@ -249,13 +225,16 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     };
 
     @Override
-    public void onTagsChanged(String tagString){
+    public void onTagsChanged(String tagString) {
+        if (getActivity() != null && mNote.getTagString() != null && tagString.length() > mNote.getTagString().length())
+            EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
+        else
+            EasyTracker.getTracker().sendEvent("note", "removed_tag", "tag_removed_from_note", null);
+
         mNote.setTagString(tagString);
         mNote.setModificationDate(Calendar.getInstance());
         updateTagList();
         mNote.save();
-        if (getActivity() != null)
-            EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
     }
 
     @Override
@@ -270,7 +249,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     }
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
 
@@ -285,7 +264,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             return;
 
         new saveNoteTask().execute();
-        setActionBarTitle();
     }
 
     public void setPlaceholderVisible(boolean isVisible) {
@@ -358,6 +336,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
 
         @Override
+        protected void onPreExecute() {
+            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
+        }
+
+        @Override
         protected Void doInBackground(String... args) {
             String noteID = args[0];
             NotesActivity notesActivity = (NotesActivity)getActivity();
@@ -375,14 +358,18 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected void onPostExecute(Void nada) {
             refreshContent(false);
-
+            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
             if (mNote != null && mNote.getContent().isEmpty()) {
                 // Show soft keyboard
                 mContentEditText.requestFocus();
-
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethodManager != null)
-                    inputMethodManager.showSoftInput(mContentEditText, 0);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (inputMethodManager != null)
+                            inputMethodManager.showSoftInput(mContentEditText, 0);
+                    }
+                }, 250);
             }
         }
     }

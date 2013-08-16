@@ -481,7 +481,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
             String title = mCursor.getString(mCursor.getColumnIndex("title"));
             if (title == null || title.equals("")) {
-                title = getString(R.string.new_note);
+                title = getString(R.string.new_note_list);
             }
             holder.titleTextView.setText(title);
 
