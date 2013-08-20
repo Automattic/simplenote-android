@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,6 +183,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
+            afterTextChanged(mContentEditText.getText());
+
             mPinButton.setChecked(mNote.isPinned());
 
             updateTagList();
@@ -261,8 +265,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void afterTextChanged(Editable editable) {
-        // Unused
 
+        // Set the note title to be a larger size
+        // Remove any existing size spans
+        RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
+        for (int i = 0; i < spans.length; i++) {
+            editable.removeSpan(spans[i]);
+        }
+        int newLinePosition = mContentEditText.getText().toString().indexOf("\n");
+        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > -1) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     @Override

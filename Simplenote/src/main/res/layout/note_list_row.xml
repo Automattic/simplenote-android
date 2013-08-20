@@ -32,7 +32,7 @@
                 android:maxLines="1"
                 android:text="note_title"
                 android:textColor="#222222"
-                android:textSize="21sp"
+                android:textSize="22sp"
                 android:ellipsize="end"/>
 
     </LinearLayout>
@@ -52,7 +52,7 @@
                 android:layout_marginTop="-3dp"
                 android:text="note_content"
                 android:textColor="#777777"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:ellipsize="end"/>
     </LinearLayout>
 
