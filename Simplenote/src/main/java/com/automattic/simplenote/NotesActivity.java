@@ -286,6 +286,7 @@ public class NotesActivity extends Activity implements
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 showDetailPlaceholder();
                 getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
+                getNoteListFragment().hideWelcomeView();
                 mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
                 return true;
             }
@@ -295,6 +296,7 @@ public class NotesActivity extends Activity implements
                 // Show all notes again
                 getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes));
                 getNoteListFragment().clearSearch();
+                getNoteListFragment().setWelcomeViewVisibility();
                 return true;
             }
         });

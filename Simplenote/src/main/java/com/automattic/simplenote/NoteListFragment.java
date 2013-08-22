@@ -220,7 +220,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         // update the view again
         mTagsBucket.addListener(mTagsMenuUpdater);
 
-        setWelcomeViewVisiblilty();
+        setWelcomeViewVisibility();
 
         // Hide soft keyboard if it is showing...
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -239,7 +239,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
 	}
 
-    private void setWelcomeViewVisiblilty() {
+    public void setWelcomeViewVisibility() {
         if (mWelcomeViewSwitcher != null && getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
             if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
@@ -255,6 +255,11 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
                 getListView().getEmptyView().setLayoutParams(mlp);
             }
         }
+    }
+
+    public void hideWelcomeView() {
+        if (mWelcomeViewSwitcher != null)
+            mWelcomeViewSwitcher.setVisibility(View.GONE);
     }
 
     private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
