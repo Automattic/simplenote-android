@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -258,6 +259,13 @@ public class NotesActivity extends Activity implements
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
+
+        // Set a custom search view drawable
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = mSearchView.findViewById(searchPlateId);
+        if (searchPlate != null)
+            searchPlate.setBackgroundResource(R.drawable.search_view_selector);
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
