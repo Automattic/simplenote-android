@@ -9,15 +9,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -39,7 +40,7 @@ import com.simperium.client.Query;
 
 import java.util.Calendar;
 
-public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener {
+public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener, TextView.OnEditorActionListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -112,6 +113,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        mTagView.setOnEditorActionListener(this);
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
@@ -309,6 +311,17 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     public void setIsNewNote(boolean isNewNote) {
         this.mIsNewNote = isNewNote;
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_NEXT) {
+            String tagString = mTagView.getText().toString().trim();
+            if (tagString.length() > 0) {
+                mTagView.setChips(tagString);
+            }
+        }
+        return false;
     }
 
     // Use spaces in tag autocompletion list
