@@ -362,11 +362,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             mDividerShadow.setVisibility(View.GONE);
     }
 
-	@SuppressWarnings("deprecation")
 	public void refreshList() {
         Log.d(Simplenote.TAG, "Refresh the list");
-        new refreshListTask().execute();
+        new refreshListTask().execute(false);
 	}
+
+    public void refreshListFromNavSelect() {
+        Log.d(Simplenote.TAG, "Refresh the list");
+        new refreshListTask().execute(true);
+    }
 
     public ObjectCursor<Note> queryNotes(){
         if (mSelectedTag == null){
@@ -565,19 +569,9 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         checkEmptyListText();
 
-        refreshList();
+        refreshListFromNavSelect();
 
-        if (notesActivity.isLargeScreenLandscape()) {
-            if (mNotesAdapter.getCount() == 0) {
-                notesActivity.showDetailPlaceholder();
-            } else {
-                // Select the first note
-                selectFirstNote();
-            }
-        }
         notesActivity.invalidateOptionsMenu();
-
-		
 		return true;
 	}
 
@@ -629,11 +623,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     };
 
-    private class refreshListTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+    private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+        boolean mIsFromNavSelect;
 
         @Override
-        protected ObjectCursor<Note> doInBackground(Void ... args) {
+        protected ObjectCursor<Note> doInBackground(Boolean ... args) {
             Log.d(Simplenote.TAG, "Querying in background");
+            mIsFromNavSelect = args[0];
             return queryNotes();
         }
 
@@ -642,6 +638,18 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             Log.d(Simplenote.TAG, "Changing cursor");
             mNotesAdapter.changeCursor(cursor);
             Log.d(Simplenote.TAG, "Cursor changed");
+
+            if (mIsFromNavSelect) {
+                NotesActivity notesActivity = (NotesActivity)getActivity();
+                if (notesActivity != null && notesActivity.isLargeScreenLandscape()) {
+                    if (mNotesAdapter.getCount() == 0) {
+                        notesActivity.showDetailPlaceholder();
+                    } else {
+                        // Select the first note
+                        selectFirstNote();
+                    }
+                }
+            }
 
             if (mSelectedNoteId != null) {
                 setNoteSelected(mSelectedNoteId);
