@@ -31,3 +31,5 @@ config.properties
 .gradle/
 
 gradle.properties
+
+*.keystore
