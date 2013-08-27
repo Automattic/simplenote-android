@@ -176,6 +176,19 @@ public class NotesActivity extends Activity implements
         checkForCrashes();
     }
 
+    /**
+     * Checks for a previously valid user that is now not authenticated
+     * @return true if user has invalid authorization
+     */
+    private boolean userAuthenticationIsInvalid() {
+        Simplenote currentApp = (Simplenote) getApplication();
+        User currentUser = currentApp.getSimperium().getUser();
+        if (currentUser != null && currentUser.getAuthenticationStatus() != User.AuthenticationStatus.UNKNOWN && currentUser.getAuthenticationStatus() == User.AuthenticationStatus.NOT_AUTHENTICATED) {
+            return true;
+        }
+        return false;
+    }
+
     private void checkForCrashes() {
         CrashManager.register(this, Config.hockey_app_id);
     }
@@ -353,7 +366,21 @@ public class NotesActivity extends Activity implements
 
         // Are we looking at the trash? Adjust menu accordingly.
         if (mActionBar.getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
-            menu.findItem(R.id.menu_empty_trash).setVisible(true);
+            MenuItem trashItem = menu.findItem(R.id.menu_empty_trash);
+            trashItem.setVisible(true);
+
+            // Disable the trash icon if there are no notes trashed.
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> noteBucket = application.getNotesBucket();
+            Query<Note> query = Note.allDeleted(noteBucket);
+            if (query.count() == 0) {
+                trashItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
+                trashItem.setEnabled(false);
+            } else {
+                trashItem.setIcon(R.drawable.ab_icon_empty_trash);
+                trashItem.setEnabled(true);
+            }
+
             menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
@@ -514,6 +541,8 @@ public class NotesActivity extends Activity implements
                     invalidateOptionsMenu();
                 }
             });
+        } else if (status == User.AuthenticationStatus.NOT_AUTHENTICATED) {
+            startLoginActivity(true);
         }
     }
 
@@ -535,6 +564,11 @@ public class NotesActivity extends Activity implements
                 if (fragment != null) {
                     fragment.getPrefs();
                     fragment.refreshList();
+                }
+                break;
+            case Simperium.SIGNUP_SIGNIN_REQUEST:
+                if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
+                    finish();
                 }
                 break;
         }
@@ -642,6 +676,13 @@ public class NotesActivity extends Activity implements
                 c.getObject().delete();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            invalidateOptionsMenu();
+            showDetailPlaceholder();
+            mNoteListFragment.updateMenuItems();
         }
     }
 

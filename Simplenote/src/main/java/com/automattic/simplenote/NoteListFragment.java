@@ -121,7 +121,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         mTagsBucket = application.getTagsBucket();
 
         mSpinnerAdapter = new TagSpinnerAdapter(getActivity(), mNotesBucket);
-        updateMenuItems();
 
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
@@ -385,7 +384,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         return query.execute();
     }
 
-	private void updateMenuItems() {
+	public void updateMenuItems() {
 		// Update ActionBar menu
         mNavListLoaded = false;
 		Simplenote application = (Simplenote) getActivity().getApplication();
