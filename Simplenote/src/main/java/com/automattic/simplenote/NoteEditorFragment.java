@@ -275,7 +275,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             editable.removeSpan(spans[i]);
         }
         int newLinePosition = mContentEditText.getText().toString().indexOf("\n");
-        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > -1) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        if (newLinePosition == 0)
+            return;
+        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     @Override
