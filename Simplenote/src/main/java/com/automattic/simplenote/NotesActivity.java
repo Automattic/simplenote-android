@@ -131,10 +131,15 @@ public class NotesActivity extends Activity implements
             if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // Check share action
             Intent intent = getIntent();
+            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (text != null) {
+            if (text != null && !text.equals("")) {
+                if (subject != null && !subject.equals("")) {
+                    text = subject + "\n\n" + text;
+                }
                 Note note = mNotesBucket.newObject();
                 note.setCreationDate(Calendar.getInstance());
+                note.setModificationDate(note.getCreationDate());
                 note.setContent(text);
                 note.save();
                 onNoteSelected(note.getSimperiumKey(), true);
