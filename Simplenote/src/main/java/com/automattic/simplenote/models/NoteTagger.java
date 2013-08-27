@@ -40,7 +40,7 @@ public class NoteTagger implements Bucket.Listener<Note> {
                 tag.save();
             }
         }
-        // saveAllTags();
+        saveAllTags();
     }
 
     /*
@@ -48,12 +48,12 @@ public class NoteTagger implements Bucket.Listener<Note> {
     * */
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-        // saveAllTags();
+        saveAllTags();
     }
 
     @Override
     public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key){
-        // saveAllTags();
+        saveAllTags();
     }
 
     private void saveAllTags(){
