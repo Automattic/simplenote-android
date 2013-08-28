@@ -541,9 +541,11 @@ public class NotesActivity extends Activity implements
                     invalidateOptionsMenu();
                 }
             });
-        } else if (status == User.AuthenticationStatus.NOT_AUTHENTICATED) {
-            startLoginActivity(true);
         }
+        // TODO Fix #91
+        /* else if (status == User.AuthenticationStatus.NOT_AUTHENTICATED) {
+            startLoginActivity(true);
+        }*/
     }
 
     public void startLoginActivity(boolean signInFirst) {
@@ -566,11 +568,11 @@ public class NotesActivity extends Activity implements
                     fragment.refreshList();
                 }
                 break;
-            case Simperium.SIGNUP_SIGNIN_REQUEST:
+            /*case Simperium.SIGNUP_SIGNIN_REQUEST:
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
                 }
-                break;
+                break;*/
         }
     }
 
