@@ -364,14 +364,6 @@ public class Note extends BucketObject {
 		return retVal;
 	}
 
-    protected Object getProperty(String key){
-        return properties.get(key);
-    }
-
-    protected void setProperty(String key, Object value){
-        properties.put(key, value);
-    }
-
     public static Calendar numberToDate(Number time){
         Calendar date = Calendar.getInstance();
         if (time != null) {
