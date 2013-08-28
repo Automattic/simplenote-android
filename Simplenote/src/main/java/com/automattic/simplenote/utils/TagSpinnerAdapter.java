@@ -2,7 +2,6 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,8 @@ public class TagSpinnerAdapter extends BaseAdapter {
     protected LayoutInflater mInflater;
     protected Bucket<Note> mNotesBucket;
 
-    protected TagMenuItem mAllNotesCount;
-    protected TagMenuItem mTrashCount;
+    protected TagMenuItem mAllNotesItem;
+    protected TagMenuItem mTrashItem;
 
     int mNameColumn;
     int mCountColumn;
@@ -49,7 +48,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
         mContext = context;
         mNotesBucket = notesBucket;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mAllNotesCount = new TagMenuItem(ALL_NOTES_ID, R.string.notes, Note.all(mNotesBucket).count()){
+        mAllNotesItem = new TagMenuItem(ALL_NOTES_ID, R.string.notes){
 
             @Override
             public Query<Note> query(){
@@ -57,7 +56,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
             }
 
         };
-        mTrashCount = new TagMenuItem(TRASH_ID, R.string.trash, Note.allDeleted(mNotesBucket).count()){
+        mTrashItem = new TagMenuItem(TRASH_ID, R.string.trash){
 
             @Override
             public Query<Note> query(){
@@ -76,8 +75,6 @@ public class TagSpinnerAdapter extends BaseAdapter {
             mNameColumn = cursor.getColumnIndexOrThrow(Tag.NAME_PROPERTY);
             mCountColumn = cursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME);
             mRowIdColumn = cursor.getColumnIndexOrThrow(ID_COLUMN);
-            mAllNotesCount.setCount(Note.all(mNotesBucket).count());
-            mTrashCount.setCount(Note.allDeleted(mNotesBucket).count());
         }
         notifyDataSetChanged();
         return oldCursor;
@@ -104,13 +101,13 @@ public class TagSpinnerAdapter extends BaseAdapter {
     @Override
     public TagMenuItem getItem(int i) {
         if (i==0){
-            return mAllNotesCount;
+            return mAllNotesItem;
         } else if (i==1){
-            return mTrashCount;
+            return mTrashItem;
         } else {
             mCursor.moveToPosition(i-topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
-                mCursor.getString(mNameColumn), mCursor.getInt(mCountColumn));
+                mCursor.getString(mNameColumn));
         }
     }
 
@@ -144,8 +141,6 @@ public class TagSpinnerAdapter extends BaseAdapter {
         labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
         labelText.setText(tagCount.name);
 
-        TextView countText = (TextView) view.findViewById(R.id.tag_count);
-        countText.setText(tagCount.count);
         return view;
     }
 
@@ -168,39 +163,24 @@ public class TagSpinnerAdapter extends BaseAdapter {
 
     public class TagMenuItem {
         public String name;
-        public String count;
         public long id;
 
         private TagMenuItem(){
             name = "";
             id = -3L;
-            count = "";
         }
 
         private TagMenuItem(long id, int resourceId){
-            this(id, mContext.getResources().getString(resourceId), 0);
+            this(id, mContext.getResources().getString(resourceId));
         }
 
-        private TagMenuItem(long id, int resourceId, int count){
-            this(id, mContext.getResources().getString(resourceId), count);
-        }
-
-        private TagMenuItem(long id, String name, int count){
+        private TagMenuItem(long id, String name){
             this.id = id;
             this.name = name;
-            setCount(count);
         }
 
         public Query<Note> query(){
             return Note.allInTag(mNotesBucket, this.name);
-        }
-
-        public void setCount(int count) {
-            if (count > 0) {
-                this.count = Integer.toString(count);
-            } else {
-                this.count = "";
-            }
         }
     }
 }

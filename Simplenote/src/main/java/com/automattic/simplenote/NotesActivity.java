@@ -682,7 +682,6 @@ public class NotesActivity extends Activity implements
         protected void onPostExecute(Void nada) {
             invalidateOptionsMenu();
             showDetailPlaceholder();
-            mNoteListFragment.updateMenuItems();
         }
     }
 
