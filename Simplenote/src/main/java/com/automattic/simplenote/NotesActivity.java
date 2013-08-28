@@ -287,11 +287,9 @@ public class NotesActivity extends Activity implements
      */
     private boolean userAuthenticationIsInvalid() {
         Simplenote currentApp = (Simplenote) getApplication();
-        User currentUser = currentApp.getSimperium().getUser();
-        if (currentUser != null && currentUser.getAuthenticationStatus() != User.AuthenticationStatus.UNKNOWN && currentUser.getAuthenticationStatus() == User.AuthenticationStatus.NOT_AUTHENTICATED) {
-            return true;
-        }
-        return false;
+        Simperium simperium = currentApp.getSimperium();
+        User user = simperium.getUser();
+        return user.hasAccessToken() && user.getStatus().equals(User.Status.NOT_AUTHORIZED);
     }
 
     private void checkForCrashes() {
