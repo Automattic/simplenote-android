@@ -60,7 +60,6 @@
 
             <EditText
                     android:id="@+id/note_content"
-                    style="?android:attr/textAppearanceLarge"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,7 +72,8 @@
                     android:background="@null"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    tools:context=".NoteEditorFragment"/>
+                    tools:context=".NoteEditorFragment"
+                    android:layerType="software" />
         </LinearLayout>
 
         <LinearLayout
