@@ -2,44 +2,51 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.automattic.simplenote"
     android:installLocation="auto"
-    android:versionCode="3"
+    android:versionCode="7"
     android:versionName="1.0.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="18" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="com.automattic.simplenote.Simplenote"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Simplestyle"
-		android:hardwareAccelerated="true"
-        android:name=".Simplenote">
+        android:theme="@style/Theme.Simplestyle" >
         <activity
-            android:name=".NotesActivity"
+            android:name="com.automattic.simplenote.NotesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name="com.simperium.client.LoginActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
-        <activity android:name=".PreferencesActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
-        <activity android:name=".TagsListActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity
+            android:name="com.simperium.client.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.automattic.simplenote.PreferencesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.automattic.simplenote.TagsListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
     </application>
 

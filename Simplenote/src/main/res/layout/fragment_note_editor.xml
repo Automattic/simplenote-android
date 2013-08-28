@@ -5,7 +5,6 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:background="@color/white"
         android:layout_weight="3.5">
 
     <FrameLayout
@@ -72,8 +71,7 @@
                     android:background="@null"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    tools:context=".NoteEditorFragment"
-                    android:layerType="software" />
+                    tools:context=".NoteEditorFragment" />
         </LinearLayout>
 
         <LinearLayout
