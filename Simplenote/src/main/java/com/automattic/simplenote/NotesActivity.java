@@ -504,7 +504,7 @@ public class NotesActivity extends Activity implements
 
             // Add editor fragment to stack
             FragmentTransaction ft = fm.beginTransaction();
-            ft.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+            ft.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
             ft.replace(R.id.noteFragmentContainer, mNoteEditorFragment);
             ft.addToBackStack(null);
             ft.commitAllowingStateLoss();
