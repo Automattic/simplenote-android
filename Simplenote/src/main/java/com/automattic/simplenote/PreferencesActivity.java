@@ -13,7 +13,7 @@ import com.simperium.Simperium;
 import com.simperium.client.LoginActivity;
 import com.simperium.client.User;
 
-public class PreferencesActivity extends PreferenceActivity implements User.AuthenticationListener, Simperium.OnUserCreatedListener {
+public class PreferencesActivity extends PreferenceActivity implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -28,9 +28,9 @@ public class PreferencesActivity extends PreferenceActivity implements User.Auth
 
         Preference authenticatePreference = findPreference("pref_key_authenticate");
         Simplenote currentApp = (Simplenote) getApplication();
-        currentApp.getSimperium().setAuthenticationListener(this);
+        currentApp.getSimperium().setUserStatusChangeListener(this);
         currentApp.getSimperium().setOnUserCreatedListener(this);
-        if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
+        if (currentApp.getSimperium().needsAuthorization()) {
             authenticatePreference.setTitle(R.string.sign_in);
         }
 
@@ -39,13 +39,13 @@ public class PreferencesActivity extends PreferenceActivity implements User.Auth
             public boolean onPreferenceClick(Preference preference) {
 
                 Simplenote currentApp = (Simplenote) getApplication();
-                if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
+                if (currentApp.getSimperium().needsAuthorization()) {
                     Intent loginIntent = new Intent(PreferencesActivity.this, LoginActivity.class);
                     loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
                     Simplenote application = (Simplenote) getApplication();
-                    application.getSimperium().deAuthorizeUser();
+                    application.getSimperium().deauthorizeUser();
                     application.getNotesBucket().reset();
                     application.getTagsBucket().reset();
                     EasyTracker.getTracker().sendEvent("user", "signed_out", "preferences_sign_out_button", null);
@@ -88,8 +88,8 @@ public class PreferencesActivity extends PreferenceActivity implements User.Auth
     }
 
     @Override
-    public void onAuthenticationStatusChange(User.AuthenticationStatus status) {
-        if (status == User.AuthenticationStatus.AUTHENTICATED) {
+    public void onUserStatusChange(User.Status status) {
+        if (status == User.Status.AUTHORIZED) {
             // User signed in
             runOnUiThread(new Runnable() {
                 public void run() {

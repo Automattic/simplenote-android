@@ -7,7 +7,9 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
+
 import com.simperium.Simperium;
+
 import com.simperium.client.Bucket;
 
 import java.util.Properties;
@@ -35,7 +37,7 @@ public class Simplenote extends Application {
 	public void onCreate(){
 		super.onCreate();
 		
-        mSimperium = new Simperium(
+        mSimperium = Simperium.newClient(
             Config.simperium_app_id,
             Config.simperium_app_key,
             this

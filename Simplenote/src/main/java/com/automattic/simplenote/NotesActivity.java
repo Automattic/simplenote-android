@@ -46,8 +46,8 @@ import net.hockeyapp.android.UpdateManager;
 import java.util.Calendar;
 
 public class NotesActivity extends Activity implements
-        NoteListFragment.Callbacks, User.AuthenticationListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
-        FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
+    NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+    FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
 
     private static final int NAVIGATION_ITEM_TRASH=1;
 
@@ -186,7 +186,7 @@ public class NotesActivity extends Activity implements
             }
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
-        currentApp.getSimperium().setAuthenticationListener(this);
+        currentApp.getSimperium().setUserStatusChangeListener(this);
         checkForUpdates();
     }
 
@@ -426,10 +426,7 @@ public class NotesActivity extends Activity implements
         });
 
         Simplenote currentApp = (Simplenote) getApplication();
-        if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication())
-            menu.findItem(R.id.menu_sign_in).setVisible(true);
-        else
-            menu.findItem(R.id.menu_sign_in).setVisible(false);
+        menu.findItem(R.id.menu_sign_in).setVisible(currentApp.getSimperium().needsAuthorization());
 
 
         MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
@@ -610,8 +607,8 @@ public class NotesActivity extends Activity implements
         mTracker.sendEvent("user", "new_account_created", "account_created_from_login_activity", null);
     }
 
-    public void onAuthenticationStatusChange(User.AuthenticationStatus status) {
-        if (status == User.AuthenticationStatus.AUTHENTICATED) {
+    public void onUserStatusChange(User.Status status) {
+        if (status == User.Status.AUTHORIZED) {
             // User signed in
             mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
             runOnUiThread(new Runnable() {

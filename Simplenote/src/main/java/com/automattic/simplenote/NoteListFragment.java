@@ -234,7 +234,7 @@ public class NoteListFragment extends ListFragment {
     public void setWelcomeViewVisibility() {
         if (mWelcomeViewSwitcher != null && getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
-            if (currentApp.getSimperium().getUser() == null || currentApp.getSimperium().getUser().needsAuthentication()) {
+            if (currentApp.getSimperium().needsAuthorization()) {
                 int bottomMargin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
                 mlp.setMargins(0, 0, 0, bottomMargin);
