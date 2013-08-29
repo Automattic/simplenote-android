@@ -363,7 +363,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 	public void refreshList() {
         Log.d(Simplenote.TAG, "Refresh the list");
-        new refreshListTask().execute(false);
+        new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, false);
 	}
 
     public void refreshListFromNavSelect() {
