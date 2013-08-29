@@ -303,7 +303,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 showDetailPlaceholder();
-                getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
+                getNoteListFragment().checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
                 mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
                 return true;
@@ -312,7 +312,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                getNoteListFragment().checkEmptyListText();
+                getNoteListFragment().checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
                 getNoteListFragment().setWelcomeViewVisibility();
                 return true;

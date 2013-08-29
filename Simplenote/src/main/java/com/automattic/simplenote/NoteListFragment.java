@@ -151,8 +151,15 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         NotesActivity notesActivity = (NotesActivity)getActivity();
 
-        mEmptyListTextView = (TextView)view.findViewById(android.R.id.empty);
-        mEmptyListTextView.setVisibility(View.GONE);
+        LinearLayout emptyView = (LinearLayout)view.findViewById(android.R.id.empty);
+        emptyView.setVisibility(View.GONE);
+        mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
+        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNote();
+            }
+        });
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
         mWelcomeViewSwitcher = (ViewSwitcher)view.findViewById(R.id.welcome_view_switcher);
 
@@ -225,7 +232,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
             inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-        checkEmptyListText();
+        checkEmptyListText(false);
         refreshList();
 
         if (!PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_APP_TRIAL, false)) {
@@ -292,12 +299,17 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             mEmptyListTextView.setText(Html.fromHtml(message));
     }
 
-    public void checkEmptyListText() {
-        if (getActivity().getActionBar().getSelectedNavigationIndex() == NAVIGATION_ITEM_TRASH) {
+    public void checkEmptyListText(boolean isSearch) {
+        if (isSearch) {
+            setEmptyListMessage(getString(R.string.no_notes_found));
+            mEmptyListTextView.setClickable(false);
+        } else if (getActivity().getActionBar().getSelectedNavigationIndex() == NAVIGATION_ITEM_TRASH) {
             setEmptyListMessage(getString(R.string.trash_is_empty));
             EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
+            mEmptyListTextView.setClickable(false);
         } else {
             setEmptyListMessage(getString(R.string.no_notes));
+            mEmptyListTextView.setClickable(true);
         }
     }
 
@@ -566,8 +578,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         if (itemPosition == NAVIGATION_ITEM_TRASH)
             EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
 
-        checkEmptyListText();
-
         refreshListFromNavSelect();
 
         notesActivity.invalidateOptionsMenu();
@@ -639,6 +649,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             Log.d(Simplenote.TAG, "Cursor changed");
 
             if (mIsFromNavSelect) {
+                checkEmptyListText(false);
                 NotesActivity notesActivity = (NotesActivity)getActivity();
                 if (notesActivity != null && notesActivity.isLargeScreenLandscape()) {
                     if (mNotesAdapter.getCount() == 0) {

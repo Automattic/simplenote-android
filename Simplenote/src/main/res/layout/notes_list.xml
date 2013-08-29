@@ -16,17 +16,25 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent" />
 
+        <LinearLayout
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
         <TextView
-                android:id="@android:id/empty"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:id="@+id/empty_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/no_notes_newline"
                 android:textColor="@color/mediumgrey"
-                android:background="@color/white"
+                android:background="@drawable/selectable_background_simplestyle"
                 android:textSize="20sp"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:fontFamily="sans-serif-light"/>
+        </LinearLayout>
 
         <include layout="@layout/welcome_view_switcher" />
 
