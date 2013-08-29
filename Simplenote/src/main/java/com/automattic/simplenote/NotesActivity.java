@@ -312,7 +312,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes));
+                getNoteListFragment().checkEmptyListText();
                 getNoteListFragment().clearSearch();
                 getNoteListFragment().setWelcomeViewVisibility();
                 return true;
@@ -325,6 +325,13 @@ public class NotesActivity extends Activity implements
         else
             menu.findItem(R.id.menu_sign_in).setVisible(false);
 
+
+        MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+        if (mCurrentNote != null && mCurrentNote.isDeleted())
+            trashItem.setTitle(R.string.undelete);
+        else
+            trashItem.setTitle(R.string.delete);
+
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -332,9 +339,7 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_preferences).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(true);
-            menu.findItem(R.id.menu_delete).setVisible(true);
-            if (mCurrentNote != null && mCurrentNote.isDeleted())
-                menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            trashItem.setVisible(true);
             menu.findItem(R.id.menu_edit_tags).setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else if (isLargeScreenLandscape()) {
@@ -345,10 +350,10 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_preferences).setVisible(true);
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
-                menu.findItem(R.id.menu_delete).setVisible(true);
+                trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
-                menu.findItem(R.id.menu_delete).setVisible(false);
+                trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -359,26 +364,26 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
-            menu.findItem(R.id.menu_delete).setVisible(false);
+            trashItem.setVisible(false);
             menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
         if (mActionBar.getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
-            MenuItem trashItem = menu.findItem(R.id.menu_empty_trash);
-            trashItem.setVisible(true);
+            MenuItem emptyTrashItem = menu.findItem(R.id.menu_empty_trash).setVisible(true);
+            emptyTrashItem.setVisible(true);
 
             // Disable the trash icon if there are no notes trashed.
             Simplenote application = (Simplenote) getApplication();
             Bucket<Note> noteBucket = application.getNotesBucket();
             Query<Note> query = Note.allDeleted(noteBucket);
             if (query.count() == 0) {
-                trashItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
-                trashItem.setEnabled(false);
+                emptyTrashItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
+                emptyTrashItem.setEnabled(false);
             } else {
-                trashItem.setIcon(R.drawable.ab_icon_empty_trash);
-                trashItem.setEnabled(true);
+                emptyTrashItem.setIcon(R.drawable.ab_icon_empty_trash);
+                emptyTrashItem.setEnabled(true);
             }
 
             menu.findItem(R.id.menu_create_note).setVisible(false);

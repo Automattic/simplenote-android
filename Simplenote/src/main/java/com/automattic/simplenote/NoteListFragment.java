@@ -292,7 +292,7 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
             mEmptyListTextView.setText(Html.fromHtml(message));
     }
 
-    private void checkEmptyListText() {
+    public void checkEmptyListText() {
         if (getActivity().getActionBar().getSelectedNavigationIndex() == NAVIGATION_ITEM_TRASH) {
             setEmptyListMessage(getString(R.string.trash_is_empty));
             EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
