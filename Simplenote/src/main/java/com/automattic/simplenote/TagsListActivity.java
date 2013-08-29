@@ -1,16 +1,12 @@
 package com.automattic.simplenote;
 
-import android.*;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.ActionMode;
@@ -24,13 +20,9 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -47,10 +39,10 @@ import java.util.List;
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
  */
-public class TagsListActivity extends ListActivity implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener {
+public class TagsListActivity extends ListActivity implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag> {
 
     private ActionMode mActionMode;
-    private Bucket<Tag> mTagBucket;
+    private Bucket<Tag> mTagsBucket;
     private Bucket<Note> mNotesBucket;
     private TagsAdapter mTagsAdapter;
 
@@ -80,7 +72,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
         listView.setDividerHeight(1);
         Simplenote application = (Simplenote) getApplication();
-        mTagBucket = application.getTagsBucket();
+        mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
         mTagsAdapter = new TagsAdapter(getBaseContext(), null, 0);
@@ -92,13 +84,37 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        mNotesBucket.start();
+        mTagsBucket.start();
+
+        mTagsBucket.addOnNetworkChangeListener(this);
+        mTagsBucket.addOnSaveObjectListener(this);
+        mTagsBucket.addOnDeleteObjectListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mNotesBucket.stop();
+        mTagsBucket.stop();
+
+        mTagsBucket.removeOnNetworkChangeListener(this);
+        mTagsBucket.removeOnSaveObjectListener(this);
+        mTagsBucket.removeOnDeleteObjectListener(this);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
 
-    protected void refreshTags(){
-        Query<Tag> tagQuery = Tag.all(mTagBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
+    protected void refreshTags() {
+        Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         ObjectCursor<Tag> cursor = tagQuery.execute();
         mTagsAdapter.changeCursor(cursor);
     }
@@ -107,11 +123,11 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     public void onItemClick(AdapterView<?> adapterView, View view, int row, long l) {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        LinearLayout alertView = (LinearLayout)getLayoutInflater().inflate(R.layout.edit_tag, null);
+        LinearLayout alertView = (LinearLayout) getLayoutInflater().inflate(R.layout.edit_tag, null);
 
         final Tag tag = mTagsAdapter.getItem(row);
 
-        final EditText tagNameEditText = (EditText)alertView.findViewById(R.id.tag_name_edit);
+        final EditText tagNameEditText = (EditText) alertView.findViewById(R.id.tag_name_edit);
         tagNameEditText.setText(tag.getName());
         tagNameEditText.setSelection(tagNameEditText.length());
         alert.setView(alertView);
@@ -120,7 +136,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = tagNameEditText.getText().toString().trim();
                 tag.renameTo(value, mNotesBucket);
-                refreshTags();
                 mTracker.sendEvent("tag", "edited_tag", "tag_alert_edit_box", null);
             }
         });
@@ -200,6 +215,37 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         return super.onOptionsItemSelected(item);
     }
 
+    // Tag Bucket listeners
+    @Override
+    public void onDeleteObject(Bucket<Tag> bucket, Tag object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshTags();
+            }
+        });
+    }
+
+    @Override
+    public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshTags();
+            }
+        });
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Tag> bucket, Tag object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshTags();
+            }
+        });
+    }
+
     private class TagsAdapter extends CursorAdapter {
 
         private ObjectCursor<Tag> mCursor;
@@ -209,13 +255,13 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             mCursor = c;
         }
 
-        public void changeCursor(ObjectCursor<Tag> cursor){
+        public void changeCursor(ObjectCursor<Tag> cursor) {
             super.changeCursor(cursor);
             mCursor = cursor;
         }
 
         @Override
-        public Tag getItem(int row){
+        public Tag getItem(int row) {
             super.getItem(row);
             return mCursor.getObject();
         }
@@ -226,30 +272,30 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             mCursor.moveToPosition(position);
 
             if (convertView == null) {
-                convertView = (LinearLayout)getLayoutInflater().inflate(R.layout.tags_list_row, null);
+                convertView = (LinearLayout) getLayoutInflater().inflate(R.layout.tags_list_row, null);
             }
             final Tag tag = mCursor.getObject();
             convertView.setTag(tag.getSimperiumKey());
 
-            TextView tagTitle = (TextView)convertView.findViewById(R.id.tag_name);
+            TextView tagTitle = (TextView) convertView.findViewById(R.id.tag_name);
             tagTitle.setTypeface(Typefaces.get(TagsListActivity.this, Simplenote.CUSTOM_FONT_PATH));
-            TextView tagCount = (TextView)convertView.findViewById(R.id.tag_count);
+            TextView tagCount = (TextView) convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
             int count = mCursor.getInt(mCursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME));
-            if (count > 0){
+            if (count > 0) {
                 tagCount.setText(Integer.toString(count));
             } else {
                 tagCount.setText("");
             }
 
-            ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.tag_trash);
+            ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.tag_trash);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
                     if (tagCount == 0) {
                         deleteTag(tag);
-                    } else if (tagCount > 0){
+                    } else if (tagCount > 0) {
                         AlertDialog.Builder alert = new AlertDialog.Builder(TagsListActivity.this);
                         alert.setTitle(R.string.delete_tag);
                         alert.setMessage(getString(R.string.confirm_delete_tag));
@@ -274,7 +320,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         private void deleteTag(Tag tag) {
             tag.delete();
             new removeTagFromNotesTask().execute(tag);
-            refreshTags();
             mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
         }
 
@@ -296,7 +341,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             Tag tag = removedTags[0];
             if (tag != null) {
                 ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
-                while(notesCursor.moveToNext()){
+                while (notesCursor.moveToNext()) {
                     Note note = notesCursor.getObject();
                     List<String> tags = note.getTags();
                     tags.remove(tag.getName());
