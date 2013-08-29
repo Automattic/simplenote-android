@@ -2,27 +2,21 @@
 <resources>
 
     <string name="app_name">Simplenote</string>
-    <string name="title_note_detail">Note Detail</string>
     <string name="tag_hint">Add tag&#8230;</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
-    <string name="info">Info</string>
-    <string name="delete">Move to Trash</string>
+    <string name="delete">Move to trash</string>
     <string name="undelete">Restore note</string>
-    <string name="new_note">New Note</string>
+    <string name="new_note">New note</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
-    <string name="show_dates">Show dates</string>
-    <string name="detect_links">Detect links</string>
-    <string name="font_size">Font size</string>
-    <string name="normal">Normal</string>
     <string name="preview_lines">Preview lines</string>
     <string name="share_note">Share Note</string>
     <string name="words">Words</string>
     <string name="characters">Characters</string>
-    <string name="edit_tags">Edit Tags</string>
+    <string name="edit_tags">Edit tags</string>
     <string name="edit_tag">Edit Tag</string>
     <string name="tag_name">Tag name</string>
     <string name="delete_tag">Delete tag</string>
@@ -34,18 +28,15 @@
     <string name="no">No</string>
     <string name="character">Character</string>
     <string name="word">Word</string>
-    <string name="note_info">Note Info</string>
     <string name="no_notes_newline"><b>No notes here.</b>\nWhy not create one?</string>
     <string name="no_notes"><![CDATA[<b>No notes here.</b><br>Why not create one?]]></string>
     <string name="no_tags_found">No tags found.</string>
     <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
     <string name="no_notes_found"><![CDATA[<b>No notes found.</b>]]></string>
-    <string name="note_editor_placeholder">Select a note to view it here.</string>
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     
     <string name="sort_order">Sort order</string>
-    <string name="modified_date">Modified date</string>
     <string name="search">Search</string>
     
     <string name="notes">All Notes</string>
@@ -57,22 +48,6 @@
     <string name="undo">Undo</string>
     <string name="note_deleted">Note trashed.</string>
 
-    
-    <!-- in-app billing -->
-	<string name="btn_buy">Buy</string>
-    <string name="premium_title">Go premium!</string>
-    <string name="premium_subtitle">Become a Premium subscriber to get rid of ads and gain more features</string>
-    <string name="premium_link_title">Tell me more about Premium</string>
-    <string name="premium_link_url">http://simplenote.com/premium/</string>
-    <string name="premium_add">Add 12 Months</string>
-    <string name="premium_price">$19.99 US</string>
-    <string name="billing_err_subscription_not_supported">Sorry, subscriptions are not supported on your device yet.</string>
-    <string name="billing_err_setup_failed">Sorry, there was a problem setting up in-app purchasing (%s)</string>
-	<string name="billing_err_query_inventory_failed">Sorry, there was a problem querying in-app purchasing (%s)</string>
-	<string name="billing_err_purchasing">Sorry, there was a problem purchasing a subscription (%s)</string>
-	<string name="billing_err_payload_verification_failed">Unable to verify subscription purchase</string>
-	<string name="billing_toast_purchase_success">Thank you for subscribing to Simplenote!</string>
-
     <!-- welcome note for new users -->
     <string name="welcome_note">
         Welcome to Simplenote Android!\nOpen this for instructions.\n\nTo create a new note, tap the plus button.\n\nTo search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.\n\nGot a really important note? Press the pin button while viewing a note to pin it to the top of the list.\n\nUse tags to help organize your notes. You can also add an email address of another Simplenote user as a tag to share the note with them.\n\nEasily share notes to other Android apps by tapping \'Share\' in the menu.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web, your other devices, and your computers. Go to http://simplenote.com to start accessing your notes from anywhere.\n\nWe hope you enjoy using Simplenote!</string>
@@ -82,5 +57,5 @@
     <string name="maybe_later">Maybe later, <u>just try the app</u> »</string>
     <string name="backup_notes">Back up your notes, use them on the web, and sync with other devices.</string>
     <string name="want_more">Want more? <u>Use a Simplenote account</u> »</string>
-    <string name="new_note_list">New note...</string>
+    <string name="new_note_list">New note&#8230;</string>
 </resources>

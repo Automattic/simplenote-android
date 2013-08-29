@@ -10,13 +10,6 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-  
-    <string-array name="array_font_size">
-        <item>Small</item>
-        <item>Normal</item>
-        <item>Large</item>
-        <item>Extra large</item>
-    </string-array>
     
     <string-array name="array_sort_order">
         <item>Newest modified date</item>
