@@ -6,7 +6,7 @@
               android:layout_height="wrap_content"
               android:showDividers="middle"
               android:dividerPadding="8dp"
-              android:background="?android:attr/selectableItemBackground"
+              android:background="@drawable/list_background_simplestyle"
               android:descendantFocusability="blocksDescendants"
         >
     <TextView
@@ -47,7 +47,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/ab_icon_trash"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/selectable_background_simplestyle"
         android:layout_marginRight="16dp"
         android:focusable="false"
         android:focusableInTouchMode="false"/>

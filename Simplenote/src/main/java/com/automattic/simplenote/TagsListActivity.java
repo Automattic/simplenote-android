@@ -62,7 +62,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView listView = getListView();
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setMultiChoiceModeListener(this);
         listView.setOnItemClickListener(this);
         // Disabling long press CAB action for now since bulk deleting is incomplete
