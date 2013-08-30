@@ -43,7 +43,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name="com.simperium.client.LoginActivity"
+            android:name="com.simperium.android.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"

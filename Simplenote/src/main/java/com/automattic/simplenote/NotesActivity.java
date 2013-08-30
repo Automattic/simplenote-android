@@ -31,12 +31,14 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
+
 import com.simperium.Simperium;
+import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
-import com.simperium.client.LoginActivity;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
@@ -606,20 +608,36 @@ public class NotesActivity extends Activity implements
     }
 
     public void onUserStatusChange(User.Status status) {
-        if (status == User.Status.AUTHORIZED) {
-            // User signed in
-            mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    invalidateOptionsMenu();
-                }
-            });
+        Simplenote currentApp = (Simplenote) getApplication();
+        Simperium simperium = currentApp.getSimperium();
+
+        switch(status){
+
+            // successfully used access token to connect to simperium bucket
+            case AUTHORIZED:
+                mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidateOptionsMenu();
+                    }
+                });
+                break;
+
+            // NOT_AUTHORIZED means we attempted to connect but the token was not valid
+            case NOT_AUTHORIZED:
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run(){
+                        startLoginActivity(true);
+                    }
+                });
+                break;
+
+            // Default starting state of User, don't do anything we allow use of app while not signed in so don't do anything
+            case UNKNOWN:
+                break;
         }
-        // TODO Fix #91
-        /* else if (status == User.AuthenticationStatus.NOT_AUTHENTICATED) {
-            startLoginActivity(true);
-        }*/
     }
 
     public void startLoginActivity(boolean signInFirst) {

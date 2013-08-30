@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.Simperium;
-import com.simperium.client.LoginActivity;
+import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
 
 public class PreferencesActivity extends PreferenceActivity implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
