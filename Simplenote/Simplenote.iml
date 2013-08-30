@@ -70,7 +70,11 @@
     </content>
     <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Simperium-Simperium" exported="" />
+    <orderEntry type="library" exported="" name="libGoogleAnalyticsV2" level="project" />
+    <orderEntry type="library" exported="" name="HockeySDK-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid10.aar" level="project" />
+    <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="android-websockets-6c7c60d" level="project" />
   </component>
 </module>
 

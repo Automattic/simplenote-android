@@ -13,11 +13,12 @@ apply plugin: 'android'
 repositories {
     mavenCentral()
     maven { url "http://simperium.github.io/simplenote-android" }
+    maven { url "http://simperium.github.io/simperium-android" }
 }
 
 dependencies {
+    compile 'com.simperium:simperium-android:1.0-alpha'
     compile 'com.android.support:support-v4:18.0.+'
-    compile project(":libraries:Simperium:Simperium")
     compile "com.google:google-analytics:2.0-beta-4"
     compile "net.hockeyapp:hockey-sdk:3.0.0"
 }

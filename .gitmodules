@@ -1,4 +1,0 @@
-[submodule "simperium"]
-	path = libraries/Simperium
-	url = https://github.com/Simperium/simperium-android.git
-	branch = android-studio
