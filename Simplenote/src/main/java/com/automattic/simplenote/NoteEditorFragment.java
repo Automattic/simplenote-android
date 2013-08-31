@@ -14,17 +14,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
@@ -116,6 +115,16 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mTagView.setOnFocusChangeListener(this);
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
+        mPinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPinButton.isChecked()) {
+                    // Friendly message to the user as to what this button does.
+                    Toast.makeText(getActivity(), R.string.note_pinned, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
         if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
             mPlaceholderView.setVisibility(View.VISIBLE);
