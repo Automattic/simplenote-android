@@ -43,6 +43,7 @@
     <string name="trash">Trash</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+    <string name="condensed_note_list">Condensed note list</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>

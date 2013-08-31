@@ -128,7 +128,8 @@ public class NoteListFragment extends ListFragment {
 
     // nbradbury - load values from preferences
 	protected void getPrefs() {
-		mNumPreviewLines = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_NUM_PREVIEW_LINES, 2);
+        boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
+		mNumPreviewLines = (condensedList) ? 0 : 2;
 	}
 
     @Override

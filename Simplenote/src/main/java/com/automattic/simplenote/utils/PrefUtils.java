@@ -16,7 +16,7 @@ public class PrefUtils {
 
 	// key names for various preferences - note that these same key names are hard-coded in Preferences.xml
 	public static final String PREF_SORT_ORDER 		  = "pref_key_sort_order";		// integer, determines note sort order
-	public static final String PREF_NUM_PREVIEW_LINES = "pref_key_preview_lines";	// integer, determines # of preview lines
+	public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";	// boolean, determines # of preview lines
 	public static final String PREF_SHOW_DATES 		  = "pref_key_show_dates";		// boolean, determines whether dates are shown
     public static final String PREF_FIRST_LAUNCH      = "pref_key_first_launch";	// boolean, set on first launch
     public static final String PREF_APP_TRIAL         = "pref_key_app_trial";	    // boolean, set on when user taps to just try the app in the welcome view

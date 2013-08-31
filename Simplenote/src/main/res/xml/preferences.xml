@@ -13,12 +13,11 @@
             android:key="pref_key_detect_links"
             android:title="@string/detect_links" />-->
 
-        <ListPreference
-            android:defaultValue="2"
-            android:entries="@array/array_preview_lines"
-            android:entryValues="@array/array_preview_lines"
-            android:key="pref_key_preview_lines"
-            android:title="@string/preview_lines" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_condensed_note_list"
+            android:title="@string/condensed_note_list" />
+
         <!--<ListPreference
             android:defaultValue="@string/normal"
             android:entries="@array/array_font_size"
