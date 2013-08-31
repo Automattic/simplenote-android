@@ -492,8 +492,8 @@ public class NotesActivity extends Activity implements
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
+        if (isLargeScreenLandscape())
+            menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
