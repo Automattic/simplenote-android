@@ -233,7 +233,7 @@ public class NotesActivity extends Activity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        mActionBarTitle = title;
+        mActionBarTitle = (title != null) ? title : "";
         setTitleWithCustomFont(mActionBarTitle);
     }
 
@@ -241,7 +241,7 @@ public class NotesActivity extends Activity implements
         SpannableString s = new SpannableString(title);
         s.setSpan(new TypefaceSpan(this), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        getActionBar().setTitle(s);
+        mActionBar.setTitle(s);
     }
 
     private void updateNavigationDrawerItems() {
