@@ -44,11 +44,19 @@
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
         <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
         <item name="android:icon">@drawable/ab_icon_logo</item>
+        <item name="android:indeterminateProgressStyle">@style/Simplestyle.IndeterminateProgress</item>
     </style>
 
     <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_simplestyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+    </style>
+
+    <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Holo.Light.ProgressBar">
+        <item name="android:minWidth">32dp</item>
+        <item name="android:maxWidth">32dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
     </style>
 
     <style name="Simplestyle.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">

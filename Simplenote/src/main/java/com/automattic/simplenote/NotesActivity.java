@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -48,10 +49,10 @@ import net.hockeyapp.android.UpdateManager;
 import java.util.Calendar;
 
 public class NotesActivity extends Activity implements
-    NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
-    FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
+        NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+        FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
 
-    private static final int NAVIGATION_ITEM_TRASH=1;
+    private static final int NAVIGATION_ITEM_TRASH = 1;
 
     private boolean mIsLargeScreen, mIsLandscape;
     private UndoBarController mUndoBarController;
@@ -81,6 +82,7 @@ public class NotesActivity extends Activity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();
         mNotesBucket = currentApp.getNotesBucket();
@@ -169,7 +171,7 @@ public class NotesActivity extends Activity implements
             editor.commit();
         }
 
-            if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // Check share action
             Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
@@ -285,6 +287,7 @@ public class NotesActivity extends Activity implements
 
     /**
      * Checks for a previously valid user that is now not authenticated
+     *
      * @return true if user has invalid authorization
      */
     private boolean userAuthenticationIsInvalid() {
@@ -309,11 +312,13 @@ public class NotesActivity extends Activity implements
 
     // received a change from the network, refresh the list and the editor
     @Override
-    public void onChange(Bucket<Note> bucket, Bucket.ChangeType type, String key) {
+    public void onChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
         final boolean resetEditor = mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(key);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (type == Bucket.ChangeType.INDEX)
+                    setProgressBarIndeterminateVisibility(false);
                 mNoteListFragment.refreshList();
                 if (!resetEditor) return;
                 if (mNoteEditorFragment != null) {
@@ -344,8 +349,8 @@ public class NotesActivity extends Activity implements
     }
 
     // Tags bucket listener
-    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>(){
-        void updateNavigationDrawer(){
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        void updateNavigationDrawer() {
             runOnUiThread(new Runnable() {
                 public void run() {
                     updateNavigationDrawerItems();
@@ -353,15 +358,15 @@ public class NotesActivity extends Activity implements
             });
         }
 
-        public void onSaveObject(Bucket<Tag> bucket, Tag tag){
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
-        public void onDeleteObject(Bucket<Tag> bucket, Tag tag){
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
-        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key){
+        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
             updateNavigationDrawer();
         }
     };
@@ -608,10 +613,7 @@ public class NotesActivity extends Activity implements
     }
 
     public void onUserStatusChange(User.Status status) {
-        Simplenote currentApp = (Simplenote) getApplication();
-        Simperium simperium = currentApp.getSimperium();
-
-        switch(status){
+        switch (status) {
 
             // successfully used access token to connect to simperium bucket
             case AUTHORIZED:
@@ -620,6 +622,9 @@ public class NotesActivity extends Activity implements
                     @Override
                     public void run() {
                         invalidateOptionsMenu();
+                        if (!mNotesBucket.hasChangeVersion()) {
+                            setProgressBarIndeterminateVisibility(true);
+                        }
                     }
                 });
                 break;
@@ -628,7 +633,7 @@ public class NotesActivity extends Activity implements
             case NOT_AUTHORIZED:
                 runOnUiThread(new Runnable() {
                     @Override
-                    public void run(){
+                    public void run() {
                         startLoginActivity(true);
                     }
                 });

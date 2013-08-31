@@ -3,6 +3,10 @@
     package="com.automattic.simplenote"
     android:installLocation="auto">
 
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="18" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -11,12 +15,12 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Simplestyle" >
+        android:theme="@style/Theme.Simplestyle">
         <activity
             android:name="com.automattic.simplenote.NotesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +37,7 @@
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
