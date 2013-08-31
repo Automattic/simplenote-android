@@ -6,8 +6,11 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:minHeight="48dp"
-              android:padding="@dimen/padding_small"
-              android:divider="@android:drawable/divider_horizontal_dark"
+              android:paddingLeft="@dimen/padding_large"
+              android:paddingRight="@dimen/padding_large"
+              android:paddingTop="@dimen/padding_small"
+              android:paddingBottom="@dimen/padding_small"
+              android:background="@drawable/list_background_simplestyle"
         >
     <TextView android:layout_width="fill_parent"
               android:layout_height="match_parent"

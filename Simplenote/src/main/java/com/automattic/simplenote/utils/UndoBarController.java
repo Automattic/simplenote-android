@@ -37,7 +37,7 @@ public class UndoBarController {
 
     private UndoListener mUndoListener;
 
-    private Note mDeletedNote;
+    private String mDeletedNoteId;
 
     // State objects
     private Parcelable mUndoToken;
@@ -85,12 +85,12 @@ public class UndoBarController {
         }
     }
 
-    public Note getDeletedNote() {
-        return mDeletedNote;
+    public String getDeletedNoteId() {
+        return mDeletedNoteId;
     }
 
-    public void setDeletedNote(Note note) {
-        mDeletedNote = note;
+    public void setDeletedNoteId(String noteId) {
+        mDeletedNoteId = noteId;
     }
 
     public void hideUndoBar(boolean immediate) {

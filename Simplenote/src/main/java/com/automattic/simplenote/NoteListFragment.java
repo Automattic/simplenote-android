@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
@@ -28,9 +26,8 @@ import android.widget.ViewSwitcher;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.TagSpinnerAdapter;
+import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.Typefaces;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -47,21 +44,14 @@ import java.util.Calendar;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements ActionBar.OnNavigationListener {
-
-    private static final int NAVIGATION_ITEM_ALL_NOTES=0;
-    private static final int NAVIGATION_ITEM_TRASH=1;
+public class NoteListFragment extends ListFragment {
 
 	private NotesCursorAdapter mNotesAdapter;
-    private TagSpinnerAdapter mSpinnerAdapter;
-    private TagSpinnerAdapter.TagMenuItem mSelectedTag;
 	private Bucket<Note> mNotesBucket;
-	private Bucket<Tag> mTagsBucket;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
     private String mSearchString;
-    private boolean mNavListLoaded;
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
 
@@ -82,6 +72,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	 * The current activated item position. Only used on tablets.
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    public void setEmptyListViewClickable(boolean isClickable) {
+        if (mEmptyListTextView != null) {
+            mEmptyListTextView.setClickable(isClickable);
+        }
+    }
 
     /**
 	 * A callback interface that all activities containing this fragment must
@@ -118,9 +114,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
 		Simplenote application = (Simplenote) getActivity().getApplication();
 		mNotesBucket = application.getNotesBucket();
-        mTagsBucket = application.getTagsBucket();
-
-        mSpinnerAdapter = new TagSpinnerAdapter(getActivity(), mNotesBucket);
 
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
@@ -173,6 +166,8 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         signUpButton.setTag(TAG_BUTTON_SIGNUP);
         signUpButton.setOnClickListener(signInClickListener);
 
+        // Set custom typeface
+        mEmptyListTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
         welcomeTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
         laterTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
         signInButton.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
@@ -220,19 +215,10 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 	public void onResume() {
 		super.onResume();
         Log.i("SIMPLENOTE", "LIST FRAGMENT RESUMED");
-        mNavListLoaded = false;
         getPrefs();
-        updateMenuItems();
-        // update the view again
-        mTagsBucket.addListener(mTagsMenuUpdater);
 
         setWelcomeViewVisibility();
 
-        // Hide soft keyboard if it is showing...
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null)
-            inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-        checkEmptyListText(false);
         refreshList();
 
         if (!PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_APP_TRIAL, false)) {
@@ -275,12 +261,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     };
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        mTagsBucket.removeListener(mTagsMenuUpdater);
-    }
-
 	@Override
 	public void onDetach() {
 		super.onDetach();
@@ -297,20 +277,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
     public void setEmptyListMessage(String message) {
         if (mEmptyListTextView != null && message != null)
             mEmptyListTextView.setText(Html.fromHtml(message));
-    }
-
-    public void checkEmptyListText(boolean isSearch) {
-        if (isSearch) {
-            setEmptyListMessage(getString(R.string.no_notes_found));
-            mEmptyListTextView.setClickable(false);
-        } else if (getActivity().getActionBar().getSelectedNavigationIndex() == NAVIGATION_ITEM_TRASH) {
-            setEmptyListMessage(getString(R.string.trash_is_empty));
-            EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
-            mEmptyListTextView.setClickable(false);
-        } else {
-            setEmptyListMessage(getString(R.string.no_notes));
-            mEmptyListTextView.setClickable(true);
-        }
     }
 
 	@Override
@@ -380,14 +346,12 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
     public void refreshListFromNavSelect() {
         Log.d(Simplenote.TAG, "Refresh the list");
-        new refreshListTask().execute(true);
+        new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, true);
     }
 
     public ObjectCursor<Note> queryNotes(){
-        if (mSelectedTag == null){
-            mSelectedTag = mSpinnerAdapter.getDefaultItem();
-        }
-        Query<Note> query = mSelectedTag.query();
+        NotesActivity notesActivity = (NotesActivity)getActivity();
+        Query<Note> query = notesActivity.getSelectedTag().query();
         if (mSearchString != null) {
             query.where(Note.CONTENT_PROPERTY, Query.ComparisonType.LIKE, String.format("%%%s%%", mSearchString));
         }
@@ -396,39 +360,22 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         return query.execute();
     }
 
-	public void updateMenuItems() {
-		// Update ActionBar menu
-        mNavListLoaded = false;
-		Simplenote application = (Simplenote) getActivity().getApplication();
-        Bucket<Tag> tagBucket = application.getTagsBucket();
-        ObjectCursor<Tag> tagCursor = Tag.allWithCount(tagBucket).execute();
-        mSpinnerAdapter.changeCursor(tagCursor);
-        ActionBar ab = getActivity().getActionBar();
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ab.setListNavigationCallbacks(mSpinnerAdapter, this);
-        if (mSelectedTag != null){
-            int position = mSpinnerAdapter.getPosition(mSelectedTag);
-            if (position > -1){
-                ab.setSelectedNavigationItem(position);
-            } else {
-                ab.setSelectedNavigationItem(TagSpinnerAdapter.DEFAULT_ITEM_POSITION);
-                mSelectedTag = mSpinnerAdapter.getDefaultItem();
-                refreshList();
-            }
-        }
-	}
-
 	public void addNote() {
-		// create & save new note
+
+        // Prevents jarring 'New note...' from showing in the list view when creating a new note
+        if (getActivity() instanceof NotesActivity) {
+            NotesActivity notesActivity = (NotesActivity)getActivity();
+            if (!notesActivity.isLargeScreenLandscape())
+                notesActivity.stopListeningToNotesBucket();
+        }
+
+		// Create & save new note
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
 		Bucket<Note> notesBucket = simplenote.getNotesBucket();
 		Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
-		note.save(); 
-		
-		// refresh listview so new note appears
-		refreshList();
+		note.save();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
 		mCallbacks.onNoteSelected(note.getSimperiumKey(), true);
@@ -561,29 +508,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
         }
     }
 
-	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Log.d(Simplenote.TAG, "onNavigationItemSelected");
-
-        NotesActivity notesActivity = (NotesActivity)getActivity();
-        if (!mNavListLoaded) {
-            mNavListLoaded = true;
-            if (notesActivity.isLargeScreenLandscape() && mActivatedPosition == ListView.INVALID_POSITION)
-                selectFirstNote();
-            return false;
-        }
-
-        mSelectedTag = mSpinnerAdapter.getItem(itemPosition);
-
-        if (itemPosition == NAVIGATION_ITEM_TRASH)
-            EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
-
-        refreshListFromNavSelect();
-
-        notesActivity.invalidateOptionsMenu();
-		return true;
-	}
-
     public void sortNoteQuery(Query<Note> noteQuery){
         noteQuery.order("pinned", SortType.DESCENDING);
 		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
@@ -609,29 +533,6 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 		}
     }
 
-
-    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>(){
-        void updateMenu(){
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    updateMenuItems();
-                }
-            });
-        }
-
-        public void onSaveObject(Bucket<Tag> bucket, Tag tag){
-            updateMenu();
-        }
-
-        public void onDeleteObject(Bucket<Tag> bucket, Tag tag){
-            updateMenu();
-        }
-
-        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key){
-            updateMenu();
-        }
-    };
-
     private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
         boolean mIsFromNavSelect;
 
@@ -644,12 +545,13 @@ public class NoteListFragment extends ListFragment implements ActionBar.OnNaviga
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
+            if (getActivity() == null || getActivity().isFinishing())
+                return;
             Log.d(Simplenote.TAG, "Changing cursor");
             mNotesAdapter.changeCursor(cursor);
             Log.d(Simplenote.TAG, "Cursor changed");
 
             if (mIsFromNavSelect) {
-                checkEmptyListText(false);
                 NotesActivity notesActivity = (NotesActivity)getActivity();
                 if (notesActivity != null && notesActivity.isLargeScreenLandscape()) {
                     if (mNotesAdapter.getCount() == 0) {

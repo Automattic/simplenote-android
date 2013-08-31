@@ -117,12 +117,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if (((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
+        if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
             mPlaceholderView.setVisibility(View.VISIBLE);
+
 
         if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
             String key = getArguments().getString(ARG_ITEM_ID);
-            new loadNoteTask().execute(key);
+            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
@@ -139,6 +140,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onPause() {
         Log.i("SIMPLENOTE", "EDITOR FRAGMENT PAUSED");
+
+        // Hide soft keyboard if it is showing...
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null)
+            inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
 
         // Delete the note if it is new and has empty fields
         if (mNote != null && mIsNewNote && noteIsEmpty())
@@ -172,7 +178,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 saveNote();
         }
 
-        new loadNoteTask().execute(noteID);
+        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
     public void refreshContent(boolean isNoteUpdate) {
@@ -295,7 +301,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (mNote == null)
             return;
 
-        new saveNoteTask().execute();
+        new saveNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void setPlaceholderVisible(boolean isVisible) {
@@ -323,6 +329,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 mTagView.setChips(tagString);
             }
         }
+    }
+
+    public Note getNote() {
+        return mNote;
     }
 
     // Use spaces in tag autocompletion list
@@ -389,12 +399,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected Void doInBackground(String... args) {
             String noteID = args[0];
-            NotesActivity notesActivity = (NotesActivity)getActivity();
-            Simplenote application = (Simplenote) notesActivity.getApplication();
+            Simplenote application = (Simplenote) getActivity().getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
             try {
                 mNote = notesBucket.get(noteID);
-                notesActivity.setCurrentNote(mNote);
+                // Set the current note in NotesActivity when on a tablet
+                if (getActivity() instanceof NotesActivity) {
+                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
+                }
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note
             }
@@ -403,6 +415,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         @Override
         protected void onPostExecute(Void nada) {
+            if (getActivity() == null || getActivity().isFinishing())
+                return;
             refreshContent(false);
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
             if (mNote != null && mNote.getContent().isEmpty()) {
@@ -415,7 +429,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                         if (inputMethodManager != null)
                             inputMethodManager.showSoftInput(mContentEditText, 0);
                     }
-                }, 250);
+                }, 100);
+
             }
         }
     }

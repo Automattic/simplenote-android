@@ -12,17 +12,19 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
+    maven { url "http://simperium.github.io/simplenote-android" }
 }
 
 dependencies {
-    // compile 'com.android.support:support-v4:13.0.+'
+    compile 'com.android.support:support-v4:18.0.+'
     compile project(":libraries:Simperium:Simperium")
-    compile fileTree(dir:"libs", include:"*.jar")
+    compile "com.google:google-analytics:2.0-beta-4"
+    compile "net.hockeyapp:hockey-sdk:3.0.0"
 }
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "18.0.0"
+    buildToolsVersion "18.0.1"
 
     defaultConfig {
         minSdkVersion 15

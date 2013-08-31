@@ -19,11 +19,13 @@ public class Simplenote extends Application {
 	
 	// intent IDs
 	public static final int INTENT_PREFERENCES  = 1;
-	public static final int INTENT_BILLING		= 2;
+	public static final int INTENT_EDIT_NOTE	= 2;
 
     private static final String AUTH_PROVIDER = "simplenote.com";
 
     public static final String CUSTOM_FONT_PATH = "fonts/SourceSansPro-Regular.ttf";
+
+    public static final String DELETED_NOTE_ID = "deletedNoteId";
 	
 	private Properties mConfig;
 	private Simperium mSimperium;

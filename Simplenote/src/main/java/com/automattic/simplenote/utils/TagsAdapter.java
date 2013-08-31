@@ -18,7 +18,7 @@ import com.simperium.client.Query;
 /**
  * Created by beaucollins on 7/26/13.
  */
-public class TagSpinnerAdapter extends BaseAdapter {
+public class TagsAdapter extends BaseAdapter {
 
     public static final String ID_COLUMN = "_id";
     public static final long ALL_NOTES_ID = -1L;
@@ -40,11 +40,11 @@ public class TagSpinnerAdapter extends BaseAdapter {
 
     protected static final int[] topItems = { R.string.notes, R.string.trash };
 
-    public TagSpinnerAdapter(Context context, Bucket<Note> notesBucket){
+    public TagsAdapter(Context context, Bucket<Note> notesBucket){
         this(context, notesBucket, null);
     }
 
-    public TagSpinnerAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor){
+    public TagsAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor){
         mContext = context;
         mNotesBucket = notesBucket;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -118,7 +118,7 @@ public class TagSpinnerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        if (view == null) {
+        /*if (view == null) {
             view = mInflater.inflate(android.R.layout.simple_spinner_item, null);
         }
 
@@ -127,13 +127,9 @@ public class TagSpinnerAdapter extends BaseAdapter {
         TagMenuItem menuItem = getItem(position);
 
         textView.setText(menuItem.name);
-        return view;
-    }
-
-    @Override
-    public View getDropDownView(int position, View view, ViewGroup parent){
+        return view;*/
         if (view == null){
-            view = mInflater.inflate(R.layout.tag_spinner_row, null);
+            view = mInflater.inflate(R.layout.tag_drawer_row, null);
         }
         TagMenuItem tagCount = getItem(position);
 
@@ -143,6 +139,20 @@ public class TagSpinnerAdapter extends BaseAdapter {
 
         return view;
     }
+
+    /*@Override
+    public View getDropDownView(int position, View view, ViewGroup parent){
+        if (view == null){
+            view = mInflater.inflate(R.layout.tag_drawer_row, null);
+        }
+        TagMenuItem tagCount = getItem(position);
+
+        TextView labelText = (TextView) view.findViewById(R.id.tag_name);
+        labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
+        labelText.setText(tagCount.name);
+
+        return view;
+    }*/
 
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;

@@ -13,21 +13,29 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.TagsAdapter;
+import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.LoginActivity;
 import com.simperium.client.Query;
 import com.simperium.client.User;
@@ -37,20 +45,11 @@ import net.hockeyapp.android.UpdateManager;
 
 import java.util.Calendar;
 
-/**
- * An activity representing a list of Notes.
- * <p/>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link NoteListFragment} and the item details (if present) is a
- * {@link NoteEditorFragment}.
- * <p/>
- * This activity also implements the required {@link NoteListFragment.Callbacks}
- * interface to listen for item selections.
- */
 public class NotesActivity extends Activity implements
-        NoteListFragment.Callbacks, ActionBar.OnNavigationListener,
-        User.AuthenticationListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+        NoteListFragment.Callbacks, User.AuthenticationListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
+
+    private static final int NAVIGATION_ITEM_TRASH=1;
 
     private boolean mIsLargeScreen, mIsLandscape;
     private UndoBarController mUndoBarController;
@@ -63,6 +62,14 @@ public class NotesActivity extends Activity implements
     private Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
+
+    // Menu drawer
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private TagsAdapter mTagsAdapter;
+    private TagsAdapter.TagMenuItem mSelectedTag;
+    private CharSequence mActionBarTitle;
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
@@ -90,7 +97,6 @@ public class NotesActivity extends Activity implements
             mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
 
-
         Configuration config = getBaseContext().getResources().getConfiguration();
         if ((config.screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
@@ -105,9 +111,42 @@ public class NotesActivity extends Activity implements
             }
         }
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        // Set up the menu drawer
+        mTagsAdapter = new TagsAdapter(this, mNotesBucket);
+        mDrawerList.setAdapter(mTagsAdapter);
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        if (mSelectedTag == null)
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
         mActionBar = getActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeButtonEnabled(true);
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                R.drawable.ic_drawer,
+                R.string.open_drawer,
+                R.string.close_drawer
+        ) {
+            public void onDrawerClosed(View view) {
+                setTitle(mActionBarTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                setTitleWithCustomFont(getString(R.string.app_name));
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
@@ -151,15 +190,6 @@ public class NotesActivity extends Activity implements
         checkForUpdates();
     }
 
-    private void addEditorFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        mNoteEditorFragment = new NoteEditorFragment();
-        ft.add(R.id.noteFragmentContainer, mNoteEditorFragment, TAG_NOTE_EDITOR);
-        ft.commitAllowingStateLoss();
-        fm.executePendingTransactions();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -170,10 +200,85 @@ public class NotesActivity extends Activity implements
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
         mNotesBucket.addOnDeleteObjectListener(this);
+        mTagsBucket.addListener(mTagsMenuUpdater);
 
-        configureActionBar();
+        updateNavigationDrawerItems();
+        setSelectedTagActive();
         invalidateOptionsMenu();
         checkForCrashes();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mTagsBucket.removeListener(mTagsMenuUpdater);
+        mNotesBucket.stop();
+        mTagsBucket.stop();
+
+        mNotesBucket.removeOnNetworkChangeListener(this);
+        mNotesBucket.removeOnSaveObjectListener(this);
+        mNotesBucket.removeOnDeleteObjectListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mActionBarTitle = title;
+        setTitleWithCustomFont(mActionBarTitle);
+    }
+
+    private void setTitleWithCustomFont(CharSequence title) {
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new TypefaceSpan(this), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getActionBar().setTitle(s);
+    }
+
+    private void updateNavigationDrawerItems() {
+        Bucket.ObjectCursor<Tag> tagCursor = Tag.allWithCount(mTagsBucket).execute();
+        mTagsAdapter.changeCursor(tagCursor);
+    }
+
+    private void setSelectedTagActive() {
+        if (mSelectedTag == null)
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+
+        setTitle(mSelectedTag.name);
+        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag), true);
+    }
+
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            mSelectedTag = mTagsAdapter.getItem(position);
+            checkEmptyListText(false);
+            // Update checked item in navigation drawer and close it
+            setSelectedTagActive();
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+            getNoteListFragment().refreshListFromNavSelect();
+        }
+    }
+
+    public TagsAdapter.TagMenuItem getSelectedTag() {
+        return mSelectedTag;
+    }
+
+    private void addEditorFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        mNoteEditorFragment = new NoteEditorFragment();
+        ft.add(R.id.noteFragmentContainer, mNoteEditorFragment, TAG_NOTE_EDITOR);
+        ft.commitAllowingStateLoss();
+        fm.executePendingTransactions();
     }
 
     /**
@@ -196,24 +301,6 @@ public class NotesActivity extends Activity implements
     private void checkForUpdates() {
         // Remove this for store builds!
         UpdateManager.register(this, Config.hockey_app_id);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        mNotesBucket.stop();
-        mTagsBucket.stop();
-
-        mNotesBucket.removeOnNetworkChangeListener(this);
-        mNotesBucket.removeOnSaveObjectListener(this);
-        mNotesBucket.removeOnDeleteObjectListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     public void setCurrentNote(Note note) {
@@ -256,9 +343,28 @@ public class NotesActivity extends Activity implements
         });
     }
 
-    public boolean isLargeScreen() {
-        return mIsLargeScreen;
-    }
+    // Tags bucket listener
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>(){
+        void updateNavigationDrawer(){
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    updateNavigationDrawerItems();
+                }
+            });
+        }
+
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag){
+            updateNavigationDrawer();
+        }
+
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag){
+            updateNavigationDrawer();
+        }
+
+        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key){
+            updateNavigationDrawer();
+        }
+    };
 
     public boolean isLargeScreenLandscape() {
         return mIsLargeScreen && mIsLandscape;
@@ -303,7 +409,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 showDetailPlaceholder();
-                getNoteListFragment().checkEmptyListText(true);
+                checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
                 mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
                 return true;
@@ -312,7 +418,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                getNoteListFragment().checkEmptyListText(false);
+                checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
                 getNoteListFragment().setWelcomeViewVisibility();
                 return true;
@@ -332,19 +438,7 @@ public class NotesActivity extends Activity implements
         else
             trashItem.setTitle(R.string.delete);
 
-        FragmentManager fm = getFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            mActionBar.setDisplayHomeAsUpEnabled(true);
-            menu.findItem(R.id.menu_create_note).setVisible(false);
-            menu.findItem(R.id.menu_search).setVisible(false);
-            menu.findItem(R.id.menu_preferences).setVisible(false);
-            menu.findItem(R.id.menu_share).setVisible(true);
-            trashItem.setVisible(true);
-            menu.findItem(R.id.menu_edit_tags).setVisible(false);
-            menu.findItem(R.id.menu_empty_trash).setVisible(false);
-        } else if (isLargeScreenLandscape()) {
-            mActionBar.setDisplayHomeAsUpEnabled(false);
-            mActionBar.setHomeButtonEnabled(false);
+        if (isLargeScreenLandscape()) {
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -358,8 +452,6 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
-            mActionBar.setDisplayHomeAsUpEnabled(false);
-            mActionBar.setHomeButtonEnabled(false);
             menu.findItem(R.id.menu_create_note).setVisible(true);
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_preferences).setVisible(true);
@@ -395,7 +487,21 @@ public class NotesActivity extends Activity implements
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+        menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
+        menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
+        menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.menu_preferences:
                 // nbradbury - use startActivityForResult so onActivityResult can detect when user returns from preferences
@@ -430,7 +536,7 @@ public class NotesActivity extends Activity implements
                         mCurrentNote.save();
 
                         if (mCurrentNote.isDeleted()) {
-                            mUndoBarController.setDeletedNote(mCurrentNote);
+                            mUndoBarController.setDeletedNoteId(mCurrentNote.getSimperiumKey());
                             mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                             mTracker.sendEvent("note", "deleted_note", "overflow_menu", null);
                         } else {
@@ -438,7 +544,6 @@ public class NotesActivity extends Activity implements
                         }
                         showDetailPlaceholder();
                     }
-                    popNoteDetail();
                     NoteListFragment fragment = getNoteListFragment();
                     if (fragment != null) {
                         fragment.getPrefs();
@@ -465,22 +570,10 @@ public class NotesActivity extends Activity implements
                 alert.show();
                 return true;
             case android.R.id.home:
-                popNoteDetail();
                 invalidateOptionsMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    protected void popNoteDetail() {
-        FragmentManager fm = getFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            try {
-                fm.popBackStack();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -494,27 +587,14 @@ public class NotesActivity extends Activity implements
         if (mSearchMenuItem != null)
             mSearchMenuItem.collapseActionView();
 
-        FragmentManager fm = getFragmentManager();
-
         if (!isLargeScreenLandscape()) {
-            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            mActionBar.setDisplayShowTitleEnabled(true);
-
-            // Create editor fragment
+            // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
-            mNoteEditorFragment = new NoteEditorFragment();
-            mNoteEditorFragment.setArguments(arguments);
-
-            // Add editor fragment to stack
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
-            ft.replace(R.id.noteFragmentContainer, mNoteEditorFragment);
-            ft.addToBackStack(null);
-            ft.commitAllowingStateLoss();
-            fm.executePendingTransactions();
-            invalidateOptionsMenu();
+            Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
+            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID);
@@ -522,12 +602,6 @@ public class NotesActivity extends Activity implements
         }
 
         mTracker.sendEvent("note", "viewed_note", "note_list_row_tap", null);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
@@ -573,6 +647,15 @@ public class NotesActivity extends Activity implements
                     fragment.refreshList();
                 }
                 break;
+            case Simplenote.INTENT_EDIT_NOTE:
+                if (resultCode == RESULT_OK && data != null && data.hasExtra(Simplenote.DELETED_NOTE_ID)) {
+                    String noteId = data.getStringExtra(Simplenote.DELETED_NOTE_ID);
+                    if (noteId != null) {
+                        mUndoBarController.setDeletedNoteId(noteId);
+                        mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                    }
+                }
+                break;
             /*case Simperium.SIGNUP_SIGNIN_REQUEST:
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
@@ -583,8 +666,13 @@ public class NotesActivity extends Activity implements
 
     @Override
     public void onUndo(Parcelable p) {
-        if (mUndoBarController != null && mUndoBarController.getDeletedNote() != null) {
-            Note deletedNote = mUndoBarController.getDeletedNote();
+        if (mUndoBarController != null && mUndoBarController.getDeletedNoteId() != null) {
+            Note deletedNote = null;
+            try {
+                deletedNote = mNotesBucket.get(mUndoBarController.getDeletedNoteId());
+            } catch (BucketObjectMissingException e) {
+                return;
+            }
             if (deletedNote != null) {
                 deletedNote.setDeleted(false);
                 deletedNote.setModificationDate(Calendar.getInstance());
@@ -600,35 +688,26 @@ public class NotesActivity extends Activity implements
 
     @Override
     public void onBackStackChanged() {
-        configureActionBar();
         invalidateOptionsMenu();
     }
 
-    private void configureActionBar() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            ActionBar ab = mActionBar;
-            if (ab != null) {
-                ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            }
-        } else {
-            ActionBar ab = mActionBar;
-            if (ab != null) {
-                ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                ab.setDisplayShowTitleEnabled(false);
-                ab.setTitle("");
-            }
-        }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        mDrawerToggle.onConfigurationChanged(newConfig);
+
         if (mIsLargeScreen) {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // Add the editor fragment
                 mIsLandscape = true;
-                popNoteDetail();
                 addEditorFragment();
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
@@ -663,12 +742,32 @@ public class NotesActivity extends Activity implements
         }
     }
 
+    public void checkEmptyListText(boolean isSearch) {
+        if (isSearch) {
+            getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
+            getNoteListFragment().setEmptyListViewClickable(false);
+        } else if (mDrawerList.getCheckedItemPosition() == NAVIGATION_ITEM_TRASH) {
+            getNoteListFragment().setEmptyListMessage(getString(R.string.trash_is_empty));
+            EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
+            getNoteListFragment().setEmptyListViewClickable(false);
+        } else {
+            getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes));
+            getNoteListFragment().setEmptyListViewClickable(true);
+        }
+    }
+
     public void showDetailPlaceholder() {
         if (isLargeScreenLandscape() && mNoteEditorFragment != null) {
             mCurrentNote = null;
             invalidateOptionsMenu();
             mNoteEditorFragment.setPlaceholderVisible(true);
         }
+    }
+
+    public void stopListeningToNotesBucket() {
+        mNotesBucket.removeOnNetworkChangeListener(this);
+        mNotesBucket.removeOnSaveObjectListener(this);
+        mNotesBucket.removeOnDeleteObjectListener(this);
     }
 
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {

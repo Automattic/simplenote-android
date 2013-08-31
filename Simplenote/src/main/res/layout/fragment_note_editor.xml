@@ -27,6 +27,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
 
+                <LinearLayout
+                    android:focusable="true" android:focusableInTouchMode="true"
+                    android:layout_width="0px" android:layout_height="0px"/>
+
                 <ToggleButton
                         android:id="@+id/pinButton"
                         android:layout_width="32dp"
@@ -50,6 +54,8 @@
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/note_content"
+                        android:nextFocusUp="@id/tag_view"
+                        android:nextFocusLeft="@id/tag_view"
                         android:textSize="16sp"
                         android:fontFamily="sans-serif-condensed"
                         android:longClickable="false"

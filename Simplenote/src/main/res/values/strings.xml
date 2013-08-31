@@ -57,4 +57,6 @@
     <string name="backup_notes">Back up your notes, use them on the web, and sync with other devices.</string>
     <string name="want_more">Want more? <u>Use a Simplenote account</u> »</string>
     <string name="new_note_list">New note&#8230;</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
 </resources>
