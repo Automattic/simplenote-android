@@ -50,9 +50,7 @@ import java.util.Calendar;
 
 public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
-        FragmentManager.OnBackStackChangedListener, Bucket.Listener<Note> {
-
-    private static final int NAVIGATION_ITEM_TRASH = 1;
+        Bucket.Listener<Note> {
 
     private boolean mIsLargeScreen, mIsLandscape;
     private UndoBarController mUndoBarController;
@@ -153,8 +151,6 @@ public class NotesActivity extends Activity implements
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
-
-        getFragmentManager().addOnBackStackChangedListener(this);
 
         if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
             // Create the welcome note
@@ -269,6 +265,8 @@ public class NotesActivity extends Activity implements
             mDrawerLayout.closeDrawer(mDrawerList);
 
             getNoteListFragment().refreshListFromNavSelect();
+            if (position > 1)
+                mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
         }
     }
 
@@ -386,6 +384,8 @@ public class NotesActivity extends Activity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
 
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
 
@@ -441,32 +441,32 @@ public class NotesActivity extends Activity implements
             trashItem.setTitle(R.string.delete);
 
         if (isLargeScreenLandscape()) {
-            menu.findItem(R.id.menu_create_note).setVisible(true);
-            menu.findItem(R.id.menu_search).setVisible(true);
-            menu.findItem(R.id.menu_preferences).setVisible(true);
+            menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_preferences).setVisible(!drawerOpen);
             if (mCurrentNote != null) {
-                menu.findItem(R.id.menu_share).setVisible(true);
+                menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
                 trashItem.setVisible(false);
             }
-            menu.findItem(R.id.menu_edit_tags).setVisible(true);
+            menu.findItem(R.id.menu_edit_tags).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
-            menu.findItem(R.id.menu_create_note).setVisible(true);
-            menu.findItem(R.id.menu_search).setVisible(true);
-            menu.findItem(R.id.menu_preferences).setVisible(true);
+            menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_preferences).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_share).setVisible(false);
             trashItem.setVisible(false);
-            menu.findItem(R.id.menu_edit_tags).setVisible(true);
+            menu.findItem(R.id.menu_edit_tags).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        if (mActionBar.getSelectedNavigationIndex() == TRASH_SELECTED_ID) {
-            MenuItem emptyTrashItem = menu.findItem(R.id.menu_empty_trash).setVisible(true);
-            emptyTrashItem.setVisible(true);
+        if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+            MenuItem emptyTrashItem = menu.findItem(R.id.menu_empty_trash);
+            emptyTrashItem.setVisible(!drawerOpen);
 
             // Disable the trash icon if there are no notes trashed.
             Simplenote application = (Simplenote) getApplication();
@@ -486,17 +486,6 @@ public class NotesActivity extends Activity implements
         }
 
         return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
-        if (isLargeScreenLandscape())
-            menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -705,11 +694,6 @@ public class NotesActivity extends Activity implements
     }
 
     @Override
-    public void onBackStackChanged() {
-        invalidateOptionsMenu();
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -764,7 +748,7 @@ public class NotesActivity extends Activity implements
         if (isSearch) {
             getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
             getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mDrawerList.getCheckedItemPosition() == NAVIGATION_ITEM_TRASH) {
+        } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             getNoteListFragment().setEmptyListMessage(getString(R.string.trash_is_empty));
             EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
             getNoteListFragment().setEmptyListViewClickable(false);

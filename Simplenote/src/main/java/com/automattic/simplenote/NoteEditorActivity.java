@@ -27,7 +27,6 @@ public class NoteEditorActivity extends Activity {
         // Show the Up button in the action bar.
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         if (savedInstanceState == null) {
             // Create the note editor fragment
             Bundle arguments = new Bundle();

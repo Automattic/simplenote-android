@@ -18,6 +18,7 @@
     <string name="characters">Characters</string>
     <string name="edit_tags">Edit tags</string>
     <string name="edit_tag">Edit Tag</string>
+    <string name="rename_tag">Rename tag</string>
     <string name="tag_name">Tag name</string>
     <string name="delete_tag">Delete tag</string>
     <string name="save">Save</string>

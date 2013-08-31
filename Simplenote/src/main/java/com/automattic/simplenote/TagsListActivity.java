@@ -130,7 +130,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         tagNameEditText.setText(tag.getName());
         tagNameEditText.setSelection(tagNameEditText.length());
         alert.setView(alertView);
-        alert.setTitle(R.string.edit_tag);
+        alert.setTitle(R.string.rename_tag);
         alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = tagNameEditText.getText().toString().trim();
