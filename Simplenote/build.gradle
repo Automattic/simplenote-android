@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         mavenCentral()
@@ -23,11 +22,17 @@ dependencies {
     compile "net.hockeyapp:hockey-sdk:3.0.0"
 }
 
+version "1.0.0"
+
 android {
+
     compileSdkVersion 18
     buildToolsVersion "18.0.1"
 
     defaultConfig {
+        packageName "com.automattic.simplenote"
+        versionName project.version
+        versionCode 8
         minSdkVersion 15
         targetSdkVersion 18
     }

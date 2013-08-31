@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.automattic.simplenote"
-    android:installLocation="auto"
-    android:versionCode="8"
-    android:versionName="1.0.0" >
+    android:installLocation="auto">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="18" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -42,9 +34,6 @@
             android:name="com.automattic.simplenote.NoteEditorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden"/>
-        <activity
-            android:name="com.simperium.android.LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
