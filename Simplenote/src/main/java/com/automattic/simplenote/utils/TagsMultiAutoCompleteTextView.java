@@ -9,25 +9,23 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.text.TextUtils.SimpleStringSplitter;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Filterable;
-import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 
-import java.util.List;
-
 public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
+
+    private boolean mShouldMoveNewTagText;
 
     public interface OnTagAddedListener {
         public void onTagsChanged(String tagString);
@@ -56,7 +54,7 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         init(context);
     }
 
-    public void setOnTagAddedListener(OnTagAddedListener listener){
+    public void setOnTagAddedListener(OnTagAddedListener listener) {
         mTagsChangedListener = listener;
     }
 
@@ -71,7 +69,23 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // If we reach an image span, let's remove it as well as the tag text behind it.
+
+            if (mShouldMoveNewTagText) {
+                mShouldMoveNewTagText = false;
+                // Get the entered text, and move it to the end of the editor
+                SpannableStringBuilder ssb = new SpannableStringBuilder(s);
+                CharSequence addedText = ssb.subSequence(start, start + count);
+                ssb.replace(start, start + count, "");
+                ssb.append(addedText);
+                // Don't want text watcher to fire when we set the text, so we'll remove it temporarily.
+                removeTextChangedListener(this);
+                setText(ssb);
+                addTextChangedListener(this);
+                setSelection(getText().length());
+                return;
+            }
+
+            // If we reach an image span, let's remove it as well as the tag text behind it
             if (before == 1) {
                 SpannableStringBuilder ssb = new SpannableStringBuilder(s);
                 ImageSpan[] imageSpans = ssb.getSpans(start, start, ImageSpan.class);
@@ -87,11 +101,20 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
             }
 
             if (count >= 1 && s.charAt(start) == ' ') notifyTagsChanged();
-            
+
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            SpannableStringBuilder ssb = new SpannableStringBuilder(s);
+            ImageSpan[] imageSpans = ssb.getSpans(start, start, ImageSpan.class);
+
+            // only allow tags to be added at the end of the text
+            if (imageSpans.length > 0 && after > 0) {
+                mShouldMoveNewTagText = true;
+            }
+
         }
 
         @Override
@@ -99,18 +122,19 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         }
     };
 
-    public void notifyTagsChanged(){
+    public void notifyTagsChanged() {
         notifyTagsChanged(getText().toString());
     }
 
-    public void notifyTagsChanged(String tagString){
-        if(mTagsChangedListener != null){
+    public void notifyTagsChanged(String tagString) {
+        if (mTagsChangedListener != null) {
             mTagsChangedListener.onTagsChanged(tagString);
         }
     }
 
     /*This function has whole logic for chips generate*/
-    public void setChips(CharSequence text){
+    public void setChips(CharSequence text) {
+        int cursorLocation = getSelectionStart();
         // split string with space
         SimpleStringSplitter tags = new SimpleStringSplitter(' ');
         tags.setString(text.toString());
@@ -148,8 +172,6 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         if (ssb.length() > 0) ssb.append(' ');
         // set chips span
         setText(ssb);
-        //if (!getText().toString().trim().equals(""))
-        // move cursor to last
         setSelection(getText().length());
 
     }
