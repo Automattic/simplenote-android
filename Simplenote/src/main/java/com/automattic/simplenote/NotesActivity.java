@@ -140,12 +140,12 @@ public class NotesActivity extends Activity implements
         ) {
             public void onDrawerClosed(View view) {
                 setTitle(mActionBarTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 setTitleWithCustomFont(getString(R.string.app_name));
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -204,7 +204,6 @@ public class NotesActivity extends Activity implements
 
         updateNavigationDrawerItems();
         setSelectedTagActive();
-        invalidateOptionsMenu();
         checkForCrashes();
     }
 
@@ -575,9 +574,6 @@ public class NotesActivity extends Activity implements
     @Override
     public void onNoteSelected(String noteID, boolean isNew) {
 
-        if (mSearchMenuItem != null)
-            mSearchMenuItem.collapseActionView();
-
         if (!isLargeScreenLandscape()) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
@@ -761,7 +757,6 @@ public class NotesActivity extends Activity implements
     public void showDetailPlaceholder() {
         if (isLargeScreenLandscape() && mNoteEditorFragment != null) {
             mCurrentNote = null;
-            invalidateOptionsMenu();
             mNoteEditorFragment.setPlaceholderVisible(true);
         }
     }

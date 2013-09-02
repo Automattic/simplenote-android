@@ -205,9 +205,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mPinButton.setChecked(mNote.isPinned());
 
             updateTagList();
-
-            if (getActivity() != null)
-                getActivity().invalidateOptionsMenu();
         }
     }
 
@@ -282,7 +279,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void afterTextChanged(Editable editable) {
-
         // Set the note title to be a larger size
         // Remove any existing size spans
         RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
