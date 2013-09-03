@@ -61,6 +61,9 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        TextView emptyTextView = (TextView)findViewById(android.R.id.empty);
+        emptyTextView.setTypeface(Typefaces.get(this, Simplenote.CUSTOM_FONT_PATH));
+
         ListView listView = getListView();
         listView.setMultiChoiceModeListener(this);
         listView.setOnItemClickListener(this);

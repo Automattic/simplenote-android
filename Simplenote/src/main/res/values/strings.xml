@@ -31,7 +31,7 @@
     <string name="word">Word</string>
     <string name="no_notes_newline"><b>No notes here.</b>\nWhy not <u>create one</u>?</string>
     <string name="no_notes"><![CDATA[<b>No notes here.</b><br>Why not <u>create one</u>?]]></string>
-    <string name="no_tags_found">No tags found.</string>
+    <string name="no_tags_found"><b>No tags found.</b></string>
     <string name="trash_is_empty"><![CDATA[<b>The trash is empty.</b>]]></string>
     <string name="no_notes_found"><![CDATA[<b>No notes found.</b>]]></string>
     <string name="website">Visit simplenote.com</string>
