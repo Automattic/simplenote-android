@@ -47,7 +47,6 @@ import java.util.Calendar;
 public class NoteListFragment extends ListFragment {
 
 	private NotesCursorAdapter mNotesAdapter;
-	private Bucket<Note> mNotesBucket;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
@@ -113,7 +112,6 @@ public class NoteListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		Simplenote application = (Simplenote) getActivity().getApplication();
-		mNotesBucket = application.getNotesBucket();
 
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
@@ -364,11 +362,9 @@ public class NoteListFragment extends ListFragment {
 	public void addNote() {
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
-        if (getActivity() instanceof NotesActivity) {
-            NotesActivity notesActivity = (NotesActivity)getActivity();
-            if (!notesActivity.isLargeScreenLandscape())
-                notesActivity.stopListeningToNotesBucket();
-        }
+        NotesActivity notesActivity = (NotesActivity)getActivity();
+        if (!notesActivity.isLargeScreenLandscape())
+            notesActivity.stopListeningToNotesBucket();
 
 		// Create & save new note
 		Simplenote simplenote = (Simplenote) getActivity().getApplication();
@@ -376,6 +372,13 @@ public class NoteListFragment extends ListFragment {
 		Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
+
+        if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
+            String tagName = notesActivity.getSelectedTag().name;
+            if (!tagName.equals(getString(R.string.notes)) && !tagName.equals(getString(R.string.trash)))
+                note.setTagString(tagName);
+        }
+
 		note.save();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
