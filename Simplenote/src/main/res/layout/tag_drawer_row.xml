@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:minHeight="48dp"
-              android:paddingLeft="@dimen/padding_large"
-              android:paddingRight="@dimen/padding_large"
-              android:paddingTop="@dimen/padding_small"
-              android:paddingBottom="@dimen/padding_small"
-              android:background="@drawable/list_background_simplestyle"
-        >
-    <TextView android:layout_width="fill_parent"
-              android:layout_height="match_parent"
-              android:layout_weight="1"
-              android:id="@+id/tag_name"
-              android:gravity="center_vertical"
-              android:textAppearance="@android:style/TextAppearance.Medium"
-              android:text="All Notes"/>
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="48dp"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_small"
+    android:paddingBottom="@dimen/padding_small"
+    android:background="@drawable/list_background_simplestyle">
+
+    <ImageView
+        android:id="@+id/drawer_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="gone"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="8dp"/>
+
+    <TextView
+        android:id="@+id/tag_name"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/simplenote_dark_grey"
+        android:gravity="center_vertical"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:text="All Notes" />
 </LinearLayout>

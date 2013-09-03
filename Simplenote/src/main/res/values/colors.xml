@@ -6,6 +6,7 @@
 
     <color name="simplenote_blue">#448AC9</color>
     <color name="simplenote_blue_light">#EEF3F8</color>
+    <color name="simplenote_dark_grey">#222222</color>
     <color name="welcome_button_blue">#3772a6</color>
     <color name="welcome_button_blue_selected">#30628f</color>
 

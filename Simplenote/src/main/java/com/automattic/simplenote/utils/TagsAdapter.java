@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
@@ -118,16 +120,7 @@ public class TagsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        /*if (view == null) {
-            view = mInflater.inflate(android.R.layout.simple_spinner_item, null);
-        }
 
-        TextView textView = (TextView) view;
-        textView.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
-        TagMenuItem menuItem = getItem(position);
-
-        textView.setText(menuItem.name);
-        return view;*/
         if (view == null){
             view = mInflater.inflate(R.layout.tag_drawer_row, null);
         }
@@ -136,23 +129,34 @@ public class TagsAdapter extends BaseAdapter {
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
         labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
         labelText.setText(tagCount.name);
+
+        int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition();
+        if (position == selectedPosition)
+            labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
+        else
+            labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_dark_grey));
+
+        ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
+        if (position == 0) {
+            if (position == selectedPosition) {
+                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes_selected);
+            } else {
+                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
+            }
+            drawerIcon.setVisibility(View.VISIBLE);
+        } else if (position == 1) {
+            if (position == selectedPosition) {
+                drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
+            } else {
+                drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
+            }
+            drawerIcon.setVisibility(View.VISIBLE);
+        } else {
+            drawerIcon.setVisibility(View.GONE);
+        }
 
         return view;
     }
-
-    /*@Override
-    public View getDropDownView(int position, View view, ViewGroup parent){
-        if (view == null){
-            view = mInflater.inflate(R.layout.tag_drawer_row, null);
-        }
-        TagMenuItem tagCount = getItem(position);
-
-        TextView labelText = (TextView) view.findViewById(R.id.tag_name);
-        labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
-        labelText.setText(tagCount.name);
-
-        return view;
-    }*/
 
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;

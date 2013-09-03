@@ -70,11 +70,12 @@
     </content>
     <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="libGoogleAnalyticsV2" level="project" />
-    <orderEntry type="library" exported="" name="HockeySDK-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid10.aar" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
     <orderEntry type="library" exported="" name="android-websockets-6c7c60d" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
+    <orderEntry type="library" exported="" name="google-analytics-2.0-beta-4" level="project" />
+    <orderEntry type="library" exported="" name="hockey-sdk-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid100Ge7778e2.aar" level="project" />
   </component>
 </module>
 

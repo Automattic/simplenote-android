@@ -113,9 +113,9 @@ public class NotesActivity extends Activity implements
             }
         }
 
+        // Set up the menu drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        // Set up the menu drawer
         mTagsAdapter = new TagsAdapter(this, mNotesBucket);
         mDrawerList.setAdapter(mTagsAdapter);
         // Set the list's click listener
