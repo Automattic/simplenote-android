@@ -63,6 +63,7 @@ public class NotesActivity extends Activity implements
     private Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
+    private MenuItem mEmptyTrashMenuItem;
 
     // Menu drawer
     private DrawerLayout mDrawerLayout;
@@ -252,6 +253,23 @@ public class NotesActivity extends Activity implements
         mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag), true);
     }
 
+    // Enable or disable the trash action bar button depending on if there are deleted notes or not
+    public void updateTrashMenuItem() {
+        if (mEmptyTrashMenuItem == null)
+            return;
+        // Disable the trash icon if there are no notes trashed.
+        Simplenote application = (Simplenote) getApplication();
+        Bucket<Note> noteBucket = application.getNotesBucket();
+        Query<Note> query = Note.allDeleted(noteBucket);
+        if (query.count() == 0) {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
+            mEmptyTrashMenuItem.setEnabled(false);
+        } else {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash);
+            mEmptyTrashMenuItem.setEnabled(true);
+        }
+    }
+
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -332,7 +350,6 @@ public class NotesActivity extends Activity implements
                 if (type == Bucket.ChangeType.INDEX)
                     setProgressBarIndeterminateVisibility(false);
                 mNoteListFragment.refreshList();
-                invalidateOptionsMenu();
             }
         });
     }
@@ -343,7 +360,6 @@ public class NotesActivity extends Activity implements
             @Override
             public void run() {
                 mNoteListFragment.refreshList();
-                invalidateOptionsMenu();
             }
         });
     }
@@ -354,7 +370,6 @@ public class NotesActivity extends Activity implements
             @Override
             public void run() {
                 mNoteListFragment.refreshList();
-                invalidateOptionsMenu();
             }
         });
     }
@@ -478,20 +493,10 @@ public class NotesActivity extends Activity implements
 
         // Are we looking at the trash? Adjust menu accordingly.
         if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-            MenuItem emptyTrashItem = menu.findItem(R.id.menu_empty_trash);
-            emptyTrashItem.setVisible(!drawerOpen);
+            mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
+            mEmptyTrashMenuItem.setVisible(!drawerOpen);
 
-            // Disable the trash icon if there are no notes trashed.
-            Simplenote application = (Simplenote) getApplication();
-            Bucket<Note> noteBucket = application.getNotesBucket();
-            Query<Note> query = Note.allDeleted(noteBucket);
-            if (query.count() == 0) {
-                emptyTrashItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
-                emptyTrashItem.setEnabled(false);
-            } else {
-                emptyTrashItem.setIcon(R.drawable.ab_icon_empty_trash);
-                emptyTrashItem.setEnabled(true);
-            }
+            updateTrashMenuItem();
 
             menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
@@ -797,7 +802,6 @@ public class NotesActivity extends Activity implements
 
         @Override
         protected void onPostExecute(Void nada) {
-            invalidateOptionsMenu();
             showDetailPlaceholder();
         }
     }

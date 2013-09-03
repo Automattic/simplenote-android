@@ -24,9 +24,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.Typefaces;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
@@ -555,16 +553,17 @@ public class NoteListFragment extends ListFragment {
             mNotesAdapter.changeCursor(cursor);
             Log.d(Simplenote.TAG, "Cursor changed");
 
-            if (mIsFromNavSelect) {
-                NotesActivity notesActivity = (NotesActivity)getActivity();
-                if (notesActivity != null && notesActivity.isLargeScreenLandscape()) {
-                    if (mNotesAdapter.getCount() == 0) {
-                        notesActivity.showDetailPlaceholder();
-                    } else {
-                        // Select the first note
-                        selectFirstNote();
-                    }
+            NotesActivity notesActivity = (NotesActivity)getActivity();
+            if (notesActivity != null) {
+                if (mIsFromNavSelect && notesActivity.isLargeScreenLandscape()) {
+                        if (mNotesAdapter.getCount() == 0) {
+                            notesActivity.showDetailPlaceholder();
+                        } else {
+                            // Select the first note
+                            selectFirstNote();
+                        }
                 }
+                notesActivity.updateTrashMenuItem();
             }
 
             if (mSelectedNoteId != null) {
