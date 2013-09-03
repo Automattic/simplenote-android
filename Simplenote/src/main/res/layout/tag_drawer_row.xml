@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/drawer_icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:visibility="gone"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="10dp"/>
 
     <TextView
         android:id="@+id/tag_name"
