@@ -195,6 +195,10 @@ public class NotesActivity extends Activity implements
     protected void onResume() {
         super.onResume();
 
+        // Ensure user has valid authorization
+        if (userAuthenticationIsInvalid())
+            startLoginActivity(true);
+
         mNotesBucket.start();
         mTagsBucket.start();
 
@@ -678,11 +682,11 @@ public class NotesActivity extends Activity implements
                     }
                 }
                 break;
-            /*case Simperium.SIGNUP_SIGNIN_REQUEST:
+            case Simperium.SIGNUP_SIGNIN_REQUEST:
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
                 }
-                break;*/
+                break;
         }
     }
 
