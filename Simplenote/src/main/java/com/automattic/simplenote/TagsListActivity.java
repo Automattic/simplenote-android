@@ -278,20 +278,19 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
             TextView tagTitle = (TextView) convertView.findViewById(R.id.tag_name);
             tagTitle.setTypeface(Typefaces.get(TagsListActivity.this, Simplenote.CUSTOM_FONT_PATH));
-            TextView tagCount = (TextView) convertView.findViewById(R.id.tag_count);
+            TextView tagCountTextView = (TextView) convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
-            int count = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
-            if (count > 0) {
-                tagCount.setText(Integer.toString(count));
+            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            if (tagCount > 0) {
+                tagCountTextView.setText(Integer.toString(tagCount));
             } else {
-                tagCount.setText("");
+                tagCountTextView.setText("");
             }
 
             ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.tag_trash);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
                     if (tagCount == 0) {
                         deleteTag(tag);
                     } else if (tagCount > 0) {
