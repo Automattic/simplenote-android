@@ -442,7 +442,7 @@ public class NotesActivity extends Activity implements
         if (isLargeScreenLandscape()) {
             menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-            menu.findItem(R.id.menu_preferences).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_preferences).setVisible(true);
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
                 trashItem.setVisible(true);
@@ -450,15 +450,15 @@ public class NotesActivity extends Activity implements
                 menu.findItem(R.id.menu_share).setVisible(false);
                 trashItem.setVisible(false);
             }
-            menu.findItem(R.id.menu_edit_tags).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
             menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-            menu.findItem(R.id.menu_preferences).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             trashItem.setVisible(false);
-            menu.findItem(R.id.menu_edit_tags).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
