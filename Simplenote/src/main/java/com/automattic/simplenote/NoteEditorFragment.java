@@ -190,6 +190,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
+    public void updateNote(Note updatedNote) {
+        // update note if network change arrived
+        mNote = updatedNote;
+        refreshContent(true);
+    }
+
     public void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             Log.v("Simplenote", "refreshing content");

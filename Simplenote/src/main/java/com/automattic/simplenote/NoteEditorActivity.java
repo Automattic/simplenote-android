@@ -9,16 +9,21 @@ import android.view.MenuItem;
 
 import com.automattic.simplenote.models.Note;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;
 
-public class NoteEditorActivity extends Activity {
+public class NoteEditorActivity extends Activity implements Bucket.Listener<Note> {
 
     private NoteEditorFragment mNoteEditorFragment;
+    private Bucket<Note> mNotesBucket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Simplenote currentApp = (Simplenote) getApplication();
+        mNotesBucket = currentApp.getNotesBucket();
         setContentView(R.layout.activity_note_editor);
 
         // No title, please.
@@ -40,6 +45,20 @@ public class NoteEditorActivity extends Activity {
                     .add(R.id.note_editor_container, mNoteEditorFragment)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNotesBucket.start();
+        mNotesBucket.addOnNetworkChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mNotesBucket.stop();
+        mNotesBucket.removeOnNetworkChangeListener(this);
     }
 
     @Override
@@ -89,5 +108,35 @@ public class NoteEditorActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+
+    }
+
+    @Override
+    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+        if (changeType == Bucket.ChangeType.MODIFY) {
+            final boolean resetEditor = mNoteEditorFragment.getNote() != null && mNoteEditorFragment.getNote().getSimperiumKey().equals(key);
+            if (resetEditor) {
+                try {
+                    final Note updatedNote = mNotesBucket.get(key);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mNoteEditorFragment.updateNote(updatedNote);
+                        }
+                    });
+                } catch (BucketObjectMissingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
+
     }
 }
