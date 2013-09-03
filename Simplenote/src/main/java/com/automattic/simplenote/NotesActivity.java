@@ -332,6 +332,7 @@ public class NotesActivity extends Activity implements
                 if (type == Bucket.ChangeType.INDEX)
                     setProgressBarIndeterminateVisibility(false);
                 mNoteListFragment.refreshList();
+                invalidateOptionsMenu();
             }
         });
     }
@@ -342,6 +343,7 @@ public class NotesActivity extends Activity implements
             @Override
             public void run() {
                 mNoteListFragment.refreshList();
+                invalidateOptionsMenu();
             }
         });
     }
@@ -352,6 +354,7 @@ public class NotesActivity extends Activity implements
             @Override
             public void run() {
                 mNoteListFragment.refreshList();
+                invalidateOptionsMenu();
             }
         });
     }
