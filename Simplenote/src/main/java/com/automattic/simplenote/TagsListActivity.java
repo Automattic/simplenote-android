@@ -280,7 +280,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             tagTitle.setTypeface(Typefaces.get(TagsListActivity.this, Simplenote.CUSTOM_FONT_PATH));
             TextView tagCount = (TextView) convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
-            int count = mCursor.getInt(mCursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME));
+            int count = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
             if (count > 0) {
                 tagCount.setText(Integer.toString(count));
             } else {

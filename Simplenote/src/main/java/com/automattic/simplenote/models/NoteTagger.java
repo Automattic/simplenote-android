@@ -40,28 +40,14 @@ public class NoteTagger implements Bucket.Listener<Note> {
                 tag.save();
             }
         }
-        saveAllTags();
     }
 
-    /*
-    * Reindexes all existing tags so they will have the correct note counts.
-    * */
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-        saveAllTags();
     }
 
     @Override
-    public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key){
-        saveAllTags();
-    }
-
-    private void saveAllTags(){
-        Query<Tag> tagQuery = mTagsBucket.query();
-        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-        while(cursor.moveToNext()){
-            cursor.getObject().save();
-        }
+    public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key) {
     }
 
 }
