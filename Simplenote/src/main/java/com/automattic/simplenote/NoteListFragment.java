@@ -446,6 +446,7 @@ public class NoteListFragment extends ListFragment {
 
             // for performance reasons we are going to get indexed values
             // from the cursor instead of instantiating the entire bucket object
+            holder.contentTextView.setVisibility(View.VISIBLE);
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
@@ -459,7 +460,11 @@ public class NoteListFragment extends ListFragment {
             holder.titleTextView.setText(title);
 
             if (mNumPreviewLines > 0) {
-                holder.contentTextView.setText(mCursor.getString(mCursor.getColumnIndex("contentPreview")));
+                String contentPreview = mCursor.getString(mCursor.getColumnIndex("contentPreview"));
+                if (title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
+                    holder.contentTextView.setVisibility(View.GONE);
+                else
+                    holder.contentTextView.setText(contentPreview);
             }
 			
 			return view;
