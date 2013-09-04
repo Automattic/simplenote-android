@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="want_more">Gostaria de ter mais? <u>Use uma conta Simplenote</u> »</string>
+	<string name="maybe_later">Mais tarde, <u>experimentar a aplicação já</u> »</string>
 	<string name="no_notes_newline"><b>Não existem notas aqui.</b>\nPorque não <u>criar uma</u>?</string>
 	<string name="no_tags_found"><b>Não existem etiquetas.</b></string>
 	<string name="rename_tag">Renomear etiqueta</string>
@@ -16,9 +18,7 @@
 	<string name="welcome_note">Bem-vindo ao Simplenote para Android!\nAbra isto para instruções.\n\nPara criar uma nova nota, clique no botão "+".\n\nPara procurar notas, clique no botão de pesquisa na Barra de Acções e introduza qualquer texto. O Simplenote irá mostrar-lhe os resultados num instante.\n\nContém uma nota muito importante? Clique no botão do pino enquanto visualiza a nota para colocá-la no topo da lista.\n\nUse etiquetas para ajudar a organizar as suas notas. Pode também adicionar um endereço de e-mail de outros utilizadores Simplenote como etiqueta para partilhar a nota com eles.\n\nPode partilhar notas facilmente para outros Android clicando "Partilhar" no menu.\n\nAs notas apagadas para para o lixo. Pode restaurá-las se quiser, ou esvaziar o lixo para se ver livre delas para sempre.\n\nPode acessar às suas notas na internet, nos seus outros aparelhos e no seu computador. Vá a http://simplenote.com para começar a acessar às suas notas de qualquer lado.\n\nEsperemos que desfrute do uso do Simplenote!</string>
 	<string name="welcome_signup_prompt">Sincronização de notas em progresso.</string>
 	<string name="confirm_delete_tag">Tem a certeza que quer apagar esta etiqueta?</string>
-	<string name="maybe_later">Talvez mais tarde, »</string>
 	<string name="backup_notes">Fazer cópia de segurança das suas notas, use-as na internet, e sinconize com outros aparelhos.</string>
-	<string name="want_more">Quer mais? »</string>
 	<string name="new_note_list">Nova nota...</string>
 	<string name="tag_hint">Adicionar etiqueta</string>
 	<string name="settings">Definições</string>
