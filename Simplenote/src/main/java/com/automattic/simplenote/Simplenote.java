@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
@@ -52,8 +51,6 @@ public class Simplenote extends Application {
 
         // Every time a note changes or is deleted we need to reindex the tag counts
         mNotesBucket.addListener(new NoteTagger(mTagsBucket));
-
-		Log.d(Simplenote.TAG, "Simplenote launched");
 	}
 		
 	public Simperium getSimperium(){

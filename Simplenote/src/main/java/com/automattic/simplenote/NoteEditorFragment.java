@@ -13,7 +13,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +86,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             }
 
             @Override
-            public Cursor runQueryOnBackgroundThread(CharSequence filter){
-                Log.v(Simplenote.TAG, String.format("runQueryOnBackgroundThread with filter: %s", filter));
+            public Cursor runQueryOnBackgroundThread(CharSequence filter) {
                 Activity activity = (Activity) getActivity();
                 if (activity == null) return null;
                 Simplenote application = (Simplenote) activity.getApplication();
@@ -148,8 +146,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void onPause() {
-        Log.i("SIMPLENOTE", "EDITOR FRAGMENT PAUSED");
-
         // Hide soft keyboard if it is showing...
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null)
@@ -198,7 +194,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     public void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
-            Log.v("Simplenote", "refreshing content");
             // Restore the cursor position if possible.
 
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());

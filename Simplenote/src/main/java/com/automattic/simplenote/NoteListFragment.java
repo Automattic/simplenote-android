@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -211,7 +210,6 @@ public class NoteListFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-        Log.i("SIMPLENOTE", "LIST FRAGMENT RESUMED");
         getPrefs();
 
         setWelcomeViewVisibility();
@@ -337,12 +335,10 @@ public class NoteListFragment extends ListFragment {
     }
 
 	public void refreshList() {
-        Log.d(Simplenote.TAG, "Refresh the list");
         new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, false);
 	}
 
     public void refreshListFromNavSelect() {
-        Log.d(Simplenote.TAG, "Refresh the list");
         new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, true);
     }
 
@@ -545,7 +541,6 @@ public class NoteListFragment extends ListFragment {
 
         @Override
         protected ObjectCursor<Note> doInBackground(Boolean ... args) {
-            Log.d(Simplenote.TAG, "Querying in background");
             mIsFromNavSelect = args[0];
             return queryNotes();
         }
@@ -554,9 +549,7 @@ public class NoteListFragment extends ListFragment {
         protected void onPostExecute(ObjectCursor<Note> cursor) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
-            Log.d(Simplenote.TAG, "Changing cursor");
             mNotesAdapter.changeCursor(cursor);
-            Log.d(Simplenote.TAG, "Cursor changed");
 
             NotesActivity notesActivity = (NotesActivity)getActivity();
             if (notesActivity != null) {

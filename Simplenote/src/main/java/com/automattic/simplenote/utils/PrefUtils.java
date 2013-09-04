@@ -8,9 +8,6 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.automattic.simplenote.Simplenote;
 
 public class PrefUtils {
 
@@ -32,7 +29,6 @@ public class PrefUtils {
 		try {
 			return getPrefs(context).getString(prefKey, defaultValue);
 		} catch (ClassCastException e) {
-			Log.e(Simplenote.TAG, e.getMessage(), e);
 			return defaultValue;
 		}
 	}	
@@ -53,7 +49,6 @@ public class PrefUtils {
 		try {
 			return getPrefs(context).getBoolean(prefKey, defaultValue);
 		} catch (ClassCastException e) {
-			Log.e(Simplenote.TAG, e.getMessage(), e);
 			return defaultValue;
 		}
 	}
