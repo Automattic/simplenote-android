@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="no_notes_newline"><b>ノートがありません。</b>\n<u>新規作成</u> しますか?</string>
+	<string name="no_tags_found"><b>タグが見つかりませんでした。</b></string>
+	<string name="rename_tag">タグ名を変更</string>
+	<string name="no_notes"><![CDATA[<b>ノートがありません。</b><br><u>新規作成</u> しますか?]]></string>
+	<string name="note_pinned">ノートを上部に固定しました。</string>
+	<string name="condensed_note_list">要約版ノート一覧</string>
+	<string name="open_drawer">ドロワーを開く</string>
+	<string name="close_drawer">ドロワーを閉じる</string>
 	<string name="delete">ゴミ箱へ移動</string>
 	<string name="new_note">新規ノート</string>
 	<string name="sign_in">ログイン</string>
@@ -9,8 +17,8 @@
 	<string name="welcome_signup_prompt">いますぐノートの同期を始めましょう。</string>
 	<string name="confirm_delete_tag">本当にこのタグを削除しますか ?</string>
 	<string name="maybe_later">後で行います »</string>
-	<string name="backup_notes">ノートをバックアップし、Web 上で使い、他のデバイスと同期できます。</string>
-	<string name="want_more">もっと ? »</string>
+	<string name="backup_notes">ノートをバックアップし、Web 上で使い、他のデバイスと同期しましょう。</string>
+	<string name="want_more">More ? »</string>
 	<string name="new_note_list">新規ノート…</string>
 	<string name="tag_hint">タグを追加…</string>
 	<string name="settings">設定</string>
@@ -18,7 +26,7 @@
 	<string name="undelete">ノートを復元</string>
 	<string name="account">アカウント</string>
 	<string name="sign_out">ログアウト</string>
-	<string name="preview_lines">プレビュー行</string>
+	<string name="preview_lines">プレビュー行数</string>
 	<string name="share_note">ノートを共有</string>
 	<string name="words">単語</string>
 	<string name="characters">文字</string>
@@ -33,16 +41,13 @@
 	<string name="no">いいえ</string>
 	<string name="character">文字</string>
 	<string name="word">単語</string>
-	<string name="no_notes_newline">\nノートを作成しますか ?</string>
-	<string name="no_notes"><b>ノートがありません。</b><br />作成しますか ?</string>
-	<string name="no_tags_found">タグが見つかりませんでした。</string>
-	<string name="trash_is_empty"><b>ゴミ箱が空です。</b></string>
-	<string name="no_notes_found"><b>ノートが見つかりませんでした。</b></string>
-	<string name="website">simplenote.com へ</string>
+	<string name="trash_is_empty"><![CDATA[<b>ゴミ箱が空です。</b>]]></string>
+	<string name="no_notes_found"><![CDATA[<b>ノートが見つかりませんでした。</b>]]></string>
+	<string name="website">simplenote.com サイトへ</string>
 	<string name="more_info">詳細</string>
 	<string name="sort_order">ソート順</string>
 	<string name="search">検索</string>
-	<string name="notes">すべてのノート</string>
+	<string name="notes">ノート一覧</string>
 	<string name="trash">ゴミ箱</string>
 	<string name="today">今日</string>
 	<string name="yesterday">昨日</string>
