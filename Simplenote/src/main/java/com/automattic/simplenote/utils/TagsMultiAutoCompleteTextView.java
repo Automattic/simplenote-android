@@ -70,6 +70,9 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            if (mShouldMoveNewTagText && before > 0)
+                mShouldMoveNewTagText = false;
+
             if (mShouldMoveNewTagText) {
                 mShouldMoveNewTagText = false;
                 // Get the entered text, and move it to the end of the editor
