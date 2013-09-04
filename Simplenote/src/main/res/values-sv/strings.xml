@@ -15,10 +15,10 @@
 	<string name="sign_in">Logga in</string>
 	<string name="sign_up">Skapa konto</string>
 	<string name="edit_tags">Redigera etiketter</string>
-	<string name="welcome_note">Välkommen till Simplenote för Android!\nÖppna detta för instruktioner.\n\nFör att skapa en anteckning, tryck på plus-knappen.\n\nFör att söka bland dina anteckningar, tryck på sök-knappen i menyn och skriv vad du vill. Simplenote visar dina resultat i realtid.\n\nHar du en väldigt viktig anteckning? Tryck på "nåla fast"-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan också dela anteckningar med andra Simplenote-användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra appar genom att trycka på dela-knappen i menyn.\n\nBorttagna anteckningar finns i skräpkorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu kan se och ändra i dina anteckningar på nätet, från andra enheter och direkt på din dator. Besök http://simplenote.com för att se hur du kan få tillgång till dina anteckningar var du än är.\n\nVi hoppas du gillar att använda Simplenote!</string>
+	<string name="welcome_note">Välkommen till Simplenote för Android!\nLäs detta för instruktioner.\n\nFör att skapa en anteckning, tryck på plus-knappen i menyn.\n\nFör att söka bland dina anteckningar, tryck på sök-knappen i menyn och skriv vad du vill. Simplenote visar dina resultat i realtid.\n\nHar du en väldigt viktig anteckning? Tryck på \'nåla fast\'-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan också dela anteckningar med andra Simplenote-användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra appar genom att trycka på dela-knappen i menyn.\n\nBorttagna anteckningar finns i skräpkorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu kan se och ändra i dina anteckningar på nätet, från andra enheter och direkt på din dator. Besök http://simplenote.com för att se hur du kan få tillgång till dina anteckningar var du än är.\n\nVi hoppas du gillar att använda Simplenote!</string>
 	<string name="welcome_signup_prompt">Börja synkronisera anteckningar nu.</string>
 	<string name="confirm_delete_tag">Är du säker på att du vill ta bort etiketten?</string>
-	<string name="backup_notes">Ta backup på dina anteckningar, redigera dem på nätet och synkronisera med andra enheter.</string>
+	<string name="backup_notes">Ta backup på dina anteckningar, redigera på nätet och synkronisera mellan enheter.</string>
 	<string name="new_note_list">Ny anteckning...</string>
 	<string name="tag_hint">Lägg till etikett...</string>
 	<string name="settings">Inställningar</string>
@@ -29,7 +29,7 @@
 	<string name="preview_lines">Förhandsgranska linjer</string>
 	<string name="share_note">Dela anteckning</string>
 	<string name="words">ord</string>
-	<string name="characters">Bokstäver</string>
+	<string name="characters">bokstäver</string>
 	<string name="edit_tag">Ändra etikett</string>
 	<string name="tag_name">Etikett</string>
 	<string name="delete_tag">Ta bort etikett</string>
