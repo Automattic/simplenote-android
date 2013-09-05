@@ -88,7 +88,7 @@ public class NotesActivity extends Activity implements
         mTagsBucket = currentApp.getTagsBucket();
         setContentView(R.layout.activity_notes);
 
-        EasyTracker.getInstance().activityStart(this); // Add this method.
+        EasyTracker.getInstance().activityStart(this);
         mTracker = EasyTracker.getTracker();
 
         if (savedInstanceState == null) {
@@ -188,6 +188,7 @@ public class NotesActivity extends Activity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
+        setProgressBarIndeterminateVisibility(false);
         checkForUpdates();
     }
 
