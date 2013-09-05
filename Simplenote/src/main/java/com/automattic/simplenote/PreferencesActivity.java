@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.Simperium;
@@ -30,8 +32,11 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
         Simplenote currentApp = (Simplenote) getApplication();
         currentApp.getSimperium().setUserStatusChangeListener(this);
         currentApp.getSimperium().setOnUserCreatedListener(this);
+        authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (currentApp.getSimperium().needsAuthorization()) {
             authenticatePreference.setTitle(R.string.sign_in);
+        } else {
+            authenticatePreference.setTitle(R.string.sign_out);
         }
 
         authenticatePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
