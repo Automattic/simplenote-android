@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="want_more">More? <u>Simplenote アカウントを利用</u> »</string>
+	<string name="maybe_later">後にします。<u>まずはアプリを利用</u> »</string>
 	<string name="no_notes_newline"><b>ノートがありません。</b>\n<u>新規作成</u> しますか?</string>
 	<string name="no_tags_found"><b>タグが見つかりませんでした。</b></string>
 	<string name="rename_tag">タグ名を変更</string>
@@ -16,9 +18,7 @@
 	<string name="welcome_note">Simplenote Android へようこそ !\n使い方についてはこちらを開いてください。\n\nノートを新規作成するには、「＋」ボタンをタップしてください。\n\nノートを検索するには、アクションバーの検索ボタンをタップしてテキストを入力してください。Simplenote は一致した項目をすぐに表示します。\n\n重要なノートがある場合は、表示中にピンボタンを押して一覧の上部に固定できます。\n\nノートの整理にタグを使いましょう。他の Simplenote ユーザーのメールアドレスを追加すれば、その人とノートを共有できます。\n\nメニューの「共有」ボタンをタップして、他のアンドロイドアプリでノートをシェアできます。\n\n削除したノートはゴミ箱に移動します。復元したり、ゴミ箱を空にして永久に削除したりできます。\n\nWeb から、またはほかのデバイスやパソコンからノートにアクセスできます。http://simplenote.com から他のデバイスのアプリやアクセス方法をご覧ください。\n\nそれでは、Simplenote をお楽しみください !</string>
 	<string name="welcome_signup_prompt">いますぐノートの同期を始めましょう。</string>
 	<string name="confirm_delete_tag">本当にこのタグを削除しますか ?</string>
-	<string name="maybe_later">後で行います »</string>
 	<string name="backup_notes">ノートをバックアップし、Web 上で使い、他のデバイスと同期しましょう。</string>
-	<string name="want_more">More ? »</string>
 	<string name="new_note_list">新規ノート…</string>
 	<string name="tag_hint">タグを追加…</string>
 	<string name="settings">設定</string>
