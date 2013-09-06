@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -71,6 +72,18 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
                 return true;
 			}
 		});
+
+        final ListPreference sortPreference = (ListPreference) findPreference("pref_key_sort_order");
+        sortPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue){
+                int index = Integer.parseInt(newValue.toString());
+                CharSequence[] entries = sortPreference.getEntries();
+                sortPreference.setSummary(entries[index]);
+                return true;
+            }
+        });
 
         EasyTracker.getInstance().activityStart(this);
 	}

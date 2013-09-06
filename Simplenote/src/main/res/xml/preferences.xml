@@ -29,6 +29,7 @@
             android:entries="@array/array_sort_order"
             android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"
+            android:summary="%s"
             android:title="@string/sort_order" />
     </PreferenceCategory>
 
