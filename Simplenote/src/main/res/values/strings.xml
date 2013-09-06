@@ -61,4 +61,12 @@
     <string name="new_note_list">New note&#8230;</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
+
+    <!-- Sorting Options -->
+    <string name="sort_newest_modified">Newest modified date</string>
+    <string name="sort_oldest_modified">Oldest modified date</string>
+    <string name="sort_newest_created">Newest created date</string>
+    <string name="sort_oldest_created">Oldest created date</string>
+    <string name="sort_alphabetical">Alphabetically, A-Z</string>
+    <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
 </resources>
