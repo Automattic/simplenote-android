@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.simperium:simperium-android:0.1.4"
+    compile "com.simperium:simperium-android:0.1.5"
     compile 'com.android.support:support-v4:18.0.+'
     compile "com.google:google-analytics:2.0-beta-4"
     compile "net.hockeyapp:hockey-sdk:3.0.0"
