@@ -581,6 +581,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                     mActionMode.finish();
                 }
             }
+        } else if (mActionMode != null) {
+            // Ensure that the action mode is closed
+            mActionMode.finish();
         }
     }
 
