@@ -3,7 +3,9 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,12 +15,17 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.TextView;
@@ -27,6 +34,8 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.SimplenoteEditText;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.Typefaces;
@@ -38,20 +47,24 @@ import com.simperium.client.Query;
 
 import java.util.Calendar;
 
-public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener, View.OnFocusChangeListener {
+public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
     private Note mNote;
-    private EditText mContentEditText;
+    private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote;
+    private ActionMode mActionMode;
+    private MenuItem mViewLinkMenuItem;
+    private String mLinkUrl;
+    private String mLinkText;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -105,8 +118,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-        mContentEditText = ((EditText) rootView.findViewById(R.id.note_content));
+        mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
@@ -198,6 +212,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
             if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
@@ -465,6 +480,124 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 if (mNote.isPinned() != mPinButton.isChecked())
                     tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
                 tracker.sendEvent("note", "edited_note", "editor_save", null);
+            }
+        }
+    }
+
+    // Contextual action bar for dealing with links
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.view_link, menu);
+            mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
+            mode.setTitle(getString(R.string.link));
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_view_link:
+                    if (mLinkUrl != null) {
+                        try {
+                            Uri uri = Uri.parse(mLinkUrl);
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(uri);
+                            startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish(); // Action picked, so close the CAB
+                    }
+                    return true;
+                case R.id.menu_copy:
+                    if (mLinkText != null) {
+                        android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        clipboard.setText(mLinkText);
+                        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                        mode.finish();
+                    }
+                    return true;
+                case R.id.menu_share:
+                    if (mLinkText != null) {
+                        try {
+                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mLinkText);
+                            startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish();
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+
+    // Checks if cursor is at a URL when the selection changes
+    // If it is a URL, show the contextual action bar
+    @Override
+    public void onSelectionChanged(int selStart, int selEnd) {
+        if (selStart == selEnd) {
+            Editable noteContent = mContentEditText.getText();
+            URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
+            if (urlSpans.length > 0) {
+                URLSpan urlSpan = urlSpans[0];
+                mLinkUrl = urlSpan.getURL();
+                mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
+                if (mActionMode != null) {
+                    mActionMode.setSubtitle(mLinkText);
+                    setLinkMenuItem();
+                    return;
+                }
+
+                // Show the Contextual Action Bar
+                mActionMode = getActivity().startActionMode(mActionModeCallback);
+                mActionMode.setSubtitle(mLinkText);
+                setLinkMenuItem();
+            } else {
+                if (mActionMode != null) {
+                    mActionMode.finish();
+                }
+            }
+        }
+    }
+
+    private void setLinkMenuItem() {
+        if (mViewLinkMenuItem != null && mLinkUrl != null) {
+            if (mLinkUrl.startsWith("tel:")) {
+                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_call);
+                mViewLinkMenuItem.setTitle(getString(R.string.call));
+            } else if (mLinkUrl.startsWith("mailto:")) {
+                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_email);
+                mViewLinkMenuItem.setTitle(getString(R.string.email));
+            } else if (mLinkUrl.startsWith("geo:")) {
+                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_map);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_map));
+            } else {
+                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_web);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }
     }

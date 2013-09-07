@@ -69,4 +69,11 @@
     <string name="sort_oldest_created">Oldest created date</string>
     <string name="sort_alphabetical">Alphabetically, A-Z</string>
     <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
+    <string name="call">Call</string>
+    <string name="email">Email</string>
+    <string name="view_map">View map</string>
+    <string name="view_in_browser">View in browser</string>
+    <string name="link">Link</string>
+    <string name="link_copied">Link copied to clipboard.</string>
+    <string name="copy">Copy</string>
 </resources>
