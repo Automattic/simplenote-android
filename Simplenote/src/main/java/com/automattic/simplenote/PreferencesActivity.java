@@ -54,6 +54,8 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
                     application.getSimperium().deauthorizeUser();
                     application.getNotesBucket().reset();
                     application.getTagsBucket().reset();
+                    application.getNotesBucket().stop();
+                    application.getTagsBucket().stop();
                     EasyTracker.getTracker().sendEvent("user", "signed_out", "preferences_sign_out_button", null);
                     finish();
                 }
