@@ -218,8 +218,6 @@ public class NotesActivity extends Activity implements
         super.onPause();
 
         mTagsBucket.removeListener(mTagsMenuUpdater);
-        mNotesBucket.stop();
-        mTagsBucket.stop();
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
