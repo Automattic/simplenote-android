@@ -92,17 +92,15 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
                 return true;
             case R.id.menu_delete:
                 Note deletedNote = mNoteEditorFragment.getNote();
-                if (mNoteEditorFragment != null) {
-                    if (deletedNote != null) {
-                        deletedNote.setDeleted(!deletedNote.isDeleted());
-                        deletedNote.setModificationDate(Calendar.getInstance());
-                        deletedNote.save();
-                    }
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                if (deletedNote != null) {
+                    deletedNote.setDeleted(!deletedNote.isDeleted());
+                    deletedNote.setModificationDate(Calendar.getInstance());
+                    deletedNote.save();
                 }
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
+                setResult(RESULT_OK, resultIntent);
+                finish();
                 return true;
             case android.R.id.home:
                 finish();

@@ -141,7 +141,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
             mPlaceholderView.setVisibility(View.VISIBLE);
 
-
         if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
             String key = getArguments().getString(ARG_ITEM_ID);
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
@@ -576,14 +575,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 mActionMode = getActivity().startActionMode(mActionModeCallback);
                 mActionMode.setSubtitle(mLinkText);
                 setLinkMenuItem();
-            } else {
-                if (mActionMode != null) {
-                    mActionMode.finish();
-                }
+            } else if (mActionMode != null) {
+                mActionMode.finish();
+                mActionMode = null;
             }
         } else if (mActionMode != null) {
-            // Ensure that the action mode is closed
             mActionMode.finish();
+            mActionMode = null;
         }
     }
 
