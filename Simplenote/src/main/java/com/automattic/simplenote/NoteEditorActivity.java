@@ -42,8 +42,10 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
             mNoteEditorFragment = new NoteEditorFragment();
             mNoteEditorFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
-                    .add(R.id.note_editor_container, mNoteEditorFragment)
+                    .add(R.id.note_editor_container, mNoteEditorFragment, NotesActivity.TAG_NOTE_EDITOR)
                     .commit();
+        } else {
+            mNoteEditorFragment = (NoteEditorFragment)getFragmentManager().findFragmentByTag(NotesActivity.TAG_NOTE_EDITOR);
         }
     }
 
