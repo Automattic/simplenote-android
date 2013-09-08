@@ -2,6 +2,8 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -523,8 +525,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                     return true;
                 case R.id.menu_copy:
                     if (mLinkText != null) {
-                        android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                        clipboard.setText(mLinkText);
+                        ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText(getString(R.string.app_name),mLinkText);
+                        clipboard.setPrimaryClip(clip);
                         Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
                         mode.finish();
                     }
