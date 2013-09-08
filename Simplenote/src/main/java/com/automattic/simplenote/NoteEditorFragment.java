@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -496,6 +497,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             inflater.inflate(R.menu.view_link, menu);
             mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
             mode.setTitle(getString(R.string.link));
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                mode.setTitleOptionalHint(false);
+            }
             return true;
         }
 
