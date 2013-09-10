@@ -26,6 +26,8 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
         mNotesBucket = currentApp.getNotesBucket();
         setContentView(R.layout.activity_note_editor);
 
+        EasyTracker.getInstance().activityStart(this);
+
         // No title, please.
         setTitle("");
 
@@ -96,10 +98,10 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
                     deletedNote.setDeleted(!deletedNote.isDeleted());
                     deletedNote.setModificationDate(Calendar.getInstance());
                     deletedNote.save();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
+                    setResult(RESULT_OK, resultIntent);
                 }
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
-                setResult(RESULT_OK, resultIntent);
                 finish();
                 return true;
             case android.R.id.home:
