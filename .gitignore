@@ -33,3 +33,6 @@ config.properties
 gradle.properties
 
 *.keystore
+
+# When developing against Simperium-android source directly
+Simperium
