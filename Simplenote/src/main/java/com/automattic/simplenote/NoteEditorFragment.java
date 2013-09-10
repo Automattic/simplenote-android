@@ -279,6 +279,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void onTagsChanged(String tagString) {
+        if (mNote == null)
+            return;
         if (getActivity() != null && mNote.getTagString() != null && tagString.length() > mNote.getTagString().length())
             EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
         else
