@@ -22,7 +22,7 @@ dependencies {
     compile "net.hockeyapp:hockey-sdk:3.0.0"
 }
 
-version "1.0.0"
+version "1.0.1"
 
 android {
 
@@ -32,7 +32,7 @@ android {
     defaultConfig {
         packageName "com.automattic.simplenote"
         versionName project.version
-        versionCode 15
+        versionCode 19
         minSdkVersion 15
         targetSdkVersion 18
      }
