@@ -608,6 +608,7 @@ public class NotesActivity extends Activity implements
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID);
             getNoteListFragment().setNoteSelected(noteID);
+            invalidateOptionsMenu();
         }
 
         mTracker.sendEvent("note", "viewed_note", "note_list_row_tap", null);
@@ -781,6 +782,7 @@ public class NotesActivity extends Activity implements
         if (isLargeScreenLandscape() && mNoteEditorFragment != null) {
             mCurrentNote = null;
             mNoteEditorFragment.setPlaceholderVisible(true);
+            invalidateOptionsMenu();
         }
     }
 
