@@ -61,7 +61,6 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
     @Override
     protected void onPause() {
         super.onPause();
-        mNotesBucket.stop();
         mNotesBucket.removeOnNetworkChangeListener(this);
     }
 

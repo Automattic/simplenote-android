@@ -101,9 +101,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     protected void onPause() {
         super.onPause();
 
-        mNotesBucket.stop();
-        mTagsBucket.stop();
-
         mTagsBucket.removeOnNetworkChangeListener(this);
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
