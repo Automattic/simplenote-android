@@ -628,7 +628,6 @@ public class NotesActivity extends Activity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        invalidateOptionsMenu();
                         if (!mNotesBucket.hasChangeVersion()) {
                             setProgressBarIndeterminateVisibility(true);
                         }
@@ -683,6 +682,7 @@ public class NotesActivity extends Activity implements
                 }
                 break;
             case Simperium.SIGNUP_SIGNIN_REQUEST:
+                invalidateOptionsMenu();
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
                 }
