@@ -666,6 +666,7 @@ public class NotesActivity extends Activity implements
         switch (requestCode) {
             case Simplenote.INTENT_PREFERENCES:
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
+                invalidateOptionsMenu();
                 NoteListFragment fragment = getNoteListFragment();
                 if (fragment != null) {
                     fragment.getPrefs();
