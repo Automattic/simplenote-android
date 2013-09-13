@@ -149,11 +149,14 @@ public class NoteListFragment extends ListFragment {
                 addNote();
             }
         });
+        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
         mWelcomeViewSwitcher = (ViewSwitcher)view.findViewById(R.id.welcome_view_switcher);
 
         TextView welcomeTextView = (TextView)view.findViewById(R.id.welcome_textview);
+        welcomeTextView.setText(Html.fromHtml(getString(R.string.welcome_want_more) + " <u>" + getString(R.string.use_simplenote_account) + "</u> &raquo;"));
         TextView laterTextView = (TextView)view.findViewById(R.id.welcome_later_textview);
+        laterTextView.setText(Html.fromHtml(getString(R.string.maybe_later) + ", <u>" + getString(R.string.just_try_app) + "</u> &raquo;"));
 
         Button signInButton = (Button)view.findViewById(R.id.welcome_sign_in);
         signInButton.setTag(TAG_BUTTON_SIGNIN);

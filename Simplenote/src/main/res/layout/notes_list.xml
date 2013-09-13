@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/no_notes_newline"
                 android:textColor="@color/mediumgrey"
                 android:background="@drawable/selectable_background_simplestyle"
                 android:textSize="20sp"

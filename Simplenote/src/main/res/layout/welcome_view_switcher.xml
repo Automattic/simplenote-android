@@ -26,7 +26,6 @@
                 android:textSize="18sp"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/want_more"
                 android:textColor="@color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:fontFamily="sans-serif-light" />
@@ -93,7 +92,6 @@
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:text="@string/maybe_later"
                 android:textColor="@color/white" />
 
     </LinearLayout>

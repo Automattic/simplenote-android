@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.ActionMode;
@@ -63,6 +64,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         TextView emptyTextView = (TextView)findViewById(android.R.id.empty);
         emptyTextView.setTypeface(Typefaces.get(this, Simplenote.CUSTOM_FONT_PATH));
+        emptyTextView.setText(Html.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
 
         ListView listView = getListView();
         listView.setMultiChoiceModeListener(this);

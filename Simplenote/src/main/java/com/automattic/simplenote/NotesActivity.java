@@ -766,14 +766,14 @@ public class NotesActivity extends Activity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes_found));
+            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
             getNoteListFragment().setEmptyListViewClickable(false);
         } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-            getNoteListFragment().setEmptyListMessage(getString(R.string.trash_is_empty));
+            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
             EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
             getNoteListFragment().setEmptyListViewClickable(false);
         } else {
-            getNoteListFragment().setEmptyListMessage(getString(R.string.no_notes));
+            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
             getNoteListFragment().setEmptyListViewClickable(true);
         }
     }
