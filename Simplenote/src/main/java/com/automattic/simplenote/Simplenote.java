@@ -10,6 +10,7 @@ import com.automattic.simplenote.models.Tag;
 import com.simperium.Simperium;
 
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketNameInvalid;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -48,13 +49,17 @@ public class Simplenote extends Application {
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);
 
-		mNotesBucket = mSimperium.bucket(new Note.Schema());
-        Tag.Schema tagSchema = new Tag.Schema();
-        tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
-		mTagsBucket = mSimperium.bucket(tagSchema);
+        try {
+            mNotesBucket = mSimperium.bucket(new Note.Schema());
+            Tag.Schema tagSchema = new Tag.Schema();
+            tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
+            mTagsBucket = mSimperium.bucket(tagSchema);
 
-        // Every time a note changes or is deleted we need to reindex the tag counts
-        mNotesBucket.addListener(new NoteTagger(mTagsBucket));
+            // Every time a note changes or is deleted we need to reindex the tag counts
+            mNotesBucket.addListener(new NoteTagger(mTagsBucket));
+        } catch (BucketNameInvalid e) {
+            throw new RuntimeException("Could not create bucket", e);
+        }
 	}
 		
 	public Simperium getSimperium(){

@@ -32,6 +32,7 @@ import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 
@@ -136,8 +137,13 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = tagNameEditText.getText().toString().trim();
-                tag.renameTo(value, mNotesBucket);
-                mTracker.sendEvent("tag", "edited_tag", "tag_alert_edit_box", null);
+                try {
+                    tag.renameTo(value, mNotesBucket);
+                    mTracker.sendEvent("tag", "edited_tag", "tag_alert_edit_box", null);
+                } catch (BucketObjectNameInvalid e) {
+                    android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
+                    // TODO: show user a message that new tag name is not ok
+                }
             }
         });
         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

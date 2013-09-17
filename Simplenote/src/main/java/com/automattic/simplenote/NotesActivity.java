@@ -39,6 +39,7 @@ import com.google.analytics.tracking.android.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 import com.simperium.client.User;
@@ -152,12 +153,16 @@ public class NotesActivity extends Activity implements
 
         if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
             // Create the welcome note
-            Note welcomeNote = mNotesBucket.newObject("welcome-android");
-            welcomeNote.setCreationDate(Calendar.getInstance());
-            welcomeNote.setModificationDate(welcomeNote.getCreationDate());
-            welcomeNote.setContent(getString(R.string.welcome_note));
-            welcomeNote.getTitle();
-            welcomeNote.save();
+            try {
+                Note welcomeNote = mNotesBucket.newObject("welcome-android");
+                welcomeNote.setCreationDate(Calendar.getInstance());
+                welcomeNote.setModificationDate(welcomeNote.getCreationDate());
+                welcomeNote.setContent(getString(R.string.welcome_note));
+                welcomeNote.getTitle();
+                welcomeNote.save();
+            } catch (BucketObjectNameInvalid e) {
+                // this won't happen because welcome-android is a valid name
+            }
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();

@@ -5,6 +5,7 @@
 package com.automattic.simplenote.models;
 
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
@@ -34,10 +35,14 @@ public class NoteTagger implements Bucket.Listener<Note> {
                 tag = mTagsBucket.getObject(tagKey);
             } catch (BucketObjectMissingException e) {
                 // tag doesn't exist, so we'll create one using the key
-                tag = mTagsBucket.newObject(tagKey);
-                tag.setName(tagName);
-                tag.setIndex(mTagsBucket.count());
-                tag.save();
+                try {
+                    tag = mTagsBucket.newObject(tagKey);
+                    tag.setName(tagName);
+                    tag.setIndex(mTagsBucket.count());
+                    tag.save();
+                } catch (BucketObjectNameInvalid invalid) {
+                    android.util.Log.e("Simplenote.NoteTagger", "Could not create tag object for note", invalid);
+                }
             }
         }
     }

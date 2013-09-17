@@ -3,6 +3,7 @@ package com.automattic.simplenote.models;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObject;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketSchema;
 import com.simperium.client.Query;
 import com.simperium.client.Query.ComparisonType;
@@ -86,11 +87,11 @@ public class Tag extends BucketObject {
         }
 	}
 
-    public void renameTo(String name, Bucket<Note> notesBucket){
+    public void renameTo(String name, Bucket<Note> notesBucket)
+    throws BucketObjectNameInvalid {
         String key = name.toLowerCase();
         if (!getSimperiumKey().equals(key)) {
             // create a new tag with the value as the key/name
-            // TODO: tag already exists?
             Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
             newTag.setName(name);
             newTag.save();
