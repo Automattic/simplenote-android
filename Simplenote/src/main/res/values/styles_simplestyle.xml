@@ -37,6 +37,10 @@
         <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
     </style>
 
+    <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
     <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_simplestyle</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>

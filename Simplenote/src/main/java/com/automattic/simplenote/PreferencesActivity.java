@@ -5,25 +5,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 public class PreferencesActivity extends PreferenceActivity implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		addPreferencesFromResource(R.xml.preferences);
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        addPreferencesFromResource(R.xml.preferences);
 
         setTitle(R.string.settings);
 
@@ -63,23 +65,23 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
             }
         });
 
-		findPreference("pref_website").setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
+        findPreference("pref_key_website").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://simplenote.com")));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;
-			}
-		});
+            }
+        });
 
         final ListPreference sortPreference = (ListPreference) findPreference("pref_key_sort_order");
         sortPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue){
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = sortPreference.getEntries();
                 sortPreference.setSummary(entries[index]);
@@ -87,8 +89,15 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
             }
         });
 
+        Preference passcodePref = findPreference("pref_key_passcode");
+        if (AppLockManager.getInstance().isAppLockFeatureEnabled() == false) {
+            //Passcode Lock not supported
+            PreferenceGroup rootGroup = (PreferenceGroup) findPreference("pref_key_note_preference");
+            rootGroup.removePreference(passcodePref);
+        }
+
         EasyTracker.getInstance().activityStart(this);
-	}
+    }
 
     @Override
     public void onStop() {

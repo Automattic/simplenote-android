@@ -8,7 +8,6 @@
         android:targetSdkVersion="18" />
     
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -46,7 +45,24 @@
         <activity
             android:name="com.automattic.simplenote.TagsListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+
+        <!-- Passcode Unlock-->
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
+            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodePreferencesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
+            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+
     </application>
 
 </manifest>

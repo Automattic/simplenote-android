@@ -5,8 +5,9 @@
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="Debug" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebug" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleTest" />
-        <option name="SOURCE_GEN_TASK_NAME" value="TODO" />
+        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
@@ -61,7 +62,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/exploded-bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/libs" />
       <excludeFolder url="file://$MODULE_DIR$/build/manifests" />
@@ -70,12 +70,12 @@
     </content>
     <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
-    <orderEntry type="library" exported="" name="android-websockets-6c7c60d" level="project" />
     <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
+    <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
     <orderEntry type="library" exported="" name="google-analytics-2.0-beta-4" level="project" />
-    <orderEntry type="library" exported="" name="hockey-sdk-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid100Ge7778e2.aar" level="project" />
+    <orderEntry type="library" exported="" name="android-websockets-6c7c60d" level="project" />
+    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid017.aar" level="project" />
+    <orderEntry type="library" exported="" name="OrgWordpressAndroidPasscodelock003.aar" level="project" />
   </component>
 </module>
 

@@ -11,6 +11,8 @@ import com.simperium.Simperium;
 
 import com.simperium.client.Bucket;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 import java.util.Properties;
 
 public class Simplenote extends Application {
@@ -35,7 +37,9 @@ public class Simplenote extends Application {
 		
 	public void onCreate(){
 		super.onCreate();
-		
+
+        AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
+
         mSimperium = Simperium.newClient(
             Config.simperium_app_id,
             Config.simperium_app_key,
