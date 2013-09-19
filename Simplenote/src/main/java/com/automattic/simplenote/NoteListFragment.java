@@ -519,22 +519,22 @@ public class NoteListFragment extends ListFragment {
 		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
 		switch (sortPref) {
         case 0:
-            noteQuery.order("modificationDate", SortType.DESCENDING);
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
             break;
 		case 1:
-            noteQuery.order("modificationDate", SortType.ASCENDING);
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
 			break;
 		case 2:
-            noteQuery.order("creationDate", SortType.DESCENDING);
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
 			break;
 		case 3:
-            noteQuery.order("creationDate", SortType.ASCENDING);
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
 			break;
 		case 4:
-            noteQuery.order("content", SortType.ASCENDING);
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
 			break;
 		case 5:
-            noteQuery.order("content", SortType.DESCENDING);
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
 			break;
 		}
     }
