@@ -17,6 +17,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -403,6 +404,11 @@ public class NotesActivity extends Activity implements
 
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 
+        // restore the search query if on a lanscape tablet
+        String searchQuery = null;
+        if (isLargeScreenLandscape() && mSearchView != null)
+            searchQuery = mSearchView.getQuery().toString();
+
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
 
@@ -412,11 +418,17 @@ public class NotesActivity extends Activity implements
         if (searchPlate != null)
             searchPlate.setBackgroundResource(R.drawable.search_view_selector);
 
+        if (!TextUtils.isEmpty(searchQuery)) {
+            mSearchView.setQuery(searchQuery, false);
+            mSearchMenuItem.expandActionView();
+        }
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mSearchMenuItem.isActionViewExpanded())
+                if (mSearchMenuItem.isActionViewExpanded()) {
                     getNoteListFragment().searchNotes(newText);
+                }
                 return true;
             }
 
@@ -430,7 +442,6 @@ public class NotesActivity extends Activity implements
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                showDetailPlaceholder();
                 checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
                 mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
@@ -440,10 +451,20 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                mSearchView.setQuery("", false);
                 checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
                 getNoteListFragment().setWelcomeViewVisibility();
                 return true;
+            }
+        });
+
+        mSearchMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (!mSearchMenuItem.isActionViewExpanded())
+                    showDetailPlaceholder();
+                return false;
             }
         });
 
