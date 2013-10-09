@@ -144,12 +144,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
             mPlaceholderView.setVisibility(View.VISIBLE);
 
-        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
-            String key = getArguments().getString(ARG_ITEM_ID);
-            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
-            setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
-        }
-
         mTagView.setAdapter(mAutocompleteAdapter);
 		return rootView;
 	}
@@ -158,6 +152,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onResume() {
         super.onResume();
         mTagView.setOnTagAddedListener(this);
+
+        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
+            String key = getArguments().getString(ARG_ITEM_ID);
+            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
+        }
+
     }
 
     @Override
@@ -442,7 +443,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         protected void onPostExecute(Void nada) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
-            refreshContent(false);
+            refreshContent(true);
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
             if (mNote != null && mNote.getContent().isEmpty()) {
                 // Show soft keyboard

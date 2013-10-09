@@ -21,8 +21,6 @@ import com.simperium.client.Query.ComparisonType;
 import com.simperium.client.Query.SortType;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
-import com.simperium.client.BucketSchema.Index;
-import com.simperium.client.BucketSchema.Indexer;
 
 public class Note extends BucketObject {
 	
@@ -45,15 +43,20 @@ public class Note extends BucketObject {
     public static final String TITLE_INDEX_NAME="title";
     public static final String CONTENT_PREVIEW_INDEX_NAME="contentPreview";
     public static final String PINNED_INDEX_NAME="pinned";
+    public static final String MODIFIED_INDEX_NAME="modified";
+    public static final String CREATED_INDEX_NAME="created";
 	
 	protected String title = null;
 	protected String contentPreview = null;
 
+
 	public static class Schema extends BucketSchema<Note> {
+
+        protected static NoteIndexer sNoteIndexer = new NoteIndexer();
 
         public Schema(){
             autoIndex();
-            addIndex(noteIndexer);
+            addIndex(sNoteIndexer);
             setDefault(CONTENT_PROPERTY, "");
             setDefault(SYSTEM_TAGS_PROPERTY, new ArrayList<Object>());
             setDefault(TAGS_PROPERTY, new ArrayList<Object>());
@@ -61,17 +64,6 @@ public class Note extends BucketObject {
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
         }
-
-        private Indexer noteIndexer = new Indexer<Note>(){
-            @Override
-            public List<Index> index(Note note){
-                List<Index> indexes = new ArrayList<Index>();
-                indexes.add(new Index(PINNED_INDEX_NAME, note.isPinned()));
-                indexes.add(new Index(CONTENT_PREVIEW_INDEX_NAME, note.getContentPreview()));
-                indexes.add(new Index(TITLE_INDEX_NAME, note.getTitle()));
-                return indexes;
-            }
-        };
 
         public String getRemoteName(){
             return Note.BUCKET_NAME;
@@ -367,6 +359,12 @@ public class Note extends BucketObject {
     public static Calendar numberToDate(Number time){
         Calendar date = Calendar.getInstance();
         if (time != null) {
+            // Flick Note uses millisecond resolution timestamps Simplenote expects seconds
+            // since we only deal with create and modify timestamps, they should all have occured
+            // at the present time or in the past.
+            float now = date.getTimeInMillis()/1000;
+            float magnitude = time.floatValue()/now;
+            if (magnitude >= 2.f) time = time.longValue()/1000;
             date.setTimeInMillis(time.longValue()*1000);
         }
         return date;
