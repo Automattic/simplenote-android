@@ -5,6 +5,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import android.widget.ViewSwitcher;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.Typefaces;
+import com.automattic.simplenote.utils.SearchTokenizer;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -348,8 +350,9 @@ public class NoteListFragment extends ListFragment {
     public ObjectCursor<Note> queryNotes(){
         NotesActivity notesActivity = (NotesActivity)getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
-        if (mSearchString != null) {
-            query.where(Note.CONTENT_PROPERTY, Query.ComparisonType.LIKE, String.format("%%%s%%", mSearchString));
+        if (hasSearchQuery()) {
+            query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
+            query.include(new Query.FullTextSnippet("snippet"));
         }
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
         sortNoteQuery(query);
@@ -458,7 +461,10 @@ public class NoteListFragment extends ListFragment {
             }
             holder.titleTextView.setText(title);
 
-            if (mNumPreviewLines > 0) {
+            if (hasSearchQuery()) {
+                String snippet = mCursor.getString(mCursor.getColumnIndex("snippet"));
+                holder.contentTextView.setText(snippet);
+            } else if (mNumPreviewLines > 0) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex("contentPreview"));
                 if (title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
@@ -514,6 +520,10 @@ public class NoteListFragment extends ListFragment {
         }
     }
 
+    public boolean hasSearchQuery(){
+        return mSearchString != null && !mSearchString.equals("");
+    }
+
     public void sortNoteQuery(Query<Note> noteQuery){
         noteQuery.order("pinned", SortType.DESCENDING);
 		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
@@ -552,12 +562,22 @@ public class NoteListFragment extends ListFragment {
         protected void onPostExecute(ObjectCursor<Note> cursor) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
-            mNotesAdapter.changeCursor(cursor);
+
+            // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
+            int count = 0;
+            try {
+                mNotesAdapter.changeCursor(cursor);
+                count = mNotesAdapter.getCount();
+            } catch (SQLiteException e) {
+                count = 0;
+                android.util.Log.e(Simplenote.TAG, "Invalid SQL statement", e);
+                mNotesAdapter.changeCursor(null);
+            }
 
             NotesActivity notesActivity = (NotesActivity)getActivity();
             if (notesActivity != null) {
                 if (mIsFromNavSelect && notesActivity.isLargeScreenLandscape()) {
-                        if (mNotesAdapter.getCount() == 0) {
+                        if (count == 0) {
                             notesActivity.showDetailPlaceholder();
                         } else {
                             // Select the first note
