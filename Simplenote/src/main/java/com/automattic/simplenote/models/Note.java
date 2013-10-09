@@ -54,6 +54,7 @@ public class Note extends BucketObject {
         public Schema(){
             autoIndex();
             addIndex(noteIndexer);
+            setupFullTextIndex(TAGS_PROPERTY, CONTENT_PROPERTY);
             setDefault(CONTENT_PROPERTY, "");
             setDefault(SYSTEM_TAGS_PROPERTY, new ArrayList<Object>());
             setDefault(TAGS_PROPERTY, new ArrayList<Object>());
