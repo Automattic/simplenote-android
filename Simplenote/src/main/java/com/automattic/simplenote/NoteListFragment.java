@@ -110,25 +110,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
-        if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete) {
-            SparseBooleanArray selectedRows = getListView().getCheckedItemPositions();
-            List<String> deletedNotesIds = new ArrayList<String>();
-            for (int i = 0; i < selectedRows.size(); i++) {
-                if(selectedRows.valueAt(i) == true) {
-                    Note deletedNote = mNotesAdapter.getItem(selectedRows.keyAt(i));
-                    deletedNotesIds.add(deletedNote.getSimperiumKey());
-                    deletedNote.setDeleted(!deletedNote.isDeleted());
-                    deletedNote.setModificationDate(Calendar.getInstance());
-                    deletedNote.save();
-                }
-            }
-
-            NotesActivity notesActivity = ((NotesActivity)getActivity());
-            if (notesActivity != null)
-                notesActivity.showUndoBarWithNoteIds(deletedNotesIds);
-        }
-
+        if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
+            new trashNotesTask().execute();
         return false;
     }
 
@@ -644,6 +627,34 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 setNoteSelected(mSelectedNoteId);
                 mSelectedNoteId = null;
             }
+        }
+    }
+
+    private class trashNotesTask extends AsyncTask<Void, Void, Void> {
+
+        List<String> deletedNotesIds = new ArrayList<String>();
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            SparseBooleanArray selectedRows = getListView().getCheckedItemPositions();
+            for (int i = 0; i < selectedRows.size(); i++) {
+                if (selectedRows.valueAt(i) == true) {
+                    Note deletedNote = mNotesAdapter.getItem(selectedRows.keyAt(i));
+                    deletedNotesIds.add(deletedNote.getSimperiumKey());
+                    deletedNote.setDeleted(!deletedNote.isDeleted());
+                    deletedNote.setModificationDate(Calendar.getInstance());
+                    deletedNote.save();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            NotesActivity notesActivity = ((NotesActivity) getActivity());
+            if (notesActivity != null)
+                notesActivity.showUndoBarWithNoteIds(deletedNotesIds);
         }
     }
 }
