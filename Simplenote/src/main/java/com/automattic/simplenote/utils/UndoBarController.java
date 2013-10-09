@@ -29,6 +29,8 @@ import android.widget.TextView;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
 
+import java.util.List;
+
 public class UndoBarController {
     private View mBarView;
     private TextView mMessageView;
@@ -37,7 +39,7 @@ public class UndoBarController {
 
     private UndoListener mUndoListener;
 
-    private String mDeletedNoteId;
+    private List<String> mDeletedNoteIds;
 
     // State objects
     private Parcelable mUndoToken;
@@ -85,12 +87,12 @@ public class UndoBarController {
         }
     }
 
-    public String getDeletedNoteId() {
-        return mDeletedNoteId;
+    public List<String> getDeletedNoteIds() {
+        return mDeletedNoteIds;
     }
 
-    public void setDeletedNoteId(String noteId) {
-        mDeletedNoteId = noteId;
+    public void setDeletedNoteIds(List noteIds) {
+        mDeletedNoteIds = noteIds;
     }
 
     public void hideUndoBar(boolean immediate) {

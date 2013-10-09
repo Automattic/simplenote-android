@@ -37,6 +37,8 @@
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     <string name="note_pinned">Note pinned.</string>
+    <string name="note_selected">%d note selected</string>
+    <string name="notes_selected">%d notes selected</string>
     
     <string name="sort_order">Sort order</string>
     <string name="search">Search</string>
@@ -50,6 +52,7 @@
     <!-- Undo -->
     <string name="undo">Undo</string>
     <string name="note_deleted">Note trashed.</string>
+    <string name="notes_trashed">Notes trashed.</string>
 
     <!-- welcome note for new users -->
     <string name="welcome_note">Welcome to Simplenote Android!\nOpen this for instructions.\n\nTo create a new note, tap the plus button.\n\nTo search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.\n\nGot a really important note? Press the pin button while viewing a note to pin it to the top of the list.\n\nUse tags to help organize your notes. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping \'Share\' in the menu.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
