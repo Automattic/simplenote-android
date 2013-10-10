@@ -98,7 +98,8 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
                     deletedNote.setModificationDate(Calendar.getInstance());
                     deletedNote.save();
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
+                    if (deletedNote.isDeleted())
+                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
                     setResult(RESULT_OK, resultIntent);
                 }
                 finish();

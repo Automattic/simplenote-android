@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="selected_notes">
+        <item quantity="one">@string/note_selected</item>
+        <item quantity="other">@string/notes_selected</item>
+    </plurals>
+    <plurals name="trashed_notes">
+        <item quantity="one">@string/note_deleted</item>
+        <item quantity="other">@string/notes_trashed</item>
+    </plurals>
+</resources>

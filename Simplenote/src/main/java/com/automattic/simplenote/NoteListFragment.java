@@ -11,10 +11,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
@@ -32,7 +39,9 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -43,7 +52,9 @@ import java.util.Calendar;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, ActionMode.Callback {
+
+    private ActionMode mActionMode;
 
 	private NotesCursorAdapter mNotesAdapter;
     private TextView mEmptyListTextView;
@@ -75,6 +86,49 @@ public class NoteListFragment extends ListFragment {
         if (mEmptyListTextView != null) {
             mEmptyListTextView.setClickable(isClickable);
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        getListView().setItemChecked(position, true);
+        if (mActionMode == null)
+            getActivity().startActionMode(this);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        MenuInflater inflater = actionMode.getMenuInflater();
+        inflater.inflate(R.menu.bulk_edit_tags, menu);
+        mActionMode = actionMode;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
+            new trashNotesTask().execute();
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
+        int checkedCount = getListView().getCheckedItemCount();
+        if (checkedCount == 0)
+            actionMode.setTitle("");
+        else
+            actionMode.setTitle(getResources().getQuantityString(R.plurals.selected_notes, checkedCount, checkedCount));
     }
 
     /**
@@ -196,6 +250,8 @@ public class NoteListFragment extends ListFragment {
             }
         });
 
+        getListView().setOnItemLongClickListener(this);
+        getListView().setMultiChoiceModeListener(this);
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
 	}
@@ -529,22 +585,22 @@ public class NoteListFragment extends ListFragment {
 		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
 		switch (sortPref) {
         case 0:
-            noteQuery.order("modificationDate", SortType.DESCENDING);
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
             break;
 		case 1:
-            noteQuery.order("modificationDate", SortType.ASCENDING);
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
 			break;
 		case 2:
-            noteQuery.order("creationDate", SortType.DESCENDING);
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
 			break;
 		case 3:
-            noteQuery.order("creationDate", SortType.ASCENDING);
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
 			break;
 		case 4:
-            noteQuery.order("content", SortType.ASCENDING);
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
 			break;
 		case 5:
-            noteQuery.order("content", SortType.DESCENDING);
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
 			break;
 		}
     }
@@ -591,6 +647,34 @@ public class NoteListFragment extends ListFragment {
                 setNoteSelected(mSelectedNoteId);
                 mSelectedNoteId = null;
             }
+        }
+    }
+
+    private class trashNotesTask extends AsyncTask<Void, Void, Void> {
+
+        List<String> deletedNotesIds = new ArrayList<String>();
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            SparseBooleanArray selectedRows = getListView().getCheckedItemPositions();
+            for (int i = 0; i < selectedRows.size(); i++) {
+                if (selectedRows.valueAt(i) == true) {
+                    Note deletedNote = mNotesAdapter.getItem(selectedRows.keyAt(i));
+                    deletedNotesIds.add(deletedNote.getSimperiumKey());
+                    deletedNote.setDeleted(!deletedNote.isDeleted());
+                    deletedNote.setModificationDate(Calendar.getInstance());
+                    deletedNote.save();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            NotesActivity notesActivity = ((NotesActivity) getActivity());
+            if (notesActivity != null)
+                notesActivity.showUndoBarWithNoteIds(deletedNotesIds);
         }
     }
 }

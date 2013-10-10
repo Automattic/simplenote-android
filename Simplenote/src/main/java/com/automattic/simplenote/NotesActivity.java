@@ -17,6 +17,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,7 +45,9 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -284,6 +287,13 @@ public class NotesActivity extends Activity implements
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mDrawerList);
 
+            // Disable long press on notes if we're viewing the trash
+            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+                getNoteListFragment().getListView().setLongClickable(false);
+            } else {
+                getNoteListFragment().getListView().setLongClickable(true);
+            }
+
             getNoteListFragment().refreshListFromNavSelect();
             if (position > 1)
                 mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
@@ -408,6 +418,11 @@ public class NotesActivity extends Activity implements
 
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 
+        // restore the search query if on a landscape tablet
+        String searchQuery = null;
+        if (isLargeScreenLandscape() && mSearchView != null)
+            searchQuery = mSearchView.getQuery().toString();
+
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
 
@@ -417,11 +432,17 @@ public class NotesActivity extends Activity implements
         if (searchPlate != null)
             searchPlate.setBackgroundResource(R.drawable.search_view_selector);
 
+        if (!TextUtils.isEmpty(searchQuery)) {
+            mSearchView.setQuery(searchQuery, false);
+            mSearchMenuItem.expandActionView();
+        }
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mSearchMenuItem.isActionViewExpanded())
+                if (mSearchMenuItem.isActionViewExpanded()) {
                     getNoteListFragment().searchNotes(newText);
+                }
                 return true;
             }
 
@@ -435,7 +456,6 @@ public class NotesActivity extends Activity implements
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                showDetailPlaceholder();
                 checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
                 mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
@@ -445,10 +465,20 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                mSearchView.setQuery("", false);
                 checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
                 getNoteListFragment().setWelcomeViewVisibility();
                 return true;
+            }
+        });
+
+        mSearchMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (!mSearchMenuItem.isActionViewExpanded())
+                    showDetailPlaceholder();
+                return false;
             }
         });
 
@@ -539,7 +569,9 @@ public class NotesActivity extends Activity implements
                         mCurrentNote.save();
 
                         if (mCurrentNote.isDeleted()) {
-                            mUndoBarController.setDeletedNoteId(mCurrentNote.getSimperiumKey());
+                            List<String> deletedNoteIds = new ArrayList<String>();
+                            deletedNoteIds.add(mCurrentNote.getSimperiumKey());
+                            mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                             mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                             mTracker.sendEvent("note", "deleted_note", "overflow_menu", null);
                         } else {
@@ -668,7 +700,9 @@ public class NotesActivity extends Activity implements
                 if (resultCode == RESULT_OK && data != null && data.hasExtra(Simplenote.DELETED_NOTE_ID)) {
                     String noteId = data.getStringExtra(Simplenote.DELETED_NOTE_ID);
                     if (noteId != null) {
-                        mUndoBarController.setDeletedNoteId(noteId);
+                        List<String> deletedNoteIds = new ArrayList<String>();
+                        deletedNoteIds.add(noteId);
+                        mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                         mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                     }
                 }
@@ -684,21 +718,25 @@ public class NotesActivity extends Activity implements
 
     @Override
     public void onUndo(Parcelable p) {
-        if (mUndoBarController != null && mUndoBarController.getDeletedNoteId() != null) {
-            Note deletedNote = null;
-            try {
-                deletedNote = mNotesBucket.get(mUndoBarController.getDeletedNoteId());
-            } catch (BucketObjectMissingException e) {
-                return;
-            }
-            if (deletedNote != null) {
-                deletedNote.setDeleted(false);
-                deletedNote.setModificationDate(Calendar.getInstance());
-                deletedNote.save();
-                NoteListFragment fragment = getNoteListFragment();
-                if (fragment != null) {
-                    fragment.getPrefs();
-                    fragment.refreshList();
+        List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
+        if (mUndoBarController != null && deletedNoteIds != null) {
+
+            for (int i=0; i < deletedNoteIds.size(); i++) {
+                Note deletedNote = null;
+                try {
+                    deletedNote = mNotesBucket.get(deletedNoteIds.get(i));
+                } catch (BucketObjectMissingException e) {
+                    return;
+                }
+                if (deletedNote != null) {
+                    deletedNote.setDeleted(false);
+                    deletedNote.setModificationDate(Calendar.getInstance());
+                    deletedNote.save();
+                    NoteListFragment fragment = getNoteListFragment();
+                    if (fragment != null) {
+                        fragment.getPrefs();
+                        fragment.refreshList();
+                    }
                 }
             }
         }
@@ -781,6 +819,13 @@ public class NotesActivity extends Activity implements
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+    }
+
+    public void showUndoBarWithNoteIds(List<String> noteIds) {
+        if (mUndoBarController != null) {
+            mUndoBarController.setDeletedNoteIds(noteIds);
+            mUndoBarController.showUndoBar(false, getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()), null);
+        }
     }
 
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
