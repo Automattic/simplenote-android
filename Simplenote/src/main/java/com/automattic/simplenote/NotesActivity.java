@@ -44,9 +44,7 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -282,13 +280,6 @@ public class NotesActivity extends Activity implements
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mDrawerList);
 
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
             getNoteListFragment().refreshListFromNavSelect();
             if (position > 1)
                 mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
@@ -413,7 +404,7 @@ public class NotesActivity extends Activity implements
 
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 
-        // restore the search query if on a landscape tablet
+        // restore the search query if on a lanscape tablet
         String searchQuery = null;
         if (isLargeScreenLandscape() && mSearchView != null)
             searchQuery = mSearchView.getQuery().toString();
@@ -564,9 +555,7 @@ public class NotesActivity extends Activity implements
                         mCurrentNote.save();
 
                         if (mCurrentNote.isDeleted()) {
-                            List<String> deletedNoteIds = new ArrayList<String>();
-                            deletedNoteIds.add(mCurrentNote.getSimperiumKey());
-                            mUndoBarController.setDeletedNoteIds(deletedNoteIds);
+                            mUndoBarController.setDeletedNoteId(mCurrentNote.getSimperiumKey());
                             mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                             mTracker.sendEvent("note", "deleted_note", "overflow_menu", null);
                         } else {
@@ -695,9 +684,7 @@ public class NotesActivity extends Activity implements
                 if (resultCode == RESULT_OK && data != null && data.hasExtra(Simplenote.DELETED_NOTE_ID)) {
                     String noteId = data.getStringExtra(Simplenote.DELETED_NOTE_ID);
                     if (noteId != null) {
-                        List<String> deletedNoteIds = new ArrayList<String>();
-                        deletedNoteIds.add(noteId);
-                        mUndoBarController.setDeletedNoteIds(deletedNoteIds);
+                        mUndoBarController.setDeletedNoteId(noteId);
                         mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
                     }
                 }
@@ -713,25 +700,21 @@ public class NotesActivity extends Activity implements
 
     @Override
     public void onUndo(Parcelable p) {
-        List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
-        if (mUndoBarController != null && deletedNoteIds != null) {
-
-            for (int i=0; i < deletedNoteIds.size(); i++) {
-                Note deletedNote = null;
-                try {
-                    deletedNote = mNotesBucket.get(deletedNoteIds.get(i));
-                } catch (BucketObjectMissingException e) {
-                    return;
-                }
-                if (deletedNote != null) {
-                    deletedNote.setDeleted(false);
-                    deletedNote.setModificationDate(Calendar.getInstance());
-                    deletedNote.save();
-                    NoteListFragment fragment = getNoteListFragment();
-                    if (fragment != null) {
-                        fragment.getPrefs();
-                        fragment.refreshList();
-                    }
+        if (mUndoBarController != null && mUndoBarController.getDeletedNoteId() != null) {
+            Note deletedNote = null;
+            try {
+                deletedNote = mNotesBucket.get(mUndoBarController.getDeletedNoteId());
+            } catch (BucketObjectMissingException e) {
+                return;
+            }
+            if (deletedNote != null) {
+                deletedNote.setDeleted(false);
+                deletedNote.setModificationDate(Calendar.getInstance());
+                deletedNote.save();
+                NoteListFragment fragment = getNoteListFragment();
+                if (fragment != null) {
+                    fragment.getPrefs();
+                    fragment.refreshList();
                 }
             }
         }
@@ -814,13 +797,6 @@ public class NotesActivity extends Activity implements
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
-    }
-
-    public void showUndoBarWithNoteIds(List<String> noteIds) {
-        if (mUndoBarController != null) {
-            mUndoBarController.setDeletedNoteIds(noteIds);
-            mUndoBarController.showUndoBar(false, getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()), null);
-        }
     }
 
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
