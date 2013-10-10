@@ -44,9 +44,6 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
-
 import java.util.Calendar;
 
 public class NotesActivity extends Activity implements
@@ -54,6 +51,7 @@ public class NotesActivity extends Activity implements
         Bucket.Listener<Note> {
 
     private boolean mIsLargeScreen, mIsLandscape;
+    private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
@@ -190,7 +188,6 @@ public class NotesActivity extends Activity implements
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
         setProgressBarIndeterminateVisibility(false);
-        checkForUpdates();
     }
 
     @Override
@@ -211,7 +208,6 @@ public class NotesActivity extends Activity implements
 
         updateNavigationDrawerItems();
         setSelectedTagActive();
-        checkForCrashes();
     }
 
     @Override
@@ -316,15 +312,6 @@ public class NotesActivity extends Activity implements
         return user.hasAccessToken() && user.getStatus().equals(User.Status.NOT_AUTHORIZED);
     }
 
-    private void checkForCrashes() {
-        CrashManager.register(this, Config.hockey_app_id);
-    }
-
-    private void checkForUpdates() {
-        // Remove this for store builds!
-        UpdateManager.register(this, Config.hockey_app_id);
-    }
-
     public void setCurrentNote(Note note) {
         mCurrentNote = note;
     }
@@ -418,11 +405,6 @@ public class NotesActivity extends Activity implements
 
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 
-        // restore the search query if on a lanscape tablet
-        String searchQuery = null;
-        if (isLargeScreenLandscape() && mSearchView != null)
-            searchQuery = mSearchView.getQuery().toString();
-
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
 
@@ -431,11 +413,6 @@ public class NotesActivity extends Activity implements
         View searchPlate = mSearchView.findViewById(searchPlateId);
         if (searchPlate != null)
             searchPlate.setBackgroundResource(R.drawable.search_view_selector);
-
-        if (!TextUtils.isEmpty(searchQuery)) {
-            mSearchView.setQuery(searchQuery, false);
-            mSearchMenuItem.expandActionView();
-        }
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -465,6 +442,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
@@ -481,6 +459,13 @@ public class NotesActivity extends Activity implements
                 return false;
             }
         });
+
+        // Restore the search query on landscape tablets
+        if (isLargeScreenLandscape() && !TextUtils.isEmpty(mTabletSearchQuery)) {
+            mSearchView.setQuery(mTabletSearchQuery, false);
+            mSearchMenuItem.expandActionView();
+            mSearchView.clearFocus();
+        }
 
         Simplenote currentApp = (Simplenote) getApplication();
         menu.findItem(R.id.menu_sign_in).setVisible(currentApp.getSimperium().needsAuthorization());
@@ -629,6 +614,9 @@ public class NotesActivity extends Activity implements
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID);
             getNoteListFragment().setNoteSelected(noteID);
+            if (mSearchView != null && mSearchView.getQuery().length() > 0) {
+                mTabletSearchQuery = mSearchView.getQuery().toString();
+            }
             invalidateOptionsMenu();
         }
 
