@@ -95,3 +95,12 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
 
+android {
+    buildTypes {
+        release {
+            runProguard true
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+}
+
