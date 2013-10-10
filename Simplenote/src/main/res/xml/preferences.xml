@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
+    
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/settings" >
@@ -31,12 +31,6 @@
             android:key="pref_key_sort_order"
             android:summary="%s"
             android:title="@string/sort_order" />
-        <Preference
-            android:key="pref_key_passcode"
-            android:title="@string/passcode_preference_title" >
-            <intent android:targetClass="org.wordpress.passcodelock.PasscodePreferencesActivity"
-                android:targetPackage="com.automattic.simplenote"/>
-        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -55,7 +49,7 @@
             android:key="pref_key_account_preferences"
             android:title="@string/more_info" >
         <Preference
-                android:key="pref_key_website"
+                android:key="pref_website"
                 android:persistent="false"
                 android:title="@string/website" />
     </PreferenceCategory>

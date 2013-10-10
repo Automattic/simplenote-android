@@ -44,6 +44,9 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.Calendar;
 
 public class NotesActivity extends Activity implements
@@ -187,6 +190,7 @@ public class NotesActivity extends Activity implements
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
         setProgressBarIndeterminateVisibility(false);
+        checkForUpdates();
     }
 
     @Override
@@ -207,6 +211,7 @@ public class NotesActivity extends Activity implements
 
         updateNavigationDrawerItems();
         setSelectedTagActive();
+        checkForCrashes();
     }
 
     @Override
@@ -309,6 +314,15 @@ public class NotesActivity extends Activity implements
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
         return user.hasAccessToken() && user.getStatus().equals(User.Status.NOT_AUTHORIZED);
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, Config.hockey_app_id);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this, Config.hockey_app_id);
     }
 
     public void setCurrentNote(Note note) {
