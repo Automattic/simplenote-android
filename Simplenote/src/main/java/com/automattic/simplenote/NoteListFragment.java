@@ -140,7 +140,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(String noteID, boolean isNew);
+		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID, boolean isNew) {
+		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets) {
 		}
 	};
 
@@ -342,7 +342,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null)
-            mCallbacks.onNoteSelected(noteID, false);
+            mCallbacks.onNoteSelected(noteID, false, holder.matchOffsets);
 
         mActivatedPosition = position;
 	}
@@ -353,7 +353,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), false);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), false, null);
         }
     }
 
@@ -438,7 +438,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		note.save();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note.getSimperiumKey(), true);
+		mCallbacks.onNoteSelected(note.getSimperiumKey(), true, null);
 	}
 
     public void setNoteSelected(String selectedNoteID) {
@@ -548,6 +548,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		TextView titleTextView;
 		TextView contentTextView;
 		ImageView pinImageView;
+        public String matchOffsets;
         private String mNoteId;
 
         public void setNoteId(String noteId) {

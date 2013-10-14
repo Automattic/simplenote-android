@@ -54,6 +54,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
+    static public final String ARG_MATCH_OFFSETS = "match_offsets";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
     private Note mNote;
@@ -153,8 +154,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         super.onResume();
         mTagView.setOnTagAddedListener(this);
 
-        if (getArguments() != null && getArguments().containsKey(ARG_ITEM_ID)) {
-            String key = getArguments().getString(ARG_ITEM_ID);
+        Bundle arguments = getArguments();
+
+        if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
+            String key = arguments.getString(ARG_ITEM_ID);
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
@@ -186,7 +189,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         return (mContentEditText.getText().toString().trim().length() == 0 && mTagView.getText().toString().trim().length() == 0);
     }
 
-    public void setNote(String noteID) {
+    public void setNote(String noteID){
+        setNote(noteID, null);
+    }
+
+    public void setNote(String noteID, String matchOffsets) {
         if (mAutoSaveHandler != null)
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
 
@@ -200,7 +207,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 saveNote();
         }
 
-        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
+        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID, matchOffsets);
     }
 
     public void updateNote(Note updatedNote) {

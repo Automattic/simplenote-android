@@ -35,12 +35,17 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
+            Intent intent = getIntent();
             // Create the note editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
+                    intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE,
-                    getIntent().getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false));
+                    intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false));
+            if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
+                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
+                    intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
+
             mNoteEditorFragment = new NoteEditorFragment();
             mNoteEditorFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()

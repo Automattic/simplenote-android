@@ -187,7 +187,7 @@ public class NotesActivity extends Activity implements
                 note.setModificationDate(note.getCreationDate());
                 note.setContent(text);
                 note.save();
-                onNoteSelected(note.getSimperiumKey(), true);
+                onNoteSelected(note.getSimperiumKey(), true, null);
                 mTracker.sendEvent("note", "create_note", "external_share", null);
             }
         }
@@ -617,19 +617,23 @@ public class NotesActivity extends Activity implements
      * the item with the given ID was selected.
      */
     @Override
-    public void onNoteSelected(String noteID, boolean isNew) {
+    public void onNoteSelected(String noteID, boolean isNew, String matchOffsets) {
 
         if (!isLargeScreenLandscape()) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
+
+            if (matchOffsets != null)
+                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
+
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setIsNewNote(isNew);
-            mNoteEditorFragment.setNote(noteID);
+            mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
             invalidateOptionsMenu();
         }
@@ -766,7 +770,7 @@ public class NotesActivity extends Activity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), false);
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), false, null);
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
