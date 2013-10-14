@@ -17,6 +17,8 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -37,6 +39,7 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
@@ -216,13 +219,34 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         refreshContent(true);
     }
 
+    private MatchOffsetHighlighter.SpanFactory mMatchHighlighter = new MatchOffsetHighlighter.SpanFactory() {
+
+        @Override
+        public Object[] buildSpans(){
+            return new Object[]{
+                new ForegroundColorSpan(0xFFEEF3F8),
+                new BackgroundColorSpan(0xFF4F91CC)
+            };
+        }
+
+    };
+
     public void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
 
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
+
             mContentEditText.setText(mNote.getContent());
+            
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+            // public static void highlightMatches(Spannable content, String matches, int columnIndex, SpanFactory factory, Handler handler){
+
+            int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+            String matches = getArguments().getString(ARG_MATCH_OFFSETS);
+            
+            MatchOffsetHighlighter.highlightMatchesOnTextView(mContentEditText, matches, columnIndex, mMatchHighlighter);
+
             if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
 
