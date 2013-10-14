@@ -45,6 +45,9 @@ public class Note extends BucketObject {
     public static final String PINNED_INDEX_NAME="pinned";
     public static final String MODIFIED_INDEX_NAME="modified";
     public static final String CREATED_INDEX_NAME="created";
+
+    static public final String[] FULL_TEXT_INDEXES = new String[]{ Note.TAGS_PROPERTY,
+        Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
 	
 	protected String title = null;
 	protected String contentPreview = null;
@@ -53,11 +56,12 @@ public class Note extends BucketObject {
 	public static class Schema extends BucketSchema<Note> {
 
         protected static NoteIndexer sNoteIndexer = new NoteIndexer();
+        protected static NoteFullTextIndexer sFullTextIndexer = new NoteFullTextIndexer();
 
         public Schema(){
             autoIndex();
-            addIndex(noteIndexer);
-            setupFullTextIndex(TAGS_PROPERTY, CONTENT_PROPERTY);
+            addIndex(sNoteIndexer);
+            setupFullTextIndex(sFullTextIndexer, NoteFullTextIndexer.INDEXES);
             setDefault(CONTENT_PROPERTY, "");
             setDefault(SYSTEM_TAGS_PROPERTY, new ArrayList<Object>());
             setDefault(TAGS_PROPERTY, new ArrayList<Object>());
