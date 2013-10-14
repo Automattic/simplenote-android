@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -34,6 +37,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.Typefaces;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -406,12 +410,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public ObjectCursor<Note> queryNotes(){
         NotesActivity notesActivity = (NotesActivity)getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
+
         if (hasSearchQuery()) {
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
-            query.include(new Query.FullTextSnippet("snippet"));
+            query.include(new Query.FullTextOffsets("match_offsets"));
+            query.include(new Query.FullTextSnippet(Note.TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
+            query.include(new Query.FullTextSnippet("tag_match", Note.TAGS_PROPERTY));
+            query.include(new Query.FullTextSnippet(Note.CONTENT_PREVIEW_INDEX_NAME, Note.CONTENT_PROPERTY));
+        } else {
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
-        query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME, Note.PINNED_INDEX_NAME, Note.MODIFICATION_DATE_PROPERTY);
+
+        query.include(Note.PINNED_INDEX_NAME);
+
         sortNoteQuery(query);
+
         return query.execute();
     }
 
@@ -461,6 +474,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
 	public class NotesCursorAdapter extends CursorAdapter {
         private ObjectCursor<Note> mCursor;
+
+        private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new SearchSnippetFormatter.SpanFactory() {
+
+            @Override
+            public Object[] buildSpans(String snippet) {
+                return new Object[]{
+                    new ForegroundColorSpan(0xFF4F91CC),
+                    new BackgroundColorSpan(0xFFEEF3F8)
+                };
+            }
+
+        };
+
+
         public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);
             mCursor = c;
@@ -508,20 +535,27 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
-            int pinned = mCursor.getInt(mCursor.getColumnIndex("pinned"));
+            int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
-            String title = mCursor.getString(mCursor.getColumnIndex("title"));
+            String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
             if (title == null || title.equals("")) {
                 title = getString(R.string.new_note_list);
             }
+
             holder.titleTextView.setText(title);
+            holder.matchOffsets = null;
 
             if (hasSearchQuery()) {
-                String snippet = mCursor.getString(mCursor.getColumnIndex("snippet"));
-                holder.contentTextView.setText(snippet);
+                String snippet = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+
+                holder.matchOffsets = mCursor.getString(mCursor.getColumnIndex("match_offsets"));
+
+                holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
+                holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
+
             } else if (mNumPreviewLines > 0) {
-                String contentPreview = mCursor.getString(mCursor.getColumnIndex("contentPreview"));
+                String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
                 else
