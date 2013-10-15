@@ -72,6 +72,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
     private String mLinkText;
+    private MatchOffsetHighlighter mHighlighter;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -122,6 +124,18 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         };
     }
 
+    private MatchOffsetHighlighter.SpanFactory mMatchHighlighter = new MatchOffsetHighlighter.SpanFactory() {
+
+        @Override
+        public Object[] buildSpans(){
+            return new Object[]{
+                new ForegroundColorSpan(0xFFEEF3F8),
+                new BackgroundColorSpan(0xFF4F91CC)
+            };
+        }
+
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
@@ -132,6 +146,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView.setOnFocusChangeListener(this);
+
+        mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
         mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
         mPinButton.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +201,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (mAutoSaveHandler != null)
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
 
+        mHighlighter.stop();
         super.onPause();
     }
 
@@ -219,18 +236,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         refreshContent(true);
     }
 
-    private MatchOffsetHighlighter.SpanFactory mMatchHighlighter = new MatchOffsetHighlighter.SpanFactory() {
-
-        @Override
-        public Object[] buildSpans(){
-            return new Object[]{
-                new ForegroundColorSpan(0xFFEEF3F8),
-                new BackgroundColorSpan(0xFF4F91CC)
-            };
-        }
-
-    };
-
     public void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
@@ -238,14 +243,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
 
             mContentEditText.setText(mNote.getContent());
-            
-            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-            // public static void highlightMatches(Spannable content, String matches, int columnIndex, SpanFactory factory, Handler handler){
-
-            int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
-            String matches = getArguments().getString(ARG_MATCH_OFFSETS);
-            
-            MatchOffsetHighlighter.highlightMatchesOnTextView(mContentEditText, matches, columnIndex, mMatchHighlighter);
 
             if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
                 mContentEditText.setSelection(cursorPosition);
@@ -341,6 +338,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (newLinePosition == 0)
             return;
         editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+        int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+        String matches = getArguments().getString(ARG_MATCH_OFFSETS);
+        mHighlighter.highlightMatches(matches, columnIndex);
+
     }
 
     @Override
