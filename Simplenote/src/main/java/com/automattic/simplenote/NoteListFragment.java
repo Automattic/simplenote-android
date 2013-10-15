@@ -414,10 +414,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         Query<Note> query = notesActivity.getSelectedTag().query();
 
         if (hasSearchQuery()) {
-            query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
+            query.where(new Query.FullTextMatch(Note.CONTENT_PROPERTY, new SearchTokenizer(mSearchString)));
             query.include(new Query.FullTextOffsets("match_offsets"));
             query.include(new Query.FullTextSnippet(Note.TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
-            query.include(new Query.FullTextSnippet("tag_match", Note.TAGS_PROPERTY));
             query.include(new Query.FullTextSnippet(Note.CONTENT_PREVIEW_INDEX_NAME, Note.CONTENT_PROPERTY));
         } else {
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
