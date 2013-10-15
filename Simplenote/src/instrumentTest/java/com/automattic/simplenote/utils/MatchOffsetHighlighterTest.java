@@ -3,6 +3,8 @@ package com.automattic.simplenote.utils;
 import junit.framework.TestCase;
 
 import android.text.Spanned;
+import android.text.Spannable;
+import android.text.SpannableString;
 
 import java.nio.charset.Charset;
 
@@ -31,8 +33,8 @@ public class MatchOffsetHighlighterTest extends TestCase {
         String matches = "1 0 6 5 0 0 2 1 1 0 18 3";
         Spannable text = new SpannableString("Lorem ipsum dolor sit amet");
 
-        MatchOffsetHighlighter.highlightMatches(text, matches, 1, sHighlighter, null);
-        Object[] spans = text.getSpans(0, highlighted.length(), Object.class);
+        MatchOffsetHighlighter.highlightMatches(text, matches, 1, sHighlighter);
+        Object[] spans = text.getSpans(0, text.length(), Object.class);
 
         assertEquals(2, spans.length);
         assertEquals(6, text.getSpanStart(spans[0]));
@@ -81,14 +83,14 @@ public class MatchOffsetHighlighterTest extends TestCase {
             '\n' // 10
         };
 
-        Spannable text = new SpannableString(new String(seq, 0, seq.length));
+        SpannableString text = new SpannableString(new String(seq, 0, seq.length));
         String matches = "1 0 12 5 2 0 12 5";
 
-        MatchOffsetHighlighter.highlightMatches(text, matches, 2, sHighlighter, null);
+        MatchOffsetHighlighter.highlightMatches(text, matches, 2, sHighlighter);
         Object[] spans = text.getSpans(0, text.length(), Object.class);
 
         assertEquals(1, spans.length);
-        assertEquals("Doors", text.substring(text.getSpanStart(spans[0]), text.getSpanEnd(spans[0])));
+        assertEquals("Doors", text.toString().substring(text.getSpanStart(spans[0]), text.getSpanEnd(spans[0])));
     }
 
 }
