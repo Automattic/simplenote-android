@@ -560,7 +560,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             } else if (mNumPreviewLines > 0) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
-                if (title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
+                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
                 else
                     holder.contentTextView.setText(contentPreview);
