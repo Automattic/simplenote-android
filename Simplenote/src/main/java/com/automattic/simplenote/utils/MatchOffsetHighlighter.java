@@ -49,7 +49,12 @@ public class MatchOffsetHighlighter implements Runnable {
         @Override
         public void onMatch(final SpanFactory factory, final Spannable text, final int start, final int end) {
 
-            mTextView.getHandler().post(new Runnable() {
+            if (mTextView == null) return;
+
+            Handler handler = mTextView.getHandler();
+            if (handler == null) return;
+
+            handler.post(new Runnable() {
 
                 @Override
                 public void run(){
@@ -126,6 +131,8 @@ public class MatchOffsetHighlighter implements Runnable {
 
             int span_start = start + getByteOffset(content, 0, start);
             int span_end = span_start + length + getByteOffset(content, start, start + length);
+
+            if (Thread.interrupted()) return;
 
             listener.onMatch(factory, content, span_start, span_end);
 
