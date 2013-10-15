@@ -8,6 +8,12 @@
         <item name="android:textColor">#FF464646</item>
     </style>
 
+    <style name="UntitledNoteAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/mediumgrey</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
     <!-- undo bar -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>

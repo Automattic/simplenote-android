@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -540,10 +542,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
             if (title == null || title.equals("")) {
-                title = getString(R.string.new_note_list);
+                SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
+                untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
+                holder.titleTextView.setText(untitled);
+            } else {
+                holder.titleTextView.setText(title);
             }
 
-            holder.titleTextView.setText(title);
             holder.matchOffsets = null;
 
             if (hasSearchQuery()) {
