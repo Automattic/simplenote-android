@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -73,6 +74,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
+    private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -84,6 +86,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
+        mEmailIconResId = a.getResourceId(0, 0);
+        mWebIconResId = a.getResourceId(1, 0);
+        mMapIconResId = a.getResourceId(2, 0);
+        mCallIconResId = a.getResourceId(3, 0);
 
         mAutoSaveHandler = new Handler();
 
@@ -633,16 +641,16 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private void setLinkMenuItem() {
         if (mViewLinkMenuItem != null && mLinkUrl != null) {
             if (mLinkUrl.startsWith("tel:")) {
-                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_call);
+                mViewLinkMenuItem.setIcon(mCallIconResId);
                 mViewLinkMenuItem.setTitle(getString(R.string.call));
             } else if (mLinkUrl.startsWith("mailto:")) {
-                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_email);
+                mViewLinkMenuItem.setIcon(mEmailIconResId);
                 mViewLinkMenuItem.setTitle(getString(R.string.email));
             } else if (mLinkUrl.startsWith("geo:")) {
-                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_map);
+                mViewLinkMenuItem.setIcon(mMapIconResId);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
             } else {
-                mViewLinkMenuItem.setIcon(R.drawable.ab_icon_web);
+                mViewLinkMenuItem.setIcon(mWebIconResId);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }

@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -52,9 +53,16 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        int theme = PrefUtils.getIntPref(this, "pref_key_theme", Simplenote.THEME_LIGHT);
+        if (theme == Simplenote.THEME_LIGHT)
+            setTheme(R.style.Theme_Simplestyle);
+        else
+            setTheme(R.style.Theme_Simplestyle_Dark);
+
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tags_list_activity);
+        setContentView(R.layout.activity_tags_list);
 
         SpannableString s = new SpannableString(getString(R.string.edit_tags));
         s.setSpan(new TypefaceSpan(this), 0, s.length(),
@@ -72,10 +80,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         listView.setOnItemClickListener(this);
         // Disabling long press CAB action for now since bulk deleting is incomplete
         // listView.setOnItemLongClickListener(this);
-        listView.setBackgroundColor(getResources().getColor(R.color.white));
 
-        listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
-        listView.setDividerHeight(1);
         Simplenote application = (Simplenote) getApplication();
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();

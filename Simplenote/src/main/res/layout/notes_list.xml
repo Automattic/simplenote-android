@@ -14,7 +14,9 @@
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+				android:divider="?attr/listDividerDrawable"
+				android:dividerHeight="1px" />
 
         <LinearLayout
             android:id="@android:id/empty"

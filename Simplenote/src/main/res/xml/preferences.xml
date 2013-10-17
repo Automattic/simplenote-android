@@ -31,6 +31,13 @@
             android:key="pref_key_sort_order"
             android:summary="%s"
             android:title="@string/sort_order" />
+        <ListPreference
+            android:defaultValue="light"
+            android:entries="@array/array_theme_names"
+            android:entryValues="@array/array_theme_values"
+            android:key="pref_key_theme"
+            android:summary="%s"
+            android:title="@string/theme" />
         <Preference
             android:key="pref_key_passcode"
             android:title="@string/passcode_preference_title" >

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Simplestyle.Dark" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Simplestyle.Dark</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_simplestyle_dark</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
+        <item name="android:windowBackground">@color/simplenote_dark_bg</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo</item>
+        <item name="noteTitleColor">@color/simplenote_dark_text</item>
+        <item name="notePreviewColor">@color/simplenote_dark_text_preview</item>
+        <item name="noteEditorTextColor">@color/simplenote_dark_text</item>
+        <item name="mainBackgroundColor">@color/simplenote_dark_bg</item>
+        <item name="tagChipShadowColor">@color/simplenote_dark_bg</item>
+        <item name="dividerColor">@color/simplenote_dark_list_divider</item>
+        <item name="iconTintColor">@color/simplenote_dark_text</item>
+        <item name="hintTextColor">@color/simplenote_dark_text_preview</item>
+        <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
+        <item name="listDividerDrawable">@drawable/list_divider_dark</item>
+        <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
+        <item name="actionBarIconEmail">@drawable/ab_icon_email_dark</item>
+        <item name="actionBarIconWeb">@drawable/ab_icon_web_dark</item>
+        <item name="actionBarIconMap">@drawable/ab_icon_map_dark</item>
+        <item name="actionBarIconShare">@drawable/ab_icon_share_dark</item>
+        <item name="actionBarIconCopy">@drawable/ab_icon_copy_dark</item>
+        <item name="actionBarIconCall">@drawable/ab_icon_call_dark</item>
+    </style>
+
+    <style name="ActionBar.Solid.Simplestyle.Dark" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_simplestyle_dark</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
+        <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
+        <item name="android:icon">@drawable/ab_icon_logo</item>
+        <item name="android:indeterminateProgressStyle">@style/Simplestyle.IndeterminateProgress</item>
+    </style>
+
+    <style name="PopupMenu.Simplestyle.Dark" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
+    </style>
+
+</resources>

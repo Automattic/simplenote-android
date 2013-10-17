@@ -19,4 +19,14 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="array_theme_names">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
+    <string-array name="array_theme_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

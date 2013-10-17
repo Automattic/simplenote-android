@@ -8,12 +8,12 @@
         android:title="@string/view_in_browser"/>
     <item
         android:id="@+id/menu_copy"
-        android:icon="@drawable/ab_icon_copy"
+        android:icon="?attr/actionBarIconCopy"
         android:showAsAction="always"
         android:title="@string/copy"/>
     <item
         android:id="@+id/menu_share"
-        android:icon="@drawable/ab_icon_share_grey"
+        android:icon="?attr/actionBarIconShare"
         android:showAsAction="always"
         android:title="@string/share"/>
 </menu>

@@ -77,6 +77,21 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
             }
         });
 
+        final ListPreference themePreference = (ListPreference) findPreference("pref_key_theme");
+        themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Intent intent = new Intent();
+                intent.putExtra(NotesActivity.THEME_CHANGED, true);
+                setResult(RESULT_OK, intent);
+                int index = Integer.parseInt(newValue.toString());
+                CharSequence[] entries = themePreference.getEntries();
+                themePreference.setSummary(entries[index]);
+                return true;
+            }
+        });
+
         final ListPreference sortPreference = (ListPreference) findPreference("pref_key_sort_order");
         sortPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 

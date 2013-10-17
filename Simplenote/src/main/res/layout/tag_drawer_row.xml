@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/padding_large"
     android:paddingTop="@dimen/padding_small"
     android:paddingBottom="@dimen/padding_small"
-    android:background="@drawable/list_background_simplestyle">
+    android:background="?attr/listBackgroundSelector">
 
     <ImageView
         android:id="@+id/drawer_icon"
@@ -25,8 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textColor="@color/simplenote_dark_grey"
+        android:textColor="?attr/noteTitleColor"
         android:gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:text="All Notes" />
+        android:textAppearance="@android:style/TextAppearance.Medium" />
 </LinearLayout>

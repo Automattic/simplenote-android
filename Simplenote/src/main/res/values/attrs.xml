@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="noteTitleColor" format="reference|color" />
+    <attr name="notePreviewColor" format="reference|color" />
+    <attr name="noteEditorTextColor" format="reference|color" />
+    <attr name="mainBackgroundColor" format="reference|color" />
+    <attr name="dividerColor" format="reference|color" />
+    <attr name="iconTintColor" format="reference|color" />
+    <attr name="hintTextColor" format="reference|color" />
+    <attr name="tagChipShadowColor" format="reference|color" />
+    <attr name="listDividerDrawable" format="reference" />
+    <attr name="listBackgroundSelector" format="reference" />
+    <attr name="tagChipBackgroundDrawable" format="reference" />
+    <attr name="actionBarIconTrash" format="reference" />
+    <attr name="actionBarIconWeb" format="reference" />
+    <attr name="actionBarIconCopy" format="reference" />
+    <attr name="actionBarIconShare" format="reference" />
+    <attr name="actionBarIconMap" format="reference" />
+    <attr name="actionBarIconEmail" format="reference" />
+    <attr name="actionBarIconCall" format="reference" />
+
+</resources>

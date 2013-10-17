@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/list_background_simplestyle"
+              android:background="?attr/listBackgroundSelector"
               android:paddingLeft="@dimen/padding_large"
               android:paddingRight="@dimen/padding_large"
               android:paddingTop="@dimen/padding_small"
@@ -33,7 +33,7 @@
                 android:lines="1"
                 android:singleLine="true"
                 android:text="note_title"
-                android:textColor="@color/simplenote_dark_grey"
+                android:textColor="?attr/noteTitleColor"
                 android:textSize="22sp"
                 android:ellipsize="end"/>
 
@@ -52,7 +52,7 @@
                 android:maxLines="2"
                 android:layout_marginTop="-2dp"
                 android:text="note_content"
-                android:textColor="#777777"
+                android:textColor="?attr/notePreviewColor"
                 android:textSize="18sp"
                 android:ellipsize="end" />
     </LinearLayout>

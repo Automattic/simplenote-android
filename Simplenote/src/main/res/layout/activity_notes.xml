@@ -67,7 +67,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="@color/divider_grey"
+        android:divider="?attr/listDividerDrawable"
         android:dividerHeight="1px"
-        android:background="@color/white"/>
+        android:background="?attr/mainBackgroundColor"/>
 </android.support.v4.widget.DrawerLayout>

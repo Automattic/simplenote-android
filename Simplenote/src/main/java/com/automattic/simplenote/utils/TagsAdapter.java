@@ -1,7 +1,9 @@
 package com.automattic.simplenote.utils;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,7 @@ public class TagsAdapter extends BaseAdapter {
     int mNameColumn;
     int mCountColumn;
     int mRowIdColumn;
+    int mTextColorId;
 
     protected static final int[] topItems = { R.string.notes, R.string.trash };
 
@@ -66,6 +69,9 @@ public class TagsAdapter extends BaseAdapter {
             }
 
         };
+
+        TypedArray a = mContext.obtainStyledAttributes(new int[]{R.attr.noteTitleColor});
+        mTextColorId = a.getResourceId(0, 0);
 
         swapCursor(cursor);
     }
@@ -134,12 +140,14 @@ public class TagsAdapter extends BaseAdapter {
         if (position == selectedPosition)
             labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
         else
-            labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_dark_grey));
+            labelText.setTextColor(mContext.getResources().getColor(mTextColorId));
 
         ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
+        drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
         if (position == 0) {
             if (position == selectedPosition) {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes_selected);
+                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
             } else {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
             }
@@ -147,6 +155,7 @@ public class TagsAdapter extends BaseAdapter {
         } else if (position == 1) {
             if (position == selectedPosition) {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
+                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
             } else {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
             }

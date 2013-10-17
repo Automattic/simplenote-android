@@ -76,6 +76,7 @@ public class NotesActivity extends Activity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
+    public static String THEME_CHANGED = "themeChanged";
 
     // Google Analytics tracker
     private Tracker mTracker;
@@ -83,6 +84,13 @@ public class NotesActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        int theme = PrefUtils.getIntPref(this, "pref_key_theme", Simplenote.THEME_LIGHT);
+        if (theme == Simplenote.THEME_LIGHT)
+            setTheme(R.style.Theme_Simplestyle);
+        else
+            setTheme(R.style.Theme_Simplestyle_Dark);
+
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();
         mNotesBucket = currentApp.getNotesBucket();
@@ -692,6 +700,13 @@ public class NotesActivity extends Activity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Simplenote.INTENT_PREFERENCES:
+                if (data != null && data.hasExtra(THEME_CHANGED)) {
+                    // Restart this activity to apply the new theme
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                    break;
+                }
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
                 invalidateOptionsMenu();
                 NoteListFragment fragment = getNoteListFragment();

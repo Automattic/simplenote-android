@@ -35,6 +35,23 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+        <item name="noteTitleColor">@color/simplenote_dark_grey</item>
+        <item name="notePreviewColor">@color/simplenote_light_grey</item>
+        <item name="noteEditorTextColor">@color/darkgrey</item>
+        <item name="mainBackgroundColor">@color/white</item>
+        <item name="dividerColor">@color/simplenote_light_list_divider</item>
+        <item name="iconTintColor">@color/simplenote_light_grey</item>
+        <item name="hintTextColor">@color/mediumgrey</item>
+        <item name="tagChipShadowColor">@color/white</item>
+        <item name="listDividerDrawable">@drawable/list_divider</item>
+        <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
+        <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
+        <item name="actionBarIconEmail">@drawable/ab_icon_email</item>
+        <item name="actionBarIconWeb">@drawable/ab_icon_web</item>
+        <item name="actionBarIconMap">@drawable/ab_icon_map</item>
+        <item name="actionBarIconShare">@drawable/ab_icon_share_grey</item>
+        <item name="actionBarIconCopy">@drawable/ab_icon_copy</item>
+        <item name="actionBarIconCall">@drawable/ab_icon_call</item>
     </style>
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">

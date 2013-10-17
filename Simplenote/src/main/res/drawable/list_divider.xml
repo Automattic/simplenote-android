@@ -5,7 +5,7 @@
     <shape
         android:shape="rectangle">
 
-        <solid android:color="#efefef" />
+        <solid android:color="@color/simplenote_light_list_divider" />
 
     </shape>
 </inset>
