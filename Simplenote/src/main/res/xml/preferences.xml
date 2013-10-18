@@ -32,7 +32,7 @@
             android:summary="%s"
             android:title="@string/sort_order" />
         <ListPreference
-            android:defaultValue="light"
+            android:defaultValue="0"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
             android:key="pref_key_theme"
