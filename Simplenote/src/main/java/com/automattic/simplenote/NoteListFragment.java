@@ -412,7 +412,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         Query<Note> query = notesActivity.getSelectedTag().query();
 
         if (hasSearchQuery()) {
-            query.where(new Query.FullTextMatch(Note.CONTENT_PROPERTY, new SearchTokenizer(mSearchString)));
+            query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
             query.include(new Query.FullTextOffsets("match_offsets"));
             query.include(new Query.FullTextSnippet(Note.TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
             query.include(new Query.FullTextSnippet(Note.CONTENT_PREVIEW_INDEX_NAME, Note.CONTENT_PROPERTY));
@@ -538,6 +538,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
                 untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
