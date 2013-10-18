@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 import android.util.Log;
 
 public class Tag extends BucketObject {
@@ -23,7 +25,7 @@ public class Tag extends BucketObject {
     public static final String NAME_PROPERTY = "name";
     public static final String INDEX_PROPERTY = "index";
     protected int tagIndex;
-	protected String name = "";
+    protected String name = "";
 
     public static class Schema extends BucketSchema<Tag> {
 
@@ -35,14 +37,15 @@ public class Tag extends BucketObject {
             return Tag.BUCKET_NAME;
         }
 
-		public Tag build(String key, Map<String,Object>properties){
-			return new Tag(key, properties);
-		}
-
-        public void update(Tag tag, Map<String,Object>properties){
-            tag.setProperties(properties);
+        public Tag build(String key, JSONObject properties) {
+            return new Tag(key, properties);
         }
-	}
+
+        public void update(Tag tag, JSONObject properties) {
+            tag.properties = properties;
+        }
+
+    }
 
     public static Query<Tag> all(Bucket<Tag> bucket){
         return bucket.query().order(INDEX_PROPERTY).orderByKey();
@@ -52,40 +55,40 @@ public class Tag extends BucketObject {
         return all(bucket).include(NAME_PROPERTY, NOTE_COUNT_INDEX_NAME);
     }
 
-    public Tag(String key){
-        super(key, new HashMap<String,Object>());
+    public Tag(String key) {
+        super(key, new JSONObject());
     }
 
-	public Tag(String key, Map<String,Object>properties){
-		super(key, properties);
-	}
+    public Tag(String key, JSONObject properties) {
+        super(key, properties);
+    }
 
-	public String getName() {
-		String name = (String) properties.get(NAME_PROPERTY);
+    public String getName() {
+        String name = (String) getProperty(NAME_PROPERTY);
         if (name == null) {
             name = getSimperiumKey();
         }
         return name;
-	}
-	
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-        properties.put(NAME_PROPERTY, name);
-	}
-		
-	public Integer getIndex() {
-        return (Integer) properties.get(INDEX_PROPERTY);
-	}
-	
-	public void setIndex(Integer tagIndex) {
+    }
+
+    public void setName(String name) {
+        if (name == null) {
+            name = "";
+        }
+        setProperty(NAME_PROPERTY, name);
+    }
+
+    public Integer getIndex() {
+        return (Integer) getProperty(INDEX_PROPERTY);
+    }
+
+    public void setIndex(Integer tagIndex) {
         if (tagIndex == null) {
             properties.remove("index");
         } else {
-            properties.put("index", tagIndex);
+            setProperty("index", tagIndex);
         }
-	}
+    }
 
     public void renameTo(String name, Bucket<Note> notesBucket)
     throws BucketObjectNameInvalid {
@@ -119,10 +122,6 @@ public class Tag extends BucketObject {
             setName(name);
             save();
         }
-    }
-
-    protected void setProperties(Map<String,Object> properties){
-        this.properties = properties;
     }
 
     public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket){

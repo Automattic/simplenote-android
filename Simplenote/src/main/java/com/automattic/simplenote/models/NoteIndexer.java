@@ -11,6 +11,7 @@ public class NoteIndexer implements Indexer<Note> {
 
     @Override
     public List<Index> index(Note note){
+
         List<Index> indexes = new ArrayList<Index>();
         indexes.add(new Index(Note.PINNED_INDEX_NAME, note.isPinned()));
         indexes.add(new Index(Note.CONTENT_PREVIEW_INDEX_NAME, note.getContentPreview()));
@@ -18,6 +19,7 @@ public class NoteIndexer implements Indexer<Note> {
         indexes.add(new Index(Note.MODIFIED_INDEX_NAME, note.getModificationDate().getTimeInMillis()));
         indexes.add(new Index(Note.CREATED_INDEX_NAME, note.getCreationDate().getTimeInMillis()));
         return indexes;
+
     }
 
 }

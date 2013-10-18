@@ -14,9 +14,8 @@ public class NoteFullTextIndexer implements FullTextIndex.Indexer<Note> {
     @Override
     public ContentValues index(String[] keys, Note note){
         ContentValues values = new ContentValues(keys.length);
-        values.put(INDEXES[0], TextUtils.join(COMMA, note.getTags()));
-        values.put(INDEXES[1], note.getTitle());
-        values.put(INDEXES[2], note.getContent());
+        values.put(INDEXES[0], note.getTitle());
+        values.put(INDEXES[1], note.getContent());
         return values;
     }
 

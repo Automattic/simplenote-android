@@ -32,6 +32,10 @@ public class SearchSnippetFormatter {
 
     private Spannable parseSnippet(){
         SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        if (mSnippet == null)
+            return builder;
+
         String snippet = mSnippet.replace("\n", " ");
         boolean inMatch = false;
 
