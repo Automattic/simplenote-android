@@ -72,6 +72,7 @@ public class TagsAdapter extends BaseAdapter {
 
         TypedArray a = mContext.obtainStyledAttributes(new int[]{R.attr.noteTitleColor});
         mTextColorId = a.getResourceId(0, 0);
+        a.recycle();
 
         swapCursor(cursor);
     }
