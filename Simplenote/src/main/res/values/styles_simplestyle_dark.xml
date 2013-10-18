@@ -35,6 +35,7 @@
         <item name="android:windowBackground">@color/simplenote_dark_bg</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo</item>
+        <item name="notePinColor">@color/simplenote_light_grey</item>
         <item name="noteTitleColor">@color/simplenote_dark_text</item>
         <item name="notePreviewColor">@color/simplenote_dark_text_preview</item>
         <item name="noteEditorTextColor">@color/simplenote_dark_text</item>
