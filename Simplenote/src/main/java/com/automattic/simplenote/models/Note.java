@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -46,7 +50,7 @@ public class Note extends BucketObject {
     public static final String MODIFIED_INDEX_NAME="modified";
     public static final String CREATED_INDEX_NAME="created";
 
-    static public final String[] FULL_TEXT_INDEXES = new String[]{ Note.TAGS_PROPERTY,
+    static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
 	
 	protected String title = null;
@@ -63,8 +67,8 @@ public class Note extends BucketObject {
             addIndex(sNoteIndexer);
             setupFullTextIndex(sFullTextIndexer, NoteFullTextIndexer.INDEXES);
             setDefault(CONTENT_PROPERTY, "");
-            setDefault(SYSTEM_TAGS_PROPERTY, new ArrayList<Object>());
-            setDefault(TAGS_PROPERTY, new ArrayList<Object>());
+            setDefault(SYSTEM_TAGS_PROPERTY, new JSONArray());
+            setDefault(TAGS_PROPERTY, new JSONArray());
             setDefault(DELETED_PROPERTY, false);
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
@@ -74,18 +78,18 @@ public class Note extends BucketObject {
             return Note.BUCKET_NAME;
         }
 
-		public Note build(String key, Map<String,Object>properties){
-			Note note = new Note(key, properties);
-			return note;
-		}
+        public Note build(String key, JSONObject properties) {
+            Note note = new Note(key, properties);
+            return note;
+        }
 
-        public void update(Note note, Map<String,Object>properties){
+        public void update(Note note, JSONObject properties) {
             note.properties = properties;
             note.title = null;
             note.contentPreview = null;
         }
 	}
-    
+
     public static Query<Note> all(Bucket<Note> noteBucket){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
@@ -109,13 +113,13 @@ public class Note extends BucketObject {
     }
 
 
-    public Note(String key){
-        super(key, new HashMap<String,Object>());
+    public Note(String key) {
+        super(key, new JSONObject());
     }
 
-	public Note(String key, Map<String,Object>properties) {
-		super(key, properties);
-	}
+    public Note(String key, JSONObject properties) {
+        super(key, properties);
+    }
 
     protected void updateTitleAndPreview(){
         // try to build a title and preview property out of content
@@ -219,18 +223,33 @@ public class Note extends BucketObject {
         return hasTag(tag.getSimperiumKey());
     }
 
-	public List<String> getTags() {
-        Object tags = getProperty(TAGS_PROPERTY);
+    public List<String> getTags() {
+
+        JSONArray tags = (JSONArray) getProperty(TAGS_PROPERTY);
+
         if (tags == null) {
-            tags = new ArrayList<String>();
+            tags = new JSONArray();
             setProperty(TAGS_PROPERTY, tags);
         }
-        return (ArrayList<String>) tags;
-	}
 
-	public void setTags(List<String> tags) {
-        setProperty(TAGS_PROPERTY, tags);
-	}
+        int length = tags.length();
+
+        List<String> tagList = new ArrayList<String>(length);
+
+        if (length == 0) return tagList;
+
+        for (int i=0; i<length; i++) {
+            String tag = tags.optString(i);
+            if (!tag.equals(""))
+                tagList.add(tag);
+        }
+
+        return tagList;
+    }
+
+    public void setTags(List<String> tags) {
+        setProperty(TAGS_PROPERTY, new JSONArray(tags));
+    }
 
     /**
      * String of tags delimited by a space
@@ -283,43 +302,62 @@ public class Note extends BucketObject {
         } while(next > -1);
     }
 
-	public List<String> getSystemTags() {
-        Object tags = getProperty(SYSTEM_TAGS_PROPERTY);
+    public JSONArray getSystemTags() {
+        JSONArray tags = (JSONArray) getProperty(SYSTEM_TAGS_PROPERTY);
         if (tags == null) {
-            return new ArrayList<String>();
+            tags = new JSONArray();
+            setProperty(SYSTEM_TAGS_PROPERTY, tags);
         }
-        return (List<String>) tags;
-	}
+        return tags;
+    }
 
 	public Boolean isDeleted() {
         Object deleted = getProperty(DELETED_PROPERTY);
         if (deleted == null) {
             return false;
         }
-		if (deleted instanceof Boolean) {
-			return (Boolean) deleted;
-		} else if (deleted instanceof Number) {
-			return ((Number)deleted).intValue() == 0 ? false : true;
+        if (deleted instanceof Boolean) {
+            return (Boolean) deleted;
+        } else if (deleted instanceof Number) {
+            return ((Number)deleted).intValue() == 0 ? false : true;
         } else {
             return false;
         }
-	}
+    }
 
-	public void setDeleted(boolean deleted) {
-		setProperty(DELETED_PROPERTY, deleted);
-	}
+    public void setDeleted(boolean deleted) {
+        setProperty(DELETED_PROPERTY, deleted);
+    }
 
-	public boolean isPinned() {
-        return getSystemTags().contains(PINNED_TAG);
-	}
-
-	public void setPinned(boolean isPinned) {
-        if (isPinned && !isPinned()) {
-            getSystemTags().add(PINNED_TAG);
-        } else if (!isPinned && isPinned()){
-            getSystemTags().remove(PINNED_TAG);
+    public boolean isPinned() {
+        JSONArray tags = getSystemTags();
+        int length = tags.length();
+        for (int i=0; i<length; i++) {
+            if (tags.optString(i).equals(PINNED_TAG))
+                return true;
         }
-	}
+        return false;
+    }
+
+    public void setPinned(boolean isPinned) {
+        if (isPinned && !isPinned()) {
+            getSystemTags().put(PINNED_TAG);
+        } else if (!isPinned && isPinned()){
+            JSONArray tags = getSystemTags();
+            JSONArray newTags = new JSONArray();
+            int length = tags.length();
+            try {
+                for (int i=0; i<length; i++) {
+                    Object val = tags.get(i);
+                    if (val.equals(PINNED_TAG))
+                        newTags.put(val);
+                }
+            } catch (JSONException e) {
+                // could not update pinned setting
+            }
+            setProperty(SYSTEM_TAGS_PROPERTY, newTags);
+        }
+    }
 
     public static String dateString(Number time, boolean useShortFormat, Context context){
         Calendar c = numberToDate(time);
