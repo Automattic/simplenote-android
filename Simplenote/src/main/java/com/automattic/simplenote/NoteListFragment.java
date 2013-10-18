@@ -12,8 +12,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
@@ -40,6 +38,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.Typefaces;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
+import com.automattic.simplenote.utils.TextHighlighter;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -474,18 +473,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	public class NotesCursorAdapter extends CursorAdapter {
         private ObjectCursor<Note> mCursor;
 
-        private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new SearchSnippetFormatter.SpanFactory() {
-
-            @Override
-            public Object[] buildSpans(String snippet) {
-                return new Object[]{
-                    new ForegroundColorSpan(0xFF4F91CC),
-                    new BackgroundColorSpan(0xFFEEF3F8)
-                };
-            }
-
-        };
-
+        private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new TextHighlighter(getActivity(),
+            R.attr.listSearchHighlightForegroundColor, R.attr.listSearchHighlightBackgroundColor);
 
         public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);

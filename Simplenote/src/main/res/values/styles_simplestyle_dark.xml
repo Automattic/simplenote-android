@@ -53,6 +53,10 @@
         <item name="actionBarIconShare">@drawable/ab_icon_share_dark</item>
         <item name="actionBarIconCopy">@drawable/ab_icon_copy_dark</item>
         <item name="actionBarIconCall">@drawable/ab_icon_call_dark</item>
+        <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
+        <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
+        <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
+        <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
     </style>
 
     <style name="ActionBar.Solid.Simplestyle.Dark" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">

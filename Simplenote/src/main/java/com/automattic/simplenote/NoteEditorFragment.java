@@ -41,6 +41,7 @@ import android.widget.ToggleButton;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
+import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
@@ -75,6 +76,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
     private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
+    private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -92,9 +94,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         mWebIconResId = a.getResourceId(1, 0);
         mMapIconResId = a.getResourceId(2, 0);
         mCallIconResId = a.getResourceId(3, 0);
+        a.recycle();
 
         mAutoSaveHandler = new Handler();
 
+        mMatchHighlighter = new TextHighlighter(getActivity(),
+                R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
         mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
 
             @Override
@@ -132,17 +137,6 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         };
     }
 
-    private MatchOffsetHighlighter.SpanFactory mMatchHighlighter = new MatchOffsetHighlighter.SpanFactory() {
-
-        @Override
-        public Object[] buildSpans(){
-            return new Object[]{
-                new ForegroundColorSpan(0xFFEEF3F8),
-                new BackgroundColorSpan(0xFF4F91CC)
-            };
-        }
-
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

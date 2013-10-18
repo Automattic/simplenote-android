@@ -53,6 +53,10 @@
         <item name="actionBarIconShare">@drawable/ab_icon_share_grey</item>
         <item name="actionBarIconCopy">@drawable/ab_icon_copy</item>
         <item name="actionBarIconCall">@drawable/ab_icon_call</item>
+        <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
+        <item name="listSearchHighlightBackgroundColor">#FFEEF3F8</item>
+        <item name="editorSearchHighlightForegroundColor">#FFEEF3F8</item>
+        <item name="editorSearchHighlightBackgroundColor">#FF4F91CC</item>
     </style>
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
