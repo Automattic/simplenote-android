@@ -29,8 +29,6 @@ public class Simplenote extends Application {
 
     public static final String DELETED_NOTE_ID = "deletedNoteId";
 
-	
-	private Properties mConfig;
 	private Simperium mSimperium;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
