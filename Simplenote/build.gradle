@@ -28,7 +28,7 @@ version "1.0.1"
 android {
 
     compileSdkVersion 18
-    buildToolsVersion "18.0.1"
+    buildToolsVersion "18.1.1"
 
     defaultConfig {
         packageName "com.automattic.simplenote"
