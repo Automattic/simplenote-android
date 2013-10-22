@@ -31,9 +31,6 @@ public class Simplenote extends Application {
 
     public static final String DELETED_NOTE_ID = "deletedNoteId";
 
-    // theme constants
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
 	
 	private Properties mConfig;
 	private Simperium mSimperium;

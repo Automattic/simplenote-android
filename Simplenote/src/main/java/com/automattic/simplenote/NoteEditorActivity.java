@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -23,11 +24,7 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        int theme = PrefUtils.getIntPref(this, "pref_key_theme", 0);
-        if (theme == Simplenote.THEME_LIGHT)
-            setTheme(R.style.Theme_Simplestyle);
-        else
-            setTheme(R.style.Theme_Simplestyle_Dark);
+        ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();

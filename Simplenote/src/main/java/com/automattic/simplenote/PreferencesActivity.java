@@ -11,6 +11,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.view.MenuItem;
 
+import com.automattic.simplenote.utils.ThemeUtils;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
@@ -23,6 +25,9 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ThemeUtils.setTheme(this);
+
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);

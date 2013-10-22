@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -54,11 +55,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        int theme = PrefUtils.getIntPref(this, "pref_key_theme", Simplenote.THEME_LIGHT);
-        if (theme == Simplenote.THEME_LIGHT)
-            setTheme(R.style.Theme_Simplestyle);
-        else
-            setTheme(R.style.Theme_Simplestyle_Dark);
+        ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
 

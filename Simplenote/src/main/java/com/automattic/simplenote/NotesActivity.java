@@ -31,6 +31,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 
@@ -85,11 +86,7 @@ public class NotesActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-        int theme = PrefUtils.getIntPref(this, "pref_key_theme", Simplenote.THEME_LIGHT);
-        if (theme == Simplenote.THEME_LIGHT)
-            setTheme(R.style.Theme_Simplestyle);
-        else
-            setTheme(R.style.Theme_Simplestyle_Dark);
+        ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();
