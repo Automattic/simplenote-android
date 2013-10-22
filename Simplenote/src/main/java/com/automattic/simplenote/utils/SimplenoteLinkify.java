@@ -5,10 +5,15 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by dan on 9/6/13.
  */
 public class SimplenoteLinkify {
+
+    static public final String SIMPLENOTE_SCHEME = "simplenote";
+    static public final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile("simplenote://preferences/[^\\s]{0,}");
 
     // Works the same as Linkify.addLinks, but doesn't set movement method
     public static final boolean addLinks(TextView text, int mask) {
@@ -19,11 +24,10 @@ public class SimplenoteLinkify {
         CharSequence t = text.getText();
 
         if (t instanceof Spannable) {
-            if (Linkify.addLinks((Spannable) t, mask)) {
-                return true;
-            }
+            boolean linked = Linkify.addLinks((Spannable) t, mask);
+            Linkify.addLinks((Spannable) t, SIMPLENOTE_LINK_PATTERN, SIMPLENOTE_SCHEME);
 
-            return false;
+            return linked;
         } else {
             SpannableString s = SpannableString.valueOf(t);
 
