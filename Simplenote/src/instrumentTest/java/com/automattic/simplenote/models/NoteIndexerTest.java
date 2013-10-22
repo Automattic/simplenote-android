@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
 
 import com.simperium.client.BucketSchema.Index;
 
@@ -23,7 +23,7 @@ public class NoteIndexerTest extends TestCase {
 
     public void testIndexMillisecondDates()
     throws Exception {
-        Map<String,Object> properties = new HashMap<String,Object>();
+        JSONObject properties = new JSONObject();
         properties.put(Note.MODIFICATION_DATE_PROPERTY, 1379018823037.0);
         properties.put(Note.CREATION_DATE_PROPERTY, 1379018823037.0);
 
