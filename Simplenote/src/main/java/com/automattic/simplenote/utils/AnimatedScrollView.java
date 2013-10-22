@@ -3,7 +3,6 @@ package com.automattic.simplenote.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 /**

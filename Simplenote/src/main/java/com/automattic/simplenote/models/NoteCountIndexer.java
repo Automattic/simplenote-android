@@ -1,10 +1,8 @@
 package com.automattic.simplenote.models;
 
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketSchema.Indexer;
 import com.simperium.client.BucketSchema.Index;
+import com.simperium.client.BucketSchema.Indexer;
 
 import java.util.ArrayList;
 import java.util.List;

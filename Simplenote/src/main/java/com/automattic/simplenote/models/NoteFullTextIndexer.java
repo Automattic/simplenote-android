@@ -1,10 +1,8 @@
 package com.automattic.simplenote.models;
 
-import com.simperium.client.FullTextIndex;
-
 import android.content.ContentValues;
 
-import android.text.TextUtils;
+import com.simperium.client.FullTextIndex;
 
 public class NoteFullTextIndexer implements FullTextIndex.Indexer<Note> {
 

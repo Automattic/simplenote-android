@@ -3,9 +3,8 @@ package com.automattic.simplenote.models;
 import com.simperium.client.BucketSchema.Index;
 import com.simperium.client.BucketSchema.Indexer;
 
-import java.util.Calendar;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteIndexer implements Indexer<Note> {
 

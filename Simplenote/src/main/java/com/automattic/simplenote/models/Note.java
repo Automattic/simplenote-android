@@ -1,30 +1,24 @@
 package com.automattic.simplenote.models;
 
+import android.content.Context;
+
+import com.automattic.simplenote.R;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObject;
+import com.simperium.client.BucketSchema;
+import com.simperium.client.Query;
+import com.simperium.client.Query.ComparisonType;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import android.content.Context;
-import android.util.Log;
-
-import com.automattic.simplenote.R;
-
-import com.simperium.client.Bucket;
-import com.simperium.client.Query;
-import com.simperium.client.Query.ComparisonType;
-import com.simperium.client.Query.SortType;
-import com.simperium.client.BucketObject;
-import com.simperium.client.BucketSchema;
+import java.util.Locale;
 
 public class Note extends BucketObject {
 	

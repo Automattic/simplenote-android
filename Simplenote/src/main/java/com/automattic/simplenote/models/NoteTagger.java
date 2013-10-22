@@ -5,9 +5,8 @@
 package com.automattic.simplenote.models;
 
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
-import com.simperium.client.Query;
+import com.simperium.client.BucketObjectNameInvalid;
 
 import java.util.List;
 

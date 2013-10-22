@@ -1,7 +1,5 @@
 package com.automattic.simplenote.utils;
 
-import java.lang.StringBuilder;
-
 public class SearchTokenizer {
 
     static public final String EMPTY = "";

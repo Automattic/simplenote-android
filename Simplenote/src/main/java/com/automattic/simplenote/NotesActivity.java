@@ -34,15 +34,13 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
-
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 

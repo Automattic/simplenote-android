@@ -7,16 +7,11 @@ import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketSchema;
 import com.simperium.client.Query;
 import com.simperium.client.Query.ComparisonType;
-import com.simperium.client.Query.SortType;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tag extends BucketObject {
 	

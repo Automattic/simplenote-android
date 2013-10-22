@@ -27,7 +27,6 @@ import android.view.ViewPropertyAnimator;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.models.Note;
 
 import java.util.List;
 

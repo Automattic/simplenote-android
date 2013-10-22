@@ -6,9 +6,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
-
 import com.simperium.Simperium;
-
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 

@@ -1,7 +1,6 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 
 public class SearchSnippetFormatter {

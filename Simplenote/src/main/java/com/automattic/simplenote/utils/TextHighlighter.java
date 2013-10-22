@@ -2,11 +2,8 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.BackgroundColorSpan;
-
-import com.automattic.simplenote.utils.MatchOffsetHighlighter;
-import com.automattic.simplenote.utils.SearchSnippetFormatter;
+import android.text.style.ForegroundColorSpan;
 
 public class TextHighlighter
 implements MatchOffsetHighlighter.SpanFactory, SearchSnippetFormatter.SpanFactory {

@@ -5,11 +5,11 @@ package com.automattic.simplenote.utils;
  *  added 01-Apr-2013 by Nick Bradbury
  */
 
+import android.text.Html;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
-import android.text.Html;
 
 public class StrUtils {
 	// suppress default constructor for non-instantiability

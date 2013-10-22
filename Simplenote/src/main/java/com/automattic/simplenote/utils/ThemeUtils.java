@@ -1,14 +1,13 @@
 package com.automattic.simplenote.utils;
 
-import com.automattic.simplenote.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
-import java.util.Arrays;
+import com.automattic.simplenote.R;
+
 import java.util.List;
 
 public class ThemeUtils {

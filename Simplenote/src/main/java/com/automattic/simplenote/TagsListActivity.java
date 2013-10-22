@@ -27,15 +27,14 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
 import java.util.List;

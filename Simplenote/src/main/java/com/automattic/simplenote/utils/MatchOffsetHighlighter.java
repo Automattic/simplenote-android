@@ -1,17 +1,13 @@
 package com.automattic.simplenote.utils;
 
-import android.text.Spanned;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextUtils;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.widget.TextView;
 
-import android.text.style.ForegroundColorSpan;
-import android.text.style.BackgroundColorSpan;
-
-import java.util.Scanner;
 import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
