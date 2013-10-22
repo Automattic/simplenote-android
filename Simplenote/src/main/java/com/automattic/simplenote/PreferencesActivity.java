@@ -11,6 +11,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.view.MenuItem;
 
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -29,6 +30,11 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+
+        // if a new theme was picked, activity is recreated with theme changed intent
+        // set result to notify the calling activity once this activity is complete
+        if (ThemeUtils.themeWasChanged(getIntent()))
+            setResult(RESULT_OK, getIntent());
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -82,22 +88,32 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
             }
         });
 
-        final ListPreference themePreference = (ListPreference) findPreference("pref_key_theme");
+        PreferenceGroup notesPreferenceGroup = (PreferenceGroup) findPreference("pref_key_note_preferences");
+        final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
+
+        if (!PrefUtils.getBoolPref(this, PrefUtils.PREF_THEME_MODIFIED, false))
+            notesPreferenceGroup.removePreference(themePreference);
+
         themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Intent intent = new Intent();
-                intent.putExtra(NotesActivity.THEME_CHANGED, true);
-                setResult(RESULT_OK, intent);
+
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
+
+                // update intent to indicate the theme setting was changed
+                setIntent(ThemeUtils.makeThemeChangeIntent());
+
+                // recreate the activity so new theme is applied
+                recreate();
+
                 return true;
             }
         });
 
-        final ListPreference sortPreference = (ListPreference) findPreference("pref_key_sort_order");
+        final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
             @Override
@@ -154,4 +170,5 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
     public void onUserCreated(User user) {
         EasyTracker.getTracker().sendEvent("user", "new_account_created", "account_created_from_preferences_activity", null);
     }
+
 }

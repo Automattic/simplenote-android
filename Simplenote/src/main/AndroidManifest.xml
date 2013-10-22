@@ -41,7 +41,15 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:label="Preferences"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <intent-filter>
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="simplenote" android:host="preferences" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.automattic.simplenote.TagsListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />

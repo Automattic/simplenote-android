@@ -77,7 +77,6 @@ public class NotesActivity extends Activity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
-    public static String THEME_CHANGED = "themeChanged";
 
     // Google Analytics tracker
     private Tracker mTracker;
@@ -697,11 +696,9 @@ public class NotesActivity extends Activity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Simplenote.INTENT_PREFERENCES:
-                if (data != null && data.hasExtra(THEME_CHANGED)) {
+                if (ThemeUtils.themeWasChanged(data)) {
                     // Restart this activity to apply the new theme
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
+                    recreate();
                     break;
                 }
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
