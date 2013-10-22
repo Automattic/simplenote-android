@@ -15,7 +15,7 @@ import android.test.ActivityInstrumentationTestCase2;
 public class NotesActivityTest extends ActivityInstrumentationTestCase2<NotesActivity> {
 
     public NotesActivityTest() {
-        super("com.automattic.simplenote", NotesActivity.class);
+        super(NotesActivity.class);
     }
 
 }
