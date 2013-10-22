@@ -269,7 +269,12 @@ public class Note extends BucketObject {
     public void setTagString(String tagString){
         List<String> tags = getTags();
         tags.clear();
-        if (tagString == null) return;
+
+        if (tagString == null) {
+            setTags(tags);
+            return;
+        }
+
         // Make sure string has a trailing space
         if (tagString.length() > 1 && !tagString.substring(tagString.length() - 1).equals(SPACE))
             tagString = tagString + SPACE;
@@ -294,6 +299,7 @@ public class Note extends BucketObject {
             }
             start = next + 1;
         } while(next > -1);
+        setTags(tags);
     }
 
     public JSONArray getSystemTags() {
