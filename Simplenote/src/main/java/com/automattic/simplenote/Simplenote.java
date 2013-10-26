@@ -12,8 +12,6 @@ import com.simperium.client.BucketNameInvalid;
 
 import org.wordpress.passcodelock.AppLockManager;
 
-import java.util.Properties;
-
 public class Simplenote extends Application {
 	
 	// log tag
