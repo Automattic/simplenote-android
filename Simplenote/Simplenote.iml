@@ -72,10 +72,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroidSupport033.aar" level="project" />
     <orderEntry type="library" exported="" name="google-analytics-2.0-beta-4" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidVolley22.aar" level="project" />
     <orderEntry type="library" exported="" name="OrgWordpressAndroidPasscodelock003.aar" level="project" />
-    <orderEntry type="library" exported="" name="ComSimperiumSimperiumAndroid031.aar" level="project" />
     <orderEntry type="library" exported="" name="android-websockets-6c7c60d" level="project" />
   </component>
 </module>
