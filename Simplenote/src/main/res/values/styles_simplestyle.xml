@@ -47,6 +47,7 @@
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
+        <item name="actionBarIconTrash">@drawable/ab_icon_trash</item>
         <item name="actionBarIconEmail">@drawable/ab_icon_email</item>
         <item name="actionBarIconWeb">@drawable/ab_icon_web</item>
         <item name="actionBarIconMap">@drawable/ab_icon_map</item>
