@@ -53,6 +53,7 @@ public class NotesActivity extends Activity implements
         Bucket.Listener<Note> {
 
     private boolean mIsLargeScreen, mIsLandscape;
+    private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
@@ -467,6 +468,7 @@ public class NotesActivity extends Activity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
@@ -483,6 +485,13 @@ public class NotesActivity extends Activity implements
                 return false;
             }
         });
+
+        // Restore the search query on landscape tablets
+        if (isLargeScreenLandscape() && !TextUtils.isEmpty(mTabletSearchQuery)) {
+            mSearchView.setQuery(mTabletSearchQuery, false);
+            mSearchMenuItem.expandActionView();
+            mSearchView.clearFocus();
+        }
 
         Simplenote currentApp = (Simplenote) getApplication();
         menu.findItem(R.id.menu_sign_in).setVisible(currentApp.getSimperium().needsAuthorization());
@@ -637,6 +646,9 @@ public class NotesActivity extends Activity implements
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
+            if (mSearchView != null && mSearchView.getQuery().length() > 0) {
+                mTabletSearchQuery = mSearchView.getQuery().toString();
+            }
             invalidateOptionsMenu();
         }
 
