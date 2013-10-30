@@ -18,6 +18,8 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -75,6 +77,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private MatchOffsetHighlighter mHighlighter;
     private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
+    private String mMatchOffsets;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -177,6 +180,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
+            if (arguments.containsKey(ARG_MATCH_OFFSETS))
+                mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
@@ -219,6 +224,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         mPlaceholderView.setVisibility(View.GONE);
 
+        if (matchOffsets != null)
+            mMatchOffsets = matchOffsets;
+
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null) {
             if (mIsNewNote && noteIsEmpty())
@@ -227,7 +235,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 saveNote();
         }
 
-        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID, matchOffsets);
+        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
     public void updateNote(Note updatedNote) {
@@ -341,20 +349,29 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
         SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
 
-        int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
-        String matches = getArguments().getString(ARG_MATCH_OFFSETS);
-        mHighlighter.highlightMatches(matches, columnIndex);
-
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
-
         if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
             mAutoSaveHandler.postDelayed(autoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
+        }
+
+        // Remove search highlight spans when note content changes
+        if (mMatchOffsets != null) {
+            mMatchOffsets = null;
+            Editable editable = mContentEditText.getText();
+            BackgroundColorSpan backgroundColorSpans[] = editable.getSpans(0, editable.length(), BackgroundColorSpan.class);
+            for (int i = 0; i < backgroundColorSpans.length; i++) {
+                editable.removeSpan(backgroundColorSpans[i]);
+            }
+            ForegroundColorSpan foregroundColorSpans[] = editable.getSpans(0, editable.length(), ForegroundColorSpan.class);
+            for (int i = 0; i < foregroundColorSpans.length; i++) {
+                editable.removeSpan(foregroundColorSpans[i]);
+            }
         }
     }
 
@@ -479,6 +496,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             if (getActivity() == null || getActivity().isFinishing())
                 return;
             refreshContent(true);
+            if (mMatchOffsets != null) {
+                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+            }
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
             if (mNote != null && mNote.getContent().isEmpty()) {
                 // Show soft keyboard
