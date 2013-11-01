@@ -79,6 +79,14 @@ public class NoteTest extends TestCase {
         assertFalse(mNote.hasTag(tag));
     }
 
+    public void testPinAndUnpinNote() {
+        Note note = new Note("note-test");
+        note.setPinned(true);
+        assertTrue(note.isPinned());
+        note.setPinned(false);
+        assertFalse(note.isPinned());
+    }
+
     protected List<String> tagList(String ... tags){
         List<String> tagArray = new ArrayList<String>(tags.length);
         for (String tag : tags) {
