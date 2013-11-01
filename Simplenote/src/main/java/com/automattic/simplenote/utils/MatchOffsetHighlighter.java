@@ -7,9 +7,13 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
+
+    private static List<Object> mMatchedSpans = new ArrayList<Object>();
 
     public interface SpanFactory {
         public Object[] buildSpans();
@@ -28,6 +32,7 @@ public class MatchOffsetHighlighter implements Runnable {
 
             for (Object span : spans) {
                 content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mMatchedSpans.add(span);
             }
         }
 
@@ -136,7 +141,15 @@ public class MatchOffsetHighlighter implements Runnable {
             listener.onMatch(factory, content, span_start, span_end);
 
         }
+    }
 
+    public void removeMatches() {
+        if (mText != null && mMatchedSpans != null) {
+            for (Object span : mMatchedSpans) {
+                mText.removeSpan(span);
+            }
+            mMatchedSpans.clear();
+        }
     }
 
     static public final String CHARSET = "UTF-8";
