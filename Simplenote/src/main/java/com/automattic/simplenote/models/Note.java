@@ -341,15 +341,17 @@ public class Note extends BucketObject {
 
     public void setPinned(boolean isPinned) {
         if (isPinned && !isPinned()) {
+            // Add pinned system tag
             getSystemTags().put(PINNED_TAG);
-        } else if (!isPinned && isPinned()){
+        } else if (!isPinned && isPinned()) {
+            // Remove pinned system tag
             JSONArray tags = getSystemTags();
             JSONArray newTags = new JSONArray();
             int length = tags.length();
             try {
-                for (int i=0; i<length; i++) {
+                for (int i = 0; i < length; i++) {
                     Object val = tags.get(i);
-                    if (val.equals(PINNED_TAG))
+                    if (!val.equals(PINNED_TAG))
                         newTags.put(val);
                 }
             } catch (JSONException e) {
