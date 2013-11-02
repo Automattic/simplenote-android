@@ -37,3 +37,10 @@ hockeyAppId=HOCKEY_APP_ID
 
 5) Install debug build with Android Studio or `./gradlew installDebug`
 
+## Unit Tests
+
+Run the gradle `connectedInstrumentTest` task:
+
+```bash
+./gradlew connectedInstrumentTest
+```
