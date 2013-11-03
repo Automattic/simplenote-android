@@ -8,12 +8,13 @@ import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
-    private static List<Object> mMatchedSpans = new ArrayList<Object>();
+    private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<Object>());
 
     public interface SpanFactory {
         public Object[] buildSpans();
@@ -143,7 +144,8 @@ public class MatchOffsetHighlighter implements Runnable {
         }
     }
 
-    public void removeMatches() {
+    public synchronized void removeMatches() {
+        stop();
         if (mText != null && mMatchedSpans != null) {
             for (Object span : mMatchedSpans) {
                 mText.removeSpan(span);
