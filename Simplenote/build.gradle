@@ -28,7 +28,7 @@ version "1.2"
 
 android {
 
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "18.1.1"
 
     defaultConfig {
@@ -36,7 +36,7 @@ android {
         versionName project.version
         versionCode 20
         minSdkVersion 15
-        targetSdkVersion 18
+        targetSdkVersion 19
      }
 
 }
