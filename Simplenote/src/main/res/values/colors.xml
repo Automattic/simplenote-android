@@ -8,7 +8,8 @@
     <color name="simplenote_blue_light">#EEF3F8</color>
     <color name="simplenote_dark_grey">#222222</color>
     <color name="simplenote_light_grey">#777777</color>
-    <color name="simplenote_light_list_divider">#EFEFEF</color>
+    <color name="simplenote_light_list_divider">#EBEBEB</color>
+    <color name="simplenote_light_selected_row">#EBEBEB</color>
     <color name="simplenote_dark_bg">#24272b</color>
     <color name="simplenote_dark_text">#71889f</color>
     <color name="simplenote_dark_text_preview">#5b6780</color>
