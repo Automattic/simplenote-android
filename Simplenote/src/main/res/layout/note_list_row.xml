@@ -32,7 +32,6 @@
                 android:layout_weight="1"
                 android:lines="1"
                 android:singleLine="true"
-                android:text="note_title"
                 android:textColor="?attr/noteTitleColor"
                 android:textSize="22sp"
                 android:ellipsize="end"/>
