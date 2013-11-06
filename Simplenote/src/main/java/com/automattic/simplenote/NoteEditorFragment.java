@@ -363,15 +363,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         // Remove search highlight spans when note content changes
         if (mMatchOffsets != null) {
             mMatchOffsets = null;
-            Editable editable = mContentEditText.getText();
-            BackgroundColorSpan backgroundColorSpans[] = editable.getSpans(0, editable.length(), BackgroundColorSpan.class);
-            for (int i = 0; i < backgroundColorSpans.length; i++) {
-                editable.removeSpan(backgroundColorSpans[i]);
-            }
-            ForegroundColorSpan foregroundColorSpans[] = editable.getSpans(0, editable.length(), ForegroundColorSpan.class);
-            for (int i = 0; i < foregroundColorSpans.length; i++) {
-                editable.removeSpan(foregroundColorSpans[i]);
-            }
+            mHighlighter.removeMatches();
         }
     }
 
