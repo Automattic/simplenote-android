@@ -4,7 +4,7 @@ Handcrafted by the Automattic Mobile Team
 
 ## Requirements
 
-Target SDK: Jelly Bean (android-17)
+Target SDK: KitKat (android-19)
 Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure
