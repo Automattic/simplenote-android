@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="note_selected">%d個のノートを選択しました</string>
+    <string name="notes_selected">%d個のノートを選択しました</string>
+    <string name="notes_trashed">ノートをゴミ箱に移動しました。</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme">テーマ</string>
 	<string name="passcode_manage">PIN ロックの管理</string>
 	<string name="passcode_enter_passcode">PIN コードを入力</string>
 	<string name="passcode_enter_old_passcode">旧 PIN コードを入力</string>
