@@ -537,7 +537,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             holder.matchOffsets = null;
 
-            if (hasSearchQuery() && mCursor.getColumnIndex("match_offsets") > -1) {
+            if (hasSearchQuery()) {
                 String snippet = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
 
                 holder.matchOffsets = mCursor.getString(mCursor.getColumnIndex("match_offsets"));
