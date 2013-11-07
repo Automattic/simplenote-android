@@ -60,11 +60,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private ActionMode mActionMode;
 
-	private NotesCursorAdapter mNotesAdapter;
+	protected NotesCursorAdapter mNotesAdapter;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
-    private String mSearchString;
+    protected String mSearchString;
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
 
