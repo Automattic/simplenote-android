@@ -60,13 +60,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private ActionMode mActionMode;
 
-	private NotesCursorAdapter mNotesAdapter;
+	protected NotesCursorAdapter mNotesAdapter;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
-    private String mSearchString;
+    protected String mSearchString;
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
+    private refreshListTask mRefreshListTask;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -408,11 +409,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
 	public void refreshList() {
-        new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, false);
+        refreshList(false);
 	}
 
+    public void refreshList(boolean fromNav) {
+        if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
+            mRefreshListTask.cancel(true);
+
+        mRefreshListTask = new refreshListTask();
+        mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
+    }
+
     public void refreshListFromNavSelect() {
-        new refreshListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, true);
+        refreshList(true);
     }
 
     public ObjectCursor<Note> queryNotes(){
@@ -547,10 +556,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             holder.matchOffsets = null;
 
-            if (hasSearchQuery() && mCursor.getColumnIndex("match_offsets") > -1) {
+            int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
+            if (hasSearchQuery() && matchOffsetsIndex != -1) {
                 String snippet = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
 
-                holder.matchOffsets = mCursor.getString(mCursor.getColumnIndex("match_offsets"));
+                holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
                 holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));

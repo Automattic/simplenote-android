@@ -60,8 +60,8 @@ public class NotesActivity extends Activity implements
     private NoteListFragment mNoteListFragment;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
-    private Bucket<Note> mNotesBucket;
-    private Bucket<Tag> mTagsBucket;
+    protected Bucket<Note> mNotesBucket;
+    protected Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
     private MenuItem mEmptyTrashMenuItem;
@@ -88,8 +88,13 @@ public class NotesActivity extends Activity implements
 
         super.onCreate(savedInstanceState);
         Simplenote currentApp = (Simplenote) getApplication();
-        mNotesBucket = currentApp.getNotesBucket();
-        mTagsBucket = currentApp.getTagsBucket();
+
+        if (mNotesBucket == null)
+            mNotesBucket = currentApp.getNotesBucket();
+
+        if (mTagsBucket == null)
+            mTagsBucket = currentApp.getTagsBucket();
+
         setContentView(R.layout.activity_notes);
 
         EasyTracker.getInstance().activityStart(this);
@@ -409,7 +414,7 @@ public class NotesActivity extends Activity implements
     }
 
     // nbradbury 01-Apr-2013
-    private NoteListFragment getNoteListFragment() {
+    public NoteListFragment getNoteListFragment() {
         return mNoteListFragment;
     }
 
