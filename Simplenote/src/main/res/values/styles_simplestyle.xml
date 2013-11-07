@@ -46,6 +46,7 @@
         <item name="tagChipShadowColor">@color/white</item>
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
+        <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_tags</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
         <item name="actionBarIconTrash">@drawable/ab_icon_trash</item>
         <item name="actionBarIconEmail">@drawable/ab_icon_email</item>

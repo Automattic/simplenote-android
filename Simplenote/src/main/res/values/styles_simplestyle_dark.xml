@@ -45,6 +45,7 @@
         <item name="iconTintColor">@color/simplenote_dark_text</item>
         <item name="hintTextColor">@color/simplenote_dark_text_preview</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
+        <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
         <item name="listDividerDrawable">@drawable/list_divider_dark</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
         <item name="actionBarIconTrash">@drawable/ab_icon_trash_dark</item>

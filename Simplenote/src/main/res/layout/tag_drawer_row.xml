@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/padding_large"
     android:paddingTop="@dimen/padding_small"
     android:paddingBottom="@dimen/padding_small"
-    android:background="?attr/listBackgroundSelector">
+    android:background="?attr/tagListBackgroundSelector">
 
     <ImageView
         android:id="@+id/drawer_icon"
