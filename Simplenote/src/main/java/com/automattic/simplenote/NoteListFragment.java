@@ -123,7 +123,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-
+        mActionMode = null;
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    NotesActivity notesActivity = (NotesActivity) getActivity();
+                    setActivateOnItemClick(notesActivity.isLargeScreenLandscape());
+                    notesActivity.showDetailPlaceholder();
+                }
+            }
+        });
     }
 
     @Override
