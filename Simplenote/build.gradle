@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-    releaseCompile "com.simperium:simperium-android:0.4.0-beta"
-    debugCompile "com.simperium:simperium-android-support:0.4.0-beta"
+    releaseCompile "com.simperium:simperium-android:0.4.0-beta4"
+    debugCompile "com.simperium:simperium-android-support:0.4.0-beta4"
     compile "com.android.support:support-v4:18.0.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.3"
@@ -37,6 +37,11 @@ android {
         versionCode 23
         minSdkVersion 15
         targetSdkVersion 19
+
+        buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
+        buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
+        buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
+
      }
 
     buildTypes {
@@ -48,49 +53,6 @@ android {
 
 }
 
-// Generates the Config.java class using properties defined in gradle.properties
-// or by other means provided by Gradle
-task simplenoteConfig(group: "build", description: "Generate Config class") {
-    def dir = "${buildDir}/source/simplenote"
-    def file = new File(dir, "com/automattic/simplenote/Config.java")
-    android {
-        sourceSets {
-            main {
-                java {
-                    srcDir dir
-                }
-            }
-        }
-    }
-    outputs.file file
-    doLast {
-        file.getParentFile().mkdirs()
-        def writer = new FileWriter(file)
-        writer.write("""/* auto-generated file do not modify */
-package com.automattic.simplenote;
-
-public final class Config {
-
-    public static final String simperium_app_id = "${simperiumAppId}";
-    public static final String simperium_app_key = "${simperiumAppKey}";
-    public static final String hockey_app_id = "${hockeyAppId}";
-
-}
-""")
-        writer.close()
-    }
-}
-
-// Add the simplenoteConfig task to every flavor's compile tasks
-android.buildTypes.all { buildType ->
-    def name = "compile${buildType.name.capitalize()}"
-    tasks.whenTaskAdded { task ->
-        if (task.name == name) {
-            task.dependsOn(simplenoteConfig)
-            task.mustRunAfter(simplenoteConfig)
-        }
-    }
-}
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
     android {
       signingConfigs {

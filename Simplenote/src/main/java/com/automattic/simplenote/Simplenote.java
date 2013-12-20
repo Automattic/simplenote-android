@@ -37,8 +37,8 @@ public class Simplenote extends Application {
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
         mSimperium = Simperium.newClient(
-            Config.simperium_app_id,
-            Config.simperium_app_key,
+            BuildConfig.SIMPERIUM_APP_ID,
+            BuildConfig.SIMPERIUM_APP_KEY,
             this
         );
 
