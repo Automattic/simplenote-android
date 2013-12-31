@@ -52,7 +52,7 @@ public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
-    private boolean mIsLargeScreen, mIsLandscape;
+    private boolean mIsLargeScreen, mIsLandscape, mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
@@ -195,7 +195,8 @@ public class NotesActivity extends Activity implements
                 note.setModificationDate(note.getCreationDate());
                 note.setContent(text);
                 note.save();
-                onNoteSelected(note.getSimperiumKey(), true, null);
+                setCurrentNote(note);
+                mShouldSelectNewNote = true;
                 mTracker.sendEvent("note", "create_note", "external_share", null);
             }
         }
@@ -222,6 +223,11 @@ public class NotesActivity extends Activity implements
 
         updateNavigationDrawerItems();
         setSelectedTagActive();
+
+        if (mCurrentNote != null && mShouldSelectNewNote) {
+            onNoteSelected(mCurrentNote.getSimperiumKey(), true, null);
+            mShouldSelectNewNote = false;
+        }
     }
 
     @Override

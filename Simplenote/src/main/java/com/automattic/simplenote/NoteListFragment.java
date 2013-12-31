@@ -179,11 +179,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Simplenote application = (Simplenote) getActivity().getApplication();
-
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
-
 	}
 
     @Override
@@ -472,15 +469,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
-        ObjectCursor<Note> cursor = (ObjectCursor<Note>)mNotesAdapter.getCursor();
-        if (cursor == null || cursor.getCount() == 0)
-            return;
-        for(int i=0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String noteKey = cursor.getSimperiumKey();
-            if (noteKey != null && noteKey.equals(selectedNoteID)) {
-                setActivatedPosition(i);
-                return;
+        ObjectCursor<Note> cursor = (ObjectCursor<Note>) mNotesAdapter.getCursor();
+        if (cursor != null) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                cursor.moveToPosition(i);
+                String noteKey = cursor.getSimperiumKey();
+                if (noteKey != null && noteKey.equals(selectedNoteID)) {
+                    setActivatedPosition(i);
+                    return;
+                }
             }
         }
 
