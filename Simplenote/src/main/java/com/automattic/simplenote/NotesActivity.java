@@ -392,6 +392,11 @@ public class NotesActivity extends Activity implements
         });
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {
+        // noop
+    }
+
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
         void updateNavigationDrawer() {
@@ -402,16 +407,24 @@ public class NotesActivity extends Activity implements
             });
         }
 
+        @Override
         public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
+        @Override
         public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
+        @Override
         public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
             updateNavigationDrawer();
+        }
+
+        @Override
+        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+            // noop
         }
     };
 

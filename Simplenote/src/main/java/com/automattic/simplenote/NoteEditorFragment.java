@@ -405,6 +405,14 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         return mNote;
     }
 
+    public String getContent() {
+        if (mContentEditText == null) {
+            return null;
+        }
+
+        return mContentEditText.getText().toString();
+    }
+
     // Use spaces in tag autocompletion list
     // From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
     public class SpaceTokenizer implements Tokenizer {

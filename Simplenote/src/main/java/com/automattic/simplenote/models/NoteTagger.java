@@ -48,10 +48,16 @@ public class NoteTagger implements Bucket.Listener<Note> {
 
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+        // noop
     }
 
     @Override
     public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key) {
+        // noop
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {
+        // noop
+    }
 }

@@ -64,13 +64,13 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
     protected void onResume() {
         super.onResume();
         mNotesBucket.start();
-        mNotesBucket.addOnNetworkChangeListener(this);
+        mNotesBucket.addListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mNotesBucket.removeOnNetworkChangeListener(this);
+        mNotesBucket.removeListener(this);
     }
 
     @Override
@@ -148,6 +148,20 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
 
     @Override
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
+        // noop
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+        // TODO: update note with current content
+        if (mNoteEditorFragment == null)
+            return;
+
+        String content = mNoteEditorFragment.getContent();
+        if (content == null)
+            return;
+
+        note.setContent(content);
 
     }
 }

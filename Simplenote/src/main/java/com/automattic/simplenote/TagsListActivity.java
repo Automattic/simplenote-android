@@ -254,6 +254,11 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         });
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+        // noop
+    }
+
     private class TagsAdapter extends CursorAdapter {
 
         private ObjectCursor<Tag> mCursor;
