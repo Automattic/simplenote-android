@@ -153,7 +153,6 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
 
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
-        // TODO: update note with current content
         if (mNoteEditorFragment == null)
             return;
 
