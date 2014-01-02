@@ -392,6 +392,25 @@ public class NotesActivity extends Activity implements
         });
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+
+        if (mNoteEditorFragment == null)
+            return;
+
+        Note openNote = mNoteEditorFragment.getNote();
+
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
+            return;
+
+        String content = mNoteEditorFragment.getContent();
+        if (content == null)
+            return;
+
+        note.setContent(content);
+
+    }
+
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
         void updateNavigationDrawer() {
@@ -402,16 +421,24 @@ public class NotesActivity extends Activity implements
             });
         }
 
+        @Override
         public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
+        @Override
         public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
             updateNavigationDrawer();
         }
 
+        @Override
         public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
             updateNavigationDrawer();
+        }
+
+        @Override
+        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+            // noop
         }
     };
 
