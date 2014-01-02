@@ -153,7 +153,13 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
 
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+
         if (mNoteEditorFragment == null)
+            return;
+
+        Note openNote = mNoteEditorFragment.getNote();
+
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
             return;
 
         String content = mNoteEditorFragment.getContent();

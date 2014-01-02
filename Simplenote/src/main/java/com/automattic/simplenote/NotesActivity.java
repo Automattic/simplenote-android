@@ -393,8 +393,22 @@ public class NotesActivity extends Activity implements
     }
 
     @Override
-    public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {
-        // noop
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+
+        if (mNoteEditorFragment == null)
+            return;
+
+        Note openNote = mNoteEditorFragment.getNote();
+
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
+            return;
+
+        String content = mNoteEditorFragment.getContent();
+        if (content == null)
+            return;
+
+        note.setContent(content);
+
     }
 
     // Tags bucket listener
