@@ -222,6 +222,14 @@ public class NotesActivity extends Activity implements
         mTagsBucket.addListener(mTagsMenuUpdater);
 
         updateNavigationDrawerItems();
+
+        // if the user is not authenticated revert to default drawer selection
+        Simplenote currentApp = (Simplenote)getApplication();
+        if (currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED) {
+            mSelectedTag = null;
+            mDrawerList.setSelection(mTagsAdapter.DEFAULT_ITEM_POSITION);
+        }
+
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
