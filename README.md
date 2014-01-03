@@ -9,7 +9,7 @@ Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure
 
-1) Clone and init/update the submodules.
+1) Clone repo
 
 ```bash
 git clone https://github.com/Simperium/simplenote-android.git -b android-studio
