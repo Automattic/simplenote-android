@@ -8,11 +8,14 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 
+import java.net.URLEncoder;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class NoteTagger implements Bucket.Listener<Note> {
 
     private Bucket<Tag> mTagsBucket;
+    private static final String KEY_ENCODING="UTF-8";
 
     public NoteTagger(Bucket<Tag> tagsBucket){
         mTagsBucket = tagsBucket;
@@ -28,13 +31,18 @@ public class NoteTagger implements Bucket.Listener<Note> {
         List<String> tags = note.getTags();
         for (String tagName : tags) {
             // find the tag by the lowercase tag string
-            String tagKey = tagName.toLowerCase();
             Tag tag;
+            String tagKey = null;
             try {
+                tagKey = URLEncoder.encode(tagName.toLowerCase(), KEY_ENCODING);
                 tag = mTagsBucket.getObject(tagKey);
             } catch (BucketObjectMissingException e) {
                 // tag doesn't exist, so we'll create one using the key
                 try {
+                    if (tagKey == null) {
+                        // TODO: remove once Simperium/simperium-android#74 is fixed
+                        throw new BucketObjectNameInvalid("NULL");
+                    }
                     tag = mTagsBucket.newObject(tagKey);
                     tag.setName(tagName);
                     tag.setIndex(mTagsBucket.count());
@@ -42,6 +50,8 @@ public class NoteTagger implements Bucket.Listener<Note> {
                 } catch (BucketObjectNameInvalid invalid) {
                     android.util.Log.e("Simplenote.NoteTagger", "Could not create tag object for note", invalid);
                 }
+            } catch (UnsupportedEncodingException e) {
+                android.util.Log.e("Simplenote.NoteTagger", "Invalid tag key", e);
             }
         }
     }
