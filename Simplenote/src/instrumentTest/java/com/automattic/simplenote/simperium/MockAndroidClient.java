@@ -7,10 +7,9 @@ import com.simperium.Simperium;
 import com.simperium.client.AuthProvider;
 import com.simperium.client.ChannelProvider;
 import com.simperium.client.ClientFactory;
-import com.simperium.client.SyncService;
 import com.simperium.test.MockAuthProvider;
+import com.simperium.test.MockExecutor;
 import com.simperium.test.MockChannelProvider;
-import com.simperium.util.BasicSyncService;
 import com.simperium.util.Uuid;
 
 import com.simperium.android.GhostStore;
@@ -62,14 +61,8 @@ public class MockAndroidClient implements ClientFactory {
     }
 
     @Override
-    public SyncService buildSyncService(){
-        return new SyncService() {
-
-            @Override
-            public void submit(Runnable runnable){
-                runnable.run();
-            }
-
-        };
+    public MockExecutor.Immediate buildExecutor(){
+        return MockExecutor.immediate();
     }
+
 }
