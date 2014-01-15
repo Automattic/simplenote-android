@@ -39,10 +39,6 @@ public class NoteTagger implements Bucket.Listener<Note> {
             } catch (BucketObjectMissingException e) {
                 // tag doesn't exist, so we'll create one using the key
                 try {
-                    if (tagKey == null) {
-                        // TODO: remove once Simperium/simperium-android#74 is fixed
-                        throw new BucketObjectNameInvalid("NULL");
-                    }
                     tag = mTagsBucket.newObject(tagKey);
                     tag.setName(tagName);
                     tag.setIndex(mTagsBucket.count());
