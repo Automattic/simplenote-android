@@ -93,4 +93,10 @@ public class MatchOffsetHighlighterTest extends TestCase {
         assertEquals("Doors", text.toString().substring(text.getSpanStart(spans[0]), text.getSpanEnd(spans[0])));
     }
 
+    public void testOutOfBoundsOffset()
+    throws Exception {
+        int offset = MatchOffsetHighlighter.getByteOffset("short", 3, 2);
+        assertEquals(0, offset);
+    }
+
 }

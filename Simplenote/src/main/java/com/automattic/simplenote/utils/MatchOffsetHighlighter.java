@@ -158,15 +158,17 @@ public class MatchOffsetHighlighter implements Runnable {
 
     // TODO: get ride of memory pressure by preventing the toString()
     protected static int getByteOffset(CharSequence text, int start, int end) {
-        // int byteLength = 0, charLength = end - start, char c;
-        // for (int i = start; i<end; i++) {
-        //     c = text.charAt(i);
-        // }
-        // char[] value = text.subSequence(start, end);
-        // byte[] bytes = Charsets.toUtf8Bytes(value, offset, count)
-        // char[] value = TextUtils.getChars();
-        String substring = text.toString().substring(start, end);
-        // CharSequence sub = text.subSequence(start, end);
+        String source = text.toString();
+        String substring = "";
+        int length = source.length();
+
+        if (start > length - 1) {
+            return 0;
+        } else if (start + end > length - 1) {
+            substring = source.substring(start, length -1);
+        } else {
+            substring = source.substring(start, end);
+        }
         try {
             return substring.length() - substring.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
