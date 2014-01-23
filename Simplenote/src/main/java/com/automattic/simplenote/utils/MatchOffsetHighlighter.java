@@ -178,7 +178,7 @@ public class MatchOffsetHighlighter implements Runnable {
             substring = source.substring(start, end);
         }
         try {
-            return length - substring.getBytes(CHARSET).length;
+            return substring.length() - substring.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
             return 0;
         }
