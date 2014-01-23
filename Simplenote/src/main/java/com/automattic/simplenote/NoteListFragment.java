@@ -36,6 +36,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.Typefaces;
 import com.simperium.client.Bucket;
@@ -428,8 +429,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (hasSearchQuery()) {
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
             query.include(new Query.FullTextOffsets("match_offsets"));
-            query.include(new Query.FullTextSnippet(Note.TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
-            query.include(new Query.FullTextSnippet(Note.CONTENT_PREVIEW_INDEX_NAME, Note.CONTENT_PROPERTY));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_CONTENT_INDEX_NAME, Note.CONTENT_PROPERTY));
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         } else {
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
@@ -555,13 +557,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
-                String snippet = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+                title = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_TITLE_INDEX_NAME));
+                String snippet = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_CONTENT_INDEX_NAME));
 
                 holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
-                holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
-                holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
-
+                try {
+                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
+                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
+                } catch (NullPointerException e) {
+                    title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
+                    holder.titleTextView.setText(title);
+                    String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
+                    holder.contentTextView.setText(matchedContentPreview);
+                }
             } else if (mNumPreviewLines > 0) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
@@ -584,7 +593,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
 	}
-	
+
 	// view holder for NotesCursorAdapter
 	private static class NoteViewHolder {
 		TextView titleTextView;
