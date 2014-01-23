@@ -93,4 +93,16 @@ public class MatchOffsetHighlighterTest extends TestCase {
         assertEquals("Doors", text.toString().substring(text.getSpanStart(spans[0]), text.getSpanEnd(spans[0])));
     }
 
+    public void testOutOfBoundsOffset()
+    throws Exception {
+        // start plus length exceeds bounds
+        int offset = MatchOffsetHighlighter.getByteOffset("short", 3, 5);
+        assertEquals(0, offset);
+
+        // start exceeds string bounds
+        offset = MatchOffsetHighlighter.getByteOffset("short", 10, 12);
+        assertEquals(0, offset);
+        
+    }
+
 }
