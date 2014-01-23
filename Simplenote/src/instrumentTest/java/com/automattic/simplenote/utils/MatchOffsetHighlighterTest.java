@@ -95,8 +95,14 @@ public class MatchOffsetHighlighterTest extends TestCase {
 
     public void testOutOfBoundsOffset()
     throws Exception {
-        int offset = MatchOffsetHighlighter.getByteOffset("short", 3, 2);
+        // start plus length exceeds bounds
+        int offset = MatchOffsetHighlighter.getByteOffset("short", 3, 5);
         assertEquals(0, offset);
+
+        // start exceeds string bounds
+        offset = MatchOffsetHighlighter.getByteOffset("short", 10, 12);
+        assertEquals(0, offset);
+        
     }
 
 }

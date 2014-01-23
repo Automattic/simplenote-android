@@ -162,15 +162,23 @@ public class MatchOffsetHighlighter implements Runnable {
         String substring = "";
         int length = source.length();
 
+        // starting index cannot be negative
+        if (start < 0) {
+            start = 0;
+        }
+
         if (start > length - 1) {
+            // if start is past the end of string
             return 0;
-        } else if (start + end > length - 1) {
+        } else if (end > length - 1) {
+            // end is past the end of the string, so cap at string's end
             substring = source.substring(start, length -1);
         } else {
+            // start and end are both valid indices
             substring = source.substring(start, end);
         }
         try {
-            return substring.length() - substring.getBytes(CHARSET).length;
+            return length - substring.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
             return 0;
         }
