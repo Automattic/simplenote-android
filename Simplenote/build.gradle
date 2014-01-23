@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-    releaseCompile "com.simperium:simperium-android:0.4.1-rc2"
-    debugCompile "com.simperium:simperium-android-support:0.4.1-rc2"
+    releaseCompile "com.simperium:simperium-android:0.4.2"
+    debugCompile "com.simperium:simperium-android-support:0.4.2"
     compile "com.android.support:support-v4:18.0.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.3"
