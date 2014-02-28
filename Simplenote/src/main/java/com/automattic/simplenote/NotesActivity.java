@@ -359,25 +359,9 @@ public class NotesActivity extends Activity implements
         mCurrentNote = note;
     }
 
-    // received a change from the network, refresh the list and the editor
+    // received a change from the network, refresh the list
     @Override
     public void onChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
-        final boolean resetEditor = mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(key);
-        if (resetEditor && type == Bucket.ChangeType.MODIFY) {
-            try {
-                final Note updatedNote = mNotesBucket.get(key);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mNoteEditorFragment != null && updatedNote != null) {
-                            mNoteEditorFragment.updateNote(updatedNote);
-                        }
-                    }
-                });
-            } catch (BucketObjectMissingException e) {
-                e.printStackTrace();
-            }
-        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -411,19 +395,7 @@ public class NotesActivity extends Activity implements
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
 
-        if (mNoteEditorFragment == null)
-            return;
-
-        Note openNote = mNoteEditorFragment.getNote();
-
-        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
-            return;
-
-        String content = mNoteEditorFragment.getContent();
-        if (content == null)
-            return;
-
-        note.setContent(content);
+        // noop, NoteEditorFragment will handle this
 
     }
 

@@ -19,7 +19,7 @@ repositories {
 dependencies {
     releaseCompile "com.simperium:simperium-android:0.4.2"
     debugCompile "com.simperium:simperium-android-support:0.4.2"
-    compile "com.android.support:support-v4:18.0.+"
+    compile "com.android.support:support-v4:19.0.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.3"
 }
@@ -29,7 +29,7 @@ version "1.1.2"
 android {
 
     compileSdkVersion 19
-    buildToolsVersion "19"
+    buildToolsVersion "19.0.1"
 
     defaultConfig {
         packageName "com.automattic.simplenote"

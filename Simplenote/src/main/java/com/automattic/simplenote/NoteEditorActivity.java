@@ -15,7 +15,7 @@ import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;
 
-public class NoteEditorActivity extends Activity implements Bucket.Listener<Note> {
+public class NoteEditorActivity extends Activity {
 
     private NoteEditorFragment mNoteEditorFragment;
     private Bucket<Note> mNotesBucket;
@@ -26,8 +26,7 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        Simplenote currentApp = (Simplenote) getApplication();
-        mNotesBucket = currentApp.getNotesBucket();
+
         setContentView(R.layout.activity_note_editor);
 
         EasyTracker.getInstance().activityStart(this);
@@ -58,19 +57,6 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
         } else {
             mNoteEditorFragment = (NoteEditorFragment)getFragmentManager().findFragmentByTag(NotesActivity.TAG_NOTE_EDITOR);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mNotesBucket.start();
-        mNotesBucket.addListener(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mNotesBucket.removeListener(this);
     }
 
     @Override
@@ -119,54 +105,5 @@ public class NoteEditorActivity extends Activity implements Bucket.Listener<Note
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-
-    }
-
-    @Override
-    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
-        if (changeType == Bucket.ChangeType.MODIFY) {
-            final boolean resetEditor = mNoteEditorFragment.getNote() != null && mNoteEditorFragment.getNote().getSimperiumKey().equals(key);
-            if (resetEditor) {
-                try {
-                    final Note updatedNote = mNotesBucket.get(key);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mNoteEditorFragment.updateNote(updatedNote);
-                        }
-                    });
-                } catch (BucketObjectMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
-        // noop
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
-
-        if (mNoteEditorFragment == null)
-            return;
-
-        Note openNote = mNoteEditorFragment.getNote();
-
-        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
-            return;
-
-        String content = mNoteEditorFragment.getContent();
-        if (content == null)
-            return;
-
-        note.setContent(content);
-
     }
 }
