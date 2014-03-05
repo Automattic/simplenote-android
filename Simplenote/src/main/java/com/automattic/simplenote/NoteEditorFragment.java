@@ -18,8 +18,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -55,7 +53,7 @@ import com.simperium.client.Query;
 
 import java.util.Calendar;
 
-public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
+public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -63,13 +61,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
     private Note mNote;
+    private Bucket<Note> mNotesBucket;
+
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote;
+    private boolean mIsNewNote, mIsLoadingNote;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -90,12 +90,19 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
-        mEmailIconResId = a.getResourceId(0, 0);
-        mWebIconResId = a.getResourceId(1, 0);
-        mMapIconResId = a.getResourceId(2, 0);
-        mCallIconResId = a.getResourceId(3, 0);
-        a.recycle();
+        if (getActivity() != null) {
+            Simplenote currentApp = (Simplenote) getActivity().getApplication();
+            mNotesBucket = currentApp.getNotesBucket();
+
+            TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
+            if (a != null) {
+                mEmailIconResId = a.getResourceId(0, 0);
+                mWebIconResId = a.getResourceId(1, 0);
+                mMapIconResId = a.getResourceId(2, 0);
+                mCallIconResId = a.getResourceId(3, 0);
+                a.recycle();
+            }
+        }
 
         mAutoSaveHandler = new Handler();
 
@@ -123,7 +130,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
             @Override
             public Cursor runQueryOnBackgroundThread(CharSequence filter) {
-                Activity activity = (Activity) getActivity();
+                Activity activity = getActivity();
                 if (activity == null) return null;
                 Simplenote application = (Simplenote) activity.getApplication();
                 Query<Tag> query = application.getTagsBucket().query();
@@ -143,7 +150,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
-        mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        if (getActivity() != null) {
+            mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
+        }
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
@@ -174,6 +183,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onResume() {
         super.onResume();
+        mNotesBucket.start();
+        mNotesBucket.addListener(this);
+
         mTagView.setOnTagAddedListener(this);
 
         Bundle arguments = getArguments();
@@ -190,11 +202,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
 
     @Override
     public void onPause() {
+        mNotesBucket.removeListener(this);
         // Hide soft keyboard if it is showing...
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null)
-            inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
-
+        if (getActivity() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null)
+                inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
+        }
         // Delete the note if it is new and has empty fields
         if (mNote != null && mIsNewNote && noteIsEmpty())
             mNote.delete();
@@ -207,11 +221,12 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
 
         mHighlighter.stop();
+
         super.onPause();
     }
 
     private boolean noteIsEmpty() {
-        return (mContentEditText.getText().toString().trim().length() == 0 && mTagView.getText().toString().trim().length() == 0);
+        return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
     }
 
     public void setNote(String noteID){
@@ -248,7 +263,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         if (mNote != null) {
             // Restore the cursor position if possible.
 
-            int cursorPosition = newCursorLocation(mNote.getContent(), mContentEditText.getText().toString(), mContentEditText.getSelectionEnd());
+            int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
 
             mContentEditText.setText(mNote.getContent());
 
@@ -339,10 +354,10 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         // Set the note title to be a larger size
         // Remove any existing size spans
         RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (int i = 0; i < spans.length; i++) {
-            editable.removeSpan(spans[i]);
+        for (RelativeSizeSpan span : spans) {
+            editable.removeSpan(span);
         }
-        int newLinePosition = mContentEditText.getText().toString().indexOf("\n");
+        int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
         editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -394,7 +409,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            String tagString = mTagView.getText().toString().trim();
+            String tagString = getNoteTagsString().trim();
             if (tagString.length() > 0) {
                 mTagView.setChips(tagString);
             }
@@ -405,12 +420,20 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         return mNote;
     }
 
-    public String getContent() {
-        if (mContentEditText == null) {
-            return null;
+    public String getNoteContentString() {
+        if (mContentEditText == null || mContentEditText.getText() == null) {
+            return "";
+        } else {
+            return mContentEditText.getText().toString();
         }
+    }
 
-        return mContentEditText.getText().toString();
+    public String getNoteTagsString() {
+        if (mTagView == null || mTagView.getText() == null) {
+            return "";
+        } else {
+            return mTagView.getText().toString();
+        }
     }
 
     // Use spaces in tag autocompletion list
@@ -472,11 +495,15 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         @Override
         protected void onPreExecute() {
             mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
+            mIsLoadingNote = true;
         }
 
         @Override
         protected Void doInBackground(String... args) {
+
             String noteID = args[0];
+            if (getActivity() == null)
+                return null;
             Simplenote application = (Simplenote) getActivity().getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
             try {
@@ -514,6 +541,8 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 }, 100);
 
             }
+
+            mIsLoadingNote = false;
         }
     }
 
@@ -527,11 +556,11 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     }
 
     private void saveNote() {
-        String content = mContentEditText.getText().toString();
-        String tagString = mTagView.getText().toString();
+        String content = getNoteContentString();
+        String tagString = getNoteTagsString();
         if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
             mNote.setContent(content);
-            mNote.setTagString(mTagView.getText().toString());
+            mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             // Send pinned event to google analytics if changed
             mNote.setPinned(mPinButton.isChecked());
@@ -553,11 +582,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.view_link, menu);
-            mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
-            mode.setTitle(getString(R.string.link));
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                mode.setTitleOptionalHint(false);
+            if (inflater != null){
+                inflater.inflate(R.menu.view_link, menu);
+                mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
+                mode.setTitle(getString(R.string.link));
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    mode.setTitleOptionalHint(false);
+                }
             }
             return true;
         }
@@ -587,7 +618,7 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                     }
                     return true;
                 case R.id.menu_copy:
-                    if (mLinkText != null) {
+                    if (mLinkText != null && getActivity() != null) {
                         ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText(getString(R.string.app_name),mLinkText);
                         clipboard.setPrimaryClip(clip);
@@ -626,6 +657,9 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
     public void onSelectionChanged(int selStart, int selEnd) {
         if (selStart == selEnd) {
             Editable noteContent = mContentEditText.getText();
+            if (noteContent == null)
+                return;
+
             URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
             if (urlSpans.length > 0) {
                 URLSpan urlSpan = urlSpans[0];
@@ -638,9 +672,13 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 }
 
                 // Show the Contextual Action Bar
-                mActionMode = getActivity().startActionMode(mActionModeCallback);
-                mActionMode.setSubtitle(mLinkText);
-                setLinkMenuItem();
+                if (getActivity() != null) {
+                    mActionMode = getActivity().startActionMode(mActionModeCallback);
+                    if (mActionMode != null) {
+                        mActionMode.setSubtitle(mLinkText);
+                    }
+                    setLinkMenuItem();
+                }
             } else if (mActionMode != null) {
                 mActionMode.finish();
                 mActionMode = null;
@@ -667,5 +705,49 @@ public class NoteEditorFragment extends Fragment implements TextWatcher, OnTagAd
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+
+    }
+
+    @Override
+    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+        if (changeType == Bucket.ChangeType.MODIFY) {
+            if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
+                try {
+                    final Note updatedNote = mNotesBucket.get(key);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateNote(updatedNote);
+                            }
+                        });
+                    }
+                } catch (BucketObjectMissingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
+        // noop
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+        // Don't apply updates if we haven't loaded the note yet
+        if (mIsLoadingNote)
+            return;
+
+        Note openNote = getNote();
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
+            return;
+
+        note.setContent(getNoteContentString());
     }
 }
