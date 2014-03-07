@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="note_selected">%d פתק אחד נבחר</string>
+	<string name="notes_selected">%d פתקים נבחרו</string>
+	<string name="notes_trashed">הפתקים הועברו לפח.</string>
+	<string name="theme_light">בהיר</string>
+	<string name="theme_dark">כהה</string>
+	<string name="theme">עיצוב</string>
+	<string name="passcode_manage">ניהול חסימה בקוד</string>
+	<string name="passcode_enter_passcode">הקוד שלך</string>
+	<string name="passcode_enter_old_passcode">הקוד הישן שלך</string>
+	<string name="passcode_re_enter_passcode">הקוד שלך שוב</string>
+	<string name="passcode_change_passcode">החלפת קוד</string>
+	<string name="passcode_set">הקוד נשמר</string>
+	<string name="passcode_wrong_passcode">קוד שגוי, נא לנסות שוב.</string>
+	<string name="passcode_preference_title">נעילה בקוד</string>
+	<string name="passcode_turn_off">ביטול נעילה בקוד</string>
+	<string name="passcode_turn_on">הפעלת נעילה בקוד</string>
 	<string name="trash_is_empty">פח האשפה ריק.</string>
 	<string name="no_notes_here">אין כאן פתקים.</string>
-	<string name="why_not_create_one">למה לא %1$sליצור פתק%2$s</string>
+	<string name="why_not_create_one">למה לא %1$sליצור פתק%2$s?</string>
 	<string name="no_notes_found">לא נמצאו פתקים.</string>
 	<string name="welcome_note">ברוכים הבאים ל-Simplenote עבור אנדרויד!\nהוראות שימוש כאן\n\nכדי ליצור פתק חודש, לוחצים על כפתור הפלוס.\n\nכדי לחפש בפתקים, לוחצים על שדה החיפוש ומקישים את הטקסט הרצוי. Simplenote יציג לכם את תוצאות החיפוש באופן מיידי.\n\nיש לכם פתק חשוב במיוחד? לחצו על כפתור ההצמדה עדי להצמיד את הפתק לראש הרשימה.\n\nהשתמש בתגיות כדי לארגן את הפתקים שלכם. אפשר להוסיף כתובת אימייל לרשימת התגיות כדי לשתף את הפתק עם אדם אחר.\n\nאפשר לשתף גם פתקים בקלות עם אפליקציות אחרות באמצעות כפתור השיתוף.\n\nפתקים שנמחקו מגיעים לפח האשפה. אפשר לשחזר אותם משם, או למחוק אותם לצמיתות.\n\nאפשר לצפות בפתקים שלכם גם ברשת או ממכשירים אחרים. גלשו ל http://simplenote.com כדי ללמוד כיצד.\n\nאנחנו מקווים שתהנו להשתמש ב-Simplenote!</string>
 	<string name="maybe_later">אולי מאוחר יותר</string>
 	<string name="just_try_app">רק לנסות את האפליקציה</string>
 	<string name="welcome_want_more">עוד?</string>
-	<string name="use_simplenote_account">להתחבר לחשבון Simplenote</string>
+	<string name="use_simplenote_account">ליצור חשבון Simplenote</string>
 	<string name="sort_newest_modified">תאריך עריכה, יורד</string>
 	<string name="sort_oldest_modified">תאריך עריכה, עולה</string>
 	<string name="sort_newest_created">תאריך יצירה, יורד</string>
@@ -52,7 +68,7 @@
 	<string name="app_description_short">Simplenote היא אפליקציה שמאפשרת לשמור פתקים, רשימות, רעיונות, ועוד בקלות רבה.</string>
 	<string name="rename_tag">שינוי שם תגית</string>
 	<string name="note_pinned">הפתק הוצמד.</string>
-	<string name="condensed_note_list">רשימת פתקים מכווצת.</string>
+	<string name="condensed_note_list">רשימה מכווצת</string>
 	<string name="open_drawer">פתיחת מגירה</string>
 	<string name="close_drawer">סגירת מגירה</string>
 	<string name="delete">העברה לפח</string>
