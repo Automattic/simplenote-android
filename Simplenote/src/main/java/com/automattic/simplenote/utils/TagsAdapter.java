@@ -116,7 +116,7 @@ public class TagsAdapter extends BaseAdapter {
         } else {
             mCursor.moveToPosition(i-topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
-                mCursor.getString(mNameColumn));
+                StrUtils.notNullStr(mCursor.getString(mNameColumn)));
         }
     }
 
@@ -131,11 +131,11 @@ public class TagsAdapter extends BaseAdapter {
         if (view == null){
             view = mInflater.inflate(R.layout.tag_drawer_row, null);
         }
-        TagMenuItem tagCount = getItem(position);
+        TagMenuItem tagMenuItem = getItem(position);
 
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
         labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
-        labelText.setText(tagCount.name);
+        labelText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition();
         if (position == selectedPosition)
