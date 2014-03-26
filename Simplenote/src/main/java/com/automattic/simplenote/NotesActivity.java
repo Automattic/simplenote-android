@@ -152,6 +152,7 @@ public class NotesActivity extends Activity implements
             public void onDrawerClosed(View view) {
                 setTitle(mActionBarTitle);
                 invalidateOptionsMenu();
+                getNoteListFragment().refreshListFromNavSelect();
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -324,7 +325,6 @@ public class NotesActivity extends Activity implements
                 getNoteListFragment().getListView().setLongClickable(true);
             }
 
-            getNoteListFragment().refreshListFromNavSelect();
             if (position > 1)
                 mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
         }
