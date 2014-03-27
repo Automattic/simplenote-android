@@ -298,9 +298,9 @@ public class NotesActivity extends Activity implements
         Bucket<Note> noteBucket = application.getNotesBucket();
         Query<Note> query = Note.allDeleted(noteBucket);
         if (query.count() == 0) {
-            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
-            mEmptyTrashMenuItem.setEnabled(false);
+            mEmptyTrashMenuItem.setVisible(false);
         } else {
+            mEmptyTrashMenuItem.setVisible(true);
             mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash);
             mEmptyTrashMenuItem.setEnabled(true);
         }
