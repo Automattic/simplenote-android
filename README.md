@@ -12,7 +12,7 @@ Min SDK: Ice Cream Sandwich (android-15)
 1) Clone repo
 
 ```bash
-git clone https://github.com/Simperium/simplenote-android.git -b android-studio
+git clone https://github.com/Simperium/simplenote-android.git
 cd simplenote-android
 ```
 
@@ -33,7 +33,7 @@ simperiumAppKey=SIMPERIUM_KEY
 hockeyAppId=HOCKEY_APP_ID
 ```
 
-4) Add the analytics.xml file to support Google Analytics
+4) (Optional) Add the analytics.xml file to support Google Analytics
 
 5) Install debug build with Android Studio or `./gradlew installDebug`
 
