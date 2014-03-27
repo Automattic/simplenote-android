@@ -42,5 +42,5 @@ hockeyAppId=HOCKEY_APP_ID
 Run the gradle `connectedInstrumentTest` task:
 
 ```bash
-./gradlew connectedInstrumentTest
+./gradlew connectedAndroidTest
 ```
