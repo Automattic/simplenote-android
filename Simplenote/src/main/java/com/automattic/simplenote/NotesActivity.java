@@ -224,11 +224,13 @@ public class NotesActivity extends Activity implements
 
         updateNavigationDrawerItems();
 
-        // if the user is not authenticated revert to default drawer selection
+        // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
         Simplenote currentApp = (Simplenote)getApplication();
         if (currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED) {
-            mSelectedTag = null;
-            mDrawerList.setSelection(mTagsAdapter.DEFAULT_ITEM_POSITION);
+            if (-1 == mTagsAdapter.getPosition(mSelectedTag)) {
+                mSelectedTag = null;
+                mDrawerList.setSelection(mTagsAdapter.DEFAULT_ITEM_POSITION);
+            }
         }
 
         setSelectedTagActive();
