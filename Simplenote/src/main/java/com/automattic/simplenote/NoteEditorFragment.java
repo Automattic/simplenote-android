@@ -58,6 +58,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
+
+    private static final String BUNDLE_KEY_NOTE_CONTENT = "key_note_content";
+    private static final String BUNDLE_KEY_TAG_CONTENT = "key_tag_content";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
 
     private Note mNote;
@@ -69,7 +72,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote;
+    private boolean mIsNewNote, mIsLoadingNote, mHasRestoredContent;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -181,6 +184,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 	}
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(BUNDLE_KEY_NOTE_CONTENT)) {
+            mContentEditText.setText(savedInstanceState.getString(BUNDLE_KEY_NOTE_CONTENT, ""));
+            mTagView.setChips(savedInstanceState.getString(BUNDLE_KEY_TAG_CONTENT, ""));
+            mHasRestoredContent = true;
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mNotesBucket.start();
@@ -223,6 +237,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mHighlighter.stop();
 
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(BUNDLE_KEY_NOTE_CONTENT, getNoteContentString());
+        outState.putString(BUNDLE_KEY_TAG_CONTENT, getNoteTagsString());
     }
 
     private boolean noteIsEmpty() {
@@ -522,6 +544,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         protected void onPostExecute(Void nada) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
+
+            // We restored note content when the activity resumed, so let's make sure it is saved.
+            if (mHasRestoredContent) {
+                saveNote();
+                mHasRestoredContent = false;
+            }
+
             refreshContent(true);
             if (mMatchOffsets != null) {
                 int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
