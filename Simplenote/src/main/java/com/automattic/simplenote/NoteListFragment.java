@@ -727,6 +727,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             NotesActivity notesActivity = ((NotesActivity) getActivity());
             if (notesActivity != null)
                 notesActivity.showUndoBarWithNoteIds(deletedNotesIds);
+
+            refreshList();
         }
     }
 }

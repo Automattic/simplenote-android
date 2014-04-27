@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,7 +12,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;
 
@@ -65,17 +65,33 @@ public class NoteEditorActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.note_editor, menu);
 
-        MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-        if (mNoteEditorFragment.getNote() != null && mNoteEditorFragment.getNote().isDeleted())
-            trashItem.setTitle(R.string.undelete);
-        else
-            trashItem.setTitle(R.string.delete);
+        if (mNoteEditorFragment.getNote() != null) {
+
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_published_note);
+            viewPublishedNoteItem.setVisible(mNoteEditorFragment.getNote().isPublished() && !TextUtils.isEmpty(mNoteEditorFragment.getNote().getPublishedUrl()));
+
+            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            if (mNoteEditorFragment.getNote().isDeleted())
+                trashItem.setTitle(R.string.undelete);
+            else
+                trashItem.setTitle(R.string.delete);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_view_published_note:
+                Note note = mNoteEditorFragment.getNote();
+                if (note != null) {
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, note.getPublishedUrl());
+                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
+                }
+                return true;
             case R.id.menu_share:
                 Note sharedNote = mNoteEditorFragment.getNote();
                 if (sharedNote != null) {
