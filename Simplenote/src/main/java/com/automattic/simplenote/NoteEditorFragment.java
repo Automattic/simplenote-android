@@ -361,9 +361,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (newLinePosition == 0)
             return;
         editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-
-        SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
     }
 
     @Override
@@ -542,6 +539,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             }
 
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
             mIsLoadingNote = false;
         }
     }
@@ -552,6 +551,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         protected Void doInBackground(Void... args) {
             saveNote();
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            // Update links
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
         }
     }
 
