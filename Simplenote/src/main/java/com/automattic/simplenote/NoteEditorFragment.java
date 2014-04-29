@@ -555,8 +555,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            // Update links
-            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                // Update links
+                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+            }
         }
     }
 
