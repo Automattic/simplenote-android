@@ -67,6 +67,9 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
+        <!-- Samsung Multi-Window Support -->
+        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
+        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>
 
 </manifest>
