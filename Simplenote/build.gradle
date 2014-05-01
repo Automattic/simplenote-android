@@ -63,6 +63,12 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
           }
+          debug {
+              storeFile = file(project.storeFile)
+              storePassword = project.storePassword
+              keyAlias = project.keyAlias
+              keyPassword = project.keyPassword
+          }
       }
     }
     android.buildTypes.release.signingConfig = android.signingConfigs.release
