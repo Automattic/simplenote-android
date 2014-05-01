@@ -213,7 +213,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mNote != null && mIsNewNote && noteIsEmpty())
             mNote.delete();
         else
-            saveAndSyncNote();
+            saveNote();
 
         mTagView.setOnTagAddedListener(null);
 
