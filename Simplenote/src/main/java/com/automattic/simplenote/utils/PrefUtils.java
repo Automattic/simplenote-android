@@ -77,14 +77,16 @@ public class PrefUtils {
 
     public static CharSequence versionInfo() {
 
-        String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong>";
-        if (BuildConfig.DEBUG) {
-            info += " debug";
+        if (!BuildConfig.DEBUG) {
+            return BuildConfig.VERSION_NAME;
         }
+
+        String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong>";
+        info += " debug";
         info += " (Build " + BuildConfig.VERSION_CODE + ")";
         info += "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
-
         return Html.fromHtml(info);
+
     }
 
 }
