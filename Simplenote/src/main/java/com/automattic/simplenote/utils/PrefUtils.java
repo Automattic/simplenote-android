@@ -4,10 +4,13 @@ package com.automattic.simplenote.utils;
  *  misc. routines for Simplenote preferences
  *  added 01-Apr-2013 by Nick Bradbury
  */
+import com.automattic.simplenote.BuildConfig;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import android.text.Html;
 
 public class PrefUtils {
 
@@ -71,4 +74,18 @@ public class PrefUtils {
             return defaultValue;
         }
     }
+
+    public static CharSequence versionInfo() {
+
+        if (BuildConfig.DEBUG) {
+            String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong> " +
+                BuildConfig.BUILD_TYPE + " (Build " + BuildConfig.VERSION_CODE + ")" +
+                "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
+            return Html.fromHtml(info);
+        }
+
+        return BuildConfig.VERSION_NAME;
+
+    }
+
 }

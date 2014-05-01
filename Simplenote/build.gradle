@@ -40,6 +40,8 @@ android {
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
         buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
+        buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
+        buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
      }
 
@@ -56,6 +58,12 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android {
       signingConfigs {
           release {
+              storeFile = file(project.storeFile)
+              storePassword = project.storePassword
+              keyAlias = project.keyAlias
+              keyPassword = project.keyPassword
+          }
+          debug {
               storeFile = file(project.storeFile)
               storePassword = project.storePassword
               keyAlias = project.keyAlias

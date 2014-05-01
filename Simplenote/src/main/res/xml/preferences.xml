@@ -65,6 +65,11 @@
                 android:key="pref_key_website"
                 android:persistent="false"
                 android:title="@string/website" />
+        <Preference
+                android:key="pref_key_build"
+                android:title="@string/version"
+                android:persistent="false"
+                android:selectable="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>
