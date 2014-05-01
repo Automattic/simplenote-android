@@ -136,4 +136,6 @@
     <string name="theme_dark">Dark</string>
     <string name="theme">Theme</string>
 
+    <string name="version">Version</string>
+
 </resources>
