@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -28,7 +29,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
@@ -68,6 +72,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
+    private Dialog mPublishDialog;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
     private ActionMode mActionMode;
@@ -148,6 +153,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         if (getActivity() != null) {
@@ -197,7 +203,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
-
     }
 
     @Override
@@ -223,6 +228,127 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mHighlighter.stop();
 
         super.onPause();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.note_editor, menu);
+
+        if (mNote != null) {
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_published_note);
+            viewPublishedNoteItem.setVisible(true);
+
+            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            if (mNote.isDeleted())
+                trashItem.setTitle(R.string.undelete);
+            else
+                trashItem.setTitle(R.string.delete);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_view_published_note:
+                if (mNote != null) {
+                    showNotePublishDialog();
+                }
+                return true;
+            case R.id.menu_share:
+                if (mNote != null) {
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNote.getContent());
+                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
+                }
+                return true;
+            case R.id.menu_delete:
+                if (mNote != null) {
+                    mNote.setDeleted(!mNote.isDeleted());
+                    mNote.setModificationDate(Calendar.getInstance());
+                    mNote.save();
+                    Intent resultIntent = new Intent();
+                    if (mNote.isDeleted())
+                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
+                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
+                }
+                getActivity().finish();
+                return true;
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showNotePublishDialog() {
+        if (mPublishDialog == null) {
+            mPublishDialog = new Dialog(getActivity(), R.style.SimplenotePublishDialog);
+            mPublishDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mPublishDialog.setContentView(R.layout.publish_settings);
+
+            mPublishDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            Button publishButton = (Button)mPublishDialog.findViewById(R.id.publish_note_button);
+            TextView publishTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
+
+            publishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mNote != null) {
+                        Button button = (Button) v;
+                        boolean newPublishedStatus = !mNote.isPublished();
+                        mNote.setPublished(newPublishedStatus);
+                        if (newPublishedStatus) {
+                            button.setText("Publishing...");
+                        } else {
+                            button.setText("Publish");
+                        }
+                        mNote.save();
+                    }
+                }
+            });
+
+            publishTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView textView = (TextView) v;
+                    ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(getString(R.string.app_name),textView.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else if (mPublishDialog.isShowing()) {
+            mPublishDialog.dismiss();
+            return;
+        }
+
+        updatePublishDialogContent();
+
+        mPublishDialog.show();
+    }
+
+    public void updatePublishDialogContent() {
+        if (mPublishDialog == null || mNote == null)
+            return;
+        Button publishButton = (Button)mPublishDialog.findViewById(R.id.publish_note_button);
+        TextView publishTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
+
+        if (mNote.isPublished()) {
+            publishButton.setText("Published");
+            publishTextView.setTextColor(getResources().getColor(R.color.white));
+            publishTextView.setText(mNote.getPublishedUrl());
+        } else {
+            publishButton.setText("Publish note");
+            publishTextView.setTextColor(getResources().getColor(R.color.light_gray));
+            publishTextView.setText("Note not published");
+        }
+
     }
 
     private boolean noteIsEmpty() {
@@ -730,6 +856,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             @Override
                             public void run() {
                                 updateNote(updatedNote);
+                                updatePublishDialogContent();
                             }
                         });
                     }

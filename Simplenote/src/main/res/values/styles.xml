@@ -14,6 +14,20 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="SimplenotePublishDialog" parent="@android:style/Theme.Holo.Dialog">
+        <!--<item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/SimplenotePublishDialog.Animation</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>-->
+    </style>
+
+    <style name="SimplenotePublishDialog.Animation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
+
     <!-- undo bar -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>

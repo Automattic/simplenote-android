@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/simplenote_blue"
+    android:gravity="center_horizontal"
+    android:maxHeight="180dp">
+    <Button
+        android:id="@+id/publish_note_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/welcome_button_selector"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="Publish note"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/publish_url_textview"
+        android:background="@drawable/selectable_background_simplestyle"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Note not published"
+        android:gravity="center_horizontal" />
+</LinearLayout>

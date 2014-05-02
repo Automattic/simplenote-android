@@ -3,22 +3,11 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.simperium.client.Bucket;
-
-import java.util.Calendar;
 
 public class NoteEditorActivity extends Activity {
-
-    private NoteEditorFragment mNoteEditorFragment;
-    private Bucket<Note> mNotesBucket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +26,7 @@ public class NoteEditorActivity extends Activity {
         // Show the Up button in the action bar.
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        NoteEditorFragment noteEditorFragment;
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             // Create the note editor fragment
@@ -49,77 +39,11 @@ public class NoteEditorActivity extends Activity {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
                     intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
 
-            mNoteEditorFragment = new NoteEditorFragment();
-            mNoteEditorFragment.setArguments(arguments);
+            noteEditorFragment = new NoteEditorFragment();
+            noteEditorFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
-                    .add(R.id.note_editor_container, mNoteEditorFragment, NotesActivity.TAG_NOTE_EDITOR)
+                    .add(R.id.note_editor_container, noteEditorFragment, NotesActivity.TAG_NOTE_EDITOR)
                     .commit();
-        } else {
-            mNoteEditorFragment = (NoteEditorFragment)getFragmentManager().findFragmentByTag(NotesActivity.TAG_NOTE_EDITOR);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.note_editor, menu);
-
-        if (mNoteEditorFragment.getNote() != null) {
-
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_published_note);
-            viewPublishedNoteItem.setVisible(mNoteEditorFragment.getNote().isPublished() && !TextUtils.isEmpty(mNoteEditorFragment.getNote().getPublishedUrl()));
-
-            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-            if (mNoteEditorFragment.getNote().isDeleted())
-                trashItem.setTitle(R.string.undelete);
-            else
-                trashItem.setTitle(R.string.delete);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_view_published_note:
-                Note note = mNoteEditorFragment.getNote();
-                if (note != null) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, note.getPublishedUrl());
-                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
-                }
-                return true;
-            case R.id.menu_share:
-                Note sharedNote = mNoteEditorFragment.getNote();
-                if (sharedNote != null) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, sharedNote.getContent());
-                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
-                }
-                return true;
-            case R.id.menu_delete:
-                Note deletedNote = mNoteEditorFragment.getNote();
-                if (deletedNote != null) {
-                    deletedNote.setDeleted(!deletedNote.isDeleted());
-                    deletedNote.setModificationDate(Calendar.getInstance());
-                    deletedNote.save();
-                    Intent resultIntent = new Intent();
-                    if (deletedNote.isDeleted())
-                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, deletedNote.getSimperiumKey());
-                    setResult(RESULT_OK, resultIntent);
-                }
-                finish();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }
