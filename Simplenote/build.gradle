@@ -17,8 +17,7 @@ repositories {
 }
 
 dependencies {
-    //releaseCompile "com.simperium:simperium-android:0.4.4"
-    //debugCompile "com.simperium:simperium-android-support:0.4.4"
+    compile "com.simperium:simperium-android:0.4.5"
     compile "com.android.support:support-v4:19.1.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
@@ -43,6 +42,8 @@ android {
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
         buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
+        buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
+        buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
      }
 
@@ -59,6 +60,12 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android {
       signingConfigs {
           release {
+              storeFile = file(project.storeFile)
+              storePassword = project.storePassword
+              keyAlias = project.keyAlias
+              keyPassword = project.keyPassword
+          }
+          debug {
               storeFile = file(project.storeFile)
               storePassword = project.storePassword
               keyAlias = project.keyAlias

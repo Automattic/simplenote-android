@@ -131,6 +131,9 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
             rootGroup.removePreference(passcodePref);
         }
 
+        Preference versionPref = findPreference("pref_key_build");
+        versionPref.setSummary(PrefUtils.versionInfo());
+
         EasyTracker.getInstance().activityStart(this);
     }
 
