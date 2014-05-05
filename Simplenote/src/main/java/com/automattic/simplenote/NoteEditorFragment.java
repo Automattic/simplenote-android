@@ -563,6 +563,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
+        if (mNote == null) {
+            return;
+        }
+        
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
         if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
