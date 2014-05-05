@@ -33,7 +33,7 @@ android {
     defaultConfig {
         packageName "com.automattic.simplenote"
         versionName project.version
-        versionCode 27
+        versionCode 28
         minSdkVersion 15
         targetSdkVersion 19
 
@@ -51,6 +51,10 @@ android {
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }
+	
+	lintOptions {
+	    checkReleaseBuilds false
+	}
 
 }
 
