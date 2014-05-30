@@ -1,12 +1,9 @@
 package com.automattic.simplenote.utils;
 
-import junit.framework.TestCase;
-
-import android.text.Spanned;
 import android.text.Spannable;
 import android.text.SpannableString;
 
-import java.nio.charset.Charset;
+import junit.framework.TestCase;
 
 public class MatchOffsetHighlighterTest extends TestCase {
 
@@ -41,6 +38,16 @@ public class MatchOffsetHighlighterTest extends TestCase {
         assertEquals(11, text.getSpanEnd(spans[0]));
         assertEquals(18, text.getSpanStart(spans[1]));
         assertEquals(21, text.getSpanEnd(spans[1]));
+    }
+
+    public void testMatchesWithHindiContent()
+        throws Exception {
+
+        String matches = "1 0 0 2";
+        Spannable sourceText = new SpannableString("मुक्त ज्ञानकोसे");
+
+        MatchOffsetHighlighter.highlightMatches(sourceText, matches, 1, sHighlighter);
+        sourceText.getSpans(0, sourceText.length(), Object.class);
     }
 
     public void testHighlithgMultibyteMatches()
