@@ -32,8 +32,10 @@ public class MatchOffsetHighlighter implements Runnable {
             Object[] spans = factory.buildSpans();
 
             for (Object span : spans) {
-                content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mMatchedSpans.add(span);
+                if (start >= 0 && end >= start && end <= content.length() - 1) {
+                    content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mMatchedSpans.add(span);
+                }
             }
         }
 
