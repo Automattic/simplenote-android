@@ -272,8 +272,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             mContentEditText.setText(mNote.getContent());
 
-            if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
-                mContentEditText.setSelection(cursorPosition);
+            if (isNoteUpdate) {
+                // Save the note so any local changes get synced
+                mNote.save();
+
+                if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd()) {
+                    mContentEditText.setSelection(cursorPosition);
+                }
+            }
 
             afterTextChanged(mContentEditText.getText());
 
