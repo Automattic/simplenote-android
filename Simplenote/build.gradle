@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
     }
 }
 
@@ -28,10 +28,10 @@ version "1.1.5"
 android {
 
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        packageName "com.automattic.simplenote"
+        applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 29
         minSdkVersion 15
