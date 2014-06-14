@@ -531,7 +531,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         protected void onPostExecute(Void nada) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
-            refreshContent(true);
+            refreshContent(false);
             if (mMatchOffsets != null) {
                 int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
