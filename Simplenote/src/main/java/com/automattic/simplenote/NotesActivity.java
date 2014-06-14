@@ -182,18 +182,28 @@ public class NotesActivity extends Activity implements
             editor.commit();
         }
 
-        checkForSharedContent(getIntent());
-
+        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+            // Check share action
+            Intent intent = getIntent();
+            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+            if (text != null && !text.equals("")) {
+                if (subject != null && !subject.equals("")) {
+                    text = subject + "\n\n" + text;
+                }
+                Note note = mNotesBucket.newObject();
+                note.setCreationDate(Calendar.getInstance());
+                note.setModificationDate(note.getCreationDate());
+                note.setContent(text);
+                note.save();
+                setCurrentNote(note);
+                mShouldSelectNewNote = true;
+                mTracker.sendEvent("note", "create_note", "external_share", null);
+            }
+        }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
         setProgressBarIndeterminateVisibility(false);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        checkForSharedContent(intent);
     }
 
     @Override
@@ -246,27 +256,6 @@ public class NotesActivity extends Activity implements
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
-    }
-
-    public void checkForSharedContent(Intent intent) {
-        if (Intent.ACTION_SEND.equals(intent.getAction())) {
-            // Check share action
-            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (text != null && !text.equals("")) {
-                if (subject != null && !subject.equals("")) {
-                    text = subject + "\n\n" + text;
-                }
-                Note note = mNotesBucket.newObject();
-                note.setCreationDate(Calendar.getInstance());
-                note.setModificationDate(note.getCreationDate());
-                note.setContent(text);
-                note.save();
-                setCurrentNote(note);
-                mShouldSelectNewNote = true;
-                mTracker.sendEvent("note", "create_note", "external_share", null);
-            }
-        }
     }
 
     @Override
