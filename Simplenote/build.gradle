@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
     }
 }
 
@@ -17,23 +17,23 @@ repositories {
 }
 
 dependencies {
-    compile "com.simperium:simperium-android:0.4.5"
+    compile "com.simperium:simperium-android:0.4.8"
     compile "com.android.support:support-v4:19.1.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
 }
 
-version "1.1.4"
+version "1.1.6"
 
 android {
 
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        packageName "com.automattic.simplenote"
+        applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 27
+        versionCode 30
         minSdkVersion 15
         targetSdkVersion 19
 
@@ -51,6 +51,10 @@ android {
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }
+	
+	lintOptions {
+	    checkReleaseBuilds false
+	}
 
 }
 

@@ -183,6 +183,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPlaceholderView.setVisibility(View.VISIBLE);
 
         mTagView.setAdapter(mAutocompleteAdapter);
+
+        // Load note if we were passed a note Id
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
+            String key = arguments.getString(ARG_ITEM_ID);
+            if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
+                mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
+            }
+            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
+        }
+
 		return rootView;
 	}
 
@@ -193,6 +205,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.addListener(this);
 
         mTagView.setOnTagAddedListener(this);
+<<<<<<< HEAD
 
         Bundle arguments = getArguments();
 
@@ -203,6 +216,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
+=======
+>>>>>>> develop
     }
 
     @Override
@@ -211,19 +226,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Hide soft keyboard if it is showing...
         if (getActivity() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputMethodManager != null)
+            if (inputMethodManager != null) {
                 inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
+            }
         }
+
         // Delete the note if it is new and has empty fields
-        if (mNote != null && mIsNewNote && noteIsEmpty())
+        if (mNote != null && mIsNewNote && noteIsEmpty()) {
             mNote.delete();
-        else
+        } else {
             saveNote();
+        }
 
         mTagView.setOnTagAddedListener(null);
 
-        if (mAutoSaveHandler != null)
+        if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+        }
 
         mHighlighter.stop();
 
@@ -393,8 +412,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             mContentEditText.setText(mNote.getContent());
 
-            if (isNoteUpdate && mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd())
-                mContentEditText.setSelection(cursorPosition);
+            if (isNoteUpdate) {
+                // Save the note so any local changes get synced
+                mNote.save();
+
+                if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd()) {
+                    mContentEditText.setSelection(cursorPosition);
+                }
+            }
 
             afterTextChanged(mContentEditText.getText());
 
@@ -623,10 +648,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected Void doInBackground(String... args) {
+            if (getActivity() == null) {
+                return null;
+            }
 
             String noteID = args[0];
-            if (getActivity() == null)
-                return null;
             Simplenote application = (Simplenote) getActivity().getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
             try {
@@ -645,7 +671,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         protected void onPostExecute(Void nada) {
             if (getActivity() == null || getActivity().isFinishing())
                 return;
-            refreshContent(true);
+            refreshContent(false);
             if (mMatchOffsets != null) {
                 int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
@@ -689,6 +715,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
+        if (mNote == null) {
+            return;
+        }
+
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
         if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
