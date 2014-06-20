@@ -211,8 +211,9 @@ public class Note extends BucketObject {
 
     public String getPublishedUrl() {
         String urlCode = (String)getProperty(PUBLISH_URL_PROPERTY);
-        if (TextUtils.isEmpty(urlCode))
-            return null;
+        if (TextUtils.isEmpty(urlCode)) {
+            return "";
+        }
 
         return PUBLISH_URL + urlCode;
     }
@@ -355,7 +356,7 @@ public class Note extends BucketObject {
     }
 
     public boolean isPublished() {
-        return hasSystemTag(PUBLISHED_TAG);
+        return hasSystemTag(PUBLISHED_TAG) && !TextUtils.isEmpty(getPublishedUrl());
     }
 
     public void setPublished(boolean isPublished) {

@@ -24,8 +24,8 @@
     </style>
 
     <style name="SimplenotePublishDialog.Animation" parent="@android:style/Animation.Dialog">
-        <item name="android:windowEnterAnimation">@anim/slide_in</item>
-        <item name="android:windowExitAnimation">@anim/slide_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
     <!-- undo bar -->

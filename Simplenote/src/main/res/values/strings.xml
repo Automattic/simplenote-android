@@ -138,5 +138,10 @@
     <string name="view_published_note">View published note</string>
 
     <string name="version">Version</string>
+    <string name="content_description_copy_button">Copy Button</string>
+    <string name="publish_note">Publish note</string>
+    <string name="note_not_published">Note not published</string>
+    <string name="publish">Publish</string>
+    <string name="publishing">Publishing</string>
 
 </resources>

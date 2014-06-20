@@ -5,8 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:inAnimation="@anim/slide_in"
-    android:outAnimation="@anim/slide_out">
+    android:inAnimation="@anim/slide_up"
+    android:outAnimation="@anim/slide_down">
 
     <LinearLayout
         android:id="@+id/welcome_view"
