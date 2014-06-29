@@ -49,8 +49,8 @@ public class Note extends BucketObject {
     static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
 	
-	protected String title = null;
-	protected String contentPreview = null;
+	protected String mTitle = null;
+	protected String mContentPreview = null;
 
 
 	public static class Schema extends BucketSchema<Note> {
@@ -80,9 +80,9 @@ public class Note extends BucketObject {
         }
 
         public void update(Note note, JSONObject properties) {
-            note.properties = properties;
-            note.title = null;
-            note.contentPreview = null;
+            note.mProperties = properties;
+            note.mTitle = null;
+            note.mContentPreview = null;
         }
 	}
 
@@ -120,45 +120,43 @@ public class Note extends BucketObject {
     protected void updateTitleAndPreview(){
         // try to build a title and preview property out of content
         String content = getContent().trim();
-        // title = "Hello World";
-        // contentPreview = "This is a preview";
 
         int firstNewLinePosition = content.indexOf(NEW_LINE);
         if (firstNewLinePosition > -1 && firstNewLinePosition < 200) {
-            title = content.substring(0, firstNewLinePosition).trim();
+            mTitle = content.substring(0, firstNewLinePosition).trim();
 
             if (firstNewLinePosition < content.length()) {
-                contentPreview = content.substring(firstNewLinePosition, content.length());
-                contentPreview = contentPreview.replace(NEW_LINE, SPACE).replace(SPACE+SPACE, SPACE).trim();
-                if (contentPreview.length() >= 300) {
-                    contentPreview = contentPreview.substring(0, 300);
+                mContentPreview = content.substring(firstNewLinePosition, content.length());
+                mContentPreview = mContentPreview.replace(NEW_LINE, SPACE).replace(SPACE+SPACE, SPACE).trim();
+                if (mContentPreview.length() >= 300) {
+                    mContentPreview = mContentPreview.substring(0, 300);
                 }
             }
             else {
-                contentPreview = content;
+                mContentPreview = content;
             }
         }
         else {
-            title = content;
-            contentPreview = content;
+            mTitle = content;
+            mContentPreview = content;
         }
     }
 	
 	public String getTitle() {
-        if (title == null) {
+        if (mTitle == null) {
             updateTitleAndPreview();
         }
-		return title;
+		return mTitle;
 	}
     
     public String getTitle(String ifBlank){
-        if (title == null) {
+        if (mTitle == null) {
             updateTitleAndPreview();
         }
-        if (title.trim().equals("")) {
+        if (mTitle.trim().equals(BLANK_CONTENT)) {
             return ifBlank;
         } else {
-            return title;
+            return mTitle;
         }
     }
 
@@ -171,23 +169,23 @@ public class Note extends BucketObject {
 	}
 
 	public void setContent(String content) {
-        title = null;
-        contentPreview = null;
+        mTitle = null;
+        mContentPreview = null;
         setProperty(CONTENT_PROPERTY, content);
 	}
 	
 	public String getContentPreview() {
-        if (contentPreview == null) {
+        if (mContentPreview == null) {
             updateTitleAndPreview();
         }
-		return contentPreview;
+		return mContentPreview;
 	}
 
     public String getContentPreview(int lines){
-        if (contentPreview == null) {
+        if (mContentPreview == null) {
             updateTitleAndPreview();
         }
-        return contentPreview;
+        return mContentPreview;
     }
 
 	public Calendar getCreationDate() {
