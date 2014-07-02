@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.simperium:simperium-android:0.4.9"
+    compile project(path: ":Simperium", configuration:"supportDebug")
     compile "com.android.support:support-v4:19.1.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"

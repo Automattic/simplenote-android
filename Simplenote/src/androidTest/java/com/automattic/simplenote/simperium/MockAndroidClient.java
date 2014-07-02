@@ -14,7 +14,6 @@ import com.simperium.util.Uuid;
 
 import com.simperium.android.GhostStore;
 import com.simperium.android.PersistentStore;
-import com.simperium.android.LruCacheProvider;
 
 /**
  * Refactoring as much of the android specific components of the client
@@ -53,11 +52,6 @@ public class MockAndroidClient implements ClientFactory {
     @Override
     public GhostStore buildGhostStorageProvider(){
         return new GhostStore(mDatabase);
-    }
-
-    @Override
-    public LruCacheProvider buildObjectCacheProvider(){
-        return new LruCacheProvider();
     }
 
     @Override
