@@ -37,7 +37,7 @@ public class Tag extends BucketObject {
         }
 
         public void update(Tag tag, JSONObject properties) {
-            tag.mProperties = properties;
+            tag.setProperties(properties);
         }
 
     }
@@ -79,7 +79,7 @@ public class Tag extends BucketObject {
 
     public void setIndex(Integer tagIndex) {
         if (tagIndex == null) {
-            mProperties.remove("index");
+            getProperties().remove("index");
         } else {
             setProperty("index", tagIndex);
         }

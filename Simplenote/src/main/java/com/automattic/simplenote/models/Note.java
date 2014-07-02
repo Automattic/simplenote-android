@@ -80,7 +80,7 @@ public class Note extends BucketObject {
         }
 
         public void update(Note note, JSONObject properties) {
-            note.mProperties = properties;
+            note.setProperties(properties);
             note.mTitle = null;
             note.mContentPreview = null;
         }
