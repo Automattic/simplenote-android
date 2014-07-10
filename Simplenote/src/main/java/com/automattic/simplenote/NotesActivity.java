@@ -182,7 +182,7 @@ public class NotesActivity extends Activity implements
             editor.commit();
         }
 
-        if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
             // Check share action
             Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
