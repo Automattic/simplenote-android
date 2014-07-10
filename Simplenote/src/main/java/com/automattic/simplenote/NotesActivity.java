@@ -31,6 +31,7 @@ import android.widget.SearchView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.TypefaceSpan;
@@ -187,8 +188,12 @@ public class NotesActivity extends Activity implements
             Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (text != null && !text.equals("")) {
-                if (subject != null && !subject.equals("")) {
+
+            // Don't add the 'Note to self' subject or open the note if this was shared from a voice search
+            String intentAction = StrUtils.notNullStr(intent.getAction());
+            boolean isVoiceShare = intentAction.equals("com.google.android.gm.action.AUTO_SEND");
+            if (!TextUtils.isEmpty(text)) {
+                if (!TextUtils.isEmpty(subject) && !isVoiceShare) {
                     text = subject + "\n\n" + text;
                 }
                 Note note = mNotesBucket.newObject();
@@ -197,7 +202,9 @@ public class NotesActivity extends Activity implements
                 note.setContent(text);
                 note.save();
                 setCurrentNote(note);
-                mShouldSelectNewNote = true;
+                if (!isVoiceShare) {
+                    mShouldSelectNewNote = true;
+                }
                 mTracker.sendEvent("note", "create_note", "external_share", null);
             }
         }
