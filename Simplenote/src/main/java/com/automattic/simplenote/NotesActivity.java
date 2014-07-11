@@ -205,7 +205,8 @@ public class NotesActivity extends Activity implements
                 if (!isVoiceShare) {
                     mShouldSelectNewNote = true;
                 }
-                mTracker.sendEvent("note", "create_note", "external_share", null);
+
+                mTracker.sendEvent("note", "create_note", isVoiceShare ? "google_voice_command" : "external_share", null);
             }
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
