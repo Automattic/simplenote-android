@@ -632,7 +632,7 @@ public class NotesActivity extends Activity implements
                 alert.setMessage(R.string.confirm_empty_trash);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        new emptyTrashTask().execute();
+                        new emptyTrashTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         mTracker.sendEvent("note", "trash_emptied", "overflow_menu", null);
                     }
                 });

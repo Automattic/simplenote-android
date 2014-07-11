@@ -119,7 +119,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
-            new trashNotesTask().execute();
+            new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         return false;
     }
 
