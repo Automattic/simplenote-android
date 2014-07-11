@@ -50,6 +50,10 @@ android {
             runProguard true
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
+
+        debug {
+            applicationIdSuffix '.debug'
+        }
     }
 	
 	lintOptions {
