@@ -362,16 +362,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void afterTextChanged(Editable editable) {
-        // Set the note title to be a larger size
-        // Remove any existing size spans
-        RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (RelativeSizeSpan span : spans) {
-            editable.removeSpan(span);
-        }
-        int newLinePosition = getNoteContentString().indexOf("\n");
-        if (newLinePosition == 0)
-            return;
-        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        setTitleSpan(editable);
+
     }
 
     @Override
@@ -388,6 +380,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mMatchOffsets = null;
             mHighlighter.removeMatches();
         }
+    }
+
+    private void setTitleSpan(Editable editable) {
+        // Set the note title to be a larger size
+        // Remove any existing size spans
+        RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
+        for (RelativeSizeSpan span : spans) {
+            editable.removeSpan(span);
+        }
+        int newLinePosition = getNoteContentString().indexOf("\n");
+        if (newLinePosition == 0)
+            return;
+        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     private void saveAndSyncNote() {
