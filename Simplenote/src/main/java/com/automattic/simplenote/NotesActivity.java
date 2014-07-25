@@ -53,6 +53,11 @@ public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
+    public static final int DRAWER_STATE_CLOSED = 0x00;
+    public static final int DRAWER_STATE_OPEN = 0x01;
+    public static final int DRAWER_STATE_SLIDING_OPEN = 0x02;
+    public static final int DRAWER_STATE_SLIDING_CLOSED = 0x03;
+
     private boolean mIsLargeScreen, mIsLandscape, mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -66,6 +71,7 @@ public class NotesActivity extends Activity implements
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
     private MenuItem mEmptyTrashMenuItem;
+    private int mDrawerState = DRAWER_STATE_CLOSED;
 
     // Menu drawer
     private DrawerLayout mDrawerLayout;
@@ -150,13 +156,23 @@ public class NotesActivity extends Activity implements
                 R.string.close_drawer
         ) {
             public void onDrawerClosed(View view) {
-                setTitle(mActionBarTitle);
-                invalidateOptionsMenu();
+                mDrawerState = DRAWER_STATE_CLOSED;
             }
 
             public void onDrawerOpened(View drawerView) {
-                setTitleWithCustomFont(getString(R.string.app_name));
-                invalidateOptionsMenu();
+                mDrawerState = DRAWER_STATE_OPEN;
+            }
+
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if (mDrawerState == DRAWER_STATE_CLOSED) {
+                    mDrawerState = DRAWER_STATE_SLIDING_OPEN;
+                    setTitleWithCustomFont(getString(R.string.app_name));
+                    invalidateOptionsMenu();
+                } else if (mDrawerState == DRAWER_STATE_OPEN) {
+                    mDrawerState = DRAWER_STATE_SLIDING_CLOSED;
+                    setTitle(mActionBarTitle);
+                    invalidateOptionsMenu();
+                }
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -326,7 +342,6 @@ public class NotesActivity extends Activity implements
                 getNoteListFragment().getListView().setLongClickable(true);
             }
 
-            getNoteListFragment().refreshListFromNavSelect();
             if (position > 1)
                 mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
         }
@@ -447,7 +462,7 @@ public class NotesActivity extends Activity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
 
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = mDrawerState == DRAWER_STATE_SLIDING_OPEN || mDrawerState == DRAWER_STATE_OPEN;
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;
