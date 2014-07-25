@@ -342,7 +342,6 @@ public class NotesActivity extends Activity implements
                 getNoteListFragment().getListView().setLongClickable(true);
             }
 
-            getNoteListFragment().refreshListFromNavSelect();
             if (position > 1)
                 mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
         }
