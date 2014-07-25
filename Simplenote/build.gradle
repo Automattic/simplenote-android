@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
