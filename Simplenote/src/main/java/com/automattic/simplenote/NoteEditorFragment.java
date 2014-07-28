@@ -47,7 +47,7 @@ import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
@@ -140,7 +140,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 query.order(Tag.NAME_PROPERTY);
                 // if there's a filter string find only matching tag names
                 if (filter != null ) query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
-                return query.execute();
+                return application.getTagsBucket().searchObjects(query);
             }
         };
     }

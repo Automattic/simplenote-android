@@ -9,8 +9,8 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.automattic.simplenote.simperium.MockAndroidClient;
 
-import com.simperium.Simperium;
-import com.simperium.client.Bucket;
+import com.simperium.android.Simperium;
+import com.simperium.android.Bucket;
 
 /**
  * This is a simple framework for a test of an Application.  See

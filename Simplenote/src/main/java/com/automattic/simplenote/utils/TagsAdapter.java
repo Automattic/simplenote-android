@@ -16,7 +16,7 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 import com.simperium.client.Query;
 
 /**

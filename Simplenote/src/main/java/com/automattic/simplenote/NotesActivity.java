@@ -37,9 +37,9 @@ import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
-import com.simperium.Simperium;
+import com.simperium.android.Simperium;
 import com.simperium.android.LoginActivity;
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
@@ -279,7 +279,7 @@ public class NotesActivity extends Activity implements
     }
 
     private void updateNavigationDrawerItems() {
-        Bucket.ObjectCursor<Tag> tagCursor = Tag.allWithCount(mTagsBucket).execute();
+        Bucket.ObjectCursor<Tag> tagCursor = mTagsBucket.searchObjects(Tag.allWithCount(mTagsBucket));
         mTagsAdapter.changeCursor(tagCursor);
     }
 
@@ -886,7 +886,7 @@ public class NotesActivity extends Activity implements
             Simplenote application = (Simplenote) getApplication();
             Bucket<Note> noteBucket = application.getNotesBucket();
             Query<Note> query = Note.allDeleted(noteBucket);
-            Bucket.ObjectCursor c = query.execute();
+            Bucket.ObjectCursor c = noteBucket.searchObjects(query);
             while (c.moveToNext()) {
                 c.getObject().delete();
             }

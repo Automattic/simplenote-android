@@ -2,7 +2,7 @@ package com.automattic.simplenote.models;
 
 import junit.framework.TestCase;
 
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 
 import com.simperium.test.MockBucket;
 

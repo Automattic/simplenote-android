@@ -6,8 +6,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
-import com.simperium.Simperium;
-import com.simperium.client.Bucket;
+import com.simperium.android.Simperium;
+import com.simperium.android.Bucket;
 import com.simperium.client.BucketNameInvalid;
 
 import org.wordpress.passcodelock.AppLockManager;
@@ -36,10 +36,10 @@ public class Simplenote extends Application {
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
-        mSimperium = Simperium.newClient(
+        mSimperium = Simperium.initializeClient(
+            this,
             BuildConfig.SIMPERIUM_APP_ID,
-            BuildConfig.SIMPERIUM_APP_KEY,
-            this
+            BuildConfig.SIMPERIUM_APP_KEY
         );
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);

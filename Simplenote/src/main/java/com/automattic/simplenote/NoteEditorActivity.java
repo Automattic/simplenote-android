@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;

@@ -3,7 +3,7 @@ package com.automattic.simplenote.models;
 import android.content.Context;
 
 import com.automattic.simplenote.R;
-import com.simperium.client.Bucket;
+import com.simperium.android.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
 import com.simperium.client.Query;

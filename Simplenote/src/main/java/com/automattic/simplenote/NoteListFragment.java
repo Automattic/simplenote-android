@@ -39,8 +39,8 @@ import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.Typefaces;
-import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.android.Bucket;
+import com.simperium.android.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
@@ -439,8 +439,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         query.include(Note.PINNED_INDEX_NAME);
 
         sortNoteQuery(query);
+        Simplenote simplenote = (Simplenote) notesActivity.getApplication();
+        Bucket<Note> notesBucket = simplenote.getNotesBucket();
 
-        return query.execute();
+        return notesBucket.searchObjects(query);
     }
 
 	public void addNote() {
