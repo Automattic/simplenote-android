@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.simperium.Simperium;
+import com.simperium.android.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
 

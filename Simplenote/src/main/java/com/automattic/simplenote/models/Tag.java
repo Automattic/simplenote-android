@@ -1,7 +1,7 @@
 package com.automattic.simplenote.models;
 
-import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.android.Bucket;
+import com.simperium.android.Bucket.ObjectCursor;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.BucketSchema;
@@ -120,6 +120,6 @@ public class Tag extends BucketObject {
     }
 
     public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket){
-        return notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()).execute();
+        return notesBucket.searchObjects(notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()));
     }
 }

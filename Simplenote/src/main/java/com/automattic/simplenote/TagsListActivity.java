@@ -32,8 +32,8 @@ import com.automattic.simplenote.utils.TypefaceSpan;
 import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
-import com.simperium.client.Bucket;
-import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.android.Bucket;
+import com.simperium.android.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
@@ -118,7 +118,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
     protected void refreshTags() {
         Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
-        ObjectCursor<Tag> cursor = tagQuery.execute();
+        ObjectCursor<Tag> cursor = mTagsBucket.searchObjects(tagQuery);
         mTagsAdapter.changeCursor(cursor);
     }
 
