@@ -38,6 +38,7 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
@@ -78,6 +79,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
+    private int mCurrentCursorPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -363,7 +365,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void afterTextChanged(Editable editable) {
         setTitleSpan(editable);
-
+        attemptAutoList(editable);
     }
 
     @Override
@@ -393,6 +395,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (newLinePosition == 0)
             return;
         editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+    }
+
+    private void attemptAutoList(Editable editable) {
+        int oldCursorPosition = mCurrentCursorPosition;
+        mCurrentCursorPosition = mContentEditText.getSelectionStart();
+        AutoBullet.apply(editable, oldCursorPosition, mCurrentCursorPosition);
+        mCurrentCursorPosition = mContentEditText.getSelectionStart();
+        android.util.Log.d("Simplenote", "==> post cursor position:" + mCurrentCursorPosition);
     }
 
     private void saveAndSyncNote() {
