@@ -39,8 +39,30 @@ hockeyAppId=HOCKEY_APP_ID
 
 ## Unit Tests
 
-Run the gradle `connectedInstrumentTest` task:
+1) Clone simperium-android into a separate folder.
+
+2) Go back to the Simplenote folder: 
 
 ```bash
-./gradlew connectedAndroidTest
+cd path/to/simplenote-android
+```
+
+3) Add the Simperium folder:
+
+```bash
+ln -s /path/to/simperium-android/Simperium
+```
+
+4) Modify `Simperium/build.gradle` locally to default to the debug/test build:
+
+```bash
+defaultPublishConfig "supportDebug"
+```
+
+(Note this will change in the future)
+
+5) Run the test task via gradle:
+
+```bash
+./gradlew ./gradlew :Simplenote:connectedCheck
 ```
