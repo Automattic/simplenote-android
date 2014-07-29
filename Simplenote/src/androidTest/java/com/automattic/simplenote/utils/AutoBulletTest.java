@@ -76,8 +76,8 @@ public class AutoBulletTest extends TestCase {
     }
 
     public void testNonLineBreakPosition() {
-        String source = "Hello\nWorld";
-        String target = "Hello\nWorld";
+        String source = "Hello\nWorld\n- list";
+        String target = "Hello\nWorld\n- list";
         int oldPos = source.length() - 1;
         int newPos = source.length();
 
@@ -232,6 +232,17 @@ public class AutoBulletTest extends TestCase {
     public void testEmptySecondLevelBullet() {
         String source = "- first\n - second\n - \n";
         String target = "- first\n - second\n- ";
+        int oldPos = source.length() - 1;
+        int newPos = source.length();
+
+        Editable editable = buildEditable(source);
+        AutoBullet.apply(editable, oldPos, newPos);
+        assertEquals(target, editable.toString());
+    }
+
+    public void testBulletNoSpace() {
+        String source = "-first\n";
+        String target = "-first\n";
         int oldPos = source.length() - 1;
         int newPos = source.length();
 
