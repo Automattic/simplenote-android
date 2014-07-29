@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class AutoBullet {
 
-    private static final String PATTERN_BULLET = "^([\\s]*)(-|\\*|\\+){1}[\\s]+(.*)$";
+    private static final String PATTERN_BULLET = "^([\\s]*)(-|\\*|\\+|1\\.){1}[\\s]+(.*)$";
     private static final String STR_LINE_BREAK = System.getProperty("line.separator");
     private static final String STR_SPACE = " ";
 
