@@ -19,12 +19,11 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
-        <TextView
+        <com.automattic.simplenote.widgets.SourceSansTextView
             android:id="@+id/welcome_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
@@ -46,7 +45,7 @@
         android:paddingTop="8dp"
         android:weightSum="3">
 
-        <TextView
+        <com.automattic.simplenote.widgets.SourceSansTextView
             android:id="@+id/welcome_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,35 +64,27 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <Button
+            <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/welcome_sign_in"
+                style="@style/SimplenoteButton"
+                android:layout_weight="0.5"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:layout_weight="0.5"
-                android:background="@drawable/welcome_button_selector"
-                android:ellipsize="end"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:text="@string/sign_in"
-                android:textColor="@color/white" />
+                android:text="@string/sign_in" />
 
-            <Button
+            <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/welcome_sign_up"
+                style="@style/SimplenoteButton"
+                android:layout_weight="0.5"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="0.5"
-                android:background="@drawable/welcome_button_selector"
-                android:ellipsize="end"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:text="@string/sign_up"
-                android:textColor="@color/white" />
+                android:text="@string/sign_up" />
 
         </LinearLayout>
 
-        <TextView
+        <com.automattic.simplenote.widgets.SourceSansTextView
             android:id="@+id/welcome_later_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

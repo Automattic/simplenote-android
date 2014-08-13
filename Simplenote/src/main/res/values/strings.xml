@@ -49,6 +49,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="condensed_note_list">Condensed note list</string>
+    <string name="note_info">Info</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -144,5 +145,6 @@
     <string name="note_not_published">Note not published</string>
     <string name="publish">Publish</string>
     <string name="publishing">Publishing</string>
+    <string name="unpublish_note">Unpublish note</string>
 
 </resources>

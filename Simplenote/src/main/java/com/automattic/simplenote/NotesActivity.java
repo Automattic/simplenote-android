@@ -33,7 +33,7 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.utils.TypefaceSpan;
+import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;

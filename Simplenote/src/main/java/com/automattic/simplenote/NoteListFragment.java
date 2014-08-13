@@ -38,7 +38,6 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.automattic.simplenote.utils.Typefaces;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -227,19 +226,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         TextView laterTextView = (TextView)view.findViewById(R.id.welcome_later_textview);
         laterTextView.setText(Html.fromHtml(getString(R.string.maybe_later) + ", <u>" + getString(R.string.just_try_app) + "</u> &raquo;"));
 
-        Button signInButton = (Button)view.findViewById(R.id.welcome_sign_in);
+        TextView signInButton = (TextView)view.findViewById(R.id.welcome_sign_in);
         signInButton.setTag(TAG_BUTTON_SIGNIN);
         signInButton.setOnClickListener(signInClickListener);
-        Button signUpButton = (Button)view.findViewById(R.id.welcome_sign_up);
+        TextView signUpButton = (TextView)view.findViewById(R.id.welcome_sign_up);
         signUpButton.setTag(TAG_BUTTON_SIGNUP);
         signUpButton.setOnClickListener(signInClickListener);
-
-        // Set custom typeface
-        mEmptyListTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
-        welcomeTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
-        laterTextView.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
-        signInButton.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
-        signUpButton.setTypeface(Typefaces.get(getActivity(), Simplenote.CUSTOM_FONT_PATH));
 
         if (notesActivity.isLargeScreenLandscape()) {
             setActivateOnItemClick(true);
@@ -520,9 +512,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
-                holder.titleTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-                holder.contentTextView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
 				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
 				view.setTag(holder);
 			} else {

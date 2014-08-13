@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -46,12 +45,11 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
-import com.automattic.simplenote.utils.SimplenoteEditText;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
@@ -160,13 +158,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
-        if (getActivity() != null) {
-            mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
-        }
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
-        mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
@@ -245,7 +239,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         inflater.inflate(R.menu.note_editor, menu);
 
         if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_published_note);
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
@@ -261,7 +255,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_view_published_note:
+            case R.id.menu_view_info:
                 if (mNote != null) {
                     showNotePublishDialog();
                 }
@@ -299,11 +293,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mPublishDialog == null) {
             mPublishDialog = new Dialog(getActivity(), R.style.SimplenotePublishDialog);
             mPublishDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mPublishDialog.setContentView(R.layout.publish_settings);
+            mPublishDialog.setContentView(R.layout.alert_info);
 
             mPublishDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
-            Button publishButton = (Button)mPublishDialog.findViewById(R.id.publish_note_button);
+            TextView publishButton = (TextView)mPublishDialog.findViewById(R.id.publish_note_button);
             TextView publishTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
             ImageButton publishCopyButton = (ImageButton)mPublishDialog.findViewById(R.id.publish_copy_url);
 
@@ -364,16 +358,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void updatePublishDialogContent() {
         if (mPublishDialog == null || mNote == null)
             return;
-        Button publishButton = (Button)mPublishDialog.findViewById(R.id.publish_note_button);
+        TextView publishButton = (TextView)mPublishDialog.findViewById(R.id.publish_note_button);
         TextView urlTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
         View actionsView = mPublishDialog.findViewById(R.id.publish_actions);
+        TextView wordCountTextView = (TextView)mPublishDialog.findViewById(R.id.word_count);
+
+        updateCharacterCount(wordCountTextView);
 
         if (mNote.isPublished()) {
-            publishButton.setText("Unpublish note");
+            publishButton.setText(getString(R.string.unpublish_note));
             urlTextView.setText(mNote.getPublishedUrl());
             actionsView.setVisibility(View.VISIBLE);
         } else {
-            publishButton.setText("Publish note");
+            publishButton.setText(getString(R.string.publish_note));
             actionsView.setVisibility(View.GONE);
         }
 
@@ -381,7 +378,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (viewSwitcher.getDisplayedChild() == 1) {
             viewSwitcher.showPrevious();
         }
+    }
 
+    private void updateCharacterCount(TextView textView) {
+        String content = getNoteContentString();
+
+        if (content == null || textView == null) return;
+
+        int numChars = content.length();
+        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s+").length;
+
+        String characterCountString = getResources().getQuantityString(R.plurals.characterCount, numChars);
+        String wordCountString = getResources().getQuantityString(R.plurals.wordCount, numWords);
+
+        textView.setText(String.format("%d " + characterCountString + ", %d " + wordCountString, numChars, numWords));
     }
 
     private boolean noteIsEmpty() {

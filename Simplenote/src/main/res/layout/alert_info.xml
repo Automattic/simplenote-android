@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp"
+    android:minWidth="240dp"
+    android:orientation="vertical"
+    android:background="@color/simplenote_blue"
+    android:padding="16dp">
+
+    <com.automattic.simplenote.widgets.SourceSansTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:gravity="center_horizontal"
+        android:text="@string/note_info"
+        android:textColor="@color/white"/>
+
+    <com.automattic.simplenote.widgets.SourceSansTextView android:id="@+id/word_count"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"/>
+
+    <ViewSwitcher
+        android:id="@+id/publish_view_switcher"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inAnimation="@anim/slide_out"
+        android:outAnimation="@anim/slide_in">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.automattic.simplenote.widgets.SourceSansTextView
+                android:id="@+id/publish_note_button"
+                style="@style/SimplenoteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/publish_note" />
+
+            <LinearLayout
+                android:id="@+id/publish_actions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.automattic.simplenote.widgets.SourceSansTextView
+                    android:id="@+id/publish_url_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selectable_background_simplestyle"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/note_not_published"
+                    android:textColor="@color/white" />
+
+                <ImageButton
+                    android:id="@+id/publish_copy_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/selectable_background_simplestyle"
+                    android:contentDescription="@string/content_description_copy_button"
+                    android:src="@drawable/ab_icon_copy_dark" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                style="@android:style/Widget.Holo.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.automattic.simplenote.widgets.SourceSansTextView
+                android:id="@+id/publishing_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/publishing"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ViewSwitcher>
+</LinearLayout>
