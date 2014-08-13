@@ -146,5 +146,6 @@
     <string name="publish">Publish</string>
     <string name="publishing">Publishing</string>
     <string name="unpublish_note">Unpublish note</string>
+    <string name="unpublishing">Unpublishing</string>
 
 </resources>

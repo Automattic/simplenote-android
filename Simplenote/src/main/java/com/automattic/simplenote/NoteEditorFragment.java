@@ -73,7 +73,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
     private LinearLayout mPlaceholderView;
-    private Dialog mPublishDialog;
+    private Dialog mInfoDialog;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
     private ActionMode mActionMode;
@@ -257,7 +257,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         switch (item.getItemId()) {
             case R.id.menu_view_info:
                 if (mNote != null) {
-                    showNotePublishDialog();
+                    showNoteInfoDialog();
                 }
                 return true;
             case R.id.menu_share:
@@ -289,19 +289,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void showNotePublishDialog() {
-        if (mPublishDialog == null) {
-            mPublishDialog = new Dialog(getActivity(), R.style.SimplenotePublishDialog);
-            mPublishDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mPublishDialog.setContentView(R.layout.alert_info);
+    private void showNoteInfoDialog() {
+        if (mInfoDialog == null) {
+            mInfoDialog = new Dialog(getActivity(), R.style.SimplenotePublishDialog);
+            mInfoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mInfoDialog.setContentView(R.layout.alert_info);
 
-            mPublishDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
-            TextView publishButton = (TextView)mPublishDialog.findViewById(R.id.publish_note_button);
-            TextView publishTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
-            ImageButton publishCopyButton = (ImageButton)mPublishDialog.findViewById(R.id.publish_copy_url);
+            TextView publishButton = (TextView) mInfoDialog.findViewById(R.id.publish_note_button);
+            TextView publishTextView = (TextView) mInfoDialog.findViewById(R.id.publish_url_textview);
+            ImageButton publishCopyButton = (ImageButton) mInfoDialog.findViewById(R.id.publish_copy_url);
 
-            final ViewSwitcher viewSwitcher = (ViewSwitcher)mPublishDialog.findViewById(R.id.publish_view_switcher);
+            final ViewSwitcher viewSwitcher = (ViewSwitcher) mInfoDialog.findViewById(R.id.publish_view_switcher);
 
             publishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -309,11 +309,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     if (mNote != null) {
                         boolean newPublishedStatus = !mNote.isPublished();
                         mNote.setPublished(newPublishedStatus);
-                        TextView publishingTextView = (TextView)mPublishDialog.findViewById(R.id.publishing_text);
+                        TextView publishingTextView = (TextView) mInfoDialog.findViewById(R.id.publishing_text);
                         if (newPublishedStatus) {
-                            publishingTextView.setText("Publishing");
+                            publishingTextView.setText(getString(R.string.publishing));
                         } else {
-                            publishingTextView.setText("Unpublishing");
+                            publishingTextView.setText(getString(R.string.unpublishing));
                         }
 
                         if (viewSwitcher.getDisplayedChild() == 0) {
@@ -345,23 +345,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
                 }
             });
-        } else if (mPublishDialog.isShowing()) {
-            mPublishDialog.dismiss();
+        } else if (mInfoDialog.isShowing()) {
+            mInfoDialog.dismiss();
             return;
         }
 
         updatePublishDialogContent();
 
-        mPublishDialog.show();
+        mInfoDialog.show();
     }
 
     public void updatePublishDialogContent() {
-        if (mPublishDialog == null || mNote == null)
+        if (mInfoDialog == null || mNote == null)
             return;
-        TextView publishButton = (TextView)mPublishDialog.findViewById(R.id.publish_note_button);
-        TextView urlTextView = (TextView)mPublishDialog.findViewById(R.id.publish_url_textview);
-        View actionsView = mPublishDialog.findViewById(R.id.publish_actions);
-        TextView wordCountTextView = (TextView)mPublishDialog.findViewById(R.id.word_count);
+        TextView publishButton = (TextView) mInfoDialog.findViewById(R.id.publish_note_button);
+        TextView urlTextView = (TextView) mInfoDialog.findViewById(R.id.publish_url_textview);
+        View actionsView = mInfoDialog.findViewById(R.id.publish_actions);
+        TextView wordCountTextView = (TextView) mInfoDialog.findViewById(R.id.word_count);
 
         updateCharacterCount(wordCountTextView);
 
@@ -374,9 +374,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             actionsView.setVisibility(View.GONE);
         }
 
-        ViewSwitcher viewSwitcher = (ViewSwitcher)mPublishDialog.findViewById(R.id.publish_view_switcher);
-        if (viewSwitcher.getDisplayedChild() == 1) {
-            viewSwitcher.showPrevious();
+        ViewSwitcher viewSwitcher = (ViewSwitcher) mInfoDialog.findViewById(R.id.publish_view_switcher);
+
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        if (currentApp.getSimperium().needsAuthorization()) {
+            viewSwitcher.setVisibility(View.GONE);
+        } else {
+            viewSwitcher.setVisibility(View.VISIBLE);
+            if (viewSwitcher.getDisplayedChild() == 1) {
+                viewSwitcher.showPrevious();
+            }
         }
     }
 
