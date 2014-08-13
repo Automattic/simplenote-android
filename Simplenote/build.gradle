@@ -3,39 +3,38 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
     maven { url "http://simperium.github.io/simplenote-android" }
-    maven { url "http://simperium.github.io/simperium-android" }
     maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
 }
 
 dependencies {
-    compile "com.simperium:simperium-android:0.4.8"
-    compile "com.android.support:support-v4:19.1.+"
+    compile "com.simperium.android:simperium:0.4.11"
+    compile "com.android.support:support-v4:20.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
 }
 
-version "1.1.6"
+version "1.1.9"
 
 android {
 
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion "20"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 30
+        versionCode 33
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 20
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
@@ -49,6 +48,10 @@ android {
         release {
             runProguard true
             proguardFile getDefaultProguardFile('proguard-android.txt')
+        }
+
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
 	

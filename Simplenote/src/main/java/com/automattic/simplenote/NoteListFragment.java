@@ -119,7 +119,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
-            new trashNotesTask().execute();
+            new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         return false;
     }
 
@@ -709,14 +709,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @Override
         protected Void doInBackground(Void... args) {
             SparseBooleanArray selectedRows = getListView().getCheckedItemPositions();
+
+            // Get the checked notes and add them to the deletedNotesList
+            // We can't modify the note in this loop because the adapter could change
+            List<Note> deletedNotesList = new ArrayList<Note>();
             for (int i = 0; i < selectedRows.size(); i++) {
-                if (selectedRows.valueAt(i) == true) {
-                    Note deletedNote = mNotesAdapter.getItem(selectedRows.keyAt(i));
-                    deletedNotesIds.add(deletedNote.getSimperiumKey());
-                    deletedNote.setDeleted(!deletedNote.isDeleted());
-                    deletedNote.setModificationDate(Calendar.getInstance());
-                    deletedNote.save();
+                if (selectedRows.valueAt(i)) {
+                    deletedNotesList.add(mNotesAdapter.getItem(selectedRows.keyAt(i)));
                 }
+            }
+
+            // Now loop through the notes list and mark them as deleted
+            for (Note deletedNote : deletedNotesList) {
+                deletedNotesIds.add(deletedNote.getSimperiumKey());
+                deletedNote.setDeleted(!deletedNote.isDeleted());
+                deletedNote.setModificationDate(Calendar.getInstance());
+                deletedNote.save();
             }
 
             return null;

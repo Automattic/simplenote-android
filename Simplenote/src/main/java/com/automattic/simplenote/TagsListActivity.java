@@ -331,7 +331,7 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
 
         private void deleteTag(Tag tag) {
             tag.delete();
-            new removeTagFromNotesTask().execute(tag);
+            new removeTagFromNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
             mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
         }
 

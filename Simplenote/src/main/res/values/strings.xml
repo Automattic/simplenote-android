@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Simplenote</string>
+    <string name="app_launcher_name">@string/app_name</string>
     <string name="tag_hint">Add tag&#8230;</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
