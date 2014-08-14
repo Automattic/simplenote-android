@@ -137,7 +137,6 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme">Theme</string>
-    <string name="view_published_note">View published note</string>
 
     <string name="version">Version</string>
     <string name="content_description_copy_button">Copy Button</string>
@@ -147,5 +146,6 @@
     <string name="publishing">Publishing</string>
     <string name="unpublish_note">Unpublish note</string>
     <string name="unpublishing">Unpublishing</string>
-
+    <string name="publish_error">Could not publish note</string>
+    <string name="unpublish_error">Could not unpublish note</string>
 </resources>
