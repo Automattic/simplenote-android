@@ -8,11 +8,7 @@
         <item quantity="one">@string/note_deleted</item>
         <item quantity="other">@string/notes_trashed</item>
     </plurals>
-        <plurals name="characterCount">
-            <item quantity="one">@string/character</item>
-            <item quantity="other">@string/characters</item>
-        </plurals>
-        <plurals name="wordCount">
+        <plurals name="word_count">
             <item quantity="one">@string/word</item>
             <item quantity="other">@string/words</item>
         </plurals>

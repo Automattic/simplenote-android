@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,9 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -29,13 +26,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -57,6 +53,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
@@ -71,11 +68,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
+    private PopupWindow mInfoPopupWindow;
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
     private LinearLayout mPlaceholderView;
-    private Dialog mInfoDialog;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
     private ActionMode mActionMode;
@@ -264,7 +261,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         switch (item.getItemId()) {
             case R.id.menu_view_info:
                 if (mNote != null) {
-                    showNoteInfoDialog();
+                    View menuItemView = getActivity().findViewById(R.id.menu_view_info);
+                    showInfoPopup(menuItemView);
                 }
                 return true;
             case R.id.menu_share:
@@ -293,6 +291,113 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // show a popup view from the info action bar item
+    private void showInfoPopup(View view) {
+        if (!isAdded() || view == null) return;
+
+        if (mInfoPopupWindow == null) {
+            mInfoPopupWindow = new PopupWindow(getActivity());
+            mInfoPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setOutsideTouchable(true);
+            mInfoPopupWindow.setFocusable(true);
+
+            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup_info, null);
+            mInfoPopupWindow.setContentView(popupView);
+        }
+
+        updateInfoPopup();
+
+        mInfoPopupWindow.showAsDropDown(view);
+    }
+
+    // update the content of the popupview
+    private void updateInfoPopup() {
+        if (mInfoPopupWindow == null || mInfoPopupWindow.getContentView() == null) return;
+
+        View popupView = mInfoPopupWindow.getContentView();
+
+        TextView publishButton = (TextView) popupView.findViewById(R.id.publish_note_button);
+        TextView publishTextView = (TextView) popupView.findViewById(R.id.publish_url_textview);
+        TextView wordCountTextView = (TextView) popupView.findViewById(R.id.word_count);
+        ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
+        ImageButton publishShareButton = (ImageButton) popupView.findViewById(R.id.publish_share_url);
+        View actionsView = popupView.findViewById(R.id.publish_actions);
+
+        final ViewSwitcher viewSwitcher = (ViewSwitcher) popupView.findViewById(R.id.publish_view_switcher);
+
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNote != null) {
+                    boolean newPublishedStatus = !mNote.isPublished();
+                    mNote.setPublished(newPublishedStatus);
+                    mNote.save();
+
+                    if (viewSwitcher.getDisplayedChild() == 0) {
+                        viewSwitcher.showNext();
+                    }
+
+                    // reset publish status in 20 seconds if we don't hear back from Simperium
+                    mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+                }
+            }
+        });
+
+        publishTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNote.getPublishedUrl())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        publishCopyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mNote.getPublishedUrl());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        publishShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, mNote.getPublishedUrl());
+                startActivity(Intent.createChooser(i, getString(R.string.share_url)));
+            }
+        });
+
+        updateWordCount(wordCountTextView);
+
+        if (mNote.isPublished()) {
+            publishButton.setText(getString(R.string.published));
+            publishTextView.setText(mNote.getPublishedUrl());
+            actionsView.setVisibility(View.VISIBLE);
+        } else {
+            publishButton.setText(getString(R.string.publish));
+            actionsView.setVisibility(View.GONE);
+        }
+
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        if (currentApp.getSimperium().needsAuthorization()) {
+            viewSwitcher.setVisibility(View.GONE);
+        } else {
+            viewSwitcher.setVisibility(View.VISIBLE);
+            if (viewSwitcher.getDisplayedChild() == 1) {
+                viewSwitcher.showPrevious();
+            }
         }
     }
 
@@ -755,114 +860,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    /**
-     * Note info dialog
-     */
-
-    private void showNoteInfoDialog() {
-        if (mInfoDialog == null) {
-            mInfoDialog = new Dialog(getActivity(), R.style.SimplenotePublishDialog);
-            mInfoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mInfoDialog.setContentView(R.layout.alert_info);
-
-            mInfoDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-
-            TextView publishButton = (TextView) mInfoDialog.findViewById(R.id.publish_note_button);
-            TextView publishTextView = (TextView) mInfoDialog.findViewById(R.id.publish_url_textview);
-            ImageButton publishCopyButton = (ImageButton) mInfoDialog.findViewById(R.id.publish_copy_url);
-
-            final ViewSwitcher viewSwitcher = (ViewSwitcher) mInfoDialog.findViewById(R.id.publish_view_switcher);
-
-            publishButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mNote != null) {
-                        boolean newPublishedStatus = !mNote.isPublished();
-                        mNote.setPublished(newPublishedStatus);
-                        mNote.save();
-
-                        TextView publishingTextView = (TextView) mInfoDialog.findViewById(R.id.publishing_text);
-                        if (newPublishedStatus) {
-                            publishingTextView.setText(getString(R.string.publishing));
-                        } else {
-                            publishingTextView.setText(getString(R.string.unpublishing));
-                        }
-
-                        if (viewSwitcher.getDisplayedChild() == 0) {
-                            viewSwitcher.showNext();
-                        }
-
-                        // reset publish status in 20 seconds if we don't hear back from Simperium
-                        mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
-                    }
-                }
-            });
-
-            publishTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNote.getPublishedUrl())));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            publishCopyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mNote.getPublishedUrl());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else if (mInfoDialog.isShowing()) {
-            mInfoDialog.dismiss();
-            return;
-        }
-
-        updateInfoDialogContent();
-
-        mInfoDialog.show();
-    }
-
-    public void updateInfoDialogContent() {
-        if (mInfoDialog == null || mNote == null)
-            return;
-
-        mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
-
-        TextView publishButton = (TextView) mInfoDialog.findViewById(R.id.publish_note_button);
-        TextView urlTextView = (TextView) mInfoDialog.findViewById(R.id.publish_url_textview);
-        View actionsView = mInfoDialog.findViewById(R.id.publish_actions);
-        TextView wordCountTextView = (TextView) mInfoDialog.findViewById(R.id.word_count);
-
-        updateCharacterCount(wordCountTextView);
-
-        if (mNote.isPublished()) {
-            publishButton.setText(getString(R.string.unpublish_note));
-            urlTextView.setText(mNote.getPublishedUrl());
-            actionsView.setVisibility(View.VISIBLE);
-        } else {
-            publishButton.setText(getString(R.string.publish_note));
-            actionsView.setVisibility(View.GONE);
-        }
-
-        ViewSwitcher viewSwitcher = (ViewSwitcher) mInfoDialog.findViewById(R.id.publish_view_switcher);
-
-        Simplenote currentApp = (Simplenote) getActivity().getApplication();
-        if (currentApp.getSimperium().needsAuthorization()) {
-            viewSwitcher.setVisibility(View.GONE);
-        } else {
-            viewSwitcher.setVisibility(View.VISIBLE);
-            if (viewSwitcher.getDisplayedChild() == 1) {
-                viewSwitcher.showPrevious();
-            }
-        }
-    }
-
     // Resets note publish status if Simperium never returned the new publish status
     private Runnable mPublishTimeoutRunnable = new Runnable() {
         @Override
@@ -881,25 +878,29 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mNote.setPublished(!mNote.isPublished());
                     mNote.save();
 
-                    updateInfoDialogContent();
+                    if (mInfoPopupWindow != null && mInfoPopupWindow.isShowing()) {
+                        ViewSwitcher viewSwitcher = (ViewSwitcher)mInfoPopupWindow.getContentView().findViewById(R.id.publish_view_switcher);
+                        if (viewSwitcher.getDisplayedChild() == 1) {
+                            viewSwitcher.showPrevious();
+                        }
+                    }
                 }
             });
 
         }
     };
 
-    private void updateCharacterCount(TextView textView) {
+    private void updateWordCount(TextView textView) {
         String content = getNoteContentString();
 
         if (content == null || textView == null) return;
 
-        int numChars = content.length();
-        int numWords = (numChars == 0) ? 0 : content.trim().split("\\s+").length;
+        int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
 
-        String characterCountString = getResources().getQuantityString(R.plurals.characterCount, numChars);
-        String wordCountString = getResources().getQuantityString(R.plurals.wordCount, numWords);
+        String wordCountString = getResources().getQuantityString(R.plurals.word_count, numWords);
+        String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
-        textView.setText(String.format("%d " + characterCountString + ", %d " + wordCountString, numChars, numWords));
+        textView.setText(formattedWordCount + " " + wordCountString);
     }
 
     /**
@@ -921,8 +922,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (mPublishTimeoutHandler != null) {
+                                    mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
+                                }
+                                
                                 updateNote(updatedNote);
-                                updateInfoDialogContent();
+                                updateInfoPopup();
                             }
                         });
                     }
@@ -932,6 +937,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
     }
+
 
     @Override
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
