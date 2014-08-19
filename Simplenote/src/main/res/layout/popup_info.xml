@@ -22,8 +22,8 @@
         android:id="@+id/publish_view_switcher"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inAnimation="@anim/slide_out"
-        android:outAnimation="@anim/slide_in">
+        android:inAnimation="@anim/quick_fade_in"
+        android:outAnimation="@anim/quick_fade_out">
 
         <LinearLayout
             android:layout_width="match_parent"

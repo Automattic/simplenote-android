@@ -82,7 +82,7 @@
     <string name="view_map">View map</string>
     <string name="view_in_browser">View in browser</string>
     <string name="link">Link</string>
-    <string name="link_copied">Link copied to clipboard.</string>
+    <string name="link_copied">Link copied to clipboard</string>
     <string name="copy">Copy</string>
 
     <!-- account setup -->

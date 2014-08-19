@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -302,6 +303,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mInfoPopupWindow = new PopupWindow(getActivity());
             mInfoPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
             mInfoPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
             mInfoPopupWindow.setOutsideTouchable(true);
             mInfoPopupWindow.setFocusable(true);
 
@@ -925,7 +927,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 if (mPublishTimeoutHandler != null) {
                                     mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
                                 }
-                                
+
                                 updateNote(updatedNote);
                                 updateInfoPopup();
                             }
