@@ -307,7 +307,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mInfoPopupWindow.setOutsideTouchable(true);
             mInfoPopupWindow.setFocusable(true);
 
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
             View popupView = inflater.inflate(R.layout.popup_info, null);
             mInfoPopupWindow.setContentView(popupView);
         }

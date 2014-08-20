@@ -2,21 +2,20 @@ package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
 import android.widget.TextView;
 
 import java.util.Hashtable;
 
 public class TypefaceCache {
 
+    public static final String TYPEFACE_NAME_SOURCE_SANS = "SourceSansPro-Regular.ttf";
+
     private static final Hashtable<String, Typeface> mTypefaceCache = new Hashtable<String, Typeface>();
 
-    public static Typeface getTypeface(Context context) {
-        if (context == null)
+    public static Typeface getTypeface(Context context, String typefaceName) {
+        if (context == null || typefaceName == null) {
             return null;
-
-        // note that the "light" variation doesn't support bold or bold-italic
-        final String typefaceName = "SourceSansPro-Regular.ttf";
+        }
 
         if (!mTypefaceCache.containsKey(typefaceName)) {
             Typeface typeface = Typeface.createFromAsset(context.getApplicationContext().getAssets(), "fonts/"
@@ -33,16 +32,16 @@ public class TypefaceCache {
      * sets the typeface for a TextView (or TextView descendant such as EditText or Button) based on
      * the passed attributes, defaults to normal typeface
      */
-    protected static void setCustomTypeface(Context context, TextView view, AttributeSet attrs) {
-        if (context == null || view == null)
+    protected static void setCustomTypeface(Context context, TextView view, String typefaceName) {
+        if (context == null || view == null || typefaceName == null) {
             return;
+        }
 
         // skip at design-time
-        if (view.isInEditMode())
-            return;
+        if (view.isInEditMode()) return;
 
 
-        Typeface typeface = getTypeface(context);
+        Typeface typeface = getTypeface(context, typefaceName);
         if (typeface != null) {
             view.setTypeface(typeface);
         }

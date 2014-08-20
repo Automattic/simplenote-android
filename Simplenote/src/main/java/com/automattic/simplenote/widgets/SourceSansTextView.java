@@ -11,16 +11,16 @@ import android.widget.TextView;
 public class SourceSansTextView extends TextView {
     public SourceSansTextView(Context context) {
         super(context);
-        TypefaceCache.setCustomTypeface(context, this, null);
+        TypefaceCache.setCustomTypeface(context, this, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS);
     }
 
     public SourceSansTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypefaceCache.setCustomTypeface(context, this, attrs);
+        TypefaceCache.setCustomTypeface(context, this, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS);
     }
 
     public SourceSansTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypefaceCache.setCustomTypeface(context, this, attrs);
+        TypefaceCache.setCustomTypeface(context, this, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS);
     }
 }
