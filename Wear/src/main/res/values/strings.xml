@@ -2,9 +2,6 @@
 <resources>
 
     <string name="app_name">Simplenote</string>
-    <string name="title_activity_create_note">CreateNoteActivity</string>
-    <string name="hello_round">Hello Round World!</string>
-    <string name="hello_square">Hello Square World!</string>
     <string name="noted">Noted</string>
     <string name="error">Error</string>
 
