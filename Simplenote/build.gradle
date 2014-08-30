@@ -11,15 +11,15 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
-    maven { url "http://simperium.github.io/simplenote-android" }
-    maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
+    maven { url 'http://simperium.github.io/simplenote-android' }
+    maven { url 'http://wordpress-mobile.github.io/Android-PasscodeLock' }
 }
 
 dependencies {
-    compile "com.simperium.android:simperium:0.4.11"
-    compile "com.android.support:support-v4:20.+"
-    compile "com.google:google-analytics:2.0-beta-4"
-    compile "org.wordpress:android-passcodelock:0.0.5"
+    compile 'com.simperium.android:simperium:0.4.11'
+    compile 'com.android.support:support-v4:20.+'
+    compile 'com.google:google-analytics:2.0-beta-4'
+    compile 'org.wordpress:android-passcodelock:0.0.5'
 }
 
 version "1.1.9"
@@ -27,7 +27,7 @@ version "1.1.9"
 android {
 
     compileSdkVersion 20
-    buildToolsVersion "20"
+    buildToolsVersion '20'
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
