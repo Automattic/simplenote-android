@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.automattic.simplenote.R;
+
 /**
  * Created by richard on 8/30/14.
  */
@@ -20,6 +22,7 @@ public class ConfigureWidget extends Activity{
     @Override
     protected void onResume() {
         super.onResume();
+        setContentView(R.layout.widget_layout_configure);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
