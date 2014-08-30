@@ -38,9 +38,16 @@ Run gradle tasks to get a list of available tasks.
 If you do, you can read this web page for more information: [I'm an inline-style link](https://www.google.com)
 
 One way to deal with this error is to remove the following files and then re-import the project:
-* delete the .idea directory
-* remove all the *.iml files.
+* delete the `.idea` directory
+* remove all the `*.iml` files.
 
+You may also have to remove the following tag from the file `simplenote-android.iml`:
+
+ ```
+  <component name="FacetManager">
+     ...remove this element and everything inside such as <facet> elements...
+  </component>
+```
 
 3) Simperium Config
 
