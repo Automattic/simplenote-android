@@ -71,6 +71,21 @@
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+
+        <!-- Widget Provider -->
+        <receiver android:name="com.automattic.simplenote.widget.SimpleNoteWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/simplenote_appwidget_info" />
+        </receiver>
+        <activity
+            android:name="com.automattic.simplenote.widget.ConfigureWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
