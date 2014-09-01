@@ -5,7 +5,7 @@
     android:updatePeriodMillis="10000"
     android:previewImage="@drawable/ic_launcher"
     android:initialLayout="@layout/widget_layout"
-    android:configure="com.automattic.simplenote.widget.ConfigureWidget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
 </appwidget-provider>
+
