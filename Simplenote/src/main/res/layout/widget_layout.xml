@@ -1,7 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:background="@drawable/ab_solid_simplestyle"
+    android:padding="5dp">
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageView2"
+            android:src="@drawable/ic_launcher"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_most_recent_note"
+            android:layout_weight="1"
+            android:text="Most Recent Note"
+            android:textStyle="bold"
+            android:gravity="center_vertical|left" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp">
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageButton"
+            android:src="@drawable/ab_icon_new" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageButton5"
+            android:src="@drawable/ic_drawer_all_notes_selected" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/ic_drawer_trash_selected" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/ab_icon_share" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/imageButton6"
+            android:src="@drawable/ab_icon_search" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/button"
+            android:src="@drawable/ic_action_previous" />
+
+        <ImageButton
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:id="@+id/button2"
+            android:src="@drawable/ic_action_next" />
+
+    </LinearLayout>
 
 </LinearLayout>

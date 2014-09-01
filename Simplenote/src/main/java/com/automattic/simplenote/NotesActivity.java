@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -81,6 +83,12 @@ public class NotesActivity extends Activity implements
     // Google Analytics tracker
     private Tracker mTracker;
 
+    /**
+     * Identifier used only when configuration of the widget is required.  If null then this is
+     * not utilized.
+     */
+    private Integer mWidgetId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -88,6 +96,9 @@ public class NotesActivity extends Activity implements
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+
         Simplenote currentApp = (Simplenote) getApplication();
 
         if (mNotesBucket == null)
@@ -184,7 +195,6 @@ public class NotesActivity extends Activity implements
 
         if (Intent.ACTION_SEND.equals(getIntent().getAction())) {
             // Check share action
-            Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (text != null && !text.equals("")) {
@@ -204,6 +214,26 @@ public class NotesActivity extends Activity implements
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
         setProgressBarIndeterminateVisibility(false);
+
+        // check to see if the OS added widget values to the extras bundle
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            if (mWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID){
+                // signal that widget configuration was O.K. (default behavior)
+                Intent resultValue = new Intent();
+                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
+                setResult(RESULT_OK, resultValue);
+                Log.i("NotesActivity", "Widget id: " +
+                        (extras == null ? "none" : Integer.toString(mWidgetId)));
+            }
+
+
+        }
+
+
     }
 
     @Override
@@ -239,6 +269,7 @@ public class NotesActivity extends Activity implements
             onNoteSelected(mCurrentNote.getSimperiumKey(), true, null);
             mShouldSelectNewNote = false;
         }
+
     }
 
     @Override
