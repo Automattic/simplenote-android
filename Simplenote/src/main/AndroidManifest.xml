@@ -80,12 +80,16 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/simplenote_appwidget_info" />
         </receiver>
+
+        <!-- configuration activity (reserved for future use) -->
+        <!--
         <activity
             android:name="com.automattic.simplenote.widget.ConfigureWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+        -->
     </application>
 
 </manifest>

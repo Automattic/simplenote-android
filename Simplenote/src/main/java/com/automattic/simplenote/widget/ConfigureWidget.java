@@ -10,6 +10,9 @@ import android.util.Log;
 import com.automattic.simplenote.R;
 
 /**
+ * Template for widget configuration activity.  By default this closes autmatically after
+ * 3 seconds.
+ *
  * Created by richard on 8/30/14.
  */
 public class ConfigureWidget extends Activity{
