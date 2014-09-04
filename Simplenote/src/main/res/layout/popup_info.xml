@@ -31,12 +31,38 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+
+            <LinearLayout
                 android:id="@+id/publish_note_button"
-                style="@style/SimplenoteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/publish" />
+                android:background="@drawable/welcome_button_selector"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_large"
+                android:divider="@drawable/vertical_divider_blue"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <com.automattic.simplenote.widgets.SourceSansTextView
+                    android:id="@+id/publish_note_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/padding_small"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:text="@string/publish" />
+
+                <ImageView
+                    android:id="@+id/publish_note_button_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="@dimen/padding_extra_small"
+                    android:layout_marginRight="@dimen/padding_extra_small"
+                    android:src="@drawable/ic_action_remove" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/publish_actions"

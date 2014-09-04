@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -323,7 +324,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         View popupView = mInfoPopupWindow.getContentView();
 
-        TextView publishButton = (TextView) popupView.findViewById(R.id.publish_note_button);
+        View publishButton = popupView.findViewById(R.id.publish_note_button);
+        TextView publishButtonTextView = (TextView)popupView.findViewById(R.id.publish_note_button_text);
+        ImageView publishButtonIcon = (ImageView)popupView.findViewById(R.id.publish_note_button_icon);
         TextView publishTextView = (TextView) popupView.findViewById(R.id.publish_url_textview);
         TextView wordCountTextView = (TextView) popupView.findViewById(R.id.word_count);
         ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
@@ -384,11 +387,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateWordCount(wordCountTextView);
 
         if (mNote.isPublished()) {
-            publishButton.setText(getString(R.string.published));
+            publishButtonTextView.setText(getString(R.string.published));
+            publishButtonIcon.setVisibility(View.VISIBLE);
             publishTextView.setText(mNote.getPublishedUrl());
             actionsView.setVisibility(View.VISIBLE);
         } else {
-            publishButton.setText(getString(R.string.publish));
+            publishButtonTextView.setText(getString(R.string.publish));
+            publishButtonIcon.setVisibility(View.GONE);
             actionsView.setVisibility(View.GONE);
         }
 
