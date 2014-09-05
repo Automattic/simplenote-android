@@ -16,13 +16,13 @@ repositories {
 }
 
 dependencies {
-    compile "com.simperium.android:simperium:0.4.11"
+    compile "com.simperium.android:simperium:0.4.12"
     compile "com.android.support:support-v4:20.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
 }
 
-version "1.1.9"
+version "1.2.0"
 
 android {
 
@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 33
+        versionCode 34
         minSdkVersion 15
         targetSdkVersion 20
 
