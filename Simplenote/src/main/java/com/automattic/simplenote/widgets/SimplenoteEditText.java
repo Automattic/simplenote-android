@@ -1,4 +1,4 @@
-package com.automattic.simplenote.utils;
+package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,22 +13,24 @@ public class SimplenoteEditText extends EditText {
         public void onSelectionChanged(int selStart, int selEnd);
     }
 
-
     private List<OnSelectionChangedListener> listeners;
 
     public SimplenoteEditText(Context context) {
         super(context);
         listeners = new ArrayList<OnSelectionChangedListener>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<OnSelectionChangedListener>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<OnSelectionChangedListener>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
     }
 
     public void addOnSelectionChangedListener(OnSelectionChangedListener o) {

@@ -8,15 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -28,30 +27,35 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
-import com.automattic.simplenote.utils.SimplenoteEditText;
+import com.automattic.simplenote.utils.SpaceTokenizer;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.automattic.simplenote.utils.Typefaces;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
@@ -66,8 +70,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
+    private PopupWindow mInfoPopupWindow;
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
+    private Handler mPublishTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
@@ -107,6 +113,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mAutoSaveHandler = new Handler();
+        mPublishTimeoutHandler = new Handler();
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
@@ -150,15 +157,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
-        if (getActivity() != null) {
-            mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
-        }
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
-        mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
@@ -224,12 +228,184 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setOnTagAddedListener(null);
 
         if (mAutoSaveHandler != null) {
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+        }
+
+        if (mPublishTimeoutHandler != null) {
+            mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
         }
 
         mHighlighter.stop();
 
         super.onPause();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.note_editor, menu);
+
+        if (mNote != null) {
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
+            viewPublishedNoteItem.setVisible(true);
+
+            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            if (mNote.isDeleted())
+                trashItem.setTitle(R.string.undelete);
+            else
+                trashItem.setTitle(R.string.delete);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_view_info:
+                if (mNote != null) {
+                    View menuItemView = getActivity().findViewById(R.id.menu_view_info);
+                    showInfoPopup(menuItemView);
+                }
+                return true;
+            case R.id.menu_share:
+                if (mNote != null) {
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNote.getContent());
+                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
+                }
+                return true;
+            case R.id.menu_delete:
+                if (mNote != null) {
+                    mNote.setDeleted(!mNote.isDeleted());
+                    mNote.setModificationDate(Calendar.getInstance());
+                    mNote.save();
+                    Intent resultIntent = new Intent();
+                    if (mNote.isDeleted())
+                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
+                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
+                }
+                getActivity().finish();
+                return true;
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // show a popup view from the info action bar item
+    private void showInfoPopup(View view) {
+        if (!isAdded() || view == null) return;
+
+        if (mInfoPopupWindow == null) {
+            mInfoPopupWindow = new PopupWindow(getActivity());
+            mInfoPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
+            mInfoPopupWindow.setOutsideTouchable(true);
+            mInfoPopupWindow.setFocusable(true);
+
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View popupView = inflater.inflate(R.layout.popup_info, null);
+            mInfoPopupWindow.setContentView(popupView);
+        }
+
+        updateInfoPopup();
+
+        mInfoPopupWindow.showAsDropDown(view);
+    }
+
+    // update the content of the popupview
+    private void updateInfoPopup() {
+        if (mInfoPopupWindow == null || mInfoPopupWindow.getContentView() == null) return;
+
+        View popupView = mInfoPopupWindow.getContentView();
+
+        View publishButton = popupView.findViewById(R.id.publish_note_button);
+        TextView publishButtonTextView = (TextView)popupView.findViewById(R.id.publish_note_button_text);
+        ImageView publishButtonIcon = (ImageView)popupView.findViewById(R.id.publish_note_button_icon);
+        TextView publishTextView = (TextView) popupView.findViewById(R.id.publish_url_textview);
+        TextView wordCountTextView = (TextView) popupView.findViewById(R.id.word_count);
+        ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
+        ImageButton publishShareButton = (ImageButton) popupView.findViewById(R.id.publish_share_url);
+        View actionsView = popupView.findViewById(R.id.publish_actions);
+
+        final ViewSwitcher viewSwitcher = (ViewSwitcher) popupView.findViewById(R.id.publish_view_switcher);
+
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNote != null) {
+                    boolean newPublishedStatus = !mNote.isPublished();
+                    mNote.setPublished(newPublishedStatus);
+                    mNote.save();
+
+                    if (viewSwitcher.getDisplayedChild() == 0) {
+                        viewSwitcher.showNext();
+                    }
+
+                    // reset publish status in 20 seconds if we don't hear back from Simperium
+                    mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+                }
+            }
+        });
+
+        publishTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNote.getPublishedUrl())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        publishCopyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mNote.getPublishedUrl());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        publishShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, mNote.getPublishedUrl());
+                startActivity(Intent.createChooser(i, getString(R.string.share_url)));
+            }
+        });
+
+        updateWordCount(wordCountTextView);
+
+        if (mNote.isPublished()) {
+            publishButtonTextView.setText(getString(R.string.published));
+            publishButtonIcon.setVisibility(View.VISIBLE);
+            publishTextView.setText(mNote.getPublishedUrl());
+            actionsView.setVisibility(View.VISIBLE);
+        } else {
+            publishButtonTextView.setText(getString(R.string.publish));
+            publishButtonIcon.setVisibility(View.GONE);
+            actionsView.setVisibility(View.GONE);
+        }
+
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        if (currentApp.getSimperium().needsAuthorization()) {
+            viewSwitcher.setVisibility(View.GONE);
+        } else {
+            viewSwitcher.setVisibility(View.VISIBLE);
+            if (viewSwitcher.getDisplayedChild() == 1) {
+                viewSwitcher.showPrevious();
+            }
+        }
     }
 
     private boolean noteIsEmpty() {
@@ -242,7 +418,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     public void setNote(String noteID, String matchOffsets) {
         if (mAutoSaveHandler != null)
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
 
         mPlaceholderView.setVisibility(View.GONE);
 
@@ -335,7 +511,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return newCursorLocation;
     }
 
-    private Runnable autoSaveRunnable = new Runnable() {
+    private Runnable mAutoSaveRunnable = new Runnable() {
         @Override
         public void run() {
             saveAndSyncNote();
@@ -373,8 +549,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
         if (mAutoSaveHandler != null) {
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
-            mAutoSaveHandler.postDelayed(autoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+            mAutoSaveHandler.postDelayed(mAutoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
         }
 
         // Remove search highlight spans when note content changes
@@ -456,60 +632,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return "";
         } else {
             return mTagView.getText().toString();
-        }
-    }
-
-    // Use spaces in tag autocompletion list
-    // From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
-    public class SpaceTokenizer implements Tokenizer {
-
-        public int findTokenStart(CharSequence text, int cursor) {
-            int i = cursor;
-
-            while (i > 0 && text.charAt(i - 1) != ' ') {
-                i--;
-            }
-            while (i < cursor && text.charAt(i) == ' ') {
-                i++;
-            }
-
-            return i;
-        }
-
-        public int findTokenEnd(CharSequence text, int cursor) {
-            int i = cursor;
-            int len = text.length();
-
-            while (i < len) {
-                if (text.charAt(i) == ' ') {
-                    return i;
-                } else {
-                    i++;
-                }
-            }
-
-            return len;
-        }
-
-        public CharSequence terminateToken(CharSequence text) {
-            int i = text.length();
-
-            while (i > 0 && text.charAt(i - 1) == ' ') {
-                i--;
-            }
-
-            if (i > 0 && text.charAt(i - 1) == ' ') {
-                return text;
-            } else {
-                if (text instanceof Spanned) {
-                    SpannableString sp = new SpannableString(text + " ");
-                    TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
-                            Object.class, sp, 0);
-                    return sp;
-                } else {
-                    return text + " ";
-                }
-            }
         }
     }
 
@@ -745,6 +867,53 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    // Resets note publish status if Simperium never returned the new publish status
+    private Runnable mPublishTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!isAdded()) return;
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(
+                            getActivity(),
+                            mNote.isPublished() ? R.string.publish_error : R.string.unpublish_error,
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    mNote.setPublished(!mNote.isPublished());
+                    mNote.save();
+
+                    if (mInfoPopupWindow != null && mInfoPopupWindow.isShowing()) {
+                        ViewSwitcher viewSwitcher = (ViewSwitcher)mInfoPopupWindow.getContentView().findViewById(R.id.publish_view_switcher);
+                        if (viewSwitcher.getDisplayedChild() == 1) {
+                            viewSwitcher.showPrevious();
+                        }
+                    }
+                }
+            });
+
+        }
+    };
+
+    private void updateWordCount(TextView textView) {
+        String content = getNoteContentString();
+
+        if (content == null || textView == null) return;
+
+        int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
+
+        String wordCountString = getResources().getQuantityString(R.plurals.word_count, numWords);
+        String formattedWordCount = NumberFormat.getInstance().format(numWords);
+
+        textView.setText(formattedWordCount + " " + wordCountString);
+    }
+
+    /**
+     * Simperium listeners
+     */
+
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
 
@@ -760,7 +929,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (mPublishTimeoutHandler != null) {
+                                    mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
+                                }
+
                                 updateNote(updatedNote);
+                                updateInfoPopup();
                             }
                         });
                     }
@@ -770,6 +944,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
     }
+
 
     @Override
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {

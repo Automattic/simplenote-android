@@ -149,9 +149,6 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
             LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             TextView textView = (TextView) lf.inflate(R.layout.tags_textview, null);
             textView.setText(tag); // set text
-            Typeface customType = Typefaces.get(getContext(), Simplenote.CUSTOM_FONT_PATH);
-            if (customType != null)
-                textView.setTypeface(customType);
 
             // Capture bitmap of generated textview
             int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);

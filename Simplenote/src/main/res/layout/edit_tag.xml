@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="16dp">
-    <EditText
+    <com.automattic.simplenote.widgets.SourceSansTextView
         android:id="@+id/tag_name_edit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

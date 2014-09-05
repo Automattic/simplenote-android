@@ -1,12 +1,10 @@
-package com.automattic.simplenote.utils;
+package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
-
-import com.automattic.simplenote.Simplenote;
 
 /**
  * A custom span for setting the action bar title font.
@@ -20,7 +18,7 @@ public class TypefaceSpan extends MetricAffectingSpan {
      * Load the {@link Typeface} and apply to a {@link Spannable}.
      */
     public TypefaceSpan(Context context) {
-        mTypeface = Typefaces.get(context, Simplenote.CUSTOM_FONT_PATH);
+        mTypeface = TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS);
     }
 
     @Override

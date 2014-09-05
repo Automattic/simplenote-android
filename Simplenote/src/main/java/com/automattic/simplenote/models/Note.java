@@ -1,6 +1,7 @@
 package com.automattic.simplenote.models;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.automattic.simplenote.R;
 import com.simperium.client.Bucket;
@@ -24,6 +25,7 @@ public class Note extends BucketObject {
 	
 	public static final String BUCKET_NAME="note";
     public static final String PINNED_TAG="pinned";
+    public static final String PUBLISHED_TAG="published";
     public static final String NEW_LINE="\n";
     
     private static final String CONTENT_CONCAT_FORMAT="%s %s";
@@ -45,6 +47,7 @@ public class Note extends BucketObject {
     public static final String CREATED_INDEX_NAME="created";
     public static final String MATCHED_TITLE_INDEX_NAME="matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME="matchedContent";
+    public static final String PUBLISH_URL="http://simp.ly/publish/";
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
@@ -204,6 +207,15 @@ public class Note extends BucketObject {
         setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
 	}
 
+    public String getPublishedUrl() {
+        String urlCode = (String)getProperty(PUBLISH_URL_PROPERTY);
+        if (TextUtils.isEmpty(urlCode)) {
+            return "";
+        }
+
+        return PUBLISH_URL + urlCode;
+    }
+
     public boolean hasTag(String tag){
         List<String> tags = getTags();
         String tagLower = tag.toLowerCase();
@@ -330,35 +342,74 @@ public class Note extends BucketObject {
     }
 
     public boolean isPinned() {
-        JSONArray tags = getSystemTags();
-        int length = tags.length();
-        for (int i=0; i<length; i++) {
-            if (tags.optString(i).equals(PINNED_TAG))
-                return true;
-        }
-        return false;
+        return hasSystemTag(PINNED_TAG);
     }
 
     public void setPinned(boolean isPinned) {
-        if (isPinned && !isPinned()) {
-            // Add pinned system tag
-            getSystemTags().put(PINNED_TAG);
-        } else if (!isPinned && isPinned()) {
-            // Remove pinned system tag
-            JSONArray tags = getSystemTags();
-            JSONArray newTags = new JSONArray();
-            int length = tags.length();
-            try {
-                for (int i = 0; i < length; i++) {
-                    Object val = tags.get(i);
-                    if (!val.equals(PINNED_TAG))
-                        newTags.put(val);
-                }
-            } catch (JSONException e) {
-                // could not update pinned setting
-            }
-            setProperty(SYSTEM_TAGS_PROPERTY, newTags);
+        if (isPinned) {
+            addSystemTag(PINNED_TAG);
+        } else {
+            removeSystemTag(PINNED_TAG);
         }
+    }
+
+    public boolean isPublished() {
+        return hasSystemTag(PUBLISHED_TAG) && !TextUtils.isEmpty(getPublishedUrl());
+    }
+
+    public void setPublished(boolean isPublished) {
+        if (isPublished) {
+            addSystemTag(PUBLISHED_TAG);
+        } else {
+            removeSystemTag(PUBLISHED_TAG);
+        }
+    }
+
+    private boolean hasSystemTag(String tag) {
+        if (TextUtils.isEmpty(tag))
+            return false;
+
+        JSONArray tags = getSystemTags();
+        int length = tags.length();
+        for (int i=0; i<length; i++) {
+            if (tags.optString(i).equals(tag)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void addSystemTag(String tag) {
+        if (TextUtils.isEmpty(tag)) {
+            return;
+        }
+
+        // Ensure we don't add the same tag again
+        if (!hasSystemTag(tag)) {
+            getSystemTags().put(tag);
+        }
+    }
+
+    private void removeSystemTag(String tag) {
+        if (!hasSystemTag(tag)) {
+            return;
+        }
+
+        JSONArray tags = getSystemTags();
+        JSONArray newTags = new JSONArray();
+        int length = tags.length();
+        try {
+            for (int i = 0; i < length; i++) {
+                Object val = tags.get(i);
+                if (!val.equals(tag))
+                    newTags.put(val);
+            }
+        } catch (JSONException e) {
+            // could not update pinned setting
+        }
+
+        setProperty(SYSTEM_TAGS_PROPERTY, newTags);
     }
 
     public static String dateString(Number time, boolean useShortFormat, Context context){

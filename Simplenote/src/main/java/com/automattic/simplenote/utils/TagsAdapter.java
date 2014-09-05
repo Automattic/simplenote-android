@@ -134,7 +134,6 @@ public class TagsAdapter extends BaseAdapter {
         TagMenuItem tagMenuItem = getItem(position);
 
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
-        labelText.setTypeface(Typefaces.get(mContext, Simplenote.CUSTOM_FONT_PATH));
         labelText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition();

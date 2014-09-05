@@ -25,7 +25,7 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_item_list_default_pin_active"/>
 
-        <TextView
+        <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/note_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
+        <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
