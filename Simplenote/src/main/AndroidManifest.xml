@@ -93,7 +93,8 @@
 
         <!-- service for widgets -->
         <service
-            android:name="com.automattic.simplenote.widget.WidgetService"/>
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
     </application>
 

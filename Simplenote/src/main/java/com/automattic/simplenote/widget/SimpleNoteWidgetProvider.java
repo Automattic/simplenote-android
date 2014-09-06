@@ -5,25 +5,17 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.automattic.simplenote.NoteListFragment.NotesCursorAdapter;
-import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.TagsAdapter;
-import com.automattic.simplenote.utils.TagsAdapter.TagMenuItem;
 import com.simperium.client.Bucket;
-import com.simperium.client.Query;
 
 /**
  * Created by richard on 8/30/14.
@@ -31,7 +23,7 @@ import com.simperium.client.Query;
 public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
     public static final String PREF_WIDGET_NOTE = "PREF_WIDGET_NOTE";
-
+    public static final String ACTION_WIDGET_PROVIDER = "SIMPLE_NOTE_WIDGET_PROVIDR";
     private static final String TAG = "WidgetProvider";
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
@@ -52,9 +44,8 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         Log.i(TAG, "onUpdate. Processing " + appWidgetIds.length + " widgets.");
 
 
-
         // create remote views for each app widget.
-        for  (int i = 0; i < appWidgetIds.length; i++){
+        for (int i = 0; i < appWidgetIds.length; i++) {
 
             // create intent that starts widget service
             Intent intent = new Intent(context, WidgetService.class);
@@ -65,7 +56,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
             // create a remote view, specifying the widget layout that should be used.
             RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            rViews.setRemoteAdapter(appWidgetIds[i], intent);
+            rViews.setRemoteAdapter(appWidgetIds[i], R.id.avf_widget_populated, intent);
 
             // specify the sibling to the collection view that is shown when no data is available.
             rViews.setEmptyView(appWidgetIds[i], R.id.tv_widget_empty);
@@ -75,6 +66,11 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
 
         }
+
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
+    }
+
+    private void onUpdateBackup(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         // TODO move to WidgetService.
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
@@ -142,7 +138,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         Log.i(TAG, "Found " + mNotesBucket.count() + " notes");
 
 
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+
 
 
     }
