@@ -45,7 +45,7 @@ public class WidgetService extends RemoteViewsService {
          */
         @Override
         public void onCreate(){
-            Log.i(TAG, "onCreate");
+            Log.i(TAG, "WidgetViewsFactory.onCreate");
 
             // TODO: setup data cursor - 20 seconds before ANR is shown
         }
@@ -53,36 +53,36 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public int getCount(){
             // TODO return count from cursor.
-            Log.i(TAG, "onCreate");
-            return 0;
+            Log.i(TAG, "WidgetViewsFactory.getCount");
+            return 1;
         }
 
         @Override
         public void onDataSetChanged() {
-            Log.i(TAG, "onDataSetChanged");
+            Log.i(TAG, "WidgetViewsFactory.onDataSetChanged");
 
         }
 
         @Override
         public int getViewTypeCount() {
-            Log.i(TAG, "getViewTypeCount");
-            return 0;
+            Log.i(TAG, "WidgetViewsFactory.getViewTypeCount");
+            return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            Log.i(TAG, "getItemId");
+            Log.i(TAG, "WidgetViewsFactory.getItemId");
             return 0;
         }
 
         @Override
         public void onDestroy() {
-            Log.i(TAG, "onDestroy");
+            Log.i(TAG, "WidgetViewsFactory.onDestroy");
         }
 
         @Override
         public RemoteViews getLoadingView() {
-            Log.i(TAG, "getLoadingView");
+            Log.i(TAG, "WidgetViewsFactory.getLoadingView");
             return null;
         }
 
@@ -95,7 +95,7 @@ public class WidgetService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            Log.i(TAG, "getViewAt");
+            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position);
 
             // Create a view that will show data for this item.
             RemoteViews result = new RemoteViews(mContext.getPackageName(),
@@ -108,7 +108,7 @@ public class WidgetService extends RemoteViewsService {
 
         @Override
         public boolean hasStableIds() {
-            Log.i(TAG, "hasStableIds");
+            Log.i(TAG, "WidgetViewsFactory.hasStableIds");
             return false;
         }
     }
