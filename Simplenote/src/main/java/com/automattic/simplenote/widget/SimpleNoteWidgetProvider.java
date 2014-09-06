@@ -71,6 +71,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             rViews.setEmptyView(appWidgetIds[i], R.id.tv_widget_empty);
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
+            // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.avf_widget_populated);
 
 
         }
@@ -139,6 +140,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         }
 
         Log.i(TAG, "Found " + mNotesBucket.count() + " notes");
+
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
