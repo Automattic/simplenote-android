@@ -6,13 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.automattic.simplenote.NoteListFragment.NotesCursorAdapter;
 import com.automattic.simplenote.NotesActivity;
+import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -46,9 +49,33 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Log.i(TAG, "onUpdate");
+        Log.i(TAG, "onUpdate. Processing " + appWidgetIds.length + " widgets.");
 
 
+
+        // create remote views for each app widget.
+        for  (int i = 0; i < appWidgetIds.length; i++){
+
+            // create intent that starts widget service
+            Intent intent = new Intent(context, WidgetService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+
+            // add the intent URI as an extra so the OS an match it with the service.
+            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+            // create a remote view, specifying the widget layout that should be used.
+            RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+            rViews.setRemoteAdapter(appWidgetIds[i], intent);
+
+            // specify the sibling to the collection view that is shown when no data is available.
+            rViews.setEmptyView(appWidgetIds[i], R.id.tv_widget_empty);
+
+            appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
+
+
+        }
+
+        // TODO move to WidgetService.
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
 
         if (mNotesBucket == null) {
@@ -112,6 +139,8 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         }
 
         Log.i(TAG, "Found " + mNotesBucket.count() + " notes");
+
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 
     }

@@ -1,89 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:background="@drawable/ab_solid_simplestyle"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:padding="5dp">
 
 
-
-
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/ib_app_icon"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/ib_app_icon"
-            android:src="@drawable/logo_login"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_login" />
 
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/tv_most_recent_note"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:gravity="center_vertical|left"
-            android:layout_marginLeft="10dp"
-            android:hint="@string/widget_hint" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/tv_widget_populated"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tv_widget_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="This widget is empty."
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="2dp">
 
         <ImageButton
+            android:id="@+id/imageButton"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/imageButton"
             android:src="@drawable/ab_icon_new" />
 
         <ImageButton
+            android:id="@+id/imageButton5"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/imageButton5"
             android:src="@drawable/ic_drawer_all_notes_selected" />
 
         <ImageButton
+            android:id="@+id/imageButton3"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/imageButton3"
             android:src="@drawable/ic_drawer_trash_selected" />
 
         <ImageButton
+            android:id="@+id/imageButton2"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/imageButton2"
             android:src="@drawable/ab_icon_share" />
 
         <ImageButton
+            android:id="@+id/imageButton6"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/imageButton6"
             android:src="@drawable/ab_icon_search" />
 
         <ImageButton
+            android:id="@+id/button"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/button"
             android:src="@drawable/ic_action_previous" />
 
         <ImageButton
+            android:id="@+id/button2"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
-            android:id="@+id/button2"
             android:src="@drawable/ic_action_next" />
 
     </LinearLayout>
 
 </LinearLayout>
+

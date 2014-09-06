@@ -90,6 +90,11 @@
             </intent-filter>
         </activity>
         -->
+
+        <!-- service for widgets -->
+        <service
+            android:name="com.automattic.simplenote.widget.WidgetService"/>
+
     </application>
 
 </manifest>
