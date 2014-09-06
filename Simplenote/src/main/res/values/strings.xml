@@ -138,5 +138,6 @@
     <string name="theme">Theme</string>
 
     <string name="version">Version</string>
+    <string name="widget_hint">Add a happy note to your day ...</string>
 
 </resources>
