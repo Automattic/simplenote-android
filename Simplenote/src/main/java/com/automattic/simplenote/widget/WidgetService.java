@@ -38,6 +38,8 @@ public class WidgetService extends RemoteViewsService {
             mContext = ctx;
             mWidgetId = i.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
+
+            Log.i(TAG, "WidgetViewsFactory.<<init>> for id " + mWidgetId);
         }
 
         /**
@@ -83,7 +85,12 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getLoadingView() {
             Log.i(TAG, "WidgetViewsFactory.getLoadingView");
-            return null;
+
+            // Create a view that will show data for this item.
+            RemoteViews result = new RemoteViews(mContext.getPackageName(),
+                    R.layout.widget_note_item);
+
+            return result;
         }
 
         /**
@@ -100,8 +107,6 @@ public class WidgetService extends RemoteViewsService {
             // Create a view that will show data for this item.
             RemoteViews result = new RemoteViews(mContext.getPackageName(),
                     R.layout.widget_note_item);
-            result.setTextViewText(R.id.tv_widget_note_item, "Item " + Integer.toString(position));
-
 
             return result;
         }
