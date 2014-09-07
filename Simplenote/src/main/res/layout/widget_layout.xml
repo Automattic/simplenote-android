@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/ib_app_icon"
+            android:id="@+id/ib_widget_app_icon"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:scaleType="fitCenter"
@@ -57,43 +57,43 @@
         android:padding="2dp">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/ib_widget_new"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ab_icon_new" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/ib_widget_showallnotes"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ic_drawer_all_notes_selected" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/ib_widget_delete"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ic_drawer_trash_selected" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/ib_widget_share"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ab_icon_share" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/ib_widget_search"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ab_icon_search" />
 
         <ImageButton
-            android:id="@+id/button"
+            android:id="@+id/ib_widget_backward"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ic_action_previous" />
 
         <ImageButton
-            android:id="@+id/btn_widget_forward"
+            android:id="@+id/ib_widget_forward"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ic_action_next" />

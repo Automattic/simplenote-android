@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.CursorIndexOutOfBoundsException;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -214,8 +215,11 @@ public class WidgetService extends RemoteViewsService {
             // Create a view that will show data for this item.
             RemoteViews result = new RemoteViews(mContext.getPackageName(),
                     R.layout.widget_note_item);
-
-            result.setTextViewText(R.id.tv_widget_note_item, mNoteCursor.getObject().getTitle());
+            try {
+                result.setTextViewText(R.id.tv_widget_note_item, mNoteCursor.getObject().getTitle());
+            } catch (CursorIndexOutOfBoundsException ex){
+                throw ex;
+            }
             Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: "
                     + mNoteCursor.getObject().getTitle());
             return result;

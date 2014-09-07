@@ -29,6 +29,14 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
      * Intent with this action is broadcast whenever the foward button is tapped.
      */
     public static final String ACTION_FORWARD = "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
+    public static final String ACTION_BACKWARD = "com.automattic.simplenote.action.ACTION_WIDGET_BACKWARD";
+    public static final String ACTION_DELETE_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_DELETE";
+    public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_NEW_NOTE";
+    public static final String ACTION_SEARCH_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_SEARCH";
+    public static final String ACTION_SHARE_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_SHARE";
+    public static final String ACTION_SHOW_ALL_NOTES = "com.automattic.simplenote.action.ACTION_WIDGET_SHOW_ALL";
+    public static final String ACTION_LAUNCH_APP = "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
+    public static final String ACTION_NOTIFY_DATA_SET_CHANGED = "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,8 +44,11 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         Log.i(TAG, "onReceive: intent " + intent.getAction().toString());
 
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
+        String action = intent.getAction();
+        int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
 
-        if (intent.getAction().equals(ACTION_FORWARD)){
+        if (action.equals(ACTION_FORWARD)){
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             int currentNote = prefs.getInt(WidgetService.PREF_WIDGET_NOTE, WidgetService.NO_NOTE);
 
@@ -51,15 +62,16 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             editor.putInt(WidgetService.PREF_WIDGET_NOTE, currentNote);
             editor.commit();
 
-            int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
+
 
             if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
                 throw new IllegalArgumentException("intent has no widget id.");
             }
 
-            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
+            // awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
             Log.i(TAG, "note set to " + currentNote + ". Updating widget id " + widgetId);
+        } else if (action.equals(ACTION_NOTIFY_DATA_SET_CHANGED)){
+            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
         }
 
     }
@@ -97,20 +109,55 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
+    /**
+     * Register pending intents to widget UI buttons.
+     * @param ctx context needed to access remote view.
+     * @param appWidgetManager widget manager that will be updated
+     * @param widgetId widget id managed by widget manager.
+     */
     private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId){
 
-        // pending intents
-        PendingIntent piForward = setupForwardPendingIntent(ctx, widgetId);
+        PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
+        piBuilder.setLayout(R.layout.widget_layout);
+        piBuilder.setWidgetId(widgetId);
 
-        // setup pending intents for buttons
-        // Create a view that will show data for this item.
-        RemoteViews rViews = new RemoteViews(ctx.getPackageName(),
-                R.layout.widget_layout);
-        rViews.setOnClickPendingIntent(R.id.btn_widget_forward, piForward);
-        appWidgetManager.updateAppWidget(widgetId, rViews);
-        Log.i(TAG, "setup forward intent)");
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_BACKWARD);
+        piBuilder.setChildView(R.id.ib_widget_backward);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_FORWARD);
+        piBuilder.setChildView(R.id.ib_widget_forward);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_DELETE_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_delete);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_NEW_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_new);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SEARCH_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_search);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SHARE_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_share);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SHOW_ALL_NOTES);
+        piBuilder.setChildView(R.id.ib_widget_showallnotes);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_LAUNCH_APP);
+        piBuilder.setChildView(R.id.ib_widget_app_icon);
+        piBuilder.setOnClickPendingIntent();
+
+
 
     }
+
+
 
     private PendingIntent setupForwardPendingIntent(Context ctx,
                                                     int appWidgetId ){
@@ -147,5 +194,89 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
     }
 
 
+    private static class PendingIntentBuilder{
 
+        private final Context mContext;
+        private final AppWidgetManager mManager;
+        private Integer mLayoutResId;
+        private Integer mChildViewResId;
+        private Integer mWidgetId;
+        private String mAction;
+
+        public PendingIntentBuilder(Context ctx, AppWidgetManager manager){
+            mContext = ctx;
+            mManager = manager;
+
+        }
+
+        public PendingIntent build(){
+            validate(mLayoutResId, "layout resource id", "setLayout(int)");
+            validate(mChildViewResId, "child resource id", "setChildView(int)");
+            validate(mAction, "action", "setAction(String)");
+            validate(mWidgetId, "widget id", "setWidgetId(int)");
+
+            Intent i = new Intent(mContext, SimpleNoteWidgetProvider.class);
+            i.setAction(mAction);
+            i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
+
+
+            return PendingIntent.getBroadcast(mContext, 0, i,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+        }
+
+        private void validate(Object underTest, String name, String setterName){
+            if (underTest == null){
+                throw new IllegalStateException(new StringBuilder().append(name)
+                        .append(" cannot be null. Call ")
+                        .append(setterName)
+                        .toString());
+            }
+        }
+
+        public PendingIntentBuilder setLayout(int resId){
+            mLayoutResId = resId;
+            return this;
+        }
+
+        public PendingIntentBuilder setChildView(int resId){
+            mChildViewResId = resId;
+            return this;
+        }
+
+        public PendingIntentBuilder setAction(String action){
+            mAction = action;
+            return this;
+        }
+
+        public PendingIntentBuilder setWidgetId(int widgetId){
+            mWidgetId = widgetId;
+            return this;
+        }
+
+        public void setOnClickPendingIntent(){
+            // setup pending intents for buttons
+            // Create a view that will show data for this item.
+            RemoteViews rViews = new RemoteViews(mContext.getPackageName(),
+                    mLayoutResId);
+            rViews.setOnClickPendingIntent(mChildViewResId, build());
+            mManager.updateAppWidget(mWidgetId, rViews);
+
+            Log.i(TAG, "onClickPendingIntent set for remote view with action " + mAction);
+
+        }
+
+        /**
+         * Clears out everything set through builder functions.  The values passed to the
+         * constructor are untouched.
+         */
+        public void clear(){
+            mLayoutResId = null;
+            mChildViewResId = null;
+            mAction = null;
+
+        }
+
+
+    }
 }
