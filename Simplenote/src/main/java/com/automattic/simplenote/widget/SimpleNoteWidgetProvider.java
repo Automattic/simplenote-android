@@ -3,24 +3,19 @@ package com.automattic.simplenote.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.appwidget.AppWidgetProviderInfo;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.Simplenote;
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.TagsAdapter;
-import com.simperium.client.Bucket;
+import com.automattic.simplenote.widget.commands.NavigateNote;
+import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
+import com.automattic.simplenote.widget.commands.UnimplementedCommand;
+import com.automattic.simplenote.widget.commands.WidgetCommand;
 
-import java.util.List;
+import java.util.Hashtable;
 
 /**
  * Created by richard on 8/30/14.
@@ -42,6 +37,22 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
     public static final String ACTION_LAUNCH_APP = "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
     public static final String ACTION_NOTIFY_DATA_SET_CHANGED = "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
 
+    private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
+
+    public SimpleNoteWidgetProvider() {
+        super();
+
+        mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
+        mCommandSet.put(ACTION_BACKWARD, new NavigateNote(false)); // nav to previous note
+        mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED, new NotifyDataSetChange());
+        mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_DELETE_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
+        mCommandSet.put(ACTION_NEW_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_SHARE_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_SHOW_ALL_NOTES, new UnimplementedCommand());
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
@@ -50,36 +61,12 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
         String action = intent.getAction();
 
-
-
-        if (action.equals(ACTION_FORWARD)){
-
-            int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-
-            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
-                throw new IllegalArgumentException("intent has no widget id.");
-            }
-
-            RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            rViews.showNext(R.id.avf_widget_populated);
-            awManager.updateAppWidget(widgetId, rViews);
-
-            // awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
-            Log.i(TAG, "show next note for widget id " + widgetId);
-        } else if (action.equals(ACTION_NOTIFY_DATA_SET_CHANGED)){
-
-            // update all widgets
-            int ids[] = awManager.getAppWidgetIds(new ComponentName(context, SimpleNoteWidgetProvider.class));
-            if (ids != null){
-                for (int i : ids) {
-                    Log.i(TAG, "notify data set changed. widget id: " + Integer.toString(i));
-                    awManager.notifyAppWidgetViewDataChanged(i, R.id.avf_widget_populated);
-                }
-            }
-
-
+        if (mCommandSet.containsKey(action)){
+            mCommandSet.get(action).run(context, intent);
+        } else {
+            new UnimplementedCommand().run(context, intent);
         }
+
 
     }
 
