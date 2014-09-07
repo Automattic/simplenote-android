@@ -86,10 +86,10 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
 
             // create a remote view, specifying the widget layout that should be used.
             RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            rViews.setRemoteAdapter(appWidgetIds[i], R.id.avf_widget_populated, intent);
+            rViews.setRemoteAdapter(R.id.avf_widget_populated, intent);
 
             // specify the sibling to the collection view that is shown when no data is available.
-            rViews.setEmptyView(appWidgetIds[i], R.id.tv_widget_empty);
+            rViews.setEmptyView(R.id.tv_widget_empty, R.id.tv_widget_empty);
 
             setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
 
