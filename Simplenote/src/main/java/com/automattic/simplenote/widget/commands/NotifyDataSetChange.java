@@ -12,7 +12,7 @@ import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
  */
 public class NotifyDataSetChange extends WidgetCommand {
 
-    public NotifyDataSetChange(){
+    public NotifyDataSetChange() {
         super(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED, false);
     }
 
@@ -22,7 +22,7 @@ public class NotifyDataSetChange extends WidgetCommand {
         int ids[] = params.mWidgetManager.getAppWidgetIds(
                 new ComponentName(params.mContext, SimpleNoteWidgetProvider.class));
 
-        if (ids != null){
+        if (ids != null) {
             for (int i : ids) {
                 Log.i(TAG, "notify data set changed. widget id: " + Integer.toString(i));
                 params.mWidgetManager.notifyAppWidgetViewDataChanged(i, R.id.avf_widget_populated);
@@ -31,7 +31,7 @@ public class NotifyDataSetChange extends WidgetCommand {
 
     }
 
-    protected RemoteViews getRemoteViews(ExecParameters params){
-       return null;
+    protected RemoteViews getRemoteViews(ExecParameters params) {
+        return null;
     }
 }

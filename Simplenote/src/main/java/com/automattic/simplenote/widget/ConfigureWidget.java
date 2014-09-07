@@ -12,10 +12,10 @@ import com.automattic.simplenote.R;
 /**
  * Template for widget configuration activity.  By default this closes autmatically after
  * 3 seconds.
- *
+ * <p/>
  * Created by richard on 8/30/14.
  */
-public class ConfigureWidget extends Activity{
+public class ConfigureWidget extends Activity {
 
     private static final String TAG = ConfigureWidget.class.getSimpleName();
     private int mWidgetId;
@@ -36,8 +36,8 @@ public class ConfigureWidget extends Activity{
         }
 
         setResult(RESULT_CANCELED);
-        mHandler.postDelayed(new Runnable(){
-            public void run(){
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
                 Log.i(TAG, "closing widget configuration activity");
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);

@@ -8,8 +8,7 @@ import android.widget.LinearLayout;
 /**
  * Created by dan on 7/10/13.
  */
-public class AnimatedLinearLayout extends LinearLayout
-{
+public class AnimatedLinearLayout extends LinearLayout {
     private static final String TAG = AnimatedLinearLayout.class.getName();
 
     public AnimatedLinearLayout(Context context) {
@@ -20,9 +19,8 @@ public class AnimatedLinearLayout extends LinearLayout
         super(context, attrs);
     }
 
-    public float getXFraction()
-    {
-        int width =  ((Activity) getContext()).getWindowManager().getDefaultDisplay().getWidth();
+    public float getXFraction() {
+        int width = ((Activity) getContext()).getWindowManager().getDefaultDisplay().getWidth();
         return (width == 0) ? 0 : getX() / (float) width;
     }
 

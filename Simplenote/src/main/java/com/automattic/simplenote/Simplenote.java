@@ -13,33 +13,29 @@ import com.simperium.client.BucketNameInvalid;
 import org.wordpress.passcodelock.AppLockManager;
 
 public class Simplenote extends Application {
-	
-	// log tag
-	public static final String TAG = "Simplenote";
-	
-	// intent IDs
-	public static final int INTENT_PREFERENCES  = 1;
-	public static final int INTENT_EDIT_NOTE	= 2;
 
-    private static final String AUTH_PROVIDER = "simplenote.com";
+    // log tag
+    public static final String TAG = "Simplenote";
 
+    // intent IDs
+    public static final int INTENT_PREFERENCES = 1;
+    public static final int INTENT_EDIT_NOTE = 2;
     public static final String CUSTOM_FONT_PATH = "fonts/SourceSansPro-Regular.ttf";
-
     public static final String DELETED_NOTE_ID = "deletedNoteId";
+    private static final String AUTH_PROVIDER = "simplenote.com";
+    private Simperium mSimperium;
+    private Bucket<Note> mNotesBucket;
+    private Bucket<Tag> mTagsBucket;
 
-	private Simperium mSimperium;
-	private Bucket<Note> mNotesBucket;
-	private Bucket<Tag> mTagsBucket;
-		
-	public void onCreate(){
-		super.onCreate();
+    public void onCreate() {
+        super.onCreate();
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
         mSimperium = Simperium.newClient(
-            BuildConfig.SIMPERIUM_APP_ID,
-            BuildConfig.SIMPERIUM_APP_KEY,
-            this
+                BuildConfig.SIMPERIUM_APP_ID,
+                BuildConfig.SIMPERIUM_APP_KEY,
+                this
         );
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);
@@ -55,18 +51,18 @@ public class Simplenote extends Application {
         } catch (BucketNameInvalid e) {
             throw new RuntimeException("Could not create bucket", e);
         }
-	}
-		
-	public Simperium getSimperium(){
-		return mSimperium;
-	}
-	
-	public Bucket<Note> getNotesBucket(){
-		return mNotesBucket;
-	}
-	
-	public Bucket<Tag> getTagsBucket(){
-		return mTagsBucket;
-	}
-	
+    }
+
+    public Simperium getSimperium() {
+        return mSimperium;
+    }
+
+    public Bucket<Note> getNotesBucket() {
+        return mNotesBucket;
+    }
+
+    public Bucket<Tag> getTagsBucket() {
+        return mTagsBucket;
+    }
+
 }

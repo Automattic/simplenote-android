@@ -46,7 +46,7 @@ public class NoteEditorActivity extends Activity {
                     intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false));
             if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
-                    intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
+                        intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
 
             mNoteEditorFragment = new NoteEditorFragment();
             mNoteEditorFragment.setArguments(arguments);
@@ -54,7 +54,7 @@ public class NoteEditorActivity extends Activity {
                     .add(R.id.note_editor_container, mNoteEditorFragment, NotesActivity.TAG_NOTE_EDITOR)
                     .commit();
         } else {
-            mNoteEditorFragment = (NoteEditorFragment)getFragmentManager().findFragmentByTag(NotesActivity.TAG_NOTE_EDITOR);
+            mNoteEditorFragment = (NoteEditorFragment) getFragmentManager().findFragmentByTag(NotesActivity.TAG_NOTE_EDITOR);
         }
     }
 

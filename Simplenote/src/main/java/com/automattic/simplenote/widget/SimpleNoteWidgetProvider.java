@@ -20,9 +20,7 @@ import java.util.Hashtable;
 /**
  * Created by richard on 8/30/14.
  */
-public class SimpleNoteWidgetProvider extends AppWidgetProvider{
-
-    private static final String TAG = "WidgetProvider";
+public class SimpleNoteWidgetProvider extends AppWidgetProvider {
 
     /**
      * Intent with this action is broadcast whenever the foward button is tapped.
@@ -36,7 +34,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
     public static final String ACTION_SHOW_ALL_NOTES = "com.automattic.simplenote.action.ACTION_WIDGET_SHOW_ALL";
     public static final String ACTION_LAUNCH_APP = "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
     public static final String ACTION_NOTIFY_DATA_SET_CHANGED = "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
-
+    private static final String TAG = "WidgetProvider";
     private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
 
     public SimpleNoteWidgetProvider() {
@@ -61,7 +59,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
         String action = intent.getAction();
 
-        if (mCommandSet.containsKey(action)){
+        if (mCommandSet.containsKey(action)) {
             mCommandSet.get(action).run(context, intent);
         } else {
             new UnimplementedCommand().run(context, intent);
@@ -104,11 +102,12 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
     /**
      * Register pending intents to widget UI buttons.
-     * @param ctx context needed to access remote view.
+     *
+     * @param ctx              context needed to access remote view.
      * @param appWidgetManager widget manager that will be updated
-     * @param widgetId widget id managed by widget manager.
+     * @param widgetId         widget id managed by widget manager.
      */
-    private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId){
+    private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
 
         PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
         piBuilder.setLayout(R.layout.widget_layout);
@@ -170,7 +169,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
     }
 
 
-    private static class PendingIntentBuilder{
+    private static class PendingIntentBuilder {
 
         private final Context mContext;
         private final AppWidgetManager mManager;
@@ -179,13 +178,13 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         private Integer mWidgetId;
         private String mAction;
 
-        public PendingIntentBuilder(Context ctx, AppWidgetManager manager){
+        public PendingIntentBuilder(Context ctx, AppWidgetManager manager) {
             mContext = ctx;
             mManager = manager;
 
         }
 
-        public PendingIntent build(){
+        public PendingIntent build() {
 
             validate(mLayoutResId, "layout resource id", "setLayout(int)");
             validate(mChildViewResId, "child resource id", "setChildView(int)");
@@ -202,8 +201,8 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
         }
 
-        private void validate(Object underTest, String name, String setterName){
-            if (underTest == null){
+        private void validate(Object underTest, String name, String setterName) {
+            if (underTest == null) {
                 throw new IllegalStateException(new StringBuilder().append(name)
                         .append(" cannot be null. Call ")
                         .append(setterName)
@@ -211,27 +210,27 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             }
         }
 
-        public PendingIntentBuilder setLayout(int resId){
+        public PendingIntentBuilder setLayout(int resId) {
             mLayoutResId = resId;
             return this;
         }
 
-        public PendingIntentBuilder setChildView(int resId){
+        public PendingIntentBuilder setChildView(int resId) {
             mChildViewResId = resId;
             return this;
         }
 
-        public PendingIntentBuilder setAction(String action){
+        public PendingIntentBuilder setAction(String action) {
             mAction = action;
             return this;
         }
 
-        public PendingIntentBuilder setWidgetId(int widgetId){
+        public PendingIntentBuilder setWidgetId(int widgetId) {
             mWidgetId = widgetId;
             return this;
         }
 
-        public void setPendingIntentTemplate(){
+        public void setPendingIntentTemplate() {
             // setup pending intents for buttons
             // Create a view that will show data for this item.
             RemoteViews rViews = new RemoteViews(mContext.getPackageName(),
@@ -240,7 +239,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             Log.i(TAG, "setPendingIntentTemplate set for remote view with action " + mAction);
         }
 
-        public void setOnClickPendingIntent(){
+        public void setOnClickPendingIntent() {
 
 
             // setup pending intents for buttons
@@ -258,7 +257,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
          * Clears out everything set through builder functions.  The values passed to the
          * constructor are untouched.
          */
-        public void clear(){
+        public void clear() {
             mLayoutResId = null;
             mChildViewResId = null;
             mAction = null;

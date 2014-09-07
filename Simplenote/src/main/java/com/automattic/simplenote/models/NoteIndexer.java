@@ -9,7 +9,7 @@ import java.util.List;
 public class NoteIndexer implements Indexer<Note> {
 
     @Override
-    public List<Index> index(Note note){
+    public List<Index> index(Note note) {
 
         List<Index> indexes = new ArrayList<Index>();
         indexes.add(new Index(Note.PINNED_INDEX_NAME, note.isPinned()));

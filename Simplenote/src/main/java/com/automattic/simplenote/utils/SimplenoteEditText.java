@@ -9,12 +9,8 @@ import java.util.List;
 
 public class SimplenoteEditText extends EditText {
 
-    public interface OnSelectionChangedListener {
-        public void onSelectionChanged(int selStart, int selEnd);
-    }
-
-
     private List<OnSelectionChangedListener> listeners;
+
 
     public SimplenoteEditText(Context context) {
         super(context);
@@ -42,5 +38,9 @@ public class SimplenoteEditText extends EditText {
             for (OnSelectionChangedListener l : listeners)
                 l.onSelectionChanged(selStart, selEnd);
         }
+    }
+
+    public interface OnSelectionChangedListener {
+        public void onSelectionChanged(int selStart, int selEnd);
     }
 }

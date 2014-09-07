@@ -13,7 +13,7 @@ public class NavigateNote extends WidgetCommand {
 
     private final boolean mForward;
 
-    public NavigateNote(boolean forward){
+    public NavigateNote(boolean forward) {
         super(SimpleNoteWidgetProvider.ACTION_FORWARD, true);
         mForward = forward;
     }
@@ -32,7 +32,7 @@ public class NavigateNote extends WidgetCommand {
         Log.i(TAG, "show next note for widget id " + params.mWidgetId);
     }
 
-    protected RemoteViews getRemoteViews(ExecParameters params){
-       return new RemoteViews(params.mContext.getPackageName(), R.layout.widget_layout);
+    protected RemoteViews getRemoteViews(ExecParameters params) {
+        return new RemoteViews(params.mContext.getPackageName(), R.layout.widget_layout);
     }
 }

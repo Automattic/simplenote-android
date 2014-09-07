@@ -8,7 +8,7 @@ import android.widget.Toast;
  */
 public class UnimplementedCommand extends WidgetCommand {
 
-    public UnimplementedCommand(){
+    public UnimplementedCommand() {
         super(null, false);
     }
 
@@ -21,7 +21,7 @@ public class UnimplementedCommand extends WidgetCommand {
 
     }
 
-    protected RemoteViews getRemoteViews(ExecParameters params){
-       return null;
+    protected RemoteViews getRemoteViews(ExecParameters params) {
+        return null;
     }
 }

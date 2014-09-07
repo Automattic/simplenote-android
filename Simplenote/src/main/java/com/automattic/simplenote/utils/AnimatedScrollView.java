@@ -8,8 +8,7 @@ import android.widget.ScrollView;
 /**
  * Created by dan on 7/10/13.
  */
-public class AnimatedScrollView extends ScrollView
-{
+public class AnimatedScrollView extends ScrollView {
     private static final String TAG = AnimatedScrollView.class.getName();
 
     public AnimatedScrollView(Context context) {
@@ -20,9 +19,8 @@ public class AnimatedScrollView extends ScrollView
         super(context, attrs);
     }
 
-    public float getXFraction()
-    {
-        int width =  ((Activity) getContext()).getWindowManager().getDefaultDisplay().getWidth();
+    public float getXFraction() {
+        int width = ((Activity) getContext()).getWindowManager().getDefaultDisplay().getWidth();
         return (width == 0) ? 0 : getX() / (float) width;
     }
 

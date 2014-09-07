@@ -55,6 +55,10 @@ public class NotesActivity extends Activity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
+    public static String TAG_NOTE_LIST = "noteList";
+    public static String TAG_NOTE_EDITOR = "noteEditor";
+    protected Bucket<Note> mNotesBucket;
+    protected Bucket<Tag> mTagsBucket;
     private boolean mIsLargeScreen, mIsLandscape, mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -63,12 +67,9 @@ public class NotesActivity extends Activity implements
     private NoteListFragment mNoteListFragment;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
-    protected Bucket<Note> mNotesBucket;
-    protected Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
     private ActionBar mActionBar;
     private MenuItem mEmptyTrashMenuItem;
-
     // Menu drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -76,10 +77,6 @@ public class NotesActivity extends Activity implements
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
     private CharSequence mActionBarTitle;
-
-    public static String TAG_NOTE_LIST = "noteList";
-    public static String TAG_NOTE_EDITOR = "noteEditor";
-
     // Google Analytics tracker
     private Tracker mTracker;
 
@@ -88,6 +85,36 @@ public class NotesActivity extends Activity implements
      * not utilized.
      */
     private Integer mWidgetId;
+    // Tags bucket listener
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        void updateNavigationDrawer() {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    updateNavigationDrawerItems();
+                }
+            });
+        }
+
+        @Override
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+            // noop
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +248,7 @@ public class NotesActivity extends Activity implements
             mWidgetId = extras.getInt(
                     AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
-            if (mWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID){
+            if (mWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 // signal that widget configuration was O.K. (default behavior)
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
@@ -255,7 +282,7 @@ public class NotesActivity extends Activity implements
         updateNavigationDrawerItems();
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
-        Simplenote currentApp = (Simplenote)getApplication();
+        Simplenote currentApp = (Simplenote) getApplication();
         if (currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED) {
             if (-1 == mTagsAdapter.getPosition(mSelectedTag)) {
                 mSelectedTag = null;
@@ -339,30 +366,6 @@ public class NotesActivity extends Activity implements
         }
     }
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            mSelectedTag = mTagsAdapter.getItem(position);
-            checkEmptyListText(false);
-            // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mDrawerList);
-
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
-            getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1)
-                mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
-        }
-    }
-
     public TagsAdapter.TagMenuItem getSelectedTag() {
         return mSelectedTag;
     }
@@ -431,37 +434,6 @@ public class NotesActivity extends Activity implements
         // noop, NoteEditorFragment will handle this
 
     }
-
-    // Tags bucket listener
-    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
-        void updateNavigationDrawer() {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateNavigationDrawerItems();
-                }
-            });
-        }
-
-        @Override
-        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
-            // noop
-        }
-    };
 
     public boolean isLargeScreenLandscape() {
         return mIsLargeScreen && mIsLandscape;
@@ -759,7 +731,6 @@ public class NotesActivity extends Activity implements
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -803,7 +774,7 @@ public class NotesActivity extends Activity implements
         List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
         if (mUndoBarController != null && deletedNoteIds != null) {
 
-            for (int i=0; i < deletedNoteIds.size(); i++) {
+            for (int i = 0; i < deletedNoteIds.size(); i++) {
                 Note deletedNote = null;
                 try {
                     deletedNote = mNotesBucket.get(deletedNoteIds.get(i));
@@ -907,6 +878,30 @@ public class NotesActivity extends Activity implements
         if (mUndoBarController != null) {
             mUndoBarController.setDeletedNoteIds(noteIds);
             mUndoBarController.showUndoBar(false, getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()), null);
+        }
+    }
+
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            mSelectedTag = mTagsAdapter.getItem(position);
+            checkEmptyListText(false);
+            // Update checked item in navigation drawer and close it
+            setSelectedTagActive();
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+            // Disable long press on notes if we're viewing the trash
+            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+                getNoteListFragment().getListView().setLongClickable(false);
+            } else {
+                getNoteListFragment().getListView().setLongClickable(true);
+            }
+
+            getNoteListFragment().refreshListFromNavSelect();
+            if (position > 1)
+                mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
         }
     }
 

@@ -75,11 +75,94 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
     private String mLinkText;
+    // Contextual action bar for dealing with links
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            if (inflater != null) {
+                inflater.inflate(R.menu.view_link, menu);
+                mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
+                mode.setTitle(getString(R.string.link));
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    mode.setTitleOptionalHint(false);
+                }
+            }
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_view_link:
+                    if (mLinkUrl != null) {
+                        try {
+                            Uri uri = Uri.parse(mLinkUrl);
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(uri);
+                            startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish(); // Action picked, so close the CAB
+                    }
+                    return true;
+                case R.id.menu_copy:
+                    if (mLinkText != null && getActivity() != null) {
+                        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mLinkText);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                        mode.finish();
+                    }
+                    return true;
+                case R.id.menu_share:
+                    if (mLinkText != null) {
+                        try {
+                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mLinkText);
+                            startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish();
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
     private MatchOffsetHighlighter mHighlighter;
     private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
+    private Runnable autoSaveRunnable = new Runnable() {
+        @Override
+        public void run() {
+            saveAndSyncNote();
+        }
+    };
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -110,7 +193,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
+        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
 
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -126,7 +209,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             @Override
-            public CharSequence convertToString(Cursor cursor){
+            public CharSequence convertToString(Cursor cursor) {
                 return cursor.getString(cursor.getColumnIndex(Tag.NAME_PROPERTY));
             }
 
@@ -141,12 +224,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // sort the tags by their names
                 query.order(Tag.NAME_PROPERTY);
                 // if there's a filter string find only matching tag names
-                if (filter != null ) query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
+                if (filter != null)
+                    query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
                 return query.execute();
             }
         };
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -191,8 +274,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-		return rootView;
-	}
+        return rootView;
+    }
 
     @Override
     public void onResume() {
@@ -234,10 +317,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
-    }
-
-    public void setNote(String noteID){
-        setNote(noteID, null);
     }
 
     public void setNote(String noteID, String matchOffsets) {
@@ -334,13 +413,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Cases 1, 3 and 5 have no change
         return newCursorLocation;
     }
-
-    private Runnable autoSaveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saveAndSyncNote();
-        }
-    };
 
     @Override
     public void onTagsChanged(String tagString) {
@@ -443,6 +515,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mNote;
     }
 
+    public void setNote(String noteID) {
+        setNote(noteID, null);
+    }
+
     public String getNoteContentString() {
         if (mContentEditText == null || mContentEditText.getText() == null) {
             return "";
@@ -457,6 +533,129 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else {
             return mTagView.getText().toString();
         }
+    }
+
+    private void saveNote() {
+        if (mNote == null) {
+            return;
+        }
+
+        String content = getNoteContentString();
+        String tagString = getNoteTagsString();
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+            mNote.setContent(content);
+            mNote.setTagString(tagString);
+            mNote.setModificationDate(Calendar.getInstance());
+            // Send pinned event to google analytics if changed
+            mNote.setPinned(mPinButton.isChecked());
+            mNote.save();
+            if (getActivity() != null) {
+                Tracker tracker = EasyTracker.getTracker();
+                if (mNote.isPinned() != mPinButton.isChecked())
+                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
+                tracker.sendEvent("note", "edited_note", "editor_save", null);
+            }
+        }
+    }
+
+    // Checks if cursor is at a URL when the selection changes
+    // If it is a URL, show the contextual action bar
+    @Override
+    public void onSelectionChanged(int selStart, int selEnd) {
+        if (selStart == selEnd) {
+            Editable noteContent = mContentEditText.getText();
+            if (noteContent == null)
+                return;
+
+            URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
+            if (urlSpans.length > 0) {
+                URLSpan urlSpan = urlSpans[0];
+                mLinkUrl = urlSpan.getURL();
+                mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
+                if (mActionMode != null) {
+                    mActionMode.setSubtitle(mLinkText);
+                    setLinkMenuItem();
+                    return;
+                }
+
+                // Show the Contextual Action Bar
+                if (getActivity() != null) {
+                    mActionMode = getActivity().startActionMode(mActionModeCallback);
+                    if (mActionMode != null) {
+                        mActionMode.setSubtitle(mLinkText);
+                    }
+                    setLinkMenuItem();
+                }
+            } else if (mActionMode != null) {
+                mActionMode.finish();
+                mActionMode = null;
+            }
+        } else if (mActionMode != null) {
+            mActionMode.finish();
+            mActionMode = null;
+        }
+    }
+
+    private void setLinkMenuItem() {
+        if (mViewLinkMenuItem != null && mLinkUrl != null) {
+            if (mLinkUrl.startsWith("tel:")) {
+                mViewLinkMenuItem.setIcon(mCallIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.call));
+            } else if (mLinkUrl.startsWith("mailto:")) {
+                mViewLinkMenuItem.setIcon(mEmailIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.email));
+            } else if (mLinkUrl.startsWith("geo:")) {
+                mViewLinkMenuItem.setIcon(mMapIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_map));
+            } else {
+                mViewLinkMenuItem.setIcon(mWebIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
+            }
+        }
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+
+    }
+
+    @Override
+    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+        if (changeType == Bucket.ChangeType.MODIFY) {
+            if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
+                try {
+                    final Note updatedNote = mNotesBucket.get(key);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateNote(updatedNote);
+                            }
+                        });
+                    }
+                } catch (BucketObjectMissingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
+        // noop
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+        // Don't apply updates if we haven't loaded the note yet
+        if (mIsLoadingNote)
+            return;
+
+        Note openNote = getNote();
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
+            return;
+
+        note.setContent(getNoteContentString());
     }
 
     // Use spaces in tag autocompletion list
@@ -587,205 +786,5 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
             }
         }
-    }
-
-    private void saveNote() {
-        if (mNote == null) {
-            return;
-        }
-
-        String content = getNoteContentString();
-        String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
-            mNote.setContent(content);
-            mNote.setTagString(tagString);
-            mNote.setModificationDate(Calendar.getInstance());
-            // Send pinned event to google analytics if changed
-            mNote.setPinned(mPinButton.isChecked());
-            mNote.save();
-            if (getActivity() != null) {
-                Tracker tracker = EasyTracker.getTracker();
-                if (mNote.isPinned() != mPinButton.isChecked())
-                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
-                tracker.sendEvent("note", "edited_note", "editor_save", null);
-            }
-        }
-    }
-
-    // Contextual action bar for dealing with links
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        // Called when the action mode is created; startActionMode() was called
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            if (inflater != null){
-                inflater.inflate(R.menu.view_link, menu);
-                mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
-                mode.setTitle(getString(R.string.link));
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                    mode.setTitleOptionalHint(false);
-                }
-            }
-            return true;
-        }
-
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
-        }
-
-        // Called when the user selects a contextual menu item
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_view_link:
-                    if (mLinkUrl != null) {
-                        try {
-                            Uri uri = Uri.parse(mLinkUrl);
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(uri);
-                            startActivity(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        mode.finish(); // Action picked, so close the CAB
-                    }
-                    return true;
-                case R.id.menu_copy:
-                    if (mLinkText != null && getActivity() != null) {
-                        ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText(getString(R.string.app_name),mLinkText);
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-                        mode.finish();
-                    }
-                    return true;
-                case R.id.menu_share:
-                    if (mLinkText != null) {
-                        try {
-                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mLinkText);
-                            startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        mode.finish();
-                    }
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        // Called when the user exits the action mode
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-        }
-    };
-
-    // Checks if cursor is at a URL when the selection changes
-    // If it is a URL, show the contextual action bar
-    @Override
-    public void onSelectionChanged(int selStart, int selEnd) {
-        if (selStart == selEnd) {
-            Editable noteContent = mContentEditText.getText();
-            if (noteContent == null)
-                return;
-
-            URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
-            if (urlSpans.length > 0) {
-                URLSpan urlSpan = urlSpans[0];
-                mLinkUrl = urlSpan.getURL();
-                mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
-                if (mActionMode != null) {
-                    mActionMode.setSubtitle(mLinkText);
-                    setLinkMenuItem();
-                    return;
-                }
-
-                // Show the Contextual Action Bar
-                if (getActivity() != null) {
-                    mActionMode = getActivity().startActionMode(mActionModeCallback);
-                    if (mActionMode != null) {
-                        mActionMode.setSubtitle(mLinkText);
-                    }
-                    setLinkMenuItem();
-                }
-            } else if (mActionMode != null) {
-                mActionMode.finish();
-                mActionMode = null;
-            }
-        } else if (mActionMode != null) {
-            mActionMode.finish();
-            mActionMode = null;
-        }
-    }
-
-    private void setLinkMenuItem() {
-        if (mViewLinkMenuItem != null && mLinkUrl != null) {
-            if (mLinkUrl.startsWith("tel:")) {
-                mViewLinkMenuItem.setIcon(mCallIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.call));
-            } else if (mLinkUrl.startsWith("mailto:")) {
-                mViewLinkMenuItem.setIcon(mEmailIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.email));
-            } else if (mLinkUrl.startsWith("geo:")) {
-                mViewLinkMenuItem.setIcon(mMapIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.view_map));
-            } else {
-                mViewLinkMenuItem.setIcon(mWebIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
-            }
-        }
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-
-    }
-
-    @Override
-    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
-        if (changeType == Bucket.ChangeType.MODIFY) {
-            if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
-                try {
-                    final Note updatedNote = mNotesBucket.get(key);
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateNote(updatedNote);
-                            }
-                        });
-                    }
-                } catch (BucketObjectMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
-        // noop
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
-        // Don't apply updates if we haven't loaded the note yet
-        if (mIsLoadingNote)
-            return;
-
-        Note openNote = getNote();
-        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
-            return;
-
-        note.setContent(getNoteContentString());
     }
 }

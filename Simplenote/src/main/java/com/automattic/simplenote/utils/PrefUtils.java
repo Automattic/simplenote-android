@@ -17,19 +17,19 @@ public class PrefUtils {
     // key names for various preferences - note that these same key names are hard-coded in Preferences.xml
 
     // integer, determines note sort order
-    public static final String PREF_SORT_ORDER     = "pref_key_sort_order";
+    public static final String PREF_SORT_ORDER = "pref_key_sort_order";
 
     // boolean, determines # of preview lines
     public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
 
     // boolean, determines whether dates are shown
-    public static final String PREF_SHOW_DATES     = "pref_key_show_dates";
+    public static final String PREF_SHOW_DATES = "pref_key_show_dates";
 
     // boolean, set on first launch
-    public static final String PREF_FIRST_LAUNCH   = "pref_key_first_launch";
+    public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
 
     // boolean, set on when user taps to just try the app in the welcome view
-    public static final String PREF_APP_TRIAL      = "pref_key_app_trial";
+    public static final String PREF_APP_TRIAL = "pref_key_app_trial";
 
     // string. determines theme to use
     public static final String PREF_THEME = "pref_key_theme";
@@ -79,8 +79,8 @@ public class PrefUtils {
 
         if (BuildConfig.DEBUG) {
             String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong> " +
-                BuildConfig.BUILD_TYPE + " (Build " + BuildConfig.VERSION_CODE + ")" +
-                "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
+                    BuildConfig.BUILD_TYPE + " (Build " + BuildConfig.VERSION_CODE + ")" +
+                    "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
             return Html.fromHtml(info);
         }
 
