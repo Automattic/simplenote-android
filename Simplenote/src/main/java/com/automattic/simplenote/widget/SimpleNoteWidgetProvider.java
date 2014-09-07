@@ -26,15 +26,25 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
     /**
      * Intent with this action is broadcast whenever the foward button is tapped.
      */
-    public static final String ACTION_FORWARD = "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
-    public static final String ACTION_BACKWARD = "com.automattic.simplenote.action.ACTION_WIDGET_BACKWARD";
-    public static final String ACTION_DELETE_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_DELETE";
-    public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_NEW_NOTE";
-    public static final String ACTION_SEARCH_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_SEARCH";
-    public static final String ACTION_SHARE_NOTE = "com.automattic.simplenote.action.ACTION_WIDGET_SHARE";
-    public static final String ACTION_SHOW_ALL_NOTES = "com.automattic.simplenote.action.ACTION_WIDGET_SHOW_ALL";
-    public static final String ACTION_LAUNCH_APP = "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
-    public static final String ACTION_NOTIFY_DATA_SET_CHANGED = "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
+    public static final String ACTION_FORWARD =
+            "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
+    public static final String ACTION_BACKWARD =
+            "com.automattic.simplenote.action.ACTION_WIDGET_BACKWARD";
+    public static final String ACTION_DELETE_NOTE =
+            "com.automattic.simplenote.action.ACTION_WIDGET_DELETE";
+    public static final String ACTION_NEW_NOTE =
+            "com.automattic.simplenote.action.ACTION_WIDGET_NEW_NOTE";
+    public static final String ACTION_SEARCH_NOTE =
+            "com.automattic.simplenote.action.ACTION_WIDGET_SEARCH";
+    public static final String ACTION_SHARE_NOTE =
+            "com.automattic.simplenote.action.ACTION_WIDGET_SHARE";
+    public static final String ACTION_SHOW_ALL_NOTES =
+            "com.automattic.simplenote.action.ACTION_WIDGET_SHOW_ALL";
+    public static final String ACTION_LAUNCH_APP =
+            "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
+    public static final String ACTION_NOTIFY_DATA_SET_CHANGED =
+            "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
+
     private static final String TAG = "WidgetProvider";
     private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
 
@@ -113,7 +123,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
      */
     private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
 
-        Log.i(TAG,"setting up pending intents for widget: " + widgetId);
+        Log.i(TAG, "setting up pending intents for widget: " + widgetId);
         PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
         piBuilder.setLayout(R.layout.widget_layout);
         piBuilder.setWidgetId(widgetId);
