@@ -49,31 +49,24 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
         String action = intent.getAction();
-        int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID);
+
 
 
         if (action.equals(ACTION_FORWARD)){
+
+            int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
 
             if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
                 throw new IllegalArgumentException("intent has no widget id.");
             }
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            int currentNote = prefs.getInt(WidgetService.PREF_WIDGET_NOTE, WidgetService.NO_NOTE);
+            RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+            rViews.showNext(R.id.avf_widget_populated);
+            awManager.updateAppWidget(widgetId, rViews);
 
-            if (currentNote == WidgetService.NO_NOTE || currentNote < 0){
-                currentNote = 0;
-            } else {
-                currentNote++;
-            }
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(WidgetService.PREF_WIDGET_NOTE, currentNote);
-            editor.commit();
-
-            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
-            Log.i(TAG, "note set to " + currentNote + ". Updating widget id " + widgetId);
+            // awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
+            Log.i(TAG, "show next note for widget id " + widgetId);
         } else if (action.equals(ACTION_NOTIFY_DATA_SET_CHANGED)){
 
             // update all widgets
@@ -166,33 +159,8 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         piBuilder.setChildView(R.id.ib_widget_app_icon);
         piBuilder.setOnClickPendingIntent();
 
-
-
-        // setup the pending intent template for data set updates
-        piBuilder.clear();
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED);
-        piBuilder.setWidgetId(widgetId);
-        piBuilder.setLayout(R.layout.widget_layout);
-        piBuilder.setChildView(R.id.avf_widget_populated);
-        piBuilder.setPendingIntentTemplate();
-
     }
 
-
-
-    private PendingIntent setupForwardPendingIntent(Context ctx,
-                                                    int appWidgetId ){
-        Intent i = new Intent(ctx, SimpleNoteWidgetProvider.class);
-        i.setAction(SimpleNoteWidgetProvider.ACTION_FORWARD);
-        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-
-
-        PendingIntent result = PendingIntent.getBroadcast(ctx, 0, i,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        return result;
-
-    }
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);

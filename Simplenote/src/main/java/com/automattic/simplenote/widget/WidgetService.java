@@ -31,7 +31,7 @@ import java.io.PrintWriter;
 public class WidgetService extends RemoteViewsService {
 
 
-    public static final String PREF_WIDGET_NOTE = "PREF_WIDGET_NOTE";
+
     public static final int NO_NOTE = -1;
 
     private final String TAG = "WidgetService";
@@ -51,7 +51,6 @@ public class WidgetService extends RemoteViewsService {
         private Bucket<Tag> mTagsBucket;
         private TagsAdapter.TagMenuItem mAllNotesItem;
         private TagsAdapter mTagsAdapter;
-        private Bucket.ObjectCursor<Note> mNoteCursor;
 
 
 
@@ -70,17 +69,10 @@ public class WidgetService extends RemoteViewsService {
         public void onCreate() {
 
             Log.i(TAG, "WidgetViewsFactory.onCreate");
-
             Simplenote currentApp = (Simplenote) mContext.getApplicationContext();
 
             if (mNotesBucket == null) {
                 mNotesBucket = currentApp.getNotesBucket();
-            }
-
-            if (mNotesBucket.count() == 0) {
-                // do nothing.
-                Log.i(TAG, "No notes available.");
-                return;
             }
 
             if (mTagsBucket == null) {
@@ -88,14 +80,6 @@ public class WidgetService extends RemoteViewsService {
             }
 
             mTagsAdapter = new TagsAdapter(mContext, mNotesBucket);
-
-            // TODO will allObjects ever return null?
-            mNoteCursor = mNotesBucket.allObjects();
-
-            if (mNoteCursor == null || mNoteCursor.getCount() == 0) {
-                Log.i(TAG, "no notes exist");
-                return;
-            }
 
             Log.i(TAG, "Found " + mTagsAdapter.getCount() + " tags items.");
             if (mTagsAdapter.getCount() > 0){
@@ -109,78 +93,44 @@ public class WidgetService extends RemoteViewsService {
 
         }
 
-        private void setCursorPositionToSaved(){
-            // see if there's a note saved
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-            int currentNote = prefs.getInt(PREF_WIDGET_NOTE, NO_NOTE);
+        private Note getNoteByPosition(int cursorIdx){
 
-            if (currentNote == NO_NOTE || currentNote < 0) {
+            Bucket.ObjectCursor<Note> mNoteCursor = mNotesBucket.allObjects();
 
-                currentNote = 0;
 
-                // override whatever value is in shared preferences because it wasn't valid.
-                saveNoteIndex(prefs, currentNote);
 
-            } else if (currentNote > mNoteCursor.getCount() - 1) {
+            Log.i(TAG, "fetching note from position " + cursorIdx);
+            mNoteCursor.moveToPosition(cursorIdx);
+            Note result = mNoteCursor.getObject();
+            mNoteCursor.close();
 
-                currentNote = mNoteCursor.getCount() - 1;
-
-                // override whatever value is in shared preferences because it wasn't valid.
-                saveNoteIndex(prefs, currentNote);
-
-            }
-
-            mNoteCursor.move(currentNote);
-
-            Log.i(TAG, "current note overridden to : " + currentNote);
+            return result;
         }
-
-        private void findNoteByKey(SharedPreferences prefs, String key){
-            boolean found = false;
-            while (!mNoteCursor.isAfterLast()){
-                if (mNoteCursor.getObject().getSimperiumKey().equals(key)){
-                    found = true;
-                    break;
-                }
-                mNoteCursor.moveToNext();
-            }
-
-            if (!found){
-
-                saveNoteIndex(prefs, 0);
-                Log.i(TAG, key + " not found. set to first: "
-                        + mNoteCursor.getObject().getSimperiumKey());
-            } else {
-                Log.i(TAG, "Note set to " + key);
-            }
-
-
-        }
-
         @Override
         public int getCount(){
             // TODO return count from cursor.
-            Log.i(TAG, "WidgetViewsFactory.getCount");
-            return mNoteCursor == null ? 0 : mNoteCursor.getCount();
+            int result = mNotesBucket.count();
+            Log.i(TAG, "WidgetViewsFactory.getCount: " + result);
+            return result;
         }
 
         @Override
         public void onDataSetChanged() {
             Log.i(TAG, "WidgetViewsFactory.onDataSetChanged");
-
         }
 
         @Override
         public int getViewTypeCount() {
-            Log.i(TAG, "WidgetViewsFactory.getViewTypeCount");
+            Log.i(TAG, "WidgetViewsFactory.getViewTypeCount: 1");
             return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            Log.i(TAG, "WidgetViewsFactory.getItemId: returning " + mNoteCursor.getObject().hashCode());
-            mNoteCursor.getObject().hashCode();
-            return 0;
+
+            Note n = getNoteByPosition(position);
+            Log.i(TAG, "WidgetViewsFactory.getItemId: found note " + n.getTitle());
+            return n.hashCode();
         }
 
         @Override
@@ -210,16 +160,16 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
 
-            setCursorPositionToSaved();
+            Note n = getNoteByPosition(position);
 
             // Create a view that will show data for this item.
             RemoteViews result = new RemoteViews(mContext.getPackageName(),
                     R.layout.widget_note_item);
 
-            result.setTextViewText(R.id.tv_widget_note_item, mNoteCursor.getObject().getTitle());
+            result.setTextViewText(R.id.tv_widget_note_item, n.getTitle());
 
             Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: "
-                    + mNoteCursor.getObject().getTitle());
+                    + n.getTitle());
             return result;
         }
 
@@ -230,45 +180,12 @@ public class WidgetService extends RemoteViewsService {
             return false;
         }
 
-        /**
-         * Used to set the value of the current noted index to a specified number.
-         * SimpleNoteWidgetProvider also sets the note index value (increment/decrement), but this
-         * function is used by the service to ensure that the index value is always valid.
-         * @param prefs the shared preferences to save to.
-         */
-        private void saveNoteIndex(SharedPreferences prefs, int idx){
 
-            mNoteCursor.moveToFirst();
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(PREF_WIDGET_NOTE, 0);
-            editor.commit();
-
-            Log.i(TAG, "Fetched first note: " + mNoteCursor.getObject().getSimperiumKey());
-        }
     }
 
 
     // overrides
 
-
-    public WidgetService() {
-        super();
-        Log.i(TAG, "<<init>>");
-    }
-
-    @NonNull
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.i(TAG, "onBind");
-        return super.onBind(intent);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.i(TAG, "onCreate");
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -290,46 +207,11 @@ public class WidgetService extends RemoteViewsService {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        Log.i(TAG, "onStart(Intent, int)");
-        super.onStart(intent, startId);
-    }
-
-    @Override
-    public void onLowMemory() {
-        Log.i(TAG, "onLowMemory");
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        Log.i(TAG, "onTrimMemory");
-        super.onTrimMemory(level);
-    }
-
-    @Override
     public boolean onUnbind(Intent intent) {
         Log.i(TAG, "onUnbind");
         return super.onUnbind(intent);
     }
 
-    @Override
-    public void onRebind(Intent intent) {
-        Log.i(TAG, "onRebind");
-        super.onRebind(intent);
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        Log.i(TAG, "onTaskRemoved");
-        super.onTaskRemoved(rootIntent);
-    }
-
-    @Override
-    protected void dump(FileDescriptor fd, PrintWriter writer, String[] args) {
-        Log.i(TAG, "dump");
-        super.dump(fd, writer, args);
-    }
 
 
 
