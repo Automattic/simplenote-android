@@ -4,13 +4,13 @@ package com.automattic.simplenote.utils;
  *  misc. routines for Simplenote preferences
  *  added 01-Apr-2013 by Nick Bradbury
  */
-import com.automattic.simplenote.BuildConfig;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import android.text.Html;
+
+import com.automattic.simplenote.BuildConfig;
 
 public class PrefUtils {
 

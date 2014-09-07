@@ -3,7 +3,6 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Locale;
 

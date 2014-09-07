@@ -1,12 +1,7 @@
 package com.automattic.simplenote.widget.commands;
 
-import android.content.ComponentName;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
-import com.automattic.simplenote.R;
-import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
 
 /**
  * Created by richard on 9/7/14.

@@ -1,19 +1,12 @@
 package com.automattic.simplenote.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.database.CursorIndexOutOfBoundsException;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
@@ -21,9 +14,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.simperium.client.Bucket;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 
 /**
  * Created by richard on 9/6/14.

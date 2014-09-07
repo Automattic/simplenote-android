@@ -2,8 +2,8 @@ package com.automattic.simplenote.models;
 
 import com.simperium.client.FullTextIndex;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class NoteFullTextIndexer implements FullTextIndex.Indexer<Note> {
 

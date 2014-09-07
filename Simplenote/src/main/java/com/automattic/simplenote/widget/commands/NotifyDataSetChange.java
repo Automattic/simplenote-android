@@ -1,6 +1,5 @@
 package com.automattic.simplenote.widget.commands;
 
-import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.util.Log;
 import android.widget.RemoteViews;
