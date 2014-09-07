@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -39,6 +40,7 @@ import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.Typefaces;
+import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -467,6 +469,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
 		mCallbacks.onNoteSelected(note.getSimperiumKey(), true, null);
+
+        Activity activity = getActivity();
+        if (activity != null){
+            activity.sendBroadcast(
+                    new Intent(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED));
+        }
+
+
 	}
 
     public void setNoteSelected(String selectedNoteID) {

@@ -3,6 +3,8 @@ package com.automattic.simplenote.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.appwidget.AppWidgetProviderInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +19,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.simperium.client.Bucket;
+
+import java.util.List;
 
 /**
  * Created by richard on 8/30/14.
@@ -48,7 +52,13 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
+
         if (action.equals(ACTION_FORWARD)){
+
+            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
+                throw new IllegalArgumentException("intent has no widget id.");
+            }
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             int currentNote = prefs.getInt(WidgetService.PREF_WIDGET_NOTE, WidgetService.NO_NOTE);
 
@@ -62,16 +72,20 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             editor.putInt(WidgetService.PREF_WIDGET_NOTE, currentNote);
             editor.commit();
 
-
-
-            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
-                throw new IllegalArgumentException("intent has no widget id.");
-            }
-
-            // awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
+            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
             Log.i(TAG, "note set to " + currentNote + ". Updating widget id " + widgetId);
         } else if (action.equals(ACTION_NOTIFY_DATA_SET_CHANGED)){
-            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
+
+            // update all widgets
+            int ids[] = awManager.getAppWidgetIds(new ComponentName(context, SimpleNoteWidgetProvider.class));
+            if (ids != null){
+                for (int i : ids) {
+                    Log.i(TAG, "notify data set changed. widget id: " + Integer.toString(i));
+                    awManager.notifyAppWidgetViewDataChanged(i, R.id.avf_widget_populated);
+                }
+            }
+
+
         }
 
     }
@@ -99,10 +113,9 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             // specify the sibling to the collection view that is shown when no data is available.
             rViews.setEmptyView(appWidgetIds[i], R.id.tv_widget_empty);
 
-            appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
-            // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.avf_widget_populated);
-
             setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
+
+            appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
 
         }
 
@@ -154,6 +167,14 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         piBuilder.setOnClickPendingIntent();
 
 
+
+        // setup the pending intent template for data set updates
+        piBuilder.clear();
+        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED);
+        piBuilder.setWidgetId(widgetId);
+        piBuilder.setLayout(R.layout.widget_layout);
+        piBuilder.setChildView(R.id.avf_widget_populated);
+        piBuilder.setPendingIntentTemplate();
 
     }
 
@@ -210,6 +231,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
         }
 
         public PendingIntent build(){
+
             validate(mLayoutResId, "layout resource id", "setLayout(int)");
             validate(mChildViewResId, "child resource id", "setChildView(int)");
             validate(mAction, "action", "setAction(String)");
@@ -254,7 +276,18 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             return this;
         }
 
+        public void setPendingIntentTemplate(){
+            // setup pending intents for buttons
+            // Create a view that will show data for this item.
+            RemoteViews rViews = new RemoteViews(mContext.getPackageName(),
+                    mLayoutResId);
+            rViews.setPendingIntentTemplate(mChildViewResId, build());
+            Log.i(TAG, "setPendingIntentTemplate set for remote view with action " + mAction);
+        }
+
         public void setOnClickPendingIntent(){
+
+
             // setup pending intents for buttons
             // Create a view that will show data for this item.
             RemoteViews rViews = new RemoteViews(mContext.getPackageName(),

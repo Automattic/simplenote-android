@@ -2,7 +2,7 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:id="@+id/ll_widget_top"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ab_solid_simplestyle"
