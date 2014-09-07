@@ -76,6 +76,7 @@
         <receiver android:name="com.automattic.simplenote.widget.SimpleNoteWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.automattic.simplenote.action.ACTION_WIDGET_FORWARD"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/simplenote_appwidget_info" />

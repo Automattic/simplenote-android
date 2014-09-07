@@ -93,7 +93,7 @@
             android:src="@drawable/ic_action_previous" />
 
         <ImageButton
-            android:id="@+id/button2"
+            android:id="@+id/btn_widget_forward"
             android:layout_width="@dimen/widget_button_size"
             android:layout_height="@dimen/widget_button_size"
             android:src="@drawable/ic_action_next" />

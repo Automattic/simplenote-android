@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -22,20 +23,45 @@ import com.simperium.client.Bucket;
  */
 public class SimpleNoteWidgetProvider extends AppWidgetProvider{
 
-    public static final String PREF_WIDGET_NOTE = "PREF_WIDGET_NOTE";
-    public static final String ACTION_WIDGET_PROVIDER = "SIMPLE_NOTE_WIDGET_PROVIDR";
     private static final String TAG = "WidgetProvider";
-    protected Bucket<Note> mNotesBucket;
-    protected Bucket<Tag> mTagsBucket;
-    private TagsAdapter.TagMenuItem mAllNotesItem;
-    private TagsAdapter mTagsAdapter;
-    private Bucket.ObjectCursor<Note> mNoteCursor;
 
+    /**
+     * Intent with this action is broadcast whenever the foward button is tapped.
+     */
+    public static final String ACTION_FORWARD = "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         Log.i(TAG, "onReceive: intent " + intent.getAction().toString());
+
+        AppWidgetManager awManager = AppWidgetManager.getInstance(context);
+
+        if (intent.getAction().equals(ACTION_FORWARD)){
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            int currentNote = prefs.getInt(WidgetService.PREF_WIDGET_NOTE, WidgetService.NO_NOTE);
+
+            if (currentNote == WidgetService.NO_NOTE || currentNote < 0){
+                currentNote = 0;
+            } else {
+                currentNote++;
+            }
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(WidgetService.PREF_WIDGET_NOTE, currentNote);
+            editor.commit();
+
+            int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+
+            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
+                throw new IllegalArgumentException("intent has no widget id.");
+            }
+
+            awManager.notifyAppWidgetViewDataChanged(widgetId, R.id.avf_widget_populated);
+            Log.i(TAG, "note set to " + currentNote + ". Updating widget id " + widgetId);
+        }
+
     }
 
     @Override
@@ -64,103 +90,41 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider{
             appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
             // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.avf_widget_populated);
 
+            setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
 
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
-    private void onUpdateBackup(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId){
 
-        // TODO move to WidgetService.
-        Simplenote currentApp = (Simplenote) context.getApplicationContext();
+        // pending intents
+        PendingIntent piForward = setupForwardPendingIntent(ctx, widgetId);
 
-        if (mNotesBucket == null) {
-            mNotesBucket = currentApp.getNotesBucket();
-        }
-
-        if (mNotesBucket.count() == 0){
-            // do nothing.
-            Log.i(TAG, "No notes available.");
-            return;
-        }
-
-        if (mTagsBucket == null) {
-            mTagsBucket = currentApp.getTagsBucket();
-        }
-
-        mTagsAdapter = new TagsAdapter(context, mNotesBucket);
-
-        mNoteCursor = mNotesBucket.allObjects();
-
-        // see if there's a note saved
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String currentNoteKey = prefs.getString(PREF_WIDGET_NOTE, null);
-
-
-        if (currentNoteKey == null){
-
-           selectFirstNote(prefs);
-
-        } else {
-
-            Log.i(TAG, "Found stored key " + currentNoteKey);
-            mNoteCursor.moveToFirst();
-            boolean found = false;
-            while (!mNoteCursor.isAfterLast()){
-                if (mNoteCursor.getObject().getSimperiumKey().equals(currentNoteKey)){
-                    found = true;
-                    break;
-                }
-                mNoteCursor.moveToNext();
-            }
-
-            if (!found){
-
-                selectFirstNote(prefs);
-                Log.i(TAG, currentNoteKey + " not found. set to first: "
-                        + mNoteCursor.getObject().getSimperiumKey());
-            } else {
-                Log.i(TAG, "Note set to " + currentNoteKey);
-            }
-
-
-        }
-
-        Log.i(TAG, "Found " + mTagsAdapter.getCount() + " tags items.");
-        if (mTagsAdapter.getCount() > 0){
-
-            TagsAdapter.TagMenuItem tmi = mTagsAdapter.getDefaultItem();
-            Log.i(TAG, "Default tag item is : '" + tmi.name + "'");
-
-        }
-
-        Log.i(TAG, "Found " + mNotesBucket.count() + " notes");
-
-
-
-
+        // setup pending intents for buttons
+        // Create a view that will show data for this item.
+        RemoteViews rViews = new RemoteViews(ctx.getPackageName(),
+                R.layout.widget_layout);
+        rViews.setOnClickPendingIntent(R.id.btn_widget_forward, piForward);
+        appWidgetManager.updateAppWidget(widgetId, rViews);
+        Log.i(TAG, "setup forward intent)");
 
     }
 
-    /**
-     * Selects the first note and saves its key to SharedPreferences.
-     * @param prefs the shared preferences to save to.
-     */
-    private void selectFirstNote(SharedPreferences prefs){
+    private PendingIntent setupForwardPendingIntent(Context ctx,
+                                                    int appWidgetId ){
+        Intent i = new Intent(ctx, SimpleNoteWidgetProvider.class);
+        i.setAction(SimpleNoteWidgetProvider.ACTION_FORWARD);
+        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
-        mNoteCursor.moveToFirst();
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PREF_WIDGET_NOTE, mNoteCursor.getObject().getSimperiumKey());
-        editor.commit();
+        PendingIntent result = PendingIntent.getBroadcast(ctx, 0, i,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Log.i(TAG, "Fetched first note: " + mNoteCursor.getObject().getSimperiumKey());
+        return result;
+
     }
-
-
-
-
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
