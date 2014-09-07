@@ -23,43 +23,15 @@ import java.util.Hashtable;
  */
 public class ListWidgetProvider extends AppWidgetProvider {
 
-    /**
-     * Intent with this action is broadcast whenever the forward button is tapped.
-     */
-    public static final String ACTION_FORWARD =
-            "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
-    public static final String ACTION_BACKWARD =
-            "com.automattic.simplenote.action.ACTION_WIDGET_BACKWARD";
-    public static final String ACTION_DELETE_NOTE =
-            "com.automattic.simplenote.action.ACTION_WIDGET_DELETE";
-    public static final String ACTION_NEW_NOTE =
-            "com.automattic.simplenote.action.ACTION_WIDGET_NEW_NOTE";
-    public static final String ACTION_SEARCH_NOTE =
-            "com.automattic.simplenote.action.ACTION_WIDGET_SEARCH";
-    public static final String ACTION_SHARE_NOTE =
-            "com.automattic.simplenote.action.ACTION_WIDGET_SHARE";
-    public static final String ACTION_SHOW_ALL_NOTES =
-            "com.automattic.simplenote.action.ACTION_WIDGET_SHOW_ALL";
-    public static final String ACTION_LAUNCH_APP =
-            "com.automattic.simplenote.action.ACTION_WIDGET_LAUNCH_APP";
-    public static final String ACTION_NOTIFY_DATA_SET_CHANGED =
-            "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
 
-    private static final String TAG = "WidgetProvider";
+    private static final String TAG = "ListWidgetProvider";
     private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
 
     public ListWidgetProvider() {
         super();
 
-        mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
-        mCommandSet.put(ACTION_BACKWARD, new NavigateNote(false)); // nav to previous note
-        mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED, new NotifyDataSetChange());
-        mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
-        mCommandSet.put(ACTION_DELETE_NOTE, new UnimplementedCommand());
-        mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
-        mCommandSet.put(ACTION_NEW_NOTE, new UnimplementedCommand());
-        mCommandSet.put(ACTION_SHARE_NOTE, new UnimplementedCommand());
-        mCommandSet.put(ACTION_SHOW_ALL_NOTES, new UnimplementedCommand());
+        mCommandSet.put(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED,
+                new NotifyDataSetChange(ListWidgetProvider.class));
     }
 
     @Override
@@ -111,53 +83,6 @@ public class ListWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
-    /**
-     * Register pending intents to widget UI buttons.
-     *
-     * @param ctx              context needed to access remote view.
-     * @param appWidgetManager widget manager that will be updated
-     * @param widgetId         widget id managed by widget manager.
-     */
-    private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
-
-        Log.i(TAG, "setting up pending intents for widget: " + widgetId);
-        PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
-        piBuilder.setLayout(R.layout.widget_button_layout);
-        piBuilder.setWidgetId(widgetId);
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_BACKWARD);
-        piBuilder.setChildView(R.id.ib_widget_backward);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_FORWARD);
-        piBuilder.setChildView(R.id.ib_widget_forward);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_DELETE_NOTE);
-        piBuilder.setChildView(R.id.ib_widget_delete);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_NEW_NOTE);
-        piBuilder.setChildView(R.id.ib_widget_new);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_SEARCH_NOTE);
-        piBuilder.setChildView(R.id.ib_widget_search);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_SHARE_NOTE);
-        piBuilder.setChildView(R.id.ib_widget_share);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_SHOW_ALL_NOTES);
-        piBuilder.setChildView(R.id.ib_widget_showallnotes);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ListWidgetProvider.ACTION_LAUNCH_APP);
-        piBuilder.setChildView(R.id.ib_widget_app_icon);
-        piBuilder.setOnClickPendingIntent();
-
-    }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
@@ -180,109 +105,4 @@ public class ListWidgetProvider extends AppWidgetProvider {
 
     }
 
-
-    private static class PendingIntentBuilder {
-
-        private final Context mContext;
-        private final AppWidgetManager mManager;
-        private Integer mLayoutResId;
-        private Integer mChildViewResId;
-        private Integer mWidgetId;
-        private String mAction;
-
-        public PendingIntentBuilder(Context ctx, AppWidgetManager manager) {
-            mContext = ctx;
-            mManager = manager;
-
-        }
-
-        public PendingIntent build() {
-
-            validate(mLayoutResId, "layout resource id", "setLayout(int)");
-            validate(mChildViewResId, "child resource id", "setChildView(int)");
-            validate(mAction, "action", "setAction(String)");
-            validate(mWidgetId, "widget id", "setWidgetId(int)");
-
-            Intent i = new Intent(mContext, ListWidgetProvider.class);
-            i.setAction(mAction);
-            i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
-
-            IntentUtil.dump(i);
-
-            /*
-             * Using the widget id as the request code makes the PendingIntent unique
-             * for a given action and widget id.  But, widget id still needs to be
-             * added as an extra (EXTRA_APPWIDGET_ID) because the request code is
-             * not sent with the intent that is broadcast.
-             */
-            return PendingIntent.getBroadcast(mContext, mWidgetId, i,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-        }
-
-        private void validate(Object underTest, String name, String setterName) {
-            if (underTest == null) {
-                throw new IllegalStateException(new StringBuilder().append(name)
-                        .append(" cannot be null. Call ")
-                        .append(setterName)
-                        .toString());
-            }
-        }
-
-        public PendingIntentBuilder setLayout(int resId) {
-            mLayoutResId = resId;
-            return this;
-        }
-
-        public PendingIntentBuilder setChildView(int resId) {
-            mChildViewResId = resId;
-            return this;
-        }
-
-        public PendingIntentBuilder setAction(String action) {
-            mAction = action;
-            return this;
-        }
-
-        public PendingIntentBuilder setWidgetId(int widgetId) {
-            mWidgetId = widgetId;
-            return this;
-        }
-
-        public void setPendingIntentTemplate() {
-            // setup pending intents for buttons
-            // Create a view that will show data for this item.
-            RemoteViews rViews = new RemoteViews(mContext.getPackageName(),
-                    mLayoutResId);
-            rViews.setPendingIntentTemplate(mChildViewResId, build());
-            Log.i(TAG, "setPendingIntentTemplate set for remote view with action " + mAction);
-        }
-
-        public void setOnClickPendingIntent() {
-
-
-            // setup pending intents for buttons
-            // Create a view that will show data for this item.
-            RemoteViews rViews = new RemoteViews(mContext.getPackageName(),
-                    mLayoutResId);
-            rViews.setOnClickPendingIntent(mChildViewResId, build());
-            mManager.updateAppWidget(mWidgetId, rViews);
-
-            Log.i(TAG, "onClickPendingIntent set for remote view with action " + mAction);
-
-        }
-
-        /**
-         * Clears out everything set through builder functions.  The values passed to the
-         * constructor are untouched.
-         */
-        public void clear() {
-            mLayoutResId = null;
-            mChildViewResId = null;
-            mAction = null;
-
-        }
-
-
-    }
 }

@@ -12,21 +12,29 @@ import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
  */
 public class NotifyDataSetChange extends WidgetCommand {
 
-    public NotifyDataSetChange() {
+    private final Class mProviderClass;
+
+    public NotifyDataSetChange(Class providerClass) {
         super(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED, false);
+        mProviderClass = providerClass;
     }
 
     public void exec(ExecParameters params) {
 
         // update all widgets
         int ids[] = params.mWidgetManager.getAppWidgetIds(
-                new ComponentName(params.mContext, SimpleNoteWidgetProvider.class));
+                new ComponentName(params.mContext, mProviderClass));
 
-        if (ids != null) {
+        Log.i(TAG, "provider " + mProviderClass.getSimpleName());
+
+        if (ids != null && ids.length > 0) {
             for (int i : ids) {
-                Log.i(TAG, "notify data set changed. widget id: " + Integer.toString(i));
+                Log.i(TAG, "Notify data set changed. widget id: " + Integer.toString(i));
                 params.mWidgetManager.notifyAppWidgetViewDataChanged(i, R.id.avf_widget_populated);
             }
+        } else {
+            throw new IllegalStateException("no widgets were found for provider " +
+                    mProviderClass.getSimpleName());
         }
 
     }

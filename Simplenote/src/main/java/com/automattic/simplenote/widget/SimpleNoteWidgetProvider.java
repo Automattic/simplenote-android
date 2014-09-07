@@ -45,7 +45,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_NOTIFY_DATA_SET_CHANGED =
             "com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED";
 
-    private static final String TAG = "WidgetProvider";
+    private static final String TAG = "ButtonWidgetProvider";
     private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
 
     public SimpleNoteWidgetProvider() {
@@ -53,7 +53,8 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
 
         mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
         mCommandSet.put(ACTION_BACKWARD, new NavigateNote(false)); // nav to previous note
-        mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED, new NotifyDataSetChange());
+        mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
+                new NotifyDataSetChange(SimpleNoteWidgetProvider.class));
         mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
         mCommandSet.put(ACTION_DELETE_NOTE, new UnimplementedCommand());
         mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
