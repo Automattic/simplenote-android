@@ -12,6 +12,7 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.simperium.client.Bucket;
 
@@ -29,6 +30,7 @@ public class WidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         Log.i(TAG, "onGetViewFactory");
+        IntentUtil.dump(intent);
         return new WidgetViewsFactory(getApplicationContext(), intent);
     }
 

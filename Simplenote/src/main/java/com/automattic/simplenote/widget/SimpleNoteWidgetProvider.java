@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.NavigateNote;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
@@ -55,6 +56,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         Log.i(TAG, "onReceive: intent " + intent.getAction().toString());
+        IntentUtil.dump(intent);
 
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
         String action = intent.getAction();
@@ -77,11 +79,13 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
         // create remote views for each app widget.
         for (int i = 0; i < appWidgetIds.length; i++) {
 
+            Log.i(TAG, "onUpdate. Setup widget " + appWidgetIds[i]);
+
             // create intent that starts widget service
             Intent intent = new Intent(context, WidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
 
-            // add the intent URI as an extra so the OS an match it with the service.
+            // add the intent URI as an extra so the OS can match it with the service.
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
             // create a remote view, specifying the widget layout that should be used.
@@ -109,6 +113,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
      */
     private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
 
+        Log.i(TAG,"setting up pending intents for widget: " + widgetId);
         PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
         piBuilder.setLayout(R.layout.widget_layout);
         piBuilder.setWidgetId(widgetId);
@@ -195,8 +200,15 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
             i.setAction(mAction);
             i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
 
+            IntentUtil.dump(i);
 
-            return PendingIntent.getBroadcast(mContext, 0, i,
+            /*
+             * Using the widget id as the request code makes the PendingIntent unique
+             * for a given action and widget id.  But, widget id still needs to be
+             * added as an extra (EXTRA_APPWIDGET_ID) because the request code is
+             * not sent with the intent that is broadcast.
+             */
+            return PendingIntent.getBroadcast(mContext, mWidgetId, i,
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
         }
