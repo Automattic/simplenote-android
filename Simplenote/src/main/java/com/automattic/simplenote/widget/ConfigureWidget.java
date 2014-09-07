@@ -12,6 +12,8 @@ import com.automattic.simplenote.R;
 /**
  * Template for widget configuration activity.  By default this closes autmatically after
  * 3 seconds.
+ *
+ * TODO: graphic designers may decide that no configuration is necessary.  Delete this class if so.
  * <p/>
  * Created by richard on 8/30/14.
  */
@@ -25,7 +27,7 @@ public class ConfigureWidget extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.widget_layout_configure);
+        setContentView(R.layout.widget_configure_layout);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {

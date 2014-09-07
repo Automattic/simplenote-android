@@ -3,6 +3,7 @@ package com.automattic.simplenote.widget.commands;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -21,6 +22,7 @@ public abstract class WidgetCommand {
     }
 
     public final void run(Context ctx, Intent intent) {
+        Log.i(TAG, "running command " + this.getClass().getSimpleName());
         ExecParameters param = new ExecParameters();
         param.mContext = ctx;
         param.mIntent = intent;

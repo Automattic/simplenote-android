@@ -16,8 +16,9 @@ public final class IntentUtil {
         Log.i(TAG, "package: " + i.getPackage());
 
         Bundle b = i.getExtras();
-        if (b.size() == 0){
+        if (b == null || b.size() == 0){
             Log.i(TAG, "no extras");
+            return;
         }
 
         for (String k : b.keySet()){

@@ -33,6 +33,6 @@ public class NavigateNote extends WidgetCommand {
     }
 
     protected RemoteViews getRemoteViews(ExecParameters params) {
-        return new RemoteViews(params.mContext.getPackageName(), R.layout.widget_layout);
+        return new RemoteViews(params.mContext.getPackageName(), R.layout.widget_button_layout);
     }
 }

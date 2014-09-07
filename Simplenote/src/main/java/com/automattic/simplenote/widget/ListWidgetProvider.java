@@ -21,7 +21,7 @@ import java.util.Hashtable;
 /**
  * Created by richard on 8/30/14.
  */
-public class SimpleNoteWidgetProvider extends AppWidgetProvider {
+public class ListWidgetProvider extends AppWidgetProvider {
 
     /**
      * Intent with this action is broadcast whenever the forward button is tapped.
@@ -48,7 +48,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
     private static final String TAG = "WidgetProvider";
     private Hashtable<String, WidgetCommand> mCommandSet = new Hashtable<String, WidgetCommand>();
 
-    public SimpleNoteWidgetProvider() {
+    public ListWidgetProvider() {
         super();
 
         mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
@@ -99,13 +99,10 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
             // create a remote view, specifying the widget layout that should be used.
-            RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_button_layout);
-            rViews.setRemoteAdapter(R.id.avf_widget_populated, intent);
+            RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_list_layout);
+            rViews.setRemoteAdapter(R.id.lv_widget_notes, intent);
 
-            // specify the sibling to the collection view that is shown when no data is available.
-            rViews.setEmptyView(R.id.tv_widget_empty, R.id.tv_widget_empty);
-
-            setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
+            // setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
 
@@ -128,35 +125,35 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
         piBuilder.setLayout(R.layout.widget_button_layout);
         piBuilder.setWidgetId(widgetId);
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_BACKWARD);
+        piBuilder.setAction(ListWidgetProvider.ACTION_BACKWARD);
         piBuilder.setChildView(R.id.ib_widget_backward);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_FORWARD);
+        piBuilder.setAction(ListWidgetProvider.ACTION_FORWARD);
         piBuilder.setChildView(R.id.ib_widget_forward);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_DELETE_NOTE);
+        piBuilder.setAction(ListWidgetProvider.ACTION_DELETE_NOTE);
         piBuilder.setChildView(R.id.ib_widget_delete);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_NEW_NOTE);
+        piBuilder.setAction(ListWidgetProvider.ACTION_NEW_NOTE);
         piBuilder.setChildView(R.id.ib_widget_new);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SEARCH_NOTE);
+        piBuilder.setAction(ListWidgetProvider.ACTION_SEARCH_NOTE);
         piBuilder.setChildView(R.id.ib_widget_search);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SHARE_NOTE);
+        piBuilder.setAction(ListWidgetProvider.ACTION_SHARE_NOTE);
         piBuilder.setChildView(R.id.ib_widget_share);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_SHOW_ALL_NOTES);
+        piBuilder.setAction(ListWidgetProvider.ACTION_SHOW_ALL_NOTES);
         piBuilder.setChildView(R.id.ib_widget_showallnotes);
         piBuilder.setOnClickPendingIntent();
 
-        piBuilder.setAction(SimpleNoteWidgetProvider.ACTION_LAUNCH_APP);
+        piBuilder.setAction(ListWidgetProvider.ACTION_LAUNCH_APP);
         piBuilder.setChildView(R.id.ib_widget_app_icon);
         piBuilder.setOnClickPendingIntent();
 
@@ -206,7 +203,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
             validate(mAction, "action", "setAction(String)");
             validate(mWidgetId, "widget id", "setWidgetId(int)");
 
-            Intent i = new Intent(mContext, SimpleNoteWidgetProvider.class);
+            Intent i = new Intent(mContext, ListWidgetProvider.class);
             i.setAction(mAction);
             i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
 

@@ -72,14 +72,28 @@
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 
-        <!-- Widget Provider -->
+        <!-- Widget Providers -->
+
+
+        <!-- button widget -->
         <receiver android:name="com.automattic.simplenote.widget.SimpleNoteWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/simplenote_appwidget_info" />
+                android:resource="@xml/simplenote_buttonwidget_info" />
+        </receiver>
+
+
+        <!-- list widget -->
+        <receiver android:name="com.automattic.simplenote.widget.ListWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/simplenote_listwidget_info" />
         </receiver>
 
         <!-- configuration activity (reserved for future use) -->

@@ -8,7 +8,7 @@
     android:background="@drawable/ab_solid_simplestyle"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="@dimen/widget_margin">
 
 
     <LinearLayout
@@ -35,6 +35,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"/>
 
+            <!-- a text view is specified in the widget provider to be shown
+                 when there is no view, but it hasn't shown up yet.
+                 TODO: design a better replacement and test.
+            -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tv_widget_empty"
                 android:layout_width="match_parent"
