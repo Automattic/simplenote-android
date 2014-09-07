@@ -31,7 +31,7 @@ public class ListWidgetProvider extends AppWidgetProvider {
         super();
 
         mCommandSet.put(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED,
-                new NotifyDataSetChange(ListWidgetProvider.class));
+                new NotifyDataSetChange(ListWidgetProvider.class, R.id.lv_widget_notes));
     }
 
     @Override

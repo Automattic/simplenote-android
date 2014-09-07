@@ -13,10 +13,12 @@ import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
 public class NotifyDataSetChange extends WidgetCommand {
 
     private final Class mProviderClass;
+    private final int mAdapterRes;
 
-    public NotifyDataSetChange(Class providerClass) {
+    public NotifyDataSetChange(Class providerClass, int adapterRes) {
         super(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED, false);
         mProviderClass = providerClass;
+        mAdapterRes = adapterRes;
     }
 
     public void exec(ExecParameters params) {
@@ -30,10 +32,10 @@ public class NotifyDataSetChange extends WidgetCommand {
         if (ids != null && ids.length > 0) {
             for (int i : ids) {
                 Log.i(TAG, "Notify data set changed. widget id: " + Integer.toString(i));
-                params.mWidgetManager.notifyAppWidgetViewDataChanged(i, R.id.avf_widget_populated);
+                params.mWidgetManager.notifyAppWidgetViewDataChanged(i, mAdapterRes);
             }
         } else {
-            throw new IllegalStateException("no widgets were found for provider " +
+            Log.i(TAG, "no widgets were found for provider " +
                     mProviderClass.getSimpleName());
         }
 

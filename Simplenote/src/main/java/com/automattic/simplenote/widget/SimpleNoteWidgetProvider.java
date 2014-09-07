@@ -18,6 +18,9 @@ import com.automattic.simplenote.widget.commands.WidgetCommand;
 
 import java.util.Hashtable;
 
+
+// TODO: This class and ListWidgetProvider have some common code. Refactor it into a base class.
+
 /**
  * Created by richard on 8/30/14.
  */
@@ -54,7 +57,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
         mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
         mCommandSet.put(ACTION_BACKWARD, new NavigateNote(false)); // nav to previous note
         mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
-                new NotifyDataSetChange(SimpleNoteWidgetProvider.class));
+                new NotifyDataSetChange(SimpleNoteWidgetProvider.class, R.id.avf_widget_populated));
         mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
         mCommandSet.put(ACTION_DELETE_NOTE, new UnimplementedCommand());
         mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
@@ -80,6 +83,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
 
 
     }
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

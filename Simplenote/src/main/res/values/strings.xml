@@ -140,7 +140,7 @@
     <string name="version">Version</string>
 
     <!-- Widgets -->
-    <string name="widget_hint">Add a happy note to your day ...</string>
+    <string name="widget_hint">Unable to load title.</string>
     <string name="widget_empty">No data available.</string>
     <string name="widget_list_title">The Simplenote Sanctuary</string>
 

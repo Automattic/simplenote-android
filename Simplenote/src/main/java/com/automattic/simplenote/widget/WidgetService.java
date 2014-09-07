@@ -159,8 +159,9 @@ public class WidgetService extends RemoteViewsService {
 
             result.setTextViewText(R.id.tv_widget_note_item, n.getTitle());
 
-            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: "
-                    + n.getTitle());
+            // XXX sometimes getTitle returns a null value.
+            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: '"
+                    + n.getTitle() + "'");
             return result;
         }
 
