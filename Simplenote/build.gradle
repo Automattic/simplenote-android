@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 34
+        versionCode 35
         minSdkVersion 15
         targetSdkVersion 20
 
