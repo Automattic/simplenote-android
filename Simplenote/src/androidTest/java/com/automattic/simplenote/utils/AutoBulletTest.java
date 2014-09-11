@@ -119,17 +119,6 @@ public class AutoBulletTest extends TestCase {
         assertEquals(target, editable.toString());
     }
 
-    public void testOrderedBullet() {
-        String source = "1. Hello\n";
-        String target = "1. Hello\n1. ";
-        int oldPos = source.length() - 1;
-        int newPos = source.length();
-
-        Editable editable = buildEditable(source);
-        AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
-    }
-
     public void testInvalidBulletChar() {
         String source = "# Hello\n";
         String target = source;
