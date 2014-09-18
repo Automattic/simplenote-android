@@ -22,7 +22,7 @@ dependencies {
     compile "org.wordpress:android-passcodelock:0.0.5"
 }
 
-version "1.2.0"
+version "1.2.1"
 
 android {
 
@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 35
+        versionCode 36
         minSdkVersion 15
         targetSdkVersion 20
 
