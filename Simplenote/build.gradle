@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compile "com.simperium.android:simperium:0.4.12"
-    compile 'com.google.android.gms:play-services:5.0.77'
+    compile 'com.google.android.gms:play-services:5.2.08'
     compile "com.android.support:support-v4:20.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
