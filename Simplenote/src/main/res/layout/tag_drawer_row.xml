@@ -20,7 +20,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="10dp"/>
 
-    <TextView
+    <com.automattic.simplenote.widgets.SourceSansTextView
         android:id="@+id/tag_name"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"

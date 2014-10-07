@@ -28,8 +28,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.utils.TypefaceSpan;
-import com.automattic.simplenote.utils.Typefaces;
+import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.simperium.client.Bucket;
@@ -68,7 +67,6 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView emptyTextView = (TextView)findViewById(android.R.id.empty);
-        emptyTextView.setTypeface(Typefaces.get(this, Simplenote.CUSTOM_FONT_PATH));
         emptyTextView.setText(Html.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
 
         ListView listView = getListView();
@@ -285,13 +283,12 @@ public class TagsListActivity extends ListActivity implements AdapterView.OnItem
             mCursor.moveToPosition(position);
 
             if (convertView == null) {
-                convertView = (LinearLayout) getLayoutInflater().inflate(R.layout.tags_list_row, null);
+                convertView = getLayoutInflater().inflate(R.layout.tags_list_row, null);
             }
             final Tag tag = mCursor.getObject();
             convertView.setTag(tag.getSimperiumKey());
 
             TextView tagTitle = (TextView) convertView.findViewById(R.id.tag_name);
-            tagTitle.setTypeface(Typefaces.get(TagsListActivity.this, Simplenote.CUSTOM_FONT_PATH));
             TextView tagCountTextView = (TextView) convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
             final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();

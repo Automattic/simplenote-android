@@ -12,12 +12,11 @@
 			android:divider="?attr/listDividerDrawable"
 			android:dividerHeight="1px">
     </ListView>
-    <TextView android:id="@android:id/empty"
+    <com.automattic.simplenote.widgets.SourceSansTextView android:id="@android:id/empty"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
               android:textColor="@color/mediumgrey"
               android:textSize="20sp"
-              android:padding="16dp"
-              android:fontFamily="sans-serif-light" />
+              android:padding="16dp" />
 </LinearLayout>

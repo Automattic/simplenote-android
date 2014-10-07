@@ -14,6 +14,17 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <!-- welcome buttons -->
+    <style name="SimplenoteButton">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/welcome_button_selector</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- undo bar -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>

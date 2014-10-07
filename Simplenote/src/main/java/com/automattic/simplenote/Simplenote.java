@@ -23,8 +23,6 @@ public class Simplenote extends Application {
 
     private static final String AUTH_PROVIDER = "simplenote.com";
 
-    public static final String CUSTOM_FONT_PATH = "fonts/SourceSansPro-Regular.ttf";
-
     public static final String DELETED_NOTE_ID = "deletedNoteId";
 
 	private Simperium mSimperium;
