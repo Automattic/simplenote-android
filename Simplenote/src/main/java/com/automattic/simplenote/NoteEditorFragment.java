@@ -49,8 +49,8 @@ import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
@@ -67,6 +67,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
+
+    private Tracker mTracker;
 
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
@@ -101,6 +103,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
             mNotesBucket = currentApp.getNotesBucket();
+            mTracker = currentApp.getTracker();
 
             TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
             if (a != null) {
@@ -273,7 +276,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNote.getContent());
                     startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    EasyTracker.getTracker().sendEvent("note", "shared_note", "action_bar_share_button", null);
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("shared_note")
+                            .setLabel("action_bar_share_button")
+                            .build()
+                    );
                 }
                 return true;
             case R.id.menu_delete:
@@ -520,12 +529,26 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onTagsChanged(String tagString) {
-        if (mNote == null)
-            return;
-        if (getActivity() != null && mNote.getTagString() != null && tagString.length() > mNote.getTagString().length())
-            EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
-        else
-            EasyTracker.getTracker().sendEvent("note", "removed_tag", "tag_removed_from_note", null);
+        if (mNote == null || !isAdded()) return;
+
+        if (mNote.getTagString() != null && tagString.length() > mNote.getTagString().length()) {
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("added_tag")
+                            .setLabel("tag_added_to_note")
+                            .build()
+            );
+        }
+        else {
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("removed_tag")
+                            .setLabel("tag_removed_from_note")
+                            .build()
+            );
+        }
 
         mNote.setTagString(tagString);
         mNote.setModificationDate(Calendar.getInstance());
@@ -726,10 +749,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
             if (getActivity() != null) {
-                Tracker tracker = EasyTracker.getTracker();
-                if (mNote.isPinned() != mPinButton.isChecked())
-                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
-                tracker.sendEvent("note", "edited_note", "editor_save", null);
+                if (mNote.isPinned() != mPinButton.isChecked()) {
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                                    .setCategory("note")
+                                    .setAction((mPinButton.isChecked()) ? "pinned_note" : "unpinned_note")
+                                    .setLabel("pin_button")
+                                    .build()
+                    );
+                }
+
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("edited_note")
+                                .setLabel("editor_save")
+                                .build()
+                );
             }
         }
     }
