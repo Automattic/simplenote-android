@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.13.+'
     }
 }
 
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compile "com.simperium.android:simperium:0.4.12"
-    compile "com.android.support:support-v4:20.+"
+    compile "com.android.support:appcompat-v7:21.0.+"
     compile "com.google:google-analytics:2.0-beta-4"
     compile "org.wordpress:android-passcodelock:0.0.5"
 }
@@ -26,15 +26,15 @@ version "1.2.1"
 
 android {
 
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 21
+    buildToolsVersion "21"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 36
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 21
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""

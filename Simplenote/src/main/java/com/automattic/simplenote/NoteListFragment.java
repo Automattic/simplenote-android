@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -56,7 +57,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, ActionMode.Callback {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
 
     private ActionMode mActionMode;
 
@@ -198,7 +199,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.notes_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         return view;
     }
 

@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.TagsListActivity"
+            android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <!-- Passcode Unlock-->

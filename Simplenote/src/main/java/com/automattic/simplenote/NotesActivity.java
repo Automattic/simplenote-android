@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -14,11 +13,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,13 +30,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widgets.FloatingActionButton;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -49,7 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class NotesActivity extends Activity implements
+public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
@@ -83,7 +88,7 @@ public class NotesActivity extends Activity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         ThemeUtils.setTheme(this);
 
@@ -97,6 +102,9 @@ public class NotesActivity extends Activity implements
             mTagsBucket = currentApp.getTagsBucket();
 
         setContentView(R.layout.activity_notes);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         EasyTracker.getInstance().activityStart(this);
         mTracker = EasyTracker.getTracker();
@@ -135,19 +143,9 @@ public class NotesActivity extends Activity implements
         if (mSelectedTag == null)
             mSelectedTag = mTagsAdapter.getDefaultItem();
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        mActionBar = getActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setHomeButtonEnabled(true);
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.drawable.ic_drawer,
-                R.string.open_drawer,
-                R.string.close_drawer
+                this,  mDrawerLayout, toolbar,
+                R.string.open_drawer, R.string.close_drawer
         ) {
             public void onDrawerClosed(View view) {
                 setTitle(mActionBarTitle);
@@ -161,7 +159,31 @@ public class NotesActivity extends Activity implements
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeButtonEnabled(true);
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
+
+        FloatingActionButton fabButton = new FloatingActionButton.Builder(this)
+                .withDrawable(getResources().getDrawable(R.drawable.ic_create_white))
+                .withButtonColor(getResources().getColor(R.color.simplenote_blue))
+                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+                .withMargins(0, 0, 16, 16)
+                .create();
+
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNoteListFragment() != null) {
+                    getNoteListFragment().addNote();
+                    mTracker.sendEvent("note", "create_note", "action_bar_button", null);
+                }
+            }
+        });
 
         if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
             // Create the welcome note
@@ -457,12 +479,6 @@ public class NotesActivity extends Activity implements
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
 
-        // Set a custom search view drawable
-        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = mSearchView.findViewById(searchPlateId);
-        if (searchPlate != null)
-            searchPlate.setBackgroundResource(R.drawable.search_view_selector);
-
         if (!TextUtils.isEmpty(searchQuery)) {
             mSearchView.setQuery(searchQuery, false);
             mSearchMenuItem.expandActionView();
@@ -484,7 +500,8 @@ public class NotesActivity extends Activity implements
             }
 
         });
-        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
+        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
@@ -532,7 +549,6 @@ public class NotesActivity extends Activity implements
             trashItem.setTitle(R.string.delete);
 
         if (isLargeScreenLandscape()) {
-            menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_preferences).setVisible(true);
             if (mCurrentNote != null) {
@@ -545,7 +561,6 @@ public class NotesActivity extends Activity implements
             menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
-            menu.findItem(R.id.menu_create_note).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
@@ -561,7 +576,6 @@ public class NotesActivity extends Activity implements
 
             updateTrashMenuItem();
 
-            menu.findItem(R.id.menu_create_note).setVisible(false);
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
         }
@@ -584,12 +598,8 @@ public class NotesActivity extends Activity implements
                 startLoginActivity(true);
                 return true;
             case R.id.menu_edit_tags:
-                Intent editTagsIntent = new Intent(this, TagsListActivity.class);
+                Intent editTagsIntent = new Intent(this, TagsActivity.class);
                 startActivity(editTagsIntent);
-                return true;
-            case R.id.menu_create_note:
-                getNoteListFragment().addNote();
-                mTracker.sendEvent("note", "create_note", "action_bar_button", null);
                 return true;
             case R.id.menu_share:
                 if (mCurrentNote != null) {

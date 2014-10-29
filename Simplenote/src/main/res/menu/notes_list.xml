@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_search"
-        android:actionViewClass="android.widget.SearchView"
-        android:icon="@drawable/ab_icon_search"
-        android:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/ic_search_white"
         android:title="@string/search" />
     <item
             android:id="@+id/menu_share"
-            android:showAsAction="ifRoom"
+            app:showAsAction="ifRoom"
             android:title="@string/share"
-            android:icon="@drawable/ab_icon_share"/>
-
-    <item
-            android:id="@+id/menu_create_note"
-            android:icon="@drawable/ab_icon_new"
-            android:showAsAction="always"
-            android:title="@string/new_note"/>
+            android:icon="@drawable/ic_share_white"/>
 
     <item
             android:id="@+id/menu_delete"
-            android:showAsAction="never"
+            app:showAsAction="never"
             android:title="@string/delete"/>
 
     <item
             android:id="@+id/menu_empty_trash"
             android:icon="@drawable/ab_icon_empty_trash"
-            android:showAsAction="ifRoom"
+            app:showAsAction="ifRoom"
             android:title="@string/empty_trash"/>
 
     <item
             android:id="@+id/menu_sign_in"
-            android:showAsAction="never"
+            app:showAsAction="never"
             android:title="@string/sign_in"/>
 
     <item
             android:id="@+id/menu_edit_tags"
-            android:showAsAction="never"
+            app:showAsAction="never"
             android:title="@string/edit_tags"/>
 
     <item
             android:id="@+id/menu_preferences"
-            android:showAsAction="never"
+            app:showAsAction="never"
             android:title="@string/settings"/>
 
 </menu>

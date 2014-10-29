@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_view_info"
-        android:icon="@drawable/ab_icon_info"
-        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_info_white"
+        app:showAsAction="ifRoom"
         android:title="@string/note_info"/>
 
     <item
             android:id="@+id/menu_share"
-            android:showAsAction="ifRoom"
+            app:showAsAction="ifRoom"
             android:title="@string/share"
-            android:icon="@drawable/ab_icon_share"/>
+            android:icon="@drawable/ic_share_white"/>
 
     <item
             android:id="@+id/menu_delete"
-            android:showAsAction="never"
+            app:showAsAction="never"
             android:title="@string/delete"/>
 
 </menu>

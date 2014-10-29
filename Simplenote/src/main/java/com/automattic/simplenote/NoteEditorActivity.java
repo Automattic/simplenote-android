@@ -1,13 +1,14 @@
 package com.automattic.simplenote;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class NoteEditorActivity extends Activity {
+public class NoteEditorActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,9 @@ public class NoteEditorActivity extends Activity {
         // No title, please.
         setTitle("");
 
-        // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NoteEditorFragment noteEditorFragment;
         if (savedInstanceState == null) {

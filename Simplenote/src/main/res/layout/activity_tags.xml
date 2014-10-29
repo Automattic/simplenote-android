@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_parent_view"
     android:layout_width="match_parent"
@@ -6,10 +7,8 @@
 
     <include layout="@layout/toolbar" />
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/note_editor_container"
+    <FrameLayout
+        android:id="@+id/tags_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".NoteEditorActivity" />
+        android:layout_height="match_parent" />
 </LinearLayout>

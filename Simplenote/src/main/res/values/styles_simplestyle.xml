@@ -19,16 +19,23 @@
 
 <resources>
 
-    <style name="Theme.Simplestyle" parent="@android:style/Theme.Holo.Light">
+    <style name="Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Material theme -->
+        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
+        <item name="colorAccent">@color/simplenote_blue_light</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Simplestyle</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_simplestyle</item>
+        <item name="actionModeBackground">@color/simplenote_blue_dark</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
+        <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
@@ -52,13 +59,18 @@
         <item name="actionBarIconEmail">@drawable/ab_icon_email</item>
         <item name="actionBarIconWeb">@drawable/ab_icon_web</item>
         <item name="actionBarIconMap">@drawable/ab_icon_map</item>
-        <item name="actionBarIconShare">@drawable/ab_icon_share_grey</item>
+        <item name="actionBarIconShare">@drawable/ic_share_white</item>
         <item name="actionBarIconCopy">@drawable/ab_icon_copy</item>
         <item name="actionBarIconCall">@drawable/ab_icon_call</item>
         <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
         <item name="listSearchHighlightBackgroundColor">#FFEEF3F8</item>
         <item name="editorSearchHighlightForegroundColor">#FFEEF3F8</item>
         <item name="editorSearchHighlightBackgroundColor">#FF4F91CC</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
