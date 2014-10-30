@@ -38,6 +38,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:label="Preferences"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
