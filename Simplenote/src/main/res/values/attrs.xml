@@ -26,5 +26,6 @@
     <attr name="actionBarIconMap" format="reference" />
     <attr name="actionBarIconEmail" format="reference" />
     <attr name="actionBarIconCall" format="reference" />
+    <attr name="actionBarTextColor" format="reference|color" />
 
 </resources>

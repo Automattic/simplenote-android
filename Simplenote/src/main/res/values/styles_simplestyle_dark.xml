@@ -24,13 +24,12 @@
         <item name="colorPrimary">@color/simplenote_dark_bg</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
@@ -50,10 +49,15 @@
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
         <item name="listDividerDrawable">@drawable/list_divider_dark</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
+        <item name="actionBarTextColor">@color/simplenote_blue</item>
         <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
         <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
         <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
         <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
+    </style>
+
+    <style name="DrawerArrowStyle.Dark" parent="DrawerArrowStyle">
+        <item name="color">@color/simplenote_blue</item>
     </style>
 
     <style name="PopupMenu.Simplestyle.Dark" parent="@android:style/Widget.Holo.ListPopupWindow">
