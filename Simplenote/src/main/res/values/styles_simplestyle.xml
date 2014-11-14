@@ -30,10 +30,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Simplestyle</item>
         <item name="actionModeBackground">@color/simplenote_blue_dark</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
@@ -55,11 +52,11 @@
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_tags</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
-        <item name="actionBarIconTrash">@drawable/ab_icon_trash</item>
+        <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
         <item name="actionBarIconEmail">@drawable/ab_icon_email</item>
         <item name="actionBarIconWeb">@drawable/ab_icon_web</item>
         <item name="actionBarIconMap">@drawable/ab_icon_map</item>
-        <item name="actionBarIconShare">@drawable/ic_share_white</item>
+        <item name="actionBarIconShare">@drawable/ic_share_white_24dp</item>
         <item name="actionBarIconCopy">@drawable/ab_icon_copy</item>
         <item name="actionBarIconCall">@drawable/ab_icon_call</item>
         <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
@@ -75,21 +72,6 @@
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
-    </style>
-
-    <style name="ActionBar.Solid.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_solid_simplestyle</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
-        <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
-        <item name="android:icon">@drawable/ab_icon_logo</item>
-        <item name="android:indeterminateProgressStyle">@style/Simplestyle.IndeterminateProgress</item>
-    </style>
-
-    <style name="ActionBar.Transparent.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_simplestyle</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Holo.Light.ProgressBar">
@@ -118,13 +100,6 @@
 
     <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
-    </style>
-
-    <style name="DropDownNav.Simplestyle" parent="@android:style/Widget.Holo.Light.Spinner">
-        <item name="android:background">@drawable/spinner_background_ab_simplestyle</item>
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
-        <item name="android:dropDownSelector">@drawable/selectable_background_simplestyle</item>
-        <item name="android:textColor">@color/simplenote_blue</item>
     </style>
 
     <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">

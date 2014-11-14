@@ -169,7 +169,7 @@ public class NotesActivity extends ActionBarActivity implements
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
         mFloatingActionButton = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_create_white))
+                .withDrawable(getResources().getDrawable(R.drawable.ic_create_white_24dp))
                 .withButtonColor(getResources().getColor(R.color.simplenote_blue))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)

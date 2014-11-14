@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,14 +21,14 @@ import android.widget.FrameLayout;
 
 public class FloatingActionButton extends View {
 
-    final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
-    final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
+    private final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
+    private final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
 
-    Context context;
-    Paint mButtonPaint;
-    Paint mDrawablePaint;
-    Bitmap mBitmap;
-    boolean mHidden = false;
+    private final Context context;
+    private Paint mButtonPaint;
+    private Paint mDrawablePaint;
+    private Bitmap mBitmap;
+    private boolean mHidden = false;
 
     public FloatingActionButton(Context context) {
         super(context);
@@ -35,16 +36,16 @@ public class FloatingActionButton extends View {
         init(Color.WHITE);
     }
 
-    public void setFloatingActionButtonColor(int FloatingActionButtonColor) {
+    void setFloatingActionButtonColor(int FloatingActionButtonColor) {
         init(FloatingActionButtonColor);
     }
 
-    public void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable) {
+    void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable) {
         mBitmap = ((BitmapDrawable) FloatingActionButtonDrawable).getBitmap();
         invalidate();
     }
 
-    public void init(int FloatingActionButtonColor) {
+    void init(int FloatingActionButtonColor) {
         setWillNotDraw(false);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
@@ -66,11 +67,11 @@ public class FloatingActionButton extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             setAlpha(1.0f);
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            setAlpha(0.6f);
+            setAlpha(0.8f);
         }
         return super.onTouchEvent(event);
     }

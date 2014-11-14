@@ -30,10 +30,6 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Simplestyle</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Simplestyle.Dark</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_simplestyle_dark</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_simplestyle</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -54,27 +50,10 @@
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
         <item name="listDividerDrawable">@drawable/list_divider_dark</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
-        <item name="actionBarIconTrash">@drawable/ab_icon_trash_dark</item>
-        <item name="actionBarIconEmail">@drawable/ab_icon_email_dark</item>
-        <item name="actionBarIconWeb">@drawable/ab_icon_web_dark</item>
-        <item name="actionBarIconMap">@drawable/ab_icon_map_dark</item>
-        <item name="actionBarIconShare">@drawable/ic_share_white</item>
-        <item name="actionBarIconCopy">@drawable/ab_icon_copy_dark</item>
-        <item name="actionBarIconCall">@drawable/ab_icon_call_dark</item>
         <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
         <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
         <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
         <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
-    </style>
-
-    <style name="ActionBar.Solid.Simplestyle.Dark" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_solid_simplestyle_dark</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_simplestyle</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_simplestyle</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Simplestyle</item>
-        <item name="android:titleTextStyle">@style/Simplestyle.ActionBarTitleTextStyle</item>
-        <item name="android:icon">@drawable/ab_icon_logo</item>
-        <item name="android:indeterminateProgressStyle">@style/Simplestyle.IndeterminateProgress</item>
     </style>
 
     <style name="PopupMenu.Simplestyle.Dark" parent="@android:style/Widget.Holo.ListPopupWindow">
