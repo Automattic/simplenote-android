@@ -14,13 +14,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -869,10 +869,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
-                    mActionMode = getActivity().startActionMode(mActionModeCallback);
+                    mActionMode = ((NoteEditorActivity)getActivity()).startSupportActionMode(mActionModeCallback);
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
+
                     setLinkMenuItem();
                 }
             } else if (mActionMode != null) {

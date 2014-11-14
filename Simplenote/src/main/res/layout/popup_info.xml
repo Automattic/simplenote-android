@@ -96,7 +96,7 @@
                         android:layout_marginLeft="8dp"
                         android:background="@drawable/selectable_background_simplestyle"
                         android:contentDescription="@string/content_description_copy_button"
-                        android:src="@drawable/ab_icon_copy_dark" />
+                        android:src="@drawable/ic_content_copy_white_24dp" />
 
                     <ImageButton
                         android:id="@+id/publish_share_url"

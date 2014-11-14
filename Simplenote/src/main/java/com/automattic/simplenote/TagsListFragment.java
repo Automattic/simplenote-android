@@ -156,7 +156,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.bulk_edit_tags, menu);
+        inflater.inflate(R.menu.bulk_edit, menu);
         mActionMode = actionMode;
         return true;
     }

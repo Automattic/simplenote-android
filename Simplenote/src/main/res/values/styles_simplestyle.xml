@@ -34,7 +34,6 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
-        <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
@@ -52,12 +51,12 @@
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_tags</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
-        <item name="actionBarIconEmail">@drawable/ab_icon_email</item>
-        <item name="actionBarIconWeb">@drawable/ab_icon_web</item>
-        <item name="actionBarIconMap">@drawable/ab_icon_map</item>
+        <item name="actionBarIconEmail">@drawable/ic_email_white_24dp</item>
+        <item name="actionBarIconWeb">@drawable/ic_web_white_24dp</item>
+        <item name="actionBarIconMap">@drawable/ic_map_white_24dp</item>
         <item name="actionBarIconShare">@drawable/ic_share_white_24dp</item>
-        <item name="actionBarIconCopy">@drawable/ab_icon_copy</item>
-        <item name="actionBarIconCall">@drawable/ab_icon_call</item>
+        <item name="actionBarIconCopy">@drawable/ic_content_copy_white_24dp</item>
+        <item name="actionBarIconCall">@drawable/ic_call_white_24dp</item>
         <item name="actionBarTextColor">@color/white</item>
         <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
         <item name="listSearchHighlightBackgroundColor">#FFEEF3F8</item>
@@ -85,10 +84,6 @@
         <item name="android:maxWidth">32dp</item>
         <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>
-    </style>
-
-    <style name="Simplestyle.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ab_icon_overflow</item>
     </style>
 
     <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

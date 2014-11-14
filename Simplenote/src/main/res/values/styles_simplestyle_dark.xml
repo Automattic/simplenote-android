@@ -32,7 +32,6 @@
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
-        <item name="android:actionOverflowButtonStyle">@style/Simplestyle.Overflow</item>
         <item name="android:windowBackground">@color/simplenote_dark_bg</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo</item>
