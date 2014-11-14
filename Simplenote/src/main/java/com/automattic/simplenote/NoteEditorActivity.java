@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.google.analytics.tracking.android.EasyTracker;
 
 public class NoteEditorActivity extends ActionBarActivity {
 
@@ -18,8 +17,6 @@ public class NoteEditorActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_note_editor);
-
-        EasyTracker.getInstance().activityStart(this);
 
         // No title, please.
         setTitle("");

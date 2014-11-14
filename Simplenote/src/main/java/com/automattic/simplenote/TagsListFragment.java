@@ -27,8 +27,8 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
@@ -81,8 +81,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         setListAdapter(mTagsAdapter);
         refreshTags();
 
-        EasyTracker.getInstance().activityStart(getActivity());
-        mTracker = EasyTracker.getTracker();
+        mTracker = application.getTracker();
     }
 
     @Override
@@ -106,12 +105,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         mTagsBucket.removeOnDeleteObjectListener(this);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (isAdded()) {
-            EasyTracker.getInstance().activityStop(getActivity());
-        }
+    protected void refreshTags() {
+        Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
+        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
+        mTagsAdapter.changeCursor(cursor);
     }
 
     @Override
@@ -133,7 +130,13 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
                 String value = tagNameEditText.getText().toString().trim();
                 try {
                     tag.renameTo(value, mNotesBucket);
-                    mTracker.sendEvent("tag", "edited_tag", "tag_alert_edit_box", null);
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                                    .setCategory("tag")
+                                    .setAction("edited_tag")
+                                    .setLabel("tag_alert_edit_box")
+                                    .build()
+                    );
                 } catch (BucketObjectNameInvalid e) {
                     android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
                     // TODO: show user a message that new tag name is not ok
@@ -261,12 +264,6 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         // noop
     }
 
-    protected void refreshTags() {
-        Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
-        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-        mTagsAdapter.changeCursor(cursor);
-    }
-
     private class TagsAdapter extends CursorAdapter {
 
         private Bucket.ObjectCursor<Tag> mCursor;
@@ -302,7 +299,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             tagTitle.setText(tag.getName());
             final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
             if (tagCount > 0) {
-                tagCountTextView.setText(Integer.toString(tagCount));
+                tagCountTextView.setText(String.valueOf(tagCount));
             } else {
                 tagCountTextView.setText("");
             }
@@ -340,7 +337,13 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         private void deleteTag(Tag tag) {
             tag.delete();
             new removeTagFromNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
-            mTracker.sendEvent("tag", "deleted_tag", "list_trash_button", null);
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("tag")
+                            .setAction("deleted_tag")
+                            .setLabel("list_trash_button")
+                            .build()
+            );
         }
 
         @Override

@@ -6,6 +6,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
@@ -28,6 +30,8 @@ public class Simplenote extends Application {
 	private Simperium mSimperium;
 	private Bucket<Note> mNotesBucket;
 	private Bucket<Tag> mTagsBucket;
+
+    private Tracker mTracker;
 		
 	public void onCreate(){
 		super.onCreate();
@@ -62,9 +66,20 @@ public class Simplenote extends Application {
 	public Bucket<Note> getNotesBucket(){
 		return mNotesBucket;
 	}
-	
-	public Bucket<Tag> getTagsBucket(){
-		return mTagsBucket;
-	}
-	
+
+
+    public Bucket<Tag> getTagsBucket() {
+        return mTagsBucket;
+    }
+
+    // Google Analytics tracker
+    public synchronized Tracker getTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            mTracker = analytics.newTracker(BuildConfig.GOOGLE_ANALYTICS_ID);
+            mTracker.enableAutoActivityTracking(true);
+        }
+
+        return mTracker;
+    }
 }

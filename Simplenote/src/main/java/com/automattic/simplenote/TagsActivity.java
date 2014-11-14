@@ -39,9 +39,8 @@ public class TagsActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TagsListFragment tagsListFragment;
         if (savedInstanceState == null) {
-            tagsListFragment = new TagsListFragment();
+            TagsListFragment tagsListFragment = new TagsListFragment();
             getFragmentManager().beginTransaction()
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();

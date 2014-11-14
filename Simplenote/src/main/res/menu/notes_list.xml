@@ -15,6 +15,12 @@
             android:icon="@drawable/ic_share_white"/>
 
     <item
+        android:id="@+id/menu_create_note"
+        android:icon="@drawable/ic_create_white"
+        app:showAsAction="always"
+        android:title="@string/new_note"/>
+
+    <item
             android:id="@+id/menu_delete"
             app:showAsAction="never"
             android:title="@string/delete"/>
