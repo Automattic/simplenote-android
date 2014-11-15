@@ -237,7 +237,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
-        setProgressBarIndeterminateVisibility(false);
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
@@ -409,7 +409,7 @@ public class NotesActivity extends ActionBarActivity implements
             @Override
             public void run() {
                 if (type == Bucket.ChangeType.INDEX)
-                    setProgressBarIndeterminateVisibility(false);
+                    setSupportProgressBarIndeterminateVisibility(false);
                 mNoteListFragment.refreshList();
             }
         });
@@ -787,7 +787,7 @@ public class NotesActivity extends ActionBarActivity implements
                     @Override
                     public void run() {
                         if (!mNotesBucket.hasChangeVersion()) {
-                            setProgressBarIndeterminateVisibility(true);
+                            setSupportProgressBarIndeterminateVisibility(true);
                         }
                     }
                 });
@@ -857,9 +857,10 @@ public class NotesActivity extends ActionBarActivity implements
 
     @Override
     public void onUndo(Parcelable p) {
-        List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
-        if (mUndoBarController != null && deletedNoteIds != null) {
+        if (mUndoBarController == null) return;
 
+        List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
+        if (deletedNoteIds != null) {
             for (int i=0; i < deletedNoteIds.size(); i++) {
                 Note deletedNote = null;
                 try {
