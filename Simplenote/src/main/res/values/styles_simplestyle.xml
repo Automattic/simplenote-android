@@ -80,10 +80,11 @@
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Holo.Light.ProgressBar">
-        <item name="android:minWidth">32dp</item>
-        <item name="android:maxWidth">32dp</item>
-        <item name="android:minHeight">32dp</item>
-        <item name="android:maxHeight">32dp</item>
+        <item name="android:minWidth">24dp</item>
+        <item name="android:maxWidth">24dp</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
+        <item name="android:indeterminate">true</item>
     </style>
 
     <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

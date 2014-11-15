@@ -27,10 +27,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
+import android.widget.ProgressBar;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -89,8 +89,6 @@ public class NotesActivity extends ActionBarActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -163,6 +161,11 @@ public class NotesActivity extends ActionBarActivity implements
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
+
+        // Add loading indicator to show when indexing
+        ProgressBar progressBar = (ProgressBar)getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
+        mActionBar.setDisplayShowCustomEnabled(true);
+        mActionBar.setCustomView(progressBar);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -237,7 +240,6 @@ public class NotesActivity extends ActionBarActivity implements
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
-        setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
@@ -408,8 +410,9 @@ public class NotesActivity extends ActionBarActivity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (type == Bucket.ChangeType.INDEX)
-                    setSupportProgressBarIndeterminateVisibility(false);
+                if (type == Bucket.ChangeType.INDEX) {
+                    setToolbarProgressVisibility(false);
+                }
                 mNoteListFragment.refreshList();
             }
         });
@@ -787,7 +790,7 @@ public class NotesActivity extends ActionBarActivity implements
                     @Override
                     public void run() {
                         if (!mNotesBucket.hasChangeVersion()) {
-                            setSupportProgressBarIndeterminateVisibility(true);
+                            setToolbarProgressVisibility(true);
                         }
                     }
                 });
@@ -807,6 +810,10 @@ public class NotesActivity extends ActionBarActivity implements
             case UNKNOWN:
                 break;
         }
+    }
+
+    private void setToolbarProgressVisibility(boolean isVisible) {
+        getSupportActionBar().getCustomView().setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     public void startLoginActivity(boolean signInFirst) {
