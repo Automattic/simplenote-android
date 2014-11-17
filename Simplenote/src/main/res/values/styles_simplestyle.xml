@@ -24,14 +24,14 @@
         <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
         <item name="colorAccent">@color/simplenote_blue_light</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/simplenote_blue_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
-        <item name="actionModeBackground">@color/simplenote_blue_dark</item>
-        <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/white</item>
@@ -50,6 +50,9 @@
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_tags</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
+        <item name="actionBarIconInfo">@drawable/ic_info_white_24dp</item>
+        <item name="actionBarIconCreate">@drawable/ic_create_white_24dp</item>
+        <item name="actionBarIconSearch">@drawable/ic_search_white_24dp</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
         <item name="actionBarIconEmail">@drawable/ic_email_white_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_white_24dp</item>
@@ -58,6 +61,13 @@
         <item name="actionBarIconCopy">@drawable/ic_content_copy_white_24dp</item>
         <item name="actionBarIconCall">@drawable/ic_call_white_24dp</item>
         <item name="actionBarTextColor">@color/white</item>
+
+        <item name="toolbarColor">@color/simplenote_blue</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <item name="fabIcon">@drawable/ic_create_white_24dp</item>
+        <item name="fabColor">@color/simplenote_blue</item>
+
         <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
         <item name="listSearchHighlightBackgroundColor">#FFEEF3F8</item>
         <item name="editorSearchHighlightForegroundColor">#FFEEF3F8</item>
@@ -71,7 +81,7 @@
 
     <style name="ToolbarTheme" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="actionMenuTextColor">?attr/actionBarTextColor</item>
+        <item name="actionMenuTextColor">?attr/noteTitleColor</item>
         <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
     </style>
 

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -171,9 +172,11 @@ public class NotesActivity extends ActionBarActivity implements
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
+        int[] attrs = new int[] { R.attr.fabIcon, R.attr.fabColor };
+        TypedArray typedArray = getSupportActionBar().getThemedContext().obtainStyledAttributes(attrs);
         mFloatingActionButton = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_create_white_24dp))
-                .withButtonColor(getResources().getColor(R.color.simplenote_blue))
+                .withDrawable(typedArray.getDrawable(0))
+                .withButtonColor(typedArray.getColor(1, getResources().getColor(R.color.simplenote_blue)))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();

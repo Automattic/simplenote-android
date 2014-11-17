@@ -24,6 +24,7 @@
         <item name="colorPrimary">@color/simplenote_dark_bg</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/simplenote_blue</item>
+        <item name="actionModeBackground">@color/simplenote_blue_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
@@ -48,7 +49,24 @@
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
         <item name="listDividerDrawable">@drawable/list_divider_dark</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
+        <item name="actionBarIconInfo">@drawable/ic_info_blue_24dp</item>
+        <item name="actionBarIconCreate">@drawable/ic_create_blue_24dp</item>
+        <item name="actionBarIconSearch">@drawable/ic_search_blue_24dp</item>
+        <item name="actionBarIconTrash">@drawable/ic_delete_blue_24dp</item>
+        <item name="actionBarIconEmail">@drawable/ic_email_blue_24dp</item>
+        <item name="actionBarIconWeb">@drawable/ic_web_blue_24dp</item>
+        <item name="actionBarIconMap">@drawable/ic_map_blue_24dp</item>
+        <item name="actionBarIconShare">@drawable/ic_share_blue_24dp</item>
+        <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>
+        <item name="actionBarIconCall">@drawable/ic_call_blue_24dp</item>
         <item name="actionBarTextColor">@color/simplenote_blue</item>
+
+        <item name="toolbarColor">@color/simplenote_dark_bg</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+
+        <item name="fabIcon">@drawable/ic_create_blue_24dp</item>
+        <item name="fabColor">@color/simplenote_dark_selected_row</item>
+
         <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
         <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
         <item name="editorSearchHighlightForegroundColor">#FF39536A</item>

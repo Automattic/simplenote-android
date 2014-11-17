@@ -19,6 +19,13 @@
     <attr name="editorSearchHighlightForegroundColor" format="reference|color" />
     <attr name="editorSearchHighlightBackgroundColor" format="reference|color" />
     <attr name="tagChipBackgroundDrawable" format="reference" />
+
+    <attr name="toolbarColor" format="reference|color" />
+    <attr name="toolbarPopupTheme" format="reference" />
+
+    <attr name="actionBarIconInfo" format="reference" />
+    <attr name="actionBarIconSearch" format="reference" />
+    <attr name="actionBarIconCreate" format="reference" />
     <attr name="actionBarIconTrash" format="reference" />
     <attr name="actionBarIconWeb" format="reference" />
     <attr name="actionBarIconCopy" format="reference" />
@@ -27,5 +34,7 @@
     <attr name="actionBarIconEmail" format="reference" />
     <attr name="actionBarIconCall" format="reference" />
     <attr name="actionBarTextColor" format="reference|color" />
+    <attr name="fabIcon" format="reference" />
+    <attr name="fabColor" format="reference" />
 
 </resources>
