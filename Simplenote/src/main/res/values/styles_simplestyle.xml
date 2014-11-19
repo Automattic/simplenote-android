@@ -79,7 +79,7 @@
         <item name="color">@android:color/white</item>
     </style>
 
-    <style name="ToolbarTheme" parent="Theme.AppCompat">
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
         <item name="actionMenuTextColor">?attr/noteTitleColor</item>
         <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
