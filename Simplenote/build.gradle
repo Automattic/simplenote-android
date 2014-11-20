@@ -17,19 +17,20 @@ repositories {
 }
 
 dependencies {
-    compile('com.simperium.android:simperium:0.4.12')
-
+    compile('com.simperium.android:simperium:0.6.0')
     compile "com.google.android.gms:play-services:6.1.+"
     compile "com.android.support:support-v4:21.+"
     compile "org.wordpress:android-passcodelock:0.0.5"
+
+    wearApp project(':Wear')
 }
 
 version "1.2.2"
 
 android {
 
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
@@ -49,7 +50,7 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+            minifyEnabled true
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
 

@@ -39,6 +39,7 @@
     <string name="note_pinned">Note pinned.</string>
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
+    <string name="note_added">Note added</string>
 
     <string name="sort_order">Sort order</string>
     <string name="search">Search</string>
@@ -108,7 +109,6 @@
     <string name="login_failed_message">Could not login with the provided email address and password.</string>
     <string name="create_account">Create a New Account</string>
     <string name="forgot_password">Forgot your password?</string>
-    <string name="error">Error</string>
     <string name="ok">OK</string>
     <string name="no_account">Don\'t have an account yet?</string>
     <string name="have_account">Already have an account?</string>
@@ -138,9 +138,17 @@
     <string name="theme">Theme</string>
 
     <string name="version">Version</string>
+
+    <!-- Note publishing -->
     <string name="content_description_copy_button">Copy Button</string>
     <string name="publish">Publish</string>
     <string name="published">Published</string>
     <string name="publish_error">Could not publish note</string>
     <string name="unpublish_error">Could not unpublish note</string>
+
+    <!-- Android Wear strings, added here to make GlotPress translation easier -->
+    <!-- Note: These need to be manually copied to the Wear app strings -->
+    <string name="noted">Noted</string>
+    <string name="error">Error</string>
+
 </resources>

@@ -23,13 +23,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <action android:name="com.google.android.gm.action.AUTO_SEND" />
+            <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="com.google.android.voicesearch.SELF_NOTE" />
+            <data android:mimeType="text/*" />
+        </intent-filter>
         </activity>
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
@@ -70,6 +71,14 @@
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+
+
+        <!-- Android Wear -->
+        <service android:name=".utils.SimplenoteWearListenerService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
 
         <!-- Google Play Services -->
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
