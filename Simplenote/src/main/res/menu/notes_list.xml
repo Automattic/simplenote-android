@@ -16,7 +16,7 @@
 
     <item
         android:id="@+id/menu_create_note"
-        android:icon="@attr/actionBarIconCreate"
+        android:icon="?attr/actionBarIconCreate"
         app:showAsAction="always"
         android:title="@string/new_note"/>
 
