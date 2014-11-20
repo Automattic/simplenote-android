@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.google.analytics.tracking.android.EasyTracker;
 
 public class NoteEditorActivity extends Activity {
 
@@ -17,8 +16,6 @@ public class NoteEditorActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_note_editor);
-
-        EasyTracker.getInstance().activityStart(this);
 
         // No title, please.
         setTitle("");

@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.14.+'
     }
 }
 
@@ -13,35 +13,36 @@ repositories {
     mavenCentral()
     maven { url "http://simperium.github.io/simplenote-android" }
     maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
+    maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
 }
 
 dependencies {
-    compile "com.simperium.android:simperium:0.4.12"
-    compile 'com.google.android.gms:play-services:5.2.08'
-    compile "com.android.support:support-v4:20.+"
-    compile "com.google:google-analytics:2.0-beta-4"
+    compile('com.simperium.android:simperium:0.6.0')
+    compile "com.google.android.gms:play-services:6.1.+"
+    compile "com.android.support:support-v4:21.+"
     compile "org.wordpress:android-passcodelock:0.0.5"
 
     wearApp project(':Wear')
 }
 
-version "1.2.1"
+version "1.2.2"
 
 android {
 
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 36
+        versionCode 37
         minSdkVersion 15
         targetSdkVersion 20
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
         buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
+        buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\"";
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
@@ -49,7 +50,7 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+            minifyEnabled true
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
 

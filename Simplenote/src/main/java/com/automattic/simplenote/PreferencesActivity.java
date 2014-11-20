@@ -13,7 +13,8 @@ import android.view.MenuItem;
 
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
@@ -21,6 +22,8 @@ import com.simperium.client.User;
 import org.wordpress.passcodelock.AppLockManager;
 
 public class PreferencesActivity extends PreferenceActivity implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+
+    private Tracker mTracker;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -45,6 +48,7 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
         Simplenote currentApp = (Simplenote) getApplication();
         currentApp.getSimperium().setUserStatusChangeListener(this);
         currentApp.getSimperium().setOnUserCreatedListener(this);
+        mTracker = currentApp.getTracker();
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (currentApp.getSimperium().needsAuthorization()) {
             authenticatePreference.setTitle(R.string.sign_in);
@@ -68,7 +72,13 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
                     application.getTagsBucket().reset();
                     application.getNotesBucket().stop();
                     application.getTagsBucket().stop();
-                    EasyTracker.getTracker().sendEvent("user", "signed_out", "preferences_sign_out_button", null);
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                                    .setCategory("user")
+                                    .setAction("signed_out")
+                                    .setLabel("preferences_sign_out_button")
+                                    .build()
+                    );
                     finish();
                 }
                 return true;
@@ -133,14 +143,6 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
 
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
-
-        EasyTracker.getInstance().activityStart(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
@@ -164,13 +166,25 @@ public class PreferencesActivity extends PreferenceActivity implements User.Stat
                     authenticatePreference.setTitle(R.string.sign_out);
                 }
             });
-            EasyTracker.getTracker().sendEvent("user", "signed_in", "signed_in_from_preferences_activity", null);
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("user")
+                            .setAction("signed_in")
+                            .setLabel("signed_in_from_preferences_activity")
+                            .build()
+            );
         }
     }
 
     @Override
     public void onUserCreated(User user) {
-        EasyTracker.getTracker().sendEvent("user", "new_account_created", "account_created_from_preferences_activity", null);
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("user")
+                        .setAction("new_account_created")
+                        .setLabel("account_created_from_preferences_activity")
+                        .build()
+        );
     }
 
 }

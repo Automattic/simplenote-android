@@ -36,8 +36,8 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
@@ -99,8 +99,7 @@ public class NotesActivity extends Activity implements
 
         setContentView(R.layout.activity_notes);
 
-        EasyTracker.getInstance().activityStart(this);
-        mTracker = EasyTracker.getTracker();
+        mTracker = currentApp.getTracker();
 
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
@@ -202,11 +201,17 @@ public class NotesActivity extends Activity implements
                 note.setContent(text);
                 note.save();
                 setCurrentNote(note);
+
                 if (!isVoiceShare) {
                     mShouldSelectNewNote = true;
                 }
-
-                mTracker.sendEvent("note", "create_note", isVoiceShare ? "google_voice_command" : "external_share", null);
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("create_note")
+                                .setLabel("external_share")
+                                .build()
+                );
             }
         }
         currentApp.getSimperium().setOnUserCreatedListener(this);
@@ -258,12 +263,6 @@ public class NotesActivity extends Activity implements
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
@@ -335,8 +334,15 @@ public class NotesActivity extends Activity implements
             }
 
             getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1)
-                mTracker.sendEvent("tag", "viewed_notes_for_tag", "selected_tag_in_navigation_drawer", null);
+            if (position > 1) {
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("tag")
+                                .setAction("viewed_notes_for_tag")
+                                .setLabel("selected_tag_in_navigation_drawer")
+                                .build()
+                );
+            }
         }
     }
 
@@ -497,7 +503,13 @@ public class NotesActivity extends Activity implements
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
-                mTracker.sendEvent("note", "searched_notes", "action_bar_search_tap", null);
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("searched_notes")
+                                .setLabel("action_bar_search_tap")
+                                .build()
+                );
                 return true;
             }
 
@@ -597,7 +609,13 @@ public class NotesActivity extends Activity implements
                 return true;
             case R.id.menu_create_note:
                 getNoteListFragment().addNote();
-                mTracker.sendEvent("note", "create_note", "action_bar_button", null);
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("create_note")
+                                .setLabel("action_bar_button")
+                                .build()
+                );
                 return true;
             case R.id.menu_share:
                 if (mCurrentNote != null) {
@@ -605,7 +623,13 @@ public class NotesActivity extends Activity implements
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mCurrentNote.getContent());
                     startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    mTracker.sendEvent("note", "shared_note", "action_bar_share_button", null);
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                                    .setCategory("note")
+                                    .setAction("shared_note")
+                                    .setLabel("action_bar_share_button")
+                                    .build()
+                    );
                 }
                 return true;
             case R.id.menu_delete:
@@ -620,9 +644,21 @@ public class NotesActivity extends Activity implements
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                             mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
-                            mTracker.sendEvent("note", "deleted_note", "overflow_menu", null);
+                            mTracker.send(
+                                    new HitBuilders.EventBuilder()
+                                            .setCategory("note")
+                                            .setAction("deleted_note")
+                                            .setLabel("overflow_menu")
+                                            .build()
+                            );
                         } else {
-                            mTracker.sendEvent("note", "restored_note", "overflow_menu", null);
+                            mTracker.send(
+                                    new HitBuilders.EventBuilder()
+                                            .setCategory("note")
+                                            .setAction("restored_note")
+                                            .setLabel("overflow_menu")
+                                            .build()
+                            );
                         }
                         showDetailPlaceholder();
                     }
@@ -641,7 +677,13 @@ public class NotesActivity extends Activity implements
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new emptyTrashTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        mTracker.sendEvent("note", "trash_emptied", "overflow_menu", null);
+                        mTracker.send(
+                                new HitBuilders.EventBuilder()
+                                        .setCategory("note")
+                                        .setAction("trash_emptied")
+                                        .setLabel("overflow_menu")
+                                        .build()
+                        );
                     }
                 });
                 alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -688,13 +730,25 @@ public class NotesActivity extends Activity implements
             invalidateOptionsMenu();
         }
 
-        mTracker.sendEvent("note", "viewed_note", "note_list_row_tap", null);
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("viewed_note")
+                        .setLabel("note_list_row_tap")
+                        .build()
+        );
     }
 
     @Override
     public void onUserCreated(User user) {
         // New account created
-        mTracker.sendEvent("user", "new_account_created", "account_created_from_login_activity", null);
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("user")
+                        .setAction("new_account_created")
+                        .setLabel("account_created_from_login_activity")
+                        .build()
+        );
     }
 
     public void onUserStatusChange(User.Status status) {
@@ -702,7 +756,13 @@ public class NotesActivity extends Activity implements
 
             // successfully used access token to connect to simperium bucket
             case AUTHORIZED:
-                mTracker.sendEvent("user", "signed_in", "signed_in_from_login_activity", null);
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("user")
+                                .setAction("signed_in")
+                                .setLabel("signed_in_from_login_activity")
+                                .build()
+                );
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -858,7 +918,13 @@ public class NotesActivity extends Activity implements
             getNoteListFragment().setEmptyListViewClickable(false);
         } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
-            EasyTracker.getTracker().sendEvent("note", "viewed_trash", "trash_filter_selected", null);
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("user")
+                            .setAction("viewed_trash")
+                            .setLabel("trash_filter_selected")
+                            .build()
+            );
             getNoteListFragment().setEmptyListViewClickable(false);
         } else {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
