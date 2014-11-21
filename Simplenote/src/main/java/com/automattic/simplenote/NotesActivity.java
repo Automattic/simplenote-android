@@ -168,6 +168,7 @@ public class NotesActivity extends ActionBarActivity implements
         ProgressBar progressBar = (ProgressBar)getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(progressBar);
+        setToolbarProgressVisibility(false);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
