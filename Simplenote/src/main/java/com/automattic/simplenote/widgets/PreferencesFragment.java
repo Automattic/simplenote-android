@@ -98,12 +98,7 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
             }
         });
 
-        PreferenceGroup notesPreferenceGroup = (PreferenceGroup) findPreference("pref_key_note_preferences");
         final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
-
-        if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_THEME_MODIFIED, false))
-            notesPreferenceGroup.removePreference(themePreference);
-
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
             @Override

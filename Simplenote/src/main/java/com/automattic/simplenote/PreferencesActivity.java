@@ -13,6 +13,7 @@ public class PreferencesActivity extends ActionBarActivity {
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         // if a new theme was picked, activity is recreated with theme changed intent
