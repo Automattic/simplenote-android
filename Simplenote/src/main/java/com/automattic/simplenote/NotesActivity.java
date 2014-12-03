@@ -60,6 +60,10 @@ public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
+    public static String TAG_NOTE_LIST = "noteList";
+    public static String TAG_NOTE_EDITOR = "noteEditor";
+    private int TRASH_SELECTED_ID = 1;
+
     private boolean mIsLargeScreen, mIsLandscape, mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -70,8 +74,6 @@ public class NotesActivity extends ActionBarActivity implements
     private Note mCurrentNote;
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
-    private int TRASH_SELECTED_ID = 1;
-    private ActionBar mActionBar;
     private MenuItem mEmptyTrashMenuItem;
     private FloatingActionButton mFloatingActionButton;
 
@@ -82,9 +84,6 @@ public class NotesActivity extends ActionBarActivity implements
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
     private CharSequence mActionBarTitle;
-
-    public static String TAG_NOTE_LIST = "noteList";
-    public static String TAG_NOTE_EDITOR = "noteEditor";
 
     // Google Analytics tracker
     private Tracker mTracker;
@@ -160,14 +159,14 @@ public class NotesActivity extends ActionBarActivity implements
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         // Add loading indicator to show when indexing
         ProgressBar progressBar = (ProgressBar)getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        mActionBar.setCustomView(progressBar);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(progressBar);
         setToolbarProgressVisibility(false);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -316,14 +315,14 @@ public class NotesActivity extends ActionBarActivity implements
         // LG devices running 4.1 can't handle a custom font in the action bar title
         if ((!TextUtils.isEmpty(Build.BRAND) && Build.BRAND.toLowerCase().contains("lge"))
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-            mActionBar.setTitle(title);
+            getSupportActionBar().setTitle(title);
             return;
         }
 
         SpannableString s = new SpannableString(title);
         s.setSpan(new TypefaceSpan(this), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mActionBar.setTitle(s);
+        getSupportActionBar().setTitle(s);
     }
 
     private void updateNavigationDrawerItems() {
@@ -825,7 +824,7 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     private void setToolbarProgressVisibility(boolean isVisible) {
-        getSupportActionBar().getCustomView().setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        getSupportActionBar().setDisplayShowCustomEnabled(isVisible);
     }
 
     public void startLoginActivity(boolean signInFirst) {
