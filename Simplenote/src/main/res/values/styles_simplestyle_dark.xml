@@ -42,6 +42,7 @@
         <item name="noteEditorTextColor">@color/simplenote_dark_text</item>
         <item name="mainBackgroundColor">@color/simplenote_dark_bg</item>
         <item name="tagChipShadowColor">@color/simplenote_dark_bg</item>
+        <item name="placeholderLogoColor">@color/simplenote_dark_text</item>
         <item name="dividerColor">@color/simplenote_dark_list_divider</item>
         <item name="iconTintColor">@color/simplenote_dark_text</item>
         <item name="hintTextColor">@color/simplenote_dark_text_preview</item>

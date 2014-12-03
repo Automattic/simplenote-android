@@ -18,6 +18,7 @@
     <attr name="listSearchHighlightBackgroundColor" format="reference|color" />
     <attr name="editorSearchHighlightForegroundColor" format="reference|color" />
     <attr name="editorSearchHighlightBackgroundColor" format="reference|color" />
+    <attr name="placeholderLogoColor" format="reference|color" />
     <attr name="tagChipBackgroundDrawable" format="reference" />
 
     <attr name="toolbarColor" format="reference|color" />

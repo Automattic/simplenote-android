@@ -79,7 +79,7 @@
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/white"
+            android:background="?attr/mainBackgroundColor"
             android:gravity="center"
             android:visibility="gone">
 
@@ -88,7 +88,7 @@
                 android:layout_height="160dp"
                 android:src="@drawable/login_logo"
                 android:scaleType="centerInside"
-                android:tint="@color/verylightgrey" />
+                android:tint="?attr/placeholderLogoColor" />
         </LinearLayout>
     </FrameLayout>
 </com.automattic.simplenote.widgets.AnimatedScrollView>
