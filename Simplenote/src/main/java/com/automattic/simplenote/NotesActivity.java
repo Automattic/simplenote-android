@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -309,6 +310,15 @@ public class NotesActivity extends ActionBarActivity implements
     public void setTitle(CharSequence title) {
         mActionBarTitle = (title != null) ? title : "";
         setTitleWithCustomFont(mActionBarTitle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void setTitleWithCustomFont(CharSequence title) {
