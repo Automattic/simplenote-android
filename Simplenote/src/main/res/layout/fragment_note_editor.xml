@@ -66,6 +66,7 @@
                 android:fontFamily="sans-serif-light"
                 android:gravity="top"
                 android:textColor="?attr/noteEditorTextColor"
+                android:textColorLink="@color/simplenote_blue"
                 android:textSize="18sp"
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                 android:scrollHorizontally="false"
