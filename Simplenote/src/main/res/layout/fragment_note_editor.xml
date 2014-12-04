@@ -35,7 +35,7 @@
                     android:layout_marginLeft="4dp"
                     android:textOn=""
                     android:textOff=""
-                    android:background="@drawable/pin_bg_selector" />
+                    android:background="?attr/pinIconSelector" />
 
                 <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                     android:id="@+id/tag_view"
