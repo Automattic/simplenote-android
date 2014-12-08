@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:id="@+id/main_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,65 +12,44 @@
 
         <include layout="@layout/toolbar" />
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:orientation="vertical"
-            tools:context=".NotesActivity">
+            android:layout_height="match_parent">
 
-            <!--
-            This layout is a two-pane layout for the Notes
-            master/detail flow. See res/values-large/refs.xml and
-            res/values-sw600dp/refs.xml for an example of layout aliases
-            that replace the single-pane version of the layout with
-            this two-pane version.
+            <LinearLayout
+                android:id="@+id/noteFragmentContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="10" />
 
-            For more on layout aliases, see:
-            http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
-            -->
+            <LinearLayout
+                android:id="@+id/undobar"
+                style="@style/UndoBar">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/undobar_message"
+                    style="@style/UndoBarMessage" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/undobar_button"
+                    style="@style/UndoBarButton" />
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/noteFragmentContainer"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="horizontal"
-                        android:showDividers="middle"
-                        android:weightSum="10" />
-                </LinearLayout>
+            <com.automattic.simplenote.widgets.FloatingActionButton
+                android:id="@+id/fab_button"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:background="?attr/fabColor"
+                android:src="?attr/fabIcon" />
 
-                <LinearLayout
-                    android:id="@+id/undobar"
-                    style="@style/UndoBar">
-
-                    <TextView
-                        android:id="@+id/undobar_message"
-                        style="@style/UndoBarMessage" />
-
-                    <Button
-                        android:id="@+id/undobar_button"
-                        style="@style/UndoBarButton" />
-                </LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
-    <!-- android:layout_gravity="start" tells DrawerLayout to treat
-             this as a sliding drawer on the left side for left-to-right
-             languages and on the right side for right-to-left languages.
-             The drawer is given a fixed width in dp and extends the full height of
-             the container. A solid background is used for contrast
-             with the content view. -->
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"

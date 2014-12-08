@@ -1,4 +1,4 @@
-<com.automattic.simplenote.widgets.AnimatedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="6.5"
@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/selectable_background_simplestyle"
-                android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/mediumgrey"
@@ -46,4 +45,4 @@
             android:orientation="vertical"
             android:visibility="gone" />
     </FrameLayout>
-</com.automattic.simplenote.widgets.AnimatedLinearLayout>
+</LinearLayout>

@@ -1,21 +1,18 @@
-<com.automattic.simplenote.widgets.AnimatedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:layout_weight="3.5"
-    android:layerType="software">
+    android:layout_weight="3.5">
 
     <FrameLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_large"
             android:orientation="vertical">
 
@@ -24,7 +21,9 @@
                 android:focusableInTouchMode="true"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_small">
 
                 <ToggleButton
                     android:id="@+id/pinButton"
@@ -60,19 +59,21 @@
 
             <com.automattic.simplenote.widgets.SimplenoteEditText
                 android:id="@+id/note_content"
+                android:transitionName="transition_editor"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
                 android:gravity="top"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorLink="@color/simplenote_blue"
                 android:textSize="18sp"
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                 android:scrollHorizontally="false"
+                android:paddingTop="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
                 android:background="@null"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 tools:context=".NoteEditorFragment" />
         </LinearLayout>
 
@@ -92,4 +93,4 @@
                 android:tint="?attr/placeholderLogoColor" />
         </LinearLayout>
     </FrameLayout>
-</com.automattic.simplenote.widgets.AnimatedScrollView>
+</ScrollView>

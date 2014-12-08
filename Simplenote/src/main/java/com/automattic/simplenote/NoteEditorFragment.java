@@ -14,6 +14,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
@@ -295,10 +297,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
                     getActivity().setResult(Activity.RESULT_OK, resultIntent);
                 }
-                getActivity().finish();
+
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             case android.R.id.home:
-                getActivity().finish();
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -593,7 +596,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
-        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     private void attemptAutoList(Editable editable) {

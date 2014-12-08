@@ -1,189 +1,107 @@
 package com.automattic.simplenote.widgets;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.widget.FrameLayout;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.widget.ImageButton;
 
-public class FloatingActionButton extends View {
+import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.DisplayUtils;
 
-    private final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
-    private final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
-
-    private final Context context;
-    private Paint mButtonPaint;
-    private Paint mDrawablePaint;
-    private Bitmap mBitmap;
-    private boolean mHidden = false;
+public class FloatingActionButton extends ImageButton {
+    private boolean mIsLollipop;
 
     public FloatingActionButton(Context context) {
         super(context);
-        this.context = context;
-        init(Color.WHITE);
+        init(context);
     }
 
-    void setFloatingActionButtonColor(int FloatingActionButtonColor) {
-        init(FloatingActionButtonColor);
+    public FloatingActionButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
     }
 
-    void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable) {
-        mBitmap = ((BitmapDrawable) FloatingActionButtonDrawable).getBitmap();
-        invalidate();
+    public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
     }
 
-    void init(int FloatingActionButtonColor) {
-        setWillNotDraw(false);
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    @SuppressLint("NewApi")
+    void init(Context context) {
+        mIsLollipop = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+        if (mIsLollipop) {
+            setElevation(DisplayUtils.dpToPx(context, 4));
+        }
 
-        mButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mButtonPaint.setColor(FloatingActionButtonColor);
-        mButtonPaint.setStyle(Paint.Style.FILL);
-        mButtonPaint.setShadowLayer(10.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        int fabColor = context.getResources().getColor(R.color.simplenote_blue);
+        if (getBackground() instanceof ColorDrawable) {
+            fabColor = ((ColorDrawable) getBackground()).getColor();
+        }
 
-        invalidate();
+        int fabColorPressed = darken(fabColor);
+
+        StateListDrawable background = new StateListDrawable();
+        background.addState(new int[]{android.R.attr.state_pressed}, createOval(fabColorPressed));
+        background.addState(new int[]{}, createOval(fabColor));
+        setBackgroundCompat(background);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        setClickable(true);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, (float) (getWidth() / 2.6), mButtonPaint);
-        canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2,
-                (getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
+    private int darken(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f;
+        return Color.HSVToColor(hsv);
     }
 
-    @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            setAlpha(1.0f);
-        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            setAlpha(0.8f);
+
+    private Drawable createOval(int color) {
+        ShapeDrawable shape = new ShapeDrawable(new OvalShape());
+        shape.getPaint().setColor(color);
+        shape.getPaint().setStyle(Paint.Style.FILL);
+
+        // on lollipop we let elevation take care of the shadow
+        if (mIsLollipop) {
+            return shape;
         }
-        return super.onTouchEvent(event);
+
+        Drawable shadow = getContext().getResources().getDrawable(R.drawable.fab_shadow);
+        Drawable[] layers = {shadow, shape};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+
+        // inset the shape drawable so the shadow is uncovered
+        int oneDp = DisplayUtils.dpToPx(getContext(), 1);
+        int twoDp = DisplayUtils.dpToPx(getContext(), 2);
+        layerDrawable.setLayerInset(1, oneDp, oneDp, twoDp, twoDp);
+
+        return layerDrawable;
     }
 
-    public void hideFloatingActionButton() {
-        if (!mHidden) {
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1, 0);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 1, 0);
-            AnimatorSet animSetXY = new AnimatorSet();
-            animSetXY.playTogether(scaleX, scaleY);
-            animSetXY.setInterpolator(accelerateInterpolator);
-            animSetXY.setDuration(100);
-            animSetXY.start();
-            mHidden = true;
-        }
-    }
-
-    public void showFloatingActionButton() {
-        if (mHidden) {
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0, 1);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0, 1);
-            AnimatorSet animSetXY = new AnimatorSet();
-            animSetXY.playTogether(scaleX, scaleY);
-            animSetXY.setInterpolator(overshootInterpolator);
-            animSetXY.setDuration(200);
-            animSetXY.start();
-            mHidden = false;
-        }
-    }
-
-    public boolean isHidden() {
-        return mHidden;
-    }
-
-    static public class Builder {
-        private FrameLayout.LayoutParams params;
-        private final Activity activity;
-        int gravity = Gravity.BOTTOM | Gravity.RIGHT; // default bottom right
-        Drawable drawable;
-        int color = Color.WHITE;
-        int size = 0;
-        float scale = 0;
-
-        public Builder(Activity context) {
-            scale = context.getResources().getDisplayMetrics().density;
-            size = convertToPixels(72, scale); // default size is 72dp by 72dp
-            params = new FrameLayout.LayoutParams(size, size);
-            params.gravity = gravity;
-
-            this.activity = context;
-        }
-
-        /**
-         * Sets the gravity for the FAB
-         */
-        public Builder withGravity(int gravity) {
-            this.gravity = gravity;
-            return this;
-        }
-
-        /**
-         * Sets the margins for the FAB in dp
-         */
-        public Builder withMargins(int left, int top, int right, int bottom) {
-            params.setMargins(
-                    convertToPixels(left, scale),
-                    convertToPixels(top, scale),
-                    convertToPixels(right, scale),
-                    convertToPixels(bottom, scale));
-            return this;
-        }
-
-        /**
-         * Sets the FAB drawable
-         */
-        public Builder withDrawable(final Drawable drawable) {
-            this.drawable = drawable;
-            return this;
-        }
-
-        /**
-         * Sets the FAB color
-         */
-        public Builder withButtonColor(final int color) {
-            this.color = color;
-            return this;
-        }
-
-        /**
-         * Sets the FAB size in dp
-         */
-        public Builder withButtonSize(int size) {
-            size = convertToPixels(size, scale);
-            params = new FrameLayout.LayoutParams(size, size);
-            return this;
-        }
-
-        public FloatingActionButton create() {
-            final FloatingActionButton button = new FloatingActionButton(activity);
-            button.setFloatingActionButtonColor(this.color);
-            button.setFloatingActionButtonDrawable(this.drawable);
-            params.gravity = this.gravity;
-            ViewGroup root = (ViewGroup) activity.findViewById(android.R.id.content);
-            root.addView(button, params);
-            return button;
-        }
-
-        // The calculation (value * scale + 0.5f) is a widely used to convert to dps to pixel units
-        // based on density scale
-        // see developer.android.com (Supporting Multiple Screen Sizes)
-        private int convertToPixels(int dp, float scale){
-            return (int) (dp * scale + 0.5f) ;
+    @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi")
+    private void setBackgroundCompat(Drawable drawable) {
+        if (mIsLollipop) {
+            int rippleColor = getContext().getResources().getColor(R.color.simplenote_blue);
+            if (getBackground() instanceof ColorDrawable) {
+                rippleColor = ((ColorDrawable) getBackground()).getColor();
+            }
+            RippleDrawable rippleDrawable = new RippleDrawable(
+                    new ColorStateList(new int[][]{{}}, new int[]{rippleColor}), drawable, null);
+            setBackground(rippleDrawable);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(drawable);
+        } else {
+            setBackgroundDrawable(drawable);
         }
     }
 }

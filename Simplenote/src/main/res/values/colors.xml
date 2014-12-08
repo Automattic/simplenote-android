@@ -32,6 +32,9 @@
 	<color name="white_50">#808080</color>	<!-- 50% white -->
 	<color name="white_35">#595959</color>	<!-- 35% white -->
 	<color name="white_25">#404040</color>	<!-- 25% white -->
+
+    <color name="translucent_grey_extra_light">#80eeeeee</color>
+    <color name="translucent_grey_medium_light">#80bbbbbb</color>
 	
 	<color name="black">#000000</color>
 	<color name="lightblue">#e3f5ff</color>

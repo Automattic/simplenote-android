@@ -1,8 +1,10 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -10,6 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -155,7 +159,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets);
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
 	}
 
 	/**
@@ -164,7 +168,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets) {
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
 		}
 	};
 
@@ -344,8 +348,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
-        if (noteID != null)
-            mCallbacks.onNoteSelected(noteID, false, holder.matchOffsets);
+        //if (noteID != null)
+            //mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
+
+        Bundle arguments = new Bundle();
+        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+
+        Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+        editNoteIntent.putExtras(arguments);
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "transition_editor");
+        ActivityCompat.startActivityForResult(getActivity(), editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
 
         mActivatedPosition = position;
 	}
@@ -356,7 +369,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), false, null);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null);
         }
     }
 
@@ -458,7 +471,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		note.save();
 		
 		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note.getSimperiumKey(), true, null);
+		mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
 	}
 
     public void setNoteSelected(String selectedNoteID) {

@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -29,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
@@ -91,6 +93,8 @@ public class NotesActivity extends ActionBarActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -174,15 +178,7 @@ public class NotesActivity extends ActionBarActivity implements
 
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
-        int[] attrs = new int[] { R.attr.fabIcon, R.attr.fabColor };
-        TypedArray typedArray = getSupportActionBar().getThemedContext().obtainStyledAttributes(attrs);
-        mFloatingActionButton = new FloatingActionButton.Builder(this)
-                .withDrawable(typedArray.getDrawable(0))
-                .withButtonColor(typedArray.getColor(1, getResources().getColor(R.color.simplenote_blue)))
-                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-                .withMargins(0, 0, 16, 16)
-                .create();
-
+        mFloatingActionButton = (FloatingActionButton)findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,7 +286,7 @@ public class NotesActivity extends ActionBarActivity implements
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), true, null);
+            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null);
             mShouldSelectNewNote = false;
         }
     }
@@ -750,7 +746,7 @@ public class NotesActivity extends ActionBarActivity implements
      * the item with the given ID was selected.
      */
     @Override
-    public void onNoteSelected(String noteID, boolean isNew, String matchOffsets) {
+    public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
 
         if (!isLargeScreenLandscape()) {
             // Launch the editor activity
@@ -763,7 +759,10 @@ public class NotesActivity extends ActionBarActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
-            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, mNoteListFragment.getListView().getChildAt(position), "transition_editor");
+            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
+            //startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID, matchOffsets);
@@ -934,7 +933,7 @@ public class NotesActivity extends ActionBarActivity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), false, null);
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, false, null);
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
