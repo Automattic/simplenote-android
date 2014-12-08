@@ -37,11 +37,14 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -72,6 +75,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
+
+    private Tracker mTracker;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -191,6 +196,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Simplenote application = (Simplenote) getActivity().getApplication();
+        mTracker = application.getTracker();
     }
 
     // nbradbury - load values from preferences
@@ -202,8 +209,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
 	@Override
@@ -344,24 +350,37 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
+        if (!isAdded()) return;
 		super.onListItemClick(listView, view, position, id);
 
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
-        //if (noteID != null)
-            //mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
 
-        Bundle arguments = new Bundle();
-        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+        if (DisplayUtils.isLargeLandscape(getActivity())) {
+            if (noteID != null) {
+                mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
+            }
+        } else {
+            Bundle arguments = new Bundle();
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
 
-        Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
-        editNoteIntent.putExtras(arguments);
+            Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
 
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "transition_editor");
-        ActivityCompat.startActivityForResult(getActivity(), editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "transition_editor");
+            ActivityCompat.startActivityForResult(getActivity(), editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
+        }
 
         mActivatedPosition = position;
-	}
+
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("viewed_note")
+                        .setLabel("note_list_row_tap")
+                        .build()
+        );
+    }
 
     /**
      * Selects first row in the list if available

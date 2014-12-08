@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <attr name="notePinColor" format="reference|color"/>
     <attr name="noteTitleColor" format="reference|color" />
     <attr name="notePreviewColor" format="reference|color" />
@@ -38,5 +36,14 @@
     <attr name="actionBarTextColor" format="reference|color" />
     <attr name="fabIcon" format="reference" />
     <attr name="fabColor" format="reference" />
+
+    <declare-styleable name="FloatingActionButton">
+        <attr name="fabDrawable" format="integer"/>
+        <attr name="fabBackgroundColor" format="color"/>
+        <attr name="fabShadowRadius" format="float"/>
+        <attr name="fabShadowDx" format="float"/>
+        <attr name="fabShadowDy" format="float"/>
+        <attr name="fabShadowColor" format="integer"/>
+    </declare-styleable>
 
 </resources>

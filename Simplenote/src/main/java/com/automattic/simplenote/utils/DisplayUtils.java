@@ -49,12 +49,24 @@ public class DisplayUtils {
         return (int) ((px/displayMetrics.density)+0.5);
     }
 
+    public static boolean isLarge(Context context) {
+        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isXLarge(Context context) {
         if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
                 == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             return true;
         }
         return false;
+    }
+
+    public static boolean isLargeLandscape(Context context) {
+        return isLarge(context) && isLandscape(context);
     }
 
     /**

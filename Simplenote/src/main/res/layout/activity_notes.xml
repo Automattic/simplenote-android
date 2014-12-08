@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -44,8 +45,8 @@
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:layout_marginRight="@dimen/fab_margin"
-                android:background="?attr/fabColor"
-                android:src="?attr/fabIcon" />
+                app:fabDrawable="?attr/fabIcon"
+                app:fabBackgroundColor="?attr/fabColor" />
 
         </FrameLayout>
     </LinearLayout>

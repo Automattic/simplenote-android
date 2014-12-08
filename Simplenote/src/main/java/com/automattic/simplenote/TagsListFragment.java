@@ -51,8 +51,6 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public TagsListFragment() {
     }
 
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);

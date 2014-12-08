@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +36,7 @@ import android.widget.ProgressBar;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -743,43 +742,20 @@ public class NotesActivity extends ActionBarActivity implements
 
     /**
      * Callback method from {@link NoteListFragment.Callbacks} indicating that
-     * the item with the given ID was selected.
+     * the item with the given ID was selected. Used for tablets only.
      */
     @Override
     public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
+        if (!DisplayUtils.isLargeLandscape(this)) return;
 
-        if (!isLargeScreenLandscape()) {
-            // Launch the editor activity
-            Bundle arguments = new Bundle();
-            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
-            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
-
-            if (matchOffsets != null)
-                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
-
-            Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
-            editNoteIntent.putExtras(arguments);
-
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, mNoteListFragment.getListView().getChildAt(position), "transition_editor");
-            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
-            //startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
-        } else {
-            mNoteEditorFragment.setIsNewNote(isNew);
-            mNoteEditorFragment.setNote(noteID, matchOffsets);
-            getNoteListFragment().setNoteSelected(noteID);
-            if (mSearchView != null && mSearchView.getQuery().length() > 0) {
-                mTabletSearchQuery = mSearchView.getQuery().toString();
-            }
-            invalidateOptionsMenu();
+        mNoteEditorFragment.setIsNewNote(isNew);
+        mNoteEditorFragment.setNote(noteID, matchOffsets);
+        getNoteListFragment().setNoteSelected(noteID);
+        if (mSearchView != null && mSearchView.getQuery().length() > 0) {
+            mTabletSearchQuery = mSearchView.getQuery().toString();
         }
 
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory("note")
-                        .setAction("viewed_note")
-                        .setLabel("note_list_row_tap")
-                        .build()
-        );
+        invalidateOptionsMenu();
     }
 
     @Override
