@@ -6,16 +6,22 @@
 
     <color name="simplenote_blue">#448AC9</color>
     <color name="simplenote_blue_light">#EEF3F8</color>
+    <color name="simplenote_blue_accent">#72cdff</color>
     <color name="simplenote_blue_dark">#30628f</color>
+
     <color name="simplenote_dark_grey">#222222</color>
+    <color name="simplenote_toolbar_dark">#121416</color>
     <color name="simplenote_light_grey">#777777</color>
+
     <color name="simplenote_light_list_divider">#EBEBEB</color>
     <color name="simplenote_light_selected_row">#EBEBEB</color>
+
     <color name="simplenote_dark_bg">#24272b</color>
     <color name="simplenote_dark_text">#71889f</color>
     <color name="simplenote_dark_text_preview">#5b6780</color>
     <color name="simplenote_dark_list_divider">#363d4d</color>
     <color name="simplenote_dark_selected_row">#2d3340</color>
+
     <color name="welcome_button_blue">#3772a6</color>
 
 	<color name="translucent">#80000000</color>

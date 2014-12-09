@@ -23,7 +23,8 @@
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
-        <item name="colorAccent">@color/simplenote_blue_light</item>
+        <item name="colorAccent">@color/simplenote_blue_accent</item>
+
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/simplenote_blue_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>

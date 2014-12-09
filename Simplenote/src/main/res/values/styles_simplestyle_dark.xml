@@ -64,11 +64,11 @@
         <item name="actionBarIconCall">@drawable/ic_call_blue_24dp</item>
         <item name="actionBarTextColor">@color/simplenote_blue</item>
 
-        <item name="toolbarColor">@color/simplenote_dark_bg</item>
+        <item name="toolbarColor">@color/simplenote_toolbar_dark</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
         <item name="fabIcon">@drawable/ic_create_blue_24dp</item>
-        <item name="fabColor">@color/simplenote_dark_selected_row</item>
+        <item name="fabColor">@color/simplenote_toolbar_dark</item>
 
         <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
         <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
