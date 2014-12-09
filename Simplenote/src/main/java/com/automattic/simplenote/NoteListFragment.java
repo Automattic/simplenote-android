@@ -488,9 +488,18 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
 		note.save();
-		
-		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
+
+        if (DisplayUtils.isLargeLandscape(getActivity())) {
+            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
+        } else {
+            Bundle arguments = new Bundle();
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+
+            Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
+
+            getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+        }
 	}
 
     public void setNoteSelected(String selectedNoteID) {
