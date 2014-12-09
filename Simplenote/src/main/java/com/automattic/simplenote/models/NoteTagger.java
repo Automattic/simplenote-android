@@ -58,7 +58,7 @@ public class NoteTagger implements Bucket.Listener<Note> {
     }
 
     @Override
-    public void onChange(Bucket<Note> note, Bucket.ChangeType changeType, String key) {
+    public void onNetworkChange(Bucket<Note> note, Bucket.ChangeType changeType, String key) {
         // noop
     }
 

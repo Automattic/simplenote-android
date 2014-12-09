@@ -234,7 +234,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+    public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
         if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override

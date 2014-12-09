@@ -960,7 +960,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+    public void onNetworkChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {

@@ -17,10 +17,10 @@ repositories {
 }
 
 dependencies {
-    compile "com.simperium.android:simperium:0.6.0"
+    compile "com.simperium.android:simperium:0.6.2"
     compile "com.android.support:appcompat-v7:21.0.+"
     compile "com.google.android.gms:play-services:6.1.+"
-    compile "org.wordpress:android-passcodelock:0.0.5"
+    compile "org.wordpress:android-passcodelock:0.0.6"
 
     wearApp project(':Wear')
 }

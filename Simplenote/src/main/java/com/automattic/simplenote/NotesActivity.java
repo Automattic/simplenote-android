@@ -422,7 +422,7 @@ public class NotesActivity extends ActionBarActivity implements
 
     // received a change from the network, refresh the list
     @Override
-    public void onChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
+    public void onNetworkChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -482,7 +482,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
 
         @Override
-        public void onChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+        public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
             updateNavigationDrawer();
         }
 
