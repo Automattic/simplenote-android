@@ -67,6 +67,8 @@
         <item name="toolbarColor">@color/simplenote_toolbar_dark</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
+        <item name="settingsTextColor">@color/white</item>
+
         <item name="fabIcon">@drawable/ic_create_blue_24dp</item>
         <item name="fabColor">@color/simplenote_toolbar_dark</item>
 

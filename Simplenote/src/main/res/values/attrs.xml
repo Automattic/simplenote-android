@@ -34,6 +34,9 @@
     <attr name="actionBarIconEmail" format="reference" />
     <attr name="actionBarIconCall" format="reference" />
     <attr name="actionBarTextColor" format="reference|color" />
+
+    <attr name="settingsTextColor" format="reference|color" />
+
     <attr name="fabIcon" format="reference" />
     <attr name="fabColor" format="reference" />
 
