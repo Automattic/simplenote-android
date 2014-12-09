@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.widgets.PreferencesFragment;
+import com.automattic.simplenote.PreferencesFragment;
 
 public class PreferencesActivity extends ActionBarActivity {
 
