@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.automattic.simplenote.widgets.AnimatedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="6.5"
     android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1">
 
         <ListView
             android:id="@android:id/list"
@@ -26,5 +21,4 @@
             android:textColor="@color/mediumgrey"
             android:textSize="20sp"
             android:padding="16dp" />
-    </FrameLayout>
-</com.automattic.simplenote.widgets.AnimatedLinearLayout>
+</LinearLayout>

@@ -25,6 +25,16 @@
                 android:showDividers="middle"
                 android:weightSum="10" />
 
+            <com.automattic.simplenote.widgets.FloatingActionButton
+                android:id="@+id/fab_button"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                app:fabDrawable="?attr/fabIcon"
+                app:fabBackgroundColor="?attr/fabColor" />
+
             <LinearLayout
                 android:id="@+id/undobar"
                 style="@style/UndoBar">
@@ -37,17 +47,6 @@
                     android:id="@+id/undobar_button"
                     style="@style/UndoBarButton" />
             </LinearLayout>
-
-            <com.automattic.simplenote.widgets.FloatingActionButton
-                android:id="@+id/fab_button"
-                android:layout_width="@dimen/fab_size"
-                android:layout_height="@dimen/fab_size"
-                android:layout_gravity="end|bottom"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginRight="@dimen/fab_margin"
-                app:fabDrawable="?attr/fabIcon"
-                app:fabBackgroundColor="?attr/fabColor" />
-
         </FrameLayout>
     </LinearLayout>
 
