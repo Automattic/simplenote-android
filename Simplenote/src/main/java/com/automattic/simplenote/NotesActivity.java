@@ -189,8 +189,7 @@ public class NotesActivity extends ActionBarActivity implements
         updateNavigationDrawerItems();
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
-        Simplenote currentApp = (Simplenote) getApplication();
-        if (currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED) {
+        if (userIsUnauthorized()) {
             if (-1 == mTagsAdapter.getPosition(mSelectedTag)) {
                 mSelectedTag = null;
                 mDrawerList.setSelection(TagsAdapter.DEFAULT_ITEM_POSITION);
@@ -420,6 +419,11 @@ public class NotesActivity extends ActionBarActivity implements
         return user.hasAccessToken() && user.getStatus().equals(User.Status.NOT_AUTHORIZED);
     }
 
+    private boolean userIsUnauthorized() {
+        Simplenote currentApp = (Simplenote) getApplication();
+        return currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
+    }
+
     public void setCurrentNote(Note note) {
         mCurrentNote = note;
     }
@@ -471,6 +475,7 @@ public class NotesActivity extends ActionBarActivity implements
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
                 getNoteListFragment().hideWelcomeView();
+                mFloatingActionButton.setAlpha(0.0f);
                 mTracker.send(
                         new HitBuilders.EventBuilder()
                                 .setCategory("note")
@@ -484,6 +489,7 @@ public class NotesActivity extends ActionBarActivity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
+                mFloatingActionButton.setAlpha(1.0f);
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
@@ -502,10 +508,8 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        Simplenote currentApp = (Simplenote) getApplication();
-        boolean isSignedOut = currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
-        menu.findItem(R.id.menu_sign_in).setVisible(isSignedOut);
-        menu.findItem(R.id.menu_create_note).setVisible(isSignedOut);
+        menu.findItem(R.id.menu_sign_in).setVisible(userIsUnauthorized());
+        menu.findItem(R.id.menu_create_note).setVisible(userIsUnauthorized());
 
         MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
         if (mCurrentNote != null && mCurrentNote.isDeleted())
