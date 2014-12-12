@@ -15,4 +15,7 @@
     <dimen name="fab_margin">@dimen/fab_margin_default</dimen>
     <dimen name="fab_margin_default">16dp</dimen>
     <dimen name="fab_margin_tablet">24dp</dimen>
+
+    <!-- Lollipop requires a margin for the sign out preference, see values-v21/dimens.xml -->
+    <dimen name="settings_sign_out_margin">0dp</dimen>
 </resources>
