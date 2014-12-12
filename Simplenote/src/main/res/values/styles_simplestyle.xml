@@ -22,7 +22,7 @@
     <style name="Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_blue</item>
-        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
+        <item name="colorPrimaryDark">@color/welcome_button_blue</item>
         <item name="colorAccent">@color/simplenote_blue_accent</item>
 
         <item name="windowActionModeOverlay">true</item>
