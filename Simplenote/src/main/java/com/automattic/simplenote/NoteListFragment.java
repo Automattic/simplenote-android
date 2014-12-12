@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
@@ -139,7 +139,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             public void run() {
                 if (getActivity() != null) {
                     NotesActivity notesActivity = (NotesActivity) getActivity();
-                    setActivateOnItemClick(notesActivity.isLargeScreenLandscape());
+                    setActivateOnItemClick(DisplayUtils.isLargeLandscape(notesActivity));
                     notesActivity.showDetailPlaceholder();
                 }
             }
@@ -207,8 +207,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
@@ -243,7 +242,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         signUpButton.setTag(TAG_BUTTON_SIGNUP);
         signUpButton.setOnClickListener(signInClickListener);
 
-        if (notesActivity.isLargeScreenLandscape()) {
+        if (DisplayUtils.isLargeLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
@@ -261,7 +260,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -326,7 +325,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN) ? true : false);
+            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN));
         }
     };
 
@@ -471,7 +470,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity)getActivity();
-        if (!notesActivity.isLargeScreenLandscape())
+        if (!DisplayUtils.isLargeLandscape(notesActivity))
             notesActivity.stopListeningToNotesBucket();
 
 		// Create & save new note
@@ -703,7 +702,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return;
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
-            int count = 0;
+            int count;
             try {
                 mNotesAdapter.changeCursor(cursor);
                 count = mNotesAdapter.getCount();
@@ -715,7 +714,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             NotesActivity notesActivity = (NotesActivity)getActivity();
             if (notesActivity != null) {
-                if (mIsFromNavSelect && notesActivity.isLargeScreenLandscape()) {
+                if (mIsFromNavSelect && DisplayUtils.isLargeLandscape(notesActivity)) {
                         if (count == 0) {
                             notesActivity.showDetailPlaceholder();
                         } else {
@@ -743,7 +742,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
-            List<Note> deletedNotesList = new ArrayList<Note>();
+            List<Note> deletedNotesList = new ArrayList<>();
             for (int i = 0; i < selectedRows.size(); i++) {
                 if (selectedRows.valueAt(i)) {
                     deletedNotesList.add(mNotesAdapter.getItem(selectedRows.keyAt(i)));

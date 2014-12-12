@@ -20,7 +20,6 @@ public class NoteEditorActivity extends ActionBarActivity {
         }
 
         ThemeUtils.setTheme(this);
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_note_editor);

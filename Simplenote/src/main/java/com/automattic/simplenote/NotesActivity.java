@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -66,7 +65,7 @@ public class NotesActivity extends ActionBarActivity implements
     public static String TAG_NOTE_EDITOR = "noteEditor";
     private int TRASH_SELECTED_ID = 1;
 
-    private boolean mIsLargeScreen, mIsLandscape, mShouldSelectNewNote;
+    private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private SearchView mSearchView;
@@ -92,25 +91,28 @@ public class NotesActivity extends ActionBarActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            supportRequestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        }
+
         ThemeUtils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-        Simplenote currentApp = (Simplenote) getApplication();
-
-        if (mNotesBucket == null)
-            mNotesBucket = currentApp.getNotesBucket();
-
-        if (mTagsBucket == null)
-            mTagsBucket = currentApp.getTagsBucket();
-
         setContentView(R.layout.activity_notes);
+
+        Simplenote currentApp = (Simplenote) getApplication();
+        if (mNotesBucket == null) {
+            mNotesBucket = currentApp.getNotesBucket();
+        }
+
+        if (mTagsBucket == null) {
+            mTagsBucket = currentApp.getTagsBucket();
+        }
+
+        mTracker = currentApp.getTracker();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mTracker = currentApp.getTracker();
+        configureNavigationDrawer(toolbar);
 
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
@@ -121,46 +123,13 @@ public class NotesActivity extends ActionBarActivity implements
             mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
 
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        if ((config.screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            mIsLargeScreen = true;
-
+        if (DisplayUtils.isLarge(this)) {
             if (getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
                 mNoteEditorFragment = (NoteEditorFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
-            } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                mIsLandscape = true;
+            } else if (DisplayUtils.isLandscape(this)) {
                 addEditorFragment();
             }
         }
-
-        // Set up the menu drawer
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mTagsAdapter = new TagsAdapter(this, mNotesBucket);
-        mDrawerList.setAdapter(mTagsAdapter);
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        if (mSelectedTag == null)
-            mSelectedTag = mTagsAdapter.getDefaultItem();
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,  mDrawerLayout, toolbar,
-                R.string.open_drawer, R.string.close_drawer
-        ) {
-            public void onDrawerClosed(View view) {
-                setTitle(mActionBarTitle);
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                setTitleWithCustomFont(getString(R.string.app_name));
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         ActionBar actionBar = getSupportActionBar();
@@ -168,16 +137,14 @@ public class NotesActivity extends ActionBarActivity implements
         actionBar.setHomeButtonEnabled(true);
 
         // Add loading indicator to show when indexing
-        ProgressBar progressBar = (ProgressBar)getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
+        ProgressBar progressBar = (ProgressBar) getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(progressBar);
         setToolbarProgressVisibility(false);
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
         mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
-        mFloatingActionButton = (FloatingActionButton)findViewById(R.id.fab_button);
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,57 +161,11 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
-            // Create the welcome note
-            try {
-                Note welcomeNote = mNotesBucket.newObject("welcome-android");
-                welcomeNote.setCreationDate(Calendar.getInstance());
-                welcomeNote.setModificationDate(welcomeNote.getCreationDate());
-                welcomeNote.setContent(getString(R.string.welcome_note));
-                welcomeNote.getTitle();
-                welcomeNote.save();
-            } catch (BucketObjectNameInvalid e) {
-                // this won't happen because welcome-android is a valid name
-            }
+        // Creates 'Welcome' note
+        checkForFirstLaunch();
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
-            editor.commit();
-        }
+        checkForSharedContent();
 
-        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
-            // Check share action
-            Intent intent = getIntent();
-            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-
-            // Don't add the 'Note to self' subject or open the note if this was shared from a voice search
-            String intentAction = StrUtils.notNullStr(intent.getAction());
-            boolean isVoiceShare = intentAction.equals("com.google.android.gm.action.AUTO_SEND");
-            if (!TextUtils.isEmpty(text)) {
-                if (!TextUtils.isEmpty(subject) && !isVoiceShare) {
-                    text = subject + "\n\n" + text;
-                }
-                Note note = mNotesBucket.newObject();
-                note.setCreationDate(Calendar.getInstance());
-                note.setModificationDate(note.getCreationDate());
-                note.setContent(text);
-                note.save();
-                setCurrentNote(note);
-
-                if (!isVoiceShare) {
-                    mShouldSelectNewNote = true;
-                }
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("external_share")
-                                .build()
-                );
-            }
-        }
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
     }
@@ -268,11 +189,11 @@ public class NotesActivity extends ActionBarActivity implements
         updateNavigationDrawerItems();
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
-        Simplenote currentApp = (Simplenote)getApplication();
+        Simplenote currentApp = (Simplenote) getApplication();
         if (currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED) {
             if (-1 == mTagsAdapter.getPosition(mSelectedTag)) {
                 mSelectedTag = null;
-                mDrawerList.setSelection(mTagsAdapter.DEFAULT_ITEM_POSITION);
+                mDrawerList.setSelection(TagsAdapter.DEFAULT_ITEM_POSITION);
             }
 
             if (mFloatingActionButton != null) {
@@ -330,6 +251,89 @@ public class NotesActivity extends ActionBarActivity implements
         getSupportActionBar().setTitle(s);
     }
 
+    private void configureNavigationDrawer(Toolbar toolbar) {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mTagsAdapter = new TagsAdapter(this, mNotesBucket);
+        mDrawerList.setAdapter(mTagsAdapter);
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        if (mSelectedTag == null)
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open_drawer,
+                R.string.close_drawer) {
+            public void onDrawerClosed(View view) {
+                setTitle(mActionBarTitle);
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                setTitleWithCustomFont(getString(R.string.app_name));
+                invalidateOptionsMenu();
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void checkForFirstLaunch() {
+        if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
+            // Create the welcome note
+            try {
+                Note welcomeNote = mNotesBucket.newObject("welcome-android");
+                welcomeNote.setCreationDate(Calendar.getInstance());
+                welcomeNote.setModificationDate(welcomeNote.getCreationDate());
+                welcomeNote.setContent(getString(R.string.welcome_note));
+                welcomeNote.getTitle();
+                welcomeNote.save();
+            } catch (BucketObjectNameInvalid e) {
+                // this won't happen because welcome-android is a valid name
+            }
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
+            editor.apply();
+        }
+    }
+
+    private void checkForSharedContent() {
+        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
+            // Check share action
+            Intent intent = getIntent();
+            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+            // Don't add the 'Note to self' subject or open the note if this was shared from a voice search
+            String intentAction = StrUtils.notNullStr(intent.getAction());
+            boolean isVoiceShare = intentAction.equals("com.google.android.gm.action.AUTO_SEND");
+            if (!TextUtils.isEmpty(text)) {
+                if (!TextUtils.isEmpty(subject) && !isVoiceShare) {
+                    text = subject + "\n\n" + text;
+                }
+                Note note = mNotesBucket.newObject();
+                note.setCreationDate(Calendar.getInstance());
+                note.setModificationDate(note.getCreationDate());
+                note.setContent(text);
+                note.save();
+                setCurrentNote(note);
+
+                if (!isVoiceShare) {
+                    mShouldSelectNewNote = true;
+                }
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("create_note")
+                                .setLabel("external_share")
+                                .build()
+                );
+            }
+        }
+    }
+
     private void updateNavigationDrawerItems() {
         Bucket.ObjectCursor<Tag> tagCursor = Tag.allWithCount(mTagsBucket).execute();
         mTagsAdapter.changeCursor(tagCursor);
@@ -341,23 +345,6 @@ public class NotesActivity extends ActionBarActivity implements
 
         setTitle(mSelectedTag.name);
         mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag), true);
-    }
-
-    // Enable or disable the trash action bar button depending on if there are deleted notes or not
-    public void updateTrashMenuItem() {
-        if (mEmptyTrashMenuItem == null)
-            return;
-        // Disable the trash icon if there are no notes trashed.
-        Simplenote application = (Simplenote) getApplication();
-        Bucket<Note> noteBucket = application.getNotesBucket();
-        Query<Note> query = Note.allDeleted(noteBucket);
-        if (query.count() == 0) {
-            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
-            mEmptyTrashMenuItem.setEnabled(false);
-        } else {
-            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash);
-            mEmptyTrashMenuItem.setEnabled(true);
-        }
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -395,6 +382,23 @@ public class NotesActivity extends ActionBarActivity implements
         return mSelectedTag;
     }
 
+    // Enable or disable the trash action bar button depending on if there are deleted notes or not
+    public void updateTrashMenuItem() {
+        if (mEmptyTrashMenuItem == null)
+            return;
+        // Disable the trash icon if there are no notes trashed.
+        Simplenote application = (Simplenote) getApplication();
+        Bucket<Note> noteBucket = application.getNotesBucket();
+        Query<Note> query = Note.allDeleted(noteBucket);
+        if (query.count() == 0) {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
+            mEmptyTrashMenuItem.setEnabled(false);
+        } else {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash);
+            mEmptyTrashMenuItem.setEnabled(true);
+        }
+    }
+
     private void addEditorFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -420,83 +424,6 @@ public class NotesActivity extends ActionBarActivity implements
         mCurrentNote = note;
     }
 
-    // received a change from the network, refresh the list
-    @Override
-    public void onNetworkChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (type == Bucket.ChangeType.INDEX) {
-                    setToolbarProgressVisibility(false);
-                }
-                mNoteListFragment.refreshList();
-            }
-        });
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Note> bucket, Note object) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mNoteListFragment.refreshList();
-            }
-        });
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Note> bucket, Note object) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mNoteListFragment.refreshList();
-            }
-        });
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
-
-        // noop, NoteEditorFragment will handle this
-
-    }
-
-    // Tags bucket listener
-    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
-        void updateNavigationDrawer() {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateNavigationDrawerItems();
-                }
-            });
-        }
-
-        @Override
-        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
-            // noop
-        }
-    };
-
-    public boolean isLargeScreenLandscape() {
-        return mIsLargeScreen && mIsLandscape;
-    }
-
-    // nbradbury 01-Apr-2013
     public NoteListFragment getNoteListFragment() {
         return mNoteListFragment;
     }
@@ -511,7 +438,7 @@ public class NotesActivity extends ActionBarActivity implements
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;
-        if (isLargeScreenLandscape() && mSearchView != null)
+        if (DisplayUtils.isLargeLandscape(this) && mSearchView != null)
             searchQuery = mSearchView.getQuery().toString();
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
@@ -575,13 +502,6 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        // Restore the search query on landscape tablets
-        if (isLargeScreenLandscape() && !TextUtils.isEmpty(mTabletSearchQuery)) {
-            mSearchView.setQuery(mTabletSearchQuery, false);
-            mSearchMenuItem.expandActionView();
-            mSearchView.clearFocus();
-        }
-
         Simplenote currentApp = (Simplenote) getApplication();
         boolean isSignedOut = currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
         menu.findItem(R.id.menu_sign_in).setVisible(isSignedOut);
@@ -593,7 +513,14 @@ public class NotesActivity extends ActionBarActivity implements
         else
             trashItem.setTitle(R.string.delete);
 
-        if (isLargeScreenLandscape()) {
+        if (DisplayUtils.isLargeLandscape(this)) {
+            // Restore the search query on landscape tablets
+            if (!TextUtils.isEmpty(mTabletSearchQuery)) {
+                mSearchView.setQuery(mTabletSearchQuery, false);
+                mSearchMenuItem.expandActionView();
+                mSearchView.clearFocus();
+            }
+
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
             menu.findItem(R.id.menu_preferences).setVisible(true);
             if (mCurrentNote != null) {
@@ -772,7 +699,6 @@ public class NotesActivity extends ActionBarActivity implements
 
     public void onUserStatusChange(User.Status status) {
         switch (status) {
-
             // successfully used access token to connect to simperium bucket
             case AUTHORIZED:
                 mTracker.send(
@@ -864,8 +790,8 @@ public class NotesActivity extends ActionBarActivity implements
 
         List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
         if (deletedNoteIds != null) {
-            for (int i=0; i < deletedNoteIds.size(); i++) {
-                Note deletedNote = null;
+            for (int i = 0; i < deletedNoteIds.size(); i++) {
+                Note deletedNote;
                 try {
                     deletedNote = mNotesBucket.get(deletedNoteIds.get(i));
                 } catch (BucketObjectMissingException e) {
@@ -898,10 +824,9 @@ public class NotesActivity extends ActionBarActivity implements
 
         mDrawerToggle.onConfigurationChanged(newConfig);
 
-        if (mIsLargeScreen) {
+        if (DisplayUtils.isLarge(this)) {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // Add the editor fragment
-                mIsLandscape = true;
                 addEditorFragment();
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
@@ -917,7 +842,6 @@ public class NotesActivity extends ActionBarActivity implements
                 invalidateOptionsMenu();
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
                 // Remove the editor fragment when rotating back to portrait
-                mIsLandscape = false;
                 mCurrentNote = null;
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(false);
@@ -957,7 +881,7 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     public void showDetailPlaceholder() {
-        if (isLargeScreenLandscape() && mNoteEditorFragment != null) {
+        if (DisplayUtils.isLargeLandscape(this) && mNoteEditorFragment != null) {
             mCurrentNote = null;
             mNoteEditorFragment.setPlaceholderVisible(true);
             invalidateOptionsMenu();
@@ -997,4 +921,75 @@ public class NotesActivity extends ActionBarActivity implements
         }
     }
 
+
+    /* Simperium Bucket Listeners */
+    // received a change from the network, refresh the list
+    @Override
+    public void onNetworkChange(Bucket<Note> bucket, final Bucket.ChangeType type, String key) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (type == Bucket.ChangeType.INDEX) {
+                    setToolbarProgressVisibility(false);
+                }
+                mNoteListFragment.refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> bucket, Note object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mNoteListFragment.refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> bucket, Note object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mNoteListFragment.refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+        // noop, NoteEditorFragment will handle this
+    }
+
+    // Tags bucket listener
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        void updateNavigationDrawer() {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    updateNavigationDrawerItems();
+                }
+            });
+        }
+
+        @Override
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+            // noop
+        }
+    };
 }

@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
@@ -44,6 +43,7 @@ import android.widget.ViewSwitcher;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
@@ -184,8 +184,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
+        if (DisplayUtils.isLargeLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
+        }
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
