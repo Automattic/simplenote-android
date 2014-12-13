@@ -31,19 +31,4 @@
             app:showAsAction="ifRoom"
             android:title="@string/empty_trash"/>
 
-    <item
-            android:id="@+id/menu_sign_in"
-            app:showAsAction="never"
-            android:title="@string/sign_in"/>
-
-    <item
-            android:id="@+id/menu_edit_tags"
-            app:showAsAction="never"
-            android:title="@string/edit_tags"/>
-
-    <item
-            android:id="@+id/menu_preferences"
-            app:showAsAction="never"
-            android:title="@string/settings"/>
-
 </menu>

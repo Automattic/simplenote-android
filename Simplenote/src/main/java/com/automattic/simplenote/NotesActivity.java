@@ -256,7 +256,31 @@ public class NotesActivity extends ActionBarActivity implements
 
         if (mDrawerList.getHeaderViewsCount() == 0) {
             View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
-            mDrawerList.addHeaderView(headerView);
+            mDrawerList.addHeaderView(headerView, null, false);
+        }
+
+        if (mDrawerList.getFooterViewsCount() == 0) {
+            View footerView = getLayoutInflater().inflate(R.layout.nav_drawer_footer, null);
+
+            View settingsView = footerView.findViewById(R.id.nav_settings);
+            settingsView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
+                    startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+                }
+            });
+
+            View editTagsView = footerView.findViewById(R.id.nav_edit_tags);
+            editTagsView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent editTagsIntent = new Intent(NotesActivity.this, TagsActivity.class);
+                    startActivity(editTagsIntent);
+                }
+            });
+
+            mDrawerList.addFooterView(footerView, null, false);
         }
 
         mDrawerList.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
@@ -525,7 +549,6 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        menu.findItem(R.id.menu_sign_in).setVisible(userIsUnauthorized());
         menu.findItem(R.id.menu_create_note).setVisible(userIsUnauthorized());
 
         MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
@@ -543,7 +566,6 @@ public class NotesActivity extends ActionBarActivity implements
             }
 
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-            menu.findItem(R.id.menu_preferences).setVisible(true);
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
                 trashItem.setVisible(true);
@@ -551,14 +573,11 @@ public class NotesActivity extends ActionBarActivity implements
                 menu.findItem(R.id.menu_share).setVisible(false);
                 trashItem.setVisible(false);
             }
-            menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
             menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-            menu.findItem(R.id.menu_preferences).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             trashItem.setVisible(false);
-            menu.findItem(R.id.menu_edit_tags).setVisible(true);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
@@ -582,18 +601,6 @@ public class NotesActivity extends ActionBarActivity implements
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_preferences:
-                // nbradbury - use startActivityForResult so onActivityResult can detect when user returns from preferences
-                Intent i = new Intent(this, PreferencesActivity.class);
-                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
-                return true;
-            case R.id.menu_sign_in:
-                startLoginActivity(true);
-                return true;
-            case R.id.menu_edit_tags:
-                Intent editTagsIntent = new Intent(this, TagsActivity.class);
-                startActivity(editTagsIntent);
-                return true;
             case R.id.menu_create_note:
                 getNoteListFragment().addNote();
                 mTracker.send(
