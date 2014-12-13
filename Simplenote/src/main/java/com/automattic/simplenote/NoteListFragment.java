@@ -493,7 +493,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         } else {
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
-
+            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
