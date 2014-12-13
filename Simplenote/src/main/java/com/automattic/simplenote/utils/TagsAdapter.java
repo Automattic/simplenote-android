@@ -38,15 +38,17 @@ public class TagsAdapter extends BaseAdapter {
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
 
-    int mNameColumn;
-    int mCountColumn;
-    int mRowIdColumn;
-    int mTextColorId;
+    private int mNameColumn;
+    private int mCountColumn;
+    private int mRowIdColumn;
+    private int mTextColorId;
+    private int mHeaderCount;
 
     protected static final int[] topItems = { R.string.notes, R.string.trash };
 
-    public TagsAdapter(Context context, Bucket<Note> notesBucket){
+    public TagsAdapter(Context context, Bucket<Note> notesBucket, int headerCount) {
         this(context, notesBucket, null);
+        mHeaderCount = headerCount;
     }
 
     public TagsAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor){
@@ -136,13 +138,14 @@ public class TagsAdapter extends BaseAdapter {
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
         labelText.setText(tagMenuItem.name);
 
-        int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition();
+        int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition() - mHeaderCount;
         if (position == selectedPosition)
             labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
         else
             labelText.setTextColor(mContext.getResources().getColor(mTextColorId));
 
         ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
+        View dividerView = view.findViewById(R.id.section_divider);
         drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
         if (position == 0) {
             if (position == selectedPosition) {
@@ -152,6 +155,7 @@ public class TagsAdapter extends BaseAdapter {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
             }
             drawerIcon.setVisibility(View.VISIBLE);
+            dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             if (position == selectedPosition) {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
@@ -160,8 +164,10 @@ public class TagsAdapter extends BaseAdapter {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
             }
             drawerIcon.setVisibility(View.VISIBLE);
+            dividerView.setVisibility(View.VISIBLE);
         } else {
             drawerIcon.setVisibility(View.GONE);
+            dividerView.setVisibility(View.GONE);
         }
 
         return view;

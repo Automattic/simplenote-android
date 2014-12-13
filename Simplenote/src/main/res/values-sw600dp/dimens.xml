@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="nav_row_height">64dp</dimen>
+
     <dimen name="fab_margin">@dimen/fab_margin_tablet</dimen>
 </resources>

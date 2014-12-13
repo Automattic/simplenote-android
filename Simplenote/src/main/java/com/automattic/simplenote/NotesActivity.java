@@ -253,7 +253,14 @@ public class NotesActivity extends ActionBarActivity implements
     private void configureNavigationDrawer(Toolbar toolbar) {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mTagsAdapter = new TagsAdapter(this, mNotesBucket);
+
+        if (mDrawerList.getHeaderViewsCount() == 0) {
+            View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
+            mDrawerList.addHeaderView(headerView);
+        }
+
+        mDrawerList.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
+        mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
         mDrawerList.setAdapter(mTagsAdapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -343,7 +350,7 @@ public class NotesActivity extends ActionBarActivity implements
             mSelectedTag = mTagsAdapter.getDefaultItem();
 
         setTitle(mSelectedTag.name);
-        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag), true);
+        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -351,6 +358,8 @@ public class NotesActivity extends ActionBarActivity implements
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            // Adjust for header view
+            position -= mDrawerList.getHeaderViewsCount();
             mSelectedTag = mTagsAdapter.getItem(position);
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
@@ -358,7 +367,7 @@ public class NotesActivity extends ActionBarActivity implements
             mDrawerLayout.closeDrawer(mDrawerList);
 
             // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+            if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);
             } else {
                 getNoteListFragment().getListView().setLongClickable(true);
@@ -375,6 +384,14 @@ public class NotesActivity extends ActionBarActivity implements
                 );
             }
         }
+    }
+
+    private int getDrawerListCheckedPosition() {
+        if (mDrawerList != null && mDrawerList.getCheckedItemPosition() != ListView.INVALID_POSITION) {
+            return mDrawerList.getCheckedItemPosition() + mDrawerList.getHeaderViewsCount();
+        }
+
+        return ListView.INVALID_POSITION;
     }
 
     public TagsAdapter.TagMenuItem getSelectedTag() {
@@ -546,7 +563,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+        if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(!drawerOpen);
 
@@ -868,7 +885,7 @@ public class NotesActivity extends ActionBarActivity implements
         if (isSearch) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
             getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+        } else if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
             mTracker.send(
                     new HitBuilders.EventBuilder()

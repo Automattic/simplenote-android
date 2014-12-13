@@ -7,5 +7,6 @@
     android:layout_height="wrap_content"
     android:background="?attr/toolbarColor"
     android:minHeight="?attr/actionBarSize"
+    app:contentInsetStart="@dimen/toolbar_title_keyline"
     app:popupTheme="?attr/toolbarPopupTheme"
     app:theme="@style/ToolbarTheme" />
