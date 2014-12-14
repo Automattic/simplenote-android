@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="@dimen/padding_small"
-    android:paddingBottom="@dimen/padding_small">
+    android:paddingBottom="@dimen/padding_small"
+    android:paddingTop="@dimen/padding_small">
 
     <View
         android:layout_width="match_parent"
@@ -13,31 +13,63 @@
         android:layout_marginTop="@dimen/padding_small"
         android:background="?attr/dividerColor" />
 
-    <com.automattic.simplenote.widgets.SourceSansTextView
+    <LinearLayout
         android:id="@+id/nav_edit_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:minHeight="@dimen/nav_row_height"
-        android:gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?attr/noteTitleColor"
         android:background="@drawable/selectable_background_simplestyle"
-        android:text="@string/edit_tags" />
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large">
 
-    <com.automattic.simplenote.widgets.SourceSansTextView
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="32dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_tag_black_24dp"
+            android:tint="?attr/noteTitleColor" />
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/nav_row_height"
+            android:text="@string/edit_tags"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="?attr/noteTitleColor" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/nav_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_large"
         android:paddingRight="@dimen/padding_large"
-        android:minHeight="@dimen/nav_row_height"
-        android:gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?attr/noteTitleColor"
-        android:background="@drawable/selectable_background_simplestyle"
-        android:text="@string/settings" />
+        android:background="@drawable/selectable_background_simplestyle">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="32dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_settings_black_24dp"
+            android:tint="?attr/noteTitleColor" />
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/nav_row_height"
+            android:text="@string/settings"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="?attr/noteTitleColor" />
+
+    </LinearLayout>
 </LinearLayout>
