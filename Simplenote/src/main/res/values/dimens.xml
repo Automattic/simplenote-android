@@ -13,8 +13,8 @@
     <dimen name="fab_size">72dp</dimen>
     <dimen name="fab_padding">10dp</dimen>
     <dimen name="fab_margin">@dimen/fab_margin_default</dimen>
-    <dimen name="fab_margin_default">16dp</dimen>
-    <dimen name="fab_margin_tablet">24dp</dimen>
+    <dimen name="fab_margin_default">10dp</dimen>
+    <dimen name="fab_margin_tablet">18dp</dimen>
 
     <!-- http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing -->
     <dimen name="nav_row_height">48dp</dimen>
