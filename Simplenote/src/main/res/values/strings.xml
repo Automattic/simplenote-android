@@ -146,4 +146,6 @@
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
     <string name="error">Error</string>
+    <string name="tags">Tags</string>
+    <string name="edit">Edit</string>
 </resources>

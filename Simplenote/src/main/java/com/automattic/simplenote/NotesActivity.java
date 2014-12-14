@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
@@ -80,6 +81,7 @@ public class NotesActivity extends ActionBarActivity implements
 
     // Menu drawer
     private DrawerLayout mDrawerLayout;
+    private LinearLayout mDrawerView;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
@@ -252,36 +254,22 @@ public class NotesActivity extends ActionBarActivity implements
 
     private void configureNavigationDrawer(Toolbar toolbar) {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerView = (LinearLayout) findViewById(R.id.drawer_view);
+        mDrawerList = (ListView) findViewById(R.id.drawer_list);
 
         if (mDrawerList.getHeaderViewsCount() == 0) {
             View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
             mDrawerList.addHeaderView(headerView, null, false);
         }
 
-        if (mDrawerList.getFooterViewsCount() == 0) {
-            View footerView = getLayoutInflater().inflate(R.layout.nav_drawer_footer, null);
-
-            View settingsView = footerView.findViewById(R.id.nav_settings);
-            settingsView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
-                    startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
-                }
-            });
-
-            View editTagsView = footerView.findViewById(R.id.nav_edit_tags);
-            editTagsView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent editTagsIntent = new Intent(NotesActivity.this, TagsActivity.class);
-                    startActivity(editTagsIntent);
-                }
-            });
-
-            mDrawerList.addFooterView(footerView, null, false);
-        }
+        View settingsButton = findViewById(R.id.nav_settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
+                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+            }
+        });
 
         mDrawerList.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
@@ -388,7 +376,7 @@ public class NotesActivity extends ActionBarActivity implements
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
             setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerLayout.closeDrawer(mDrawerView);
 
             // Disable long press on notes if we're viewing the trash
             if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
@@ -479,7 +467,7 @@ public class NotesActivity extends ActionBarActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
 
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerView);
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;

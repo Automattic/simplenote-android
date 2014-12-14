@@ -32,8 +32,8 @@
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:layout_marginRight="@dimen/fab_margin"
-                app:fabDrawable="?attr/fabIcon"
-                app:fabBackgroundColor="?attr/fabColor" />
+                app:fabBackgroundColor="?attr/fabColor"
+                app:fabDrawable="?attr/fabIcon" />
 
             <LinearLayout
                 android:id="@+id/undobar"
@@ -50,15 +50,28 @@
         </FrameLayout>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/drawer_view"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:listSelector="@android:color/transparent"
-        android:background="?attr/mainBackgroundColor"
-        android:choiceMode="singleChoice"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/drawer_list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/padding_small"
+            android:clipToPadding="false"
+            android:background="?attr/mainBackgroundColor"
+            android:choiceMode="singleChoice"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent" />
+
+        <include layout="@layout/nav_drawer_footer" />
+
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

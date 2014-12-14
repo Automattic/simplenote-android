@@ -1,6 +1,7 @@
 package com.automattic.simplenote.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.Simplenote;
+import com.automattic.simplenote.TagsActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
@@ -39,7 +40,6 @@ public class TagsAdapter extends BaseAdapter {
     protected TagMenuItem mTrashItem;
 
     private int mNameColumn;
-    private int mCountColumn;
     private int mRowIdColumn;
     private int mTextColorId;
     private int mHeaderCount;
@@ -84,7 +84,6 @@ public class TagsAdapter extends BaseAdapter {
         mCursor = cursor;
         if (mCursor != null){
             mNameColumn = cursor.getColumnIndexOrThrow(Tag.NAME_PROPERTY);
-            mCountColumn = cursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME);
             mRowIdColumn = cursor.getColumnIndexOrThrow(ID_COLUMN);
         }
         notifyDataSetChanged();
@@ -170,8 +169,28 @@ public class TagsAdapter extends BaseAdapter {
             dividerView.setVisibility(View.GONE);
         }
 
+        View tagsHeader = view.findViewById(R.id.tags_header);
+        if (position == 2) {
+            tagsHeader.setVisibility(View.VISIBLE);
+        } else {
+            tagsHeader.setVisibility(View.GONE);
+        }
+
+        View editTags = view.findViewById(R.id.edit_tags);
+        editTags.setOnClickListener(mEditTagsOnClickListener);
+
         return view;
     }
+
+    private View.OnClickListener mEditTagsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mContext != null) {
+                Intent editTagsIntent = new Intent(mContext, TagsActivity.class);
+                mContext.startActivity(editTagsIntent);
+            }
+        }
+    };
 
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
