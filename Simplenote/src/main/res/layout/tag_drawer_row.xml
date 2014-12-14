@@ -10,10 +10,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_small"
         android:paddingBottom="@dimen/padding_extra_small"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
         android:visibility="gone">
 
         <com.automattic.simplenote.widgets.SourceSansTextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/edit"
             android:clickable="true"
-            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textSize="15sp"
             android:textColor="@color/simplenote_blue" />
     </LinearLayout>
 
@@ -41,10 +41,10 @@
         android:gravity="center_vertical"
         android:minHeight="@dimen/nav_row_height"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/padding_small"
         android:paddingBottom="@dimen/padding_small"
         android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_small">
+        android:paddingRight="@dimen/padding_large">
 
         <ImageView
             android:id="@+id/drawer_icon"

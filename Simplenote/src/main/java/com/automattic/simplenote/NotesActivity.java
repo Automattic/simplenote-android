@@ -23,12 +23,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
@@ -42,6 +45,7 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.FloatingActionButton;
+import com.automattic.simplenote.widgets.ScrimInsetsFrameLayout;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.android.gms.analytics.HitBuilders;
@@ -81,8 +85,8 @@ public class NotesActivity extends ActionBarActivity implements
 
     // Menu drawer
     private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawerView;
     private ListView mDrawerList;
+    private FrameLayout mDrawerFrameLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
@@ -93,8 +97,11 @@ public class NotesActivity extends ActionBarActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             supportRequestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
         }
 
         ThemeUtils.setTheme(this);
@@ -254,7 +261,18 @@ public class NotesActivity extends ActionBarActivity implements
 
     private void configureNavigationDrawer(Toolbar toolbar) {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerView = (LinearLayout) findViewById(R.id.drawer_view);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.capture_insets_frame_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // get primaryColorDark for current theme
+            TypedValue colorId = new TypedValue();
+            if (getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorId, true)) {
+                mDrawerLayout.setStatusBarBackgroundColor(colorId.data);
+            } else {
+                mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.welcome_button_blue));
+            }
+
+        }
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
 
         if (mDrawerList.getHeaderViewsCount() == 0) {
@@ -271,7 +289,7 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        mDrawerList.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
+        mDrawerFrameLayout.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
         mDrawerList.setAdapter(mTagsAdapter);
         // Set the list's click listener
@@ -376,7 +394,7 @@ public class NotesActivity extends ActionBarActivity implements
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
             setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mDrawerView);
+            mDrawerLayout.closeDrawer(mDrawerFrameLayout);
 
             // Disable long press on notes if we're viewing the trash
             if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
@@ -467,7 +485,7 @@ public class NotesActivity extends ActionBarActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
 
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerView);
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerFrameLayout);
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;

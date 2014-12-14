@@ -24,6 +24,8 @@
         <item name="colorPrimary">@color/simplenote_dark_bg</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/simplenote_blue</item>
+
+        <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/simplenote_dark_selected_row</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
