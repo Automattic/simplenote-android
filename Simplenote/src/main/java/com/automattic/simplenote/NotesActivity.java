@@ -938,7 +938,7 @@ public class NotesActivity extends ActionBarActivity implements
             while (c.moveToNext()) {
                 c.getObject().delete();
             }
-            
+
             return null;
         }
 
