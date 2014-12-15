@@ -28,6 +28,7 @@
     <attr name="actionBarIconSearch" format="reference" />
     <attr name="actionBarIconCreate" format="reference" />
     <attr name="actionBarIconTrash" format="reference" />
+    <attr name="actionBarIconEmptyTrash" format="reference" />
     <attr name="actionBarIconWeb" format="reference" />
     <attr name="actionBarIconCopy" format="reference" />
     <attr name="actionBarIconShare" format="reference" />

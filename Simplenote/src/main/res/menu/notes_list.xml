@@ -4,31 +4,31 @@
 
     <item
         android:id="@+id/menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"
         android:icon="?attr/actionBarIconSearch"
-        android:title="@string/search" />
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
-            android:id="@+id/menu_share"
-            app:showAsAction="ifRoom"
-            android:title="@string/share"
-            android:icon="?attr/actionBarIconShare"/>
+        android:id="@+id/menu_share"
+        android:icon="?attr/actionBarIconShare"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_create_note"
         android:icon="?attr/actionBarIconCreate"
-        app:showAsAction="always"
-        android:title="@string/new_note"/>
+        android:title="@string/new_note"
+        app:showAsAction="always" />
 
     <item
-            android:id="@+id/menu_delete"
-            app:showAsAction="never"
-            android:title="@string/delete"/>
+        android:id="@+id/menu_delete"
+        android:title="@string/delete"
+        app:showAsAction="never" />
 
     <item
-            android:id="@+id/menu_empty_trash"
-            android:icon="@drawable/ab_icon_empty_trash"
-            app:showAsAction="ifRoom"
-            android:title="@string/empty_trash"/>
+        android:id="@+id/menu_empty_trash"
+        android:icon="?attr/actionBarIconEmptyTrash"
+        android:title="@string/empty_trash"
+        app:showAsAction="ifRoom" />
 
 </menu>

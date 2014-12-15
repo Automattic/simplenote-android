@@ -68,7 +68,7 @@ public class NotesActivity extends ActionBarActivity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
-    private int TRASH_SELECTED_ID = 1;
+    private int TRASH_SELECTED_ID = 2;
 
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
@@ -397,7 +397,7 @@ public class NotesActivity extends ActionBarActivity implements
             mDrawerLayout.closeDrawer(mDrawerFrameLayout);
 
             // Disable long press on notes if we're viewing the trash
-            if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
+            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);
             } else {
                 getNoteListFragment().getListView().setLongClickable(true);
@@ -416,31 +416,22 @@ public class NotesActivity extends ActionBarActivity implements
         }
     }
 
-    private int getDrawerListCheckedPosition() {
-        if (mDrawerList != null && mDrawerList.getCheckedItemPosition() != ListView.INVALID_POSITION) {
-            return mDrawerList.getCheckedItemPosition() + mDrawerList.getHeaderViewsCount();
-        }
-
-        return ListView.INVALID_POSITION;
-    }
-
     public TagsAdapter.TagMenuItem getSelectedTag() {
         return mSelectedTag;
     }
 
     // Enable or disable the trash action bar button depending on if there are deleted notes or not
     public void updateTrashMenuItem() {
-        if (mEmptyTrashMenuItem == null)
+        if (mEmptyTrashMenuItem == null || mNotesBucket == null)
             return;
+
         // Disable the trash icon if there are no notes trashed.
-        Simplenote application = (Simplenote) getApplication();
-        Bucket<Note> noteBucket = application.getNotesBucket();
-        Query<Note> query = Note.allDeleted(noteBucket);
+        Query<Note> query = Note.allDeleted(mNotesBucket);
         if (query.count() == 0) {
-            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash_disabled);
+            mEmptyTrashMenuItem.getIcon().setAlpha(127);
             mEmptyTrashMenuItem.setEnabled(false);
         } else {
-            mEmptyTrashMenuItem.setIcon(R.drawable.ab_icon_empty_trash);
+            mEmptyTrashMenuItem.getIcon().setAlpha(255);
             mEmptyTrashMenuItem.setEnabled(true);
         }
     }
@@ -588,7 +579,8 @@ public class NotesActivity extends ActionBarActivity implements
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
+        int test = mDrawerList.getCheckedItemPosition();
+        if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(!drawerOpen);
 
@@ -898,7 +890,7 @@ public class NotesActivity extends ActionBarActivity implements
         if (isSearch) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
             getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (getDrawerListCheckedPosition() == TRASH_SELECTED_ID) {
+        } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
             mTracker.send(
                     new HitBuilders.EventBuilder()
@@ -939,13 +931,14 @@ public class NotesActivity extends ActionBarActivity implements
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Simplenote application = (Simplenote) getApplication();
-            Bucket<Note> noteBucket = application.getNotesBucket();
-            Query<Note> query = Note.allDeleted(noteBucket);
+            if (mNotesBucket == null) return null;
+
+            Query<Note> query = Note.allDeleted(mNotesBucket);
             Bucket.ObjectCursor c = query.execute();
             while (c.moveToNext()) {
                 c.getObject().delete();
             }
+            
             return null;
         }
 

@@ -59,6 +59,7 @@
         <item name="actionBarIconCreate">@drawable/ic_create_white_24dp</item>
         <item name="actionBarIconSearch">@drawable/ic_search_white_24dp</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
+        <item name="actionBarIconEmptyTrash">@drawable/ab_icon_empty_trash_white</item>
         <item name="actionBarIconEmail">@drawable/ic_email_white_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_white_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_white_24dp</item>
