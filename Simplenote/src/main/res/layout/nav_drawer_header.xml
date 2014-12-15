@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/nav_header_size"
     android:orientation="vertical"
     android:paddingBottom="@dimen/padding_small">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/nav_header_size"
+        android:maxHeight="@dimen/nav_header_size"
         android:scaleType="centerCrop"
-        android:src="@drawable/nav_header" />
+        android:src="?attr/navDrawerHeader" />
 </LinearLayout>

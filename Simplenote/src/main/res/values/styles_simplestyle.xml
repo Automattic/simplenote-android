@@ -53,6 +53,7 @@
         <item name="tagListBackgroundSelector">@drawable/list_background_simplestyle_tags</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
         <item name="pinIconSelector">@drawable/pin_bg_selector</item>
+        <item name="navDrawerHeader">@drawable/nav_header</item>
 
         <item name="actionBarIconInfo">@drawable/ic_info_white_24dp</item>
         <item name="actionBarIconCreate">@drawable/ic_create_white_24dp</item>
