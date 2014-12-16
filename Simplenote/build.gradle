@@ -30,7 +30,7 @@ version "1.2.2"
 android {
 
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
