@@ -32,7 +32,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
@@ -301,13 +300,11 @@ public class NotesActivity extends ActionBarActivity implements
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open_drawer,
                 R.string.close_drawer) {
             public void onDrawerClosed(View view) {
-                setTitle(mActionBarTitle);
-                invalidateOptionsMenu();
+                // noop
             }
 
             public void onDrawerOpened(View drawerView) {
-                setTitleWithCustomFont(getString(R.string.app_name));
-                invalidateOptionsMenu();
+                // noop
             }
         };
 
@@ -476,8 +473,6 @@ public class NotesActivity extends ActionBarActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
 
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerFrameLayout);
-
         // restore the search query if on a landscape tablet
         String searchQuery = null;
         if (DisplayUtils.isLargeLandscape(this) && mSearchView != null)
@@ -562,9 +557,8 @@ public class NotesActivity extends ActionBarActivity implements
                 mSearchView.clearFocus();
             }
 
-            menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
             if (mCurrentNote != null) {
-                menu.findItem(R.id.menu_share).setVisible(!drawerOpen);
+                menu.findItem(R.id.menu_share).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
@@ -572,17 +566,16 @@ public class NotesActivity extends ActionBarActivity implements
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
-            menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+            menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        int test = mDrawerList.getCheckedItemPosition();
         if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
-            mEmptyTrashMenuItem.setVisible(!drawerOpen);
+            mEmptyTrashMenuItem.setVisible(true);
 
             updateTrashMenuItem();
 
