@@ -148,11 +148,11 @@
 
     <!-- Font Sizes -->
     <string name="font_size">Font size</string>
-    <string name="font_size_extra_small">Extra Small</string>
+    <string name="font_size_extra_small">Extra small</string>
     <string name="font_size_small">Small</string>
     <string name="font_size_normal">Normal</string>
     <string name="font_size_large">Large</string>
-    <string name="font_size_extra_large">Extra Large</string>
+    <string name="font_size_extra_large">Extra large</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
