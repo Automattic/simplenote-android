@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -22,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -68,6 +70,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
+
+    private int mTitleFontSize;
+    private int mPreviewFontSize;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -183,23 +188,18 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		setListAdapter(mNotesAdapter);
 	}
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
     // nbradbury - load values from preferences
 	protected void getPrefs() {
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
 		mNumPreviewLines = (condensedList) ? 0 : 2;
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18);
+        mTitleFontSize = Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
 	}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.notes_list, container, false);
-        return view;
+        return inflater.inflate(R.layout.notes_list, container, false);
     }
 
 	@Override
@@ -518,6 +518,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 			} else {
 				holder = (NoteViewHolder) view.getTag();
 			}
+
+            if (holder.titleTextView.getTextSize() != mTitleFontSize) {
+                holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
+                holder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+            }
 
             if (position == getListView().getCheckedItemPosition())
                 view.setActivated(true);
