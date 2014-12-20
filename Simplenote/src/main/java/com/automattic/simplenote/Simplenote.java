@@ -73,7 +73,7 @@ public class Simplenote extends Application {
     }
 
     // Google Analytics tracker
-    synchronized Tracker getTracker() {
+    public synchronized Tracker getTracker() {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             mTracker = analytics.newTracker(BuildConfig.GOOGLE_ANALYTICS_ID);

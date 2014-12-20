@@ -10,7 +10,7 @@
 
     <style name="UntitledNoteAppearance" parent="@android:style/TextAppearance">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/mediumgrey</item>
+        <item name="android:textColor">?attr/notePreviewColor</item>
         <item name="android:textStyle">italic</item>
     </style>
 
