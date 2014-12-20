@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding_small"
+    android:background="?attr/mainBackgroundColor">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:background="?attr/dividerColor" />
+
+    <LinearLayout
+        android:id="@+id/nav_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:background="@drawable/selectable_background_simplestyle">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="32dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_settings_black_24dp"
+            android:tint="?attr/noteTitleColor" />
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/nav_row_height"
+            android:text="@string/settings"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="?attr/noteTitleColor" />
+
+    </LinearLayout>
+</LinearLayout>

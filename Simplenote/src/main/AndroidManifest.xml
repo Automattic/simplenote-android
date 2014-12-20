@@ -40,31 +40,26 @@
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:label="Preferences"
             android:configChanges="orientation|keyboardHidden|screenSize">
-            <intent-filter>
-              <action android:name="android.intent.action.VIEW" />
-              <category android:name="android.intent.category.DEFAULT" />
-              <category android:name="android.intent.category.BROWSABLE" />
-              <data android:scheme="simplenote" android:host="preferences" />
-            </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.TagsListActivity"
+            android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <!-- Passcode Unlock-->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="org.wordpress.passcodelock.PasscodePreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Holo.Light"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 

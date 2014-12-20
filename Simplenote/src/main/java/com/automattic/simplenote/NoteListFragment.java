@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -10,6 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -33,11 +37,14 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -56,7 +63,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, ActionMode.Callback {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
 
     private ActionMode mActionMode;
 
@@ -68,6 +75,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
+
+    private Tracker mTracker;
 
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -105,7 +114,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.bulk_edit_tags, menu);
+        inflater.inflate(R.menu.bulk_edit, menu);
         mActionMode = actionMode;
         return true;
     }
@@ -130,7 +139,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             public void run() {
                 if (getActivity() != null) {
                     NotesActivity notesActivity = (NotesActivity) getActivity();
-                    setActivateOnItemClick(notesActivity.isLargeScreenLandscape());
+                    setActivateOnItemClick(DisplayUtils.isLargeLandscape(notesActivity));
                     notesActivity.showDetailPlaceholder();
                 }
             }
@@ -155,7 +164,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets);
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
 	}
 
 	/**
@@ -164,7 +173,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID, boolean isNew, String matchOffsets) {
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
 		}
 	};
 
@@ -187,6 +196,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Simplenote application = (Simplenote) getActivity().getApplication();
+        mTracker = application.getTracker();
     }
 
     // nbradbury - load values from preferences
@@ -196,10 +207,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.notes_list, container, false);
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
 	@Override
@@ -233,7 +242,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         signUpButton.setTag(TAG_BUTTON_SIGNUP);
         signUpButton.setOnClickListener(signInClickListener);
 
-        if (notesActivity.isLargeScreenLandscape()) {
+        if (DisplayUtils.isLargeLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
@@ -251,7 +260,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -316,7 +325,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN) ? true : false);
+            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN));
         }
     };
 
@@ -340,15 +349,37 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
+        if (!isAdded()) return;
 		super.onListItemClick(listView, view, position, id);
 
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
-        if (noteID != null)
-            mCallbacks.onNoteSelected(noteID, false, holder.matchOffsets);
+
+        if (DisplayUtils.isLargeLandscape(getActivity())) {
+            if (noteID != null) {
+                mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
+            }
+        } else {
+            Bundle arguments = new Bundle();
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+
+            Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "transition_editor");
+            ActivityCompat.startActivityForResult(getActivity(), editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
+        }
 
         mActivatedPosition = position;
-	}
+
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("viewed_note")
+                        .setLabel("note_list_row_tap")
+                        .build()
+        );
+    }
 
     /**
      * Selects first row in the list if available
@@ -356,7 +387,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), false, null);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null);
         }
     }
 
@@ -439,7 +470,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity)getActivity();
-        if (!notesActivity.isLargeScreenLandscape())
+        if (!DisplayUtils.isLargeLandscape(notesActivity))
             notesActivity.stopListeningToNotesBucket();
 
 		// Create & save new note
@@ -456,9 +487,18 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
 		note.save();
-		
-		// nbradbury - call onNoteSelected() directly rather than using code below, since code below may not always select the correct note depending on user's sort preference
-		mCallbacks.onNoteSelected(note.getSimperiumKey(), true, null);
+
+        if (DisplayUtils.isLargeLandscape(getActivity())) {
+            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
+        } else {
+            Bundle arguments = new Bundle();
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
+            Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
+
+            getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+        }
 	}
 
     public void setNoteSelected(String selectedNoteID) {
@@ -662,7 +702,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return;
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
-            int count = 0;
+            int count;
             try {
                 mNotesAdapter.changeCursor(cursor);
                 count = mNotesAdapter.getCount();
@@ -674,7 +714,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             NotesActivity notesActivity = (NotesActivity)getActivity();
             if (notesActivity != null) {
-                if (mIsFromNavSelect && notesActivity.isLargeScreenLandscape()) {
+                if (mIsFromNavSelect && DisplayUtils.isLargeLandscape(notesActivity)) {
                         if (count == 0) {
                             notesActivity.showDetailPlaceholder();
                         } else {
@@ -702,7 +742,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
-            List<Note> deletedNotesList = new ArrayList<Note>();
+            List<Note> deletedNotesList = new ArrayList<>();
             for (int i = 0; i < selectedRows.size(); i++) {
                 if (selectedRows.valueAt(i)) {
                     deletedNotesList.add(mNotesAdapter.getItem(selectedRows.keyAt(i)));

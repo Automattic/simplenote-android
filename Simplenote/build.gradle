@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -17,10 +17,10 @@ repositories {
 }
 
 dependencies {
-    compile('com.simperium.android:simperium:0.6.0')
+    compile "com.simperium.android:simperium:0.6.2"
+    compile "com.android.support:appcompat-v7:21.0.+"
     compile "com.google.android.gms:play-services:6.1.+"
-    compile "com.android.support:support-v4:21.+"
-    compile "org.wordpress:android-passcodelock:0.0.5"
+    compile "org.wordpress:android-passcodelock:0.0.6"
 
     wearApp project(':Wear')
 }
@@ -30,14 +30,14 @@ version "1.2.2"
 android {
 
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 37
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 21
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
@@ -50,7 +50,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
+            shrinkResources false
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
 

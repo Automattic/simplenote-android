@@ -1,6 +1,7 @@
 package com.automattic.simplenote.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.Simplenote;
+import com.automattic.simplenote.TagsActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
@@ -38,15 +39,16 @@ public class TagsAdapter extends BaseAdapter {
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
 
-    int mNameColumn;
-    int mCountColumn;
-    int mRowIdColumn;
-    int mTextColorId;
+    private int mNameColumn;
+    private int mRowIdColumn;
+    private int mTextColorId;
+    private int mHeaderCount;
 
     protected static final int[] topItems = { R.string.notes, R.string.trash };
 
-    public TagsAdapter(Context context, Bucket<Note> notesBucket){
+    public TagsAdapter(Context context, Bucket<Note> notesBucket, int headerCount) {
         this(context, notesBucket, null);
+        mHeaderCount = headerCount;
     }
 
     public TagsAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor){
@@ -82,7 +84,6 @@ public class TagsAdapter extends BaseAdapter {
         mCursor = cursor;
         if (mCursor != null){
             mNameColumn = cursor.getColumnIndexOrThrow(Tag.NAME_PROPERTY);
-            mCountColumn = cursor.getColumnIndexOrThrow(Tag.NOTE_COUNT_INDEX_NAME);
             mRowIdColumn = cursor.getColumnIndexOrThrow(ID_COLUMN);
         }
         notifyDataSetChanged();
@@ -136,13 +137,14 @@ public class TagsAdapter extends BaseAdapter {
         TextView labelText = (TextView) view.findViewById(R.id.tag_name);
         labelText.setText(tagMenuItem.name);
 
-        int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition();
+        int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition() - mHeaderCount;
         if (position == selectedPosition)
             labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
         else
             labelText.setTextColor(mContext.getResources().getColor(mTextColorId));
 
         ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
+        View dividerView = view.findViewById(R.id.section_divider);
         drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
         if (position == 0) {
             if (position == selectedPosition) {
@@ -152,6 +154,7 @@ public class TagsAdapter extends BaseAdapter {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
             }
             drawerIcon.setVisibility(View.VISIBLE);
+            dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             if (position == selectedPosition) {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
@@ -160,12 +163,34 @@ public class TagsAdapter extends BaseAdapter {
                 drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
             }
             drawerIcon.setVisibility(View.VISIBLE);
+            dividerView.setVisibility(View.VISIBLE);
         } else {
             drawerIcon.setVisibility(View.GONE);
+            dividerView.setVisibility(View.GONE);
         }
+
+        View tagsHeader = view.findViewById(R.id.tags_header);
+        if (position == 2) {
+            tagsHeader.setVisibility(View.VISIBLE);
+        } else {
+            tagsHeader.setVisibility(View.GONE);
+        }
+
+        View editTags = view.findViewById(R.id.edit_tags);
+        editTags.setOnClickListener(mEditTagsOnClickListener);
 
         return view;
     }
+
+    private View.OnClickListener mEditTagsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mContext != null) {
+                Intent editTagsIntent = new Intent(mContext, TagsActivity.class);
+                mContext.startActivity(editTagsIntent);
+            }
+        }
+    };
 
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;

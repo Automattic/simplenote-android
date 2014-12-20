@@ -1,44 +1,41 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
+    <LinearLayout
+        android:id="@+id/main_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NotesActivity"
-        android:background="@android:color/transparent">
-        <!--
-        This layout is a two-pane layout for the Notes
-        master/detail flow. See res/values-large/refs.xml and
-        res/values-sw600dp/refs.xml for an example of layout aliases
-        that replace the single-pane version of the layout with
-        this two-pane version.
+        android:orientation="vertical">
 
-        For more on layout aliases, see:
-        http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
-        -->
+        <include layout="@layout/toolbar" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/noteFragmentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="10" />
 
-                <LinearLayout
-                    android:id="@+id/noteFragmentContainer"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="horizontal"
-                    android:showDividers="middle"
-                    android:weightSum="10">
-                </LinearLayout>
-            </LinearLayout>
+            <com.automattic.simplenote.widgets.FloatingActionButton
+                android:id="@+id/fab_button"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                app:fabBackgroundColor="?attr/fabColor"
+                app:fabDrawable="?attr/fabIcon" />
 
             <LinearLayout
                 android:id="@+id/undobar"
@@ -46,28 +43,45 @@
 
                 <TextView
                     android:id="@+id/undobar_message"
-                    style="@style/UndoBarMessage"/>
+                    style="@style/UndoBarMessage" />
 
                 <Button
                     android:id="@+id/undobar_button"
-                    style="@style/UndoBarButton"/>
+                    style="@style/UndoBarButton" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
 
-    <!-- android:layout_gravity="start" tells DrawerLayout to treat
-         this as a sliding drawer on the left side for left-to-right
-         languages and on the right side for right-to-left languages.
-         The drawer is given a fixed width in dp and extends the full height of
-         the container. A solid background is used for contrast
-         with the content view. -->
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+    <com.automattic.simplenote.widgets.ScrimInsetsFrameLayout
+        android:id="@+id/capture_insets_frame_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="1px"
-        android:background="?attr/mainBackgroundColor"/>
+        android:fitsSystemWindows="true"
+        app:insetForeground="#4000">
+
+        <LinearLayout
+            android:id="@+id/drawer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/drawer_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?attr/mainBackgroundColor"
+                android:choiceMode="singleChoice"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:listSelector="@android:color/transparent"
+                android:paddingBottom="@dimen/padding_small" />
+
+            <include layout="@layout/nav_drawer_footer" />
+
+        </LinearLayout>
+    </com.automattic.simplenote.widgets.ScrimInsetsFrameLayout>
+
 </android.support.v4.widget.DrawerLayout>
