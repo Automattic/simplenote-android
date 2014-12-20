@@ -41,8 +41,6 @@
         <Preference
             android:key="pref_key_passcode"
             android:title="@string/passcode_preference_title" >
-            <intent android:targetClass="org.wordpress.passcodelock.PasscodePreferencesActivity"
-                android:targetPackage="com.automattic.simplenote"/>
         </Preference>
     </PreferenceCategory>
 

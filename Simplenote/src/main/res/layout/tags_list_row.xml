@@ -44,7 +44,7 @@
         android:id="@+id/tag_trash"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ab_icon_trash"
+        android:src="@drawable/ic_delete_grey600_24dp"
 		android:tint="?attr/iconTintColor"
         android:background="@drawable/selectable_background_simplestyle"
         android:layout_marginRight="16dp"

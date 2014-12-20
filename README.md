@@ -4,7 +4,7 @@ Handcrafted by the Automattic Mobile Team
 
 ## Requirements
 
-Target SDK: KitKat (android-20)
+Target SDK: Lollipop (android-21)
 Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure

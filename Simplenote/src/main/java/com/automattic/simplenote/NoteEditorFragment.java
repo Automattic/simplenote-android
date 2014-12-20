@@ -14,6 +14,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -21,7 +23,6 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.TypedValue;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,7 @@ import android.widget.ViewSwitcher;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
@@ -184,8 +186,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
+        if (DisplayUtils.isLargeLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
+        }
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
@@ -301,10 +304,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
                     getActivity().setResult(Activity.RESULT_OK, resultIntent);
                 }
-                getActivity().finish();
+
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             case android.R.id.home:
-                getActivity().finish();
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -599,7 +603,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
-        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     private void attemptAutoList(Editable editable) {
@@ -875,10 +879,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
-                    mActionMode = getActivity().startActionMode(mActionModeCallback);
+                    mActionMode = ((NoteEditorActivity)getActivity()).startSupportActionMode(mActionModeCallback);
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
+
                     setLinkMenuItem();
                 }
             } else if (mActionMode != null) {
@@ -962,7 +967,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+    public void onNetworkChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {

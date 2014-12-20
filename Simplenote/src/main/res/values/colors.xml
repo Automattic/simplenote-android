@@ -6,17 +6,23 @@
 
     <color name="simplenote_blue">#448AC9</color>
     <color name="simplenote_blue_light">#EEF3F8</color>
+    <color name="simplenote_blue_accent">#69bae9</color>
+    <color name="simplenote_blue_dark">#30628f</color>
+
     <color name="simplenote_dark_grey">#222222</color>
+    <color name="simplenote_toolbar_dark">#131417</color>
     <color name="simplenote_light_grey">#777777</color>
+
     <color name="simplenote_light_list_divider">#EBEBEB</color>
     <color name="simplenote_light_selected_row">#EBEBEB</color>
+
     <color name="simplenote_dark_bg">#24272b</color>
     <color name="simplenote_dark_text">#71889f</color>
     <color name="simplenote_dark_text_preview">#5b6780</color>
     <color name="simplenote_dark_list_divider">#363d4d</color>
     <color name="simplenote_dark_selected_row">#2d3340</color>
+
     <color name="welcome_button_blue">#3772a6</color>
-    <color name="welcome_button_blue_selected">#30628f</color>
 
 	<color name="translucent">#80000000</color>
 	<color name="transparent">#00000000</color>
@@ -32,6 +38,9 @@
 	<color name="white_50">#808080</color>	<!-- 50% white -->
 	<color name="white_35">#595959</color>	<!-- 35% white -->
 	<color name="white_25">#404040</color>	<!-- 25% white -->
+
+    <color name="translucent_grey_extra_light">#80eeeeee</color>
+    <color name="translucent_grey_medium_light">#80bbbbbb</color>
 	
 	<color name="black">#000000</color>
 	<color name="lightblue">#e3f5ff</color>
