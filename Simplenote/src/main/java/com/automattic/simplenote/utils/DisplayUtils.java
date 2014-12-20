@@ -3,10 +3,8 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.Window;
 import android.view.WindowManager;
 
 public class DisplayUtils {
@@ -28,25 +26,10 @@ public class DisplayUtils {
         return size;
     }
 
-    public static int getDisplayPixelWidth(Context context) {
-        Point size = getDisplayPixelSize(context);
-        return (size.x);
-    }
-
-    public static int getDisplayPixelHeight(Context context) {
-        Point size = getDisplayPixelSize(context);
-        return (size.y);
-    }
-
     public static int dpToPx(Context context, int dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics());
         return (int) px;
-    }
-
-    public static int pxToDp(Context context, int px) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return (int) ((px/displayMetrics.density)+0.5);
     }
 
     public static boolean isLarge(Context context) {
@@ -65,8 +48,12 @@ public class DisplayUtils {
         return false;
     }
 
-    public static boolean isLargeLandscape(Context context) {
-        return isLarge(context) && isLandscape(context);
+    public static boolean isLargeScreen(Context context) {
+        return isLarge(context) || isXLarge(context);
+    }
+
+    public static boolean isLargeScreenLandscape(Context context) {
+        return isLargeScreen(context) && isLandscape(context);
     }
 
     /**
@@ -86,13 +73,6 @@ public class DisplayUtils {
         // if we get this far, it's because the device doesn't support an ActionBar,
         // so return the standard ActionBar height (48dp)
         return dpToPx(context, 48);
-    }
-
-    /**
-     * detect when FEATURE_ACTION_BAR_OVERLAY has been set
-     */
-    public static boolean hasActionBarOverlay(Window window) {
-        return window.hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
     }
 }
 

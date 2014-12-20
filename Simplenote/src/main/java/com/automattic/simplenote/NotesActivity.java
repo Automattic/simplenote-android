@@ -131,7 +131,7 @@ public class NotesActivity extends ActionBarActivity implements
             mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
 
-        if (DisplayUtils.isLarge(this)) {
+        if (DisplayUtils.isLargeScreen(this)) {
             if (getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
                 mNoteEditorFragment = (NoteEditorFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
             } else if (DisplayUtils.isLandscape(this)) {
@@ -475,7 +475,7 @@ public class NotesActivity extends ActionBarActivity implements
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;
-        if (DisplayUtils.isLargeLandscape(this) && mSearchView != null)
+        if (DisplayUtils.isLargeScreenLandscape(this) && mSearchView != null)
             searchQuery = mSearchView.getQuery().toString();
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
@@ -549,7 +549,7 @@ public class NotesActivity extends ActionBarActivity implements
         else
             trashItem.setTitle(R.string.delete);
 
-        if (DisplayUtils.isLargeLandscape(this)) {
+        if (DisplayUtils.isLargeScreenLandscape(this)) {
             // Restore the search query on landscape tablets
             if (!TextUtils.isEmpty(mTabletSearchQuery)) {
                 mSearchView.setQuery(mTabletSearchQuery, false);
@@ -692,7 +692,7 @@ public class NotesActivity extends ActionBarActivity implements
      */
     @Override
     public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
-        if (!DisplayUtils.isLargeLandscape(this)) return;
+        if (!DisplayUtils.isLargeScreenLandscape(this)) return;
 
         mNoteEditorFragment.setIsNewNote(isNew);
         mNoteEditorFragment.setNote(noteID, matchOffsets);
@@ -843,7 +843,7 @@ public class NotesActivity extends ActionBarActivity implements
 
         mDrawerToggle.onConfigurationChanged(newConfig);
 
-        if (DisplayUtils.isLarge(this)) {
+        if (DisplayUtils.isLargeScreen(this)) {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // Add the editor fragment
                 addEditorFragment();
@@ -900,7 +900,7 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     public void showDetailPlaceholder() {
-        if (DisplayUtils.isLargeLandscape(this) && mNoteEditorFragment != null) {
+        if (DisplayUtils.isLargeScreenLandscape(this) && mNoteEditorFragment != null) {
             mCurrentNote = null;
             mNoteEditorFragment.setPlaceholderVisible(true);
             invalidateOptionsMenu();
