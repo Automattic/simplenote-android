@@ -300,7 +300,7 @@ public class NotesActivity extends ActionBarActivity implements
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open_drawer,
                 R.string.close_drawer) {
             public void onDrawerClosed(View view) {
-                // noop
+                supportInvalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -573,6 +573,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
+        int test = mDrawerList.getCheckedItemPosition();
         if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
