@@ -27,10 +27,10 @@ public class Note extends BucketObject {
     public static final String PINNED_TAG="pinned";
     public static final String PUBLISHED_TAG="published";
     public static final String NEW_LINE="\n";
-    
-    private static final String CONTENT_CONCAT_FORMAT="%s %s";
+
     private static final String BLANK_CONTENT="";
     private static final String SPACE = " ";
+    private static final int MAX_PREVIEW_CHARS = 300;
     
     public static final String CONTENT_PROPERTY="content";
     public static final String TAGS_PROPERTY="tags";
@@ -78,8 +78,7 @@ public class Note extends BucketObject {
         }
 
         public Note build(String key, JSONObject properties) {
-            Note note = new Note(key, properties);
-            return note;
+            return new Note(key, properties);
         }
 
         public void update(Note note, JSONObject properties) {
@@ -120,9 +119,12 @@ public class Note extends BucketObject {
         super(key, properties);
     }
 
-    protected void updateTitleAndPreview(){
+    protected void updateTitleAndPreview() {
         // try to build a title and preview property out of content
         String content = getContent().trim();
+        if (content.length() > MAX_PREVIEW_CHARS) {
+            content = content.substring(0, MAX_PREVIEW_CHARS - 1);
+        }
 
         int firstNewLinePosition = content.indexOf(NEW_LINE);
         if (firstNewLinePosition > -1 && firstNewLinePosition < 200) {
@@ -131,9 +133,6 @@ public class Note extends BucketObject {
             if (firstNewLinePosition < content.length()) {
                 mContentPreview = content.substring(firstNewLinePosition, content.length());
                 mContentPreview = mContentPreview.replace(NEW_LINE, SPACE).replace(SPACE+SPACE, SPACE).trim();
-                if (mContentPreview.length() >= 300) {
-                    mContentPreview = mContentPreview.substring(0, 300);
-                }
             }
             else {
                 mContentPreview = content;
@@ -151,17 +150,6 @@ public class Note extends BucketObject {
         }
 		return mTitle;
 	}
-    
-    public String getTitle(String ifBlank){
-        if (mTitle == null) {
-            updateTitleAndPreview();
-        }
-        if (mTitle.trim().equals(BLANK_CONTENT)) {
-            return ifBlank;
-        } else {
-            return mTitle;
-        }
-    }
 
 	public String getContent() {
         Object content = getProperty(CONTENT_PROPERTY);
@@ -183,13 +171,6 @@ public class Note extends BucketObject {
         }
 		return mContentPreview;
 	}
-
-    public String getContentPreview(int lines){
-        if (mContentPreview == null) {
-            updateTitleAndPreview();
-        }
-        return mContentPreview;
-    }
 
 	public Calendar getCreationDate() {
         return numberToDate((Number)getProperty(CREATION_DATE_PROPERTY));
