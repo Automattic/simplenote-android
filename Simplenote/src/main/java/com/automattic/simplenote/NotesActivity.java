@@ -573,7 +573,6 @@ public class NotesActivity extends ActionBarActivity implements
         }
 
         // Are we looking at the trash? Adjust menu accordingly.
-        int test = mDrawerList.getCheckedItemPosition();
         if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
