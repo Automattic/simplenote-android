@@ -186,7 +186,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if (DisplayUtils.isLargeLandscape(getActivity()) && mNote == null) {
+        if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
         }
 

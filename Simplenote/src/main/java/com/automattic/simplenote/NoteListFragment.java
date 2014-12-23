@@ -142,7 +142,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             public void run() {
                 if (getActivity() != null) {
                     NotesActivity notesActivity = (NotesActivity) getActivity();
-                    setActivateOnItemClick(DisplayUtils.isLargeLandscape(notesActivity));
+                    setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
                     notesActivity.showDetailPlaceholder();
                 }
             }
@@ -249,7 +249,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         signUpButton.setTag(TAG_BUTTON_SIGNUP);
         signUpButton.setOnClickListener(signInClickListener);
 
-        if (DisplayUtils.isLargeLandscape(notesActivity)) {
+        if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
@@ -362,7 +362,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
 
-        if (DisplayUtils.isLargeLandscape(getActivity())) {
+        if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
             if (noteID != null) {
                 mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
             }
@@ -477,7 +477,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity)getActivity();
-        if (!DisplayUtils.isLargeLandscape(notesActivity))
+        if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
             notesActivity.stopListeningToNotesBucket();
 
 		// Create & save new note
@@ -495,7 +495,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
 		note.save();
 
-        if (DisplayUtils.isLargeLandscape(getActivity())) {
+        if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
             mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
         } else {
             Bundle arguments = new Bundle();
@@ -726,7 +726,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             NotesActivity notesActivity = (NotesActivity)getActivity();
             if (notesActivity != null) {
-                if (mIsFromNavSelect && DisplayUtils.isLargeLandscape(notesActivity)) {
+                if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
                         if (count == 0) {
                             notesActivity.showDetailPlaceholder();
                         } else {
