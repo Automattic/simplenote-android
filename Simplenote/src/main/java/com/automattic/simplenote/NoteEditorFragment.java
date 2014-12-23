@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +46,7 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
@@ -211,6 +213,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.addListener(this);
 
         mTagView.setOnTagAddedListener(this);
+
+        if (mContentEditText != null) {
+            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18));
+        }
     }
 
     @Override

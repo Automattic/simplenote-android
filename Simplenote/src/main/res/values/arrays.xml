@@ -29,4 +29,20 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="array_font_size">
+        <item>@string/font_size_extra_small</item>
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_normal</item>
+        <item>@string/font_size_large</item>
+        <item>@string/font_size_extra_large</item>
+    </string-array>
+
+    <string-array name="array_font_size_values">
+        <item>12</item>
+        <item>14</item>
+        <item>18</item>
+        <item>22</item>
+        <item>26</item>
+    </string-array>
+
 </resources>

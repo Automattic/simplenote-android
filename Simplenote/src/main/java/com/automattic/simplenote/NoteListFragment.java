@@ -76,6 +76,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
 
+    private int mTitleFontSize;
+    private int mPreviewFontSize;
+
     private Tracker mTracker;
 
 	/**
@@ -192,6 +195,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		setListAdapter(mNotesAdapter);
 	}
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -204,10 +208,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	protected void getPrefs() {
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
 		mNumPreviewLines = (condensedList) ? 0 : 2;
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18);
+        mTitleFontSize = Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
 	}
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
@@ -558,6 +565,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 			} else {
 				holder = (NoteViewHolder) view.getTag();
 			}
+
+            if (holder.titleTextView.getTextSize() != mTitleFontSize) {
+                holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
+                holder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+            }
 
             if (position == getListView().getCheckedItemPosition())
                 view.setActivated(true);

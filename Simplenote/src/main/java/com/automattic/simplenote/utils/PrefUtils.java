@@ -25,6 +25,9 @@ public class PrefUtils {
     // boolean, determines whether dates are shown
     public static final String PREF_SHOW_DATES     = "pref_key_show_dates";
 
+    // int, preferred font size
+    public static final String PREF_FONT_SIZE      = "pref_key_font_size";
+
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH   = "pref_key_first_launch";
 
