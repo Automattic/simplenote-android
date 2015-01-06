@@ -35,7 +35,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 38
+        versionCode 39
         minSdkVersion 15
         targetSdkVersion 21
 
@@ -52,7 +52,7 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard.cfg'
         }
 
         debug {
