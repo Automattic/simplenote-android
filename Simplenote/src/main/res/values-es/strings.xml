@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="note_added">Nota Agregada</string>
+	<string name="font_size_extra_small">Extra Pequeño</string>
+	<string name="font_size_small">Pequeño</string>
+	<string name="font_size_normal">Normal</string>
+	<string name="font_size_large">Grande</string>
+	<string name="font_size_extra_large">Extra Grande</string>
+	<string name="noted">Anotado</string>
+	<string name="tags">Etiquetas</string>
+	<string name="edit">Editar</string>
+	<string name="share_url">Compartir Url</string>
+	<string name="note_info">Informacion</string>
+	<string name="version">Versión</string>
 	<string name="publish">Publicar</string>
 	<string name="published">Publicado</string>
 	<string name="publish_error">No publicar</string>
@@ -40,6 +52,7 @@
 	<string name="view_map">Ver mapa</string>
 	<string name="view_in_browser">Ver en navegador</string>
 	<string name="link">Enlace</string>
+	<string name="link_copied"></string>
 	<string name="copy">Copiar</string>
 	<string name="required_fields">Campos requeridos</string>
 	<string name="required_field">Campo requerido</string>
@@ -89,6 +102,7 @@
 	<string name="undelete">Restaurar nota</string>
 	<string name="account">Cuenta</string>
 	<string name="sign_out">Cerrar sesión</string>
+	<string name="font_size">Tamaño de Fuente</string>
 	<string name="preview_lines">Previsualizar líneas</string>
 	<string name="share_note">Compartir nota</string>
 	<string name="words">Palabras</string>

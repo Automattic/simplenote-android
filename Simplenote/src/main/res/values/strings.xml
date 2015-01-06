@@ -48,6 +48,8 @@
     <string name="yesterday">Yesterday</string>
     <string name="condensed_note_list">Condensed note list</string>
     <string name="note_info">Info</string>
+    <string name="tags">Tags</string>
+    <string name="edit">Edit</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -154,6 +156,4 @@
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
     <string name="error">Error</string>
-    <string name="tags">Tags</string>
-    <string name="edit">Edit</string>
 </resources>
