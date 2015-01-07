@@ -44,8 +44,6 @@ public class NoteEditorActivity extends ActionBarActivity {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (!isNewNote) {
                     getWindow().setSharedElementEnterTransition(new ChangeBounds());
-                } else {
-                    getWindow().setExitTransition(new Explode());
                 }
             }
 

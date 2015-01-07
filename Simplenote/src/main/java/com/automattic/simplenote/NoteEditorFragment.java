@@ -295,20 +295,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
                 return true;
             case R.id.menu_delete:
+                if (!isAdded()) return false;
+
                 if (mNote != null) {
                     mNote.setDeleted(!mNote.isDeleted());
                     mNote.setModificationDate(Calendar.getInstance());
                     mNote.save();
                     Intent resultIntent = new Intent();
-                    if (mNote.isDeleted())
+                    if (mNote.isDeleted()) {
                         resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
+                    }
                     getActivity().setResult(Activity.RESULT_OK, resultIntent);
                 }
 
-                ActivityCompat.finishAfterTransition(getActivity());
+                getActivity().finish();
                 return true;
             case android.R.id.home:
-                ActivityCompat.finishAfterTransition(getActivity());
+                if (!isAdded()) return false;
+
+                getActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
