@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="note_added">Добавлена заметка</string>
+	<string name="font_size_extra_small">Очень маленький</string>
+	<string name="font_size_small">Маленький</string>
+	<string name="font_size_normal">Средний</string>
+	<string name="font_size_large">Большой</string>
+	<string name="font_size_extra_large">Очень большой</string>
+	<string name="noted">Записано</string>
+	<string name="tags">Метки</string>
+	<string name="edit">Правка</string>
+	<string name="share_url">Поделиться ссылкой</string>
+	<string name="note_info">Информация</string>
+	<string name="version">Версия</string>
+	<string name="publish">Опубликовать</string>
+	<string name="published">Опубликовано</string>
+	<string name="publish_error">Не получилось опубликовать заметку</string>
+	<string name="unpublish_error">Не получилось отменить публикацию</string>
 	<string name="note_selected">Выбрано: %d</string>
 	<string name="notes_selected">Выбрано: %d</string>
 	<string name="notes_trashed">Заметки перемещены в корзину.</string>
@@ -16,9 +32,9 @@
 	<string name="passcode_preference_title">Защита PIN-кодом</string>
 	<string name="passcode_turn_off">Выключить защиту PIN-кодом</string>
 	<string name="passcode_turn_on">Включить защиту PIN-кодом</string>
-	<string name="trash_is_empty">Корзина пуста.</string>
 	<string name="no_notes_here">Нет заметок.</string>
 	<string name="why_not_create_one">Почему бы не %1$sсоздать первую%2$s?</string>
+	<string name="trash_is_empty">Корзина пуста.</string>
 	<string name="no_notes_found">Заметок не найдено.</string>
 	<string name="welcome_note">Добро пожаловать в Simplenote для Android!\nОткройте эту заметку для получения инструкций.\n\nДля того чтобы создать новую заметку, коснитесь кнопки со знаком плюс.\n\nДля поиска среди ваших заметок коснитесь кнопки поиска в панели управления и затем введите любой текст. Simplenote покажет результаты поиска мгновенно.\n\nУ вас есть действительно важная заметка? В режиме просмотра коснитесь иконки справа от поля меток и закрепите текущую заметку вверху списка.\n\nИспользуйте метки для того чтобы упорядочить ваши заметки. Также вы можете добавить адрес электронной почты как метку и поделиться заметкой с кем угодно.\n\nЕще проще поделиться заметкой можно используя другие установленные приложения через кнопку "Поделиться" в меню.\n\nУдаленные заметки перемещаются в корзину. Если вы захотите, вы всегда сможете восстановить их или же удалить навсегда, очистив корзину.\n\nТакже вы можете получить доступ к вашим заметкам через браузер и другие устройства. Перейдите по адресу http://simplenote.com чтобы попробовать.\n\nМы надеемся, что использование Simlenote вам понравится!</string>
 	<string name="maybe_later">Возможно позже</string>
@@ -86,10 +102,10 @@
 	<string name="undelete">Восстановить заметку</string>
 	<string name="account">Учетная запись</string>
 	<string name="sign_out">Выйти</string>
+	<string name="font_size">Размер шрифта</string>
 	<string name="preview_lines">Предпросмотр строк</string>
 	<string name="share_note">Поделиться заметкой</string>
 	<string name="words">Слова</string>
-	<string name="characters">Символы</string>
 	<string name="edit_tag">Изменить метку</string>
 	<string name="tag_name">Название метки</string>
 	<string name="delete_tag">Удалить метку</string>
@@ -99,7 +115,6 @@
 	<string name="confirm_empty_trash">Вы действительно хотите навсегда удалить все заметки из корзины?</string>
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
-	<string name="character">Символ</string>
 	<string name="word">Слово</string>
 	<string name="no_tags_found">Метки не найдены.</string>
 	<string name="website">Посетить simplenote.com</string>
