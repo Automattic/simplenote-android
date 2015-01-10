@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="note_added">ノートを追加しました</string>
+	<string name="font_size_extra_small">極小</string>
+	<string name="font_size_small">小</string>
+	<string name="font_size_normal">普通</string>
+	<string name="font_size_large">大</string>
+	<string name="font_size_extra_large">特大</string>
+	<string name="noted">ノート作成</string>
+	<string name="tags">タグ</string>
+	<string name="edit">編集</string>
+	<string name="share_url">URL を共有</string>
+	<string name="note_info">情報</string>
 	<string name="version">バージョン</string>
 	<string name="publish">公開</string>
 	<string name="published">公開済み</string>
+	<string name="publish_error">ノートを公開できませんでした</string>
+	<string name="unpublish_error">ノートを非公開にできませんでした</string>
 	<string name="note_selected">%d個のノートを選択しました</string>
 	<string name="notes_selected">%d個のノートを選択しました</string>
 	<string name="notes_trashed">ノートをゴミ箱に移動しました。</string>
@@ -39,6 +52,7 @@
 	<string name="view_map">地図を表示</string>
 	<string name="view_in_browser">ブラウザで表示</string>
 	<string name="link">リンク</string>
+	<string name="link_copied">リンクをクリップボードにコピーしました</string>
 	<string name="copy">コピー</string>
 	<string name="required_fields">入力必須欄</string>
 	<string name="required_field">入力必須欄</string>
@@ -88,6 +102,7 @@
 	<string name="undelete">ノートを復元</string>
 	<string name="account">アカウント</string>
 	<string name="sign_out">ログアウト</string>
+	<string name="font_size">フォントサイズ</string>
 	<string name="preview_lines">プレビュー行数</string>
 	<string name="share_note">ノートを共有</string>
 	<string name="words">単語</string>

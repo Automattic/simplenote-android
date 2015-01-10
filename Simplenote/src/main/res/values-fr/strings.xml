@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="note_added">Note ajoutée</string>
+	<string name="font_size_extra_small">Très petit</string>
+	<string name="font_size_small">Petit</string>
+	<string name="font_size_normal">Normal</string>
+	<string name="font_size_large">Grand</string>
+	<string name="font_size_extra_large">Très grand</string>
+	<string name="noted">Avec note</string>
+	<string name="tags">Mots-clés</string>
+	<string name="edit">Modifier</string>
+	<string name="share_url">URL de partage</string>
+	<string name="note_info">Info</string>
+	<string name="version">Version</string>
+	<string name="publish">Publier</string>
+	<string name="published">Publié</string>
+	<string name="publish_error">Echec de publication</string>
+	<string name="unpublish_error">Echec de publication</string>
 	<string name="note_selected">%d note selectionée</string>
 	<string name="notes_selected">%d notes selectionées</string>
 	<string name="notes_trashed">Notes jetées.</string>
@@ -16,14 +32,17 @@
 	<string name="passcode_preference_title">Code PIN</string>
 	<string name="passcode_turn_off">Désactiver code PIN</string>
 	<string name="passcode_turn_on">Activer code PIN</string>
-	<string name="trash_is_empty">La corbeille est vide.</string>
 	<string name="no_notes_here">Pas de notes.</string>
 	<string name="why_not_create_one">Pourquoi ne pas en %1$scréer une%2$s?</string>
+	<string name="trash_is_empty">La corbeille est vide.</string>
 	<string name="no_notes_found">Aucune note trouvée.</string>
+	<string name="welcome_note">Bienvenue sur la version Android de Simplenote!\nOuvrez ceci pour obtenir des instructions.\n\nPour créer une nouvelle note, toucher le bouton plus.\nPour recherche vos notes, toucher le bouton de recherche dans la barre d\'action et entrer n\'importe quel texte. Simplenote vous retournera les résultats immédiatement.\n\nVous avez une note vraiment importante? Toucher le bouton favoris pendant la lecture d\'une note pour la garder en tête de liste.\n\nUtiliser les tags pour vous aider à organiser vos notes. Vous pouvez aussi ajouter une adresse email comme tag pour partager une note avec quelqu\'un.\n\nPartager facilement vos notes avec d\'autres applications Android en touchant le bouton \'Partager\' dans le menu.\n\nLes notes supprimées vont dans la corbeilles. Vous pouvez les récupérer si vous le souhaitez ou vider la corbeille pour les supprimer à jamais.\n\nVous pouvez accéder à vos notes sur le web ou sur vos autres appareils. Direction http://simplenote.com pour faire cela.\n\nEn espérant que vous allez apprécier Simplenote!</string>
 	<string name="maybe_later">Peut-être plus tard</string>
 	<string name="just_try_app">Essayer l\'application</string>
 	<string name="welcome_want_more">Plus ?</string>
 	<string name="use_simplenote_account">Utiliser un compte Simplenote</string>
+	<string name="sort_newest_modified">Modification récente</string>
+	<string name="sort_oldest_modified">Modification ancienne</string>
 	<string name="sort_newest_created">Création récente</string>
 	<string name="sort_oldest_created">Création ancienne</string>
 	<string name="sort_alphabetical">Alphabétiquement, A-Z</string>
@@ -33,7 +52,7 @@
 	<string name="view_map">Voir la carte</string>
 	<string name="view_in_browser">Voir dans le navigateur</string>
 	<string name="link">Lien</string>
-	<string name="link_copied">Lien copié dans le presse-papier.</string>
+	<string name="link_copied">Lien copié dans le presse-papier</string>
 	<string name="copy">Copie</string>
 	<string name="required_fields">Champs requis</string>
 	<string name="required_field">Champ requis</string>
@@ -63,14 +82,11 @@
 	<string name="have_account">Déjà un compte ?</string>
 	<string name="app_description">Simplenote, maintes fois primé, est maintenant disponible pour Android. Simplenote permet de garder des notes, des listes, des idées et bien plus. Vos notes se synchronisent sur tous vos appareils gratuitement.\n\n        Essayer Simplenote, vous l\'adopterez pour sa vitesse et son efficacité. Ouvrer l\'application, notez vos pensées, et c\'est tout, rien de superflu! Au fur et à mesure que votre collection de notes grossit vous pouvez les retrouver instantanément grâce à la fonction de recherche ou grâce aux fonctions de tags et de favoris.\n\n        La meilleure façon d\'apprendre a utiliser Simplenote, c\'est de l\'essayer. Prêt pour l\'aventure? Aller sur simplenote.com pour télécharger les applications sur vos autres appareils et accéder à vos notes depuis n\'importe où!</string>
 	<string name="app_description_short">Simplenote est une façon simple de conserver vos notes, listes, idées et bien plus.</string>
-	<string name="welcome_note">Bienvenue sur la version Android de Simplenote!\nOuvrez ceci pour obtenir des instructions.\n\nPour créer une nouvelle note, toucher le bouton plus.\nPour recherche vos notes, toucher le bouton de recherche dans la barre d\'action et entrer n\'importe quel texte. Simplenote vous retournera les résultats immédiatement.\n\nVous avez une note vraiment importante? Toucher le bouton favoris pendant la lecture d\'une note pour la garder en tête de liste.\n\nUtiliser les tags pour vous aider à organiser vos notes. Vous pouvez aussi ajouter une adresse email comme tag pour partager une note avec quelqu\'un.\n\nPartager facilement vos notes avec d\'autres applications Android en touchant le bouton \'Partager\' dans le menu.\n\nLes notes supprimées vont dans la corbeilles. Vous pouvez les récupérer si vous le souhaitez ou vider la corbeille pour les supprimer à jamais.\n\nVous pouvez accéder à vos notes sur le web ou sur vos autres appareils. Direction http://simplenote.com pour faire cela.\n\nEn espérant que vous allez apprécier Simplenote!</string>
-	<string name="sort_newest_modified">Modification récente</string>
-	<string name="sort_oldest_modified">Modification ancienne</string>
 	<string name="rename_tag">Renommer tag</string>
 	<string name="note_pinned">Note suivie.</string>
+	<string name="condensed_note_list">Vue condensée</string>
 	<string name="open_drawer">Ouvrir le tiroir</string>
 	<string name="close_drawer">Fermer le tiroir</string>
-	<string name="condensed_note_list">Vue condensée</string>
 	<string name="delete">Placer dans la corbeille</string>
 	<string name="new_note">Nouvelle note</string>
 	<string name="sign_in">Se connecter</string>
@@ -86,10 +102,10 @@
 	<string name="undelete">Restorer note</string>
 	<string name="account">Compte</string>
 	<string name="sign_out">Se déconnecter</string>
+	<string name="font_size">Taille de caractère</string>
 	<string name="preview_lines">Aperçu lignes</string>
 	<string name="share_note">Partager la note</string>
 	<string name="words">Mots</string>
-	<string name="characters">Caractères</string>
 	<string name="edit_tag">Editer le tag</string>
 	<string name="tag_name">Nom du tag</string>
 	<string name="delete_tag">Supprimer le tag</string>
@@ -99,11 +115,11 @@
 	<string name="confirm_empty_trash">Voulez-vous vraiment vider la corbeille ?</string>
 	<string name="yes">Oui</string>
 	<string name="no">Non</string>
-	<string name="character">Caractère</string>
 	<string name="word">Mot</string>
 	<string name="no_tags_found">Pas de tags trouvés.</string>
 	<string name="website">Visiter simplenote.com</string>
 	<string name="more_info">Plus d\'information</string>
+	<string name="sort_order">Trier par</string>
 	<string name="search">Rechercher</string>
 	<string name="notes">Toutes les notes</string>
 	<string name="trash">Corbeille</string>
@@ -111,6 +127,5 @@
 	<string name="yesterday">Hier</string>
 	<string name="undo">Défaire</string>
 	<string name="note_deleted">Note placée dans la corbeille</string>
-	<string name="sort_order">Trier par</string>
 	<string name="app_name">Simplenote</string>
 </resources>
