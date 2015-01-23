@@ -50,7 +50,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
         }
