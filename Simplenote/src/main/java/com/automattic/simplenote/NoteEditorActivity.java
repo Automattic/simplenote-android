@@ -1,13 +1,9 @@
 package com.automattic.simplenote;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeBounds;
-import android.transition.Explode;
-import android.view.Window;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 
@@ -15,10 +11,6 @@ public class NoteEditorActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            supportRequestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        }
-
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -40,15 +32,7 @@ public class NoteEditorActivity extends ActionBarActivity {
                     intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
-
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (!isNewNote) {
-                    getWindow().setSharedElementEnterTransition(new ChangeBounds());
-                }
-            }
-
-            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE,
-                    isNewNote);
+            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
             if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
                     intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));

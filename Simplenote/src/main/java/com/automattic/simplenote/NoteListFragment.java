@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -373,8 +371,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "transition_editor");
-            ActivityCompat.startActivityForResult(getActivity(), editNoteIntent, Simplenote.INTENT_EDIT_NOTE, options.toBundle());
+            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         }
 
         mActivatedPosition = position;
