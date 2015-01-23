@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
@@ -884,7 +885,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
-                    mActionMode = ((NoteEditorActivity)getActivity()).startSupportActionMode(mActionModeCallback);
+                    mActionMode = ((ActionBarActivity)getActivity()).startSupportActionMode(mActionModeCallback);
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
