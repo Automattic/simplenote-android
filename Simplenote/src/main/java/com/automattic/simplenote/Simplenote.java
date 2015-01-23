@@ -78,6 +78,7 @@ public class Simplenote extends Application {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             mTracker = analytics.newTracker(BuildConfig.GOOGLE_ANALYTICS_ID);
             mTracker.enableAutoActivityTracking(true);
+            mTracker.enableExceptionReporting(true);
         }
 
         return mTracker;

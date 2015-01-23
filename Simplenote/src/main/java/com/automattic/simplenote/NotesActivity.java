@@ -412,6 +412,10 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     public TagsAdapter.TagMenuItem getSelectedTag() {
+        if (mSelectedTag == null) {
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
+        
         return mSelectedTag;
     }
 

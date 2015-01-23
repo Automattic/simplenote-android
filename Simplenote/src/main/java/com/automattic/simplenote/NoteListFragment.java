@@ -449,7 +449,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         refreshList(true);
     }
 
-    public ObjectCursor<Note> queryNotes(){
+    public ObjectCursor<Note> queryNotes() {
         NotesActivity notesActivity = (NotesActivity)getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
 
