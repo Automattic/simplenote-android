@@ -367,6 +367,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         } else {
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+            if (holder.matchOffsets != null) {
+                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, holder.matchOffsets);
+            }
 
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
