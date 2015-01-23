@@ -7,7 +7,7 @@
         android:icon="?attr/actionBarIconSearch"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_share"
         android:icon="?attr/actionBarIconShare"
