@@ -359,33 +359,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
-
-        if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-            if (noteID != null) {
-                mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
-            }
-        } else {
-            Bundle arguments = new Bundle();
-            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
-            if (holder.matchOffsets != null) {
-                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, holder.matchOffsets);
-            }
-
-            Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
-            editNoteIntent.putExtras(arguments);
-
-            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+        if (noteID != null) {
+            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
         }
 
         mActivatedPosition = position;
-
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory("note")
-                        .setAction("viewed_note")
-                        .setLabel("note_list_row_tap")
-                        .build()
-        );
     }
 
     /**

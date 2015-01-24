@@ -692,16 +692,35 @@ public class NotesActivity extends ActionBarActivity implements
      */
     @Override
     public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
-        if (!DisplayUtils.isLargeScreenLandscape(this)) return;
+        if (!DisplayUtils.isLargeScreenLandscape(this)) {
+            // Launch the editor activity
+            Bundle arguments = new Bundle();
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
+            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
 
-        mNoteEditorFragment.setIsNewNote(isNew);
-        mNoteEditorFragment.setNote(noteID, matchOffsets);
-        getNoteListFragment().setNoteSelected(noteID);
-        if (mSearchView != null && mSearchView.getQuery().length() > 0) {
-            mTabletSearchQuery = mSearchView.getQuery().toString();
+            if (matchOffsets != null)
+                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
+
+            Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
+            editNoteIntent.putExtras(arguments);
+            startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+        } else {
+            mNoteEditorFragment.setIsNewNote(isNew);
+            mNoteEditorFragment.setNote(noteID, matchOffsets);
+            getNoteListFragment().setNoteSelected(noteID);
+            if (mSearchView != null && mSearchView.getQuery().length() > 0) {
+                mTabletSearchQuery = mSearchView.getQuery().toString();
+            }
+            invalidateOptionsMenu();
         }
 
-        invalidateOptionsMenu();
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("viewed_note")
+                        .setLabel("note_list_row_tap")
+                        .build()
+        );
     }
 
     @Override
