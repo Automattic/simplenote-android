@@ -255,6 +255,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity())) {
+            return;
+        }
+
         inflater.inflate(R.menu.note_editor, menu);
 
         if (mNote != null) {
@@ -447,8 +451,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mPlaceholderView.setVisibility(View.GONE);
 
-        if (matchOffsets != null)
+        if (matchOffsets != null) {
             mMatchOffsets = matchOffsets;
+        } else {
+            mMatchOffsets = null;
+        }
 
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null) {
