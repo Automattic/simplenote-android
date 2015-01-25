@@ -561,15 +561,18 @@ public class NotesActivity extends ActionBarActivity implements
 
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
+                menu.findItem(R.id.menu_view_info).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
+                menu.findItem(R.id.menu_view_info).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_view_info).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
