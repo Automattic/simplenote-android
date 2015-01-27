@@ -491,7 +491,9 @@ public class NotesActivity extends ActionBarActivity implements
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                getNoteListFragment().searchNotes(newText);
+                if (mSearchMenuItem.isActionViewExpanded()) {
+                    getNoteListFragment().searchNotes(newText);
+                }
                 return true;
             }
 
@@ -552,22 +554,25 @@ public class NotesActivity extends ActionBarActivity implements
         if (DisplayUtils.isLargeScreenLandscape(this)) {
             // Restore the search query on landscape tablets
             if (!TextUtils.isEmpty(mTabletSearchQuery)) {
-                mSearchView.setQuery(mTabletSearchQuery, false);
                 mSearchMenuItem.expandActionView();
+                mSearchView.setQuery(mTabletSearchQuery, false);
                 mSearchView.clearFocus();
             }
 
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
+                menu.findItem(R.id.menu_view_info).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
+                menu.findItem(R.id.menu_view_info).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         } else {
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_view_info).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -708,7 +713,7 @@ public class NotesActivity extends ActionBarActivity implements
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
-            if (mSearchView != null && mSearchView.getQuery().length() > 0) {
+            if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
             invalidateOptionsMenu();
@@ -922,7 +927,6 @@ public class NotesActivity extends ActionBarActivity implements
         if (DisplayUtils.isLargeScreenLandscape(this) && mNoteEditorFragment != null) {
             mCurrentNote = null;
             mNoteEditorFragment.setPlaceholderVisible(true);
-            invalidateOptionsMenu();
         }
     }
 
