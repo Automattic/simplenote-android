@@ -431,6 +431,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public ObjectCursor<Note> queryNotes() {
+        if (!isAdded()) return null;
+
         NotesActivity notesActivity = (NotesActivity)getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
 
@@ -688,7 +690,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            if (getActivity() == null || getActivity().isFinishing())
+            if (cursor == null || getActivity() == null || getActivity().isFinishing())
                 return;
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
