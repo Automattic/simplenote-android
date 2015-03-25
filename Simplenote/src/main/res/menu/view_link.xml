@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_view_link"
-        android:icon="@drawable/ab_icon_web"
-        android:showAsAction="always"
+        android:icon="@drawable/ic_web_white_24dp"
+        app:showAsAction="ifRoom"
         android:title="@string/view_in_browser"/>
     <item
         android:id="@+id/menu_copy"
         android:icon="?attr/actionBarIconCopy"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/copy"/>
     <item
         android:id="@+id/menu_share"
         android:icon="?attr/actionBarIconShare"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/share"/>
 </menu>

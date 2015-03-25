@@ -15,7 +15,9 @@
       android:singleLine="true"
       android:text="@string/sign_out"
       android:textAppearance="?android:attr/textAppearanceMedium"
+      android:textColor="?attr/settingsTextColor"
       android:ellipsize="marquee"
+      android:layout_marginLeft="@dimen/settings_sign_out_margin"
       android:layout_marginRight="6dp"
       android:fadingEdge="horizontal" />
 

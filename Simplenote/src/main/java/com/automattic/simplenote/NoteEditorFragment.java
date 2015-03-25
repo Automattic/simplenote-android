@@ -8,50 +8,59 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
-import android.view.ActionMode;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
-import com.automattic.simplenote.utils.SimplenoteEditText;
+import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SpaceTokenizer;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.automattic.simplenote.utils.Typefaces;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
@@ -64,10 +73,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Note mNote;
     private Bucket<Note> mNotesBucket;
 
+    private Tracker mTracker;
+
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
+    private PopupWindow mInfoPopupWindow;
     private ToggleButton mPinButton;
     private Handler mAutoSaveHandler;
+    private Handler mPublishTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
@@ -75,94 +88,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
     private String mLinkText;
-    // Contextual action bar for dealing with links
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        // Called when the action mode is created; startActionMode() was called
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            if (inflater != null) {
-                inflater.inflate(R.menu.view_link, menu);
-                mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
-                mode.setTitle(getString(R.string.link));
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                    mode.setTitleOptionalHint(false);
-                }
-            }
-            return true;
-        }
-
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
-        }
-
-        // Called when the user selects a contextual menu item
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_view_link:
-                    if (mLinkUrl != null) {
-                        try {
-                            Uri uri = Uri.parse(mLinkUrl);
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(uri);
-                            startActivity(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        mode.finish(); // Action picked, so close the CAB
-                    }
-                    return true;
-                case R.id.menu_copy:
-                    if (mLinkText != null && getActivity() != null) {
-                        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mLinkText);
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-                        mode.finish();
-                    }
-                    return true;
-                case R.id.menu_share:
-                    if (mLinkText != null) {
-                        try {
-                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mLinkText);
-                            startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        mode.finish();
-                    }
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        // Called when the user exits the action mode
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-        }
-    };
     private MatchOffsetHighlighter mHighlighter;
     private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
-    private Runnable autoSaveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saveAndSyncNote();
-        }
-    };
-
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -178,6 +108,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
             mNotesBucket = currentApp.getNotesBucket();
+            mTracker = currentApp.getTracker();
 
             TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
             if (a != null) {
@@ -190,10 +121,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mAutoSaveHandler = new Handler();
+        mPublishTimeoutHandler = new Handler();
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
+        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
 
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -209,7 +141,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             @Override
-            public CharSequence convertToString(Cursor cursor) {
+            public CharSequence convertToString(Cursor cursor){
                 return cursor.getString(cursor.getColumnIndex(Tag.NAME_PROPERTY));
             }
 
@@ -224,24 +156,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // sort the tags by their names
                 query.order(Tag.NAME_PROPERTY);
                 // if there's a filter string find only matching tag names
-                if (filter != null)
-                    query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
+                if (filter != null ) query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
                 return query.execute();
             }
         };
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
-        if (getActivity() != null) {
-            mContentEditText.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
-        }
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
-        mTagView.setTypeface(Typefaces.get(getActivity().getBaseContext(), Simplenote.CUSTOM_FONT_PATH));
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
@@ -258,8 +187,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
-        if ((getActivity() instanceof NotesActivity) && ((NotesActivity) getActivity()).isLargeScreenLandscape() && mNote == null)
+        if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
+        }
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
@@ -274,8 +204,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-        return rootView;
-    }
+		return rootView;
+	}
 
     @Override
     public void onResume() {
@@ -284,6 +214,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.addListener(this);
 
         mTagView.setOnTagAddedListener(this);
+
+        if (mContentEditText != null) {
+            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18));
+        }
     }
 
     @Override
@@ -307,7 +241,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setOnTagAddedListener(null);
 
         if (mAutoSaveHandler != null) {
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+        }
+
+        if (mPublishTimeoutHandler != null) {
+            mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
         }
 
         mHighlighter.stop();
@@ -315,18 +253,209 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onPause();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity())) {
+            return;
+        }
+
+        inflater.inflate(R.menu.note_editor, menu);
+
+        if (mNote != null) {
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
+            viewPublishedNoteItem.setVisible(true);
+
+            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            if (mNote.isDeleted())
+                trashItem.setTitle(R.string.undelete);
+            else
+                trashItem.setTitle(R.string.delete);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_view_info:
+                if (mNote != null) {
+                    View menuItemView = getActivity().findViewById(R.id.menu_view_info);
+                    showInfoPopup(menuItemView);
+                }
+                return true;
+            case R.id.menu_share:
+                if (mNote != null) {
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNote.getContent());
+                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("shared_note")
+                            .setLabel("action_bar_share_button")
+                            .build()
+                    );
+                }
+                return true;
+            case R.id.menu_delete:
+                if (!isAdded()) return false;
+
+                if (mNote != null) {
+                    mNote.setDeleted(!mNote.isDeleted());
+                    mNote.setModificationDate(Calendar.getInstance());
+                    mNote.save();
+                    Intent resultIntent = new Intent();
+                    if (mNote.isDeleted()) {
+                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
+                    }
+                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
+                }
+
+                getActivity().finish();
+                return true;
+            case android.R.id.home:
+                if (!isAdded()) return false;
+
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // show a popup view from the info action bar item
+    private void showInfoPopup(View view) {
+        if (!isAdded() || view == null) return;
+
+        if (mInfoPopupWindow == null) {
+            mInfoPopupWindow = new PopupWindow(getActivity());
+            mInfoPopupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            mInfoPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
+            mInfoPopupWindow.setOutsideTouchable(true);
+            mInfoPopupWindow.setFocusable(true);
+
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View popupView = inflater.inflate(R.layout.popup_info, null);
+            mInfoPopupWindow.setContentView(popupView);
+        }
+
+        updateInfoPopup();
+
+        mInfoPopupWindow.showAsDropDown(view);
+    }
+
+    // update the content of the popupview
+    private void updateInfoPopup() {
+        if (mInfoPopupWindow == null || mInfoPopupWindow.getContentView() == null) return;
+
+        View popupView = mInfoPopupWindow.getContentView();
+
+        View publishButton = popupView.findViewById(R.id.publish_note_button);
+        TextView publishButtonTextView = (TextView)popupView.findViewById(R.id.publish_note_button_text);
+        ImageView publishButtonIcon = (ImageView)popupView.findViewById(R.id.publish_note_button_icon);
+        TextView publishTextView = (TextView) popupView.findViewById(R.id.publish_url_textview);
+        TextView wordCountTextView = (TextView) popupView.findViewById(R.id.word_count);
+        ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
+        ImageButton publishShareButton = (ImageButton) popupView.findViewById(R.id.publish_share_url);
+        View actionsView = popupView.findViewById(R.id.publish_actions);
+
+        final ViewSwitcher viewSwitcher = (ViewSwitcher) popupView.findViewById(R.id.publish_view_switcher);
+
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNote != null) {
+                    boolean newPublishedStatus = !mNote.isPublished();
+                    mNote.setPublished(newPublishedStatus);
+                    mNote.save();
+
+                    if (viewSwitcher.getDisplayedChild() == 0) {
+                        viewSwitcher.showNext();
+                    }
+
+                    // reset publish status in 20 seconds if we don't hear back from Simperium
+                    mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+                }
+            }
+        });
+
+        publishTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNote.getPublishedUrl())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        publishCopyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mNote.getPublishedUrl());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        publishShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, mNote.getPublishedUrl());
+                startActivity(Intent.createChooser(i, getString(R.string.share_url)));
+            }
+        });
+
+        updateWordCount(wordCountTextView);
+
+        if (mNote.isPublished()) {
+            publishButtonTextView.setText(getString(R.string.published));
+            publishButtonIcon.setVisibility(View.VISIBLE);
+            publishTextView.setText(mNote.getPublishedUrl());
+            actionsView.setVisibility(View.VISIBLE);
+        } else {
+            publishButtonTextView.setText(getString(R.string.publish));
+            publishButtonIcon.setVisibility(View.GONE);
+            actionsView.setVisibility(View.GONE);
+        }
+
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        if (currentApp.getSimperium().needsAuthorization()) {
+            viewSwitcher.setVisibility(View.GONE);
+        } else {
+            viewSwitcher.setVisibility(View.VISIBLE);
+            if (viewSwitcher.getDisplayedChild() == 1) {
+                viewSwitcher.showPrevious();
+            }
+        }
+    }
+
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
     }
 
+    public void setNote(String noteID){
+        setNote(noteID, null);
+    }
+
     public void setNote(String noteID, String matchOffsets) {
         if (mAutoSaveHandler != null)
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
 
         mPlaceholderView.setVisibility(View.GONE);
 
-        if (matchOffsets != null)
+        if (matchOffsets != null) {
             mMatchOffsets = matchOffsets;
+        } else {
+            mMatchOffsets = null;
+        }
 
         // If we have a note already (on a tablet in landscape), save the note.
         if (mNote != null) {
@@ -414,14 +543,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return newCursorLocation;
     }
 
+    private Runnable mAutoSaveRunnable = new Runnable() {
+        @Override
+        public void run() {
+            saveAndSyncNote();
+        }
+    };
+
     @Override
     public void onTagsChanged(String tagString) {
-        if (mNote == null)
-            return;
-        if (getActivity() != null && mNote.getTagString() != null && tagString.length() > mNote.getTagString().length())
-            EasyTracker.getTracker().sendEvent("note", "added_tag", "tag_added_to_note", null);
-        else
-            EasyTracker.getTracker().sendEvent("note", "removed_tag", "tag_removed_from_note", null);
+        if (mNote == null || !isAdded()) return;
+
+        if (mNote.getTagString() != null && tagString.length() > mNote.getTagString().length()) {
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("added_tag")
+                            .setLabel("tag_added_to_note")
+                            .build()
+            );
+        }
+        else {
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory("note")
+                            .setAction("removed_tag")
+                            .setLabel("tag_removed_from_note")
+                            .build()
+            );
+        }
 
         mNote.setTagString(tagString);
         mNote.setModificationDate(Calendar.getInstance());
@@ -445,8 +595,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
         if (mAutoSaveHandler != null) {
-            mAutoSaveHandler.removeCallbacks(autoSaveRunnable);
-            mAutoSaveHandler.postDelayed(autoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+            mAutoSaveHandler.postDelayed(mAutoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
         }
 
         // Remove search highlight spans when note content changes
@@ -466,7 +616,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
-        editable.setSpan(new RelativeSizeSpan(1.222f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     private void attemptAutoList(Editable editable) {
@@ -515,10 +665,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mNote;
     }
 
-    public void setNote(String noteID) {
-        setNote(noteID, null);
-    }
-
     public String getNoteContentString() {
         if (mContentEditText == null || mContentEditText.getText() == null) {
             return "";
@@ -532,183 +678,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return "";
         } else {
             return mTagView.getText().toString();
-        }
-    }
-
-    private void saveNote() {
-        if (mNote == null) {
-            return;
-        }
-
-        String content = getNoteContentString();
-        String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
-            mNote.setContent(content);
-            mNote.setTagString(tagString);
-            mNote.setModificationDate(Calendar.getInstance());
-            // Send pinned event to google analytics if changed
-            mNote.setPinned(mPinButton.isChecked());
-            mNote.save();
-            if (getActivity() != null) {
-                Tracker tracker = EasyTracker.getTracker();
-                if (mNote.isPinned() != mPinButton.isChecked())
-                    tracker.sendEvent("note", (mPinButton.isChecked()) ? "pinned_note" : "unpinned_note", "pin_button", null);
-                tracker.sendEvent("note", "edited_note", "editor_save", null);
-            }
-        }
-    }
-
-    // Checks if cursor is at a URL when the selection changes
-    // If it is a URL, show the contextual action bar
-    @Override
-    public void onSelectionChanged(int selStart, int selEnd) {
-        if (selStart == selEnd) {
-            Editable noteContent = mContentEditText.getText();
-            if (noteContent == null)
-                return;
-
-            URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
-            if (urlSpans.length > 0) {
-                URLSpan urlSpan = urlSpans[0];
-                mLinkUrl = urlSpan.getURL();
-                mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
-                if (mActionMode != null) {
-                    mActionMode.setSubtitle(mLinkText);
-                    setLinkMenuItem();
-                    return;
-                }
-
-                // Show the Contextual Action Bar
-                if (getActivity() != null) {
-                    mActionMode = getActivity().startActionMode(mActionModeCallback);
-                    if (mActionMode != null) {
-                        mActionMode.setSubtitle(mLinkText);
-                    }
-                    setLinkMenuItem();
-                }
-            } else if (mActionMode != null) {
-                mActionMode.finish();
-                mActionMode = null;
-            }
-        } else if (mActionMode != null) {
-            mActionMode.finish();
-            mActionMode = null;
-        }
-    }
-
-    private void setLinkMenuItem() {
-        if (mViewLinkMenuItem != null && mLinkUrl != null) {
-            if (mLinkUrl.startsWith("tel:")) {
-                mViewLinkMenuItem.setIcon(mCallIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.call));
-            } else if (mLinkUrl.startsWith("mailto:")) {
-                mViewLinkMenuItem.setIcon(mEmailIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.email));
-            } else if (mLinkUrl.startsWith("geo:")) {
-                mViewLinkMenuItem.setIcon(mMapIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.view_map));
-            } else {
-                mViewLinkMenuItem.setIcon(mWebIconResId);
-                mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
-            }
-        }
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-
-    }
-
-    @Override
-    public void onChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
-        if (changeType == Bucket.ChangeType.MODIFY) {
-            if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
-                try {
-                    final Note updatedNote = mNotesBucket.get(key);
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateNote(updatedNote);
-                            }
-                        });
-                    }
-                } catch (BucketObjectMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
-        // noop
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
-        // Don't apply updates if we haven't loaded the note yet
-        if (mIsLoadingNote)
-            return;
-
-        Note openNote = getNote();
-        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
-            return;
-
-        note.setContent(getNoteContentString());
-    }
-
-    // Use spaces in tag autocompletion list
-    // From http://stackoverflow.com/questions/3482981/how-to-replace-the-comma-with-a-space-when-i-use-the-multiautocompletetextview
-    public class SpaceTokenizer implements Tokenizer {
-
-        public int findTokenStart(CharSequence text, int cursor) {
-            int i = cursor;
-
-            while (i > 0 && text.charAt(i - 1) != ' ') {
-                i--;
-            }
-            while (i < cursor && text.charAt(i) == ' ') {
-                i++;
-            }
-
-            return i;
-        }
-
-        public int findTokenEnd(CharSequence text, int cursor) {
-            int i = cursor;
-            int len = text.length();
-
-            while (i < len) {
-                if (text.charAt(i) == ' ') {
-                    return i;
-                } else {
-                    i++;
-                }
-            }
-
-            return len;
-        }
-
-        public CharSequence terminateToken(CharSequence text) {
-            int i = text.length();
-
-            while (i > 0 && text.charAt(i - 1) == ' ') {
-                i--;
-            }
-
-            if (i > 0 && text.charAt(i - 1) == ' ') {
-                return text;
-            } else {
-                if (text instanceof Spanned) {
-                    SpannableString sp = new SpannableString(text + " ");
-                    TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
-                            Object.class, sp, 0);
-                    return sp;
-                } else {
-                    return text + " ";
-                }
-            }
         }
     }
 
@@ -786,5 +755,272 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
             }
         }
+    }
+
+    private void saveNote() {
+        if (mNote == null) {
+            return;
+        }
+
+        String content = getNoteContentString();
+        String tagString = getNoteTagsString();
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+            mNote.setContent(content);
+            mNote.setTagString(tagString);
+            mNote.setModificationDate(Calendar.getInstance());
+            // Send pinned event to google analytics if changed
+            mNote.setPinned(mPinButton.isChecked());
+            mNote.save();
+            if (getActivity() != null) {
+                if (mNote.isPinned() != mPinButton.isChecked()) {
+                    mTracker.send(
+                            new HitBuilders.EventBuilder()
+                                    .setCategory("note")
+                                    .setAction((mPinButton.isChecked()) ? "pinned_note" : "unpinned_note")
+                                    .setLabel("pin_button")
+                                    .build()
+                    );
+                }
+
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("edited_note")
+                                .setLabel("editor_save")
+                                .build()
+                );
+            }
+        }
+    }
+
+    // Contextual action bar for dealing with links
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            if (inflater != null){
+                inflater.inflate(R.menu.view_link, menu);
+                mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
+                mode.setTitle(getString(R.string.link));
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    mode.setTitleOptionalHint(false);
+                }
+            }
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_view_link:
+                    if (mLinkUrl != null) {
+                        try {
+                            Uri uri = Uri.parse(mLinkUrl);
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(uri);
+                            startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish(); // Action picked, so close the CAB
+                    }
+                    return true;
+                case R.id.menu_copy:
+                    if (mLinkText != null && getActivity() != null) {
+                        ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText(getString(R.string.app_name),mLinkText);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                        mode.finish();
+                    }
+                    return true;
+                case R.id.menu_share:
+                    if (mLinkText != null) {
+                        try {
+                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mLinkText);
+                            startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mode.finish();
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+
+    // Checks if cursor is at a URL when the selection changes
+    // If it is a URL, show the contextual action bar
+    @Override
+    public void onSelectionChanged(int selStart, int selEnd) {
+        if (selStart == selEnd) {
+            Editable noteContent = mContentEditText.getText();
+            if (noteContent == null)
+                return;
+
+            URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
+            if (urlSpans.length > 0) {
+                URLSpan urlSpan = urlSpans[0];
+                mLinkUrl = urlSpan.getURL();
+                mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
+                if (mActionMode != null) {
+                    mActionMode.setSubtitle(mLinkText);
+                    setLinkMenuItem();
+                    return;
+                }
+
+                // Show the Contextual Action Bar
+                if (getActivity() != null) {
+                    mActionMode = ((ActionBarActivity)getActivity()).startSupportActionMode(mActionModeCallback);
+                    if (mActionMode != null) {
+                        mActionMode.setSubtitle(mLinkText);
+                    }
+
+                    setLinkMenuItem();
+                }
+            } else if (mActionMode != null) {
+                mActionMode.finish();
+                mActionMode = null;
+            }
+        } else if (mActionMode != null) {
+            mActionMode.finish();
+            mActionMode = null;
+        }
+    }
+
+    private void setLinkMenuItem() {
+        if (mViewLinkMenuItem != null && mLinkUrl != null) {
+            if (mLinkUrl.startsWith("tel:")) {
+                mViewLinkMenuItem.setIcon(mCallIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.call));
+            } else if (mLinkUrl.startsWith("mailto:")) {
+                mViewLinkMenuItem.setIcon(mEmailIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.email));
+            } else if (mLinkUrl.startsWith("geo:")) {
+                mViewLinkMenuItem.setIcon(mMapIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_map));
+            } else {
+                mViewLinkMenuItem.setIcon(mWebIconResId);
+                mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
+            }
+        }
+    }
+
+    // Resets note publish status if Simperium never returned the new publish status
+    private Runnable mPublishTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!isAdded()) return;
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(
+                            getActivity(),
+                            mNote.isPublished() ? R.string.publish_error : R.string.unpublish_error,
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    mNote.setPublished(!mNote.isPublished());
+                    mNote.save();
+
+                    if (mInfoPopupWindow != null && mInfoPopupWindow.isShowing()) {
+                        ViewSwitcher viewSwitcher = (ViewSwitcher)mInfoPopupWindow.getContentView().findViewById(R.id.publish_view_switcher);
+                        if (viewSwitcher.getDisplayedChild() == 1) {
+                            viewSwitcher.showPrevious();
+                        }
+                    }
+                }
+            });
+
+        }
+    };
+
+    private void updateWordCount(TextView textView) {
+        String content = getNoteContentString();
+
+        if (content == null || textView == null) return;
+
+        int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
+
+        String wordCountString = getResources().getQuantityString(R.plurals.word_count, numWords);
+        String formattedWordCount = NumberFormat.getInstance().format(numWords);
+
+        textView.setText(formattedWordCount + " " + wordCountString);
+    }
+
+    /**
+     * Simperium listeners
+     */
+
+    @Override
+    public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
+
+    }
+
+    @Override
+    public void onNetworkChange(Bucket<Note> noteBucket, Bucket.ChangeType changeType, final String key) {
+        if (changeType == Bucket.ChangeType.MODIFY) {
+            if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
+                try {
+                    final Note updatedNote = mNotesBucket.get(key);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mPublishTimeoutHandler != null) {
+                                    mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
+                                }
+
+                                updateNote(updatedNote);
+                                updateInfoPopup();
+                            }
+                        });
+                    }
+                } catch (BucketObjectMissingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void onSaveObject(Bucket<Note> noteBucket, Note note) {
+        // noop
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+        // Don't apply updates if we haven't loaded the note yet
+        if (mIsLoadingNote)
+            return;
+
+        Note openNote = getNote();
+        if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
+            return;
+
+        note.setContent(getNoteContentString());
     }
 }

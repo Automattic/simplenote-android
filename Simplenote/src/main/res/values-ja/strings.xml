@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="note_selected">%d個のノートを選択しました</string>
-    <string name="notes_selected">%d個のノートを選択しました</string>
-    <string name="notes_trashed">ノートをゴミ箱に移動しました。</string>
-    <string name="theme_light">ライト</string>
-    <string name="theme_dark">ダーク</string>
-    <string name="theme">テーマ</string>
+	<string name="note_added">ノートを追加しました</string>
+	<string name="font_size_extra_small">極小</string>
+	<string name="font_size_small">小</string>
+	<string name="font_size_normal">普通</string>
+	<string name="font_size_large">大</string>
+	<string name="font_size_extra_large">特大</string>
+	<string name="noted">ノート作成</string>
+	<string name="tags">タグ</string>
+	<string name="edit">編集</string>
+	<string name="share_url">URL を共有</string>
+	<string name="note_info">情報</string>
+	<string name="version">バージョン</string>
+	<string name="publish">公開</string>
+	<string name="published">公開済み</string>
+	<string name="publish_error">ノートを公開できませんでした</string>
+	<string name="unpublish_error">ノートを非公開にできませんでした</string>
+	<string name="note_selected">%d個のノートを選択しました</string>
+	<string name="notes_selected">%d個のノートを選択しました</string>
+	<string name="notes_trashed">ノートをゴミ箱に移動しました。</string>
+	<string name="theme_light">ライト</string>
+	<string name="theme_dark">ダーク</string>
+	<string name="theme">テーマ</string>
 	<string name="passcode_manage">PIN ロックの管理</string>
 	<string name="passcode_enter_passcode">PIN コードを入力</string>
 	<string name="passcode_enter_old_passcode">旧 PIN コードを入力</string>
@@ -16,9 +32,9 @@
 	<string name="passcode_preference_title">PIN ロック</string>
 	<string name="passcode_turn_off">PIN ロック無効化</string>
 	<string name="passcode_turn_on">PIN ロック有効化</string>
-	<string name="trash_is_empty">ゴミ箱は空です。</string>
 	<string name="no_notes_here">ノートがありません。</string>
 	<string name="why_not_create_one">%1$s作成%2$s しますか ?</string>
+	<string name="trash_is_empty">ゴミ箱は空です。</string>
 	<string name="no_notes_found">ノートが見つかりません</string>
 	<string name="welcome_note">Simplenote Android へようこそ !\n使い方についてはこちらを開いてください。\n\nノートを新規作成するには、「＋」ボタンをタップしてください。\n\nノートを検索するには、アクションバーの検索ボタンをタップしてテキストを入力してください。Simplenote は一致した項目をすぐに表示します。\n\n重要なノートがある場合は、表示中にピンボタンを押して一覧の上部に固定できます。\n\nノートの整理にタグを使いましょう。他の Simplenote ユーザーのメールアドレスを追加すれば、その人とノートを共有できます。\n\nメニューの「共有」ボタンをタップして、他のアンドロイドアプリでノートをシェアできます。\n\n削除したノートはゴミ箱に移動します。復元したり、ゴミ箱を空にして永久に削除したりできます。\n\nWeb から、またはほかのデバイスやパソコンからノートにアクセスできます。http://simplenote.com から他のデバイスのアプリやアクセス方法をご覧ください。\n\nそれでは、Simplenote をお楽しみください !</string>
 	<string name="maybe_later">後で</string>
@@ -36,7 +52,7 @@
 	<string name="view_map">地図を表示</string>
 	<string name="view_in_browser">ブラウザで表示</string>
 	<string name="link">リンク</string>
-	<string name="link_copied">リンクをクリップボードにコピーしました。</string>
+	<string name="link_copied">リンクをクリップボードにコピーしました</string>
 	<string name="copy">コピー</string>
 	<string name="required_fields">入力必須欄</string>
 	<string name="required_field">入力必須欄</string>
@@ -86,10 +102,10 @@
 	<string name="undelete">ノートを復元</string>
 	<string name="account">アカウント</string>
 	<string name="sign_out">ログアウト</string>
+	<string name="font_size">フォントサイズ</string>
 	<string name="preview_lines">プレビュー行数</string>
 	<string name="share_note">ノートを共有</string>
 	<string name="words">単語</string>
-	<string name="characters">文字</string>
 	<string name="edit_tag">タグの編集</string>
 	<string name="tag_name">タグ名</string>
 	<string name="delete_tag">タグを削除</string>
@@ -99,7 +115,6 @@
 	<string name="confirm_empty_trash">本当にゴミ箱を空にしますか ?</string>
 	<string name="yes">はい</string>
 	<string name="no">いいえ</string>
-	<string name="character">文字</string>
 	<string name="word">単語</string>
 	<string name="no_tags_found">タグが見つかりませんでした。</string>
 	<string name="website">simplenote.com サイトへ</string>

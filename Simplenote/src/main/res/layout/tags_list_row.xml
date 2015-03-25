@@ -7,7 +7,7 @@
               android:background="?attr/listBackgroundSelector"
               android:descendantFocusability="blocksDescendants"
         >
-    <TextView
+    <com.automattic.simplenote.widgets.SourceSansTextView
         android:id="@+id/tag_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_marginLeft="16dp"
         android:textColor="?attr/noteTitleColor"
         android:layout_marginRight="8dp"/>
-    <TextView
+    <com.automattic.simplenote.widgets.SourceSansTextView
         android:id="@+id/tag_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:id="@+id/tag_trash"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ab_icon_trash"
+        android:src="@drawable/ic_delete_grey600_24dp"
 		android:tint="?attr/iconTintColor"
         android:background="@drawable/selectable_background_simplestyle"
         android:layout_marginRight="16dp"

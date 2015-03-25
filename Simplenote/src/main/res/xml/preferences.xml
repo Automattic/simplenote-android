@@ -17,13 +17,6 @@
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"
             android:title="@string/condensed_note_list" />
-
-        <!--<ListPreference
-            android:defaultValue="@string/normal"
-            android:entries="@array/array_font_size"
-            android:entryValues="@array/array_font_size"
-            android:key="pref_key_font_size"
-            android:title="@string/font_size" />-->
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_sort_order"
@@ -31,6 +24,13 @@
             android:key="pref_key_sort_order"
             android:summary="%s"
             android:title="@string/sort_order" />
+        <ListPreference
+            android:defaultValue="18"
+            android:entries="@array/array_font_size"
+            android:entryValues="@array/array_font_size_values"
+            android:key="pref_key_font_size"
+            android:summary="%s"
+            android:title="@string/font_size" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
@@ -41,8 +41,6 @@
         <Preference
             android:key="pref_key_passcode"
             android:title="@string/passcode_preference_title" >
-            <intent android:targetClass="org.wordpress.passcodelock.PasscodePreferencesActivity"
-                android:targetPackage="com.automattic.simplenote"/>
         </Preference>
     </PreferenceCategory>
 

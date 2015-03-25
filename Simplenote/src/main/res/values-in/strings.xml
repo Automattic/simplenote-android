@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="version">Versi</string>
+	<string name="publish">Terbitkan</string>
+	<string name="published">Diterbitkan</string>
 	<string name="note_selected">%d catatan yang dipilih</string>
 	<string name="notes_selected">%d catatan yang dipilih</string>
 	<string name="notes_trashed">Catatan dibuang.</string>
@@ -36,7 +39,6 @@
 	<string name="view_map">Tampilkan peta</string>
 	<string name="view_in_browser">Tampilkan di browser</string>
 	<string name="link">Tautan</string>
-	<string name="link_copied">Tautan disalin ke clipboard.</string>
 	<string name="copy">Salin</string>
 	<string name="required_fields">Bidang Wajib</string>
 	<string name="required_field">Bidang Wajib</string>
@@ -89,7 +91,6 @@
 	<string name="preview_lines">Pratinjau baris</string>
 	<string name="share_note">Bagikan Catatan</string>
 	<string name="words">Kata</string>
-	<string name="characters">Karakter</string>
 	<string name="edit_tag">Sunting Label</string>
 	<string name="tag_name">Nama label</string>
 	<string name="delete_tag">Hapus label</string>
@@ -99,7 +100,6 @@
 	<string name="confirm_empty_trash">Anda yakin ingin mengosongkan sampah?</string>
 	<string name="yes">Ya</string>
 	<string name="no">Tidak</string>
-	<string name="character">Karakter</string>
 	<string name="word">Kata</string>
 	<string name="no_tags_found">Label tidak ditemukan.</string>
 	<string name="website">Kunjungi simplenote.com</string>

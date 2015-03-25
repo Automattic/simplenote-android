@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.automattic.simplenote"
     android:installLocation="auto">
 
@@ -24,13 +23,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <action android:name="com.google.android.gm.action.AUTO_SEND" />
+            <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="com.google.android.voicesearch.SELF_NOTE" />
+            <data android:mimeType="text/*" />
+        </intent-filter>
         </activity>
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
@@ -40,31 +40,26 @@
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:label="Preferences"
             android:configChanges="orientation|keyboardHidden|screenSize">
-            <intent-filter>
-              <action android:name="android.intent.action.VIEW" />
-              <category android:name="android.intent.category.DEFAULT" />
-              <category android:name="android.intent.category.BROWSABLE" />
-              <data android:scheme="simplenote" android:host="preferences" />
-            </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.TagsListActivity"
+            android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <!-- Passcode Unlock-->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="org.wordpress.passcodelock.PasscodePreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Holo.Light"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@style/Theme.Simplestyle.NoActionBar"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
@@ -72,45 +67,16 @@
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 
-        <!-- Widget Providers -->
 
-
-        <!-- button widget -->
-        <receiver android:name="com.automattic.simplenote.widget.SimpleNoteWidgetProvider" >
+        <!-- Android Wear -->
+        <service android:name=".utils.SimplenoteWearListenerService">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/simplenote_buttonwidget_info" />
-        </receiver>
+        </service>
 
-
-        <!-- list widget -->
-        <receiver android:name="com.automattic.simplenote.widget.ListWidgetProvider" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/simplenote_listwidget_info" />
-        </receiver>
-
-        <!-- configuration activity (reserved for future use) -->
-        <!--
-        <activity
-            android:name="com.automattic.simplenote.widget.ConfigureWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
-            </intent-filter>
-        </activity>
-        -->
-
-        <!-- service for widgets -->
-        <service
-            android:name=".widget.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
+        <!-- Google Play Services -->
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

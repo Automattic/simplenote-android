@@ -4,7 +4,7 @@ Handcrafted by the Automattic Mobile Team
 
 ## Requirements
 
-Target SDK: KitKat (android-19)
+Target SDK: Lollipop (android-21)
 Min SDK: Ice Cream Sandwich (android-15)
 
 ## How to Configure
@@ -92,3 +92,9 @@ defaultPublishConfig "supportDebug"
 ```bash
 ./gradlew ./gradlew :Simplenote:connectedCheck
 ```
+
+## Android Wear
+
+To properly install the wear app, run `./gradlew assembleRelease` to package up the app and then `adb install` with the generated .apk to the host device.
+
+If you want to debug the Wear app, simply connect the device to adb and then run the `Wear` project from Android Studio.
