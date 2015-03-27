@@ -69,7 +69,7 @@ public class WidgetService extends RemoteViewsService {
                 mTagsBucket = currentApp.getTagsBucket();
             }
 
-            mTagsAdapter = new TagsAdapter(mContext, mNotesBucket);
+            mTagsAdapter = new TagsAdapter(mContext, mNotesBucket, 0);
 
             Log.i(TAG, "Found " + mTagsAdapter.getCount() + " tags items.");
             if (mTagsAdapter.getCount() > 0) {

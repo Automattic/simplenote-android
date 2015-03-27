@@ -77,6 +77,20 @@
 
         <!-- Google Play Services -->
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+
+        <!-- Widget Providers -->
+
+        <!-- list widget -->
+        <receiver android:name="com.automattic.simplenote.widget.ListWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/simplenote_listwidget_info" />
+        </receiver>
+
     </application>
 
 </manifest>

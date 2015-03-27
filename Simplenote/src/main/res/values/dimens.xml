@@ -21,4 +21,10 @@
 
     <!-- Lollipop requires a margin for the sign out preference, see values-v21/dimens.xml -->
     <dimen name="settings_sign_out_margin">0dp</dimen>
+
+
+    <!-- widget dimensions -->
+    <dimen name="widget_margin">10dp</dimen>
+    <dimen name="widget_button_size">75dp</dimen>
+    <dimen name="widget_title_size">75dp</dimen>
 </resources>
