@@ -25,6 +25,6 @@
 
     <!-- widget dimensions -->
     <dimen name="widget_margin">10dp</dimen>
-    <dimen name="widget_button_size">75dp</dimen>
-    <dimen name="widget_title_size">75dp</dimen>
+    <dimen name="widget_button_size">10dp</dimen>
+    <dimen name="widget_title_size">10dp</dimen>
 </resources>
