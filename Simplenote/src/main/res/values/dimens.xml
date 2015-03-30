@@ -27,4 +27,7 @@
     <dimen name="widget_margin">10dp</dimen>
     <dimen name="widget_button_size">10dp</dimen>
     <dimen name="widget_title_size">10dp</dimen>
+    <dimen name="widget_divider_height">5dp</dimen>
+    <dimen name="widget_padding_list_left">0dp</dimen>
+    <dimen name="widget_padding_row_left">0dp</dimen>
 </resources>
