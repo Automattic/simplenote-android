@@ -2,8 +2,8 @@
 
 <!-- TODO: replace previewImage with something better -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="150dp"
-    android:minHeight="200dp"
+    android:minWidth="300dp"
+    android:minHeight="100dp"
     android:updatePeriodMillis="86400000"
     android:previewImage="@drawable/ic_tag"
     android:initialLayout="@layout/widget_list_layout"

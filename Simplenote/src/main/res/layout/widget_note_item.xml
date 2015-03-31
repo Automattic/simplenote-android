@@ -3,10 +3,12 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv_widget_note_item"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/widget_padding_row_left"
+    android:layout_height="@dimen/widget_list_item_height"
+    android:padding="@dimen/widget_margin"
     android:layout_weight="1"
     android:gravity="center_vertical|left"
     android:hint="@string/widget_hint"
     android:background="@color/simplenote_widget_translucent"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+    android:textSize="@dimen/widget_list_text_size"
+    android:singleLine="true"/>

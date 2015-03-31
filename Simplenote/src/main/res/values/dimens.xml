@@ -26,8 +26,13 @@
     <!-- widget dimensions -->
     <dimen name="widget_margin">10dp</dimen>
     <dimen name="widget_button_size">10dp</dimen>
-    <dimen name="widget_title_size">10dp</dimen>
+    <dimen name="widget_list_text_size">24sp</dimen>
+
+    <!-- if the list item height is (widget_icon_size + widget_margin * 2) then it will be
+         the same height as the icon bar at the top. -->
+    <dimen name="widget_list_item_height">68dp</dimen>
     <dimen name="widget_divider_height">5dp</dimen>
     <dimen name="widget_padding_list_left">0dp</dimen>
     <dimen name="widget_padding_row_left">0dp</dimen>
+    <dimen name="widget_icon_size">48dp</dimen>
 </resources>

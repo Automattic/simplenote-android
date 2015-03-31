@@ -13,18 +13,34 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@color/white"
+        android:padding="@dimen/widget_margin"
         android:layout_marginBottom="@dimen/widget_divider_height">
 
-        </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/widget_list_title"
-        android:gravity="center"
-        android:textSize="@dimen/widget_title_size"
-        android:textStyle="bold"
-        android:background="@color/white"
-        android:layout_marginBottom="@dimen/widget_divider_height"></TextView>
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size"
+            android:layout_height="@dimen/widget_icon_size"
+            android:id="@+id/imageButton"
+            android:src="@drawable/ab_icon_logo" />
+
+        <LinearLayout android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size"
+            android:layout_height="@dimen/widget_icon_size"
+            android:layout_marginLeft="@dimen/widget_margin"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/ic_create_blue_24dp" />
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size"
+            android:layout_height="@dimen/widget_icon_size"
+            android:layout_marginLeft="@dimen/widget_margin"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/ic_search_blue_24dp" />
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
