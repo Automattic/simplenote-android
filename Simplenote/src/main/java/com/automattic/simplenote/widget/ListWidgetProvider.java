@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widget;
 
+import static com.automattic.simplenote.widget.commands.WidgetConstants.*;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -12,6 +13,7 @@ import android.widget.RemoteViews;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.NavigateNote;
+import com.automattic.simplenote.widget.commands.NoteSelectedCommand;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
 import com.automattic.simplenote.widget.commands.WidgetCommand;
@@ -30,8 +32,13 @@ public class ListWidgetProvider extends AppWidgetProvider {
     public ListWidgetProvider() {
         super();
 
-        mCommandSet.put(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED,
+        mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
                 new NotifyDataSetChange(ListWidgetProvider.class, R.id.lv_widget_notes));
+        mCommandSet.put(ACTION_NEW_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
+        mCommandSet.put(ACTION_NOTE_SELECTED, new NoteSelectedCommand());
+
     }
 
     @Override
@@ -74,7 +81,7 @@ public class ListWidgetProvider extends AppWidgetProvider {
             RemoteViews rViews = new RemoteViews(context.getPackageName(), R.layout.widget_list_layout);
             rViews.setRemoteAdapter(R.id.lv_widget_notes, intent);
 
-            // setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
+            setupPendingIntents(context, appWidgetManager, appWidgetIds[i]);
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rViews);
 
@@ -83,7 +90,40 @@ public class ListWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
+    /**
+     * Register pending intents to widget UI buttons.
+     *
+     * @param ctx              context needed to access remote view.
+     * @param appWidgetManager widget manager that will be updated
+     * @param widgetId         widget id managed by widget manager.
+     */
+    private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
 
+        Log.i(TAG, "setting up pending intents for widget: " + widgetId);
+        PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
+        piBuilder.setLayout(R.layout.widget_list_layout);
+
+        piBuilder.setProvider(ListWidgetProvider.class);
+        piBuilder.setWidgetId(widgetId);
+
+        piBuilder.setAction(ACTION_NEW_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_new);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(ACTION_SEARCH_NOTE);
+        piBuilder.setChildView(R.id.ib_widget_search);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(ACTION_LAUNCH_APP);
+        piBuilder.setChildView(R.id.ib_widget_app_icon);
+        piBuilder.setOnClickPendingIntent();
+
+        piBuilder.setAction(ACTION_NOTE_SELECTED);
+        piBuilder.setChildView(R.id.lv_widget_notes);
+        piBuilder.setPendingIntentTemplate();
+
+
+    }
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);

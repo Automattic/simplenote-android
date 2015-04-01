@@ -1,9 +1,11 @@
 package com.automattic.simplenote.widget;
 
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_LIST_POSITION;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -158,6 +160,14 @@ public class WidgetService extends RemoteViewsService {
                     R.layout.widget_note_item);
 
             result.setTextViewText(R.id.tv_widget_note_item, n.getTitle());
+
+            Bundle extras = new Bundle();
+            extras.putInt(EXTRA_LIST_POSITION, position);
+
+            Intent fillIntent = new Intent();
+            fillIntent.putExtras(extras);
+            result.setOnClickFillInIntent(R.id.widget_note_item_layout, fillIntent);
+
 
             // XXX sometimes getTitle returns a null value.
             Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: '"

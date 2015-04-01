@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/widget_note_item_layout">
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_widget_note_item"
-    android:layout_width="fill_parent"
-    android:layout_height="@dimen/widget_list_item_height"
-    android:padding="@dimen/widget_margin"
-    android:layout_weight="1"
-    android:gravity="center_vertical|left"
-    android:hint="@string/widget_hint"
-    android:background="@color/simplenote_widget_translucent"
-    android:textStyle="bold"
-    android:textSize="@dimen/widget_list_text_size"
-    android:singleLine="true"/>
+    <TextView
+        android:id="@+id/tv_widget_note_item"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/widget_list_item_height"
+        android:padding="@dimen/widget_margin"
+        android:gravity="center_vertical|left"
+        android:hint="@string/widget_hint"
+        android:background="@color/simplenote_widget_translucent"
+        android:textStyle="bold"
+        android:textSize="@dimen/widget_list_text_size"
+        android:singleLine="true"
+        android:textIsSelectable="false"/>
+
+</LinearLayout>

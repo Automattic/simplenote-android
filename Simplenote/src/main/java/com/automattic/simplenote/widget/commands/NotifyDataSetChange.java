@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widget.commands;
 
+import static com.automattic.simplenote.widget.commands.WidgetConstants.ACTION_NOTIFY_DATA_SET_CHANGED;
 import android.content.ComponentName;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -16,7 +17,7 @@ public class NotifyDataSetChange extends WidgetCommand {
     private final int mAdapterRes;
 
     public NotifyDataSetChange(Class providerClass, int adapterRes) {
-        super(SimpleNoteWidgetProvider.ACTION_NOTIFY_DATA_SET_CHANGED, false);
+        super(ACTION_NOTIFY_DATA_SET_CHANGED, false);
         mProviderClass = providerClass;
         mAdapterRes = adapterRes;
     }
