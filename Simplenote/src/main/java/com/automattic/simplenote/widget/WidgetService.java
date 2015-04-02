@@ -1,6 +1,7 @@
 package com.automattic.simplenote.widget;
 
 import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_LIST_POSITION;
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_SIMPERIUM_KEY;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -163,6 +164,7 @@ public class WidgetService extends RemoteViewsService {
 
             Bundle extras = new Bundle();
             extras.putInt(EXTRA_LIST_POSITION, position);
+            extras.putString(EXTRA_SIMPERIUM_KEY, n.getSimperiumKey());
 
             Intent fillIntent = new Intent();
             fillIntent.putExtras(extras);
@@ -170,8 +172,8 @@ public class WidgetService extends RemoteViewsService {
 
 
             // XXX sometimes getTitle returns a null value.
-            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " note: '"
-                    + n.getTitle() + "'");
+            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " key: '"
+                    + n.getSimperiumKey() + "'");
             return result;
         }
 

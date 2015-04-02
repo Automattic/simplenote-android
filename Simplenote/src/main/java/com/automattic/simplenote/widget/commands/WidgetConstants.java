@@ -30,6 +30,7 @@ public class WidgetConstants {
             "com.automattic.simplenote.action.ACTION_NOTE_SELECTED";
 
     public static final String EXTRA_LIST_POSITION = "EXTRA_LIST_POSITION";
+    public static final String EXTRA_SIMPERIUM_KEY = "EXTRA_SIMPERIUM_KEY";
 
 
 
