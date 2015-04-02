@@ -247,7 +247,7 @@ public class NotesActivity extends ActionBarActivity implements
                     break;
             }
 
-        }
+        } 
     }
 
     @Override
