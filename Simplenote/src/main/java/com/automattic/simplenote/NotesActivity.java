@@ -62,6 +62,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_ACTIVITY_COMMAND;
+
 public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
@@ -217,21 +219,35 @@ public class NotesActivity extends ActionBarActivity implements
             mShouldSelectNewNote = false;
         }
 
-        // process any commands that may be stored in the intent
-        Intent i = getIntent();
-        WidgetConstants.ActivityCommand command =
-                (WidgetConstants.ActivityCommand)i.getSerializableExtra(
-                WidgetConstants.EXTRA_ACTIVITY_COMMAND);
-        if (command != null){
+        processCommands();
 
+
+    }
+
+    /**
+     * Checks for a command stored in {@link android.content.SharedPreferences}.  If a command
+     * is found it is deleted from shared preferences because it's only run once, and then
+     * the command is executed.
+     */
+    private void processCommands(){
+        // process any commands that may be stored in the intent
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String commandString = prefs.getString(EXTRA_ACTIVITY_COMMAND, null);
+        if (commandString != null){
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove(EXTRA_ACTIVITY_COMMAND);
+            editor.commit();
+
+            WidgetConstants.ActivityCommand command = WidgetConstants.ActivityCommand
+                    .valueOf(commandString);
             switch(command){
                 case NEW_NOTE:
                     menuCreateNote();
-                    Toast.makeText(this, "creating note", Toast.LENGTH_SHORT).show();
                     break;
             }
-        }
 
+        }
     }
 
     @Override
