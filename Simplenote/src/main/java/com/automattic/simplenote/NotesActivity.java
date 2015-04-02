@@ -247,7 +247,7 @@ public class NotesActivity extends ActionBarActivity implements
                     break;
             }
 
-        } 
+        }
     }
 
     @Override
@@ -259,6 +259,9 @@ public class NotesActivity extends ActionBarActivity implements
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+
+        // update the widget
+        sendBroadcast(new Intent(WidgetConstants.ACTION_NOTIFY_DATA_SET_CHANGED));
     }
 
     @Override

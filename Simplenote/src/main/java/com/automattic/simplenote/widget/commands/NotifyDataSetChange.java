@@ -4,6 +4,7 @@ import static com.automattic.simplenote.widget.commands.WidgetConstants.ACTION_N
 import android.content.ComponentName;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.widget.SimpleNoteWidgetProvider;
@@ -28,6 +29,7 @@ public class NotifyDataSetChange extends WidgetCommand {
         int ids[] = params.mWidgetManager.getAppWidgetIds(
                 new ComponentName(params.mContext, mProviderClass));
 
+        Toast.makeText(params.mContext, "ACTION_NOTIFY_DATA_SET_CHANGED", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "provider " + mProviderClass.getSimpleName());
 
         if (ids != null && ids.length > 0) {
