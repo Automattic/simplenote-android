@@ -30,4 +30,11 @@ public class WidgetConstants {
             "com.automattic.simplenote.action.ACTION_NOTE_SELECTED";
 
     public static final String EXTRA_LIST_POSITION = "EXTRA_LIST_POSITION";
+
+    public static final String EXTRA_ACTIVITY_COMMAND = "EXTRA_ACTIVITY_COMMAND";
+
+    public enum ActivityCommand{
+        NEW_NOTE,
+        EDIT_NOTE
+    }
 }

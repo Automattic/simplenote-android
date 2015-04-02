@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.NavigateNote;
+import com.automattic.simplenote.widget.commands.NewNoteCommand;
 import com.automattic.simplenote.widget.commands.NoteSelectedCommand;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
@@ -34,7 +35,7 @@ public class ListWidgetProvider extends AppWidgetProvider {
 
         mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
                 new NotifyDataSetChange(ListWidgetProvider.class, R.id.lv_widget_notes));
-        mCommandSet.put(ACTION_NEW_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_NEW_NOTE, new NewNoteCommand());
         mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
         mCommandSet.put(ACTION_LAUNCH_APP, new UnimplementedCommand());
         mCommandSet.put(ACTION_NOTE_SELECTED, new NoteSelectedCommand());

@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -42,6 +43,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widget.commands.WidgetConstants;
 import com.automattic.simplenote.widgets.FloatingActionButton;
 import com.automattic.simplenote.widgets.ScrimInsetsFrameLayout;
 import com.automattic.simplenote.widgets.TypefaceSpan;
@@ -214,6 +216,22 @@ public class NotesActivity extends ActionBarActivity implements
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null);
             mShouldSelectNewNote = false;
         }
+
+        // process any commands that may be stored in the intent
+        Intent i = getIntent();
+        WidgetConstants.ActivityCommand command =
+                (WidgetConstants.ActivityCommand)i.getSerializableExtra(
+                WidgetConstants.EXTRA_ACTIVITY_COMMAND);
+        if (command != null){
+
+            switch(command){
+                case NEW_NOTE:
+                    menuCreateNote();
+                    Toast.makeText(this, "creating note", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -591,6 +609,17 @@ public class NotesActivity extends ActionBarActivity implements
         return true;
     }
 
+    private void menuCreateNote(){
+        getNoteListFragment().addNote();
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("create_note")
+                        .setLabel("action_bar_button")
+                        .build()
+        );
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -598,14 +627,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
         switch (item.getItemId()) {
             case R.id.menu_create_note:
-                getNoteListFragment().addNote();
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("action_bar_button")
-                                .build()
-                );
+                menuCreateNote();
                 return true;
             case R.id.menu_share:
                 if (mCurrentNote != null) {
