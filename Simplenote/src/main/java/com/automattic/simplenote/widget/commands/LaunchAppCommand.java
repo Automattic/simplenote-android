@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.automattic.simplenote.ActivityCommand;
 
 import static com.automattic.simplenote.utils.PrefUtils.PREF_ACTIVITY_COMMAND;
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_SIMPERIUM_KEY;
 
 /**
  * Created by richard on 4/1/15.
@@ -31,15 +32,24 @@ public class LaunchAppCommand extends WidgetCommand {
 
     public void exec(ExecParameters params) {
 
+        Intent i = new Intent(params.mContext, com.automattic.simplenote.NotesActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         if (mStartupCommand != null){
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
                     params.mContext).edit();
             editor.putString(PREF_ACTIVITY_COMMAND, mStartupCommand.name());
             editor.commit();
+
+            Bundle extras = params.mIntent.getExtras();
+
+            if (extras.containsKey(EXTRA_SIMPERIUM_KEY)){
+                i.putExtra(EXTRA_SIMPERIUM_KEY, extras.getString(EXTRA_SIMPERIUM_KEY));
+            }
+
         }
 
-        Intent i = new Intent(params.mContext, com.automattic.simplenote.NotesActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         params.mContext.startActivity(i);
     }
 

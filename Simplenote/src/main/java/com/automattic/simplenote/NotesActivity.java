@@ -63,6 +63,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.automattic.simplenote.utils.PrefUtils.PREF_ACTIVITY_COMMAND;
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_SIMPERIUM_KEY;
 
 public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -243,6 +244,13 @@ public class NotesActivity extends ActionBarActivity implements
             switch(command){
                 case NEW_NOTE:
                     menuCreateNote();
+                    break;
+                case EDIT_NOTE:
+                    Toast.makeText(this, "activity edit note " +
+                            getIntent().getStringExtra(EXTRA_SIMPERIUM_KEY), Toast.LENGTH_SHORT)
+                            .show();
+                    onNoteSelected(getIntent().getStringExtra(EXTRA_SIMPERIUM_KEY),
+                            0, false, null);
                     break;
             }
 
