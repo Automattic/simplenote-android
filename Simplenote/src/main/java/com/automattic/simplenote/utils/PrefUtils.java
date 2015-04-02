@@ -40,6 +40,14 @@ public class PrefUtils {
     // boolean, determines if the theme was ever changed
     public static final String PREF_THEME_MODIFIED = "pref_theme_modified";
 
+
+    /**
+     * if this preference exists when the main activity is started the command stored as the
+     * value will be executed.  The command will be a {@link
+     * com.automattic.simplenote.ActivityCommand} enumeration/serilizable.
+     */
+    public static final String PREF_ACTIVITY_COMMAND = "pref_activity_command";
+
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -90,5 +98,18 @@ public class PrefUtils {
         return BuildConfig.VERSION_NAME;
 
     }
+
+    public static void removePref(Context context, String prefKey){
+        SharedPreferences prefs = getPrefs(context);
+
+        if (!prefs.contains(prefKey)){
+            return;
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(prefKey);
+        editor.commit();
+    }
+
 
 }

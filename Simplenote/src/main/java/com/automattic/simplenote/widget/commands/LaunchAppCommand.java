@@ -7,8 +7,9 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_ACTIVITY_COMMAND;
-import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_LIST_POSITION;
+import com.automattic.simplenote.ActivityCommand;
+
+import static com.automattic.simplenote.utils.PrefUtils.PREF_ACTIVITY_COMMAND;
 
 /**
  * Created by richard on 4/1/15.
@@ -18,12 +19,12 @@ public class LaunchAppCommand extends WidgetCommand {
     /**
      * This command will be passed to the activity on startup.
      */
-    private final WidgetConstants.ActivityCommand mStartupCommand;
+    private final ActivityCommand mStartupCommand;
 
     /**
      * @param startupCommand the command to pass to the activity when it starts. May be {@code null}.
      */
-    public LaunchAppCommand(WidgetConstants.ActivityCommand startupCommand) {
+    public LaunchAppCommand(ActivityCommand startupCommand) {
         super(null, false);
         mStartupCommand = startupCommand;
     }
@@ -33,7 +34,7 @@ public class LaunchAppCommand extends WidgetCommand {
         if (mStartupCommand != null){
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
                     params.mContext).edit();
-            editor.putString(EXTRA_ACTIVITY_COMMAND, mStartupCommand.name());
+            editor.putString(PREF_ACTIVITY_COMMAND, mStartupCommand.name());
             editor.commit();
         }
 

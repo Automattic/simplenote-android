@@ -62,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_ACTIVITY_COMMAND;
+import static com.automattic.simplenote.utils.PrefUtils.PREF_ACTIVITY_COMMAND;
 
 public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -231,16 +231,15 @@ public class NotesActivity extends ActionBarActivity implements
      */
     private void processCommands(){
         // process any commands that may be stored in the intent
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String commandString = prefs.getString(EXTRA_ACTIVITY_COMMAND, null);
+
+
+        String commandString = PrefUtils.getStringPref(this, PREF_ACTIVITY_COMMAND, null);
+
         if (commandString != null){
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.remove(EXTRA_ACTIVITY_COMMAND);
-            editor.commit();
+            PrefUtils.removePref(this, PREF_ACTIVITY_COMMAND);
 
-            WidgetConstants.ActivityCommand command = WidgetConstants.ActivityCommand
-                    .valueOf(commandString);
+            ActivityCommand command = ActivityCommand.valueOf(commandString);
             switch(command){
                 case NEW_NOTE:
                     menuCreateNote();

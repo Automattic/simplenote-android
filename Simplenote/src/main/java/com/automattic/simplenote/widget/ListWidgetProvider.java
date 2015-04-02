@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.automattic.simplenote.ActivityCommand;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.LaunchAppCommand;
