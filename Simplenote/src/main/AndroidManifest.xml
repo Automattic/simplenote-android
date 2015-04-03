@@ -105,6 +105,13 @@
                 android:resource="@xml/simplenote_listwidget_info" />
         </receiver>
 
+        <!-- activity to search from the home screen -->
+        <activity
+            android:name="com.automattic.simplenote.WidgetSearch"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            />
+        <!-- android:theme="@style/Theme.IAPTheme" -->
+
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import com.automattic.simplenote.ActivityCommand;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.LaunchAppCommand;
+import com.automattic.simplenote.widget.commands.LaunchSearchCommand;
 import com.automattic.simplenote.widget.commands.NavigateNote;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
@@ -37,7 +38,7 @@ public class ListWidgetProvider extends AppWidgetProvider {
         mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
                 new NotifyDataSetChange(ListWidgetProvider.class, R.id.lv_widget_notes));
         mCommandSet.put(ACTION_NEW_NOTE, new LaunchAppCommand(ActivityCommand.NEW_NOTE));
-        mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
+        mCommandSet.put(ACTION_SEARCH_NOTE, new LaunchSearchCommand());
         mCommandSet.put(ACTION_LAUNCH_APP, new LaunchAppCommand(null));
         mCommandSet.put(ACTION_NOTE_SELECTED, new LaunchAppCommand(ActivityCommand.EDIT_NOTE));
 
