@@ -17,10 +17,12 @@
             android:id="@+id/ib_widget_app_icon"
             android:src="@drawable/ab_icon_logo" />
 
-        <EditText android:layout_weight="1"
+        <AutoCompleteTextView
+            android:id="@+id/actv_search"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/edit_text_holo"></EditText>
+            android:background="@drawable/edit_text_holo"/>
 
 
 

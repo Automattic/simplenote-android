@@ -109,6 +109,7 @@
         <activity
             android:name="com.automattic.simplenote.WidgetSearch"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:configChanges="keyboardHidden"
             />
         <!-- android:theme="@style/Theme.IAPTheme" -->
 
