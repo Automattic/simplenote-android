@@ -1,11 +1,14 @@
 package com.automattic.simplenote;
 
 import android.app.Application;
+import android.content.res.Configuration;
+import android.util.Log;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
@@ -82,5 +85,12 @@ public class Simplenote extends Application {
         }
 
         return mTracker;
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        Log.i("Simplenote", "onConfigurationChanged");
+        WidgetUtils.sendBroadcastAppWigetUpdate(this);
     }
 }

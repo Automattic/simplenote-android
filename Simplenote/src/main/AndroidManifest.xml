@@ -83,7 +83,8 @@
 
         <!-- Service to manage widget data -->
         <service android:name="com.automattic.simplenote.widget.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:configChanges="orientation"/>
 
 
         <!-- Activity to configure widget -->
