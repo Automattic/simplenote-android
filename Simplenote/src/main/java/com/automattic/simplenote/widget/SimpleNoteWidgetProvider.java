@@ -56,10 +56,7 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
 
         if (mCommandSet.containsKey(action)) {
             mCommandSet.get(action).run(context, intent);
-        } else {
-            new UnimplementedCommand().run(context, intent);
         }
-
 
     }
 

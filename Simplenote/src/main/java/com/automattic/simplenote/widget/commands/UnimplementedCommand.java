@@ -14,10 +14,6 @@ public class UnimplementedCommand extends WidgetCommand {
 
     public void exec(ExecParameters params) {
 
-        Toast.makeText(params.mContext, new StringBuilder().append("Command for action ")
-                .append(params.mIntent.getAction())
-                .append(" not implemented yet")
-                .toString(), Toast.LENGTH_SHORT).show();
 
     }
 

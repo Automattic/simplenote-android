@@ -29,8 +29,6 @@ public class NotifyDataSetChange extends WidgetCommand {
         int ids[] = params.mWidgetManager.getAppWidgetIds(
                 new ComponentName(params.mContext, mProviderClass));
 
-        Toast.makeText(params.mContext, "ACTION_NOTIFY_DATA_SET_CHANGED", Toast.LENGTH_SHORT).show();
-
         if (ids != null && ids.length > 0) {
             for (int i : ids) {
                 params.mWidgetManager.notifyAppWidgetViewDataChanged(i, mAdapterRes);

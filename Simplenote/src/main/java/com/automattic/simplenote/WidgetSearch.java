@@ -74,23 +74,20 @@ public class WidgetSearch extends Activity {
 
         Note note = mAutocompleteTextView.getSelectedItem();
         if (note == null){
-            Toast.makeText(this, "pick an item first", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "selected item " + note.getSimperiumKey(),
-                    Toast.LENGTH_SHORT).show();
-
-
-            Intent i = new Intent(this, com.automattic.simplenote.NotesActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putExtra(EXTRA_SIMPERIUM_KEY, note.getSimperiumKey());
-
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
-                    this).edit();
-            editor.putString(PREF_ACTIVITY_COMMAND, ActivityCommand.EDIT_NOTE.name());
-            editor.commit();
-
-            this.startActivity(i);
+            return;
         }
+
+        Intent i = new Intent(this, com.automattic.simplenote.NotesActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra(EXTRA_SIMPERIUM_KEY, note.getSimperiumKey());
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
+                this).edit();
+        editor.putString(PREF_ACTIVITY_COMMAND, ActivityCommand.EDIT_NOTE.name());
+        editor.commit();
+
+        this.startActivity(i);
+
 
 
 

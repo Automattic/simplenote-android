@@ -246,9 +246,6 @@ public class NotesActivity extends ActionBarActivity implements
                     menuCreateNote();
                     break;
                 case EDIT_NOTE:
-                    Toast.makeText(this, "activity edit note " +
-                            getIntent().getStringExtra(EXTRA_SIMPERIUM_KEY), Toast.LENGTH_SHORT)
-                            .show();
                     onNoteSelected(getIntent().getStringExtra(EXTRA_SIMPERIUM_KEY),
                             0, false, null);
                     break;

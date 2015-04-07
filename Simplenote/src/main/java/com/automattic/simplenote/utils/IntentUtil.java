@@ -10,7 +10,7 @@ import android.util.Log;
 public final class IntentUtil {
 
     public static final String TAG = "IntentUtil";
-    
+
     public static void dump(Intent i){
         Log.i(TAG, "intent: " + i.toString());
         Log.i(TAG, "action: " + i.getAction());
