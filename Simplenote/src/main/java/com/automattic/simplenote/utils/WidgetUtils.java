@@ -22,6 +22,9 @@ public final class WidgetUtils {
         int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(ctx.getPackageName(),
                 ListWidgetProvider.class.getName()));
 
+        if (widgetIds == null || widgetIds.length == 0){
+            return;
+        }
 
 
         // notify widgets so they can update themselves
@@ -29,15 +32,9 @@ public final class WidgetUtils {
         i.setAction("android.appwidget.action.APPWIDGET_UPDATE");
         i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
 
-        if (widgetIds != null) {
-            Bundle extras = new Bundle();
-            extras.putIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
-            i.putExtras(extras);
-            Log.i("WidgetIds", "found " + widgetIds.length + " widget ids to update");
-        } else {
-            Log.i("WidgetIds", "found no widget ids to update");
-        }
-
+        Bundle extras = new Bundle();
+        extras.putIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
+        i.putExtras(extras);
 
         ctx.sendBroadcast(i);
     }

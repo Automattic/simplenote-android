@@ -22,7 +22,6 @@ public abstract class WidgetCommand {
     }
 
     public final void run(Context ctx, Intent intent) {
-        Log.i(TAG, "running command " + this.getClass().getSimpleName());
         ExecParameters param = new ExecParameters();
         param.mContext = ctx;
         param.mIntent = intent;

@@ -90,7 +90,6 @@ public class Simplenote extends Application {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig){
-        Log.i("Simplenote", "onConfigurationChanged");
         WidgetUtils.sendBroadcastAppWigetUpdate(this);
     }
 }

@@ -8,11 +8,12 @@ import android.util.Log;
  * Created by richard on 9/7/14.
  */
 public final class IntentUtil {
+
     public static final String TAG = "IntentUtil";
+    
     public static void dump(Intent i){
         Log.i(TAG, "intent: " + i.toString());
         Log.i(TAG, "action: " + i.getAction());
-
         Log.i(TAG, "package: " + i.getPackage());
 
         Bundle b = i.getExtras();

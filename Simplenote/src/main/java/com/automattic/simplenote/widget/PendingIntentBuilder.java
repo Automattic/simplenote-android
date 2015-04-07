@@ -46,14 +46,13 @@ import com.automattic.simplenote.utils.IntentUtil;
         i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
 
-        IntentUtil.dump(i);
+        /*
+         * Using the widget id as the request code makes the PendingIntent unique
+         * for a given action and widget id.  But, widget id still needs to be
+         * added as an extra (EXTRA_APPWIDGET_ID) because the request code is
+         * not sent with the intent that is broadcast.
+         */
 
-            /*
-             * Using the widget id as the request code makes the PendingIntent unique
-             * for a given action and widget id.  But, widget id still needs to be
-             * added as an extra (EXTRA_APPWIDGET_ID) because the request code is
-             * not sent with the intent that is broadcast.
-             */
         return PendingIntent.getBroadcast(mContext, mWidgetId, i,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 

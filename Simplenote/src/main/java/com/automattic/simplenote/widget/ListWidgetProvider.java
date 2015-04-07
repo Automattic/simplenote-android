@@ -1,13 +1,11 @@
 package com.automattic.simplenote.widget;
 
 import static com.automattic.simplenote.widget.commands.WidgetConstants.*;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.ActivityCommand;
@@ -15,11 +13,9 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.IntentUtil;
 import com.automattic.simplenote.widget.commands.LaunchAppCommand;
 import com.automattic.simplenote.widget.commands.LaunchSearchCommand;
-import com.automattic.simplenote.widget.commands.NavigateNote;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
 import com.automattic.simplenote.widget.commands.WidgetCommand;
-import com.automattic.simplenote.widget.commands.WidgetConstants;
 
 import java.util.Hashtable;
 
@@ -47,8 +43,6 @@ public class ListWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        Log.i(TAG, "onReceive: intent " + intent.getAction().toString());
-        IntentUtil.dump(intent);
 
         AppWidgetManager awManager = AppWidgetManager.getInstance(context);
         String action = intent.getAction();
@@ -65,13 +59,9 @@ public class ListWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Log.i(TAG, "onUpdate. Processing " + appWidgetIds.length + " widgets.");
-
 
         // create remote views for each app widget.
         for (int i = 0; i < appWidgetIds.length; i++) {
-
-            Log.i(TAG, "onUpdate. Setup widget " + appWidgetIds[i]);
 
             // create intent that starts widget service
             Intent intent = new Intent(context, WidgetService.class);
@@ -102,7 +92,6 @@ public class ListWidgetProvider extends AppWidgetProvider {
      */
     private void setupPendingIntents(Context ctx, AppWidgetManager appWidgetManager, int widgetId) {
 
-        Log.i(TAG, "setting up pending intents for widget: " + widgetId);
         PendingIntentBuilder piBuilder = new PendingIntentBuilder(ctx, appWidgetManager);
         piBuilder.setLayout(R.layout.widget_list_layout);
 
@@ -125,26 +114,6 @@ public class ListWidgetProvider extends AppWidgetProvider {
         piBuilder.setChildView(R.id.lv_widget_notes);
         piBuilder.setPendingIntentTemplate();
 
-
-    }
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        super.onDeleted(context, appWidgetIds);
-        Log.i(TAG, "onDeleted");
-
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-        Log.i(TAG, "onEnabled");
-
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-        Log.i(TAG, "onDisabled");
 
     }
 

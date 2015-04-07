@@ -30,16 +30,11 @@ public class NotifyDataSetChange extends WidgetCommand {
                 new ComponentName(params.mContext, mProviderClass));
 
         Toast.makeText(params.mContext, "ACTION_NOTIFY_DATA_SET_CHANGED", Toast.LENGTH_SHORT).show();
-        Log.i(TAG, "provider " + mProviderClass.getSimpleName());
 
         if (ids != null && ids.length > 0) {
             for (int i : ids) {
-                Log.i(TAG, "Notify data set changed. widget id: " + Integer.toString(i));
                 params.mWidgetManager.notifyAppWidgetViewDataChanged(i, mAdapterRes);
             }
-        } else {
-            Log.i(TAG, "no widgets were found for provider " +
-                    mProviderClass.getSimpleName());
         }
 
     }

@@ -30,7 +30,6 @@ public class NavigateNote extends WidgetCommand {
 
         params.mWidgetManager.updateAppWidget(params.mWidgetId, rViews);
 
-        Log.i(TAG, "show next note for widget id " + params.mWidgetId);
     }
 
     protected RemoteViews getRemoteViews(ExecParameters params) {

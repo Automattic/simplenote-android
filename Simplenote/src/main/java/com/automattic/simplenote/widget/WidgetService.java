@@ -32,8 +32,6 @@ public class WidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Log.i(TAG, "onGetViewFactory");
-        IntentUtil.dump(intent);
         return new WidgetViewsFactory(getApplicationContext(), intent);
     }
 
@@ -52,7 +50,6 @@ public class WidgetService extends RemoteViewsService {
             mWidgetId = i.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
 
-            Log.i(TAG, "WidgetViewsFactory.<<init>> for id " + mWidgetId);
         }
 
         /**
@@ -61,7 +58,6 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public void onCreate() {
 
-            Log.i(TAG, "WidgetViewsFactory.onCreate");
             Simplenote currentApp = (Simplenote) mContext.getApplicationContext();
 
             if (mNotesBucket == null) {
@@ -74,24 +70,30 @@ public class WidgetService extends RemoteViewsService {
 
             mTagsAdapter = new TagsAdapter(mContext, mNotesBucket, 0);
 
-            Log.i(TAG, "Found " + mTagsAdapter.getCount() + " tags items.");
             if (mTagsAdapter.getCount() > 0) {
 
                 TagsAdapter.TagMenuItem tmi = mTagsAdapter.getDefaultItem();
-                Log.i(TAG, "Default tag item is : '" + tmi.name + "'");
 
             }
 
-            Log.i(TAG, "Found " + mNotesBucket.count() + " notes");
+        }
 
+        @Override
+        public void onDestroy() {
+
+            // M-T
+
+        }
+
+        @Override
+        public void onDataSetChanged() {
+            // M-T
         }
 
         private Note getNoteByPosition(int cursorIdx) {
 
             Bucket.ObjectCursor<Note> mNoteCursor = mNotesBucket.allObjects();
 
-
-            Log.i(TAG, "fetching note from position " + cursorIdx);
             mNoteCursor.moveToPosition(cursorIdx);
             Note result = mNoteCursor.getObject();
             mNoteCursor.close();
@@ -103,18 +105,11 @@ public class WidgetService extends RemoteViewsService {
         public int getCount() {
             // TODO return count from cursor.
             int result = mNotesBucket.count();
-            Log.i(TAG, "WidgetViewsFactory.getCount: " + result);
             return result;
         }
 
         @Override
-        public void onDataSetChanged() {
-            Log.i(TAG, "WidgetViewsFactory.onDataSetChanged");
-        }
-
-        @Override
         public int getViewTypeCount() {
-            Log.i(TAG, "WidgetViewsFactory.getViewTypeCount: 1");
             return 1;
         }
 
@@ -122,18 +117,11 @@ public class WidgetService extends RemoteViewsService {
         public long getItemId(int position) {
 
             Note n = getNoteByPosition(position);
-            Log.i(TAG, "WidgetViewsFactory.getItemId: found note " + n.getTitle());
             return n.hashCode();
         }
 
         @Override
-        public void onDestroy() {
-            Log.i(TAG, "WidgetViewsFactory.onDestroy");
-        }
-
-        @Override
         public RemoteViews getLoadingView() {
-            Log.i(TAG, "WidgetViewsFactory.getLoadingView");
 
             // Create a view that will show data for this item.
             RemoteViews result = new RemoteViews(mContext.getPackageName(),
@@ -172,15 +160,12 @@ public class WidgetService extends RemoteViewsService {
 
 
             // XXX sometimes getTitle returns a null value.
-            Log.i(TAG, "WidgetViewsFactory.getViewAt " + position + " key: '"
-                    + n.getSimperiumKey() + "'");
             return result;
         }
 
 
         @Override
         public boolean hasStableIds() {
-            Log.i(TAG, "WidgetViewsFactory.hasStableIds");
             return false;
         }
 
@@ -193,7 +178,6 @@ public class WidgetService extends RemoteViewsService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand: " + intent.toString());
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -201,18 +185,15 @@ public class WidgetService extends RemoteViewsService {
     public void onDestroy() {
 
         super.onDestroy();
-        Log.i(TAG, "onDestroy");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Log.i(TAG, "onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.i(TAG, "onUnbind");
         return super.onUnbind(intent);
     }
 

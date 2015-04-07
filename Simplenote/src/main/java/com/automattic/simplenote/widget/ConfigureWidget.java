@@ -40,15 +40,12 @@ public class ConfigureWidget extends Activity {
         setResult(RESULT_CANCELED);
         mHandler.postDelayed(new Runnable() {
             public void run() {
-                Log.i(TAG, "closing widget configuration activity");
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mWidgetId);
                 setResult(RESULT_OK, resultValue);
                 finish();
             }
         }, 3000);
-
-        Log.i(TAG, "Widget id: " + (extras == null ? "none" : Integer.toString(mWidgetId)));
 
     }
 }
