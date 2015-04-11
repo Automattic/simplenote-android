@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widget.commands;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +24,11 @@ public class LaunchSearchCommand extends WidgetCommand {
     public void exec(ExecParameters params) {
 
         Intent i = new Intent(params.mContext, com.automattic.simplenote.WidgetSearch.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_FROM_BACKGROUND);
         params.mContext.startActivity(i);
     }
 

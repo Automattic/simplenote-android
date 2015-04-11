@@ -78,7 +78,7 @@ public class WidgetSearch extends Activity {
         }
 
         Intent i = new Intent(this, com.automattic.simplenote.NotesActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.putExtra(EXTRA_SIMPERIUM_KEY, note.getSimperiumKey());
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
@@ -87,6 +87,7 @@ public class WidgetSearch extends Activity {
         editor.commit();
 
         this.startActivity(i);
+        finish();
 
 
 
