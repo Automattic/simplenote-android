@@ -14,7 +14,7 @@
         android:hint="@string/widget_hint"
         android:background="@color/simplenote_widget_translucent"
         android:textStyle="bold"
-        android:textSize="@dimen/widget_list_text_size_normal"
+        android:textSize="@dimen/widget_list_text_size_large"
         android:singleLine="true"
         android:textIsSelectable="false"/>
 

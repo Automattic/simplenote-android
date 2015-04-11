@@ -19,34 +19,34 @@
 
 
         <ImageView
-            android:layout_width="@dimen/widget_icon_size_normal"
-            android:layout_height="@dimen/widget_icon_size_normal"
+            android:layout_width="@dimen/widget_icon_size_large"
+            android:layout_height="@dimen/widget_icon_size_large"
             android:id="@+id/ib_widget_app_icon"
             android:src="@drawable/ab_icon_logo" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="N"
+            android:text="L"
             android:id="@+id/textView"
             android:textColor="@color/red"
-            android:textSize="@dimen/widget_list_text_size_normal"/>
+            android:textSize="@dimen/widget_list_text_size_large"/>
 
         <LinearLayout android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></LinearLayout>
 
         <ImageView
-            android:layout_width="@dimen/widget_icon_size_normal"
-            android:layout_height="@dimen/widget_icon_size_normal"
+            android:layout_width="@dimen/widget_icon_size_large"
+            android:layout_height="@dimen/widget_icon_size_large"
             android:layout_marginLeft="@dimen/widget_margin"
             android:id="@+id/ib_widget_new"
             android:src="@drawable/ic_create_blue_24dp" />
 
         <ImageView
-            android:layout_width="@dimen/widget_icon_size_normal"
-            android:layout_height="@dimen/widget_icon_size_normal"
+            android:layout_width="@dimen/widget_icon_size_large"
+            android:layout_height="@dimen/widget_icon_size_large"
             android:layout_marginLeft="@dimen/widget_margin"
             android:id="@+id/ib_widget_search"
             android:src="@drawable/ic_search_blue_24dp" />
