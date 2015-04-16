@@ -37,6 +37,7 @@
     <dimen name="widget_divider_height">5dp</dimen>
     <dimen name="widget_padding_list_left">0dp</dimen>
     <dimen name="widget_padding_row_left">0dp</dimen>
+    <dimen name="widget_padding_search">20dp</dimen>
     <dimen name="widget_icon_size_small">48dp</dimen>
     <dimen name="widget_icon_size_normal">32dp</dimen>
     <dimen name="widget_icon_size_large">32dp</dimen>

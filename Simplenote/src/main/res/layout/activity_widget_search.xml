@@ -22,14 +22,15 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/edit_text_holo"/>
+            android:background="@drawable/edit_text_holo"
+            android:textColor="@color/simplenote_light_grey"/>
 
-        <Button
+        <ImageButton
             android:layout_width="@dimen/widget_icon_size_normal"
             android:layout_height="@dimen/widget_icon_size_normal"
             android:layout_marginLeft="@dimen/widget_margin"
             android:id="@+id/btn_select_item"
-            android:text="Go"
+            android:src="@drawable/ic_create_blue_24dp"
             android:onClick="onGo"/>
 
     </LinearLayout>
