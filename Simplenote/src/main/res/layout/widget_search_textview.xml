@@ -4,9 +4,13 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:background="@color/white"
-    android:textColor="@color/simplenote_blue"
+
+    android:textColor="?attr/noteTitleColor"
     android:shadowDx="0"
     android:shadowDy="0"
     android:shadowRadius="1"
     android:shadowColor="@color/simplenote_blue_accent"
     android:textSize="24sp" />
+
+
+<!-- android:textColor="@color/simplenote_blue" -->

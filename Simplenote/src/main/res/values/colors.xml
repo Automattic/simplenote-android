@@ -27,6 +27,7 @@
 
 	<color name="translucent">#80000000</color>
 	<color name="transparent">#00000000</color>
+    <color name="semi_translucent">#40000000</color>
 
 	<!-- percentages of white -->
 	<color name="white">#ffffff</color>

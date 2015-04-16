@@ -24,7 +24,11 @@
             android:id="@+id/ib_widget_app_icon"
             android:src="@drawable/ab_icon_logo" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+
+        <!--
+        un-comment this view for debugging - it will tell you what views are being loaded.
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -32,7 +36,7 @@
             android:id="@+id/textView"
             android:textColor="@color/red"
             android:textSize="@dimen/widget_list_text_size_normal"/>
-
+        -->
         <LinearLayout android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></LinearLayout>
@@ -58,7 +62,7 @@
         android:dividerHeight="@dimen/widget_divider_height"
         android:divider="@color/transparent"
         android:id="@+id/lv_widget_notes"
-        android:background="@color/transparent"
+        android:background="@color/semi_translucent"
         android:layout_gravity="right" />
 
 
