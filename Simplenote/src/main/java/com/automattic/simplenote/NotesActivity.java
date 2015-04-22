@@ -56,6 +56,8 @@ import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -66,7 +68,9 @@ public class NotesActivity extends ActionBarActivity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
+
     private int TRASH_SELECTED_ID = 2;
+    private int PIN_LOCK_DISABLE_TIME = 100000000;
 
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
@@ -217,6 +221,14 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        checkForSharedContent();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -331,7 +343,7 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     private void checkForSharedContent() {
-        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
+        if (getIntent().hasExtra(Intent.EXTRA_TEXT) && !isFinishing()) {
             // Check share action
             Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
@@ -350,6 +362,11 @@ public class NotesActivity extends ActionBarActivity implements
                 note.setContent(text);
                 note.save();
                 setCurrentNote(note);
+
+                if (!DisplayUtils.isLargeScreenLandscape(this)) {
+                    // Disable pin lock from showing here, instead it will show from NoteEditorActivity
+                    AppLockManager.getInstance().getCurrentAppLock().setOneTimeTimeout(PIN_LOCK_DISABLE_TIME);
+                }
 
                 if (!isVoiceShare) {
                     mShouldSelectNewNote = true;
@@ -703,8 +720,11 @@ public class NotesActivity extends ActionBarActivity implements
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
 
-            if (matchOffsets != null)
+            if (matchOffsets != null) {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
+            }
+
+            arguments.putBoolean(NoteEditorActivity.ARG_IS_SHARED_NOTE, mShouldSelectNewNote);
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
