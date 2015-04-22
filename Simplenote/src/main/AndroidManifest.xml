@@ -17,7 +17,8 @@
             android:name="com.automattic.simplenote.NotesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_launcher_name"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

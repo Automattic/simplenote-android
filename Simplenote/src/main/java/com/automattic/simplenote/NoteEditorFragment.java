@@ -624,7 +624,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
         AutoBullet.apply(editable, oldCursorPosition, mCurrentCursorPosition);
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
-        android.util.Log.d("Simplenote", "==> post cursor position:" + mCurrentCursorPosition);
     }
 
     private void saveAndSyncNote() {
