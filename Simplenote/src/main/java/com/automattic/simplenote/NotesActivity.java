@@ -56,6 +56,8 @@ import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -361,6 +363,17 @@ public class NotesActivity extends ActionBarActivity implements
                                 .setLabel("external_share")
                                 .build()
                 );
+
+                if (!DisplayUtils.isLargeScreenLandscape(this)) {
+                    // Disable the lock screen when sharing content and opening NoteEditorActivity
+                    // Lock screen activities are enabled again in NoteEditorActivity.onPause()
+                    if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
+                        AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(
+                                new String[]{"com.automattic.simplenote.NotesActivity",
+                                "com.automattic.simplenote.NoteEditorActivity"});
+                        AppLockManager.getInstance().getCurrentAppLock().setOneTimeTimeout(0);
+                    }
+                }
             }
         }
     }
