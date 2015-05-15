@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.AppLockManager;
