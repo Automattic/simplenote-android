@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 public class NoteEditorActivity extends ActionBarActivity {
 
     @Override
@@ -43,5 +45,14 @@ public class NoteEditorActivity extends ActionBarActivity {
                     .add(R.id.note_editor_container, noteEditorFragment, NotesActivity.TAG_NOTE_EDITOR)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
+            AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(null);
+        }
+
+        super.onPause();
     }
 }
