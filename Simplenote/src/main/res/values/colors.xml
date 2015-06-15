@@ -27,6 +27,11 @@
 	<color name="translucent">#80000000</color>
 	<color name="transparent">#00000000</color>
 
+    <!-- PIN Lock colors -->
+    <color name="passcodelock_background">@color/simplenote_blue</color>
+    <color name="passcodelock_prompt_text_color">@color/white</color>
+    <color name="passcodelock_button_text_color">@color/white</color>
+
 	<!-- percentages of white -->
 	<color name="white">#ffffff</color>
 	<color name="white_95">#f2f2f2</color>	<!-- 95% white -->

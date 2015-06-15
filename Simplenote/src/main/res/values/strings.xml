@@ -127,7 +127,7 @@
     <string name="passcode_change_passcode">Change PIN</string>
     <string name="passcode_set">PIN set</string>
     <string name="passcode_wrong_passcode">Wrong PIN, please try again.</string>
-    <string name="passcode_preference_title">PIN lock</string>
+    <string name="passcode_preference_title">PIN Lock</string>
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
 
