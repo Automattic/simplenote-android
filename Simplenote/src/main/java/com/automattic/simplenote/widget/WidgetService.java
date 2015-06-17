@@ -103,9 +103,9 @@ public class WidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            // TODO return count from cursor.
-            int result = mNotesBucket.count();
-            return result;
+
+            return mNotesBucket.count();
+
         }
 
         @Override

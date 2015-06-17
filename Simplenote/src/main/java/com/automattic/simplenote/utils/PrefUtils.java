@@ -108,7 +108,7 @@ public class PrefUtils {
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(prefKey);
-        editor.commit();
+        editor.apply();
     }
 
 

@@ -88,12 +88,6 @@
 
 
         <!-- Activity to configure widget -->
-        <activity
-            android:name="com.automattic.simplenote.widget.ConfigureWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
-            </intent-filter>
-        </activity>
 
         <!-- list widget -->
         <receiver android:name="com.automattic.simplenote.widget.ListWidgetProvider" >

@@ -8,10 +8,6 @@ public class WidgetConstants {
     /**
      * Intent with this action is broadcast whenever the forward button is tapped.
      */
-    public static final String ACTION_FORWARD =
-            "com.automattic.simplenote.action.ACTION_WIDGET_FORWARD";
-    public static final String ACTION_BACKWARD =
-            "com.automattic.simplenote.action.ACTION_WIDGET_BACKWARD";
     public static final String ACTION_DELETE_NOTE =
             "com.automattic.simplenote.action.ACTION_WIDGET_DELETE";
     public static final String ACTION_NEW_NOTE =

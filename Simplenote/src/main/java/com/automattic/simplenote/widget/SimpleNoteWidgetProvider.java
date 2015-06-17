@@ -1,17 +1,13 @@
 package com.automattic.simplenote.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.utils.IntentUtil;
-import com.automattic.simplenote.widget.commands.NavigateNote;
 import com.automattic.simplenote.widget.commands.NotifyDataSetChange;
 import com.automattic.simplenote.widget.commands.UnimplementedCommand;
 import com.automattic.simplenote.widget.commands.WidgetCommand;
@@ -35,8 +31,6 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
     public SimpleNoteWidgetProvider() {
         super();
 
-        mCommandSet.put(ACTION_FORWARD, new NavigateNote(true)); // nav to next note
-        mCommandSet.put(ACTION_BACKWARD, new NavigateNote(false)); // nav to previous note
         mCommandSet.put(ACTION_NOTIFY_DATA_SET_CHANGED,
                 new NotifyDataSetChange(SimpleNoteWidgetProvider.class, R.id.avf_widget_populated));
         mCommandSet.put(ACTION_SEARCH_NOTE, new UnimplementedCommand());
@@ -104,14 +98,6 @@ public class SimpleNoteWidgetProvider extends AppWidgetProvider {
         piBuilder.setProvider(SimpleNoteWidgetProvider.class);
         piBuilder.setLayout(R.layout.widget_button_layout);
         piBuilder.setWidgetId(widgetId);
-
-        piBuilder.setAction(ACTION_BACKWARD);
-        piBuilder.setChildView(R.id.ib_widget_backward);
-        piBuilder.setOnClickPendingIntent();
-
-        piBuilder.setAction(ACTION_FORWARD);
-        piBuilder.setChildView(R.id.ib_widget_forward);
-        piBuilder.setOnClickPendingIntent();
 
         piBuilder.setAction(ACTION_DELETE_NOTE);
         piBuilder.setChildView(R.id.ib_widget_delete);

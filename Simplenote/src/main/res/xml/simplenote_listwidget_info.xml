@@ -5,7 +5,7 @@
     android:minWidth="300dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/ic_tag"
+    android:previewImage="@drawable/widget_preview"
     android:initialLayout="@layout/widget_list_layout"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
