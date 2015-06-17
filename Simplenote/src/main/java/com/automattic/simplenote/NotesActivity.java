@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -42,6 +43,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widget.commands.WidgetConstants;
 import com.automattic.simplenote.widgets.FloatingActionButton;
 import com.automattic.simplenote.widgets.ScrimInsetsFrameLayout;
 import com.automattic.simplenote.widgets.TypefaceSpan;
@@ -61,6 +63,9 @@ import org.wordpress.passcodelock.AppLockManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.automattic.simplenote.utils.PrefUtils.PREF_ACTIVITY_COMMAND;
+import static com.automattic.simplenote.widget.commands.WidgetConstants.EXTRA_SIMPERIUM_KEY;
 
 public class NotesActivity extends ActionBarActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -216,6 +221,39 @@ public class NotesActivity extends ActionBarActivity implements
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null);
             mShouldSelectNewNote = false;
         }
+
+        processCommands();
+
+
+    }
+
+    /**
+     * Checks for a command stored in {@link android.content.SharedPreferences}.  If a command
+     * is found it is deleted from shared preferences because it's only run once, and then
+     * the command is executed.
+     */
+    private void processCommands(){
+        // process any commands that may be stored in the intent
+
+
+        String commandString = PrefUtils.getStringPref(this, PREF_ACTIVITY_COMMAND, null);
+
+        if (commandString != null){
+
+            PrefUtils.removePref(this, PREF_ACTIVITY_COMMAND);
+
+            ActivityCommand command = ActivityCommand.valueOf(commandString);
+            switch(command){
+                case NEW_NOTE:
+                    menuCreateNote();
+                    break;
+                case EDIT_NOTE:
+                    onNoteSelected(getIntent().getStringExtra(EXTRA_SIMPERIUM_KEY),
+                            0, false, null);
+                    break;
+            }
+
+        }
     }
 
     @Override
@@ -227,6 +265,9 @@ public class NotesActivity extends ActionBarActivity implements
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+
+        // update the widget
+        sendBroadcast(new Intent(WidgetConstants.ACTION_NOTIFY_DATA_SET_CHANGED));
     }
 
     @Override
@@ -604,6 +645,17 @@ public class NotesActivity extends ActionBarActivity implements
         return true;
     }
 
+    private void menuCreateNote(){
+        getNoteListFragment().addNote();
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory("note")
+                        .setAction("create_note")
+                        .setLabel("action_bar_button")
+                        .build()
+        );
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -611,14 +663,7 @@ public class NotesActivity extends ActionBarActivity implements
         }
         switch (item.getItemId()) {
             case R.id.menu_create_note:
-                getNoteListFragment().addNote();
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("action_bar_button")
-                                .build()
-                );
+                menuCreateNote();
                 return true;
             case R.id.menu_share:
                 if (mCurrentNote != null) {

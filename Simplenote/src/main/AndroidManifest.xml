@@ -77,6 +77,36 @@
 
         <!-- Google Play Services -->
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+
+        <!-- Widget Providers -->
+
+        <!-- Service to manage widget data -->
+        <service android:name="com.automattic.simplenote.widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:configChanges="orientation"/>
+
+
+        <!-- Activity to configure widget -->
+
+        <!-- list widget -->
+        <receiver android:name="com.automattic.simplenote.widget.ListWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.automattic.simplenote.action.ACTION_NOTIFY_DATA_SET_CHANGED"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/simplenote_listwidget_info" />
+        </receiver>
+
+        <!-- activity to search from the home screen -->
+        <activity
+            android:name="com.automattic.simplenote.WidgetSearch"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:configChanges="keyboardHidden"
+            />
+        <!-- android:theme="@style/Theme.IAPTheme" -->
+
     </application>
 
 </manifest>

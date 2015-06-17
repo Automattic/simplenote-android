@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_widget_top"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_widget_app_icon"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_login" />
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <AdapterViewFlipper
+                android:orientation="horizontal"
+                android:id="@+id/avf_widget_populated"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+
+            <!-- a text view is specified in the widget provider to be shown
+                 when there is no view, but it hasn't shown up yet.
+                 TODO: design a better replacement and test.
+            -->
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tv_widget_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="This widget is empty."
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <ImageButton
+            android:id="@+id/ib_widget_new"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_create_blue_24dp" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_showallnotes"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_drawer_all_notes_selected" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_delete"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_drawer_trash_selected" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_share"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_search_blue_24dp" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_search"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_search_blue_24dp" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_backward"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_action_previous" />
+
+        <ImageButton
+            android:id="@+id/ib_widget_forward"
+            android:layout_width="@dimen/widget_button_size"
+            android:layout_height="@dimen/widget_button_size"
+            android:src="@drawable/ic_action_next" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

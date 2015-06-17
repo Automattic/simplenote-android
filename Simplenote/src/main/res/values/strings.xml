@@ -156,4 +156,8 @@
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
     <string name="error">Error</string>
+
+    <!-- Widget strings -->
+    <string name="widget_list_title">Widget List</string>
+    <string name="widget_hint">Widget Hint</string>
 </resources>

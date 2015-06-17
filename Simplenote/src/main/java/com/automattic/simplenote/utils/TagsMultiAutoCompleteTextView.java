@@ -25,45 +25,8 @@ import com.automattic.simplenote.Simplenote;
 
 public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
 
-    private boolean mShouldMoveNewTagText;
-
-    public interface OnTagAddedListener {
-        public void onTagsChanged(String tagString);
-    }
-
     private final String TAG = "TagsMultiAutoCompleteTextView";
-
-    private OnTagAddedListener mTagsChangedListener;
-
-    /* Constructor */
-    public TagsMultiAutoCompleteTextView(Context context) {
-        super(context);
-        init(context);
-    }
-
-    /* Constructor */
-    public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    /* Constructor */
-    public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs,
-                                         int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-    }
-
-    public void setOnTagAddedListener(OnTagAddedListener listener) {
-        mTagsChangedListener = listener;
-    }
-
-    /* set listeners for item click and text change */
-    public void init(Context context) {
-        setOnItemClickListener(this);
-        addTextChangedListener(textWatcher);
-    }
-
+    private boolean mShouldMoveNewTagText;
     /*TextWatcher, If user types any tag name and presses space then following code will regenerate chips */
     private TextWatcher textWatcher = new TextWatcher() {
 
@@ -124,6 +87,36 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
         public void afterTextChanged(Editable s) {
         }
     };
+    private OnTagAddedListener mTagsChangedListener;
+
+    /* Constructor */
+    public TagsMultiAutoCompleteTextView(Context context) {
+        super(context);
+        init(context);
+    }
+
+    /* Constructor */
+    public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    /* Constructor */
+    public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs,
+                                         int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
+    }
+
+    public void setOnTagAddedListener(OnTagAddedListener listener) {
+        mTagsChangedListener = listener;
+    }
+
+    /* set listeners for item click and text change */
+    public void init(Context context) {
+        setOnItemClickListener(this);
+        addTextChangedListener(textWatcher);
+    }
 
     public void notifyTagsChanged() {
         notifyTagsChanged(getText().toString());
@@ -165,7 +158,7 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
             // Create bitmap drawable for imagespan
             BitmapDrawable bmpDrawable = new BitmapDrawable(getContext().getResources(), viewBmp);
             bmpDrawable.setBounds(0, 0, bmpDrawable.getIntrinsicWidth(), bmpDrawable.getIntrinsicHeight());
-            // Create and set imagespan            
+            // Create and set imagespan
             ssb.setSpan(new ImageSpan(bmpDrawable), x, x + tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             x = x + tag.length() + 1;
         }
@@ -179,6 +172,10 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         notifyTagsChanged();
+    }
+
+    public interface OnTagAddedListener {
+        public void onTagsChanged(String tagString);
     }
 
 }

@@ -43,10 +43,12 @@ public class UndoBarController {
     // State objects
     private Parcelable mUndoToken;
     private CharSequence mUndoMessage;
-
-    public interface UndoListener {
-        void onUndo(Parcelable token);
-    }
+    private Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hideUndoBar(false);
+        }
+    };
 
     public UndoBarController(View undoBarView, UndoListener undoListener) {
         mBarView = undoBarView;
@@ -135,10 +137,7 @@ public class UndoBarController {
         }
     }
 
-    private Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hideUndoBar(false);
-        }
-    };
+    public interface UndoListener {
+        void onUndo(Parcelable token);
+    }
 }

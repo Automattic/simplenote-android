@@ -475,6 +475,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
 		note.save();
 
+        // XXX multiple new notes can be created -> multiple 'new note' entries possible & expected.
+
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
             mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
         } else {

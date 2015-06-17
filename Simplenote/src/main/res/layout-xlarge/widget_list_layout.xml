@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_widget_top"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="0dp"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="@dimen/widget_margin"
+        android:layout_marginBottom="@dimen/widget_divider_height">
+
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size_xlarge"
+            android:layout_height="@dimen/widget_icon_size_xlarge"
+            android:id="@+id/ib_widget_app_icon"
+            android:src="@drawable/ab_icon_logo" />
+        <!--
+                un-comment this view for debugging - it will tell you what views are being loaded.
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="X"
+                    android:id="@+id/textView"
+                    android:textColor="@color/red"/>
+        -->
+        <LinearLayout android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size_xlarge"
+            android:layout_height="@dimen/widget_icon_size_xlarge"
+            android:layout_marginLeft="@dimen/widget_margin"
+            android:id="@+id/ib_widget_new"
+            android:src="@drawable/ic_create_blue_24dp" />
+
+        <ImageView
+            android:layout_width="@dimen/widget_icon_size_xlarge"
+            android:layout_height="@dimen/widget_icon_size_xlarge"
+            android:layout_marginLeft="@dimen/widget_margin"
+            android:id="@+id/ib_widget_search"
+            android:src="@drawable/ic_search_blue_24dp" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:dividerHeight="@dimen/widget_divider_height"
+        android:divider="@color/transparent"
+        android:id="@+id/lv_widget_notes"
+        android:background="@color/semi_translucent"
+        android:layout_gravity="right" />
+
+
+</LinearLayout>
+

@@ -5,31 +5,25 @@ import android.text.SpannableStringBuilder;
 
 public class SearchSnippetFormatter {
 
-    public interface SpanFactory {
-        public Object[] buildSpans(String content);
-    }
-
     static public final char OPEN_BRACKET = '<';
     static public final String OPEN_MATCH = "<match>";
     static public final String CLOSE_MATCH = "</match>";
-
     static public final int OPEN_MATCH_LENGTH = OPEN_MATCH.length();
     static public final int CLOSE_MATCH_LENGTH = CLOSE_MATCH.length();
+    private String mSnippet;
+    private SpanFactory mFactory;
+
+
+    public SearchSnippetFormatter(SpanFactory factory, String text) {
+        mSnippet = text;
+        mFactory = factory;
+    }
 
     public static Spannable formatString(String snippet, SpanFactory factory) {
         return (new SearchSnippetFormatter(factory, snippet)).toSpannableString();
     }
 
-
-    private String mSnippet;
-    private SpanFactory mFactory;
-
-    public SearchSnippetFormatter(SpanFactory factory, String text){
-        mSnippet = text;
-        mFactory = factory;
-    }
-
-    private Spannable parseSnippet(){
+    private Spannable parseSnippet() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
 
         if (mSnippet == null)
@@ -44,7 +38,7 @@ public class SearchSnippetFormatter {
         do {
             if (inMatch) {
                 int close = snippet.indexOf(CLOSE_MATCH, position);
-                if (close == -1){
+                if (close == -1) {
                     builder.append(snippet.substring(position));
                     break;
                 }
@@ -68,13 +62,17 @@ public class SearchSnippetFormatter {
                 inMatch = true;
                 position = open + OPEN_MATCH_LENGTH;
             }
-        } while(position > -1);
+        } while (position > -1);
 
         return builder;
     }
 
     public Spannable toSpannableString() {
         return parseSnippet();
+    }
+
+    public interface SpanFactory {
+        public Object[] buildSpans(String content);
     }
 
 }

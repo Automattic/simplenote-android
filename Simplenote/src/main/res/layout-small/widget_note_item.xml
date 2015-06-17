@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/widget_note_item_layout">
+
+    <!--
+    un-comment this view for debugging - it will tell you what views are being loaded.
+    <TextView
+        android:id="@+id/tv_size_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_list_item_height"
+        android:gravity="center_vertical|left"
+        android:background="@color/simplenote_widget_translucent"
+        android:text="S"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="@dimen/widget_list_text_size_normal"
+        android:singleLine="true"
+        android:textIsSelectable="false"/>
+    -->
+    <TextView
+        android:id="@+id/tv_widget_note_item"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/widget_list_item_height"
+        android:padding="@dimen/widget_margin"
+        android:gravity="center_vertical|left"
+        android:hint="@string/widget_hint"
+        android:background="@color/simplenote_widget_translucent"
+        android:textStyle="bold"
+        android:textSize="@dimen/widget_list_text_size_large"
+        android:singleLine="true"
+        android:textIsSelectable="false"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

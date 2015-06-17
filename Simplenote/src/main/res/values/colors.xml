@@ -21,11 +21,13 @@
     <color name="simplenote_dark_text_preview">#5b6780</color>
     <color name="simplenote_dark_list_divider">#363d4d</color>
     <color name="simplenote_dark_selected_row">#2d3340</color>
+    <color name="simplenote_widget_translucent">#20000000</color>
 
     <color name="welcome_button_blue">#3772a6</color>
 
 	<color name="translucent">#80000000</color>
 	<color name="transparent">#00000000</color>
+    <color name="semi_translucent">#40000000</color>
 
 	<!-- percentages of white -->
 	<color name="white">#ffffff</color>
