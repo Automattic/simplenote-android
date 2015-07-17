@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
@@ -7,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.PreferencesFragment;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 
@@ -38,6 +38,8 @@ public class PreferencesActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        String preferencesTag = "tag_preferences";
+        String passcodeTag = "tag_passcode";
         if (savedInstanceState == null) {
             Bundle passcodeArgs = new Bundle();
             passcodeArgs.putBoolean(PasscodePreferenceFragment.KEY_SHOULD_INFLATE, false);
@@ -46,9 +48,13 @@ public class PreferencesActivity extends ActionBarActivity {
 
             mPreferencesFragment = new PreferencesFragment();
             getFragmentManager().beginTransaction()
-                    .add(R.id.preferences_container, mPreferencesFragment)
-                    .add(R.id.preferences_container, mPasscodePreferenceFragment)
+                    .add(R.id.preferences_container, mPreferencesFragment, preferencesTag)
+                    .add(R.id.preferences_container, mPasscodePreferenceFragment, passcodeTag)
                     .commit();
+        } else {
+            FragmentManager fragmentManager = getFragmentManager();
+            mPreferencesFragment = (PreferencesFragment)fragmentManager.findFragmentByTag(preferencesTag);
+            mPasscodePreferenceFragment = (PasscodePreferenceFragment)fragmentManager.findFragmentByTag(passcodeTag);
         }
     }
 
