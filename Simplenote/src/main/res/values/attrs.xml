@@ -41,19 +41,4 @@
 
     <attr name="fabIcon" format="reference" />
     <attr name="fabColor" format="reference" />
-
-    <declare-styleable name="FloatingActionButton">
-        <attr name="fabDrawable" format="integer"/>
-        <attr name="fabBackgroundColor" format="color"/>
-        <attr name="fabShadowRadius" format="float"/>
-        <attr name="fabShadowDx" format="float"/>
-        <attr name="fabShadowDy" format="float"/>
-        <attr name="fabShadowColor" format="integer"/>
-    </declare-styleable>
-
-    <!-- ScrimInsetsFrameLayout -->
-    <declare-styleable name="ScrimInsetsView">
-        <attr name="insetForeground" format="reference|color" />
-    </declare-styleable>
-
 </resources>

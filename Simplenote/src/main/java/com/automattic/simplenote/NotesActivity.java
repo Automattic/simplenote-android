@@ -11,26 +11,25 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
@@ -42,8 +41,6 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.widgets.FloatingActionButton;
-import com.automattic.simplenote.widgets.ScrimInsetsFrameLayout;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.google.android.gms.analytics.HitBuilders;
@@ -62,7 +59,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class NotesActivity extends ActionBarActivity implements
+public class NotesActivity extends AppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 
@@ -73,6 +70,7 @@ public class NotesActivity extends ActionBarActivity implements
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
+    private View mFragmentsContainer;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
     private NoteListFragment mNoteListFragment;
@@ -86,7 +84,7 @@ public class NotesActivity extends ActionBarActivity implements
     // Menu drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private FrameLayout mDrawerFrameLayout;
+    private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
@@ -107,6 +105,8 @@ public class NotesActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
+        mFragmentsContainer = findViewById(R.id.note_fragment_container);
+
         Simplenote currentApp = (Simplenote) getApplication();
         if (mNotesBucket == null) {
             mNotesBucket = currentApp.getNotesBucket();
@@ -125,7 +125,7 @@ public class NotesActivity extends ActionBarActivity implements
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.noteFragmentContainer, mNoteListFragment, TAG_NOTE_LIST);
+            fragmentTransaction.add(R.id.note_fragment_container, mNoteListFragment, TAG_NOTE_LIST);
             fragmentTransaction.commit();
         } else {
             mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
@@ -141,16 +141,18 @@ public class NotesActivity extends ActionBarActivity implements
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
 
-        // Add loading indicator to show when indexing
-        ProgressBar progressBar = (ProgressBar) getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(progressBar);
-        setToolbarProgressVisibility(false);
+            // Add loading indicator to show when indexing
+            ProgressBar progressBar = (ProgressBar) getLayoutInflater().inflate(R.layout.progressbar_toolbar, null);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(progressBar);
+            setToolbarProgressVisibility(false);
+        }
 
-        mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
+        mUndoBarController = new UndoBarController(this);
 
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -261,17 +263,7 @@ public class NotesActivity extends ActionBarActivity implements
     private void configureNavigationDrawer(Toolbar toolbar) {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.capture_insets_frame_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // get primaryColorDark for current theme
-            TypedValue colorId = new TypedValue();
-            if (getTheme().resolveAttribute(R.attr.colorPrimaryDark, colorId, true)) {
-                mDrawerLayout.setStatusBarBackgroundColor(colorId.data);
-            } else {
-                mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.welcome_button_blue));
-            }
-
-        }
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
 
         if (mDrawerList.getHeaderViewsCount() == 0) {
@@ -288,7 +280,7 @@ public class NotesActivity extends ActionBarActivity implements
             }
         });
 
-        mDrawerFrameLayout.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
+        mNavigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
         mDrawerList.setAdapter(mTagsAdapter);
         // Set the list's click listener
@@ -402,7 +394,7 @@ public class NotesActivity extends ActionBarActivity implements
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
             setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mDrawerFrameLayout);
+            mDrawerLayout.closeDrawer(mNavigationView);
 
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
@@ -452,7 +444,7 @@ public class NotesActivity extends ActionBarActivity implements
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         mNoteEditorFragment = new NoteEditorFragment();
-        ft.add(R.id.noteFragmentContainer, mNoteEditorFragment, TAG_NOTE_EDITOR);
+        ft.add(R.id.note_fragment_container, mNoteEditorFragment, TAG_NOTE_EDITOR);
         ft.commitAllowingStateLoss();
         fm.executePendingTransactions();
     }
@@ -646,7 +638,7 @@ public class NotesActivity extends ActionBarActivity implements
                             List<String> deletedNoteIds = new ArrayList<String>();
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                            mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                            mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);
                             mTracker.send(
                                     new HitBuilders.EventBuilder()
                                             .setCategory("note")
@@ -827,7 +819,7 @@ public class NotesActivity extends ActionBarActivity implements
                         List<String> deletedNoteIds = new ArrayList<String>();
                         deletedNoteIds.add(noteId);
                         mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                        mUndoBarController.showUndoBar(false, getString(R.string.note_deleted), null);
+                        mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);
                     }
                 }
                 break;
@@ -841,7 +833,7 @@ public class NotesActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onUndo(Parcelable p) {
+    public void onUndo() {
         if (mUndoBarController == null) return;
 
         List<String> deletedNoteIds = mUndoBarController.getDeletedNoteIds();
@@ -952,7 +944,11 @@ public class NotesActivity extends ActionBarActivity implements
     public void showUndoBarWithNoteIds(List<String> noteIds) {
         if (mUndoBarController != null) {
             mUndoBarController.setDeletedNoteIds(noteIds);
-            mUndoBarController.showUndoBar(false, getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()), null);
+            mUndoBarController.showUndoBar(
+                    mFragmentsContainer,
+                    getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()),
+                    null
+            );
         }
     }
 
