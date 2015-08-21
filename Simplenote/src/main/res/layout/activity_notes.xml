@@ -14,51 +14,41 @@
 
         <include layout="@layout/toolbar" />
 
-        <FrameLayout
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/noteFragmentContainer"
+                android:id="@+id/note_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:showDividers="middle"
                 android:weightSum="10" />
 
-            <com.automattic.simplenote.widgets.FloatingActionButton
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_button"
-                android:layout_width="@dimen/fab_size"
-                android:layout_height="@dimen/fab_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:layout_marginEnd="@dimen/fab_margin"
-                app:fabBackgroundColor="?attr/fabColor"
-                app:fabDrawable="?attr/fabIcon" />
-
-            <LinearLayout
-                android:id="@+id/undobar"
-                style="@style/UndoBar">
-
-                <TextView
-                    android:id="@+id/undobar_message"
-                    style="@style/UndoBarMessage" />
-
-                <Button
-                    android:id="@+id/undobar_button"
-                    style="@style/UndoBarButton" />
-            </LinearLayout>
-        </FrameLayout>
+                android:layout_marginEnd="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"
+                android:src="?attr/fabIcon"
+                app:borderWidth="0dp"
+                app:backgroundTint="?attr/fabColor"
+                app:elevation="6dp"
+                app:pressedTranslationZ="12dp" />
+        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 
-    <com.automattic.simplenote.widgets.ScrimInsetsFrameLayout
-        android:id="@+id/capture_insets_frame_layout"
-        android:layout_width="match_parent"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:insetForeground="#4000">
+        app:headerLayout="@layout/nav_drawer_header">
 
         <LinearLayout
             android:id="@+id/drawer_view"
@@ -82,6 +72,6 @@
             <include layout="@layout/nav_drawer_footer" />
 
         </LinearLayout>
-    </com.automattic.simplenote.widgets.ScrimInsetsFrameLayout>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
