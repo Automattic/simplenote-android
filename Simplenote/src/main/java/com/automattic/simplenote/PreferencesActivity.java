@@ -1,14 +1,20 @@
 package com.automattic.simplenote;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.PreferencesFragment;
+
+import org.wordpress.passcodelock.PasscodePreferenceFragment;
 
 public class PreferencesActivity extends ActionBarActivity {
+
+    private PasscodePreferenceFragment mPasscodePreferenceFragment;
+    private PreferencesFragment mPreferencesFragment;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -32,11 +38,37 @@ public class PreferencesActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        String preferencesTag = "tag_preferences";
+        String passcodeTag = "tag_passcode";
         if (savedInstanceState == null) {
-            PreferencesFragment preferencesFragment = new PreferencesFragment();
+            Bundle passcodeArgs = new Bundle();
+            passcodeArgs.putBoolean(PasscodePreferenceFragment.KEY_SHOULD_INFLATE, false);
+            mPasscodePreferenceFragment = new PasscodePreferenceFragment();
+            mPasscodePreferenceFragment.setArguments(passcodeArgs);
+
+            mPreferencesFragment = new PreferencesFragment();
             getFragmentManager().beginTransaction()
-                    .add(R.id.preferences_container, preferencesFragment)
+                    .add(R.id.preferences_container, mPreferencesFragment, preferencesTag)
+                    .add(R.id.preferences_container, mPasscodePreferenceFragment, passcodeTag)
                     .commit();
+        } else {
+            FragmentManager fragmentManager = getFragmentManager();
+            mPreferencesFragment = (PreferencesFragment)fragmentManager.findFragmentByTag(preferencesTag);
+            mPasscodePreferenceFragment = (PasscodePreferenceFragment)fragmentManager.findFragmentByTag(passcodeTag);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Preference togglePref =
+                mPreferencesFragment.findPreference(getString(R.string.pref_key_passcode_toggle));
+        Preference changePref =
+                mPreferencesFragment.findPreference(getString(R.string.pref_key_change_passcode));
+
+        if (togglePref != null && changePref != null) {
+            mPasscodePreferenceFragment.setPreferences(togglePref, changePref);
         }
     }
 

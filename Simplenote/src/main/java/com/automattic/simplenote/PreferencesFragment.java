@@ -8,7 +8,6 @@ import android.app.Fragment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.android.gms.analytics.HitBuilders;
@@ -16,9 +15,6 @@ import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
-
-import org.wordpress.passcodelock.AppLockManager;
-import org.wordpress.passcodelock.PasscodePreferencesActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,25 +120,8 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
             }
         });
 
-        Preference passcodePref = findPreference("pref_key_passcode");
-        if (!AppLockManager.getInstance().isAppLockFeatureEnabled()) {
-            //Passcode Lock not supported
-            PreferenceGroup rootGroup = (PreferenceGroup) findPreference("pref_key_note_preference");
-            rootGroup.removePreference(passcodePref);
-        } else {
-            passcodePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(getActivity(), PasscodePreferencesActivity.class));
-
-                    return true;
-                }
-            });
-        }
-
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
-
     }
 
     @Override

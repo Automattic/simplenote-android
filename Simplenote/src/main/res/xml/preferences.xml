@@ -4,15 +4,6 @@
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/settings" >
-        <!--<SwitchPreference
-            android:defaultValue="true"
-            android:key="pref_key_show_dates"
-            android:title="@string/show_dates" />-->
-        <!--<SwitchPreference
-            android:defaultValue="true"
-            android:key="pref_key_detect_links"
-            android:title="@string/detect_links" />-->
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"
@@ -38,10 +29,22 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:persistent="false"
+        android:title="@string/passcode_preference_title">
+
         <Preference
-            android:key="pref_key_passcode"
-            android:title="@string/passcode_preference_title" >
-        </Preference>
+            android:key="@string/pref_key_passcode_toggle"
+            android:title="@string/passcode_turn_on"
+            android:persistent="false" />
+
+        <Preference
+            android:key="@string/pref_key_change_passcode"
+            android:title="@string/passcode_change_passcode"
+            android:persistent="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

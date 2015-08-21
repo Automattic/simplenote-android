@@ -20,7 +20,7 @@ dependencies {
     compile "com.simperium.android:simperium:0.6.4"
     compile "com.android.support:appcompat-v7:21.0.+"
     compile "com.google.android.gms:play-services:6.1.+"
-    compile "org.wordpress:android-passcodelock:0.0.6"
+    compile "org.wordpress:passcodelock:1.0.0"
 
     wearApp project(':Wear')
 }
