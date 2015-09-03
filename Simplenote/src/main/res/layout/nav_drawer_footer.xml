@@ -10,29 +10,28 @@
         android:id="@+id/welcome_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:background="@color/simplenote_blue"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp">
 
         <com.automattic.simplenote.widgets.SourceSansTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
+            android:maxWidth="170dp"
             android:text="@string/welcome_signup_prompt"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <com.automattic.simplenote.widgets.SourceSansTextView
             android:id="@+id/welcome_sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="80dp"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:background="@drawable/selectable_background_simplestyle"
             android:clickable="true"
-            android:gravity="end"
             android:text="@string/sign_in"
             android:textColor="@color/white"
             android:textSize="16sp" />
