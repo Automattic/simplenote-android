@@ -80,6 +80,7 @@ public class AniUtils {
 
 		view.animate()
 				.xBy(-view.getWidth())
+				.alpha(0.0f)
 				.setInterpolator(new AnticipateInterpolator())
 				.setListener(new Animator.AnimatorListener() {
 					@Override

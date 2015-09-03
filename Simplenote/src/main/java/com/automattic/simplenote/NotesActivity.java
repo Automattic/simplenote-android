@@ -333,6 +333,7 @@ public class NotesActivity extends AppCompatActivity implements
             mWelcomeView.setVisibility(View.GONE);
         } else {
             mWelcomeView.setVisibility(View.VISIBLE);
+            mWelcomeView.setAlpha(1.0f);
         }
     }
 
@@ -564,7 +565,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
-                mFloatingActionButton.setAlpha(0.0f);
+                mFloatingActionButton.hide();
                 mTracker.send(
                         new HitBuilders.EventBuilder()
                                 .setCategory("note")
@@ -578,7 +579,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                mFloatingActionButton.setAlpha(1.0f);
+                mFloatingActionButton.show();
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
