@@ -2,9 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/mainBackgroundColor"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_small"
-    android:background="?attr/mainBackgroundColor">
+    android:paddingBottom="@dimen/padding_small">
+
+    <LinearLayout
+        android:id="@+id/welcome_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/simplenote_blue"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/welcome_signup_prompt"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:id="@+id/welcome_sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/selectable_background_simplestyle"
+            android:clickable="true"
+            android:gravity="end"
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/welcome_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selectable_background_simplestyle"
+                android:clickable="true"
+                android:src="@drawable/ic_close_white_24dp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -16,12 +63,12 @@
         android:id="@+id/nav_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:background="@drawable/selectable_background_simplestyle">
+        android:paddingRight="@dimen/padding_large">
 
         <ImageView
             android:layout_width="20dp"

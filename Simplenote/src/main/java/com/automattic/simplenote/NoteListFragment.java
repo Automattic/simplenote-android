@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.SpannableString;
@@ -26,13 +24,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -41,8 +37,6 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -70,21 +64,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private LinearLayout mDividerShadow;
 	private int mNumPreviewLines;
     protected String mSearchString;
-    private ViewSwitcher mWelcomeViewSwitcher;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
 
     private int mTitleFontSize;
     private int mPreviewFontSize;
 
-    private Tracker mTracker;
-
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
 	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private static final String TAG_BUTTON_SIGNIN = "sign_in";
-    private static final String TAG_BUTTON_SIGNUP = "sign_up";
 
 	/**
 	 * The fragment's current callback object, which is notified of list item
@@ -165,7 +154,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
+        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
 	}
 
 	/**
@@ -192,15 +181,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
 		setListAdapter(mNotesAdapter);
 	}
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        Simplenote application = (Simplenote) getActivity().getApplication();
-        mTracker = application.getTracker();
-    }
 
     // nbradbury - load values from preferences
 	protected void getPrefs() {
@@ -233,41 +213,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         });
         setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
-        mWelcomeViewSwitcher = (ViewSwitcher)view.findViewById(R.id.welcome_view_switcher);
-
-        TextView welcomeTextView = (TextView)view.findViewById(R.id.welcome_textview);
-        welcomeTextView.setText(Html.fromHtml(getString(R.string.welcome_want_more) + " <u>" + getString(R.string.use_simplenote_account) + "</u> &raquo;"));
-        TextView laterTextView = (TextView)view.findViewById(R.id.welcome_later_textview);
-        laterTextView.setText(Html.fromHtml(getString(R.string.maybe_later) + ", <u>" + getString(R.string.just_try_app) + "</u> &raquo;"));
-
-        TextView signInButton = (TextView)view.findViewById(R.id.welcome_sign_in);
-        signInButton.setTag(TAG_BUTTON_SIGNIN);
-        signInButton.setOnClickListener(signInClickListener);
-        TextView signUpButton = (TextView)view.findViewById(R.id.welcome_sign_up);
-        signUpButton.setTag(TAG_BUTTON_SIGNUP);
-        signUpButton.setOnClickListener(signInClickListener);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
-
-        welcomeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mWelcomeViewSwitcher.showNext();
-            }
-        });
-        laterTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mWelcomeViewSwitcher.showNext();
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
-                editor.apply();
-            }
-        });
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -290,49 +240,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		super.onResume();
         getPrefs();
 
-        setWelcomeViewVisibility();
-
         refreshList();
-
-        if (!PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_APP_TRIAL, false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mWelcomeViewSwitcher.showNext();
-                }
-            }, 100);
-        }
 	}
-
-    public void setWelcomeViewVisibility() {
-        if (mWelcomeViewSwitcher != null && getActivity() != null) {
-            Simplenote currentApp = (Simplenote) getActivity().getApplication();
-            if (currentApp.getSimperium().needsAuthorization()) {
-                int bottomMargin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
-                mlp.setMargins(0, 0, 0, bottomMargin);
-                getListView().getEmptyView().setLayoutParams(mlp);
-                mWelcomeViewSwitcher.setVisibility(View.VISIBLE);
-            } else {
-                mWelcomeViewSwitcher.setVisibility(View.GONE);
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) getListView().getLayoutParams();
-                mlp.setMargins(0, 0, 0, 0);
-                getListView().getEmptyView().setLayoutParams(mlp);
-            }
-        }
-    }
-
-    public void hideWelcomeView() {
-        if (mWelcomeViewSwitcher != null)
-            mWelcomeViewSwitcher.setVisibility(View.GONE);
-    }
-
-    private Button.OnClickListener signInClickListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ((NotesActivity)getActivity()).startLoginActivity(v.getTag().equals(TAG_BUTTON_SIGNIN));
-        }
-    };
 
 	@Override
 	public void onDetach() {
@@ -726,24 +635,31 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private class trashNotesTask extends AsyncTask<Void, Void, Void> {
 
-        List<String> deletedNotesIds = new ArrayList<String>();
+        private List<String> mDeletedNoteIds = new ArrayList<>();
+        private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
+
+        @Override
+        protected void onPreExecute() {
+            if (getListView() != null) {
+                mSelectedRows = getListView().getCheckedItemPositions();
+            }
+        }
 
         @Override
         protected Void doInBackground(Void... args) {
-            SparseBooleanArray selectedRows = getListView().getCheckedItemPositions();
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> deletedNotesList = new ArrayList<>();
-            for (int i = 0; i < selectedRows.size(); i++) {
-                if (selectedRows.valueAt(i)) {
-                    deletedNotesList.add(mNotesAdapter.getItem(selectedRows.keyAt(i)));
+            for (int i = 0; i < mSelectedRows.size(); i++) {
+                if (mSelectedRows.valueAt(i)) {
+                    deletedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
                 }
             }
 
             // Now loop through the notes list and mark them as deleted
             for (Note deletedNote : deletedNotesList) {
-                deletedNotesIds.add(deletedNote.getSimperiumKey());
+                mDeletedNoteIds.add(deletedNote.getSimperiumKey());
                 deletedNote.setDeleted(!deletedNote.isDeleted());
                 deletedNote.setModificationDate(Calendar.getInstance());
                 deletedNote.save();
@@ -756,7 +672,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         protected void onPostExecute(Void aVoid) {
             NotesActivity notesActivity = ((NotesActivity) getActivity());
             if (notesActivity != null)
-                notesActivity.showUndoBarWithNoteIds(deletedNotesIds);
+                notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
 
             refreshList();
         }
