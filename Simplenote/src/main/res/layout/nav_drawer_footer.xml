@@ -10,45 +10,49 @@
         android:id="@+id/welcome_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/simplenote_blue"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="16dp">
 
         <com.automattic.simplenote.widgets.SourceSansTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="170dp"
-            android:text="@string/welcome_signup_prompt"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <com.automattic.simplenote.widgets.SourceSansTextView
-            android:id="@+id/welcome_sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="80dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/selectable_background_simplestyle"
-            android:clickable="true"
-            android:text="@string/sign_in"
+            android:layout_marginBottom="8dp"
+            android:text="@string/backup_notes"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end">
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
 
-            <ImageView
+            <com.automattic.simplenote.widgets.SourceSansTextView
+                android:id="@+id/welcome_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selectable_background_simplestyle"
+                android:clickable="true"
+                android:text="@string/sign_in"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/welcome_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selectable_background_simplestyle"
                 android:clickable="true"
-                android:src="@drawable/ic_close_white_24dp" />
+                android:text="@string/dismiss"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 
@@ -73,6 +77,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
             android:scaleType="center"
             android:src="@drawable/ic_settings_black_24dp"
             android:tint="?attr/noteTitleColor" />
