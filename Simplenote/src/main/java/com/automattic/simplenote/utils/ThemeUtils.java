@@ -55,7 +55,6 @@ public class ThemeUtils {
     public static boolean isLightTheme(Context context) {
         return context == null ||
                 PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT) == THEME_LIGHT;
-
     }
 
     public static boolean themeWasChanged(Intent intent) {
