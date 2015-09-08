@@ -41,7 +41,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/tagListBackgroundSelector"
+        android:background="?attr/listBackgroundSelector"
         android:gravity="center_vertical"
         android:minHeight="@dimen/nav_row_height"
         android:orientation="horizontal"
@@ -55,6 +55,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp"
             android:visibility="gone" />
 
         <com.automattic.simplenote.widgets.SourceSansTextView

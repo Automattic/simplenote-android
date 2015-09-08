@@ -11,7 +11,6 @@
     <attr name="tagChipShadowColor" format="reference|color" />
     <attr name="listDividerDrawable" format="reference" />
     <attr name="listBackgroundSelector" format="reference" />
-    <attr name="tagListBackgroundSelector" format="reference" />
     <attr name="listSearchHighlightForegroundColor" format="reference|color" />
     <attr name="listSearchHighlightBackgroundColor" format="reference|color" />
     <attr name="editorSearchHighlightForegroundColor" format="reference|color" />
