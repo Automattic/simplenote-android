@@ -32,10 +32,13 @@
     <attr name="actionBarIconWeb" format="reference" />
     <attr name="actionBarIconCopy" format="reference" />
     <attr name="actionBarIconShare" format="reference" />
+    <attr name="actionBarIconCabShare" format="reference" />
     <attr name="actionBarIconMap" format="reference" />
     <attr name="actionBarIconEmail" format="reference" />
     <attr name="actionBarIconCall" format="reference" />
     <attr name="actionBarTextColor" format="reference|color" />
+    <attr name="actionModeTextColor" format="reference|color" />
+    <attr name="actionModeBackgroundColor" format="reference|color" />
 
     <attr name="settingsTextColor" format="reference|color" />
 

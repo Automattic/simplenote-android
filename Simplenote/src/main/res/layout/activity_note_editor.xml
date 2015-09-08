@@ -11,5 +11,6 @@
         android:id="@+id/note_editor_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:foreground="@drawable/header_shadow"
         tools:context=".NoteEditorActivity" />
 </LinearLayout>

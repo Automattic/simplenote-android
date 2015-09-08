@@ -7,9 +7,15 @@
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/preferences_container"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:foreground="@drawable/header_shadow">
+
+        <LinearLayout
+            android:id="@+id/preferences_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </FrameLayout>
 </LinearLayout>
