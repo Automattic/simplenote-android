@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
-
-     Copyright (C) 2011 The Android Open Source Project
-     Copyright (C) 2012 readyState Software Ltd
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-  
-          http://www.apache.org/licenses/LICENSE-2.0
-  
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources>
 
     <style name="Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_blue</item>
-        <item name="colorPrimaryDark">@color/welcome_button_blue</item>
+        <item name="colorPrimaryDark">@color/lightgrey</item>
         <item name="colorAccent">@color/simplenote_blue_accent</item>
 
         <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/simplenote_blue_dark</item>
+        <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_white_24dp</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
@@ -37,7 +20,7 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+
         <item name="notePinColor">@color/simplenote_dark_grey</item>
         <item name="noteTitleColor">@color/simplenote_dark_grey</item>
         <item name="notePreviewColor">@color/simplenote_light_grey</item>
@@ -55,20 +38,23 @@
         <item name="pinIconSelector">@drawable/pin_bg_selector</item>
         <item name="navDrawerHeader">@drawable/nav_header</item>
 
-        <item name="actionBarIconInfo">@drawable/ic_info_white_24dp</item>
+        <item name="actionBarIconInfo">@drawable/ic_info_grey_24dp</item>
         <item name="actionBarIconCreate">@drawable/ic_create_white_24dp</item>
-        <item name="actionBarIconSearch">@drawable/ic_search_white_24dp</item>
+        <item name="actionBarIconSearch">@drawable/ic_search_grey_24dp</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
-        <item name="actionBarIconEmptyTrash">@drawable/ab_icon_empty_trash_white</item>
+        <item name="actionBarIconEmptyTrash">@drawable/ab_icon_empty_trash_grey</item>
         <item name="actionBarIconEmail">@drawable/ic_email_white_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_white_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_white_24dp</item>
-        <item name="actionBarIconShare">@drawable/ic_share_white_24dp</item>
+        <item name="actionBarIconShare">@drawable/ic_share_grey_24dp</item>
+        <item name="actionBarIconCabShare">@drawable/ic_share_white_24dp</item>
         <item name="actionBarIconCopy">@drawable/ic_content_copy_white_24dp</item>
         <item name="actionBarIconCall">@drawable/ic_call_white_24dp</item>
-        <item name="actionBarTextColor">@color/white</item>
+        <item name="actionBarTextColor">@color/simplenote_dark_grey</item>
+        <item name="actionModeTextColor">@color/white</item>
+        <item name="actionModeBackgroundColor">@color/simplenote_blue</item>
 
-        <item name="toolbarColor">@color/simplenote_blue</item>
+        <item name="toolbarColor">@color/white</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="settingsTextColor">@color/black</item>
@@ -84,17 +70,16 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
+        <item name="color">@color/simplenote_dark_grey</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="actionMenuTextColor">?attr/noteTitleColor</item>
         <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
     </style>
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">?attr/mainBackgroundColor</item>
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Holo.Light.ProgressBar">
@@ -103,11 +88,6 @@
         <item name="android:minHeight">24dp</item>
         <item name="android:maxHeight">24dp</item>
         <item name="android:indeterminate">true</item>
-    </style>
-
-    <style name="Simplestyle.ActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/simplenote_blue</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
@@ -124,6 +104,20 @@
 
     <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
+    </style>
+
+    <style name="ActionMode.Simplestyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">?attr/actionModeBackgroundColor</item>
+        <item name="titleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Simplestyle.ActionModeSubtitleTextStyle</item>
+    </style>
+
+    <style name="Simplestyle.ActionModeTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">?attr/actionModeTextColor</item>
+    </style>
+
+    <style name="Simplestyle.ActionModeSubtitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/simplenote_blue_accent</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
@@ -148,6 +142,10 @@
     <style name="DropDownTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ShadowVisiblity">
+        <item name="android:visibility">visible</item>
     </style>
 
 </resources>

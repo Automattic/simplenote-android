@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
-
-     Copyright (C) 2011 The Android Open Source Project
-     Copyright (C) 2012 readyState Software Ltd
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-  
-          http://www.apache.org/licenses/LICENSE-2.0
-  
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources>
 
     <style name="Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -26,7 +8,6 @@
         <item name="colorAccent">@color/simplenote_blue</item>
 
         <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/simplenote_dark_selected_row</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
@@ -37,7 +18,6 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/simplenote_dark_bg</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:editTextBackground">@drawable/edit_text_holo</item>
         <item name="notePinColor">@color/simplenote_dark_text</item>
         <item name="noteTitleColor">@color/simplenote_dark_text</item>
         <item name="notePreviewColor">@color/simplenote_dark_text_preview</item>
@@ -64,9 +44,12 @@
         <item name="actionBarIconWeb">@drawable/ic_web_blue_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_blue_24dp</item>
         <item name="actionBarIconShare">@drawable/ic_share_blue_24dp</item>
+        <item name="actionBarIconCabShare">@drawable/ic_share_blue_24dp</item>
         <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>
         <item name="actionBarIconCall">@drawable/ic_call_blue_24dp</item>
         <item name="actionBarTextColor">@color/simplenote_blue</item>
+        <item name="actionModeTextColor">?attr/noteTitleColor</item>
+        <item name="actionModeBackgroundColor">@color/simplenote_dark_selected_row</item>
 
         <item name="toolbarColor">@color/simplenote_toolbar_dark</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>

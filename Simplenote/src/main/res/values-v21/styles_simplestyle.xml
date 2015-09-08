@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShadowVisiblity">
+        <item name="android:visibility">gone</item>
+    </style>
+
+</resources>
