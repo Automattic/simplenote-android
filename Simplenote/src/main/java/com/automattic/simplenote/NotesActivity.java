@@ -21,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -474,6 +475,7 @@ public class NotesActivity extends AppCompatActivity implements
         return mNoteListFragment;
     }
 
+    @SuppressWarnings("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -491,6 +493,14 @@ public class NotesActivity extends AppCompatActivity implements
         if (!TextUtils.isEmpty(searchQuery)) {
             mSearchView.setQuery(searchQuery, false);
             mSearchMenuItem.expandActionView();
+        } else {
+            // Workaround for setting the search placeholder text color
+            String hintHexColor = (ThemeUtils.isLightTheme(this) ?
+                    getString(R.color.simplenote_light_grey) :
+                    getString(R.color.simplenote_dark_text_preview)).replace("ff", "");
+            mSearchView.setQueryHint(Html.fromHtml(String.format("<font color=\"%s\">%s</font>",
+                    hintHexColor,
+                    getString(R.string.search))));
         }
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -40,8 +40,7 @@ public class ThemeUtils {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean(PrefUtils.PREF_THEME_MODIFIED, true);
 
-                    editor.commit();
-
+                    editor.apply();
                 }
             }
         }
@@ -51,6 +50,12 @@ public class ThemeUtils {
             activity.setTheme(R.style.Theme_Simplestyle);
         else
             activity.setTheme(R.style.Theme_Simplestyle_Dark);
+    }
+
+    public static boolean isLightTheme(Context context) {
+        return context == null ||
+                PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT) == THEME_LIGHT;
+
     }
 
     public static boolean themeWasChanged(Intent intent) {

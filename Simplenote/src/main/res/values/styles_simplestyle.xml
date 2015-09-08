@@ -143,9 +143,4 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-    <style name="ShadowVisiblity">
-        <item name="android:visibility">visible</item>
-    </style>
-
 </resources>

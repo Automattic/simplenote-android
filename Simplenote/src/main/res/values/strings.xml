@@ -41,7 +41,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="sort_order">Sort order</string>
-    <string name="search">Search</string>
+    <string name="search">Search notes</string>
     <string name="notes">All Notes</string>
     <string name="trash">Trash</string>
     <string name="today">Today</string>

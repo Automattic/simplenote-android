@@ -31,7 +31,7 @@
                 android:background="@drawable/selectable_background_simplestyle"
                 android:gravity="center"
                 android:padding="8dp"
-                android:textColor="@color/mediumgrey"
+                android:textColor="?attr/notePreviewColor"
                 android:textSize="20sp" />
         </LinearLayout>
 
