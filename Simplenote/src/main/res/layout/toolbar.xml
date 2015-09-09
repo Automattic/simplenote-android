@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/toolbarColor"
-    android:elevation="4dp"
+    android:elevation="3dp"
     app:contentInsetStart="@dimen/toolbar_title_keyline"
     app:popupTheme="?attr/toolbarPopupTheme"
     app:theme="@style/ToolbarTheme" />

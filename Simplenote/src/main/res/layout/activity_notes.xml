@@ -39,7 +39,7 @@
                 android:src="?attr/fabIcon"
                 app:borderWidth="0dp"
                 app:backgroundTint="?attr/fabColor"
-                app:elevation="6dp"
+                app:elevation="8dp"
                 app:pressedTranslationZ="12dp" />
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
