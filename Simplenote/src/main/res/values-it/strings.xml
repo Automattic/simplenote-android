@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">Rimuovi</string>
 	<string name="note_added">Nota aggiunta</string>
 	<string name="font_size_extra_small">Molto piccolo</string>
 	<string name="font_size_small">Piccolo</string>
 	<string name="font_size_normal">Normale</string>
 	<string name="font_size_large">Grande</string>
 	<string name="font_size_extra_large">Molto grande</string>
-	<string name="noted">Con nota</string>
+	<string name="noted">Nota creata</string>
 	<string name="tags">Tag</string>
 	<string name="edit">Modifica</string>
 	<string name="share_url">Condividi URL</string>
@@ -127,5 +128,4 @@
 	<string name="yesterday">Ieri</string>
 	<string name="undo">Annulla</string>
 	<string name="note_deleted">Nota eliminata.</string>
-	<string name="app_name">Simplenote</string>
 </resources>

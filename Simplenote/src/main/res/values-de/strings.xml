@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">Verwerfen</string>
 	<string name="note_added">Notiz hinzugefügt</string>
 	<string name="font_size_extra_small">Sehr klein</string>
 	<string name="font_size_small">Klein</string>
@@ -36,7 +37,7 @@
 	<string name="why_not_create_one">Warum nicht %1$seine erstellen%2$s?</string>
 	<string name="trash_is_empty">Der Papierkorb ist leer.</string>
 	<string name="no_notes_found">Keine Notizen gefunden.</string>
-	<string name="welcome_note">Willkommen bei Simplenote Android!\nHier findest du Anweisungen.\n\nZum Erstellen einer neuen Notiz tippe auf die Plus-Schaltfläche.\n\nWenn du deine Notizen suchen willst, tippe auf die Suchschaltfläche in der Aktionsleiste und gib Text ein. Simplenote zeigt umgehend die entsprechenden Ergebnisse an.\n\nHast du eine äußerst wichtige Notiz? Drücke die Anheften-Schaltfläche, während eine Notiz angezeigt wird, um diese an den Anfang der Liste zu heften.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nNotizen lassen sich mühelos an andere Android-Apps weitergeben, indem du im Menü auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
+	<string name="welcome_note">Willkommen bei Simplenote Android!\nHier findest du Anweisungen.\n\nZum Erstellen einer neuen Notiz tippe auf die Plus-Schaltfläche.\n\nWenn du deine Notizen durchsuchen willst, tippe auf die Suchschaltfläche in der Aktionsleiste und gib Text ein. Simplenote zeigt umgehend die entsprechenden Ergebnisse an.\n\nHast du eine äußerst wichtige Notiz? Drücke die Anheften-Schaltfläche, während eine Notiz angezeigt wird, um diese an den Anfang der Liste zu heften.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nNotizen lassen sich mühelos an andere Android-Apps weitergeben, indem du im Menü auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
 	<string name="maybe_later">Vielleicht später</string>
 	<string name="just_try_app">App ausprobieren</string>
 	<string name="welcome_want_more">Weitere Funktionen?</string>
@@ -50,7 +51,7 @@
 	<string name="call">Telefon</string>
 	<string name="email">E-Mail</string>
 	<string name="view_map">Karte anzeigen</string>
-	<string name="view_in_browser">In Browser anzeigen</string>
+	<string name="view_in_browser">Im Browser anzeigen</string>
 	<string name="link">Link</string>
 	<string name="link_copied">Link in Zwischenablage kopiert</string>
 	<string name="copy">Kopieren</string>
@@ -80,13 +81,13 @@
 	<string name="ok">OK</string>
 	<string name="no_account">Du hast noch kein Konto?</string>
 	<string name="have_account">Du hast bereits ein Konto?</string>
-	<string name="app_description">Das preisgekrönte Simplenote ist jetzt auch für Android verfügbar. Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden. Deine Notizen werden auf allen deinen Geräten kostenlos synchronisiert.\n\n        Bei Simplenote werden Schnelligkeit und Effizienz großgeschrieben. Einfach aufrufen, Gedanken notieren – fertig. Wenn die Zahl der Notizen ansteigt, kannst du sie im Handumdrehen suchen, mit Schlagwörtern versehen und anheften.\n\n        Simplenote lernt man am besten durch Ausprobieren kennen. Wenn du erst einmal damit vertraut bist, kannst du es von simplenote.com auf andere Geräte herunterladen und hast überall Zugriff auf deine Notizen.</string>
+	<string name="app_description">Das preisgekrönte Simplenote ist jetzt auch für Android verfügbar. Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden. Deine Notizen werden auf allen deinen Geräten kostenlos synchronisiert.\n\n        Bei Simplenote werden Schnelligkeit und Effizienz großgeschrieben. Einfach aufrufen, Gedanken notieren – fertig. Wenn die Zahl der Notizen ansteigt, kannst du sie im Handumdrehen durchsuchen, mit Schlagwörtern versehen und anheften.\n\n        Simplenote lernt man am besten durch Ausprobieren kennen. Wenn du erst einmal damit vertraut bist, kannst du es von simplenote.com auf andere Geräte herunterladen und hast überall Zugriff auf deine Notizen.</string>
 	<string name="app_description_short">Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden.</string>
 	<string name="rename_tag">Schlagwort umbenennen</string>
 	<string name="note_pinned">Notiz angeheftet.</string>
-	<string name="condensed_note_list">Komprimierte Notizenliste</string>
-	<string name="open_drawer">Schublade öffnen</string>
-	<string name="close_drawer">Schublade schließen</string>
+	<string name="condensed_note_list">Notizenliste Kurzfassung</string>
+	<string name="open_drawer">Menübereich öffen</string>
+	<string name="close_drawer">Menübereich schließen </string>
 	<string name="delete">In Papierkorb verschieben</string>
 	<string name="new_note">Neue Notiz</string>
 	<string name="sign_in">Anmelden</string>

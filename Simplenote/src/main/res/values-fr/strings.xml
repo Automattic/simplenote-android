@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">Fermer</string>
 	<string name="note_added">Note ajoutée</string>
-	<string name="font_size_extra_small">Très petit</string>
+	<string name="font_size_extra_small">Très petite</string>
 	<string name="font_size_small">Petit</string>
 	<string name="font_size_normal">Normal</string>
 	<string name="font_size_large">Grand</string>
@@ -127,5 +128,4 @@
 	<string name="yesterday">Hier</string>
 	<string name="undo">Défaire</string>
 	<string name="note_deleted">Note placée dans la corbeille</string>
-	<string name="app_name">Simplenote</string>
 </resources>

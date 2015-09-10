@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">關閉</string>
 	<string name="note_added">已新增筆記</string>
 	<string name="font_size_extra_small">超小</string>
 	<string name="font_size_small">小</string>

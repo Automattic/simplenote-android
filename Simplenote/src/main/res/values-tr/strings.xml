@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">Gizle</string>
 	<string name="note_added">Not eklendi</string>
 	<string name="font_size_extra_small">Çok küçük</string>
 	<string name="font_size_small">Küçük</string>

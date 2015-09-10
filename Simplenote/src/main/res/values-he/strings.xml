@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">סגור</string>
 	<string name="note_added">הפתק נוסף</string>
 	<string name="font_size_extra_small">קטן מאוד</string>
 	<string name="font_size_small">קטן</string>
@@ -127,5 +128,4 @@
 	<string name="yesterday">אתמול</string>
 	<string name="undo">ביטול</string>
 	<string name="note_deleted">הפתק הועבר לאשפה.</string>
-	<string name="app_name">Simplenote</string>
 </resources>
