@@ -6,6 +6,9 @@ package com.automattic.simplenote.utils;
  */
 
 import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -112,5 +115,13 @@ public class StrUtils {
 		
 		// http://stackoverflow.com/a/7389663/1673548
 		return Html.fromHtml(html).toString().trim();
+	}
+
+	public static Spanned setTextToUpperCaseAndBold(String originalString) {
+		if (TextUtils.isEmpty(originalString)) {
+			return Html.fromHtml("");
+		}
+
+		return Html.fromHtml("<strong>" + originalString.toUpperCase() + "</strong>");
 	}
 }
