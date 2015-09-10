@@ -31,12 +31,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AniUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
@@ -72,6 +75,7 @@ public class NotesActivity extends AppCompatActivity implements
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private View mFragmentsContainer;
+    private View mWelcomeView;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
     private NoteListFragment mNoteListFragment;
@@ -89,7 +93,6 @@ public class NotesActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
-    private CharSequence mActionBarTitle;
 
     // Google Analytics tracker
     private Tracker mTracker;
@@ -186,8 +189,9 @@ public class NotesActivity extends AppCompatActivity implements
         super.onResume();
 
         // Ensure user has valid authorization
-        if (userAuthenticationIsInvalid())
+        if (userAuthenticationIsInvalid()) {
             startLoginActivity(true);
+        }
 
         mNotesBucket.start();
         mTagsBucket.start();
@@ -197,6 +201,7 @@ public class NotesActivity extends AppCompatActivity implements
         mNotesBucket.addOnDeleteObjectListener(this);
         mTagsBucket.addListener(mTagsMenuUpdater);
 
+        setWelcomeViewVisibility();
         updateNavigationDrawerItems();
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
@@ -205,12 +210,6 @@ public class NotesActivity extends AppCompatActivity implements
                 mSelectedTag = null;
                 mDrawerList.setSelection(TagsAdapter.DEFAULT_ITEM_POSITION);
             }
-
-            if (mFloatingActionButton != null) {
-                mFloatingActionButton.setVisibility(View.GONE);
-            }
-        } else if (mFloatingActionButton != null) {
-            mFloatingActionButton.setVisibility(View.VISIBLE);
         }
 
         setSelectedTagActive();
@@ -234,8 +233,11 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        mActionBarTitle = (title != null) ? title : "";
-        setTitleWithCustomFont(mActionBarTitle);
+        if (title == null) {
+            title = "";
+        }
+
+        setTitleWithCustomFont(title);
     }
 
     @Override
@@ -248,6 +250,8 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void setTitleWithCustomFont(CharSequence title) {
+        if (getSupportActionBar() == null) return;
+
         // LG devices running 4.1 can't handle a custom font in the action bar title
         if ((!TextUtils.isEmpty(Build.BRAND) && Build.BRAND.toLowerCase().contains("lge"))
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
@@ -256,8 +260,7 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         SpannableString s = new SpannableString(title);
-        s.setSpan(new TypefaceSpan(this), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
     }
 
@@ -266,6 +269,26 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        
+        // Configure welcome view in the nav drawer
+        mWelcomeView = mDrawerLayout.findViewById(R.id.welcome_view);
+        TextView welcomeSignInButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
+        welcomeSignInButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.sign_in)));
+        welcomeSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startLoginActivity(true);
+            }
+        });
+        
+        TextView welcomeCloseButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_close);
+        welcomeCloseButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.dismiss)));
+                welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeWelcomeView();
+                    }
+                });
 
         if (mDrawerList.getHeaderViewsCount() == 0) {
             View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
@@ -302,6 +325,29 @@ public class NotesActivity extends AppCompatActivity implements
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void setWelcomeViewVisibility() {
+        if (mWelcomeView == null) return;
+        // Hide welcome view if user is signed in or closed the welcome view
+        if (userIsAuthorized() || PrefUtils.getBoolPref(this, PrefUtils.PREF_APP_TRIAL)) {
+            mWelcomeView.setVisibility(View.GONE);
+        } else {
+            mWelcomeView.setVisibility(View.VISIBLE);
+            mWelcomeView.setAlpha(1.0f);
+        }
+    }
+
+    private void removeWelcomeView() {
+        if (mWelcomeView == null) return;
+
+        AniUtils.swipeOutToLeft(mWelcomeView);
+
+        // Set preference so the welcome view never shows again
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
+        editor.apply();
     }
 
     private void checkForFirstLaunch() {
@@ -467,6 +513,11 @@ public class NotesActivity extends AppCompatActivity implements
         return currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
     }
 
+    private boolean userIsAuthorized() {
+        Simplenote app = (Simplenote) getApplication();
+        return !app.getSimperium().needsAuthorization();
+    }
+
     public void setCurrentNote(Note note) {
         mCurrentNote = note;
     }
@@ -524,8 +575,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
-                getNoteListFragment().hideWelcomeView();
-                mFloatingActionButton.setAlpha(0.0f);
+                mFloatingActionButton.hide();
                 mTracker.send(
                         new HitBuilders.EventBuilder()
                                 .setCategory("note")
@@ -539,12 +589,11 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                mFloatingActionButton.setAlpha(1.0f);
+                mFloatingActionButton.show();
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
                 getNoteListFragment().clearSearch();
-                getNoteListFragment().setWelcomeViewVisibility();
                 return true;
             }
         });
@@ -557,8 +606,6 @@ public class NotesActivity extends AppCompatActivity implements
                 return false;
             }
         });
-
-        menu.findItem(R.id.menu_create_note).setVisible(userIsUnauthorized());
 
         MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
         if (mCurrentNote != null && mCurrentNote.isDeleted())
@@ -612,16 +659,6 @@ public class NotesActivity extends AppCompatActivity implements
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_create_note:
-                getNoteListFragment().addNote();
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("action_bar_button")
-                                .build()
-                );
-                return true;
             case R.id.menu_share:
                 if (mCurrentNote != null) {
                     Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -645,7 +682,7 @@ public class NotesActivity extends AppCompatActivity implements
                         mCurrentNote.save();
 
                         if (mCurrentNote.isDeleted()) {
-                            List<String> deletedNoteIds = new ArrayList<String>();
+                            List<String> deletedNoteIds = new ArrayList<>();
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                             mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);
@@ -793,7 +830,9 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void setToolbarProgressVisibility(boolean isVisible) {
-        getSupportActionBar().setDisplayShowCustomEnabled(isVisible);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowCustomEnabled(isVisible);
+        }
     }
 
     public void startLoginActivity(boolean signInFirst) {
@@ -826,7 +865,7 @@ public class NotesActivity extends AppCompatActivity implements
                 if (resultCode == RESULT_OK && data != null && data.hasExtra(Simplenote.DELETED_NOTE_ID)) {
                     String noteId = data.getStringExtra(Simplenote.DELETED_NOTE_ID);
                     if (noteId != null) {
-                        List<String> deletedNoteIds = new ArrayList<String>();
+                        List<String> deletedNoteIds = new ArrayList<>();
                         deletedNoteIds.add(noteId);
                         mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                         mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);

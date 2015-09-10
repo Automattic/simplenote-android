@@ -1,48 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="6.5"
     android:orientation="vertical">
 
-    <FrameLayout
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:divider="?attr/listDividerDrawable"
+        android:dividerHeight="1px" />
+
+    <LinearLayout
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:id="@+id/empty_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selectable_background_simplestyle"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/notePreviewColor"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider_shadow"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:divider="?attr/listDividerDrawable"
-            android:dividerHeight="1px" />
-
-        <LinearLayout
-            android:id="@android:id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <com.automattic.simplenote.widgets.SourceSansTextView
-                android:id="@+id/empty_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/selectable_background_simplestyle"
-                android:gravity="center"
-                android:padding="8dp"
-                android:textColor="?attr/notePreviewColor"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <include layout="@layout/welcome_view_switcher" />
-
-        <LinearLayout
-            android:id="@+id/divider_shadow"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/right_shadow"
-            android:orientation="vertical"
-            android:visibility="gone" />
-    </FrameLayout>
-</LinearLayout>
+        android:background="@drawable/right_shadow"
+        android:orientation="vertical"
+        android:visibility="gone" />
+</FrameLayout>

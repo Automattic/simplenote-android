@@ -2,9 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/mainBackgroundColor"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_small"
-    android:background="?attr/mainBackgroundColor">
+    android:paddingBottom="@dimen/padding_small">
+
+    <LinearLayout
+        android:id="@+id/welcome_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/simplenote_blue"
+        android:padding="16dp">
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/backup_notes"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <com.automattic.simplenote.widgets.SourceSansTextView
+                android:id="@+id/welcome_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selectable_background_simplestyle"
+                android:clickable="true"
+                android:text="@string/sign_in"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <com.automattic.simplenote.widgets.SourceSansTextView
+                android:id="@+id/welcome_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selectable_background_simplestyle"
+                android:clickable="true"
+                android:text="@string/dismiss"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -16,17 +66,18 @@
         android:id="@+id/nav_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:background="@drawable/selectable_background_simplestyle">
+        android:paddingRight="@dimen/padding_large">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
             android:scaleType="center"
             android:src="@drawable/ic_settings_black_24dp"
             android:tint="?attr/noteTitleColor" />
