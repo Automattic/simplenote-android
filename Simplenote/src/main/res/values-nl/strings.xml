@@ -128,7 +128,5 @@
 	<string name="yesterday">Gisteren</string>
 	<string name="undo">Ongedaan maken</string>
 	<string name="note_deleted">Notitie in prullenbak.</string>
-	<string name="app_name">Simplenote</string>
-	<string name="app_launcher_name">@string/app_name</string>
 	<string name="content_description_copy_button">Knop Kopiëren</string>
 </resources>
