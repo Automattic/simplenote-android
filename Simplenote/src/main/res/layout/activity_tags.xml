@@ -10,5 +10,6 @@
     <FrameLayout
         android:id="@+id/tags_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:foreground="@drawable/header_shadow" />
 </LinearLayout>

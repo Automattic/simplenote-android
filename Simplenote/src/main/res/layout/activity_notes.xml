@@ -19,12 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/note_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:showDividers="middle"
+                android:foreground="@drawable/header_shadow"
                 android:weightSum="10" />
 
             <android.support.design.widget.FloatingActionButton
@@ -38,7 +39,7 @@
                 android:src="?attr/fabIcon"
                 app:borderWidth="0dp"
                 app:backgroundTint="?attr/fabColor"
-                app:elevation="6dp"
+                app:elevation="8dp"
                 app:pressedTranslationZ="12dp" />
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>

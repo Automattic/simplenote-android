@@ -41,7 +41,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="sort_order">Sort order</string>
-    <string name="search">Search</string>
+    <string name="search">Search notes</string>
     <string name="notes">All Notes</string>
     <string name="trash">Trash</string>
     <string name="today">Today</string>
@@ -68,6 +68,7 @@
     <string name="new_note_list">New note…</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
+    <string name="dismiss">Dismiss</string>
 
     <!-- Sorting Options -->
     <string name="sort_newest_modified">Newest modified date</string>

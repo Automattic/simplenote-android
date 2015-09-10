@@ -5,10 +5,12 @@ package com.automattic.simplenote.utils;
  *  added 01-Apr-2013 by Nick Bradbury
  */
 
+import android.animation.Animator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.animation.AnticipateInterpolator;
 import android.widget.TextView;
 
 public class AniUtils {
@@ -17,10 +19,10 @@ public class AniUtils {
     }
 	
 	// fades in the passed view
-	public final static void fadeIn(final View target) {
+	public static void fadeIn(final View target) {
 		fadeIn(target, null);
 	}
-    public final static void fadeIn(final View target, AnimationListener listener) {
+    public static void fadeIn(final View target, AnimationListener listener) {
     	if (target==null)
     		return;
     	
@@ -34,10 +36,10 @@ public class AniUtils {
     }
     
     // fades out the passed view
-    public final static void fadeOut(final View target, int endVisibility) {
+    public static void fadeOut(final View target, int endVisibility) {
     	fadeOut(target, endVisibility, null);
     }
-    public final static void fadeOut(final View target, int endVisibility, AnimationListener listener) {
+    public static void fadeOut(final View target, int endVisibility, AnimationListener listener) {
     	if (target==null)
     		return;
 
@@ -51,7 +53,7 @@ public class AniUtils {
     }
     
     // fade out the passed text view, then replace its text and fade it back in
-    public final static void fadeTextOutIn(final TextView textView, final String newText) {
+    public static void fadeTextOutIn(final TextView textView, final String newText) {
     	if (textView==null)
     		return;
     	
@@ -71,4 +73,30 @@ public class AniUtils {
     	animationOut.setAnimationListener(outListener);
     	textView.startAnimation(animationOut);
     }
+
+	// Animates the view off-screen to the left
+	public static void swipeOutToLeft(final View view) {
+		if (view == null) return;
+
+		view.animate()
+				.xBy(-view.getWidth())
+				.alpha(0.0f)
+				.setInterpolator(new AnticipateInterpolator())
+				.setListener(new Animator.AnimatorListener() {
+					@Override
+					public void onAnimationStart(Animator animation) { }
+
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						view.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onAnimationCancel(Animator animation) { }
+
+					@Override
+					public void onAnimationRepeat(Animator animation) { }
+				})
+				.start();
+	}
 }

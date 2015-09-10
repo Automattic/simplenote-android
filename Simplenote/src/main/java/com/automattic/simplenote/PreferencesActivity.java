@@ -3,7 +3,7 @@ package com.automattic.simplenote;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -11,7 +11,7 @@ import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 
-public class PreferencesActivity extends ActionBarActivity {
+public class PreferencesActivity extends AppCompatActivity {
 
     private PasscodePreferenceFragment mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;

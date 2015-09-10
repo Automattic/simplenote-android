@@ -9,4 +9,5 @@
     -->
     <item name="activity_note_list" type="layout">@layout/activity_notes</item>
     <bool name="has_two_panes">false</bool>
+    <item name="header_shadow" type="drawable">@drawable/bottom_shadow</item>
 </resources>

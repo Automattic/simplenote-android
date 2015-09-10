@@ -2,14 +2,14 @@ package com.automattic.simplenote;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.AppLockManager;
 
-public class NoteEditorActivity extends ActionBarActivity {
+public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,9 @@ public class NoteEditorActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         NoteEditorFragment noteEditorFragment;
         if (savedInstanceState == null) {
