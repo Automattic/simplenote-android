@@ -53,6 +53,11 @@
         <item name="actionModeTextColor">@color/white</item>
         <item name="actionModeBackgroundColor">@color/simplenote_blue</item>
 
+        <item name="android:actionModeCutDrawable">@drawable/ic_content_cut_white_24dp</item>
+        <item name="android:actionModeCopyDrawable">@drawable/ic_content_copy_white_24dp</item>
+        <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
+        <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
+
         <item name="toolbarColor">@color/white</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
@@ -72,7 +77,7 @@
         <item name="color">@color/simplenote_dark_grey</item>
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
         <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
     </style>
