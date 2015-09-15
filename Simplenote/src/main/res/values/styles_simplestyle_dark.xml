@@ -47,7 +47,7 @@
         <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>
         <item name="actionBarIconCall">@drawable/ic_call_blue_24dp</item>
         <item name="actionBarTextColor">@color/simplenote_blue</item>
-        <item name="actionModeTextColor">?attr/noteTitleColor</item>
+        <item name="actionModeTextColor">@color/simplenote_blue</item>
         <item name="actionModeBackgroundColor">@color/simplenote_dark_selected_row</item>
 
         <item name="toolbarColor">@color/simplenote_toolbar_dark</item>
