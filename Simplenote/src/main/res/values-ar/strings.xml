@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">تجاهل</string>
 	<string name="note_added">تمت إضافة ملاحظة</string>
 	<string name="font_size_extra_small">صغير جدًا</string>
 	<string name="font_size_small">صغير</string>
@@ -59,6 +60,7 @@
 	<string name="username_password_required">يُرجى إكمال كل الحقول قبل الإرسال.</string>
 	<string name="invalid_email_title">البريد الإلكتروني غير صالح</string>
 	<string name="invalid_email_message">عنوان البريد الإلكتروني الخاص بك غير صالح.</string>
+	<string name="invalid_password_title">كلمة المرور غير صالحة</string>
 	<string name="invalid_password_message">يجب أن تحتوي كلمة المرور على 4 حروف على الأقل.</string>
 	<string name="passwords_do_not_match_message">كلمتا المرور غير متطابقتين.</string>
 	<string name="email_hint">عنوان البريد الإلكتروني</string>

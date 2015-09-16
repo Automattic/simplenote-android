@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="dismiss">무시</string>
 	<string name="note_added">메모가 추가됨</string>
 	<string name="font_size_extra_small">더 작게</string>
 	<string name="font_size_small">작게</string>
@@ -127,5 +128,4 @@
 	<string name="yesterday">어제</string>
 	<string name="undo">실행 취소</string>
 	<string name="note_deleted">메모가 삭제되었습니다.</string>
-	<string name="app_name">Simplenote</string>
 </resources>

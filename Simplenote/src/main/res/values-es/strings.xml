@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="note_added">Nota Agregada</string>
-	<string name="font_size_extra_small">Extra Pequeño</string>
+	<string name="dismiss">Descartar </string>
+	<string name="note_added">Se ha añadido una nota</string>
+	<string name="font_size_extra_small">Muy pequeño</string>
 	<string name="font_size_small">Pequeño</string>
 	<string name="font_size_normal">Normal</string>
 	<string name="font_size_large">Grande</string>
-	<string name="font_size_extra_large">Extra Grande</string>
+	<string name="font_size_extra_large">Muy grande</string>
 	<string name="noted">Anotado</string>
 	<string name="tags">Etiquetas</string>
 	<string name="edit">Editar</string>
-	<string name="share_url">Compartir Url</string>
-	<string name="note_info">Informacion</string>
+	<string name="share_url">Compartir URL</string>
+	<string name="note_info">Información</string>
 	<string name="version">Versión</string>
 	<string name="publish">Publicar</string>
 	<string name="published">Publicado</string>
@@ -36,7 +37,7 @@
 	<string name="why_not_create_one">¿Por qué no %1$screar una%2$s?</string>
 	<string name="trash_is_empty">La papelera está vacia.</string>
 	<string name="no_notes_found">No se encontraron notas.</string>
-	<string name="welcome_note">¡Bienvenido a Simplenote Android!\nAbre esta nota para instrucciones.\n\nPara crear una nueva nota, pulsa el botón +.\n\nPara buscar tus notas, pulsa el botón the búsqueda en la barra de navegación e introduce algún texto. Simplenote te mostrará los resultados al instante.\n\n¿Tienes una nota importante? Pulsa el boton redondo para destacar la nota y fijarla al principio de la lista.\n\nUsa etiquetas para organizar tus notas. También puedes añadir una dirección de correo como etiqueta para compartir una nota con alguien.\n\nComparte notas fácilmente con otras aplicaciones pulsando \'Compartir\' en el menu.\n\nLas notas borradas van a la papelera. Puedes restaurarlas si quieres, o vaciar la papelera para borrarlas definitivamente.\n\nPuedes acceder a tus notas en la web y otros dispositivos. Visita http://simplenote.com para empezar.\n\nEsperamos que disfrutes de Simplenote.</string>
+	<string name="welcome_note">¡Bienvenido a Simplenote Android!\nAbre esta nota para instrucciones.\n\nPara crear una nueva nota, pulsa el lápiz.\n\nPara buscar tus notas, pulsa el botón the búsqueda en la barra de navegación e introduce algún texto. Simplenote te mostrará los resultados al instante.\n\n¿Tienes una nota importante? Pulsa el boton redondo para destacar la nota y fijarla al principio de la lista.\n\nUsa etiquetas para organizar tus notas. También puedes añadir una dirección de correo como etiqueta para compartir una nota con alguien.\n\nComparte notas fácilmente con otras aplicaciones pulsando \'Compartir\' en el menu.\n\nLas notas borradas van a la papelera. Puedes restaurarlas si quieres, o vaciar la papelera para borrarlas definitivamente.\n\nPuedes acceder a tus notas en la web y otros dispositivos. Visita http://simplenote.com para empezar.\n\nEsperamos que disfrutes de Simplenote.</string>
 	<string name="maybe_later">Quizá más tarde</string>
 	<string name="just_try_app">prueba la aplicación</string>
 	<string name="welcome_want_more">¿Quieres más?</string>
@@ -52,7 +53,7 @@
 	<string name="view_map">Ver mapa</string>
 	<string name="view_in_browser">Ver en navegador</string>
 	<string name="link">Enlace</string>
-	<string name="link_copied"></string>
+	<string name="link_copied">Enlace copiado al portapapeles</string>
 	<string name="copy">Copiar</string>
 	<string name="required_fields">Campos requeridos</string>
 	<string name="required_field">Campo requerido</string>
@@ -102,7 +103,7 @@
 	<string name="undelete">Restaurar nota</string>
 	<string name="account">Cuenta</string>
 	<string name="sign_out">Cerrar sesión</string>
-	<string name="font_size">Tamaño de Fuente</string>
+	<string name="font_size">Tamaño de la fuente</string>
 	<string name="preview_lines">Previsualizar líneas</string>
 	<string name="share_note">Compartir nota</string>
 	<string name="words">Palabras</string>
@@ -127,5 +128,4 @@
 	<string name="yesterday">Ayer</string>
 	<string name="undo">Deshacer</string>
 	<string name="note_deleted">Nota movida a la papelera.</string>
-	<string name="app_name">Simplenote</string>
 </resources>
