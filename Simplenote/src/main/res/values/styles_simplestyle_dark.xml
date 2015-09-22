@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/simplenote_blue</item>
 
         <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
