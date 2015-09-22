@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/padding_large"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
         android:src="?attr/fabIcon"
