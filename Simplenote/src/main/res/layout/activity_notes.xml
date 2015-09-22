@@ -14,34 +14,14 @@
 
         <include layout="@layout/toolbar" />
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinator"
+        <LinearLayout
+            android:id="@+id/note_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/note_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:showDividers="middle"
-                android:foreground="@drawable/header_shadow"
-                android:weightSum="10" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"
-                android:src="?attr/fabIcon"
-                app:borderWidth="0dp"
-                app:backgroundTint="?attr/fabColor"
-                app:elevation="8dp"
-                app:pressedTranslationZ="12dp" />
-        </android.support.design.widget.CoordinatorLayout>
+            android:layout_height="match_parent"
+            android:foreground="@drawable/header_shadow"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:weightSum="10" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

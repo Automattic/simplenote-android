@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -37,6 +38,7 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.google.android.gms.analytics.HitBuilders;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -60,8 +62,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ActionMode mActionMode;
 
 	protected NotesCursorAdapter mNotesAdapter;
+
+    private View mRootView;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
+    private FloatingActionButton mFloatingActionButton;
 	private int mNumPreviewLines;
     protected String mSearchString;
     private String mSelectedNoteId;
@@ -202,6 +207,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NotesActivity notesActivity = (NotesActivity)getActivity();
 
+        mRootView = view.findViewById(R.id.list_root);
+
         LinearLayout emptyView = (LinearLayout)view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
         mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
@@ -218,6 +225,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
+
+        mFloatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_button);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAdded()) return;
+
+                addNote();
+                ((Simplenote)getActivity().getApplication()).getTracker().send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory("note")
+                                .setAction("create_note")
+                                .setLabel("action_bar_button")
+                                .build()
+                );
+            }
+        });
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -294,6 +318,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
+    public View getRootView() {
+        return mRootView;
+    }
+
 	/**
 	 * Turns on activate-on-click mode. When this mode is on, list items will be
 	 * given the 'activated' state when touched.
@@ -321,6 +349,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mDividerShadow.setVisibility(View.VISIBLE);
         else
             mDividerShadow.setVisibility(View.GONE);
+    }
+
+    public void setFloatingActionButtonVisible(boolean visible) {
+        if (mFloatingActionButton == null) return;
+
+        if (visible) {
+            mFloatingActionButton.show();
+        } else {
+            mFloatingActionButton.hide();
+        }
     }
 
 	public void refreshList() {

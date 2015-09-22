@@ -12,14 +12,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -31,9 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -45,8 +43,8 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.automattic.simplenote.utils.UndoBarController;
+import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
@@ -84,7 +82,6 @@ public class NotesActivity extends AppCompatActivity implements
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
     private MenuItem mEmptyTrashMenuItem;
-    private FloatingActionButton mFloatingActionButton;
 
     // Menu drawer
     private DrawerLayout mDrawerLayout;
@@ -157,23 +154,6 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         mUndoBarController = new UndoBarController(this);
-
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab_button);
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getNoteListFragment() != null) {
-                    getNoteListFragment().addNote();
-                    mTracker.send(
-                            new HitBuilders.EventBuilder()
-                                    .setCategory("note")
-                                    .setAction("create_note")
-                                    .setLabel("action_bar_button")
-                                    .build()
-                    );
-                }
-            }
-        });
 
         // Creates 'Welcome' note
         checkForFirstLaunch();
@@ -575,7 +555,9 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
-                mFloatingActionButton.hide();
+                if (mNoteListFragment != null) {
+                    mNoteListFragment.setFloatingActionButtonVisible(false);
+                }
                 mTracker.send(
                         new HitBuilders.EventBuilder()
                                 .setCategory("note")
@@ -589,7 +571,9 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 // Show all notes again
-                mFloatingActionButton.show();
+                if (mNoteListFragment != null) {
+                    mNoteListFragment.setFloatingActionButtonVisible(true);
+                }
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
@@ -685,7 +669,7 @@ public class NotesActivity extends AppCompatActivity implements
                             List<String> deletedNoteIds = new ArrayList<>();
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                            mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);
+                            mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted), null);
                             mTracker.send(
                                     new HitBuilders.EventBuilder()
                                             .setCategory("note")
@@ -868,7 +852,7 @@ public class NotesActivity extends AppCompatActivity implements
                         List<String> deletedNoteIds = new ArrayList<>();
                         deletedNoteIds.add(noteId);
                         mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                        mUndoBarController.showUndoBar(mFragmentsContainer, getString(R.string.note_deleted), null);
+                        mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted), null);
                     }
                 }
                 break;
@@ -990,11 +974,23 @@ public class NotesActivity extends AppCompatActivity implements
         mNotesBucket.removeOnDeleteObjectListener(this);
     }
 
+    // Returns the appropriate view to show the undo bar within
+    private View getUndoView() {
+        View undoView = mFragmentsContainer;
+        if (!DisplayUtils.isLargeScreenLandscape(this) &&
+                getNoteListFragment() != null &&
+                getNoteListFragment().getRootView() != null) {
+            undoView = getNoteListFragment().getRootView();
+        }
+
+        return undoView;
+    }
+
     public void showUndoBarWithNoteIds(List<String> noteIds) {
         if (mUndoBarController != null) {
             mUndoBarController.setDeletedNoteIds(noteIds);
             mUndoBarController.showUndoBar(
-                    mFragmentsContainer,
+                    getUndoView(),
                     getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()),
                     null
             );
