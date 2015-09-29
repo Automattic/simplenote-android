@@ -20,7 +20,7 @@ dependencies {
     compile "com.simperium.android:simperium:0.6.6"
     compile "com.android.support:appcompat-v7:23.0.1"
     compile 'com.android.support:design:23.0.1'
-    compile "com.google.android.gms:play-services:7.8.0"
+    compile "com.google.android.gms:play-services:6.1.+"
     compile "org.wordpress:passcodelock:1.0.0"
 
     wearApp project(':Wear')
@@ -36,7 +36,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 42
+        versionCode 43
         minSdkVersion 15
         targetSdkVersion 23
 
