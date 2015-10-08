@@ -104,24 +104,6 @@ public final class AnalyticsTracker {
         }
     }
 
-    public static void endSession(boolean force) {
-        for (Tracker tracker : TRACKERS) {
-            tracker.endSession();
-        }
-    }
-
-    public static void registerPushNotificationToken(String regId) {
-        for (Tracker tracker : TRACKERS) {
-            tracker.registerPushNotificationToken(regId);
-        }
-    }
-
-    public static void clearAllData() {
-        for (Tracker tracker : TRACKERS) {
-            tracker.clearAllData();
-        }
-    }
-
     public static void refreshMetadata(String username) {
         for (Tracker tracker : TRACKERS) {
             tracker.refreshMetadata(username);
