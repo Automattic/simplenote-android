@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -38,7 +39,6 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.google.android.gms.analytics.HitBuilders;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -233,12 +233,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 if (!isAdded()) return;
 
                 addNote();
-                ((Simplenote)getActivity().getApplication()).getTracker().send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("action_bar_button")
-                                .build()
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "action_bar_button"
                 );
             }
         });

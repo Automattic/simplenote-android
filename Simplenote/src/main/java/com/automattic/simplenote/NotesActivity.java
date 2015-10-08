@@ -35,6 +35,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AniUtils;
@@ -45,8 +46,6 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.widgets.TypefaceSpan;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
@@ -91,9 +90,6 @@ public class NotesActivity extends AppCompatActivity implements
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
 
-    // Google Analytics tracker
-    private Tracker mTracker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // On lollipop, configure the translucent status bar
@@ -116,8 +112,6 @@ public class NotesActivity extends AppCompatActivity implements
         if (mTagsBucket == null) {
             mTagsBucket = currentApp.getTagsBucket();
         }
-
-        mTracker = currentApp.getTracker();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -375,12 +369,10 @@ public class NotesActivity extends AppCompatActivity implements
                 if (!isVoiceShare) {
                     mShouldSelectNewNote = true;
                 }
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("create_note")
-                                .setLabel("external_share")
-                                .build()
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "external_share"
                 );
 
                 if (!DisplayUtils.isLargeScreenLandscape(this)) {
@@ -432,12 +424,10 @@ public class NotesActivity extends AppCompatActivity implements
 
             getNoteListFragment().refreshListFromNavSelect();
             if (position > 1) {
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("tag")
-                                .setAction("viewed_notes_for_tag")
-                                .setLabel("selected_tag_in_navigation_drawer")
-                                .build()
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                        AnalyticsTracker.CATEGORY_TAG,
+                        "selected_tag_in_navigation_drawer"
                 );
             }
         }
@@ -558,12 +548,10 @@ public class NotesActivity extends AppCompatActivity implements
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(false);
                 }
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("note")
-                                .setAction("searched_notes")
-                                .setLabel("action_bar_search_tap")
-                                .build()
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_NOTES_SEARCHED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "action_bar_search_tap"
                 );
                 return true;
             }
@@ -649,12 +637,10 @@ public class NotesActivity extends AppCompatActivity implements
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mCurrentNote.getContent());
                     startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    mTracker.send(
-                            new HitBuilders.EventBuilder()
-                                    .setCategory("note")
-                                    .setAction("shared_note")
-                                    .setLabel("action_bar_share_button")
-                                    .build()
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
+                            AnalyticsTracker.CATEGORY_NOTE,
+                            "action_bar_share_button"
                     );
                 }
                 return true;
@@ -670,20 +656,16 @@ public class NotesActivity extends AppCompatActivity implements
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
                             mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted), null);
-                            mTracker.send(
-                                    new HitBuilders.EventBuilder()
-                                            .setCategory("note")
-                                            .setAction("deleted_note")
-                                            .setLabel("overflow_menu")
-                                            .build()
+                            AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.LIST_NOTE_DELETED,
+                                    AnalyticsTracker.CATEGORY_NOTE,
+                                    "overflow_menu"
                             );
                         } else {
-                            mTracker.send(
-                                    new HitBuilders.EventBuilder()
-                                            .setCategory("note")
-                                            .setAction("restored_note")
-                                            .setLabel("overflow_menu")
-                                            .build()
+                            AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED,
+                                    AnalyticsTracker.CATEGORY_NOTE,
+                                    "overflow_menu"
                             );
                         }
                         showDetailPlaceholder();
@@ -703,12 +685,10 @@ public class NotesActivity extends AppCompatActivity implements
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new emptyTrashTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        mTracker.send(
-                                new HitBuilders.EventBuilder()
-                                        .setCategory("note")
-                                        .setAction("trash_emptied")
-                                        .setLabel("overflow_menu")
-                                        .build()
+                        AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
+                                AnalyticsTracker.CATEGORY_NOTE,
+                                "overflow_menu"
                         );
                     }
                 });
@@ -755,24 +735,20 @@ public class NotesActivity extends AppCompatActivity implements
             invalidateOptionsMenu();
         }
 
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory("note")
-                        .setAction("viewed_note")
-                        .setLabel("note_list_row_tap")
-                        .build()
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.LIST_NOTE_OPENED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "note_list_row_tap"
         );
     }
 
     @Override
     public void onUserCreated(User user) {
         // New account created
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory("user")
-                        .setAction("new_account_created")
-                        .setLabel("account_created_from_login_activity")
-                        .build()
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.USER_ACCOUNT_CREATED,
+                AnalyticsTracker.CATEGORY_USER,
+                "account_created_from_login_activity"
         );
     }
 
@@ -780,12 +756,10 @@ public class NotesActivity extends AppCompatActivity implements
         switch (status) {
             // successfully used access token to connect to simperium bucket
             case AUTHORIZED:
-                mTracker.send(
-                        new HitBuilders.EventBuilder()
-                                .setCategory("user")
-                                .setAction("signed_in")
-                                .setLabel("signed_in_from_login_activity")
-                                .build()
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.USER_SIGNED_IN,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "signed_in_from_login_activity"
                 );
                 runOnUiThread(new Runnable() {
                     @Override
@@ -947,12 +921,10 @@ public class NotesActivity extends AppCompatActivity implements
             getNoteListFragment().setEmptyListViewClickable(false);
         } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
-            mTracker.send(
-                    new HitBuilders.EventBuilder()
-                            .setCategory("user")
-                            .setAction("viewed_trash")
-                            .setLabel("trash_filter_selected")
-                            .build()
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "trash_filter_selected"
             );
             getNoteListFragment().setEmptyListViewClickable(false);
         } else {
