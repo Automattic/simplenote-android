@@ -304,6 +304,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
                     }
                     getActivity().setResult(Activity.RESULT_OK, resultIntent);
+
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
+                            AnalyticsTracker.CATEGORY_NOTE,
+                            "trash_menu_item"
+                    );
                 }
 
                 getActivity().finish();
@@ -371,6 +377,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                     // reset publish status in 20 seconds if we don't hear back from Simperium
                     mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+
+                    AnalyticsTracker.track(
+                            (newPublishedStatus) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
+                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED,
+                            AnalyticsTracker.CATEGORY_NOTE,
+                            "publish_note_button"
+                    );
                 }
             }
         });
@@ -380,6 +393,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             public void onClick(View v) {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mNote.getPublishedUrl())));
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED_URL_PRESSED,
+                            AnalyticsTracker.CATEGORY_NOTE,
+                            "publish_note_url_button"
+                    );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

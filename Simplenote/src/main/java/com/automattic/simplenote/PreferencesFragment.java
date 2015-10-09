@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -95,6 +96,12 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
 
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SETTINGS_THEME_UPDATED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "theme_preference"
+                );
+
                 // update intent to indicate the theme setting was changed
                 getActivity().setIntent(ThemeUtils.makeThemeChangeIntent());
 
@@ -113,12 +120,30 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = sortPreference.getEntries();
                 sortPreference.setSummary(entries[index]);
+
                 return true;
             }
         });
 
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
+
+        SwitchPreference switchPreference = (SwitchPreference)findPreference("pref_key_condensed_note_list");
+        switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((SwitchPreference)preference).isChecked()) {
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "condensed_list_preference"
+                    );
+                }
+
+                return true;
+            }
+        });
+
     }
 
     @Override
