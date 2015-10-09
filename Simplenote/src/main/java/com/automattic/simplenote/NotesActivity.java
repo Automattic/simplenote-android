@@ -756,11 +756,6 @@ public class NotesActivity extends AppCompatActivity implements
         switch (status) {
             // successfully used access token to connect to simperium bucket
             case AUTHORIZED:
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.USER_SIGNED_IN,
-                        AnalyticsTracker.CATEGORY_USER,
-                        "signed_in_from_login_activity"
-                );
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -832,9 +827,20 @@ public class NotesActivity extends AppCompatActivity implements
                 break;
             case Simperium.SIGNUP_SIGNIN_REQUEST:
                 invalidateOptionsMenu();
+
+                Simplenote app = (Simplenote)getApplication();
+                AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.USER_SIGNED_IN,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "signed_in_from_login_activity"
+                );
+
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
                 }
+
                 break;
         }
     }
