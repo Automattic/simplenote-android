@@ -107,7 +107,7 @@ public class AnalyticsTrackerNosara implements AnalyticsTracker.Tracker {
         if (!TextUtils.isEmpty(username)) {
             mUserName = username;
             if (getAnonID() != null) {
-                mNosaraClient.trackAliasUser(mUserName, getAnonID());
+                mNosaraClient.trackAliasUser(mUserName, getAnonID(), TracksClient.NosaraUserType.SIMPLENOTE);
                 clearAnonID();
             }
         } else {
