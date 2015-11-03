@@ -1,10 +1,10 @@
 package com.automattic.simplenote;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -13,8 +13,6 @@ import android.preference.SwitchPreference;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
@@ -67,6 +65,9 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                             AnalyticsTracker.CATEGORY_USER,
                             "preferences_sign_out_button"
                     );
+
+                    // Resets analytics user back to 'anon' type
+                    AnalyticsTracker.refreshMetadata(null);
 
                     getActivity().finish();
                 }
@@ -156,6 +157,10 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                     authenticatePreference.setTitle(R.string.sign_out);
                 }
             });
+
+            Simplenote app = (Simplenote) getActivity().getApplication();
+            AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.USER_SIGNED_IN,
                     AnalyticsTracker.CATEGORY_USER,
