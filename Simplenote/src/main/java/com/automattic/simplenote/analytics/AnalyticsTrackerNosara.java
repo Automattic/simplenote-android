@@ -51,12 +51,6 @@ public class AnalyticsTrackerNosara implements AnalyticsTracker.Tracker {
 
     private String generateNewAnonID() {
         String uuid = UUID.randomUUID().toString();
-        String[] uuidSplitted = uuid.split("-");
-        StringBuilder builder = new StringBuilder();
-        for (String currentPart : uuidSplitted) {
-            builder.append(currentPart);
-        }
-        uuid = builder.toString();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putString(TRACKS_ANON_ID, uuid);
