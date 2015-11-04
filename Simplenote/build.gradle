@@ -46,6 +46,7 @@ android {
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
         buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
         buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\"";
+        buildConfigField "String", "FACEBOOK_APP_ID", "\"${project.facebookAppId}\"";
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
