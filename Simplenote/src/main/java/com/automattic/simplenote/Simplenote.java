@@ -1,6 +1,8 @@
 package com.automattic.simplenote;
 
 import android.app.Application;
+import android.content.ComponentCallbacks2;
+import android.content.res.Configuration;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
@@ -9,8 +11,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
@@ -59,6 +59,9 @@ public class Simplenote extends Application {
             throw new RuntimeException("Could not create bucket", e);
         }
 
+        ApplicationLifecycleMonitor applicationLifecycleMonitor = new ApplicationLifecycleMonitor();
+        registerComponentCallbacks(applicationLifecycleMonitor);
+
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
@@ -74,5 +77,26 @@ public class Simplenote extends Application {
 
     public Bucket<Tag> getTagsBucket() {
         return mTagsBucket;
+    }
+
+    private class ApplicationLifecycleMonitor implements ComponentCallbacks2 {
+
+        @Override
+        public void onTrimMemory(int level) {
+            // Send analytics if app is in the background
+            if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+                AnalyticsTracker.flush();
+            }
+        }
+
+        @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+            // noop
+        }
+
+        @Override
+        public void onLowMemory() {
+            // noop
+        }
     }
 }

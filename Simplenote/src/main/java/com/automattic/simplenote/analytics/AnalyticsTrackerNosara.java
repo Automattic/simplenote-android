@@ -118,4 +118,13 @@ public class AnalyticsTrackerNosara implements AnalyticsTracker.Tracker {
             }
         }
     }
+
+    @Override
+    public void flush() {
+        if (mNosaraClient == null) {
+            return;
+        }
+
+        mNosaraClient.flush();
+    }
 }

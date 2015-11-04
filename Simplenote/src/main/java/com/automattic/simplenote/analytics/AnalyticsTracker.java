@@ -67,6 +67,7 @@ public final class AnalyticsTracker {
         void track(Stat stat, String category, String label);
         void track(Stat stat, String category, String label, Map<String, ?> properties);
         void refreshMetadata(String username);
+        void flush();
     }
 
     private static final List<Tracker> TRACKERS = new ArrayList<>();
@@ -107,6 +108,12 @@ public final class AnalyticsTracker {
     public static void refreshMetadata(String username) {
         for (Tracker tracker : TRACKERS) {
             tracker.refreshMetadata(username);
+        }
+    }
+
+    public static void flush() {
+        for (Tracker tracker : TRACKERS) {
+            tracker.flush();
         }
     }
 }

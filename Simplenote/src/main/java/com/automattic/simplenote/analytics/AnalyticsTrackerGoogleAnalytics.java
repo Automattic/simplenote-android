@@ -122,6 +122,11 @@ public class AnalyticsTrackerGoogleAnalytics implements AnalyticsTracker.Tracker
 
     @Override
     public void refreshMetadata(String username) {
+        // noop
+    }
 
+    @Override
+    public void flush() {
+        // noop
     }
 }
