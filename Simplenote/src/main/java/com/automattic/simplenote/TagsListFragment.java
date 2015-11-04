@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.google.android.gms.analytics.HitBuilders;
@@ -41,8 +42,6 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mTagsBucket;
     private Bucket<Note> mNotesBucket;
     private TagsAdapter mTagsAdapter;
-
-    private Tracker mTracker;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,8 +77,6 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         mTagsAdapter = new TagsAdapter(getActivity().getBaseContext(), null, 0);
         setListAdapter(mTagsAdapter);
         refreshTags();
-
-        mTracker = application.getTracker();
     }
 
     @Override
@@ -128,12 +125,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
                 String value = tagNameEditText.getText().toString().trim();
                 try {
                     tag.renameTo(value, mNotesBucket);
-                    mTracker.send(
-                            new HitBuilders.EventBuilder()
-                                    .setCategory("tag")
-                                    .setAction("edited_tag")
-                                    .setLabel("tag_alert_edit_box")
-                                    .build()
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
+                            AnalyticsTracker.CATEGORY_TAG,
+                            "tag_alert_edit_box"
                     );
                 } catch (BucketObjectNameInvalid e) {
                     android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
@@ -335,12 +330,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         private void deleteTag(Tag tag) {
             tag.delete();
             new removeTagFromNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
-            mTracker.send(
-                    new HitBuilders.EventBuilder()
-                            .setCategory("tag")
-                            .setAction("deleted_tag")
-                            .setLabel("list_trash_button")
-                            .build()
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.TAG_MENU_DELETED,
+                    AnalyticsTracker.CATEGORY_TAG,
+                    "list_trash_button"
             );
         }
 

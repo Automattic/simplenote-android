@@ -1,17 +1,18 @@
 package com.automattic.simplenote;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
+
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
@@ -20,8 +21,6 @@ import com.simperium.client.User;
  * A simple {@link Fragment} subclass.
  */
 public class PreferencesFragment extends PreferenceFragment implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
-
-    private Tracker mTracker;
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -37,7 +36,6 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
         Simplenote currentApp = (Simplenote) getActivity().getApplication();
         currentApp.getSimperium().setUserStatusChangeListener(this);
         currentApp.getSimperium().setOnUserCreatedListener(this);
-        mTracker = currentApp.getTracker();
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (currentApp.getSimperium().needsAuthorization()) {
             authenticatePreference.setTitle(R.string.sign_in);
@@ -62,13 +60,14 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                     application.getTagsBucket().reset();
                     application.getNotesBucket().stop();
                     application.getTagsBucket().stop();
-                    mTracker.send(
-                            new HitBuilders.EventBuilder()
-                                    .setCategory("user")
-                                    .setAction("signed_out")
-                                    .setLabel("preferences_sign_out_button")
-                                    .build()
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.USER_SIGNED_OUT,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "preferences_sign_out_button"
                     );
+
+                    // Resets analytics user back to 'anon' type
+                    AnalyticsTracker.refreshMetadata(null);
 
                     getActivity().finish();
                 }
@@ -98,6 +97,12 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
 
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SETTINGS_THEME_UPDATED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "theme_preference"
+                );
+
                 // update intent to indicate the theme setting was changed
                 getActivity().setIntent(ThemeUtils.makeThemeChangeIntent());
 
@@ -116,12 +121,30 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = sortPreference.getEntries();
                 sortPreference.setSummary(entries[index]);
+
                 return true;
             }
         });
 
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
+
+        SwitchPreference switchPreference = (SwitchPreference)findPreference("pref_key_condensed_note_list");
+        switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((SwitchPreference)preference).isChecked()) {
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "condensed_list_preference"
+                    );
+                }
+
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -134,24 +157,24 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                     authenticatePreference.setTitle(R.string.sign_out);
                 }
             });
-            mTracker.send(
-                    new HitBuilders.EventBuilder()
-                            .setCategory("user")
-                            .setAction("signed_in")
-                            .setLabel("signed_in_from_preferences_activity")
-                            .build()
+
+            Simplenote app = (Simplenote) getActivity().getApplication();
+            AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.USER_SIGNED_IN,
+                    AnalyticsTracker.CATEGORY_USER,
+                    "signed_in_from_preferences_activity"
             );
         }
     }
 
     @Override
     public void onUserCreated(User user) {
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory("user")
-                        .setAction("new_account_created")
-                        .setLabel("account_created_from_preferences_activity")
-                        .build()
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.USER_ACCOUNT_CREATED,
+                AnalyticsTracker.CATEGORY_USER,
+                "account_created_from_preferences_activity"
         );
     }
 }
