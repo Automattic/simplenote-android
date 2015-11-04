@@ -7,6 +7,8 @@ import android.text.TextUtils;
 
 import com.automattic.android.tracks.TracksClient;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -89,7 +91,12 @@ public class AnalyticsTrackerNosara implements AnalyticsTracker.Tracker {
             userType = TracksClient.NosaraUserType.ANON;
         }
 
-        mNosaraClient.track(EVENTS_PREFIX + eventName, user, userType);
+        if (properties != null) {
+            JSONObject propertiesJson = new JSONObject(properties);
+            mNosaraClient.track(EVENTS_PREFIX + eventName, propertiesJson, user, userType);
+        } else {
+            mNosaraClient.track(EVENTS_PREFIX + eventName, user, userType);
+        }
     }
 
     @Override
