@@ -59,11 +59,11 @@ public class FacebookManager {
                 return null;
             }
 
-            String advertiserId = null;
+            String advertiserId;
             try {
                 advertiserId = idInfo.getId();
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                return null;
             }
 
             return advertiserId;
