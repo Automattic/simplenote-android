@@ -7,10 +7,12 @@ import android.content.res.Configuration;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
+import com.automattic.simplenote.analytics.FacebookManager;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
@@ -65,6 +67,15 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
+
+        if (isFirstLaunch()) {
+            FacebookManager.reportInstallIfNecessary(this);
+        }
+    }
+
+    private boolean isFirstLaunch() {
+        // NotesActivity sets this pref to false after first launch
+        return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
     }
 
     public Simperium getSimperium() {
