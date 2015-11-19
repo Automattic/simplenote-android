@@ -17,4 +17,6 @@
 
     <!-- Lollipop requires a margin for the sign out preference, see values-v21/dimens.xml -->
     <dimen name="settings_sign_out_margin">0dp</dimen>
+
+    <dimen name="bottomsheet_default_sheet_width">0dp</dimen>
 </resources>

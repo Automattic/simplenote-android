@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -48,18 +49,24 @@ import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.SpaceTokenizer;
-import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.automattic.simplenote.widgets.bottomsheet.BottomSheetLayout;
+import com.automattic.simplenote.widgets.bottomsheet.OnSheetDismissedListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
 
@@ -67,6 +74,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
+    private static final int MAX_REVISIONS = 30;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
@@ -74,9 +82,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private PopupWindow mInfoPopupWindow;
+    private BottomSheetLayout mBottomSheet;
+
+    private View mHistoryView;
+    private SeekBar mHistorySeekBar;
+
     private ToggleButton mPinButton;
+
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
+
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote;
@@ -89,6 +104,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
+    private ArrayList<Note> mNoteRevisionsList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -167,6 +183,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
+        mBottomSheet = (BottomSheetLayout)rootView.findViewById(R.id.bottomsheet);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -199,8 +216,58 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
+        configureHistoryView();
+
 		return rootView;
 	}
+
+    private void configureHistoryView() {
+        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, mBottomSheet, false);
+        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
+        mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mNoteRevisionsList == null || !mBottomSheet.isSheetShowing()) {
+                    return;
+                }
+
+                if (progress == mNoteRevisionsList.size()) {
+                    mContentEditText.setText(mNote.getContent());
+                } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
+                    Note revisedNote = mNoteRevisionsList.get(progress);
+                    mContentEditText.setText(revisedNote.getContent());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+        });
+
+        View cancelHistoryButton = mHistoryView.findViewById(R.id.cancel_history_button);
+        cancelHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContentEditText.setText(mNote.getContent());
+                mBottomSheet.dismissSheet();
+            }
+        });
+
+        View restoreHistoryButton = mHistoryView.findViewById(R.id.restore_history_button);
+        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheet.dismissSheet();
+                saveAndSyncNote();
+            }
+        });
+    }
 
     @Override
     public void onResume() {
@@ -344,6 +411,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateInfoPopup();
 
         mInfoPopupWindow.showAsDropDown(view);
+
+        // Request revisions for the current note
+        mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mRevisionsRequestCallbacks);
     }
 
     // update the content of the popupview
@@ -360,6 +430,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
         ImageButton publishShareButton = (ImageButton) popupView.findViewById(R.id.publish_share_url);
         View actionsView = popupView.findViewById(R.id.publish_actions);
+        final View historyButton = popupView.findViewById(R.id.history_button);
 
         final ViewSwitcher viewSwitcher = (ViewSwitcher) popupView.findViewById(R.id.publish_view_switcher);
 
@@ -446,6 +517,41 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 viewSwitcher.showPrevious();
             }
         }
+
+        historyButton.setEnabled(mNote.getVersion() > 1);
+        if (historyButton.isEnabled()) {
+            historyButton.setAlpha(1.0f);
+        } else {
+            historyButton.setAlpha(0.5f);
+        }
+
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNote();
+                mBottomSheet.showWithSheetView(mHistoryView, null, new OnSheetDismissedListener() {
+                    @Override
+                    public void onDismissed(BottomSheetLayout bottomSheetLayout, BottomSheetLayout.DismissalType type) {
+                        if (type == BottomSheetLayout.DismissalType.CANCELED) {
+                            mContentEditText.setText(mNote.getContent());
+                        }
+                    }
+                });
+                mBottomSheet.showWithSheetView(mHistoryView);
+                mInfoPopupWindow.dismiss();
+            }
+        });
+    }
+
+    private void updateHistoryProgressBar() {
+        if (mHistorySeekBar == null) return;
+
+        int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
+        mHistorySeekBar.setMax(totalRevs);
+        mHistorySeekBar.setProgress(totalRevs);
+
+        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
+        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
     }
 
     private boolean noteIsEmpty() {
@@ -631,12 +737,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
         AutoBullet.apply(editable, oldCursorPosition, mCurrentCursorPosition);
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
-        android.util.Log.d("Simplenote", "==> post cursor position:" + mCurrentCursorPosition);
     }
 
     private void saveAndSyncNote() {
-        if (mNote == null)
+        if (mNote == null) {
             return;
+        }
 
         new saveNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -765,7 +871,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
-        if (mNote == null) {
+        // Don't save if the history view is showing
+        if (mNote == null || mBottomSheet.isSheetShowing()) {
             return;
         }
 
@@ -805,7 +912,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            if (inflater != null){
+            if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
@@ -1027,4 +1134,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         note.setContent(getNoteContentString());
     }
+
+    private Bucket.RevisionsRequestCallbacks<Note> mRevisionsRequestCallbacks = new
+            Bucket.RevisionsRequestCallbacks<Note>() {
+                // Note: These callbacks won't be running on the main thread
+                @Override
+                public void onComplete(Map<Integer, Note> revisionsMap) {
+                    if (!isAdded()) return;
+
+                    // Convert map to an array list, to work better with the 0-index based seekbar
+                    mNoteRevisionsList = new ArrayList<>(revisionsMap.values());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateHistoryProgressBar();
+                        }
+                    });
+                }
+
+                @Override
+                public void onRevision(String key, int version, JSONObject object) {}
+
+                @Override
+                public void onError(Throwable exception) {
+                    if (!isAdded() || mHistoryView == null) return;
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mHistoryView.findViewById(R.id.history_progress_bar).setVisibility(View.GONE);
+                            mHistoryView.findViewById(R.id.history_error_text).setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            };
 }
