@@ -537,7 +537,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
                     }
                 });
-                mBottomSheet.showWithSheetView(mHistoryView);
                 mInfoPopupWindow.dismiss();
             }
         });
