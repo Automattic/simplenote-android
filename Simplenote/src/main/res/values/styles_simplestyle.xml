@@ -147,4 +147,8 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="Simplestyle.BottomSheet" parent="@style/BottomSheet">
+        <item name="bottom_sheet_bg_color">@color/simplenote_blue_translucent</item>
+    </style>
 </resources>

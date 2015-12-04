@@ -55,8 +55,8 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
-import com.automattic.simplenote.widgets.bottomsheet.BottomSheetLayout;
-import com.automattic.simplenote.widgets.bottomsheet.OnSheetDismissedListener;
+import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheetListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
@@ -82,10 +82,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private PopupWindow mInfoPopupWindow;
-    private BottomSheetLayout mBottomSheet;
-
     private View mHistoryView;
     private SeekBar mHistorySeekBar;
+    private BottomSheet mBottomSheet;
 
     private ToggleButton mPinButton;
 
@@ -94,7 +93,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote;
+    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -136,8 +135,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
-
+        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 Activity activity = (Activity) context;
@@ -183,7 +181,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
-        mBottomSheet = (BottomSheetLayout)rootView.findViewById(R.id.bottomsheet);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -216,58 +213,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-        configureHistoryView();
-
 		return rootView;
 	}
-
-    private void configureHistoryView() {
-        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, mBottomSheet, false);
-        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
-        mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mNoteRevisionsList == null || !mBottomSheet.isSheetShowing()) {
-                    return;
-                }
-
-                if (progress == mNoteRevisionsList.size()) {
-                    mContentEditText.setText(mNote.getContent());
-                } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
-                    Note revisedNote = mNoteRevisionsList.get(progress);
-                    mContentEditText.setText(revisedNote.getContent());
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
-        });
-
-        View cancelHistoryButton = mHistoryView.findViewById(R.id.cancel_history_button);
-        cancelHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContentEditText.setText(mNote.getContent());
-                mBottomSheet.dismissSheet();
-            }
-        });
-
-        View restoreHistoryButton = mHistoryView.findViewById(R.id.restore_history_button);
-        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBottomSheet.dismissSheet();
-                saveAndSyncNote();
-            }
-        });
-    }
 
     @Override
     public void onResume() {
@@ -529,28 +476,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             @Override
             public void onClick(View view) {
                 saveNote();
-                mBottomSheet.showWithSheetView(mHistoryView, null, new OnSheetDismissedListener() {
-                    @Override
-                    public void onDismissed(BottomSheetLayout bottomSheetLayout, BottomSheetLayout.DismissalType type) {
-                        if (type == BottomSheetLayout.DismissalType.CANCELED) {
-                            mContentEditText.setText(mNote.getContent());
-                        }
-                    }
-                });
-                mInfoPopupWindow.dismiss();
+                showHistorySheet();
             }
         });
-    }
-
-    private void updateHistoryProgressBar() {
-        if (mHistorySeekBar == null) return;
-
-        int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
-        mHistorySeekBar.setMax(totalRevs);
-        mHistorySeekBar.setProgress(totalRevs);
-
-        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
-        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
     }
 
     private boolean noteIsEmpty() {
@@ -871,7 +799,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void saveNote() {
         // Don't save if the history view is showing
-        if (mNote == null || mBottomSheet.isSheetShowing()) {
+        if (mNote == null || (mBottomSheet != null  && !mBottomSheet.isShowing())) {
             return;
         }
 
@@ -1078,6 +1006,98 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
         textView.setText(formattedWordCount + " " + wordCountString);
+    }
+
+    /**
+     * History methods
+     */
+    private void showHistorySheet() {
+        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, null, false);
+        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
+        mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mNoteRevisionsList == null  || mBottomSheet == null || !mBottomSheet.isShowing()) {
+                    return;
+                }
+
+                if (progress == mNoteRevisionsList.size()) {
+                    mContentEditText.setText(mNote.getContent());
+                } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
+                    Note revisedNote = mNoteRevisionsList.get(progress);
+                    mContentEditText.setText(revisedNote.getContent());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+        });
+
+        View cancelHistoryButton = mHistoryView.findViewById(R.id.cancel_history_button);
+        cancelHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContentEditText.setText(mNote.getContent());
+                if (mBottomSheet != null) {
+                    mDidTapHistoryButton = true;
+                    mBottomSheet.dismiss();
+                }
+            }
+        });
+
+        View restoreHistoryButton = mHistoryView.findViewById(R.id.restore_history_button);
+        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheet != null) {
+                    mDidTapHistoryButton = true;
+                    mBottomSheet.dismiss();
+                }
+                saveAndSyncNote();
+            }
+        });
+
+        mBottomSheet = new BottomSheet.Builder(getActivity(), R.style.Simplestyle_BottomSheet)
+                .setView(mHistoryView)
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetDismissed(int dismissalType) {
+                        if (dismissalType == Integer.MIN_VALUE && !mDidTapHistoryButton) {
+                            mContentEditText.setText(mNote.getContent());
+                        }
+
+                        mDidTapHistoryButton = false;
+                    }
+
+                    @Override
+                    public void onSheetShown() {}
+
+                    @Override
+                    public void onSheetItemSelected(MenuItem menuItem) {}
+                }).create();
+
+        updateHistoryProgressBar();
+        mBottomSheet.getWindow().setDimAmount(0.4f);
+        mBottomSheet.show();
+        mInfoPopupWindow.dismiss();
+    }
+
+    private void updateHistoryProgressBar() {
+        if (mHistorySeekBar == null) return;
+
+        int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
+        mHistorySeekBar.setMax(totalRevs);
+        mHistorySeekBar.setProgress(totalRevs);
+
+        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
+        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
     }
 
     /**
