@@ -43,7 +43,7 @@
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_small"
             android:progressTint="@color/white"
             android:thumbTint="@color/simplenote_blue_accent" />
