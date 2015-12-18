@@ -512,13 +512,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
-    public void updateNote(Note updatedNote) {
+    private void updateNote(Note updatedNote) {
         // update note if network change arrived
         mNote = updatedNote;
         refreshContent(true);
     }
 
-    public void refreshContent(boolean isNoteUpdate) {
+    private void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
 
@@ -543,7 +543,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public void updateTagList() {
+    private void updateTagList() {
         Activity activity = getActivity();
         if (activity == null) return;
 
@@ -551,7 +551,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setChips(mNote.getTagString());
     }
 
-    int newCursorLocation(String newText, String oldText, int cursorLocation) {
+    private int newCursorLocation(String newText, String oldText, int cursorLocation) {
         // Ported from the iOS app :)
         // Cases:
         // 0. All text after cursor (and possibly more) was removed ==> put cursor at end
@@ -587,7 +587,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return newCursorLocation;
     }
 
-    private Runnable mAutoSaveRunnable = new Runnable() {
+    private final Runnable mAutoSaveRunnable = new Runnable() {
         @Override
         public void run() {
             saveAndSyncNote();
@@ -701,11 +701,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public Note getNote() {
+    private Note getNote() {
         return mNote;
     }
 
-    public String getNoteContentString() {
+    private String getNoteContentString() {
         if (mContentEditText == null || mContentEditText.getText() == null) {
             return "";
         } else {
@@ -713,7 +713,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public String getNoteTagsString() {
+    private String getNoteTagsString() {
         if (mTagView == null || mTagView.getText() == null) {
             return "";
         } else {
@@ -832,7 +832,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     // Contextual action bar for dealing with links
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         // Called when the action mode is created; startActionMode() was called
         @Override
@@ -966,7 +966,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     // Resets note publish status if Simperium never returned the new publish status
-    private Runnable mPublishTimeoutRunnable = new Runnable() {
+    private final Runnable mPublishTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
             if (!isAdded()) return;
@@ -1154,7 +1154,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         note.setContent(getNoteContentString());
     }
 
-    private Bucket.RevisionsRequestCallbacks<Note> mRevisionsRequestCallbacks = new
+    private final Bucket.RevisionsRequestCallbacks<Note> mRevisionsRequestCallbacks = new
             Bucket.RevisionsRequestCallbacks<Note>() {
                 // Note: These callbacks won't be running on the main thread
                 @Override
