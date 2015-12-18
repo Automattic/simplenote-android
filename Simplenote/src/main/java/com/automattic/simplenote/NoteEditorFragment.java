@@ -798,8 +798,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
-        // Don't save if the history view is showing
-        if (mNote == null || (mBottomSheet != null  && !mBottomSheet.isShowing())) {
+        if (mNote == null || (mBottomSheet != null && mBottomSheet.isShowing())) {
             return;
         }
 
