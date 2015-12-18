@@ -35,14 +35,16 @@
     <LinearLayout
         android:id="@+id/history_slider_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <SeekBar
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_small"
             android:progressTint="@color/white"
             android:thumbTint="@color/simplenote_blue_accent" />
 
@@ -51,8 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/padding_medium"
-            android:paddingRight="@dimen/padding_medium">
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small">
 
             <com.automattic.simplenote.widgets.SourceSansTextView
                 android:id="@+id/cancel_history_button"
