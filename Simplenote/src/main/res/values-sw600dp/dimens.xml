@@ -2,5 +2,4 @@
 <resources>
     <dimen name="nav_row_height">64dp</dimen>
     <dimen name="nav_header_size">136dp</dimen>
-    <dimen name="bottomsheet_default_sheet_width">446dp</dimen>
 </resources>
