@@ -3,57 +3,58 @@
     android:id="@+id/note_editor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:layout_weight="3.5">
+    android:layout_weight="3.5"
+    android:fillViewport="true">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingBottom="@dimen/padding_large"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_large">
 
             <RelativeLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_small"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_small">
+                android:paddingRight="@dimen/padding_large">
 
                 <ToggleButton
                     android:id="@+id/pinButton"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginTop="8dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="4dp"
-                    android:textOn=""
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/pinIconSelector"
                     android:textOff=""
-                    android:background="?attr/pinIconSelector" />
+                    android:textOn="" />
 
                 <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                     android:id="@+id/tag_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp"
+                    android:layout_marginLeft="-4dp"
                     android:layout_toLeftOf="@id/pinButton"
-                    android:hint="@string/tag_hint"
                     android:completionThreshold="1"
-                	android:textColor="?attr/noteEditorTextColor"
-					android:textColorHint="?attr/hintTextColor"
-                    android:inputType="textNoSuggestions"
+                    android:hint="@string/tag_hint"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/note_content"
-                    android:nextFocusUp="@id/tag_view"
-                    android:nextFocusLeft="@id/tag_view"
-                    android:textSize="16sp"
+                    android:inputType="textNoSuggestions"
                     android:longClickable="false"
-                    android:layout_marginLeft="-4dp" />
+                    android:minHeight="48dp"
+                    android:nextFocusForward="@+id/note_content"
+                    android:nextFocusLeft="@id/tag_view"
+                    android:nextFocusUp="@id/tag_view"
+                    android:textColor="?attr/noteEditorTextColor"
+                    android:textColorHint="?attr/hintTextColor"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
@@ -62,17 +63,17 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="top"
-                android:textColor="?attr/noteEditorTextColor"
-                android:textColorLink="@color/simplenote_blue"
-                android:textSize="18sp"
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                android:scrollHorizontally="false"
-                android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
                 android:paddingLeft="@dimen/padding_large"
                 android:paddingRight="@dimen/padding_large"
-                android:background="@null"
+                android:paddingTop="@dimen/padding_small"
+                android:scrollHorizontally="false"
+                android:textColor="?attr/noteEditorTextColor"
+                android:textColorLink="@color/simplenote_blue"
+                android:textSize="18sp"
                 tools:context=".NoteEditorFragment" />
         </LinearLayout>
 
@@ -87,8 +88,8 @@
             <ImageView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:src="@drawable/login_logo"
                 android:scaleType="centerInside"
+                android:src="@drawable/login_logo"
                 android:tint="?attr/placeholderLogoColor" />
         </LinearLayout>
     </FrameLayout>

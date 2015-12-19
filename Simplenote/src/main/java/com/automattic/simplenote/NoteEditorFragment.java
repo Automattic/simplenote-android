@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -48,18 +49,24 @@ import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.SpaceTokenizer;
-import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheetListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
 
@@ -67,6 +74,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
+    private static final int MAX_REVISIONS = 30;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
@@ -74,12 +82,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private PopupWindow mInfoPopupWindow;
+    private View mHistoryView;
+    private SeekBar mHistorySeekBar;
+    private BottomSheet mBottomSheet;
+
     private ToggleButton mPinButton;
+
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
+
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote;
+    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -89,6 +103,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
+    private ArrayList<Note> mNoteRevisionsList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -120,8 +135,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0){
-
+        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 Activity activity = (Activity) context;
@@ -344,6 +358,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateInfoPopup();
 
         mInfoPopupWindow.showAsDropDown(view);
+
+        // Request revisions for the current note
+        mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mRevisionsRequestCallbacks);
     }
 
     // update the content of the popupview
@@ -360,6 +377,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         ImageButton publishCopyButton = (ImageButton) popupView.findViewById(R.id.publish_copy_url);
         ImageButton publishShareButton = (ImageButton) popupView.findViewById(R.id.publish_share_url);
         View actionsView = popupView.findViewById(R.id.publish_actions);
+        final View historyButton = popupView.findViewById(R.id.history_button);
 
         final ViewSwitcher viewSwitcher = (ViewSwitcher) popupView.findViewById(R.id.publish_view_switcher);
 
@@ -446,6 +464,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 viewSwitcher.showPrevious();
             }
         }
+
+        historyButton.setEnabled(mNote.getVersion() > 1);
+        if (historyButton.isEnabled()) {
+            historyButton.setAlpha(1.0f);
+        } else {
+            historyButton.setAlpha(0.5f);
+        }
+
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNote();
+                showHistorySheet();
+            }
+        });
     }
 
     private boolean noteIsEmpty() {
@@ -479,13 +512,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
-    public void updateNote(Note updatedNote) {
+    private void updateNote(Note updatedNote) {
         // update note if network change arrived
         mNote = updatedNote;
         refreshContent(true);
     }
 
-    public void refreshContent(boolean isNoteUpdate) {
+    private void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
 
@@ -510,7 +543,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public void updateTagList() {
+    private void updateTagList() {
         Activity activity = getActivity();
         if (activity == null) return;
 
@@ -518,7 +551,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setChips(mNote.getTagString());
     }
 
-    int newCursorLocation(String newText, String oldText, int cursorLocation) {
+    private int newCursorLocation(String newText, String oldText, int cursorLocation) {
         // Ported from the iOS app :)
         // Cases:
         // 0. All text after cursor (and possibly more) was removed ==> put cursor at end
@@ -554,7 +587,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return newCursorLocation;
     }
 
-    private Runnable mAutoSaveRunnable = new Runnable() {
+    private final Runnable mAutoSaveRunnable = new Runnable() {
         @Override
         public void run() {
             saveAndSyncNote();
@@ -631,12 +664,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
         AutoBullet.apply(editable, oldCursorPosition, mCurrentCursorPosition);
         mCurrentCursorPosition = mContentEditText.getSelectionStart();
-        android.util.Log.d("Simplenote", "==> post cursor position:" + mCurrentCursorPosition);
     }
 
     private void saveAndSyncNote() {
-        if (mNote == null)
+        if (mNote == null) {
             return;
+        }
 
         new saveNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -668,11 +701,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public Note getNote() {
+    private Note getNote() {
         return mNote;
     }
 
-    public String getNoteContentString() {
+    private String getNoteContentString() {
         if (mContentEditText == null || mContentEditText.getText() == null) {
             return "";
         } else {
@@ -680,7 +713,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public String getNoteTagsString() {
+    private String getNoteTagsString() {
         if (mTagView == null || mTagView.getText() == null) {
             return "";
         } else {
@@ -765,7 +798,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
-        if (mNote == null) {
+        if (mNote == null || (mBottomSheet != null && mBottomSheet.isShowing())) {
             return;
         }
 
@@ -798,14 +831,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     // Contextual action bar for dealing with links
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         // Called when the action mode is created; startActionMode() was called
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            if (inflater != null){
+            if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
@@ -932,7 +965,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     // Resets note publish status if Simperium never returned the new publish status
-    private Runnable mPublishTimeoutRunnable = new Runnable() {
+    private final Runnable mPublishTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
             if (!isAdded()) return;
@@ -972,6 +1005,98 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
         textView.setText(formattedWordCount + " " + wordCountString);
+    }
+
+    /**
+     * History methods
+     */
+    private void showHistorySheet() {
+        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, null, false);
+        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
+        mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mNoteRevisionsList == null  || mBottomSheet == null || !mBottomSheet.isShowing()) {
+                    return;
+                }
+
+                if (progress == mNoteRevisionsList.size()) {
+                    mContentEditText.setText(mNote.getContent());
+                } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
+                    Note revisedNote = mNoteRevisionsList.get(progress);
+                    mContentEditText.setText(revisedNote.getContent());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // noop
+            }
+        });
+
+        View cancelHistoryButton = mHistoryView.findViewById(R.id.cancel_history_button);
+        cancelHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContentEditText.setText(mNote.getContent());
+                if (mBottomSheet != null) {
+                    mDidTapHistoryButton = true;
+                    mBottomSheet.dismiss();
+                }
+            }
+        });
+
+        View restoreHistoryButton = mHistoryView.findViewById(R.id.restore_history_button);
+        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheet != null) {
+                    mDidTapHistoryButton = true;
+                    mBottomSheet.dismiss();
+                }
+                saveAndSyncNote();
+            }
+        });
+
+        mBottomSheet = new BottomSheet.Builder(getActivity(), R.style.Simplestyle_BottomSheet)
+                .setView(mHistoryView)
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetDismissed(int dismissalType) {
+                        if (dismissalType == Integer.MIN_VALUE && !mDidTapHistoryButton) {
+                            mContentEditText.setText(mNote.getContent());
+                        }
+
+                        mDidTapHistoryButton = false;
+                    }
+
+                    @Override
+                    public void onSheetShown() {}
+
+                    @Override
+                    public void onSheetItemSelected(MenuItem menuItem) {}
+                }).create();
+
+        updateHistoryProgressBar();
+        mBottomSheet.getWindow().setDimAmount(0.4f);
+        mBottomSheet.show();
+        mInfoPopupWindow.dismiss();
+    }
+
+    private void updateHistoryProgressBar() {
+        if (mHistorySeekBar == null) return;
+
+        int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
+        mHistorySeekBar.setMax(totalRevs);
+        mHistorySeekBar.setProgress(totalRevs);
+
+        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
+        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -1027,4 +1152,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         note.setContent(getNoteContentString());
     }
+
+    private final Bucket.RevisionsRequestCallbacks<Note> mRevisionsRequestCallbacks = new
+            Bucket.RevisionsRequestCallbacks<Note>() {
+                // Note: These callbacks won't be running on the main thread
+                @Override
+                public void onComplete(Map<Integer, Note> revisionsMap) {
+                    if (!isAdded()) return;
+
+                    // Convert map to an array list, to work better with the 0-index based seekbar
+                    mNoteRevisionsList = new ArrayList<>(revisionsMap.values());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateHistoryProgressBar();
+                        }
+                    });
+                }
+
+                @Override
+                public void onRevision(String key, int version, JSONObject object) {}
+
+                @Override
+                public void onError(Throwable exception) {
+                    if (!isAdded() || mHistoryView == null) return;
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mHistoryView.findViewById(R.id.history_progress_bar).setVisibility(View.GONE);
+                            mHistoryView.findViewById(R.id.history_error_text).setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            };
 }

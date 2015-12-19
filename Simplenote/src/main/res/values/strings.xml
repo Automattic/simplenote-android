@@ -157,4 +157,7 @@
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
     <string name="error">Error</string>
+    <string name="restore">Restore</string>
+    <string name="history">History</string>
+    <string name="error_history">Couldn\'t retrieve history.</string>
 </resources>
