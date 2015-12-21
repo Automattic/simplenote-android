@@ -1011,6 +1011,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
      * History methods
      */
     private void showHistorySheet() {
+        mContentEditText.clearFocus();
         mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, null, false);
         mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
         mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
