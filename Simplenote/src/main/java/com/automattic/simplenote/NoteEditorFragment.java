@@ -1084,7 +1084,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }).create();
 
         updateHistoryProgressBar();
-        mBottomSheet.getWindow().setDimAmount(0.4f);
+        mBottomSheet.getWindow().setDimAmount(0.3f);
         mBottomSheet.show();
         mInfoPopupWindow.dismiss();
     }
