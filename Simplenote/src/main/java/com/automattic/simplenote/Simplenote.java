@@ -68,6 +68,12 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
 
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.APPLICATION_OPENED,
+                AnalyticsTracker.CATEGORY_USER,
+                "application_opened"
+        );
+
         if (isFirstLaunch()) {
             FacebookManager.reportInstallIfNecessary(this);
         }
@@ -96,6 +102,11 @@ public class Simplenote extends Application {
         public void onTrimMemory(int level) {
             // Send analytics if app is in the background
             if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.APPLICATION_CLOSED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "application_closed"
+                );
                 AnalyticsTracker.flush();
             }
         }
