@@ -1117,13 +1117,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mHistorySeekBar == null) return;
 
         int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
-        mHistorySeekBar.setMax(totalRevs);
-        mHistorySeekBar.setProgress(totalRevs);
+        if (totalRevs > 0) {
+            mHistorySeekBar.setMax(totalRevs);
+            mHistorySeekBar.setProgress(totalRevs);
 
-        updateHistoryDateText(mNote.getModificationDate());
+            updateHistoryDateText(mNote.getModificationDate());
 
-        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
-        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
+            mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
+            mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
+        }
     }
 
     /**

@@ -43,8 +43,9 @@
             android:id="@+id/history_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_extra_small"
             android:gravity="center_horizontal"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="@color/white" />
 
         <SeekBar
