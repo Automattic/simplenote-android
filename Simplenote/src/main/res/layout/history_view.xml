@@ -37,13 +37,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
+
+        <com.automattic.simplenote.widgets.SourceSansTextView
+            android:id="@+id/history_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/white" />
 
         <SeekBar
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_small"
             android:progressTint="@color/white"
             android:thumbTint="@color/simplenote_blue_accent" />
