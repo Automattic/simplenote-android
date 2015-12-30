@@ -19,6 +19,7 @@ import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -85,6 +86,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private View mHistoryView;
     private SeekBar mHistorySeekBar;
     private BottomSheet mBottomSheet;
+    private TextView mHistoryDate;
 
     private ToggleButton mPinButton;
 
@@ -1013,6 +1015,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void showHistorySheet() {
         mContentEditText.clearFocus();
         mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, null, false);
+        mHistoryDate = (TextView)mHistoryView.findViewById(R.id.history_date);
         mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
         mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -1021,12 +1024,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     return;
                 }
 
+                Calendar noteDate = null;
                 if (progress == mNoteRevisionsList.size()) {
                     mContentEditText.setText(mNote.getContent());
+                    noteDate = mNote.getModificationDate();
                 } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
                     Note revisedNote = mNoteRevisionsList.get(progress);
+                    noteDate = revisedNote.getModificationDate();
                     mContentEditText.setText(revisedNote.getContent());
                 }
+
+                updateHistoryDateText(noteDate);
             }
 
             @Override
@@ -1089,15 +1097,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mInfoPopupWindow.dismiss();
     }
 
+    private void updateHistoryDateText(Calendar noteDate) {
+        if (!isAdded() || noteDate == null || mHistoryDate == null) {
+            return;
+        }
+
+        long now = Calendar.getInstance().getTimeInMillis();
+        CharSequence dateText = DateUtils.getRelativeDateTimeString(
+                getActivity(),
+                noteDate.getTimeInMillis(),
+                now,
+                0L,
+                DateUtils.FORMAT_ABBREV_ALL
+        );
+        mHistoryDate.setText(dateText);
+    }
+
     private void updateHistoryProgressBar() {
         if (mHistorySeekBar == null) return;
 
         int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
-        mHistorySeekBar.setMax(totalRevs);
-        mHistorySeekBar.setProgress(totalRevs);
+        if (totalRevs > 0) {
+            mHistorySeekBar.setMax(totalRevs);
+            mHistorySeekBar.setProgress(totalRevs);
 
-        mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
-        mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
+            updateHistoryDateText(mNote.getModificationDate());
+
+            mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
+            mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
+        }
     }
 
     /**
