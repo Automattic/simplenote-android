@@ -95,7 +95,7 @@ public class Simplenote extends Application {
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks,
             ComponentCallbacks2 {
-        private boolean mIsInBackground;
+        private boolean mIsInBackground = true;
 
         // ComponentCallbacks
         @Override
