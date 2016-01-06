@@ -1,8 +1,10 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
+import android.os.Bundle;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
@@ -63,6 +65,7 @@ public class Simplenote extends Application {
 
         ApplicationLifecycleMonitor applicationLifecycleMonitor = new ApplicationLifecycleMonitor();
         registerComponentCallbacks(applicationLifecycleMonitor);
+        registerActivityLifecycleCallbacks(applicationLifecycleMonitor);
 
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
@@ -90,24 +93,63 @@ public class Simplenote extends Application {
         return mTagsBucket;
     }
 
-    private class ApplicationLifecycleMonitor implements ComponentCallbacks2 {
+    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks,
+            ComponentCallbacks2 {
+        private boolean mIsInBackground = true;
 
+        // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
             // Send analytics if app is in the background
             if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+                mIsInBackground = true;
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.APPLICATION_CLOSED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "application_closed"
+                );
                 AnalyticsTracker.flush();
+            } else {
+                mIsInBackground = false;
             }
         }
 
         @Override
-        public void onConfigurationChanged(Configuration newConfig) {
-            // noop
+        public void onConfigurationChanged(Configuration newConfig) {}
+
+        @Override
+        public void onLowMemory() {}
+
+        // ActivityLifeCycle callbacks
+        @Override
+        public void onActivityResumed(Activity activity) {
+            if (mIsInBackground) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.APPLICATION_OPENED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "application_opened"
+                );
+
+                mIsInBackground = false;
+            }
         }
 
         @Override
-        public void onLowMemory() {
-            // noop
-        }
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
+
+        @Override
+        public void onActivityStarted(Activity activity) {}
+
+        @Override
+        public void onActivityPaused(Activity activity) {}
+
+        @Override
+        public void onActivityStopped(Activity activity) {}
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {}
     }
 }

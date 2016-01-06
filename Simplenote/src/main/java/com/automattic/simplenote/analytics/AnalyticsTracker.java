@@ -60,7 +60,9 @@ public final class AnalyticsTracker {
         ONE_PASSWORD_SIGNUP,
         USER_ACCOUNT_CREATED,
         USER_SIGNED_IN,
-        USER_SIGNED_OUT
+        USER_SIGNED_OUT,
+        APPLICATION_OPENED,
+        APPLICATION_CLOSED
     }
 
     public interface Tracker {
