@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Simplenote</string>
-    <string name="app_launcher_name">@string/app_name</string>
+    <string name="app_name" translatable="false">Simplenote</string>
+    <string name="app_launcher_name" translatable="false">@string/app_name</string>
     <string name="tag_hint">Add tag…</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>

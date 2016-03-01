@@ -9,8 +9,8 @@
       <item>@string/sort_alphabetical</item>
       <item>@string/sort_alphabetical_reverse</item>
     </string-array>
-    
-    <string-array name="array_sort_order_values">
+
+    <string-array name="array_sort_order_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -24,7 +24,7 @@
         <item>@string/theme_dark</item>
     </string-array>
 
-    <string-array name="array_theme_values">
+    <string-array name="array_theme_values" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>
@@ -37,7 +37,7 @@
         <item>@string/font_size_extra_large</item>
     </string-array>
 
-    <string-array name="array_font_size_values">
+    <string-array name="array_font_size_values" translatable="false">
         <item>12</item>
         <item>14</item>
         <item>18</item>
