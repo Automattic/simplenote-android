@@ -47,6 +47,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="condensed_note_list">Condensed note list</string>
+    <string name="markdown_enabled">Markdown enabled</string>
     <string name="note_info">Info</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
