@@ -161,4 +161,5 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="markdown">Markdown</string>
 </resources>

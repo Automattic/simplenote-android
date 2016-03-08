@@ -34,6 +34,9 @@ public class PrefUtils {
     // boolean, set on when user taps to just try the app in the welcome view
     public static final String PREF_APP_TRIAL      = "pref_key_app_trial";
 
+    // boolean, allow notes to preview markdown
+    public static final String PREF_MARKDOWN_ENABLED = "pref_key_markdown_enabled";
+
     // string. determines theme to use
     public static final String PREF_THEME = "pref_key_theme";
 

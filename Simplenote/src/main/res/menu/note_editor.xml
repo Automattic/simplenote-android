@@ -15,6 +15,13 @@
             android:icon="?attr/actionBarIconShare"/>
 
     <item
+            android:id="@+id/menu_markdown"
+            android:checkable="true"
+            android:title="@string/markdown"
+            android:visible="false"
+            app:showAsAction="never" />
+
+    <item
             android:id="@+id/menu_delete"
             app:showAsAction="never"
             android:title="@string/delete"/>

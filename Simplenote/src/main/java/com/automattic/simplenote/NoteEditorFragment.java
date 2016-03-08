@@ -95,7 +95,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton;
+    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton, mIsMarkdownEnabled, mIsMarkdownEnabledGlobal;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -276,6 +276,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
             viewPublishedNoteItem.setVisible(true);
 
+            if (mIsMarkdownEnabledGlobal) {
+                MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+                markdownItem.setChecked(mNote.isMarkdownEnabled());
+                markdownItem.setVisible(true);
+            }
+
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
             if (mNote.isDeleted())
                 trashItem.setTitle(R.string.undelete);
@@ -307,6 +313,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             "action_bar_share_button"
                     );
                 }
+                return true;
+            case R.id.menu_markdown:
+                mIsMarkdownEnabled = !item.isChecked();
+                item.setChecked(mIsMarkdownEnabled);
+
+                if (mIsMarkdownEnabled) {
+                    showTabs();
+                } else {
+                    hideTabs();
+                }
+
                 return true;
             case R.id.menu_delete:
                 if (!isAdded()) return false;
@@ -746,6 +763,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (getActivity() instanceof NotesActivity) {
                     ((NotesActivity) getActivity()).setCurrentNote(mNote);
                 }
+
+                // Set markdown flag for global setting
+                mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false);
+
+                // Set markdown flag for current note
+                if (mNote != null && mNote.isMarkdownEnabled()) {
+                    mIsMarkdownEnabled = true;
+                }
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note
             }
@@ -774,6 +799,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     }
                 }, 100);
 
+            }
+
+            // Show tabs if markdown is enabled globally and for current note
+            if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
+                showTabs();
             }
 
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
@@ -806,10 +836,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked(), mIsMarkdownEnabled)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
+            mNote.setMarkdownEnabled(mIsMarkdownEnabled);
             // Send pinned event to google analytics if changed
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();
@@ -1007,6 +1038,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
         textView.setText(formattedWordCount + " " + wordCountString);
+    }
+
+    /**
+     * Tab (i.e. Markdown) methods
+     */
+    private void hideTabs() {
+        //TODO: TYLER - Replace with hide animation when tabs are implemented in layout.
+        Toast.makeText(getActivity(), "Hide Tabs", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showTabs() {
+        //TODO: TYLER - Replace with show animation when tabs are implemented in layout.
+        Toast.makeText(getActivity(), "Show Tabs", Toast.LENGTH_SHORT).show();
     }
 
     /**
