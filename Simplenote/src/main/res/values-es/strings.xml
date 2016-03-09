@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Restaurar</string>
+	<string name="history">Historial</string>
+	<string name="error_history">No se ha podido recuperar el historial.</string>
+	<string name="search">Buscar notas</string>
 	<string name="dismiss">Descartar </string>
 	<string name="note_added">Se ha añadido una nota</string>
 	<string name="font_size_extra_small">Muy pequeño</string>
@@ -121,7 +125,6 @@
 	<string name="website">Visita simplenote.com</string>
 	<string name="more_info">Más información</string>
 	<string name="sort_order">Criterio de ordenación</string>
-	<string name="search">Buscar</string>
 	<string name="notes">Todas las notas</string>
 	<string name="trash">Papelera</string>
 	<string name="today">Hoy</string>

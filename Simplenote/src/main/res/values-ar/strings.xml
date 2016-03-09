@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">استعادة</string>
+	<string name="history">سجل الأحداث</string>
+	<string name="error_history">تعذر استرداد سجل الأحداث.</string>
+	<string name="search">ملاحظات البحث</string>
 	<string name="dismiss">تجاهل</string>
 	<string name="note_added">تمت إضافة ملاحظة</string>
 	<string name="font_size_extra_small">صغير جدًا</string>
@@ -121,7 +125,6 @@
 	<string name="website">تفضل بزيارة simplenote.com</string>
 	<string name="more_info">المزيد من المعلومات</string>
 	<string name="sort_order">ترتيب الفرز</string>
-	<string name="search">بحث</string>
 	<string name="notes">كل الملاحظات</string>
 	<string name="trash">سلة المهملات</string>
 	<string name="today">اليوم</string>

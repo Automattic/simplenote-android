@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Herstellen</string>
+	<string name="history">Geschiedenis</string>
+	<string name="error_history">Geschiedenis ophalen mislukt.</string>
+	<string name="search">In notities zoeken</string>
 	<string name="dismiss">Afbreken</string>
 	<string name="note_added">Notitie toegevoegd</string>
 	<string name="font_size_extra_small">Extra klein</string>
@@ -121,7 +125,6 @@
 	<string name="website">Ga naar simplenote.com</string>
 	<string name="more_info">Meer informatie</string>
 	<string name="sort_order">Sorteervolgorde</string>
-	<string name="search">Zoeken</string>
 	<string name="notes">Alle notities</string>
 	<string name="trash">Prullenbak</string>
 	<string name="today">Vandaag</string>

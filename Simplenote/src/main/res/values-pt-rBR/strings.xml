@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Restaurar</string>
+	<string name="history">Histórico</string>
+	<string name="error_history">Não foi possível recuperar o histórico.</string>
+	<string name="search">Pesquisar notas</string>
 	<string name="dismiss">Dispensar</string>
 	<string name="note_added">Anotação adicionada</string>
 	<string name="font_size_extra_small">Extrapequeno</string>
@@ -121,14 +125,11 @@
 	<string name="website">Acesse simplenote.com</string>
 	<string name="more_info">Mais Informações</string>
 	<string name="sort_order">Organizar</string>
-	<string name="search">Pesquisar</string>
 	<string name="notes">Todas as Anotações</string>
 	<string name="trash">Lixeira</string>
 	<string name="today">Hoje</string>
 	<string name="yesterday">Ontem</string>
 	<string name="undo">Desfazer</string>
 	<string name="note_deleted">Anotação enviada para a lixeira.</string>
-	<string name="app_name">Simplenote</string>
-	<string name="app_launcher_name">@string/app_name</string>
 	<string name="content_description_copy_button">Botão Copiar</string>
 </resources>

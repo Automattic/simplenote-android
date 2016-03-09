@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Восстановить</string>
+	<string name="history">История</string>
+	<string name="error_history">Не удалось загрузить историю.</string>
+	<string name="search">Искать в заметках</string>
 	<string name="dismiss">Закрыть</string>
 	<string name="note_added">Добавлена заметка</string>
 	<string name="font_size_extra_small">Очень маленький</string>
@@ -121,7 +125,6 @@
 	<string name="website">Посетить simplenote.com</string>
 	<string name="more_info">Больше информации</string>
 	<string name="sort_order">Порядок сортировки</string>
-	<string name="search">Искать</string>
 	<string name="notes">Все заметки</string>
 	<string name="trash">Корзина</string>
 	<string name="today">Сегодня</string>

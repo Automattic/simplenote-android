@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Geri Yükle</string>
+	<string name="history">Geçmiş</string>
+	<string name="error_history">Geçmiş alınamadı.</string>
+	<string name="search">Notlarda ara</string>
 	<string name="dismiss">Gizle</string>
 	<string name="note_added">Not eklendi</string>
 	<string name="font_size_extra_small">Çok küçük</string>
@@ -121,7 +125,6 @@
 	<string name="website">simplenote.com sitesine gidin</string>
 	<string name="more_info">Daha Fazla Bilgi</string>
 	<string name="sort_order">Sıralama</string>
-	<string name="search">Ara</string>
 	<string name="notes">Tüm Notlar</string>
 	<string name="trash">Çöp Kutusu</string>
 	<string name="today">Bugün</string>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Wiederherstellen</string>
+	<string name="history">Verlauf</string>
+	<string name="error_history">Verlauf konnte nicht abgerufen werden.</string>
+	<string name="search">Notizen durchsuchen</string>
 	<string name="dismiss">Verwerfen</string>
 	<string name="note_added">Notiz hinzugefügt</string>
 	<string name="font_size_extra_small">Sehr klein</string>
@@ -121,7 +125,6 @@
 	<string name="website">Gehe zu simplenote.com</string>
 	<string name="more_info">Weitere Informationen</string>
 	<string name="sort_order">Sortierung</string>
-	<string name="search">Suchen</string>
 	<string name="notes">Alle Notizen</string>
 	<string name="trash">Papierkorb</string>
 	<string name="today">Heute</string>

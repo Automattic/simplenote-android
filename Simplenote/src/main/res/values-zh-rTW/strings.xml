@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">還原</string>
+	<string name="history">歷史紀錄</string>
+	<string name="error_history">無法擷取歷史紀錄。</string>
+	<string name="search">搜尋紀錄</string>
 	<string name="dismiss">關閉</string>
 	<string name="note_added">已新增筆記</string>
 	<string name="font_size_extra_small">超小</string>
@@ -121,7 +125,6 @@
 	<string name="website">造訪 simplenote.com</string>
 	<string name="more_info">更多資訊</string>
 	<string name="sort_order">排序</string>
-	<string name="search">搜尋</string>
 	<string name="notes">所有筆記</string>
 	<string name="trash">垃圾桶</string>
 	<string name="today">今天</string>

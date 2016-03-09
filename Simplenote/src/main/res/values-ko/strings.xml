@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">복구</string>
+	<string name="history">내역</string>
+	<string name="error_history">내역을 가져올 수 없습니다.</string>
+	<string name="search">메모 검색</string>
 	<string name="dismiss">무시</string>
 	<string name="note_added">메모가 추가됨</string>
 	<string name="font_size_extra_small">더 작게</string>
@@ -121,7 +125,6 @@
 	<string name="website">simplenote.com 방문</string>
 	<string name="more_info">추가 정보</string>
 	<string name="sort_order">정렬 순서</string>
-	<string name="search">검색</string>
 	<string name="notes">모든 메모</string>
 	<string name="trash">휴지통</string>
 	<string name="today">오늘</string>
