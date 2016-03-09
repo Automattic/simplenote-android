@@ -1,17 +1,55 @@
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_parent_view"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent" >
 
-    <include layout="@layout/toolbar" />
-
-    <FrameLayout
-        android:id="@+id/note_editor_container"
+    <android.support.design.widget.AppBarLayout
+        android:animateLayoutChanges="true"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="?attr/toolbarColor"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            app:contentInsetStart="@dimen/toolbar_title_keyline"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="?attr/toolbarPopupTheme"
+            app:theme="@style/ToolbarTheme" >
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:background="?attr/toolbarColor"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            app:tabBackground="?attr/toolbarColor"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabSelectedTextColor="@color/simplenote_blue_accent"
+            app:tabTextColor="@color/simplenote_blue_accent_translucent" >
+        </android.support.design.widget.TabLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/main_parent_view"
         android:layout_height="match_parent"
-        android:foreground="@drawable/header_shadow"
-        tools:context=".NoteEditorActivity" />
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <com.automattic.simplenote.widgets.NoteEditorViewPager
+            android:id="@+id/pager"
+            android:foreground="@drawable/header_shadow"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" >
+        </com.automattic.simplenote.widgets.NoteEditorViewPager>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;

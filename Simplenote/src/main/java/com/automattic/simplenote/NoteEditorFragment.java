@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
@@ -173,7 +173,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         };
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -319,9 +318,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 item.setChecked(mIsMarkdownEnabled);
 
                 if (mIsMarkdownEnabled) {
-                    showTabs();
+                    ((NoteEditorActivity) getActivity()).showTabs();
                 } else {
-                    hideTabs();
+                    ((NoteEditorActivity) getActivity()).hideTabs();
                 }
 
                 return true;
@@ -803,7 +802,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             // Show tabs if markdown is enabled globally and for current note
             if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
-                showTabs();
+                ((NoteEditorActivity) getActivity()).showTabs();
             }
 
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
@@ -1038,19 +1037,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
         textView.setText(formattedWordCount + " " + wordCountString);
-    }
-
-    /**
-     * Tab (i.e. Markdown) methods
-     */
-    private void hideTabs() {
-        //TODO: TYLER - Replace with hide animation when tabs are implemented in layout.
-        Toast.makeText(getActivity(), "Hide Tabs", Toast.LENGTH_SHORT).show();
-    }
-
-    private void showTabs() {
-        //TODO: TYLER - Replace with show animation when tabs are implemented in layout.
-        Toast.makeText(getActivity(), "Show Tabs", Toast.LENGTH_SHORT).show();
     }
 
     /**

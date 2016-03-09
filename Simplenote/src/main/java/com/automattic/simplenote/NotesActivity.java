@@ -2,8 +2,6 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -119,16 +119,16 @@ public class NotesActivity extends AppCompatActivity implements
 
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.note_fragment_container, mNoteListFragment, TAG_NOTE_LIST);
             fragmentTransaction.commit();
         } else {
-            mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
+            mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
-                mNoteEditorFragment = (NoteEditorFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
+                mNoteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
             } else if (DisplayUtils.isLandscape(this)) {
                 addEditorFragment();
             }
@@ -458,7 +458,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void addEditorFragment() {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         mNoteEditorFragment = new NoteEditorFragment();
         ft.add(R.id.note_fragment_container, mNoteEditorFragment, TAG_NOTE_EDITOR);
@@ -910,7 +910,7 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
                     mNoteListFragment.refreshList();
                 }
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(mNoteEditorFragment);
                 mNoteEditorFragment = null;
