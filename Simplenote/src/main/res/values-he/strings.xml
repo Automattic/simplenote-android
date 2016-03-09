@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">שחזור</string>
+	<string name="history">היסטוריה</string>
+	<string name="error_history">לא הצלחנו לאחזר את ההיסטוריה.</string>
+	<string name="search">חיפוש פתקים</string>
 	<string name="dismiss">סגור</string>
 	<string name="note_added">הפתק נוסף</string>
 	<string name="font_size_extra_small">קטן מאוד</string>
@@ -121,7 +125,6 @@
 	<string name="website">לבקר ב-simplenote.com</string>
 	<string name="more_info">מידע נוסף</string>
 	<string name="sort_order">מיון לפי</string>
-	<string name="search">חיפוש</string>
 	<string name="notes">כל הפתקים</string>
 	<string name="trash">פח אשפה</string>
 	<string name="today">היום</string>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">復元</string>
+	<string name="history">履歴</string>
+	<string name="error_history">履歴を取得できませんでした。</string>
+	<string name="search">ノートを検索</string>
 	<string name="dismiss">非表示にする</string>
 	<string name="note_added">ノートを追加しました</string>
 	<string name="font_size_extra_small">極小</string>
@@ -121,7 +125,6 @@
 	<string name="website">simplenote.com サイトへ</string>
 	<string name="more_info">詳細</string>
 	<string name="sort_order">ソート順</string>
-	<string name="search">検索</string>
 	<string name="notes">ノート一覧</string>
 	<string name="trash">ゴミ箱</string>
 	<string name="today">今日</string>

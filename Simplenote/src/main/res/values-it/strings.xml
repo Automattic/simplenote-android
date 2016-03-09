@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Ripristina</string>
+	<string name="history">Cronologia</string>
+	<string name="error_history">Impossibile recuperare la cronologia.</string>
+	<string name="search">Cerca note</string>
 	<string name="dismiss">Rimuovi</string>
 	<string name="note_added">Nota aggiunta</string>
 	<string name="font_size_extra_small">Molto piccolo</string>
@@ -121,7 +125,6 @@
 	<string name="website">Visita simplenote.com</string>
 	<string name="more_info">Maggiori informazioni</string>
 	<string name="sort_order">Ordina per</string>
-	<string name="search">Cerca</string>
 	<string name="notes">Tutte le Note</string>
 	<string name="trash">Cestino</string>
 	<string name="today">Oggi</string>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Pulihkan</string>
+	<string name="history">Riwayat</string>
+	<string name="error_history">Tidak dapat mengambil riwayat.</string>
+	<string name="search">Cari catatan</string>
 	<string name="dismiss">Selesai</string>
 	<string name="note_added">Penambahan catatan</string>
 	<string name="font_size_extra_small">Ekstra kecil</string>
@@ -121,7 +125,6 @@
 	<string name="website">Kunjungi simplenote.com</string>
 	<string name="more_info">Informasi Selengkapnya</string>
 	<string name="sort_order">Urutkan</string>
-	<string name="search">Cari</string>
 	<string name="notes">Semua Catatan</string>
 	<string name="trash">Sampah</string>
 	<string name="today">Hari ini</string>

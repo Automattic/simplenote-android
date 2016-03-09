@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="restore">Återställ</string>
+	<string name="history">Historik</string>
+	<string name="error_history">Kunde inte hämta historik.</string>
+	<string name="search">Sök anteckningar</string>
+	<string name="dismiss">Avfärda</string>
+	<string name="note_added">Anteckning tillagd</string>
+	<string name="font_size_extra_small">Extra liten</string>
+	<string name="font_size_small">Liten</string>
+	<string name="font_size_normal">Normal</string>
+	<string name="font_size_large">Stor</string>
+	<string name="font_size_extra_large">Extra stor</string>
+	<string name="noted">Antecknad</string>
+	<string name="tags">Etiketter</string>
+	<string name="edit">Redigera</string>
+	<string name="share_url">Dela URL</string>
+	<string name="note_info">Info</string>
 	<string name="version">Version</string>
 	<string name="publish">Publicera</string>
 	<string name="published">Publicerad</string>
+	<string name="publish_error">Kunde inte publicera anteckning</string>
+	<string name="unpublish_error">Kunde inte ta bort publicerad anteckning</string>
 	<string name="note_selected">%d anteckning markerad</string>
 	<string name="notes_selected">%d anteckningar markerade</string>
 	<string name="notes_trashed">Anteckningar borttagna.</string>
@@ -16,14 +34,14 @@
 	<string name="passcode_change_passcode">Ändra lösenkod</string>
 	<string name="passcode_set">Lösenkod inställd</string>
 	<string name="passcode_wrong_passcode">Fel lösenkod, försök igen.</string>
-	<string name="passcode_preference_title">Lösenkod</string>
+	<string name="passcode_preference_title">PIN-lås</string>
 	<string name="passcode_turn_off">Stäng av lösenkodslås</string>
 	<string name="passcode_turn_on">Slå på lösenkodslås</string>
 	<string name="no_notes_here">Inga anteckningar här.</string>
 	<string name="why_not_create_one">Varför inte %1$sskapa en%2$s?</string>
 	<string name="trash_is_empty">Papperskorgen är tom.</string>
 	<string name="no_notes_found">Inga anteckningar hittades.</string>
-	<string name="welcome_note">Välkommen till Simplenote för Android!\nLäs detta för instruktioner.\n\nFör att skapa en anteckning, tryck på plus-knappen i menyn.\n\nFör att söka bland dina anteckningar, tryck på sök-knappen i menyn och skriv vad du vill. Simplenote visar dina resultat i realtid.\n\nHar du en väldigt viktig anteckning? Tryck på \'nåla fast\'-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan också dela anteckningar med andra Simplenote-användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra appar genom att trycka på dela-knappen i menyn.\n\nBorttagna anteckningar finns i skräpkorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu kan se och ändra i dina anteckningar på nätet, från andra enheter och direkt på din dator. Besök http://simplenote.com för att se hur du kan få tillgång till dina anteckningar var du än är.\n\nVi hoppas du gillar att använda Simplenote!</string>
+	<string name="welcome_note">Välkommen till Simplenote Android!\nÖppna för instruktioner.\n\nTryck på pennknappen för att skapa en ny anteckning.\n\nTryck på sökknappen i åtgärdsfältet och skriv en text för att söka bland dina anteckningar. Simplenote visar dina resultat i realtid.\n\nHar du en mycket viktig anteckning? Tryck på "nåla fast"-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra Android-appar genom att trycka på dela-knappen i verktygsfältet.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
 	<string name="maybe_later">Kanske senare</string>
 	<string name="just_try_app">testa appen</string>
 	<string name="welcome_want_more">Vill du ha mer?</string>
@@ -39,6 +57,7 @@
 	<string name="view_map">Visa karta</string>
 	<string name="view_in_browser">Öppna i webbläsare</string>
 	<string name="link">Länk</string>
+	<string name="link_copied">Länk kopierad till urklipp</string>
 	<string name="copy">Kopiera</string>
 	<string name="required_fields">Obligatoriska fält</string>
 	<string name="required_field">Obligatoriskt fält</string>
@@ -88,6 +107,7 @@
 	<string name="undelete">Återställ anteckning</string>
 	<string name="account">Konto</string>
 	<string name="sign_out">Logga ut</string>
+	<string name="font_size">Textstorlek</string>
 	<string name="preview_lines">Förhandsgranska linjer</string>
 	<string name="share_note">Dela anteckning</string>
 	<string name="words">ord</string>
@@ -105,7 +125,6 @@
 	<string name="website">Besök simplenote.com</string>
 	<string name="more_info">Mer information</string>
 	<string name="sort_order">Sortering</string>
-	<string name="search">Sök</string>
 	<string name="notes">Alla anteckningar</string>
 	<string name="trash">Papperskorg</string>
 	<string name="today">I dag</string>
