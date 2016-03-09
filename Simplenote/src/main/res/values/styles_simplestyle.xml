@@ -3,7 +3,7 @@
 
     <style name="Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Material theme -->
-        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
         <item name="colorPrimaryDark">@color/lightgrey</item>
         <item name="colorAccent">@color/simplenote_blue_accent</item>
 
@@ -58,7 +58,7 @@
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
 
-        <item name="toolbarColor">@color/white</item>
+        <item name="toolbarColor">@color/simplenote_toolbar_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="settingsTextColor">@color/black</item>
