@@ -69,26 +69,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
             mViewPager.setAdapter(noteEditorFragmentStatePagerAdapter);
             mViewPager.setPagingEnabled(false);
-            mViewPager.addOnPageChangeListener(
-                new NoteEditorViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        if (position == 1) {
-                            animateActionsExit();
-                        } else {
-                            animateActionsEnter();
-                        }
-                    }
-
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                }
-            );
 
             mTabLayout = (TabLayout) findViewById(R.id.tabs);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -104,34 +84,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void animateActionsEnter() {
-        int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        View view;
-
-        for (int i = 1; i < mToolbar.getChildCount(); i++) {
-            view = mToolbar.getChildAt(i);
-            view.setTranslationY(-400);
-            view.setAlpha(1);
-            view.animate()
-                    .setStartDelay(duration * (i + 1))
-                    .setDuration(duration * (i + 1))
-                    .translationY(0);
-            view.clearAnimation();
-        }
+    private void enableActions() {
     }
 
-    private void animateActionsExit() {
-        int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        View view;
-
-        for (int i = 1; i < mToolbar.getChildCount(); i++) {
-            view = mToolbar.getChildAt(i);
-            view.animate()
-                    .setDuration(duration * (i + 1))
-                    .translationY(-400)
-                    .alpha(0);
-            view.clearAnimation();
-        }
+    private void disabledActions() {
     }
 
     public void hideTabs() {
