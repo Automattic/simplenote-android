@@ -40,6 +40,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
 
         NoteEditorFragment noteEditorFragment;
+        NoteMarkdownFragment noteMarkdownFragment;
+
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             // Create the note editor fragment
@@ -55,6 +57,8 @@ public class NoteEditorActivity extends AppCompatActivity {
 
             noteEditorFragment = new NoteEditorFragment();
             noteEditorFragment.setArguments(arguments);
+            noteMarkdownFragment = new NoteMarkdownFragment();
+            noteMarkdownFragment.setArguments(arguments);
 
             mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
             NoteEditorFragmentStatePagerAdapter noteEditorFragmentStatePagerAdapter =
@@ -64,7 +68,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                     getString(R.string.tab_edit)
             );
             noteEditorFragmentStatePagerAdapter.addFragment(
-                    new NoteMarkdownFragment(),
+                    noteMarkdownFragment,
                     getString(R.string.tab_preview)
             );
             mViewPager.setAdapter(noteEditorFragmentStatePagerAdapter);
@@ -82,12 +86,6 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
 
         super.onPause();
-    }
-
-    private void enableActions() {
-    }
-
-    private void disabledActions() {
     }
 
     public void hideTabs() {

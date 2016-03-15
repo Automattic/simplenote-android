@@ -24,6 +24,7 @@
     <attr name="toolbarPopupTheme" format="reference" />
 
     <attr name="actionBarIconInfo" format="reference" />
+    <attr name="actionBarIconInfoDisabled" format="reference" />
     <attr name="actionBarIconSearch" format="reference" />
     <attr name="actionBarIconCreate" format="reference" />
     <attr name="actionBarIconTrash" format="reference" />
