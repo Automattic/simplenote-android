@@ -7,7 +7,7 @@
               android:background="?attr/listBackgroundSelector"
               android:descendantFocusability="blocksDescendants"
         >
-    <com.automattic.simplenote.widgets.SourceSansTextView
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_marginLeft="16dp"
         android:textColor="?attr/noteTitleColor"
         android:layout_marginRight="8dp"/>
-    <com.automattic.simplenote.widgets.SourceSansTextView
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

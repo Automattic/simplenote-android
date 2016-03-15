@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/empty_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

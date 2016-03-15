@@ -10,27 +10,27 @@ import java.util.List;
 public class SimplenoteEditText extends EditText {
 
     public interface OnSelectionChangedListener {
-        public void onSelectionChanged(int selStart, int selEnd);
+        void onSelectionChanged(int selStart, int selEnd);
     }
 
     private List<OnSelectionChangedListener> listeners;
 
     public SimplenoteEditText(Context context) {
         super(context);
-        listeners = new ArrayList<OnSelectionChangedListener>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
+        listeners = new ArrayList<>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        listeners = new ArrayList<OnSelectionChangedListener>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
+        listeners = new ArrayList<>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        listeners = new ArrayList<OnSelectionChangedListener>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS));
+        listeners = new ArrayList<>();
+        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public void addOnSelectionChangedListener(OnSelectionChangedListener o) {

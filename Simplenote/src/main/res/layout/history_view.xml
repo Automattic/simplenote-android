@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:indeterminate="true" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/history_error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/history_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:paddingLeft="@dimen/padding_small"
             android:paddingRight="@dimen/padding_small">
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/cancel_history_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/restore_history_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

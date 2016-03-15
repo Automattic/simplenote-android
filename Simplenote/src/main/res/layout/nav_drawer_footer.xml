@@ -14,7 +14,7 @@
         android:background="@color/simplenote_blue"
         android:padding="16dp">
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -30,7 +30,7 @@
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/welcome_sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"/>
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/welcome_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,13 +76,13 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginRight="@dimen/drawer_item_image_margin"
+            android:layout_marginEnd="@dimen/drawer_item_image_margin"
             android:scaleType="center"
             android:src="@drawable/ic_settings_black_24dp"
             android:tint="?attr/noteTitleColor" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

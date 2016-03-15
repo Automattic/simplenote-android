@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <com.automattic.simplenote.widgets.SourceSansTextView
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/word_count"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
-                <com.automattic.simplenote.widgets.SourceSansTextView
+                <com.automattic.simplenote.widgets.RobotoRegularTextView
                     android:id="@+id/publish_note_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.automattic.simplenote.widgets.SourceSansTextView
+                <com.automattic.simplenote.widgets.RobotoRegularTextView
                     android:id="@+id/publish_url_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
 
             </LinearLayout>
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/history_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

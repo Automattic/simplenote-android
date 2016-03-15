@@ -192,7 +192,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
 		mNumPreviewLines = (condensedList) ? 0 : 2;
         mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18);
-        mTitleFontSize = Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
+        mTitleFontSize = mPreviewFontSize;//Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
 	}
 
     @Override

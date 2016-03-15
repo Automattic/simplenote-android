@@ -26,7 +26,7 @@
             android:src="@drawable/ic_item_list_default_pin_active"
             android:tint="?attr/notePinColor" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:id="@+id/note_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,12 +35,12 @@
             android:lines="1"
             android:singleLine="true"
             android:textColor="?attr/noteTitleColor"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="Note Title" />
 
     </LinearLayout>
 
-    <com.automattic.simplenote.widgets.SourceSansTextView
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="?attr/notePreviewColor"
-        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Note content" />
 
 </LinearLayout>
