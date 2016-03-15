@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
@@ -20,7 +22,6 @@ import java.util.ArrayList;
 
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
-    private Toolbar mToolbar;
     private NoteEditorViewPager mViewPager;
 
     @Override
@@ -33,8 +34,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         // No title, please.
         setTitle("");
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -73,6 +74,26 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
             mViewPager.setAdapter(noteEditorFragmentStatePagerAdapter);
             mViewPager.setPagingEnabled(false);
+            mViewPager.addOnPageChangeListener(
+                new NoteEditorViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        if (position == 1) {
+                            final InputMethodManager imm = (InputMethodManager)getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                        }
+                    }
+
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                    }
+                }
+            );
 
             mTabLayout = (TabLayout) findViewById(R.id.tabs);
             mTabLayout.setupWithViewPager(mViewPager);
