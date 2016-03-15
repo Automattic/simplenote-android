@@ -74,6 +74,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
+    static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
 
@@ -798,11 +799,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     }
                 }, 100);
 
-            }
-
-            // Show tabs if markdown is enabled globally and for current note
-            if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
-                ((NoteEditorActivity) getActivity()).showTabs();
             }
 
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);

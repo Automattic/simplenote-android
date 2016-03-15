@@ -159,7 +159,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
+        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
 		}
 	};
 
@@ -291,7 +291,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null) {
-            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
+            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
         }
 
         mActivatedPosition = position;
@@ -303,7 +303,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null, selectedNote.isMarkdownEnabled());
         }
     }
 
@@ -421,11 +421,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		note.save();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
+            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
         } else {
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
+            arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
