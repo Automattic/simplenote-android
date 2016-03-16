@@ -28,13 +28,13 @@
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_drawer_header">
+        android:layout_gravity="start">
 
         <LinearLayout
             android:id="@+id/drawer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="@dimen/nav_drawer_navigation_padding_top"
             android:orientation="vertical">
 
             <ListView
@@ -48,6 +48,7 @@
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:listSelector="@android:color/transparent"
+                android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small" />
 
             <include layout="@layout/nav_drawer_footer" />

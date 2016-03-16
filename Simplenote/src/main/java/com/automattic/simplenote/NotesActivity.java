@@ -247,7 +247,6 @@ public class NotesActivity extends AppCompatActivity implements
         // Configure welcome view in the nav drawer
         mWelcomeView = mDrawerLayout.findViewById(R.id.welcome_view);
         TextView welcomeSignInButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
-        welcomeSignInButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.sign_in)));
         welcomeSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,18 +255,12 @@ public class NotesActivity extends AppCompatActivity implements
         });
         
         TextView welcomeCloseButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_close);
-        welcomeCloseButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.dismiss)));
                 welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         removeWelcomeView();
                     }
                 });
-
-        if (mDrawerList.getHeaderViewsCount() == 0) {
-            View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
-            mDrawerList.addHeaderView(headerView, null, false);
-        }
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
