@@ -20,5 +20,10 @@
 
     <dimen name="nav_drawer_item_image_margin">36dp</dimen>
     <dimen name="nav_drawer_item_text_size">14sp</dimen>
-    <dimen name="nav_drawer_navigation_padding_top">24dp</dimen>
+    <dimen name="nav_drawer_navigation_padding_top">0dp</dimen>
+
+    <dimen name="note_list_item_padding_left">56dp</dimen>
+    <dimen name="note_list_item_padding_bottom">20dp</dimen>
+    <dimen name="note_list_item_padding_top">@dimen/padding_large</dimen>
+    <dimen name="note_list_padding">@dimen/padding_small</dimen>
 </resources>

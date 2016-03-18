@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-       android:insetLeft="16dp"
-       android:insetRight="16dp" >
+    android:insetLeft="@dimen/note_list_item_padding_left">
     <shape
         android:shape="rectangle">
 

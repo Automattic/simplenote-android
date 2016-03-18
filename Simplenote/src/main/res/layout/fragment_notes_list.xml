@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:paddingTop="@dimen/note_list_padding"
+        android:paddingBottom="@dimen/note_list_padding"
         android:divider="?attr/listDividerDrawable"
         android:dividerHeight="1px" />
 
@@ -53,4 +55,5 @@
         app:backgroundTint="?attr/fabColor"
         app:elevation="8dp"
         app:pressedTranslationZ="12dp" />
+
 </android.support.design.widget.CoordinatorLayout>

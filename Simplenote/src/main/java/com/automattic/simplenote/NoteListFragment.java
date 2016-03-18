@@ -191,8 +191,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	protected void getPrefs() {
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
 		mNumPreviewLines = (condensedList) ? 0 : 2;
-        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18);
-        mTitleFontSize = mPreviewFontSize;//Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        mTitleFontSize = mPreviewFontSize + 2;
 	}
 
     @Override
@@ -508,7 +508,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
-            holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
+            holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.INVISIBLE);
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
