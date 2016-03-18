@@ -148,19 +148,19 @@ public class TagsAdapter extends BaseAdapter {
         drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
         if (position == 0) {
             if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes_selected);
+                drawerIcon.setImageResource(R.drawable.ic_notes_blue_24dp);
                 drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
             } else {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
+                drawerIcon.setImageResource(R.drawable.ic_notes_black_24dp);
             }
             drawerIcon.setVisibility(View.VISIBLE);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
+                drawerIcon.setImageResource(R.drawable.ic_trash_blue_24dp);
                 drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
             } else {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
+                drawerIcon.setImageResource(R.drawable.ic_trash_black_24dp);
             }
             drawerIcon.setVisibility(View.VISIBLE);
             dividerView.setVisibility(View.VISIBLE);

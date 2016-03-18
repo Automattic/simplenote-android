@@ -18,7 +18,7 @@
     <!-- Lollipop requires a margin for the sign out preference, see values-v21/dimens.xml -->
     <dimen name="settings_sign_out_margin">0dp</dimen>
 
-    <dimen name="nav_drawer_item_image_margin">36dp</dimen>
+    <dimen name="nav_drawer_item_image_margin">32dp</dimen>
     <dimen name="nav_drawer_item_text_size">14sp</dimen>
     <dimen name="nav_drawer_navigation_padding_top">0dp</dimen>
 

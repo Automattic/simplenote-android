@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/mainBackgroundColor"
     android:orientation="vertical"
     android:paddingBottom="@dimen/padding_small">
@@ -78,12 +79,12 @@
         android:paddingRight="@dimen/padding_large">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/nav_drawer_item_image_margin"
             android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
             android:scaleType="center"
-            android:src="@drawable/ic_settings_black_24dp"
+            app:srcCompat="@drawable/ic_settings_black_24dp"
             android:tint="?attr/noteTitleColor" />
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView

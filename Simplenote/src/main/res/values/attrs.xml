@@ -23,10 +23,12 @@
     <attr name="toolbarColor" format="reference|color" />
     <attr name="toolbarPopupTheme" format="reference" />
 
+    <attr name="actionBarIconHistory" format="reference" />
     <attr name="actionBarIconInfo" format="reference" />
     <attr name="actionBarIconSearch" format="reference" />
     <attr name="actionBarIconCreate" format="reference" />
     <attr name="actionBarIconTrash" format="reference" />
+    <attr name="actionBarIconBulkTrash" format="reference" />
     <attr name="actionBarIconEmptyTrash" format="reference" />
     <attr name="actionBarIconWeb" format="reference" />
     <attr name="actionBarIconCopy" format="reference" />
@@ -43,4 +45,6 @@
 
     <attr name="fabIcon" format="reference" />
     <attr name="fabColor" format="reference" />
+    <attr name="fabIconColor" format="reference" />
+
 </resources>
