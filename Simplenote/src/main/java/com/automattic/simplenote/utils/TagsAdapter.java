@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,44 +133,46 @@ public class TagsAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
 
         if (view == null){
-            view = mInflater.inflate(R.layout.tag_drawer_row, null);
+            view = mInflater.inflate(R.layout.nav_drawer_row, null);
         }
         TagMenuItem tagMenuItem = getItem(position);
 
-        TextView labelText = (TextView) view.findViewById(R.id.tag_name);
-        labelText.setText(tagMenuItem.name);
+        TextView drawerItemText = (TextView) view.findViewById(R.id.drawer_item_name);
+        drawerItemText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition() - mHeaderCount;
-        if (position == selectedPosition)
-            labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
-        else
-            labelText.setTextColor(mContext.getResources().getColor(mTextColorId));
+        if (position == selectedPosition) {
+            drawerItemText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
+        } else {
+            drawerItemText.setTextColor(mContext.getResources().getColor(mTextColorId));
+        }
 
-        ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
         View dividerView = view.findViewById(R.id.section_divider);
-        drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
+
+        Drawable icon = null;
         if (position == 0) {
             if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_notes_blue_24dp);
-                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
+                icon = DrawableUtils.tintDrawable(mContext,
+                        R.drawable.ic_notes_black_24dp, R.color.simperium_blue);
             } else {
-                drawerIcon.setImageResource(R.drawable.ic_notes_black_24dp);
+                icon = DrawableUtils.tintDrawable(mContext,
+                        R.drawable.ic_notes_black_24dp, mTextColorId);
             }
-            drawerIcon.setVisibility(View.VISIBLE);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_trash_blue_24dp);
-                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
+                icon = DrawableUtils.tintDrawable(mContext,
+                        R.drawable.ic_trash_blue_24dp, R.color.simperium_blue);
             } else {
-                drawerIcon.setImageResource(R.drawable.ic_trash_black_24dp);
+                icon = DrawableUtils.tintDrawable(mContext,
+                        R.drawable.ic_trash_blue_24dp, mTextColorId);
             }
-            drawerIcon.setVisibility(View.VISIBLE);
             dividerView.setVisibility(View.VISIBLE);
         } else {
-            drawerIcon.setVisibility(View.GONE);
             dividerView.setVisibility(View.GONE);
         }
+
+        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
         if (position == 2) {

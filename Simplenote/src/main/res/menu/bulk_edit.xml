@@ -4,7 +4,7 @@
 
     <item
             android:id="@+id/menu_delete"
-            android:icon="?attr/actionBarIconTrash"
+            android:icon="?attr/actionBarIconBulkTrash"
             app:showAsAction="always"
             android:title="@string/delete"/>
 

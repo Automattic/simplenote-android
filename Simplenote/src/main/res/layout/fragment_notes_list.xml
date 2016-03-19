@@ -32,6 +32,7 @@
             android:padding="8dp"
             android:textColor="?attr/notePreviewColor"
             android:textSize="20sp" />
+        
     </LinearLayout>
 
     <LinearLayout

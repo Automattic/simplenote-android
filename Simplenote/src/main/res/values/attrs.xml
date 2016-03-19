@@ -18,7 +18,6 @@
     <attr name="placeholderLogoColor" format="reference|color" />
     <attr name="tagChipBackgroundDrawable" format="reference" />
     <attr name="pinIconSelector" format="reference" />
-    <attr name="navDrawerHeader" format="reference" />
 
     <attr name="toolbarColor" format="reference|color" />
     <attr name="toolbarPopupTheme" format="reference" />

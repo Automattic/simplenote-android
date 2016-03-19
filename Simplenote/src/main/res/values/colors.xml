@@ -14,7 +14,7 @@
     <color name="simplenote_toolbar_dark">#131417</color>
     <color name="simplenote_light_grey">#777777</color>
 
-    <color name="simplenote_light_list_divider">#EBEBEB</color>
+    <color name="simplenote_light_list_divider">#D2D2D2</color>
     <color name="simplenote_light_selected_row">#EBEBEB</color>
 
     <color name="simplenote_dark_bg">#24272b</color>

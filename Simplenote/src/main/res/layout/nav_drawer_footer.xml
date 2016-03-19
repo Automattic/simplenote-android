@@ -85,7 +85,8 @@
             android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
             android:scaleType="center"
             app:srcCompat="@drawable/ic_settings_black_24dp"
-            android:tint="?attr/noteTitleColor" />
+            android:tint="?attr/noteTitleColor"
+            android:contentDescription="@string/settings" />
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:layout_width="match_parent"
