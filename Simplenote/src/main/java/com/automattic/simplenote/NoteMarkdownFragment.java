@@ -14,24 +14,27 @@ import android.view.ViewGroup;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;
 
+import us.feras.mdv.MarkdownView;
+
 public class NoteMarkdownFragment extends Fragment {
+    private MarkdownView mMarkdown;
     private Note mNote;
+    private String mCss;
     private boolean mIsLoadingNote;
+
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
 
     public static final String ARG_ITEM_ID = "item_id";
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity())) {
-            return;
-        }
-
         inflater.inflate(R.menu.note_markdown, menu);
 
         if (mNote != null) {
@@ -52,8 +55,6 @@ public class NoteMarkdownFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
 
@@ -62,7 +63,21 @@ public class NoteMarkdownFragment extends Fragment {
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
 
-        return inflater.inflate(R.layout.fragment_note_markdown, container, false);
+        setHasOptionsMenu(true);
+
+        View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
+        mMarkdown = (MarkdownView) layout.findViewById(R.id.markdown);
+
+        switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
+            case THEME_DARK:
+                mCss = "file:///android_asset/dark.css";
+                break;
+            case THEME_LIGHT:
+                mCss = "file:///android_asset/light.css";
+                break;
+        }
+
+        return layout;
     }
 
     @Override
@@ -131,6 +146,10 @@ public class NoteMarkdownFragment extends Fragment {
         }
 
         super.onPrepareOptionsMenu(menu);
+    }
+
+    public void updateMarkdown(String text) {
+        mMarkdown.loadMarkdown(text, mCss);
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {

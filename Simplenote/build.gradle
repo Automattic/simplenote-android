@@ -28,6 +28,7 @@ dependencies {
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.github.Kennyc1012:BottomSheet:2.0.4'
+    compile 'us.feras.mdv:markdownview:1.1.0'
 
     wearApp project(':Wear')
 }

@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'SourceSansPro', sans-serif;
+    src: url('file:///android_asset/SourceSansPro-Regular.ttf');
+}
+
+a {
+    color: #448AC9;
+    text-decoration: none
+}
+
+body {
+    background-color: #ffffff;
+    color: #303030;
+    font-family: 'SourceSansPro', sans-serif;
+}

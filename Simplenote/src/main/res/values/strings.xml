@@ -164,4 +164,6 @@
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="markdown">Markdown</string>
+    <string name="markdown_hide">Hide Markdown</string>
+    <string name="markdown_show">Show Markdown</string>
 </resources>

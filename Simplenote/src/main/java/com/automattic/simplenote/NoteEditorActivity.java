@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
+    private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
 
     @Override
@@ -63,24 +64,24 @@ public class NoteEditorActivity extends AppCompatActivity {
             noteMarkdownFragment.setArguments(arguments);
 
             mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
-            NoteEditorFragmentStatePagerAdapter noteEditorFragmentStatePagerAdapter =
-                    new NoteEditorFragmentStatePagerAdapter(getSupportFragmentManager());
-            noteEditorFragmentStatePagerAdapter.addFragment(
+            mNoteEditorFragmentPagerAdapter =
+                    new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
+            mNoteEditorFragmentPagerAdapter.addFragment(
                     noteEditorFragment,
                     getString(R.string.tab_edit)
             );
-            noteEditorFragmentStatePagerAdapter.addFragment(
+            mNoteEditorFragmentPagerAdapter.addFragment(
                     noteMarkdownFragment,
                     getString(R.string.tab_preview)
             );
-            mViewPager.setAdapter(noteEditorFragmentStatePagerAdapter);
+            mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
             mViewPager.setPagingEnabled(false);
             mViewPager.addOnPageChangeListener(
                 new NoteEditorViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageSelected(int position) {
                         if (position == 1) {
-                            final InputMethodManager imm = (InputMethodManager)getSystemService(
+                            final InputMethodManager imm = (InputMethodManager) getSystemService(
                                     Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
                         }
@@ -116,6 +117,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    protected NoteMarkdownFragment getNoteMarkdownFragment() {
+        return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getFragment(1);
+    }
+
     public void hideTabs() {
         mTabLayout.setVisibility(View.GONE);
         mViewPager.setPagingEnabled(false);
@@ -126,11 +131,11 @@ public class NoteEditorActivity extends AppCompatActivity {
         mViewPager.setPagingEnabled(true);
     }
 
-    private static class NoteEditorFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+    private static class NoteEditorFragmentPagerAdapter extends FragmentPagerAdapter {
         private final ArrayList<Fragment> mFragments = new ArrayList<>();
         private final ArrayList<String> mTitles = new ArrayList<>();
 
-        public NoteEditorFragmentStatePagerAdapter(FragmentManager manager) {
+        public NoteEditorFragmentPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -158,6 +163,10 @@ public class NoteEditorActivity extends AppCompatActivity {
             mFragments.add(fragment);
             mTitles.add(title);
             notifyDataSetChanged();
+        }
+
+        public Fragment getFragment(int position) {
+            return mFragments.get(position);
         }
     }
 }

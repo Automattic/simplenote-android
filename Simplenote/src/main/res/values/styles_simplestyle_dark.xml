@@ -44,6 +44,7 @@
         <item name="actionBarIconEmail">@drawable/ic_email_blue_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_blue_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_blue_24dp</item>
+        <item name="actionBarIconMarkdown">@drawable/ic_markdown_blue_outline_24dp</item>
         <item name="actionBarIconShare">@drawable/ic_share_blue_24dp</item>
         <item name="actionBarIconCabShare">@drawable/ic_share_blue_24dp</item>
         <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>
