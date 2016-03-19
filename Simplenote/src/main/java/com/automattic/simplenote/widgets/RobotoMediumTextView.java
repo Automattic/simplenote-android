@@ -8,7 +8,7 @@ import android.widget.TextView;
  * custom TextView used in layouts - enables keeping custom typeface handling in one place (so we
  * avoid having to set the typeface for every single TextView in every single activity)
  */
-public class RobotoMediumTextView extends TextView {
+public class RobotoMediumTextView extends TintedTextView {
     public RobotoMediumTextView(Context context) {
         super(context);
         TypefaceCache.setCustomTypeface(context, this, TypefaceCache.TYPEFACE_NAME_ROBOTO_MEDIUM);

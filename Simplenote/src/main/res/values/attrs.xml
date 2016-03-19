@@ -46,4 +46,8 @@
     <attr name="fabColor" format="reference" />
     <attr name="fabIconColor" format="reference" />
 
+    <declare-styleable name="TintedTextView">
+        <attr name="tint" format="color"/>
+    </declare-styleable>
+
 </resources>

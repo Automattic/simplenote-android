@@ -16,6 +16,7 @@
         android:paddingRight="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
         android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
         android:visibility="gone"
         tools:visibility="visible">
 

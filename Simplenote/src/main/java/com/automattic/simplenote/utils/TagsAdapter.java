@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.TagsActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.widgets.TintedTextView;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
@@ -137,42 +139,31 @@ public class TagsAdapter extends BaseAdapter {
         }
         TagMenuItem tagMenuItem = getItem(position);
 
-        TextView drawerItemText = (TextView) view.findViewById(R.id.drawer_item_name);
+        TintedTextView drawerItemText = (TintedTextView) view.findViewById(R.id.drawer_item_name);
         drawerItemText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition() - mHeaderCount;
+
+        @ColorInt int color = ContextCompat.getColor(mContext, mTextColorId);
         if (position == selectedPosition) {
-            drawerItemText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
-        } else {
-            drawerItemText.setTextColor(mContext.getResources().getColor(mTextColorId));
+            color = ContextCompat.getColor(mContext, R.color.simplenote_blue);
         }
 
         View dividerView = view.findViewById(R.id.section_divider);
 
         Drawable icon = null;
         if (position == 0) {
-            if (position == selectedPosition) {
-                icon = DrawableUtils.tintDrawable(mContext,
-                        R.drawable.ic_notes_black_24dp, R.color.simperium_blue);
-            } else {
-                icon = DrawableUtils.tintDrawable(mContext,
-                        R.drawable.ic_notes_black_24dp, mTextColorId);
-            }
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_notes_black_24dp);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
-            if (position == selectedPosition) {
-                icon = DrawableUtils.tintDrawable(mContext,
-                        R.drawable.ic_trash_blue_24dp, R.color.simperium_blue);
-            } else {
-                icon = DrawableUtils.tintDrawable(mContext,
-                        R.drawable.ic_trash_blue_24dp, mTextColorId);
-            }
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_blue_24dp);
             dividerView.setVisibility(View.VISIBLE);
         } else {
             dividerView.setVisibility(View.GONE);
         }
 
-        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null, color);
+        drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
         if (position == 2) {
