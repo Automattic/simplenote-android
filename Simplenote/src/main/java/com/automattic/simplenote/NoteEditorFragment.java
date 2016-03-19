@@ -295,6 +295,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     showInfoPopup(menuItemView);
                 }
                 return true;
+
+            case R.id.menu_history:
+                showHistory();
+                return true;
             case R.id.menu_share:
                 if (mNote != null) {
                     Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -360,9 +364,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateInfoPopup();
 
         mInfoPopupWindow.showAsDropDown(view);
-
-        // Request revisions for the current note
-        mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mRevisionsRequestCallbacks);
     }
 
     // update the content of the popupview
@@ -477,10 +478,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNote();
-                showHistorySheet();
+                showHistory();
             }
         });
+    }
+
+    private void showHistory() {
+        // Request revisions for the current note
+        mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mRevisionsRequestCallbacks);
+        saveNote();
+        showHistorySheet();
     }
 
     private boolean noteIsEmpty() {
@@ -1094,7 +1101,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateHistoryProgressBar();
         mBottomSheet.getWindow().setDimAmount(0.3f);
         mBottomSheet.show();
-        mInfoPopupWindow.dismiss();
+
+        if (mInfoPopupWindow != null) {
+            mInfoPopupWindow.dismiss();
+        }
     }
 
     private void updateHistoryDateText(Calendar noteDate) {
