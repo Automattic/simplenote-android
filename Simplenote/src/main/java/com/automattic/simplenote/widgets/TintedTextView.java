@@ -93,7 +93,7 @@ public class TintedTextView extends TextView {
 
     private Drawable getTintedDrawable(Drawable drawable, @ColorInt int color) {
         if (drawable != null) {
-            return DrawableUtils.tintDrawable(getContext(), drawable, color);
+            return DrawableUtils.tintDrawable(drawable, color);
         }
         return null;
     }

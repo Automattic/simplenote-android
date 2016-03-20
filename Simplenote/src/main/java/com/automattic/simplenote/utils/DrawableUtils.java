@@ -14,11 +14,11 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 public class DrawableUtils {
 
     public static Drawable tintDrawable(Context context, @DrawableRes int drawableResource, @ColorInt int color) {
-        Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(context, drawableResource)).mutate();
-        return tintDrawable(context, drawable, color);
+        return tintDrawable(ContextCompat.getDrawable(context, drawableResource), color);
     }
 
-    public static Drawable tintDrawable(Context context, Drawable drawable, @ColorInt int color) {
+    public static Drawable tintDrawable(Drawable drawable, @ColorInt int color) {
+        drawable = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(drawable, color);
         return drawable;
     }
