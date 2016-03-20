@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
@@ -56,8 +58,6 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
-import com.kennyc.bottomsheet.BottomSheet;
-import com.kennyc.bottomsheet.BottomSheetListener;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
@@ -85,7 +85,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private PopupWindow mInfoPopupWindow;
     private View mHistoryView;
     private SeekBar mHistorySeekBar;
-    private BottomSheet mBottomSheet;
     private TextView mHistoryDate;
 
     private ToggleButton mPinButton;
@@ -106,6 +105,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private ArrayList<Note> mNoteRevisionsList;
+
+    private BottomSheetDialog mHistoryBottomSheet;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -807,7 +808,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void saveNote() {
-        if (mNote == null || (mBottomSheet != null && mBottomSheet.isShowing())) {
+        if (mNote == null || (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
             return;
         }
 
@@ -1021,13 +1022,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
      */
     private void showHistorySheet() {
         mContentEditText.clearFocus();
-        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.history_view, null, false);
+
+        mHistoryBottomSheet = new BottomSheetDialog(getActivity());
+
+        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_history, null, false);
         mHistoryDate = (TextView)mHistoryView.findViewById(R.id.history_date);
         mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
         mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mNoteRevisionsList == null  || mBottomSheet == null || !mBottomSheet.isShowing()) {
+                if (mNoteRevisionsList == null  || mHistoryBottomSheet == null || !mHistoryBottomSheet.isShowing()) {
                     return;
                 }
 
@@ -1041,7 +1045,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mContentEditText.setText(revisedNote.getContent());
                 }
 
-                updateHistoryDateText(noteDate);
+                updateHistoryDateText(noteDate, mHistoryDate);
             }
 
             @Override
@@ -1060,9 +1064,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             @Override
             public void onClick(View v) {
                 mContentEditText.setText(mNote.getContent());
-                if (mBottomSheet != null) {
+                if (mHistoryBottomSheet != null) {
                     mDidTapHistoryButton = true;
-                    mBottomSheet.dismiss();
+                    mHistoryBottomSheet.dismiss();
                 }
             }
         });
@@ -1071,44 +1075,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBottomSheet != null) {
+                if (mHistoryBottomSheet != null) {
                     mDidTapHistoryButton = true;
-                    mBottomSheet.dismiss();
+                    mHistoryBottomSheet.dismiss();
                 }
                 saveAndSyncNote();
             }
         });
 
-        mBottomSheet = new BottomSheet.Builder(getActivity(), R.style.Simplestyle_BottomSheet)
-                .setView(mHistoryView)
-                .setListener(new BottomSheetListener() {
-                    @Override
-                    public void onSheetDismissed(int dismissalType) {
-                        if (dismissalType == Integer.MIN_VALUE && !mDidTapHistoryButton) {
-                            mContentEditText.setText(mNote.getContent());
-                        }
-
-                        mDidTapHistoryButton = false;
-                    }
-
-                    @Override
-                    public void onSheetShown() {}
-
-                    @Override
-                    public void onSheetItemSelected(MenuItem menuItem) {}
-                }).create();
-
         updateHistoryProgressBar();
-        mBottomSheet.getWindow().setDimAmount(0.3f);
-        mBottomSheet.show();
+
+        mHistoryBottomSheet = new BottomSheetDialog(getActivity());
+        mHistoryBottomSheet.setContentView(mHistoryView);
+        mHistoryBottomSheet.show();
+        mHistoryBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (!mDidTapHistoryButton) {
+                    mContentEditText.setText(mNote.getContent());
+                }
+
+                mDidTapHistoryButton = false;
+                mHistoryBottomSheet = null;
+            }
+        });
 
         if (mInfoPopupWindow != null) {
             mInfoPopupWindow.dismiss();
         }
     }
 
-    private void updateHistoryDateText(Calendar noteDate) {
-        if (!isAdded() || noteDate == null || mHistoryDate == null) {
+    private void updateHistoryDateText(Calendar noteDate, TextView textView) {
+        if (!isAdded() || noteDate == null || textView == null) {
             return;
         }
 
@@ -1120,7 +1118,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 0L,
                 DateUtils.FORMAT_ABBREV_ALL
         );
-        mHistoryDate.setText(dateText);
+        textView.setText(dateText);
     }
 
     private void updateHistoryProgressBar() {
@@ -1131,7 +1129,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHistorySeekBar.setMax(totalRevs);
             mHistorySeekBar.setProgress(totalRevs);
 
-            updateHistoryDateText(mNote.getModificationDate());
+            updateHistoryDateText(mNote.getModificationDate(), mHistoryDate);
 
             mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
             mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
