@@ -13,8 +13,13 @@ import android.support.v4.graphics.drawable.DrawableCompat;
  */
 public class DrawableUtils {
 
-    public static Drawable tintDrawable(Context context, @DrawableRes int drawableResource, @ColorInt int color) {
-        return tintDrawable(ContextCompat.getDrawable(context, drawableResource), color);
+    public static Drawable tintDrawable(Context context, @DrawableRes int drawableResource, @ColorRes int color) {
+        return tintDrawable(context, ContextCompat.getDrawable(context, drawableResource), color);
+    }
+
+    public static Drawable tintDrawable(Context context, Drawable drawable, @ColorRes int color) {
+        @ColorInt int tint = ContextCompat.getColor(context, color);
+        return tintDrawable(drawable, tint);
     }
 
     public static Drawable tintDrawable(Drawable drawable, @ColorInt int color) {
