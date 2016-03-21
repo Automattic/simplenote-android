@@ -7,17 +7,24 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -33,22 +40,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.ViewSwitcher;
 
-import com.automattic.android.tracks.StringUtils;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -56,6 +58,7 @@ import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ShareButtonAdapter;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
@@ -71,6 +74,7 @@ import org.json.JSONObject;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
@@ -84,9 +88,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Note mNote;
     private Bucket<Note> mNotesBucket;
 
+    private View mRootView;
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
-    private PopupWindow mInfoPopupWindow;
     private View mHistoryView;
     private SeekBar mHistorySeekBar;
     private TextView mHistoryDate;
@@ -112,6 +116,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private BottomSheetDialog mHistoryBottomSheet;
     private BottomSheetDialog mInfoBottomSheet;
+    private BottomSheetDialog mShareBottomSheet;
+
+    private Snackbar mPublishingSnackbar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -183,16 +190,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-        mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
+        mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        mContentEditText = ((SimplenoteEditText) mRootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
-        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mTagView = (TagsMultiAutoCompleteTextView) mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
-        mPinButton = (ToggleButton) rootView.findViewById(R.id.pinButton);
+        mPinButton = (ToggleButton) mRootView.findViewById(R.id.pinButton);
 
         mPinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +211,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         });
 
-        mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
+        mPlaceholderView = (LinearLayout) mRootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
         }
@@ -222,7 +229,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-		return rootView;
+		return mRootView;
 	}
 
     @Override
@@ -308,7 +315,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
                 return true;
             case R.id.menu_share:
-                shareNote();
+                showShareSheet();
                 return true;
             case R.id.menu_delete:
                 if (!isAdded()) return false;
@@ -864,12 +871,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mNote.setPublished(!mNote.isPublished());
                     mNote.save();
 
-                    if (mInfoPopupWindow != null && mInfoPopupWindow.isShowing()) {
-                        ViewSwitcher viewSwitcher = (ViewSwitcher)mInfoPopupWindow.getContentView().findViewById(R.id.publish_view_switcher);
-                        if (viewSwitcher.getDisplayedChild() == 1) {
-                            viewSwitcher.showPrevious();
-                        }
-                    }
+                    updatePublishedState(false);
+
                 }
             });
 
@@ -887,6 +890,135 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         String formattedWordCount = NumberFormat.getInstance().format(numWords);
 
         return String.format("%s %s", formattedWordCount, wordCountString);
+    }
+
+    private void setPublishedNote(boolean isPublished) {
+        if (mNote != null) {
+            mNote.setPublished(isPublished);
+            mNote.save();
+
+            // reset publish status in 20 seconds if we don't hear back from Simperium
+            mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+
+            AnalyticsTracker.track(
+                    (isPublished) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
+                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "publish_note_button"
+            );
+        }
+    }
+
+    public View getSnackbarView() {
+        return getActivity().findViewById(android.R.id.content);
+    }
+
+    private Snackbar showSnackbar(@StringRes int message, @ColorRes int color, int duration) {
+        if (isAdded()) {
+            Snackbar snackbar = Snackbar.make(getSnackbarView(), message, duration);
+            snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), color));
+            snackbar.show();
+            return snackbar;
+        }
+        return null;
+    }
+
+    private Snackbar showSnackbar(@StringRes int message, @ColorRes int color, int duration,
+                                  @StringRes int action, View.OnClickListener onClick) {
+        if (isAdded()) {
+            Snackbar snackbar = Snackbar.make(getSnackbarView(), message, duration);
+            snackbar.setAction(action, onClick);
+            snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), color));
+            snackbar.show();
+            return snackbar;
+        }
+        return null;
+    }
+
+    private void updatePublishedState(boolean isSuccess) {
+
+        if (mPublishingSnackbar != null) {
+            mPublishingSnackbar.dismiss();
+        }
+
+//        if (mShareBottomSheet != null) {
+//
+//        }
+//
+//        if (isSuccess) {
+//            mPublishingSnackbar = showSnackbar(R.string.published, R.color.holo_green_light,
+//                    Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            setPublishedNote(!mNote.isPublished());
+//                        }
+//                    });
+//        }
+    }
+
+    private void copyToClipboard(String text) {
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(getString(R.string.app_name), text);
+        clipboard.setPrimaryClip(clip);
+    }
+
+    private void showShareSheet() {
+        mShareBottomSheet = new BottomSheetDialog(getActivity());
+
+        View shareView = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
+        TextView collaborateButton = (TextView)shareView.findViewById(R.id.share_collaborate_button);
+        TextView publishButton = (TextView)shareView.findViewById(R.id.share_publish_button);
+
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mPublishingSnackbar = showSnackbar(R.string.publishing, R.color.simplenote_blue_accent,
+                        Snackbar.LENGTH_INDEFINITE, R.string.cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setPublishedNote(!mNote.isPublished());
+                            }
+                        });
+                setPublishedNote(true);
+            }
+        });
+
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, mNote.getContent());
+
+        final List<ResolveInfo> matches = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+        List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
+        for (ResolveInfo match : matches) {
+            final Drawable icon = match.loadIcon(getActivity().getPackageManager());
+            final CharSequence label = match.loadLabel(getActivity().getPackageManager());
+            shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label, match.activityInfo.packageName));
+        }
+
+        RecyclerView recyclerView = (RecyclerView) shareView.findViewById(R.id.share_button_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        ShareButtonAdapter.ItemListener shareListener = new ShareButtonAdapter.ItemListener() {
+            @Override
+            public void onItemClick(ShareButtonAdapter.ShareButtonItem item) {
+                intent.setPackage(item.getPackageName());
+                startActivity(Intent.createChooser(intent, getString(R.string.share)));
+                mShareBottomSheet.dismiss();
+            }
+        };
+
+        recyclerView.setAdapter(new ShareButtonAdapter(shareButtons, shareListener));
+
+        mShareBottomSheet.setContentView(shareView);
+        mShareBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mShareBottomSheet = null;
+            }
+        });
+        mShareBottomSheet.show();
     }
 
     private void showInfoSheet() {
@@ -919,9 +1051,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getString(R.string.app_name), mNote.getPublishedUrl());
-                clipboard.setPrimaryClip(clip);
+                copyToClipboard(mNote.getPublishedUrl());
                 Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
             }
         });
@@ -932,7 +1062,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             @Override
             public void onClick(View v) {
                 mInfoBottomSheet.dismiss();
-                shareNote();
+                showShareSheet();
             }
         });
 
@@ -962,7 +1092,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mInfoBottomSheet = null;
             }
         });
-
     }
 
     /**
@@ -1047,10 +1176,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mHistoryBottomSheet = null;
             }
         });
-
-        if (mInfoPopupWindow != null) {
-            mInfoPopupWindow.dismiss();
-        }
     }
 
     private String getHistoryDateText(Calendar noteDate) {
@@ -1109,6 +1234,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 }
 
                                 updateNote(updatedNote);
+                                updatePublishedState(true);
                             }
                         });
                     }
