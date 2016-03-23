@@ -73,60 +73,65 @@
         android:paddingRight="@dimen/padding_large"
         android:text="@string/enable_markdown" />
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/info_public_link_title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info_markdown_switch"
-        android:text="@string/public_link"
-        android:textColor="@color/black"
-        android:paddingTop="@dimen/padding_extra_large"
         android:paddingLeft="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
         android:paddingRight="@dimen/padding_large"
-        />
+        android:layout_below="@id/info_markdown_switch">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/info_public_link_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/info_public_link_title"
-        tools:text="http://simp.ly/publish/fsfjksjd"
-        android:textColor="@color/grey"
-        android:paddingBottom="@dimen/padding_extra_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        />
+        <LinearLayout
+            android:paddingTop="@dimen/padding_extra_large"
+            android:paddingBottom="@dimen/padding_extra_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/info_copy_link_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_notes_black_24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="@dimen/padding_large"
-        android:layout_margin="@dimen/padding_small"
-        android:tint="@color/grey"
-        android:contentDescription="@string/copy"
-        android:layout_alignTop="@+id/info_public_link_title"
-        android:layout_alignRight="@+id/info_words_text"
-        android:layout_alignEnd="@+id/info_words_text" />
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/info_public_link_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/public_link"
+                android:textColor="@color/black"
+                />
 
-    <ImageButton
-        android:id="@+id/info_share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_share_blue_24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="@dimen/padding_large"
-        android:layout_margin="@dimen/padding_small"
-        android:tint="@color/grey"
-        android:contentDescription="@string/copy"
-        android:layout_alignTop="@+id/info_public_link_title"
-        android:layout_alignRight="@+id/info_words_text"
-        android:layout_alignEnd="@+id/info_words_text" />
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/info_public_link_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="http://simp.ly/publish/fsfjksjd"
+                android:textColor="@color/grey"
+                />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/info_copy_link_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_content_copy_blue_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/padding_large"
+            android:tint="@color/grey"
+            android:contentDescription="@string/copy"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:id="@+id/info_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_share_blue_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/padding_large"
+            android:tint="@color/grey"
+            android:contentDescription="@string/copy"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

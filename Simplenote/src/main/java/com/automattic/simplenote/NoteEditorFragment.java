@@ -1072,7 +1072,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         Switch infoMarkdownSwitch = (Switch)infoView.findViewById(R.id.info_markdown_switch);
-//        infoMarkdownSwitch.setChecked(mPinButton.isChecked());
         infoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1111,6 +1110,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             } else {
                 infoLinkTitle.setText(getString(R.string.publish));
+                infoLinkUrl.setVisibility(View.GONE);;
                 copyButton.setVisibility(View.GONE);
                 shareButton.setVisibility(View.VISIBLE);
             }
