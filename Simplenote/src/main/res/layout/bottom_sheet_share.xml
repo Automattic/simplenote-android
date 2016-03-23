@@ -37,6 +37,18 @@
             android:drawablePadding="@dimen/padding_small"
             android:drawableTop="@drawable/publish"
             android:tint="@color/grey" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/share_unpublish_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/unpublish"
+            android:gravity="center_horizontal"
+            android:drawablePadding="@dimen/padding_small"
+            android:drawableTop="@drawable/unpublish"
+            android:tint="@color/grey" />
     </LinearLayout>
 
     <View

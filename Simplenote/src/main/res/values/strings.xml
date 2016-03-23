@@ -141,9 +141,16 @@
     <!-- Note publishing -->
     <string name="content_description_copy_button">Copy Button</string>
     <string name="publish">Publish</string>
+    <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not publish note</string>
-    <string name="unpublish_error">Could not unpublish note</string>
+    <string name="publish_error">Could not create link...</string>
+    <string name="unpublish_error">Could not remove link...</string>
+    <string name="publish_successful">Success! Link copied to clipboard...</string>
+    <string name="unpublish_successful">Public link removed.</string>
+    <string name="publishing">Publishing link...</string>
+    <string name="unpublishing">Removing public link...</string>
+    <string name="collaborate">Collaborate</string>
+    <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
 
     <!-- Font Sizes -->
     <string name="font_size">Font size</string>
@@ -164,6 +171,4 @@
     <string name="public_link">Public link</string>
     <string name="pin_to_top">Pin to top</string>
     <string name="modified_time">Modified %s</string>
-    <string name="publishing">Publishing link...</string>
-    <string name="collaborate">Collaborate</string>
 </resources>

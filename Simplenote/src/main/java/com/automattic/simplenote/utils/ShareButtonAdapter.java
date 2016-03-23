@@ -75,11 +75,14 @@ public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.
 
         private CharSequence mTitle;
         private String mPackageName;
+        private String mActivityName;
 
-        public ShareButtonItem(Drawable drawable, CharSequence title, String packageName) {
+        public ShareButtonItem(Drawable drawable, CharSequence title,
+                               String packageName, String activityName) {
             mDrawableRes = drawable;
             mTitle = title;
             mPackageName = packageName;
+            mActivityName = activityName;
         }
 
         public Drawable getDrawable() {
@@ -92,6 +95,10 @@ public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.
 
         public String getPackageName() {
             return mPackageName;
+        }
+
+        public String getActivityName() {
+            return mActivityName;
         }
     }
 }

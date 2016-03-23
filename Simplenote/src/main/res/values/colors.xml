@@ -23,6 +23,9 @@
     <color name="simplenote_dark_list_divider">#363d4d</color>
     <color name="simplenote_dark_selected_row">#2d3340</color>
 
+    <color name="simplenote_positive_green">#4AB866</color>
+    <color name="simplenote_negative_red">#D94F4F</color>
+
     <color name="welcome_button_blue">#3772a6</color>
 
 	<color name="translucent">#80000000</color>
