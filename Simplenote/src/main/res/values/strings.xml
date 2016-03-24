@@ -50,6 +50,9 @@
     <string name="note_info">Info</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
+    <string name="enable_markdown">Enable markdown</string>
+    <string name="pin_to_top">Pin to top</string>
+    <string name="modified_time">Modified %s</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -138,8 +141,22 @@
     <string name="theme">Theme</string>
     <string name="version">Version</string>
 
+    <!-- About screen -->
+    <string name="about">About Simplenote</string>
+    <string name="about_hiring">Simplenote is made with love by folks at Automattic. Are you a developer? We are hiring.</string>
+    <string name="about_play_store">Google Play Store</string>
+    <string name="about_twitter_handle">\@simplenoteapp</string>
+    <string name="twitter">Twitter</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
+    <string name="blog">Blog</string>
+    <string name="simplenote_for_android">Simplenote for Android</string>
+    <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
+    <string name="simplenote_blog_url">simplenote.com/blog</string>
+
     <!-- Note publishing -->
     <string name="content_description_copy_button">Copy Button</string>
+    <string name="public_link">Public link</string>
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
@@ -167,8 +184,4 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
-    <string name="enable_markdown">Enable markdown</string>
-    <string name="public_link">Public link</string>
-    <string name="pin_to_top">Pin to top</string>
-    <string name="modified_time">Modified %s</string>
 </resources>

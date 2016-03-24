@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:text="@string/simplenote_for_android"
+        />
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/about_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/padding_extra_large"
+        tools:text="Version 1.2.3"
+        />
+
+    <LinearLayout
+        android:id="@+id/about_blog"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/blog"
+            />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/simplenote_blog_url"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/about_twitter"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:background="?attr/selectableItemBackground">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/twitter"
+            />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/about_twitter_handle" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/about_play_store"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:background="?attr/selectableItemBackground">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/rate_us"
+            />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:text="@string/about_play_store"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/about_hiring"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:background="?attr/selectableItemBackground">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/about_hiring"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/padding_extra_large"
+        android:background="@color/white" />
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:background="?attr/selectableItemBackground"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_weight="1"
+        android:gravity="bottom|center_horizontal"
+        android:text="@string/automattic_copyright"
+        />
+
+</LinearLayout>

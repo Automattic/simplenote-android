@@ -44,6 +44,10 @@
         <activity
             android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/Theme.Simplestyle.About"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <!-- Passcode Unlock-->
         <activity

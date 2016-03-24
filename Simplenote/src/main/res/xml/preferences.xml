@@ -63,6 +63,10 @@
             android:key="pref_key_account_preferences"
             android:title="@string/more_info" >
         <Preference
+            android:key="pref_key_about"
+            android:title="@string/about"
+            android:persistent="false" />
+        <Preference
                 android:key="pref_key_website"
                 android:persistent="false"
                 android:title="@string/website" />
