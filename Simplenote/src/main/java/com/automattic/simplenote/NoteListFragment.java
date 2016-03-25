@@ -25,11 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -479,15 +480,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
         */
 		@Override
-		public View getView(int position, View view, ViewGroup parent) {
+		public View getView(final int position, View view, ViewGroup parent) {
 
-			NoteViewHolder holder;
+			final NoteViewHolder holder;
 			if (view == null) {
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
+				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
 				view.setTag(holder);
 			} else {
 				holder = (NoteViewHolder) view.getTag();
@@ -510,7 +511,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
-            holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.INVISIBLE);
+
+            if (pinned == 1) {
+                holder.toggleView.setChecked(true);
+            } else {
+                holder.toggleView.setChecked(false);
+            }
+            holder.toggleView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                    Note note = mNotesAdapter.getItem(position);
+                    note.setPinned(holder.toggleView.isChecked());
+                    note.save();
+                 }
+             });
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
@@ -567,7 +581,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	private static class NoteViewHolder {
 		TextView titleTextView;
 		TextView contentTextView;
-		ImageView pinImageView;
+        ToggleButton toggleView;
         public String matchOffsets;
         private String mNoteId;
 

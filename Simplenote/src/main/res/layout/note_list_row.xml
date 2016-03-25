@@ -13,26 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/note_pin"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginStart="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_large"
-            android:layout_marginEnd="@dimen/padding_large"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_item_list_default_pin_active"
-            android:tint="?attr/notePinColor" />
-
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/note_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/padding_large"
-            android:layout_marginEnd="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginStart="@dimen/padding_large"
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"
@@ -40,16 +27,29 @@
             android:textSize="16sp"
             tools:text="Three-line item" />
 
+        <ToggleButton
+            android:id="@+id/pin_button"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginStart="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/padding_large"
+            android:focusable="false"
+            android:background="?attr/pinIconSelector"
+            android:textOff=""
+            android:textOn="" />
+
     </LinearLayout>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/note_list_item_padding_left"
-        android:layout_marginStart="@dimen/note_list_item_padding_left"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginEnd="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_marginRight="@dimen/note_list_item_padding_right"
+        android:layout_marginEnd="@dimen/note_list_item_padding_right"
         android:lineSpacingExtra="4dp"
         android:ellipsize="end"
         android:maxLines="2"

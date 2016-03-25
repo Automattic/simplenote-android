@@ -27,7 +27,7 @@
                 android:paddingRight="@dimen/padding_large">
 
                 <ToggleButton
-                    android:id="@+id/pinButton"
+                    android:id="@+id/pin_button"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
-                    android:layout_toLeftOf="@id/pinButton"
+                    android:layout_toLeftOf="@id/pin_button"
                     android:completionThreshold="1"
                     android:hint="@string/tag_hint"
                     android:imeOptions="actionNext"

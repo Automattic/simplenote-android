@@ -196,7 +196,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
-        mPinButton = (ToggleButton) mRootView.findViewById(R.id.pinButton);
+        mPinButton = (ToggleButton) mRootView.findViewById(R.id.pin_button);
 
         mPinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -960,13 +960,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void publishNote() {
 
         mPublishingSnackbar = showSnackbar(R.string.publishing,
-                R.color.simplenote_blue_accent, Snackbar.LENGTH_INDEFINITE);
+                R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
         setPublishedNote(true);
     }
 
     private void unpublishNote() {
         mPublishingSnackbar = showSnackbar(R.string.unpublishing,
-                R.color.simplenote_blue_accent, Snackbar.LENGTH_INDEFINITE);
+                R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
         setPublishedNote(false);
     }
 
