@@ -14,14 +14,20 @@
 
         <include layout="@layout/toolbar" />
 
-        <LinearLayout
-            android:id="@+id/note_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <FrameLayout
             android:foreground="@drawable/header_shadow"
-            android:orientation="horizontal"
-            android:showDividers="middle"
-            android:weightSum="10" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/note_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="10" />
+
+        </FrameLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
