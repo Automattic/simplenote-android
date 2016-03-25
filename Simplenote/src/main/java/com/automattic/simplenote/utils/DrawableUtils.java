@@ -1,6 +1,5 @@
 package com.automattic.simplenote.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -19,26 +18,42 @@ import android.view.MenuItem;
  */
 public class DrawableUtils {
 
-    public static Drawable tintDrawable(Context context, @DrawableRes int drawableResource, @ColorRes int color) {
-        return tintDrawable(context, ContextCompat.getDrawable(context, drawableResource), color);
+    public static Drawable tintDrawableWithResource(Context context, @DrawableRes int drawableRes, @ColorRes int colorRes) {
+        return tintDrawableWithResource(context, ContextCompat.getDrawable(context, drawableRes), colorRes);
     }
 
-    public static Drawable tintDrawable(Context context, Drawable drawable, @ColorRes int color) {
-        @ColorInt int tint = ContextCompat.getColor(context, color);
+    public static Drawable tintDrawable(Context context, @DrawableRes int drawableRes, @ColorInt int color) {
+        return tintDrawable(ContextCompat.getDrawable(context, drawableRes), color);
+    }
+
+    public static Drawable tintDrawableWithResource(Context context, Drawable drawable, @ColorRes int colorRes) {
+        @ColorInt int tint = ContextCompat.getColor(context, colorRes);
         return tintDrawable(drawable, tint);
     }
 
     public static Drawable tintDrawable(Drawable drawable, @ColorInt int color) {
-        drawable = DrawableCompat.wrap(drawable).mutate();
-        DrawableCompat.setTint(drawable, color);
+        if (drawable != null) {
+            drawable = DrawableCompat.wrap(drawable).mutate();
+            DrawableCompat.setTint(drawable, color);
+        }
         return drawable;
     }
 
-    public static void tintMenu(Activity activity, Menu menu, @AttrRes int tintColorAttribute) {
+    public static Drawable tintDrawableWithAttribute(Context context, @DrawableRes int drawableRes,
+                                                     @AttrRes int tintColorAttribute) {
+        @ColorInt int color = getColor(context, tintColorAttribute);
+        return tintDrawable(context, drawableRes, color);
+    }
+
+    private static int getColor(Context context, @AttrRes int tintColorAttribute) {
         TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = activity.getTheme();
+        Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(tintColorAttribute, typedValue, true);
-        @ColorInt int color = typedValue.data;
+        return typedValue.data;
+    }
+
+    public static void tintMenuWithAttribute(Context context, Menu menu, @AttrRes int tintColorAttribute) {
+        @ColorInt int color = getColor(context, tintColorAttribute);
         DrawableUtils.tintMenu(menu, color);
     }
 

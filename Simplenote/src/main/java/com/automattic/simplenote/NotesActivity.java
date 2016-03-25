@@ -40,6 +40,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AniUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -614,6 +615,8 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
         }
+
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);
 
         return true;
     }

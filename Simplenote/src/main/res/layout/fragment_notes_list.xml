@@ -50,7 +50,7 @@
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
         android:tint="?attr/fabIconColor"
-        app:srcCompat="?attr/fabIcon"
+        app:srcCompat="@drawable/ic_create_24dp"
         app:borderWidth="0dp"
         app:backgroundTint="?attr/fabColor"
         app:elevation="8dp"

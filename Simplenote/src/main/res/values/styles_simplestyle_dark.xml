@@ -34,19 +34,6 @@
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
         <item name="pinIconSelector">@drawable/pin_bg_selector_dark</item>
 
-        <item name="actionBarIconHistory">@drawable/ic_history_blue_24dp</item>
-        <item name="actionBarIconInfo">@drawable/ic_info_blue_24dp</item>
-        <item name="actionBarIconSearch">@drawable/ic_search_blue_24dp</item>
-        <item name="actionBarIconTrash">@drawable/ic_trash_blue_24dp</item>
-        <item name="actionBarIconBulkTrash">@drawable/ic_trash_blue_24dp</item>
-        <item name="actionBarIconEmptyTrash">@drawable/ab_icon_empty_trash</item>
-        <item name="actionBarIconEmail">@drawable/ic_email_blue_24dp</item>
-        <item name="actionBarIconWeb">@drawable/ic_web_blue_24dp</item>
-        <item name="actionBarIconMap">@drawable/ic_map_blue_24dp</item>
-        <item name="actionBarIconShare">@drawable/ic_share_blue_24dp</item>
-        <item name="actionBarIconCabShare">@drawable/ic_share_blue_24dp</item>
-        <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>
-        <item name="actionBarIconCall">@drawable/ic_call_blue_24dp</item>
         <item name="actionBarTextColor">@color/simplenote_blue</item>
         <item name="actionModeTextColor">@color/simplenote_blue</item>
         <item name="actionModeBackgroundColor">@color/simplenote_dark_selected_row</item>
@@ -56,7 +43,6 @@
 
         <item name="settingsTextColor">@color/white</item>
 
-        <item name="fabIcon">@drawable/ic_create_white_24dp</item>
         <item name="fabColor">@color/simplenote_toolbar_dark</item>
         <item name="fabIconColor">@color/simplenote_blue</item>
 

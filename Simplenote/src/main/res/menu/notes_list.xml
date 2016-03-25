@@ -4,20 +4,20 @@
 
     <item
         android:id="@+id/menu_search"
-        android:icon="?attr/actionBarIconSearch"
+        android:icon="@drawable/ic_search_24dp"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/menu_view_info"
-        android:icon="?attr/actionBarIconInfo"
+        android:icon="@drawable/ic_info_24dp"
         app:showAsAction="ifRoom"
         android:title="@string/note_info"/>
 
     <item
         android:id="@+id/menu_share"
-        android:icon="?attr/actionBarIconShare"
+        android:icon="@drawable/ic_share_24dp"
         android:title="@string/share"
         app:showAsAction="ifRoom" />
 
@@ -28,7 +28,7 @@
 
     <item
         android:id="@+id/menu_empty_trash"
-        android:icon="?attr/actionBarIconEmptyTrash"
+        android:icon="@drawable/ic_empty_trash_24dp"
         android:title="@string/empty_trash"
         app:showAsAction="ifRoom" />
 

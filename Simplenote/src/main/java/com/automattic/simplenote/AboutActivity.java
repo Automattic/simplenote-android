@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 
 /**
  * Created by Ondrej Ruttkay on 24/03/2016.
@@ -29,7 +28,7 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(DrawableUtils.tintDrawable(this,
+            getSupportActionBar().setHomeAsUpIndicator(DrawableUtils.tintDrawableWithResource(this,
                     R.drawable.ic_action_remove_24dp, R.color.white));
         }
     }

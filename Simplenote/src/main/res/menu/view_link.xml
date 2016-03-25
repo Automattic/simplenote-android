@@ -4,17 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_view_link"
-        android:icon="@drawable/ic_web_white_24dp"
         app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_web_white_24dp"
         android:title="@string/view_in_browser"/>
     <item
         android:id="@+id/menu_copy"
-        android:icon="?attr/actionBarIconCopy"
+        android:icon="@drawable/ic_content_copy_white_24dp"
         app:showAsAction="ifRoom"
         android:title="@string/copy"/>
     <item
         android:id="@+id/menu_share"
-        android:icon="?attr/actionBarIconCabShare"
+        android:icon="@drawable/ic_share_24dp"
         app:showAsAction="ifRoom"
         android:title="@string/share"/>
 </menu>

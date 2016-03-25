@@ -7,24 +7,24 @@
         android:id="@+id/menu_history"
         app:showAsAction="always"
         android:title="@string/history"
-        android:icon="?attr/actionBarIconHistory" />
+        android:icon="@drawable/ic_history_24dp" />
 
 
     <item
         android:id="@+id/menu_share"
         app:showAsAction="always"
         android:title="@string/share"
-        android:icon="?attr/actionBarIconShare" />
+        android:icon="@drawable/ic_share_24dp" />
 
     <item
         android:id="@+id/menu_delete"
         app:showAsAction="always"
         android:title="@string/delete"
-        android:icon="?attr/actionBarIconTrash" />
+        android:icon="@drawable/ic_trash_24dp" />
 
     <item
         android:id="@+id/menu_view_info"
-        android:icon="?attr/actionBarIconInfo"
+        android:icon="@drawable/ic_info_24dp"
         app:showAsAction="always"
         android:title="@string/note_info"/>
 

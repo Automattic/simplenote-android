@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.TagsActivity;
@@ -153,10 +149,10 @@ public class TagsAdapter extends BaseAdapter {
 
         Drawable icon = null;
         if (position == 0) {
-            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_notes_black_24dp);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_notes_24dp);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
-            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_blue_24dp);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
             dividerView.setVisibility(View.VISIBLE);
         } else {
             dividerView.setVisibility(View.GONE);

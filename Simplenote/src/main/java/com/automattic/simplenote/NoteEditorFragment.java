@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -57,6 +56,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ShareButtonAdapter;
@@ -109,7 +109,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
-    private int mEmailIconResId, mWebIconResId, mMapIconResId, mCallIconResId;
+    private Drawable mEmailIcon, mWebIcon, mMapIcon, mCallIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
@@ -135,16 +135,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (getActivity() != null) {
             Simplenote currentApp = (Simplenote) getActivity().getApplication();
             mNotesBucket = currentApp.getNotesBucket();
-
-            TypedArray a = getActivity().obtainStyledAttributes(new int[]{R.attr.actionBarIconEmail, R.attr.actionBarIconWeb, R.attr.actionBarIconMap, R.attr.actionBarIconCall});
-            if (a != null) {
-                mEmailIconResId = a.getResourceId(0, 0);
-                mWebIconResId = a.getResourceId(1, 0);
-                mMapIconResId = a.getResourceId(2, 0);
-                mCallIconResId = a.getResourceId(3, 0);
-                a.recycle();
-            }
         }
+
+        mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
+        mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_white_24dp, R.attr.actionModeTextColor);
+        mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_white_24dp, R.attr.actionModeTextColor);
+        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_white_24dp, R.attr.actionModeTextColor);
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
@@ -297,6 +293,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             else
                 trashItem.setTitle(R.string.delete);
         }
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -732,6 +730,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                     mode.setTitleOptionalHint(false);
                 }
+
+                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
             }
             return true;
         }
@@ -827,16 +827,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void setLinkMenuItem() {
         if (mViewLinkMenuItem != null && mLinkUrl != null) {
             if (mLinkUrl.startsWith("tel:")) {
-                mViewLinkMenuItem.setIcon(mCallIconResId);
+                mViewLinkMenuItem.setIcon(mCallIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.call));
             } else if (mLinkUrl.startsWith("mailto:")) {
-                mViewLinkMenuItem.setIcon(mEmailIconResId);
+                mViewLinkMenuItem.setIcon(mEmailIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.email));
             } else if (mLinkUrl.startsWith("geo:")) {
-                mViewLinkMenuItem.setIcon(mMapIconResId);
+                mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
             } else {
-                mViewLinkMenuItem.setIcon(mWebIconResId);
+                mViewLinkMenuItem.setIcon(mWebIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }

@@ -84,7 +84,7 @@
             android:layout_marginRight="@dimen/nav_drawer_item_image_margin"
             android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_settings_black_24dp"
+            app:srcCompat="@drawable/ic_settings_24dp"
             android:tint="?attr/noteTitleColor"
             android:contentDescription="@string/settings" />
 
