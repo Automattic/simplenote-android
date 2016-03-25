@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:text="@string/collaborate"
+            android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/collaborate"
-            android:tint="@color/grey" />
+            android:drawableTop="@drawable/collaborate" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_publish_button"
@@ -33,10 +33,10 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:text="@string/publish"
+            android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/publish"
-            android:tint="@color/grey" />
+            android:drawableTop="@drawable/publish" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_unpublish_button"
@@ -45,10 +45,10 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:text="@string/unpublish"
+            android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/unpublish"
-            android:tint="@color/grey" />
+            android:drawableTop="@drawable/unpublish" />
     </LinearLayout>
 
     <View

@@ -52,6 +52,7 @@
         android:layout_below="@+id/info_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/simplenote_dark_grey"
         android:paddingTop="@dimen/padding_extra_large"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingLeft="@dimen/padding_large"
@@ -65,6 +66,7 @@
         android:layout_below="@+id/info_pin_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/simplenote_dark_grey"
         android:paddingTop="@dimen/padding_extra_large"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingLeft="@dimen/padding_large"
@@ -94,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/public_link"
-                android:textColor="@color/black"
+                android:textColor="@color/simplenote_dark_grey"
                 />
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView

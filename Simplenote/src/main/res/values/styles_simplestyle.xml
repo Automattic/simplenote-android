@@ -5,7 +5,7 @@
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/lightgrey</item>
-        <item name="colorAccent">@color/simplenote_blue_accent</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
@@ -23,8 +23,8 @@
 
         <item name="notePinColor">@color/simplenote_dark_grey</item>
         <item name="noteTitleColor">@color/simplenote_dark_grey</item>
-        <item name="notePreviewColor">@color/simplenote_light_grey</item>
-        <item name="noteEditorTextColor">@color/darkgrey</item>
+        <item name="notePreviewColor">@color/simplenote_text_preview</item>
+        <item name="noteEditorTextColor">@color/simplenote_dark_grey</item>
         <item name="mainBackgroundColor">@color/white</item>
         <item name="dividerColor">@color/simplenote_light_list_divider</item>
         <item name="iconTintColor">@color/simplenote_light_grey</item>
@@ -34,9 +34,10 @@
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
+        <item name="tagChipTextColor">@color/simplenote_tag_chip_text_color</item>
         <item name="pinIconSelector">@drawable/pin_bg_selector</item>
 
-        <item name="actionBarTextColor">@color/simplenote_dark_grey</item>
+        <item name="actionBarTextColor">@color/simplenote_blue</item>
         <item name="actionModeTextColor">@color/white</item>
         <item name="actionModeBackgroundColor">@color/simplenote_blue</item>
 
@@ -61,7 +62,7 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@color/simplenote_dark_grey</item>
+        <item name="color">@color/simplenote_blue</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
@@ -100,7 +101,7 @@
     <style name="ActionMode.Simplestyle" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">?attr/actionModeBackgroundColor</item>
         <item name="titleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
-        <item name="subtitleTextStyle">@style/Simplestyle.ActionModeSubtitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
     </style>
 
     <style name="Simplestyle.ActionModeTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
@@ -108,7 +109,7 @@
     </style>
 
     <style name="Simplestyle.ActionModeSubtitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@color/simplenote_blue_accent</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
