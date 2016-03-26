@@ -80,8 +80,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
         android:layout_below="@id/info_markdown_switch">
 
         <LinearLayout
