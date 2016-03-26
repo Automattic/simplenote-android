@@ -3,67 +3,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/listBackgroundSelector"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal">
 
+    <!-- For tinting to work on API < 19, only drawableLeft (not drawableStart) must be declared -->
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_name"
+        style="?android:attr/textAppearanceMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Test"
-        style="?android:attr/textAppearanceLarge"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:textColor="?attr/noteTitleColor"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
-        android:drawablePadding="@dimen/padding_large"
-        app:tint="@color/simperium_blue"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
         android:drawableLeft="@drawable/ic_tags_24dp"
-        android:drawableStart="@drawable/ic_tags_24dp"
-        />
+        android:drawablePadding="32dp"
+        android:textColor="?attr/noteTitleColor"
+        app:tint="?attr/noteTitleColor"
+        tools:text="Test" />
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
+        style="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="24"
         android:layout_gravity="center_vertical"
-        android:gravity="end"
-        style="?android:attr/textAppearanceLarge"
-        android:textColor="?attr/notePreviewColor"
-        android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
-        />
+        android:layout_marginRight="8dp"
+        android:gravity="end"
+        android:textColor="?attr/notePreviewColor"
+        tools:text="24" />
 
     <View
+        android:id="@+id/imageView"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
-        android:id="@+id/imageView"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="@dimen/padding_extra_small"
         android:layout_marginRight="@dimen/padding_extra_small"
-        android:background="?attr/dividerColor"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_vertical"/>
+        android:background="?attr/dividerColor" />
 
     <ImageButton
         android:id="@+id/tag_trash"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:srcCompat="@drawable/ic_trash_24dp"
-        tools:src="@drawable/ic_trash_24dp"
-		android:tint="@color/simplenote_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginEnd="@dimen/padding_large"
+        android:contentDescription="@string/delete_tag"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:contentDescription="@string/delete_tag" />
+        android:padding="@dimen/padding_large"
+        android:tint="@color/simplenote_blue"
+        app:srcCompat="@drawable/ic_trash_24dp"
+        tools:src="@drawable/ic_trash_24dp" />
 
 </LinearLayout>
