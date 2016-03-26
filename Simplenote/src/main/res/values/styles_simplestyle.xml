@@ -141,7 +141,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="toolbarColor">@color/simplenote_blue_accent</item>
         <item name="actionBarTextColor">@color/white</item>
-        <item name="colorPrimaryDark">@color/simplenote_blue</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
     </style>
 
 </resources>

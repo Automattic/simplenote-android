@@ -21,7 +21,7 @@ public class AboutFragment extends Fragment {
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
-    private static final String TWITTER_APP_URI = "twitter://user?screen_name";
+    private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
     private static final String PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
     private static final String PLAY_STORE_URI = "market://details?id=";
 
@@ -37,7 +37,7 @@ public class AboutFragment extends Fragment {
         View playStore = view.findViewById(R.id.about_play_store);
         View hiring = view.findViewById(R.id.about_hiring);
 
-        version.setText(BuildConfig.VERSION_NAME);
+        version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override
