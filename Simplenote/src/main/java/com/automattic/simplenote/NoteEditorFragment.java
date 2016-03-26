@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
@@ -85,6 +86,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
+    private static final int SHARE_SHEET_COLUMN_COUNT = 3;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
@@ -117,7 +119,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private BottomSheetDialog mHistoryBottomSheet;
     private BottomSheetDialog mInfoBottomSheet;
+
     private BottomSheetDialog mShareBottomSheet;
+    private List<ShareButtonAdapter.ShareButtonItem> shareButtons;
+    private Intent shareIntent;
 
     private Snackbar mPublishingSnackbar;
 
@@ -1015,22 +1020,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         });
 
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, mNote.getContent());
 
-        final List<ResolveInfo> matches = getActivity().getPackageManager().queryIntentActivities(intent, 0);
-        List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
-        for (ResolveInfo match : matches) {
-            final Drawable icon = match.loadIcon(getActivity().getPackageManager());
-            final CharSequence label = match.loadLabel(getActivity().getPackageManager());
-            shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
-                    match.activityInfo.packageName, match.activityInfo.name));
-        }
+        final Intent intent = getShareIntent();
 
         RecyclerView recyclerView = (RecyclerView) shareView.findViewById(R.id.share_button_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SHARE_SHEET_COLUMN_COUNT));
 
         ShareButtonAdapter.ItemListener shareListener = new ShareButtonAdapter.ItemListener() {
             @Override
@@ -1051,6 +1046,26 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         });
         mShareBottomSheet.show();
+    }
+
+    @NonNull
+    private Intent getShareIntent() {
+
+        if (shareIntent == null) {
+            shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mNote.getContent());
+
+            shareButtons = new ArrayList<>();
+            final List<ResolveInfo> matches = getActivity().getPackageManager().queryIntentActivities(shareIntent, 0);
+            for (ResolveInfo match : matches) {
+                final Drawable icon = match.loadIcon(getActivity().getPackageManager());
+                final CharSequence label = match.loadLabel(getActivity().getPackageManager());
+                shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
+                        match.activityInfo.packageName, match.activityInfo.name));
+            }
+        }
+        return shareIntent;
     }
 
     private void showInfoSheet() {
