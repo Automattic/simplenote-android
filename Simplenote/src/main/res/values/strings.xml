@@ -143,7 +143,7 @@
 
     <!-- About screen -->
     <string name="about">About Simplenote</string>
-    <string name="about_hiring">Simplenote is made with love by folks at Automattic. Are you a developer? We are hiring.</string>
+    <string name="about_hiring">Simplenote is made with love by the folks at Automattic. Are you a developer? We're hiring.</string>
     <string name="about_play_store">Google Play Store</string>
     <string name="about_twitter_handle">\@simplenoteapp</string>
     <string name="twitter">Twitter</string>
