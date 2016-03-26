@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -791,6 +792,24 @@ public class NotesActivity extends AppCompatActivity implements
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
+    @Override
+    public void recreate() {
+        Handler handler = new Handler();
+        handler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+                {
+                    NotesActivity.this.finish();
+                    NotesActivity.this.startActivity(NotesActivity.this.getIntent());
+                } else {
+                    NotesActivity.super.recreate();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
