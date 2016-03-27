@@ -194,6 +194,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Friendly message to the user as to what this button does.
                     Toast.makeText(getActivity(), R.string.note_pinned, Toast.LENGTH_SHORT).show();
                 }
+                saveNote();
             }
         });
 
@@ -677,6 +678,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onInfoPinSwitchChanged(boolean isSwitchedOn) {
         mPinButton.setChecked(isSwitchedOn);
+        saveNote();
     }
 
     @Override
