@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_large"
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingStart="@dimen/list_padding_left"
         android:paddingRight="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
         android:paddingTop="@dimen/padding_small"
@@ -53,7 +53,12 @@
         android:gravity="center_vertical"
         android:minHeight="@dimen/nav_row_height"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_large">
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingStart="@dimen/list_padding_left"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large">
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:id="@+id/drawer_item_name"

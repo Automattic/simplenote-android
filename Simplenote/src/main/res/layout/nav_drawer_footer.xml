@@ -75,8 +75,8 @@
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large">
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingRight="@dimen/list_padding_left">
 
         <ImageView
             android:layout_width="wrap_content"
