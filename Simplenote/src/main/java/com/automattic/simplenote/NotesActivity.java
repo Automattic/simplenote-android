@@ -591,10 +591,12 @@ public class NotesActivity extends AppCompatActivity implements
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_view_info).setVisible(true);
+                menu.findItem(R.id.menu_history).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
                 menu.findItem(R.id.menu_view_info).setVisible(false);
+                menu.findItem(R.id.menu_history).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -602,6 +604,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -615,6 +618,7 @@ public class NotesActivity extends AppCompatActivity implements
 
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
         }
 
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);
