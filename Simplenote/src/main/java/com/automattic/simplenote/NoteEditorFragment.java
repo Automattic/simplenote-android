@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,20 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.format.DateUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -60,7 +51,6 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.ShareButtonAdapter;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
@@ -71,41 +61,38 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
-import org.json.JSONObject;
-
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
-public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
+public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
+        TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
+        SimplenoteEditText.OnSelectionChangedListener,
+        ShareBottomSheetDialog.ShareSheetListener,
+        HistoryBottomSheetDialog.HistorySheetListener,
+        InfoBottomSheetDialog.InfoSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
-    private static final int SHARE_SHEET_COLUMN_COUNT = 3;
+    private static final int PUBLISH_TIMEOUT = 20000;
+    private static final int HISTORY_TIMEOUT = 10000;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
 
-    private View mRootView;
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
-    private View mHistoryView;
-    private SeekBar mHistorySeekBar;
-    private TextView mHistoryDate;
 
     private ToggleButton mPinButton;
 
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
+    private Handler mHistoryTimeoutHandler;
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton;
+    private boolean mIsNewNote, mIsLoadingNote;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -115,14 +102,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
-    private ArrayList<Note> mNoteRevisionsList;
 
-    private BottomSheetDialog mHistoryBottomSheet;
-    private BottomSheetDialog mInfoBottomSheet;
-
-    private BottomSheetDialog mShareBottomSheet;
-    private List<ShareButtonAdapter.ShareButtonItem> shareButtons;
-    private Intent shareIntent;
+    private HistoryBottomSheetDialog mHistoryBottomSheet;
+    private InfoBottomSheetDialog mInfoBottomSheet;
+    private ShareBottomSheetDialog mShareBottomSheet;
 
     private Snackbar mPublishingSnackbar;
 
@@ -149,6 +132,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
+        mHistoryTimeoutHandler = new Handler();
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
@@ -192,7 +176,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        View mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) mRootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) mRootView.findViewById(R.id.tag_view);
@@ -275,6 +259,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
         }
 
+        if (mHistoryTimeoutHandler != null) {
+            mHistoryTimeoutHandler.removeCallbacks(mHistoryTimeoutRunnable);
+        }
+
         mHighlighter.stop();
 
         super.onPause();
@@ -308,15 +296,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_view_info:
-                if (mNote != null) {
-                    showInfoSheet();
-                }
+                showInfo();
                 return true;
 
             case R.id.menu_history:
-                if (mNote != null && mNote.getVersion() > 1) {
-                    showHistory();
-                }
+                showHistory();
                 return true;
             case R.id.menu_share:
                 shareNote();
@@ -324,24 +308,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_delete:
                 if (!isAdded()) return false;
 
-                if (mNote != null) {
-                    mNote.setDeleted(!mNote.isDeleted());
-                    mNote.setModificationDate(Calendar.getInstance());
-                    mNote.save();
-                    Intent resultIntent = new Intent();
-                    if (mNote.isDeleted()) {
-                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
-                    }
-                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
-
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "trash_menu_item"
-                    );
-                }
-
-                getActivity().finish();
+                deleteNote();
                 return true;
             case android.R.id.home:
                 if (!isAdded()) return false;
@@ -353,8 +320,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    private void deleteNote() {
+        if (mNote != null) {
+            mNote.setDeleted(!mNote.isDeleted());
+            mNote.setModificationDate(Calendar.getInstance());
+            mNote.save();
+            Intent resultIntent = new Intent();
+            if (mNote.isDeleted()) {
+                resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
+            }
+            getActivity().setResult(Activity.RESULT_OK, resultIntent);
+
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "trash_menu_item"
+            );
+        }
+
+        getActivity().finish();
+    }
+
     private void shareNote() {
         if (mNote != null) {
+            mContentEditText.clearFocus();
             showShareSheet();
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
@@ -365,10 +354,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void showHistory() {
-        // Request revisions for the current note
-        mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mRevisionsRequestCallbacks);
-        saveNote();
-        showHistorySheet();
+        if (mNote != null && mNote.getVersion() > 1) {
+            mContentEditText.clearFocus();
+            mHistoryTimeoutHandler.postDelayed(mHistoryTimeoutRunnable, HISTORY_TIMEOUT);
+            showHistorySheet();
+        }
+        else {
+            Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void showInfo() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            saveNote();
+            showInfoSheet();
+        }
     }
 
     private boolean noteIsEmpty() {
@@ -609,6 +610,95 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else {
             return mTagView.getText().toString();
         }
+    }
+
+    /**
+     *  Share bottom sheet callbacks
+     */
+
+    @Override
+    public void onSharePublishClicked() {
+        publishNote();
+        mShareBottomSheet.dismiss();
+    }
+
+    @Override
+    public void onShareUnpublishClicked() {
+        unpublishNote();
+        mShareBottomSheet.dismiss();
+    }
+
+    @Override
+    public void onShareCollaborateClicked() {
+        Toast.makeText(getActivity(), R.string.collaborate_message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onShareDismissed() {
+
+    }
+
+    /**
+     *  History bottom sheet listeners
+     */
+
+    @Override
+    public void onHistoryCancelClicked() {
+        mContentEditText.setText(mNote.getContent());
+        mHistoryBottomSheet.dismiss();
+    }
+
+    @Override
+    public void onHistoryRestoreClicked() {
+        mHistoryBottomSheet.dismiss();
+        saveAndSyncNote();
+    }
+
+    @Override
+    public void onHistoryDismissed() {
+        if (!mHistoryBottomSheet.didTapOnButton()) {
+            mContentEditText.setText(mNote.getContent());
+        }
+
+        if (mHistoryTimeoutHandler != null) {
+            mHistoryTimeoutHandler.removeCallbacks(mHistoryTimeoutRunnable);
+        }
+    }
+
+    @Override
+    public void onHistoryUpdateNote(String content) {
+        mContentEditText.setText(content);
+    }
+
+    /**
+     *  Info bottom sheet listeners
+     */
+
+    @Override
+    public void onInfoPinSwitchChanged(boolean isSwitchedOn) {
+        mPinButton.setChecked(isSwitchedOn);
+    }
+
+    @Override
+    public void onInfoMarkdownSwitchChanged(boolean isSwitchedOn) {
+
+    }
+
+    @Override
+    public void onInfoCopyLinkClicked() {
+        copyToClipboard(mNote.getPublishedUrl());
+        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInfoShareLinkClicked() {
+        mInfoBottomSheet.dismiss();
+        showShareSheet();
+    }
+
+    @Override
+    public void onInfoDismissed() {
+
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
@@ -868,18 +958,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     };
 
-    private String getWordCount() {
-        String content = getNoteContentString();
+    // Hides the history bottom sheet if no revisions are loaded
+    private final Runnable mHistoryTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!isAdded()) return;
 
-        if (TextUtils.isEmpty(content)) return "";
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-        int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
+                    if (mHistoryBottomSheet.isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
+                        mHistoryBottomSheet.dismiss();
+                        Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
-        String wordCountString = getResources().getQuantityString(R.plurals.word_count, numWords);
-        String formattedWordCount = NumberFormat.getInstance().format(numWords);
-
-        return String.format("%s %s", formattedWordCount, wordCountString);
-    }
+        }
+    };
 
     private void setPublishedNote(boolean isPublished) {
         if (mNote != null) {
@@ -887,7 +984,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNote.save();
 
             // reset publish status in 20 seconds if we don't hear back from Simperium
-            mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, 20000);
+            mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, PUBLISH_TIMEOUT);
 
             AnalyticsTracker.track(
                     (isPublished) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
@@ -898,7 +995,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public View getSnackbarView() {
+    private View getSnackbarView() {
         return getActivity().findViewById(android.R.id.content);
     }
 
@@ -982,278 +1079,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void showShareSheet() {
-        mShareBottomSheet = new BottomSheetDialog(getActivity());
-
-        View shareView = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
-        TextView collaborateButton = (TextView)shareView.findViewById(R.id.share_collaborate_button);
-        TextView publishButton = (TextView)shareView.findViewById(R.id.share_publish_button);
-        TextView unpublishButton = (TextView)shareView.findViewById(R.id.share_unpublish_button);
-
-        if (mNote.isPublished()) {
-            publishButton.setVisibility(View.GONE);
-            unpublishButton.setVisibility(View.VISIBLE);
-        } else {
-            publishButton.setVisibility(View.VISIBLE);
-            unpublishButton.setVisibility(View.GONE);
+        if (isAdded()) {
+            if (mShareBottomSheet == null) {
+                mShareBottomSheet = new ShareBottomSheetDialog(this, this);
+            }
+            mShareBottomSheet.show(mNote);
         }
-
-        collaborateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), R.string.collaborate_message, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        publishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishNote();
-                mShareBottomSheet.dismiss();
-            }
-        });
-
-        unpublishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unpublishNote();
-                mShareBottomSheet.dismiss();
-            }
-        });
-
-
-        final Intent intent = getShareIntent();
-
-        RecyclerView recyclerView = (RecyclerView) shareView.findViewById(R.id.share_button_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), SHARE_SHEET_COLUMN_COUNT));
-
-        ShareButtonAdapter.ItemListener shareListener = new ShareButtonAdapter.ItemListener() {
-            @Override
-            public void onItemClick(ShareButtonAdapter.ShareButtonItem item) {
-                intent.setComponent(new ComponentName(item.getPackageName(), item.getActivityName()));
-                startActivity(Intent.createChooser(intent, getString(R.string.share)));
-                mShareBottomSheet.dismiss();
-            }
-        };
-
-        recyclerView.setAdapter(new ShareButtonAdapter(shareButtons, shareListener));
-
-        mShareBottomSheet.setContentView(shareView);
-        mShareBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mShareBottomSheet = null;
-            }
-        });
-        mShareBottomSheet.show();
-    }
-
-    @NonNull
-    private Intent getShareIntent() {
-
-        if (shareIntent == null) {
-            shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, mNote.getContent());
-
-            shareButtons = new ArrayList<>();
-            final List<ResolveInfo> matches = getActivity().getPackageManager().queryIntentActivities(shareIntent, 0);
-            for (ResolveInfo match : matches) {
-                final Drawable icon = match.loadIcon(getActivity().getPackageManager());
-                final CharSequence label = match.loadLabel(getActivity().getPackageManager());
-                shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
-                        match.activityInfo.packageName, match.activityInfo.name));
-            }
-        }
-        return shareIntent;
     }
 
     private void showInfoSheet() {
-        mInfoBottomSheet = new BottomSheetDialog(getActivity());
-        View infoView = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
-
-        TextView infoModifiedDate = (TextView)infoView.findViewById(R.id.info_modified_date_text);
-        TextView infoWords = (TextView)infoView.findViewById(R.id.info_words_text);
-        TextView infoLinkUrl = (TextView)infoView.findViewById(R.id.info_public_link_url);
-        TextView infoLinkTitle = (TextView)infoView.findViewById(R.id.info_public_link_title);
-
-        Switch infoPinSwitch = (Switch)infoView.findViewById(R.id.info_pin_switch);
-        infoPinSwitch.setChecked(mPinButton.isChecked());
-        infoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mPinButton.setChecked(isChecked);
+        if (isAdded()) {
+            if (mInfoBottomSheet == null) {
+                mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
             }
-        });
-
-        Switch infoMarkdownSwitch = (Switch)infoView.findViewById(R.id.info_markdown_switch);
-        infoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            }
-        });
-
-        ImageButton copyButton = (ImageButton)infoView.findViewById(R.id.info_copy_link_button);
-        copyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyToClipboard(mNote.getPublishedUrl());
-                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        ImageButton shareButton = (ImageButton)infoView.findViewById(R.id.info_share_button);
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mInfoBottomSheet.dismiss();
-                showShareSheet();
-            }
-        });
-
-        if (mNote != null) {
-            String date = getHistoryDateText(mNote.getModificationDate());
-            infoModifiedDate.setText(String.format(getString(R.string.modified_time), date));
-
-            infoWords.setText(getWordCount());
-
-            if (mNote.isPublished()) {
-                infoLinkUrl.setText(mNote.getPublishedUrl());
-                shareButton.setVisibility(View.GONE);
-                copyButton.setVisibility(View.VISIBLE);
-
-            } else {
-                infoLinkTitle.setText(getString(R.string.publish));
-                infoLinkUrl.setVisibility(View.GONE);;
-                copyButton.setVisibility(View.GONE);
-                shareButton.setVisibility(View.VISIBLE);
-            }
+            mInfoBottomSheet.show(mNote);
         }
 
-        mInfoBottomSheet.setContentView(infoView);
-        mInfoBottomSheet.show();
-        mInfoBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mInfoBottomSheet = null;
-            }
-        });
     }
 
-    /**
-     * History methods
-     */
     private void showHistorySheet() {
-        mContentEditText.clearFocus();
-
-        mHistoryBottomSheet = new BottomSheetDialog(getActivity());
-
-        mHistoryView = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_history, null, false);
-        mHistoryDate = (TextView)mHistoryView.findViewById(R.id.history_date);
-        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
-        mHistorySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mNoteRevisionsList == null  || mHistoryBottomSheet == null || !mHistoryBottomSheet.isShowing()) {
-                    return;
-                }
-
-                Calendar noteDate = null;
-                if (progress == mNoteRevisionsList.size()) {
-                    mContentEditText.setText(mNote.getContent());
-                    noteDate = mNote.getModificationDate();
-                } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
-                    Note revisedNote = mNoteRevisionsList.get(progress);
-                    noteDate = revisedNote.getModificationDate();
-                    mContentEditText.setText(revisedNote.getContent());
-                }
-
-                mHistoryDate.setText(getHistoryDateText(noteDate));
+        if (isAdded()) {
+            if (mHistoryBottomSheet == null) {
+                mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
+            // Request revisions for the current note
+            mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
+            saveNote();
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
-        });
-
-        View cancelHistoryButton = mHistoryView.findViewById(R.id.cancel_history_button);
-        cancelHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContentEditText.setText(mNote.getContent());
-                if (mHistoryBottomSheet != null) {
-                    mDidTapHistoryButton = true;
-                    mHistoryBottomSheet.dismiss();
-                }
-            }
-        });
-
-        View restoreHistoryButton = mHistoryView.findViewById(R.id.restore_history_button);
-        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mHistoryBottomSheet != null) {
-                    mDidTapHistoryButton = true;
-                    mHistoryBottomSheet.dismiss();
-                }
-                saveAndSyncNote();
-            }
-        });
-
-        updateHistoryProgressBar();
-
-        mHistoryBottomSheet = new BottomSheetDialog(getActivity());
-        mHistoryBottomSheet.setContentView(mHistoryView);
-        mHistoryBottomSheet.show();
-        mHistoryBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (!mDidTapHistoryButton) {
-                    mContentEditText.setText(mNote.getContent());
-                }
-
-                mDidTapHistoryButton = false;
-                mHistoryBottomSheet = null;
-            }
-        });
-    }
-
-    private String getHistoryDateText(Calendar noteDate) {
-        if (!isAdded() || noteDate == null) {
-            return "";
-        }
-
-        long now = Calendar.getInstance().getTimeInMillis();
-        CharSequence dateText = DateUtils.getRelativeDateTimeString(
-                getActivity(),
-                noteDate.getTimeInMillis(),
-                now,
-                0L,
-                DateUtils.FORMAT_ABBREV_ALL
-        );
-
-        return dateText.toString();
-    }
-
-    private void updateHistoryProgressBar() {
-        if (mHistorySeekBar == null) return;
-
-        int totalRevs = mNoteRevisionsList == null ? 0 : mNoteRevisionsList.size();
-        if (totalRevs > 0) {
-            mHistorySeekBar.setMax(totalRevs);
-            mHistorySeekBar.setProgress(totalRevs);
-
-            mHistoryDate.setText(getHistoryDateText(mNote.getModificationDate()));
-
-            mHistoryView.findViewById(R.id.history_loading_view).setVisibility(View.GONE);
-            mHistoryView.findViewById(R.id.history_slider_view).setVisibility(View.VISIBLE);
+            mHistoryBottomSheet.show(mNote);
         }
     }
 
@@ -1310,38 +1164,4 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         note.setContent(getNoteContentString());
     }
-
-    private final Bucket.RevisionsRequestCallbacks<Note> mRevisionsRequestCallbacks = new
-            Bucket.RevisionsRequestCallbacks<Note>() {
-                // Note: These callbacks won't be running on the main thread
-                @Override
-                public void onComplete(Map<Integer, Note> revisionsMap) {
-                    if (!isAdded()) return;
-
-                    // Convert map to an array list, to work better with the 0-index based seekbar
-                    mNoteRevisionsList = new ArrayList<>(revisionsMap.values());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateHistoryProgressBar();
-                        }
-                    });
-                }
-
-                @Override
-                public void onRevision(String key, int version, JSONObject object) {}
-
-                @Override
-                public void onError(Throwable exception) {
-                    if (!isAdded() || mHistoryView == null) return;
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mHistoryView.findViewById(R.id.history_progress_bar).setVisibility(View.GONE);
-                            mHistoryView.findViewById(R.id.history_error_text).setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            };
 }
