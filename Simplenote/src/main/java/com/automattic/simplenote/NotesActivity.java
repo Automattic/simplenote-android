@@ -628,19 +628,6 @@ public class NotesActivity extends AppCompatActivity implements
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_share:
-                if (mCurrentNote != null) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mCurrentNote.getContent());
-                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "action_bar_share_button"
-                    );
-                }
-                return true;
             case R.id.menu_delete:
                 if (mNoteEditorFragment != null) {
                     if (mCurrentNote != null) {
