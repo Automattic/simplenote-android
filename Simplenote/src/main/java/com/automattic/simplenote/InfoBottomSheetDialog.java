@@ -4,9 +4,12 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -20,7 +23,7 @@ import java.text.NumberFormat;
 /**
  * Created by onko on 27/03/2016.
  */
-public class InfoBottomSheetDialog extends BottomSheetDialog {
+public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     private TextView mInfoModifiedDate;
     private TextView mInfoWords;

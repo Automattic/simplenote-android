@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Created by Ondrej Ruttkay on 26/03/2016.
  */
-public class HistoryBottomSheetDialog extends BottomSheetDialog {
+public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
 
     private boolean mDidTapButton;
     private ArrayList<Note> mNoteRevisionsList;
