@@ -36,6 +36,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -124,8 +125,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
-            new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (getListView().getCheckedItemIds().length > 0) {
+
+            switch (item.getItemId()) {
+                case R.id.menu_delete:
+                    new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    break;
+                case R.id.menu_pin:
+                    new pinNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    break;
+            }
+        }
         return false;
     }
 
@@ -514,15 +524,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             if (pinned == 1) {
                 holder.toggleView.setChecked(true);
+                holder.toggleView.setVisibility(View.VISIBLE);
             } else {
-                holder.toggleView.setChecked(false);
+                holder.toggleView.setVisibility(View.INVISIBLE);
             }
             holder.toggleView.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
                     Note note = mNotesAdapter.getItem(position);
-                    note.setPinned(holder.toggleView.isChecked());
-                    note.save();
+                    NoteUtils.setNotePin(note, holder.toggleView.isChecked());
                  }
              });
 
@@ -682,6 +692,54 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 setNoteSelected(mSelectedNoteId);
                 mSelectedNoteId = null;
             }
+        }
+    }
+
+    private class pinNotesTask extends AsyncTask<Boolean, Void, Void> {
+
+        private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
+
+        @Override
+        protected void onPreExecute() {
+            if (getListView() != null) {
+                mSelectedRows = getListView().getCheckedItemPositions();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Boolean... args) {
+
+            boolean pinned = true;
+            if (args.length > 0) {
+                pinned = args[0];
+            }
+
+            // Get the checked notes and add them to the pinnedNotesList
+            // We can't modify the note in this loop because the adapter could change
+            List<Note> pinnedNotesList = new ArrayList<>();
+            for (int i = 0; i < mSelectedRows.size(); i++) {
+                if (mSelectedRows.valueAt(i)) {
+                    pinnedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                }
+            }
+
+            // Now loop through the notes list and mark them as pinned
+            for (Note pinnedNote : pinnedNotesList) {
+                if (pinnedNote.isPinned() != pinned) {
+                    pinnedNote.setPinned(pinned);
+                    pinnedNote.setModificationDate(Calendar.getInstance());
+                    pinnedNote.save();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            mActionMode.finish();
+            refreshList();
         }
     }
 

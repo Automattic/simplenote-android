@@ -50,6 +50,7 @@ import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SpaceTokenizer;
@@ -83,8 +84,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
-
-    private ToggleButton mPinButton;
 
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
@@ -184,19 +183,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
-
-        mPinButton = (ToggleButton) mRootView.findViewById(R.id.pin_button);
-
-        mPinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPinButton.isChecked()) {
-                    // Friendly message to the user as to what this button does.
-                    Toast.makeText(getActivity(), R.string.note_pinned, Toast.LENGTH_SHORT).show();
-                }
-                saveNote();
-            }
-        });
 
         mPlaceholderView = (LinearLayout) mRootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
@@ -428,8 +414,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             afterTextChanged(mContentEditText.getText());
-
-            mPinButton.setChecked(mNote.isPinned());
 
             updateTagList();
         }
@@ -677,8 +661,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoPinSwitchChanged(boolean isSwitchedOn) {
-        mPinButton.setChecked(isSwitchedOn);
-        saveNote();
+        NoteUtils.setNotePin(mNote, isSwitchedOn);
     }
 
     @Override
@@ -786,29 +769,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned())) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             // Send pinned event to google analytics if changed
-            mNote.setPinned(mPinButton.isChecked());
             mNote.save();
-            if (getActivity() != null) {
-                if (mNote.isPinned() != mPinButton.isChecked()) {
-                    AnalyticsTracker.track(
-                            mPinButton.isChecked() ? AnalyticsTracker.Stat.EDITOR_NOTE_PINNED :
-                                    AnalyticsTracker.Stat.EDITOR_NOTE_UNPINNED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "pin_button"
-                    );
-                }
 
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "editor_save"
-                );
-            }
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "editor_save"
+            );
         }
     }
 

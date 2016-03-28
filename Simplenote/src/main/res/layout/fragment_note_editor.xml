@@ -26,25 +26,12 @@
                 android:paddingLeft="@dimen/padding_large"
                 android:paddingRight="@dimen/padding_large">
 
-                <ToggleButton
-                    android:id="@+id/pin_button"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_centerVertical="true"
-                    android:background="?attr/pinIconSelector"
-                    android:textOff=""
-                    android:textOn="" />
-
                 <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                     android:id="@+id/tag_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-4dp"
-                    android:layout_toLeftOf="@id/pin_button"
+                    android:layout_marginStart="-4dp"
                     android:completionThreshold="1"
                     android:hint="@string/tag_hint"
                     android:imeOptions="actionNext"
