@@ -526,7 +526,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.toggleView.setChecked(true);
                 holder.toggleView.setVisibility(View.VISIBLE);
             } else {
-                holder.toggleView.setVisibility(View.INVISIBLE);
+                holder.toggleView.setVisibility(View.GONE);
             }
             holder.toggleView.setOnClickListener(new View.OnClickListener() {
                  @Override
