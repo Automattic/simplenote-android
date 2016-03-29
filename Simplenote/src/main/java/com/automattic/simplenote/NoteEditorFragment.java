@@ -214,7 +214,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setOnTagAddedListener(this);
 
         if (mContentEditText != null) {
-            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18));
+            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14));
         }
     }
 

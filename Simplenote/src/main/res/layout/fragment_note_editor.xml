@@ -62,7 +62,7 @@
                 android:scrollHorizontally="false"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorLink="@color/simplenote_blue"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 tools:context=".NoteEditorFragment" />
         </LinearLayout>
 

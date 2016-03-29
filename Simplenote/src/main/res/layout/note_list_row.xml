@@ -45,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/note_title"
+        android:paddingTop="1dp"
         android:layout_marginLeft="@dimen/list_padding_left"
         android:layout_marginStart="@dimen/list_padding_left"
         android:layout_marginRight="@dimen/padding_large"
