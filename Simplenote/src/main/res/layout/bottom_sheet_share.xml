@@ -23,7 +23,7 @@
             android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/collaborate" />
+            android:drawableTop="@drawable/ic_collaborate_48dp" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_publish_button"
@@ -35,7 +35,7 @@
             android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/publish" />
+            android:drawableTop="@drawable/ic_publish_48dp" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_unpublish_button"
@@ -47,7 +47,7 @@
             android:textColor="@color/simplenote_dark_grey"
             android:gravity="center_horizontal"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/unpublish" />
+            android:drawableTop="@drawable/ic_unpublish_48dp" />
     </LinearLayout>
 
     <View
