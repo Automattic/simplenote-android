@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,6 +57,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.commonsware.cwac.anddown.AndDown;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.simperium.client.Bucket;
@@ -68,8 +70,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
-
-import us.feras.mdv.MarkdownView;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>, TextWatcher, OnTagAddedListener, View.OnFocusChangeListener, SimplenoteEditText.OnSelectionChangedListener {
 
@@ -111,9 +111,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private ArrayList<Note> mNoteRevisionsList;
-    private MarkdownView mMarkdown;
     private NoteMarkdownFragment mNoteMarkdownFragment;
     private String mCss;
+    private WebView mMarkdown;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -207,14 +207,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
-            mMarkdown = (MarkdownView) rootView.findViewById(R.id.markdown);
+            mMarkdown = (WebView) rootView.findViewById(R.id.markdown);
 
             switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
                 case THEME_DARK:
-                    mCss = "file:///android_asset/dark.css";
+                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"dark.css\" />";
                     break;
                 case THEME_LIGHT:
-                    mCss = "file:///android_asset/light.css";
+                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"light.css\" />";
                     break;
             }
         }
@@ -382,7 +382,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void clearMarkdown() {
-        mMarkdown.loadMarkdown("", mCss);
+        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
     }
 
     protected void hideMarkdown() {
@@ -544,7 +544,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mIsMarkdownEnabled = enabled;
 
         if (mIsMarkdownEnabled) {
-            mMarkdown.loadMarkdown(getNoteContentString(), mCss);
+            mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                    new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
         }
     }
 
@@ -849,7 +850,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
                 // Get markdown view and update content
                 if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    mMarkdown.loadMarkdown(getNoteContentString(), mCss);
+                    mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                            new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
                 } else {
                     mNoteMarkdownFragment =
                             ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
@@ -881,7 +883,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 // Update markdown fragment
                 if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    mMarkdown.loadMarkdown(getNoteContentString(), mCss);
+                    mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                            new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
                 } else {
                     mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
                 }

@@ -3,10 +3,10 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent" >
 
-    <us.feras.mdv.MarkdownView
+    <WebView
         android:id="@+id/markdown"
         android:layout_height="match_parent"
         android:layout_width="match_parent" >
-    </us.feras.mdv.MarkdownView>
+    </WebView>
 
 </android.support.v4.widget.NestedScrollView>

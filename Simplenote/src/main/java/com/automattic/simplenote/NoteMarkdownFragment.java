@@ -11,21 +11,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.util.Calendar;
 
-import us.feras.mdv.MarkdownView;
-
 public class NoteMarkdownFragment extends Fragment {
-    private MarkdownView mMarkdown;
     private Note mNote;
     private String mCss;
+    private WebView mMarkdown;
     private boolean mIsLoadingNote;
 
     public static final int THEME_LIGHT = 0;
@@ -66,14 +66,14 @@ public class NoteMarkdownFragment extends Fragment {
         setHasOptionsMenu(true);
 
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
-        mMarkdown = (MarkdownView) layout.findViewById(R.id.markdown);
+        mMarkdown = (WebView) layout.findViewById(R.id.markdown);
 
         switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_DARK:
-                mCss = "file:///android_asset/dark.css";
+                mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"dark.css\" />";
                 break;
             case THEME_LIGHT:
-                mCss = "file:///android_asset/light.css";
+                mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"light.css\" />";
                 break;
         }
 
@@ -149,7 +149,8 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
-        mMarkdown.loadMarkdown(text, mCss);
+        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                new AndDown().markdownToHtml(text), "text/html", "utf-8", null);
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
