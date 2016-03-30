@@ -102,9 +102,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoMarkdownSwitch.setChecked(false);
 
             if (note.isPublished()) {
+                mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
                 mInfoLinkUrl.setText(note.getPublishedUrl());
-                mShareButton.setVisibility(View.GONE);
+                mInfoLinkUrl.setVisibility(View.VISIBLE);
                 mCopyButton.setVisibility(View.VISIBLE);
+                mShareButton.setVisibility(View.GONE);
 
             } else {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.publish));
