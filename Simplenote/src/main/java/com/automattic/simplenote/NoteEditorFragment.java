@@ -176,18 +176,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-        mContentEditText = ((SimplenoteEditText) mRootView.findViewById(R.id.note_content));
+        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
-        mTagView = (TagsMultiAutoCompleteTextView) mRootView.findViewById(R.id.tag_view);
+        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
-        mPlaceholderView = (LinearLayout) mRootView.findViewById(R.id.placeholder);
+        mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
+            getActivity().invalidateOptionsMenu();
         }
 
         mTagView.setAdapter(mAutocompleteAdapter);
@@ -203,7 +204,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-		return mRootView;
+		return rootView;
 	}
 
     @Override
