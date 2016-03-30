@@ -53,6 +53,7 @@ import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
@@ -969,33 +970,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private View getSnackbarView() {
-        return getActivity().findViewById(android.R.id.content);
-    }
-
-    private Snackbar showSnackbar(@StringRes int message, @ColorRes int color, int duration) {
-        if (isAdded()) {
-            Snackbar snackbar = Snackbar.make(getSnackbarView(), message, duration);
-            snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), color));
-            snackbar.show();
-            return snackbar;
-        }
-        return null;
-    }
-
-    private Snackbar showSnackbar(@StringRes int message, @ColorRes int color, int duration,
-                                  @StringRes int action, View.OnClickListener onClick) {
-        if (isAdded()) {
-            Snackbar snackbar = Snackbar.make(getSnackbarView(), message, duration);
-            snackbar.setAction(action, onClick);
-            snackbar.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), color));
-            snackbar.setActionTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-            snackbar.show();
-            return snackbar;
-        }
-        return null;
-    }
-
     private void updatePublishedState(boolean isSuccess) {
 
         if (mPublishingSnackbar == null) {
@@ -1005,9 +979,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mPublishingSnackbar.dismiss();
         mPublishingSnackbar = null;
 
-        if (isSuccess) {
+        if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                showSnackbar(R.string.publish_successful, R.color.simplenote_positive_green,
+                SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
+                        R.color.simplenote_positive_green,
                         Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1016,7 +991,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         });
                 copyToClipboard(mNote.getPublishedUrl());
             } else {
-                showSnackbar(R.string.unpublish_successful, R.color.simplenote_negative_red,
+                SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
+                        R.color.simplenote_negative_red,
                         Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1026,23 +1002,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         } else {
             if (mNote.isPublished()) {
-                showSnackbar(R.string.unpublish_error, R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_error,
+                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
             } else {
-                showSnackbar(R.string.publish_error, R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                SnackbarUtils.showSnackbar(getActivity(), R.string.publish_error,
+                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
             }
         }
     }
 
     private void publishNote() {
 
-        mPublishingSnackbar = showSnackbar(R.string.publishing,
-                R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+        if (isAdded()) {
+            mPublishingSnackbar = SnackbarUtils.showSnackbar(getActivity(), R.string.publishing,
+                    R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+        }
         setPublishedNote(true);
     }
 
     private void unpublishNote() {
-        mPublishingSnackbar = showSnackbar(R.string.unpublishing,
-                R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+
+        if (isAdded()) {
+            mPublishingSnackbar = SnackbarUtils.showSnackbar(getActivity(), R.string.unpublishing,
+                    R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+        }
         setPublishedNote(false);
     }
 
