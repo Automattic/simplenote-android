@@ -1,15 +1,55 @@
-@font-face {
-    font-family: 'SourceSansPro', sans-serif;
-    src: url('file:///android_asset/SourceSansPro-Regular.ttf');
-}
-
-a {
-    color: #448AC9;
-    text-decoration: none
-}
-
 body {
-    background-color: #ffffff;
-    color: #303030;
-    font-family: 'SourceSansPro', sans-serif;
+    color: #2d3034;
+    background-color: #fff;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.15;
+}
+h1 {
+    font-weight: 300;
+}
+h5,
+h6 {
+    text-transform: uppercase;
+}
+hr {
+    border: 0;
+    border-top: 1px solid #dbdee0;
+}
+a {
+    color: #4895d9;
+    cursor: pointer;
+    overflow-wrap: break-word;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+blockquote {
+    border-left: 4px solid #dbdee0;
+    font-style: italic;
+    margin-left: 0;
+    padding-left: 1em;
+}
+code {
+    background: #f1f2f3;
+    font-size: 85%;
+}
+p {
+    margin: 0 0 1.5em;
+}
+pre {
+    border: 1px solid #dbdee0;
+    padding: 1em;
+}
+pre code {
+    color: #6f7880;
+    background: transparent;
 }
