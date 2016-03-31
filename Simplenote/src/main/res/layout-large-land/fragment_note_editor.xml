@@ -32,9 +32,9 @@
                     android:background="?attr/pinIconSelector"
                     android:layout_alignParentRight="true"
                     android:layout_height="32dp"
-                    android:layout_marginLeft="4.0dp"
-                    android:layout_marginTop="8.0dp"
-                    android:layout_width="32.0dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="32dp"
                     android:textOff=""
                     android:textOn="" >
                 </ToggleButton>
@@ -46,17 +46,17 @@
                     android:imeOptions="actionNext"
                     android:inputType="textNoSuggestions"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-4.0dp"
+                    android:layout_marginLeft="-4dp"
                     android:layout_toLeftOf="@id/pinButton"
                     android:layout_width="fill_parent"
                     android:longClickable="false"
-                    android:minHeight="48.0dp"
+                    android:minHeight="48dp"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorHint="?attr/hintTextColor"
                     android:nextFocusForward="@+id/note_content"
                     android:nextFocusLeft="@id/tag_view"
                     android:nextFocusUp="@id/tag_view"
-                    android:textSize="16.0sp" >
+                    android:textSize="16sp" >
                 </com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView>
 
             </RelativeLayout>
@@ -77,7 +77,7 @@
                 android:scrollHorizontally="false"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorLink="@color/simplenote_blue"
-                android:textSize="18.0sp"
+                android:textSize="18sp"
                 tools:context=".NoteEditorFragment" >
             </com.automattic.simplenote.widgets.SimplenoteEditText>
 
@@ -92,8 +92,8 @@
             android:visibility="gone" >
 
             <ImageView
-                android:layout_height="160.0dp"
-                android:layout_width="160.0dp"
+                android:layout_height="160dp"
+                android:layout_width="160dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/login_logo"
                 android:tint="?attr/placeholderLogoColor" >
