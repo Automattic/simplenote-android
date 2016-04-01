@@ -25,6 +25,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
+    private boolean isMarkdownEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,11 @@ public class NoteEditorActivity extends AppCompatActivity {
         NoteEditorFragment noteEditorFragment;
         NoteMarkdownFragment noteMarkdownFragment;
 
+        mNoteEditorFragmentPagerAdapter =
+                new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
+        mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             // Create the note editor fragment
@@ -63,9 +69,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             noteMarkdownFragment = new NoteMarkdownFragment();
             noteMarkdownFragment.setArguments(arguments);
 
-            mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
-            mNoteEditorFragmentPagerAdapter =
-                    new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
             mNoteEditorFragmentPagerAdapter.addFragment(
                     noteEditorFragment,
                     getString(R.string.tab_edit)
@@ -74,7 +77,6 @@ public class NoteEditorActivity extends AppCompatActivity {
                     noteMarkdownFragment,
                     getString(R.string.tab_preview)
             );
-            mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
             mViewPager.setPagingEnabled(false);
             mViewPager.addOnPageChangeListener(
                 new NoteEditorViewPager.OnPageChangeListener() {
@@ -97,14 +99,27 @@ public class NoteEditorActivity extends AppCompatActivity {
                 }
             );
 
-            mTabLayout = (TabLayout) findViewById(R.id.tabs);
-            mTabLayout.setupWithViewPager(mViewPager);
+            isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+        } else {
+            mNoteEditorFragmentPagerAdapter.addFragment(
+                    getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_edit)),
+                    getString(R.string.tab_edit)
+            );
+            mNoteEditorFragmentPagerAdapter.addFragment(
+                    getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_preview)),
+                    getString(R.string.tab_preview)
+            );
 
-            // Show tabs if markdown is enabled globally and for current note.
-            if (PrefUtils.getBoolPref(NoteEditorActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false)
-                    && intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false)) {
-                showTabs();
-            }
+            isMarkdownEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED);
+        }
+
+        mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        // Show tabs if markdown is enabled globally and for current note.
+        if (PrefUtils.getBoolPref(NoteEditorActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false)
+                && isMarkdownEnabled) {
+            showTabs();
         }
     }
 
@@ -117,8 +132,18 @@ public class NoteEditorActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getSupportFragmentManager()
+                .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
+        getSupportFragmentManager()
+                .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
+        outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
+        super.onSaveInstanceState(outState);
+    }
+
     protected NoteMarkdownFragment getNoteMarkdownFragment() {
-        return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getFragment(1);
+        return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getItem(1);
     }
 
     public void hideTabs() {
@@ -163,10 +188,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             mFragments.add(fragment);
             mTitles.add(title);
             notifyDataSetChanged();
-        }
-
-        public Fragment getFragment(int position) {
-            return mFragments.get(position);
         }
     }
 }
