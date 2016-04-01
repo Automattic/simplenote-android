@@ -3,7 +3,7 @@
 
     <style name="Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
         <!-- Material theme -->
-        <item name="colorPrimary">@color/simplenote_dark_bg</item>
+        <item name="colorPrimary">@color/simplenote_toolbar_dark</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/simplenote_blue</item>
 
@@ -36,6 +36,7 @@
         <item name="navDrawerHeader">@drawable/nav_header_dark</item>
 
         <item name="actionBarIconInfo">@drawable/ic_info_blue_24dp</item>
+        <item name="actionBarIconInfoDisabled">@drawable/ic_info_blue_disabled_24dp</item>
         <item name="actionBarIconCreate">@drawable/ic_create_blue_24dp</item>
         <item name="actionBarIconSearch">@drawable/ic_search_blue_24dp</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_blue_24dp</item>
@@ -43,6 +44,7 @@
         <item name="actionBarIconEmail">@drawable/ic_email_blue_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_blue_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_blue_24dp</item>
+        <item name="actionBarIconMarkdown">@drawable/ic_markdown_blue_outline_24dp</item>
         <item name="actionBarIconShare">@drawable/ic_share_blue_24dp</item>
         <item name="actionBarIconCabShare">@drawable/ic_share_blue_24dp</item>
         <item name="actionBarIconCopy">@drawable/ic_content_copy_blue_24dp</item>

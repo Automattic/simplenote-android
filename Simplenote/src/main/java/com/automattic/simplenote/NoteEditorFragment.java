@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,6 +57,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.commonsware.cwac.anddown.AndDown;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.simperium.client.Bucket;
@@ -74,8 +76,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
+    static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
@@ -95,7 +100,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton;
+    private boolean mIsNewNote, mIsLoadingNote, mDidTapHistoryButton, mIsMarkdownEnabled, mIsMarkdownEnabledGlobal;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -106,6 +111,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private ArrayList<Note> mNoteRevisionsList;
+    private NoteMarkdownFragment mNoteMarkdownFragment;
+    private String mCss;
+    private WebView mMarkdown;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -173,7 +181,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         };
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -200,6 +207,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
+            mMarkdown = (WebView) rootView.findViewById(R.id.markdown);
+
+            switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
+                case THEME_DARK:
+                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"dark.css\" />";
+                    break;
+                case THEME_LIGHT:
+                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"light.css\" />";
+                    break;
+            }
         }
 
         mTagView.setAdapter(mAutocompleteAdapter);
@@ -266,7 +283,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity())) {
+        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
             return;
         }
 
@@ -275,6 +292,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
             viewPublishedNoteItem.setVisible(true);
+
+            if (mIsMarkdownEnabledGlobal) {
+                MenuItem markdownEnableItem = menu.findItem(R.id.menu_markdown_enable);
+                markdownEnableItem.setChecked(mNote.isMarkdownEnabled());
+                markdownEnableItem.setVisible(true);
+            }
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
             if (mNote.isDeleted())
@@ -308,6 +331,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     );
                 }
                 return true;
+            case R.id.menu_markdown_enable:
+                mIsMarkdownEnabled = !item.isChecked();
+                item.setChecked(mIsMarkdownEnabled);
+
+                if (mIsMarkdownEnabled) {
+                    ((NoteEditorActivity) getActivity()).showTabs();
+
+                    if (mNoteMarkdownFragment == null) {
+                        // Get markdown fragment and update content
+                        mNoteMarkdownFragment =
+                                ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
+                        mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                    }
+                } else {
+                    ((NoteEditorActivity) getActivity()).hideTabs();
+                }
+
+                return true;
             case R.id.menu_delete:
                 if (!isAdded()) return false;
 
@@ -338,6 +379,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    protected void clearMarkdown() {
+        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
+    }
+
+    protected void hideMarkdown() {
+        mMarkdown.setVisibility(View.INVISIBLE);
+    }
+
+    protected void showMarkdown() {
+        mMarkdown.setVisibility(View.VISIBLE);
     }
 
     // show a popup view from the info action bar item
@@ -485,6 +538,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
+    }
+
+    protected void setMarkdownEnabled(boolean enabled) {
+        mIsMarkdownEnabled = enabled;
+
+        if (mIsMarkdownEnabled) {
+            mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                    new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
+        }
     }
 
     public void setNote(String noteID){
@@ -746,6 +808,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (getActivity() instanceof NotesActivity) {
                     ((NotesActivity) getActivity()).setCurrentNote(mNote);
                 }
+
+                // Set markdown flag for global setting
+                mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false);
+
+                // Set markdown flag for current note
+                if (mNote != null) {
+                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                }
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note
             }
@@ -776,6 +846,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             }
 
+            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
+            if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
+                // Get markdown view and update content
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                            new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
+                } else {
+                    mNoteMarkdownFragment =
+                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                }
+            }
+
+            getActivity().invalidateOptionsMenu();
+
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
 
             mIsLoadingNote = false;
@@ -795,21 +880,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (getActivity() != null && !getActivity().isFinishing()) {
                 // Update links
                 SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+                // Update markdown fragment
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
+                            new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
+                } else {
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                }
             }
         }
     }
 
-    private void saveNote() {
+    protected void saveNote() {
         if (mNote == null || (mBottomSheet != null && mBottomSheet.isShowing())) {
             return;
         }
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked())) {
+        if (mNote.hasChanges(content, tagString.trim(), mPinButton.isChecked(), mIsMarkdownEnabled)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
+            mNote.setMarkdownEnabled(mIsMarkdownEnabled);
             // Send pinned event to google analytics if changed
             mNote.setPinned(mPinButton.isChecked());
             mNote.save();

@@ -2,8 +2,6 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -68,6 +68,8 @@ public class NotesActivity extends AppCompatActivity implements
     public static String TAG_NOTE_EDITOR = "noteEditor";
     private int TRASH_SELECTED_ID = 2;
 
+    private boolean mIsMarkdownEnabledGlobal;
+    private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -119,16 +121,16 @@ public class NotesActivity extends AppCompatActivity implements
 
         if (savedInstanceState == null) {
             mNoteListFragment = new NoteListFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.note_fragment_container, mNoteListFragment, TAG_NOTE_LIST);
             fragmentTransaction.commit();
         } else {
-            mNoteListFragment = (NoteListFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
+            mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
 
         if (DisplayUtils.isLargeScreen(this)) {
-            if (getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
-                mNoteEditorFragment = (NoteEditorFragment) getFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
+            if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
+                mNoteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
             } else if (DisplayUtils.isLandscape(this)) {
                 addEditorFragment();
             }
@@ -189,9 +191,11 @@ public class NotesActivity extends AppCompatActivity implements
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null);
+            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null, mCurrentNote.isMarkdownEnabled());
             mShouldSelectNewNote = false;
         }
+
+        mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(NotesActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false);
     }
 
     @Override
@@ -458,7 +462,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void addEditorFragment() {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         mNoteEditorFragment = new NoteEditorFragment();
         ft.add(R.id.note_fragment_container, mNoteEditorFragment, TAG_NOTE_EDITOR);
@@ -596,10 +600,15 @@ public class NotesActivity extends AppCompatActivity implements
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_view_info).setVisible(true);
+                menu.findItem(R.id.menu_markdown_preview).setVisible(mIsMarkdownEnabledGlobal && mCurrentNote.isMarkdownEnabled());
+                menu.findItem(R.id.menu_markdown_enable).setVisible(mIsMarkdownEnabledGlobal);
+                menu.findItem(R.id.menu_markdown_enable).setChecked(mCurrentNote.isMarkdownEnabled());
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
                 menu.findItem(R.id.menu_view_info).setVisible(false);
+                menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+                menu.findItem(R.id.menu_markdown_enable).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -607,6 +616,8 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+            menu.findItem(R.id.menu_markdown_enable).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -643,6 +654,47 @@ public class NotesActivity extends AppCompatActivity implements
                             "action_bar_share_button"
                     );
                 }
+                return true;
+            case R.id.menu_markdown_preview:
+                if (mIsShowingMarkdown) {
+                    if (ThemeUtils.isLightTheme(NotesActivity.this)) {
+                        item.setIcon(R.drawable.ic_markdown_grey_outline_24dp);
+                    } else {
+                        item.setIcon(R.drawable.ic_markdown_blue_outline_24dp);
+                    }
+
+                    mNoteEditorFragment.hideMarkdown();
+                    item.setTitle(getString(R.string.markdown_show));
+                    mIsShowingMarkdown = false;
+                } else {
+                    if (ThemeUtils.isLightTheme(NotesActivity.this)) {
+                        item.setIcon(R.drawable.ic_markdown_grey_solid_24dp);
+                    } else {
+                        item.setIcon(R.drawable.ic_markdown_blue_solid_24dp);
+                    }
+
+                    mNoteEditorFragment.showMarkdown();
+                    item.setTitle(getString(R.string.markdown_hide));
+                    mIsShowingMarkdown = true;
+                }
+
+                return true;
+            case R.id.menu_markdown_enable:
+                if (mCurrentNote != null) {
+                    if (mNoteEditorFragment != null) {
+                        mNoteEditorFragment.setMarkdownEnabled(!mCurrentNote.isMarkdownEnabled());
+                        mNoteEditorFragment.saveNote();
+                    }
+
+                    item.setChecked(!mCurrentNote.isMarkdownEnabled());
+                    invalidateOptionsMenu();
+                }
+
+                if (mNoteEditorFragment != null) {
+                    mNoteEditorFragment.hideMarkdown();
+                    mIsShowingMarkdown = false;
+                }
+
                 return true;
             case R.id.menu_delete:
                 if (mNoteEditorFragment != null) {
@@ -707,17 +759,43 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem markdownItem = menu.findItem(R.id.menu_markdown_preview);
+
+        if (mIsShowingMarkdown) {
+            if (ThemeUtils.isLightTheme(NotesActivity.this)) {
+                markdownItem.setIcon(R.drawable.ic_markdown_grey_solid_24dp);
+            } else {
+                markdownItem.setIcon(R.drawable.ic_markdown_blue_solid_24dp);
+            }
+
+            markdownItem.setTitle(getString(R.string.markdown_hide));
+        } else {
+            if (ThemeUtils.isLightTheme(NotesActivity.this)) {
+                markdownItem.setIcon(R.drawable.ic_markdown_grey_outline_24dp);
+            } else {
+                markdownItem.setIcon(R.drawable.ic_markdown_blue_outline_24dp);
+            }
+
+            markdownItem.setTitle(getString(R.string.markdown_show));
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     /**
      * Callback method from {@link NoteListFragment.Callbacks} indicating that
      * the item with the given ID was selected. Used for tablets only.
      */
     @Override
-    public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
+    public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
         if (!DisplayUtils.isLargeScreenLandscape(this)) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
+            arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
 
             if (matchOffsets != null)
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
@@ -729,9 +807,18 @@ public class NotesActivity extends AppCompatActivity implements
             mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
+
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
+
+            mNoteEditorFragment.clearMarkdown();
+
+            if (!isMarkdownEnabled && mIsShowingMarkdown) {
+                mNoteEditorFragment.hideMarkdown();
+                mIsShowingMarkdown = false;
+            }
+
             invalidateOptionsMenu();
         }
 
@@ -886,6 +973,8 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerToggle.onConfigurationChanged(newConfig);
 
         if (DisplayUtils.isLargeScreen(this)) {
+            mIsShowingMarkdown = false;
+
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // Add the editor fragment
                 addEditorFragment();
@@ -895,7 +984,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, false, null);
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, false, null, mCurrentNote.isMarkdownEnabled());
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
@@ -910,7 +999,7 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
                     mNoteListFragment.refreshList();
                 }
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(mNoteEditorFragment);
                 mNoteEditorFragment = null;
@@ -943,6 +1032,9 @@ public class NotesActivity extends AppCompatActivity implements
         if (DisplayUtils.isLargeScreenLandscape(this) && mNoteEditorFragment != null) {
             mCurrentNote = null;
             mNoteEditorFragment.setPlaceholderVisible(true);
+            mNoteEditorFragment.clearMarkdown();
+            mNoteEditorFragment.hideMarkdown();
+            mIsShowingMarkdown = false;
         }
     }
 

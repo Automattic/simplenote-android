@@ -24,6 +24,7 @@ import java.util.Locale;
 public class Note extends BucketObject {
 	
 	public static final String BUCKET_NAME="note";
+    public static final String MARKDOWN_TAG="markdown";
     public static final String PINNED_TAG="pinned";
     public static final String PUBLISHED_TAG="published";
     public static final String NEW_LINE="\n";
@@ -322,6 +323,18 @@ public class Note extends BucketObject {
         setProperty(DELETED_PROPERTY, deleted);
     }
 
+    public boolean isMarkdownEnabled() {
+        return hasSystemTag(MARKDOWN_TAG);
+    }
+
+    public void setMarkdownEnabled(boolean isMarkdownEnabled) {
+        if (isMarkdownEnabled) {
+            addSystemTag(MARKDOWN_TAG);
+        } else {
+            removeSystemTag(MARKDOWN_TAG);
+        }
+    }
+
     public boolean isPinned() {
         return hasSystemTag(PINNED_TAG);
     }
@@ -452,13 +465,13 @@ public class Note extends BucketObject {
      * @param content the new note content
      * @param tagString space separated tags
      * @param isPinned note is pinned
+     * @param isMarkdownEnabled note has markdown enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned) {
-
-        if (content.equals(this.getContent()) && this.isPinned() == isPinned && tagString.equals(this.getTagString().toString()))
-            return false;
-        else
-            return true;
+    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled) {
+        return !content.equals(this.getContent())
+            || !tagString.equals(this.getTagString().toString())
+            || this.isPinned() != isPinned
+            || this.isMarkdownEnabled() != isMarkdownEnabled;
     }
 }

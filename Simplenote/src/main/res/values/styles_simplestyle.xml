@@ -3,7 +3,7 @@
 
     <style name="Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Material theme -->
-        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
         <item name="colorPrimaryDark">@color/lightgrey</item>
         <item name="colorAccent">@color/simplenote_blue_accent</item>
 
@@ -38,6 +38,7 @@
         <item name="navDrawerHeader">@drawable/nav_header</item>
 
         <item name="actionBarIconInfo">@drawable/ic_info_grey_24dp</item>
+        <item name="actionBarIconInfoDisabled">@drawable/ic_info_grey_disabled_24dp</item>
         <item name="actionBarIconCreate">@drawable/ic_create_white_24dp</item>
         <item name="actionBarIconSearch">@drawable/ic_search_grey_24dp</item>
         <item name="actionBarIconTrash">@drawable/ic_delete_white_24dp</item>
@@ -45,6 +46,7 @@
         <item name="actionBarIconEmail">@drawable/ic_email_white_24dp</item>
         <item name="actionBarIconWeb">@drawable/ic_web_white_24dp</item>
         <item name="actionBarIconMap">@drawable/ic_map_white_24dp</item>
+        <item name="actionBarIconMarkdown">@drawable/ic_markdown_grey_outline_24dp</item>
         <item name="actionBarIconShare">@drawable/ic_share_grey_24dp</item>
         <item name="actionBarIconCabShare">@drawable/ic_share_white_24dp</item>
         <item name="actionBarIconCopy">@drawable/ic_content_copy_white_24dp</item>
@@ -58,7 +60,7 @@
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
 
-        <item name="toolbarColor">@color/white</item>
+        <item name="toolbarColor">@color/simplenote_toolbar_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="settingsTextColor">@color/black</item>
