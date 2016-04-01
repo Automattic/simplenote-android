@@ -102,12 +102,20 @@
 
         </LinearLayout>
 
-        <WebView
-            android:id="@+id/markdown"
+        <FrameLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:visibility="invisible" >
-        </WebView>
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" >
+
+            <WebView
+                android:id="@+id/markdown"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:visibility="invisible" >
+            </WebView>
+
+        </FrameLayout>
 
     </FrameLayout>
 
