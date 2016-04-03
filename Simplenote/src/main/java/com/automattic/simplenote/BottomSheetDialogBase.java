@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.DisplayUtils;
 
 import java.text.NumberFormat;
 
@@ -36,12 +37,11 @@ public class BottomSheetDialogBase extends BottomSheetDialog {
 
         // limit the width of the bottom sheet on wide screens
         // non-zero width defined only for sw600dp
-        float dp = getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
+        int dp = (int)getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
         if (dp > 0) {
 
             // convert dp to px
-            DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-            int px = (int) ((dp * displayMetrics.density) + 0.5);
+            int px = DisplayUtils.dpToPx(getContext(), dp);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(getWindow().getAttributes());
