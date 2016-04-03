@@ -695,7 +695,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private class pinNotesTask extends AsyncTask<Boolean, Void, Void> {
+    private class pinNotesTask extends AsyncTask<Void, Void, Void> {
 
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
@@ -707,12 +707,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         @Override
-        protected Void doInBackground(Boolean... args) {
-
-            boolean pinned = true;
-            if (args.length > 0) {
-                pinned = args[0];
-            }
+        protected Void doInBackground(Void... args) {
 
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
@@ -725,11 +720,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // Now loop through the notes list and mark them as pinned
             for (Note pinnedNote : pinnedNotesList) {
-                if (pinnedNote.isPinned() != pinned) {
-                    pinnedNote.setPinned(pinned);
-                    pinnedNote.setModificationDate(Calendar.getInstance());
-                    pinnedNote.save();
-                }
+                pinnedNote.setPinned(!pinnedNote.isPinned());
+                pinnedNote.setModificationDate(Calendar.getInstance());
+                pinnedNote.save();
             }
 
             return null;
