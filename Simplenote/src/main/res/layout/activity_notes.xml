@@ -54,7 +54,6 @@
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:listSelector="@android:color/transparent"
-                android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small" />
 
             <include layout="@layout/nav_drawer_footer" />
