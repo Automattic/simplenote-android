@@ -7,6 +7,10 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,8 +25,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextWatcher;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.LineHeightSpan;
+import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.ReplacementSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.TypedValue;
@@ -102,6 +111,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
+    private String mLastContentString;
 
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private InfoBottomSheetDialog mInfoBottomSheet;
@@ -133,6 +143,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
         mHistoryTimeoutHandler = new Handler();
+
+        mLastContentString = "";
 
         mMatchHighlighter = new TextHighlighter(getActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
@@ -504,8 +516,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void afterTextChanged(Editable editable) {
-        setTitleSpan(editable);
-        attemptAutoList(editable);
+        // check that the content has really changed (line spacing fix)
+        if (!mLastContentString.equals(editable.toString())) {
+            mLastContentString = editable.toString();
+            setTitleSpan(editable);
+            attemptAutoList(editable);
+        }
     }
 
     @Override
@@ -535,6 +551,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (newLinePosition == 0)
             return;
         editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        fixLineSpacing();
+    }
+
+    // Fix for a line spacing bug
+    // https://code.google.com/p/android/issues/detail?id=78706
+    private void fixLineSpacing() {
+        mContentEditText.setLineSpacing(8, 1);
+        int startSelection = mContentEditText.getSelectionStart();
+        mContentEditText.setText(mContentEditText.getText());
+        mContentEditText.setSelection(startSelection);
     }
 
     private void attemptAutoList(Editable editable) {
