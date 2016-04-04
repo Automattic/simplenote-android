@@ -59,7 +59,7 @@ public class UndoBarController {
         return mDeletedNoteIds;
     }
 
-    public void setDeletedNoteIds(List noteIds) {
+    public void setDeletedNoteIds(List<String> noteIds) {
         mDeletedNoteIds = noteIds;
     }
 }

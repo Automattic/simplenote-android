@@ -14,10 +14,10 @@ import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
-    private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<Object>());
+    private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
 
     public interface SpanFactory {
-        public Object[] buildSpans();
+        Object[] buildSpans();
     }
 
     public interface OnMatchListener {

@@ -1,20 +1,14 @@
 package com.automattic.simplenote.analytics;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
-import com.automattic.android.tracks.TracksClient;
 import com.automattic.simplenote.BuildConfig;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import org.json.JSONObject;
-
 import java.util.Map;
-import java.util.UUID;
 
 public class AnalyticsTrackerGoogleAnalytics implements AnalyticsTracker.Tracker {
     private Tracker mTracker;

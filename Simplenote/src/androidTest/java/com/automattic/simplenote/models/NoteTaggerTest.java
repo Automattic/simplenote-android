@@ -4,8 +4,6 @@ import junit.framework.TestCase;
 
 import com.simperium.client.Bucket;
 
-import com.simperium.test.MockBucket;
-
 public class NoteTaggerTest extends TestCase {
 
     public void testURLEncodeTagKey()

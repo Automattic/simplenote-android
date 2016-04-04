@@ -2,7 +2,6 @@ package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * custom TextView used in layouts - enables keeping custom typeface handling in one place (so we

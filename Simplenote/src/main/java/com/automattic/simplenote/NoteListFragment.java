@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -448,6 +447,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
+        //noinspection unchecked
         ObjectCursor<Note> cursor = (ObjectCursor<Note>) mNotesAdapter.getCursor();
         if (cursor != null) {
             for (int i = 0; i < cursor.getCount(); i++) {

@@ -90,6 +90,7 @@ public class Tag extends BucketObject {
         String key = name.toLowerCase();
         if (!getSimperiumKey().equals(key)) {
             // create a new tag with the value as the key/name
+            //noinspection unchecked
             Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
             newTag.setName(name);
             newTag.save();
@@ -97,8 +98,8 @@ public class Tag extends BucketObject {
             ObjectCursor<Note> notesCursor = findNotes(notesBucket);
             while(notesCursor.moveToNext()){
                 Note note = notesCursor.getObject();
-                List<String> tags = new ArrayList<String>(note.getTags());
-                List<String> newTags = new ArrayList<String>(tags.size());
+                List<String> tags = new ArrayList<>(note.getTags());
+                List<String> newTags = new ArrayList<>(tags.size());
                 // iterate and do a case insensitive comparison on each tag
                 for (String tag : tags) {
                     // if it's this tag, add the new tag

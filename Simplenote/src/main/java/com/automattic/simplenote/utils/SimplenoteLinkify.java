@@ -16,7 +16,7 @@ public class SimplenoteLinkify {
     static public final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile("simplenote://preferences/[^\\s]{0,}");
 
     // Works the same as Linkify.addLinks, but doesn't set movement method
-    public static final boolean addLinks(TextView text, int mask) {
+    public static boolean addLinks(TextView text, int mask) {
         if (mask == 0) {
             return false;
         }

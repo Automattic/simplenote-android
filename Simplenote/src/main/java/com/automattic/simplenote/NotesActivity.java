@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -97,7 +98,7 @@ public class NotesActivity extends AppCompatActivity implements
         // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
         }
 
         ThemeUtils.setTheme(this);
@@ -293,7 +294,7 @@ public class NotesActivity extends AppCompatActivity implements
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     private void setWelcomeViewVisibility() {

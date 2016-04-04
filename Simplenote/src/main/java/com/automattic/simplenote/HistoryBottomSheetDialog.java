@@ -2,9 +2,7 @@ package com.automattic.simplenote;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;

@@ -11,7 +11,7 @@ public class NoteIndexer implements Indexer<Note> {
     @Override
     public List<Index> index(Note note){
 
-        List<Index> indexes = new ArrayList<Index>();
+        List<Index> indexes = new ArrayList<>();
         indexes.add(new Index(Note.PINNED_INDEX_NAME, note.isPinned()));
         indexes.add(new Index(Note.CONTENT_PREVIEW_INDEX_NAME, note.getContentPreview()));
         indexes.add(new Index(Note.TITLE_INDEX_NAME, note.getTitle()));
