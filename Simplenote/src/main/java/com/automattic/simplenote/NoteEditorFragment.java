@@ -107,6 +107,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private ShareBottomSheetDialog mShareBottomSheet;
 
     private Snackbar mPublishingSnackbar;
+    private boolean mIsUndoingPublishing;
 
     private NoteMarkdownFragment mNoteMarkdownFragment;
     private String mCss;
@@ -1074,24 +1075,41 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
-                        R.color.simplenote_positive_green,
-                        Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                unpublishNote();
-                            }
-                        });
+
+                if (mIsUndoingPublishing) {
+                    SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
+                            R.color.simplenote_positive_green,
+                            Snackbar.LENGTH_LONG);
+                }
+                else {
+                    SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
+                            R.color.simplenote_positive_green,
+                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mIsUndoingPublishing = true;
+                                    unpublishNote();
+                                }
+                            });
+                }
                 copyToClipboard(mNote.getPublishedUrl());
             } else {
-                SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
-                        R.color.simplenote_negative_red,
-                        Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                publishNote();
-                            }
-                        });
+                if (mIsUndoingPublishing) {
+                    SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
+                            R.color.simplenote_negative_red,
+                            Snackbar.LENGTH_LONG);
+                }
+                else {
+                    SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
+                            R.color.simplenote_negative_red,
+                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mIsUndoingPublishing = true;
+                                    publishNote();
+                                }
+                            });
+                }
             }
         } else {
             if (mNote.isPublished()) {
@@ -1102,6 +1120,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
             }
         }
+
+        mIsUndoingPublishing = false;
     }
 
     private void publishNote() {
