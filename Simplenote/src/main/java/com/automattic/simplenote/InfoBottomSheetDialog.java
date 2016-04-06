@@ -1,6 +1,6 @@
 package com.automattic.simplenote;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.PrefUtils;
 
 import java.text.NumberFormat;
 
@@ -94,8 +95,14 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoWords.setText(getWordCount(note.getContent()));
             mInfoPinSwitch.setChecked(note.isPinned());
 
-            // TODO: update when markdown support implemented
-            mInfoMarkdownSwitch.setChecked(false);
+            boolean isMarkdownEnabled = PrefUtils.getBoolPref(mFragment.getActivity(),
+                    PrefUtils.PREF_MARKDOWN_ENABLED, false);
+            if (isMarkdownEnabled) {
+                mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
+                mInfoMarkdownSwitch.setVisibility(View.VISIBLE);
+            } else {
+                mInfoMarkdownSwitch.setVisibility(View.GONE);
+            }
 
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));

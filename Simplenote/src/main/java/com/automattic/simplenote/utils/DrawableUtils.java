@@ -60,8 +60,27 @@ public class DrawableUtils {
     public static void tintMenu(Menu menu, @ColorInt int color) {
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
-            Drawable tinted = DrawableUtils.tintDrawable(item.getIcon(), color);
-            item.setIcon(tinted);
+            DrawableUtils.tintMenuItem(item, color);
         }
+    }
+
+    public static void tintMenuWithResource(Context context, Menu menu, @ColorRes int colorRes) {
+        @ColorInt int color = ContextCompat.getColor(context, colorRes);
+        DrawableUtils.tintMenu(menu, color);
+    }
+
+    public static void tintMenuItem(MenuItem menuItem, @ColorInt int color) {
+        Drawable tinted = DrawableUtils.tintDrawable(menuItem.getIcon(), color);
+        menuItem.setIcon(tinted);
+    }
+
+    public static void tintMenuItemWithResource(Context context, MenuItem menuItem, @ColorRes int colorRes) {
+        @ColorInt int color = ContextCompat.getColor(context, colorRes);
+        DrawableUtils.tintMenuItem(menuItem, color);
+    }
+
+    public static void tintMenuItemWithAttribute(Context context, MenuItem menuItem, @AttrRes int tintColorAttribute) {
+        @ColorInt int color = getColor(context, tintColorAttribute);
+        DrawableUtils.tintMenuItem(menuItem, color);
     }
 }

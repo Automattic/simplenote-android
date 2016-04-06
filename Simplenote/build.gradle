@@ -16,6 +16,7 @@ repositories {
     maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
     maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
     maven { url "https://jitpack.io" }
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
 }
 
 dependencies {
@@ -28,6 +29,7 @@ dependencies {
     compile "org.wordpress:passcodelock:1.0.0"
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.commonsware.cwac:anddown:0.2.4'
 
     wearApp project(':Wear')
 }

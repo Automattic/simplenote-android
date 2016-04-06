@@ -22,6 +22,11 @@
             android:key="pref_key_font_size"
             android:summary="%s"
             android:title="@string/font_size" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_markdown_enabled"
+            android:summary="@string/markdown_summary"
+            android:title="@string/enable_markdown" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"

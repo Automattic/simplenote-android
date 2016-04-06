@@ -66,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/simplenote_dark_grey"
+        android:visibility="gone"
         android:paddingTop="@dimen/padding_extra_large"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingLeft="@dimen/padding_large"

@@ -154,6 +154,21 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
             }
         });
 
+        SwitchPreference markdownPreference = (SwitchPreference)findPreference("pref_key_markdown_enabled");
+        markdownPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((SwitchPreference)preference).isChecked()) {
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_MARKDOWN_ENABLED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "markdown_preference"
+                    );
+                }
+
+                return true;
+            }
+        });
     }
 
     @Override

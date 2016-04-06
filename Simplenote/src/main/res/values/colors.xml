@@ -9,9 +9,10 @@
     <color name="simplenote_blue_light">#EEF3F8</color>
     <color name="simplenote_blue_accent">#2291DB</color>
     <color name="simplenote_blue_dark">#1B74AF</color>
+    <color name="simplenote_blue_accent_60">#991B74AF</color>	<!-- 60% opacity -->
+    <color name="simplenote_blue_disabled">#441B74AF</color>	<!-- 60% opacity -->
 
     <color name="simplenote_dark_grey">#2D3034</color>
-    <color name="simplenote_toolbar_dark">#131417</color>
     <color name="simplenote_light_grey">#777777</color>
 
     <color name="simplenote_light_list_divider">#DBDEE0</color>
@@ -68,6 +69,9 @@
 	<color name="yellow">#ffffff00</color>
 	<color name="darkblue">#000080</color>
 	<color name="blue">#0000ff</color>
+
+    <color name="simplenote_toolbar_light">@color/white</color>
+    <color name="simplenote_toolbar_dark">@color/simplenote_dark_bg</color>
 	
 	<!-- 
 		holo theme colors - copied here so they can be used on pre-holo devices

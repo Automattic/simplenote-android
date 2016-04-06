@@ -3,7 +3,7 @@
 
     <style name="Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
         <!-- Material theme -->
-        <item name="colorPrimary">@color/simplenote_dark_bg</item>
+        <item name="colorPrimary">@color/simplenote_toolbar_dark</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/simplenote_blue</item>
 

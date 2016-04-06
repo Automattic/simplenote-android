@@ -51,8 +51,11 @@
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="enable_markdown">Enable markdown</string>
+	<string name="markdown_summary">Enable the Markdown toggle in your note settings</string>
     <string name="pin_to_top">Pin to top</string>
     <string name="modified_time">Modified %s</string>
+    <string name="tab_edit">Edit</string>
+    <string name="tab_preview">Preview</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -184,4 +187,7 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="markdown">Markdown</string>
+    <string name="markdown_hide">Hide Markdown</string>
+    <string name="markdown_show">Show Markdown</string>
 </resources>
