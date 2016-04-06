@@ -121,9 +121,8 @@
 
         <ImageButton
             android:id="@+id/info_share_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_share_24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/padding_large"
             android:tint="@color/grey"

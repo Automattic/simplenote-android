@@ -112,7 +112,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 mShareButton.setVisibility(View.GONE);
 
             } else {
-                mInfoLinkTitle.setText(mFragment.getString(R.string.publish));
+                mInfoLinkTitle.setText(mFragment.getString(R.string.note_not_published));
                 mInfoLinkUrl.setVisibility(View.GONE);
                 mCopyButton.setVisibility(View.GONE);
                 mShareButton.setVisibility(View.VISIBLE);
