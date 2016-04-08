@@ -21,14 +21,14 @@ repositories {
 
 dependencies {
     compile "com.simperium.android:simperium:0.6.8"
-    compile "com.android.support:appcompat-v7:23.1.1"
-    compile 'com.android.support:design:23.1.1'
+    compile "com.android.support:appcompat-v7:23.3.0"
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:support-vector-drawable:23.3.0'
     compile "com.google.android.gms:play-services-analytics:8.3.0"
     compile "com.google.android.gms:play-services-wearable:8.3.0"
     compile "org.wordpress:passcodelock:1.0.0"
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.github.Kennyc1012:BottomSheet:2.0.4'
     compile 'com.commonsware.cwac:anddown:0.2.4'
 
     wearApp project(':Wear')
@@ -39,7 +39,7 @@ version "1.4.0"
 android {
 
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"

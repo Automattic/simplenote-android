@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<com.automattic.simplenote.widgets.SourceSansTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.automattic.simplenote.widgets.RobotoRegularTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:background="?attr/tagChipBackgroundDrawable"
-    android:textColor="@color/simplenote_blue"
+    android:textColor="?attr/tagChipTextColor"
     android:shadowDx="0"
     android:shadowDy="0"
     android:shadowRadius="1"

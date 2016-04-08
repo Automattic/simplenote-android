@@ -18,7 +18,7 @@ public class TypefaceSpan extends MetricAffectingSpan {
      * Load the {@link Typeface} and apply to a {@link Spannable}.
      */
     public TypefaceSpan(Context context) {
-        mTypeface = TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_SOURCE_SANS);
+        mTypeface = TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR);
     }
 
     @Override

@@ -16,7 +16,7 @@
             android:summary="%s"
             android:title="@string/sort_order" />
         <ListPreference
-            android:defaultValue="18"
+            android:defaultValue="14"
             android:entries="@array/array_font_size"
             android:entryValues="@array/array_font_size_values"
             android:key="pref_key_font_size"
@@ -26,7 +26,7 @@
             android:defaultValue="false"
             android:key="pref_key_markdown_enabled"
             android:summary="@string/markdown_summary"
-            android:title="@string/markdown_enabled" />
+            android:title="@string/enable_markdown" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
@@ -67,6 +67,10 @@
     <PreferenceCategory
             android:key="pref_key_account_preferences"
             android:title="@string/more_info" >
+        <Preference
+            android:key="pref_key_about"
+            android:title="@string/about"
+            android:persistent="false" />
         <Preference
                 android:key="pref_key_website"
                 android:persistent="false"

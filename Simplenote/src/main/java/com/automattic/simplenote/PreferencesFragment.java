@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -81,8 +82,16 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://simplenote.com")));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
+                return true;
+            }
+        });
+
+        findPreference("pref_key_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getActivity(), AboutActivity.class));
                 return true;
             }
         });

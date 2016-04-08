@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.ArrayList;
 
 import org.json.JSONObject;
 

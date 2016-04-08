@@ -4,19 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.TagsActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.widgets.TintedTextView;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
@@ -130,44 +131,35 @@ public class TagsAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
 
         if (view == null){
-            view = mInflater.inflate(R.layout.tag_drawer_row, null);
+            view = mInflater.inflate(R.layout.nav_drawer_row, null);
         }
         TagMenuItem tagMenuItem = getItem(position);
 
-        TextView labelText = (TextView) view.findViewById(R.id.tag_name);
-        labelText.setText(tagMenuItem.name);
+        TintedTextView drawerItemText = (TintedTextView) view.findViewById(R.id.drawer_item_name);
+        drawerItemText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView)viewGroup).getCheckedItemPosition() - mHeaderCount;
-        if (position == selectedPosition)
-            labelText.setTextColor(mContext.getResources().getColor(R.color.simplenote_blue));
-        else
-            labelText.setTextColor(mContext.getResources().getColor(mTextColorId));
 
-        ImageView drawerIcon = (ImageView) view.findViewById(R.id.drawer_icon);
+        @ColorInt int color = ContextCompat.getColor(mContext, mTextColorId);
+        if (position == selectedPosition) {
+            color = ContextCompat.getColor(mContext, R.color.simplenote_blue);
+        }
+
         View dividerView = view.findViewById(R.id.section_divider);
-        drawerIcon.setColorFilter(mContext.getResources().getColor(mTextColorId));
+
+        Drawable icon = null;
         if (position == 0) {
-            if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes_selected);
-                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
-            } else {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_all_notes);
-            }
-            drawerIcon.setVisibility(View.VISIBLE);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_notes_24dp);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
-            if (position == selectedPosition) {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_trash_selected);
-                drawerIcon.setColorFilter(Color.argb(0, 0, 0, 0));
-            } else {
-                drawerIcon.setImageResource(R.drawable.ic_drawer_trash);
-            }
-            drawerIcon.setVisibility(View.VISIBLE);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
             dividerView.setVisibility(View.VISIBLE);
         } else {
-            drawerIcon.setVisibility(View.GONE);
             dividerView.setVisibility(View.GONE);
         }
+
+        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null, color);
+        drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
         if (position == 2) {

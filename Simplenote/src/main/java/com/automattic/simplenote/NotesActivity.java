@@ -9,8 +9,10 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +42,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AniUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -97,7 +100,7 @@ public class NotesActivity extends AppCompatActivity implements
         // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
         }
 
         ThemeUtils.setTheme(this);
@@ -196,6 +199,10 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(NotesActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false);
+
+        if (!mIsMarkdownEnabledGlobal && mIsShowingMarkdown) {
+            setMarkdownShowing(false);
+        }
     }
 
     @Override
@@ -251,7 +258,6 @@ public class NotesActivity extends AppCompatActivity implements
         // Configure welcome view in the nav drawer
         mWelcomeView = mDrawerLayout.findViewById(R.id.welcome_view);
         TextView welcomeSignInButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
-        welcomeSignInButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.sign_in)));
         welcomeSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,18 +266,12 @@ public class NotesActivity extends AppCompatActivity implements
         });
         
         TextView welcomeCloseButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_close);
-        welcomeCloseButton.setText(StrUtils.setTextToUpperCaseAndBold(getString(R.string.dismiss)));
                 welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         removeWelcomeView();
                     }
                 });
-
-        if (mDrawerList.getHeaderViewsCount() == 0) {
-            View headerView = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
-            mDrawerList.addHeaderView(headerView, null, false);
-        }
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -302,7 +302,7 @@ public class NotesActivity extends AppCompatActivity implements
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     private void setWelcomeViewVisibility() {
@@ -522,7 +522,7 @@ public class NotesActivity extends AppCompatActivity implements
             // Workaround for setting the search placeholder text color
             String hintHexColor = (ThemeUtils.isLightTheme(this) ?
                     getString(R.color.simplenote_light_grey) :
-                    getString(R.color.simplenote_dark_text_preview)).replace("ff", "");
+                    getString(R.color.simplenote_text_preview)).replace("ff", "");
             mSearchView.setQueryHint(Html.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));
@@ -600,15 +600,14 @@ public class NotesActivity extends AppCompatActivity implements
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_view_info).setVisible(true);
+                menu.findItem(R.id.menu_history).setVisible(true);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(mIsMarkdownEnabledGlobal && mCurrentNote.isMarkdownEnabled());
-                menu.findItem(R.id.menu_markdown_enable).setVisible(mIsMarkdownEnabledGlobal);
-                menu.findItem(R.id.menu_markdown_enable).setChecked(mCurrentNote.isMarkdownEnabled());
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
                 menu.findItem(R.id.menu_view_info).setVisible(false);
+                menu.findItem(R.id.menu_history).setVisible(false);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(false);
-                menu.findItem(R.id.menu_markdown_enable).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -616,8 +615,8 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
-            menu.findItem(R.id.menu_markdown_enable).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -631,7 +630,10 @@ public class NotesActivity extends AppCompatActivity implements
 
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
         }
+
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);
 
         return true;
     }
@@ -642,58 +644,18 @@ public class NotesActivity extends AppCompatActivity implements
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.menu_share:
-                if (mCurrentNote != null) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mCurrentNote.getContent());
-                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "action_bar_share_button"
-                    );
-                }
-                return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
-                    if (ThemeUtils.isLightTheme(NotesActivity.this)) {
-                        item.setIcon(R.drawable.ic_markdown_grey_outline_24dp);
-                    } else {
-                        item.setIcon(R.drawable.ic_markdown_blue_outline_24dp);
-                    }
-
-                    mNoteEditorFragment.hideMarkdown();
+                    item.setIcon(R.drawable.ic_markdown_outline_24dp);
                     item.setTitle(getString(R.string.markdown_show));
-                    mIsShowingMarkdown = false;
+                    setMarkdownShowing(false);
                 } else {
-                    if (ThemeUtils.isLightTheme(NotesActivity.this)) {
-                        item.setIcon(R.drawable.ic_markdown_grey_solid_24dp);
-                    } else {
-                        item.setIcon(R.drawable.ic_markdown_blue_solid_24dp);
-                    }
-
-                    mNoteEditorFragment.showMarkdown();
+                    item.setIcon(R.drawable.ic_markdown_solid_24dp);
                     item.setTitle(getString(R.string.markdown_hide));
-                    mIsShowingMarkdown = true;
+                    setMarkdownShowing(true);
                 }
 
-                return true;
-            case R.id.menu_markdown_enable:
-                if (mCurrentNote != null) {
-                    if (mNoteEditorFragment != null) {
-                        mNoteEditorFragment.setMarkdownEnabled(!mCurrentNote.isMarkdownEnabled());
-                        mNoteEditorFragment.saveNote();
-                    }
-
-                    item.setChecked(!mCurrentNote.isMarkdownEnabled());
-                    invalidateOptionsMenu();
-                }
-
-                if (mNoteEditorFragment != null) {
-                    mNoteEditorFragment.hideMarkdown();
-                    mIsShowingMarkdown = false;
-                }
+                DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.actionBarTextColor);
 
                 return true;
             case R.id.menu_delete:
@@ -764,24 +726,28 @@ public class NotesActivity extends AppCompatActivity implements
         MenuItem markdownItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            if (ThemeUtils.isLightTheme(NotesActivity.this)) {
-                markdownItem.setIcon(R.drawable.ic_markdown_grey_solid_24dp);
-            } else {
-                markdownItem.setIcon(R.drawable.ic_markdown_blue_solid_24dp);
-            }
-
+            markdownItem.setIcon(R.drawable.ic_markdown_solid_24dp);
             markdownItem.setTitle(getString(R.string.markdown_hide));
         } else {
-            if (ThemeUtils.isLightTheme(NotesActivity.this)) {
-                markdownItem.setIcon(R.drawable.ic_markdown_grey_outline_24dp);
-            } else {
-                markdownItem.setIcon(R.drawable.ic_markdown_blue_outline_24dp);
-            }
-
+            markdownItem.setIcon(R.drawable.ic_markdown_outline_24dp);
             markdownItem.setTitle(getString(R.string.markdown_show));
         }
 
+        DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.actionBarTextColor);
+
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void setMarkdownShowing(boolean isMarkdownShowing) {
+        mIsShowingMarkdown = isMarkdownShowing;
+        if (mNoteEditorFragment != null) {
+            if (isMarkdownShowing) {
+                mNoteEditorFragment.showMarkdown();
+            } else {
+                mNoteEditorFragment.hideMarkdown();
+            }
+        }
+        invalidateOptionsMenu();
     }
 
     /**
@@ -815,8 +781,7 @@ public class NotesActivity extends AppCompatActivity implements
             mNoteEditorFragment.clearMarkdown();
 
             if (!isMarkdownEnabled && mIsShowingMarkdown) {
-                mNoteEditorFragment.hideMarkdown();
-                mIsShowingMarkdown = false;
+                setMarkdownShowing(false);
             }
 
             invalidateOptionsMenu();
@@ -882,6 +847,24 @@ public class NotesActivity extends AppCompatActivity implements
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
+    @Override
+    public void recreate() {
+        Handler handler = new Handler();
+        handler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+                {
+                    NotesActivity.this.finish();
+                    NotesActivity.this.startActivity(NotesActivity.this.getIntent());
+                } else {
+                    NotesActivity.super.recreate();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -900,6 +883,7 @@ public class NotesActivity extends AppCompatActivity implements
                     fragment.getPrefs();
                     fragment.refreshList();
                 }
+
                 break;
             case Simplenote.INTENT_EDIT_NOTE:
                 if (resultCode == RESULT_OK && data != null && data.hasExtra(Simplenote.DELETED_NOTE_ID)) {

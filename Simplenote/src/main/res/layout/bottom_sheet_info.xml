@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/info_modified_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:text="Modified Jan 1, 20015, 8:00AM"
+        android:textColor="@color/grey"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        />
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/info_words_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        tools:text="101 words"
+        android:textColor="@color/grey"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        />
+
+    <View
+        android:id="@+id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/info_words_text"
+        android:background="@color/divider_grey" />
+
+    <Switch
+        android:id="@+id/info_pin_switch"
+        android:layout_below="@+id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/simplenote_dark_grey"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:text="@string/pin_to_top" />
+
+    <Switch
+        android:id="@+id/info_markdown_switch"
+        android:layout_below="@+id/info_pin_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/simplenote_dark_grey"
+        android:visibility="gone"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:text="@string/enable_markdown" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:layout_below="@id/info_markdown_switch">
+
+        <LinearLayout
+            android:paddingTop="@dimen/padding_extra_large"
+            android:paddingBottom="@dimen/padding_extra_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/info_public_link_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/public_link"
+                android:textColor="@color/simplenote_dark_grey"
+                />
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/info_public_link_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="http://simp.ly/publish/fsfjksjd"
+                android:textColor="@color/grey"
+                />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/info_copy_link_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_content_copy_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/padding_large"
+            android:tint="@color/grey"
+            android:contentDescription="@string/copy"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:id="@+id/info_share_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/padding_large"
+            android:tint="@color/grey"
+            android:contentDescription="@string/copy"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.automattic.simplenote.models;
 
 import junit.framework.TestCase;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -88,10 +89,8 @@ public class NoteTest extends TestCase {
     }
 
     protected List<String> tagList(String ... tags){
-        List<String> tagArray = new ArrayList<String>(tags.length);
-        for (String tag : tags) {
-            tagArray.add(tag);
-        }
+        List<String> tagArray = new ArrayList<>(tags.length);
+        Collections.addAll(tagArray, tags);
         return tagArray;
     }
 

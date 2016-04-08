@@ -15,6 +15,8 @@ import android.webkit.WebView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
@@ -37,11 +39,14 @@ public class NoteMarkdownFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
 
+        DrawableUtils.tintMenuWithResource(getActivity(), menu, R.color.simplenote_blue_disabled);
+
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.actionBarTextColor);
 
             if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
@@ -83,50 +88,12 @@ public class NoteMarkdownFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_share:
-                if (mNote != null) {
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mNote.getContent());
-                    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "action_bar_share_button"
-                    );
-                }
-                return true;
             case R.id.menu_delete:
-                if (!isAdded()) {
-                    return false;
-                }
-
-                if (mNote != null) {
-                    mNote.setDeleted(!mNote.isDeleted());
-                    mNote.setModificationDate(Calendar.getInstance());
-                    mNote.save();
-                    Intent resultIntent = new Intent();
-
-                    if (mNote.isDeleted()) {
-                        resultIntent.putExtra(Simplenote.DELETED_NOTE_ID, mNote.getSimperiumKey());
-                    }
-
-                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
-
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
-                            AnalyticsTracker.CATEGORY_NOTE,
-                            "trash_menu_item"
-                    );
-                }
-
-                getActivity().finish();
+                if (!isAdded()) return false;
+                deleteNote();
                 return true;
             case android.R.id.home:
-                if (!isAdded()) {
-                    return false;
-                }
-
+                if (!isAdded()) return false;
                 getActivity().finish();
                 return true;
             default:
@@ -134,14 +101,17 @@ public class NoteMarkdownFragment extends Fragment {
         }
     }
 
+    private void deleteNote() {
+        NoteUtils.deleteNote(mNote, getActivity());
+        getActivity().finish();
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Disable share and delete actions until note is loaded.
         if (mIsLoadingNote) {
-            menu.findItem(R.id.menu_share).setEnabled(false);
             menu.findItem(R.id.menu_delete).setEnabled(false);
         } else {
-            menu.findItem(R.id.menu_share).setEnabled(true);
             menu.findItem(R.id.menu_delete).setEnabled(true);
         }
 

@@ -222,7 +222,7 @@ public class Note extends BucketObject {
 
         int length = tags.length();
 
-        List<String> tagList = new ArrayList<String>(length);
+        List<String> tagList = new ArrayList<>(length);
 
         if (length == 0) return tagList;
 
@@ -274,7 +274,7 @@ public class Note extends BucketObject {
             tagString = tagString + SPACE;
         // for comparing case-insensitive strings, would like to find a way to
         // do this without allocating a new list and strings
-        List<String> tagsUpperCase = new ArrayList<String>();
+        List<String> tagsUpperCase = new ArrayList<>();
         // remove all current tags
         int start = 0;
         int next = -1;
@@ -312,11 +312,8 @@ public class Note extends BucketObject {
         }
         if (deleted instanceof Boolean) {
             return (Boolean) deleted;
-        } else if (deleted instanceof Number) {
-            return ((Number)deleted).intValue() == 0 ? false : true;
-        } else {
-            return false;
-        }
+        } else
+            return deleted instanceof Number && ((Number) deleted).intValue() != 0;
     }
 
     public void setDeleted(boolean deleted) {

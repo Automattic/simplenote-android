@@ -4,26 +4,30 @@
  -->
 <resources>
 
-    <color name="simplenote_blue">#448AC9</color>
+    <color name="simplenote_blue">#4895d9</color>
     <color name="simplenote_blue_translucent">#DD448AC9</color>
     <color name="simplenote_blue_light">#EEF3F8</color>
-    <color name="simplenote_blue_accent">#69bae9</color>
-    <color name="simplenote_blue_accent_60">#9969bae9</color>	<!-- 60% opacity -->
-    <color name="simplenote_blue_dark">#30628f</color>
+    <color name="simplenote_blue_accent">#2291DB</color>
+    <color name="simplenote_blue_dark">#1B74AF</color>
+    <color name="simplenote_blue_accent_60">#991B74AF</color>	<!-- 60% opacity -->
+    <color name="simplenote_blue_disabled">#441B74AF</color>	<!-- 60% opacity -->
 
-    <color name="simplenote_dark_grey">#222222</color>
-    <color name="simplenote_toolbar_dark">#131417</color>
-    <color name="simplenote_toolbar_light">@color/white</color>
+    <color name="simplenote_dark_grey">#2D3034</color>
     <color name="simplenote_light_grey">#777777</color>
 
-    <color name="simplenote_light_list_divider">#EBEBEB</color>
-    <color name="simplenote_light_selected_row">#EBEBEB</color>
+    <color name="simplenote_light_list_divider">#DBDEE0</color>
+    <color name="simplenote_light_selected_row">#DBDEE0</color>
+    <color name="simplenote_tag_chip_text_color">#596067</color>
 
-    <color name="simplenote_dark_bg">#24272b</color>
+    <color name="simplenote_dark_bg">#2D3034</color>
     <color name="simplenote_dark_text">#71889f</color>
-    <color name="simplenote_dark_text_preview">#5b6780</color>
-    <color name="simplenote_dark_list_divider">#363d4d</color>
-    <color name="simplenote_dark_selected_row">#2d3340</color>
+    <color name="simplenote_text_preview">#899199</color>
+    <color name="simplenote_dark_list_divider">#4B5157</color>
+    <color name="simplenote_dark_selected_row">#4B5157</color>
+    <color name="simplenote_dark_tag_text_color">#A4ABB1</color>
+
+    <color name="simplenote_positive_green">#4AB866</color>
+    <color name="simplenote_negative_red">#D94F4F</color>
 
     <color name="welcome_button_blue">#3772a6</color>
 
@@ -65,6 +69,9 @@
 	<color name="yellow">#ffffff00</color>
 	<color name="darkblue">#000080</color>
 	<color name="blue">#0000ff</color>
+
+    <color name="simplenote_toolbar_light">@color/white</color>
+    <color name="simplenote_toolbar_dark">@color/simplenote_dark_bg</color>
 	
 	<!-- 
 		holo theme colors - copied here so they can be used on pre-holo devices

@@ -3,14 +3,9 @@ package com.automattic.simplenote.simperium;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.simperium.Simperium;
 import com.simperium.client.AuthProvider;
 import com.simperium.client.ChannelProvider;
 import com.simperium.client.ClientFactory;
-import com.simperium.test.MockAuthProvider;
-import com.simperium.test.MockExecutor;
-import com.simperium.test.MockChannelProvider;
-import com.simperium.util.Uuid;
 
 import com.simperium.android.GhostStore;
 import com.simperium.android.PersistentStore;

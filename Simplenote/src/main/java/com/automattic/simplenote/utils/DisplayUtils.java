@@ -13,9 +13,7 @@ public class DisplayUtils {
     }
 
     public static boolean isLandscape(Context context) {
-        if (context == null)
-            return false;
-        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     public static Point getDisplayPixelSize(Context context) {
@@ -33,19 +31,13 @@ public class DisplayUtils {
     }
 
     public static boolean isLarge(Context context) {
-        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-                == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            return true;
-        }
-        return false;
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                == Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public static boolean isXLarge(Context context) {
-        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-                == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            return true;
-        }
-        return false;
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                == Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
     public static boolean isLargeScreen(Context context) {

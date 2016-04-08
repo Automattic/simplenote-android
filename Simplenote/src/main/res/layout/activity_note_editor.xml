@@ -8,7 +8,7 @@
         android:animateLayoutChanges="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
             app:contentInsetStart="@dimen/toolbar_title_keyline"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed"
             app:popupTheme="?attr/toolbarPopupTheme"
             app:theme="@style/ToolbarTheme" >
         </android.support.v7.widget.Toolbar>
@@ -36,20 +36,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/main_parent_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:foreground="@drawable/header_shadow"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
         <com.automattic.simplenote.widgets.NoteEditorViewPager
             android:id="@+id/pager"
-            android:foreground="@drawable/header_shadow"
             android:layout_height="match_parent"
             android:layout_width="match_parent" >
         </com.automattic.simplenote.widgets.NoteEditorViewPager>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

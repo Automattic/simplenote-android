@@ -6,7 +6,7 @@ import android.text.SpannableStringBuilder;
 public class SearchSnippetFormatter {
 
     public interface SpanFactory {
-        public Object[] buildSpans(String content);
+        Object[] buildSpans(String content);
     }
 
     static public final char OPEN_BRACKET = '<';
