@@ -69,7 +69,7 @@ public class NotesActivity extends AppCompatActivity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
-    private int TRASH_SELECTED_ID = 2;
+    private int TRASH_SELECTED_ID = 1;
 
     private boolean mIsMarkdownEnabledGlobal;
     private boolean mIsShowingMarkdown;
