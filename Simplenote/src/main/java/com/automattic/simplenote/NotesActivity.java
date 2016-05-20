@@ -369,10 +369,8 @@ public class NotesActivity extends AppCompatActivity implements
                 note.setContent(text);
                 note.save();
                 setCurrentNote(note);
+                mShouldSelectNewNote = true;
 
-                if (!isVoiceShare) {
-                    mShouldSelectNewNote = true;
-                }
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_NOTE_CREATED,
                         AnalyticsTracker.CATEGORY_NOTE,
