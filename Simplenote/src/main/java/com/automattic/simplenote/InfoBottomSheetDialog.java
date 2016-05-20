@@ -1,5 +1,7 @@
 package com.automattic.simplenote;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -57,7 +59,15 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!mFragment.isAdded()) return;
+
                 infoSheetListener.onInfoMarkdownSwitchChanged(isChecked);
+
+                // Set preference so that next new note will have markdown enabled
+                SharedPreferences prefs = mFragment.getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
+                editor.apply();
             }
         });
 
@@ -94,15 +104,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoWords.setText(getWordCount(note.getContent()));
             mInfoPinSwitch.setChecked(note.isPinned());
-
-            boolean isMarkdownEnabled = PrefUtils.getBoolPref(mFragment.getActivity(),
-                    PrefUtils.PREF_MARKDOWN_ENABLED, false);
-            if (isMarkdownEnabled) {
-                mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
-                mInfoMarkdownSwitch.setVisibility(View.VISIBLE);
-            } else {
-                mInfoMarkdownSwitch.setVisibility(View.GONE);
-            }
+            mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
 
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
