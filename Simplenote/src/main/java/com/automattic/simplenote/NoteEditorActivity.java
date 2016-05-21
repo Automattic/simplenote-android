@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 
@@ -116,9 +115,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        // Show tabs if markdown is enabled globally and for current note.
-        if (PrefUtils.getBoolPref(NoteEditorActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false)
-                && isMarkdownEnabled) {
+        // Show tabs if markdown is enabled for the current note.
+        if (isMarkdownEnabled) {
             showTabs();
         }
     }

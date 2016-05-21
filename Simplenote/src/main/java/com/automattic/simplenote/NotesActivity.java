@@ -71,7 +71,6 @@ public class NotesActivity extends AppCompatActivity implements
     public static String TAG_NOTE_EDITOR = "noteEditor";
     private int TRASH_SELECTED_ID = 1;
 
-    private boolean mIsMarkdownEnabledGlobal;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
@@ -198,9 +197,7 @@ public class NotesActivity extends AppCompatActivity implements
             mShouldSelectNewNote = false;
         }
 
-        mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(NotesActivity.this, PrefUtils.PREF_MARKDOWN_ENABLED, false);
-
-        if (!mIsMarkdownEnabledGlobal && mIsShowingMarkdown) {
+        if (mIsShowingMarkdown) {
             setMarkdownShowing(false);
         }
     }
@@ -599,7 +596,7 @@ public class NotesActivity extends AppCompatActivity implements
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_view_info).setVisible(true);
                 menu.findItem(R.id.menu_history).setVisible(true);
-                menu.findItem(R.id.menu_markdown_preview).setVisible(mIsMarkdownEnabledGlobal && mCurrentNote.isMarkdownEnabled());
+                menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
