@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -64,7 +65,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 infoSheetListener.onInfoMarkdownSwitchChanged(isChecked);
 
                 // Set preference so that next new note will have markdown enabled
-                SharedPreferences prefs = mFragment.getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mFragment.getActivity());
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
                 editor.apply();

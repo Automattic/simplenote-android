@@ -89,7 +89,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled, mIsMarkdownEnabledGlobal;
+    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -753,9 +753,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     ((NotesActivity) getActivity()).setCurrentNote(mNote);
                 }
 
-                // Set markdown flag for global setting
-                mIsMarkdownEnabledGlobal = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false);
-
                 // Set markdown flag for current note
                 if (mNote != null) {
                     mIsMarkdownEnabled = mNote.isMarkdownEnabled();
@@ -791,7 +788,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
-            if (mIsMarkdownEnabledGlobal && mIsMarkdownEnabled) {
+            if (mIsMarkdownEnabled) {
                 // Get markdown view and update content
                 if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
                     loadMarkdownData();
