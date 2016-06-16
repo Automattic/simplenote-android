@@ -158,6 +158,5 @@
 	<string name="share">Partager</string>
 	<string name="settings">Paramètres</string>
 	<string name="tag_hint">Ajouter un tag...</string>
-	<string name="simplenote_blog_url"></string>
 	<string name="content_description_copy_button">Bouton Copier</string>
 </resources>

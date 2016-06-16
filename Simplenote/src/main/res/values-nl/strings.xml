@@ -158,6 +158,5 @@
 	<string name="share">Delen</string>
 	<string name="settings">Instellingen</string>
 	<string name="tag_hint">Tag toevoegen …</string>
-	<string name="simplenote_blog_url"></string>
 	<string name="content_description_copy_button">Knop Kopiëren</string>
 </resources>

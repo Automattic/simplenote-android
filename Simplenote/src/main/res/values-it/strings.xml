@@ -25,7 +25,6 @@
 	<string name="markdown">Markdown</string>
 	<string name="tab_preview">Anteprima</string>
 	<string name="tab_edit">Modifica</string>
-	<string name="modified_time"></string>
 	<string name="pin_to_top">Aggancia</string>
 	<string name="markdown_summary">Abilita l\'attivazione/la disattivazione di Markdown nelle impostazioni delle note</string>
 	<string name="enable_markdown">Attiva Markdown</string>
@@ -158,6 +157,4 @@
 	<string name="share">Condividi</string>
 	<string name="settings">Impostazioni</string>
 	<string name="tag_hint">Aggiungi tag...</string>
-	<string name="simplenote_blog_url"></string>
-	<string name="content_description_copy_button"></string>
 </resources>
