@@ -151,14 +151,14 @@
     <string name="about">About Simplenote</string>
     <string name="about_hiring">Simplenote is made with love by the folks at Automattic. Are you a developer? We\'re hiring.</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_twitter_handle">\@simplenoteapp</string>
+    <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
     <string name="twitter">Twitter</string>
     <string name="rate_us">Rate Us</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
+    <string name="automattic_copyright" translatable="false">©2016 Automattic, Inc.</string>
     <string name="blog">Blog</string>
     <string name="simplenote_for_android">Simplenote for Android</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
-    <string name="simplenote_blog_url">simplenote.com/blog</string>
+    <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
 
     <!-- Note publishing -->
     <string name="content_description_copy_button">Copy Button</string>
