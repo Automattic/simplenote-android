@@ -26,11 +26,12 @@ sdk.dir=/Applications/Android Studio.app/sdk
 
 3) Simperium Config
 
-Add your simperium appid and key to Simplenote/gradle.properties
+Add your simperium appid and key to Simplenote/gradle.properties, and an empty googleAnalyticsId:
 
 ```
 simperiumAppId=SIMPERIUM_APP_ID
 simperiumAppKey=SIMPERIUM_KEY
+googleAnalyticsId=
 ```
 
 4) Install debug build with Android Studio or `./gradlew installDebug`
