@@ -1,7 +1,5 @@
 # Simplenote for Android
 
-![Screenshot](https://cldup.com/eWADhzCLHZ.png)
-
 A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
 
 ## Development Requirements
