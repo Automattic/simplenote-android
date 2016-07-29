@@ -38,7 +38,7 @@
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="@color/simplenote_blue"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     tools:context=".NoteEditorFragment" />
 
             </android.support.v4.widget.NestedScrollView>

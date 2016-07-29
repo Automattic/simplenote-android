@@ -16,7 +16,7 @@
             android:summary="%s"
             android:title="@string/sort_order" />
         <ListPreference
-            android:defaultValue="14"
+            android:defaultValue="16"
             android:entries="@array/array_font_size"
             android:entryValues="@array/array_font_size_values"
             android:key="pref_key_font_size"

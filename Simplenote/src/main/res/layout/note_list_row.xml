@@ -37,7 +37,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="?attr/noteTitleColor"
-        android:textSize="16sp"
+        android:textSize="18sp"
         tools:text="Three-line item" />
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
@@ -45,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/note_title"
-        android:paddingTop="1dp"
         android:layout_marginLeft="@dimen/list_padding_left"
         android:layout_marginStart="@dimen/list_padding_left"
         android:layout_marginRight="@dimen/padding_large"
@@ -56,7 +55,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="?attr/notePreviewColor"
-        android:textSize="14sp"
+        android:textSize="16sp"
         tools:text="The first few times he tried to climb up on\nthe smooth chest of drawers." />
 
 </RelativeLayout>
