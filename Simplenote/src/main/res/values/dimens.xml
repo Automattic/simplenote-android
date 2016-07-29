@@ -23,8 +23,8 @@
     <dimen name="nav_drawer_navigation_padding_top">0dp</dimen>
 
     <dimen name="note_list_item_padding_right">52dp</dimen>
-    <dimen name="note_list_item_padding_bottom">20dp</dimen>
-    <dimen name="note_list_item_padding_top">@dimen/padding_large</dimen>
+    <dimen name="note_list_item_padding_bottom">@dimen/padding_small</dimen>
+    <dimen name="note_list_item_padding_top">@dimen/padding_small</dimen>
     <dimen name="note_list_padding">@dimen/padding_small</dimen>
     <dimen name="list_padding_left">@dimen/padding_large</dimen>
 
