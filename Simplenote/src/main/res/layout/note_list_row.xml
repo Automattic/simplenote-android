@@ -11,8 +11,8 @@
 
     <ToggleButton
         android:id="@+id/pin_button"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginRight="@dimen/padding_medium"
         android:layout_marginEnd="@dimen/padding_medium"
         android:focusable="false"
