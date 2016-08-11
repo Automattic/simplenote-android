@@ -124,7 +124,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
-            AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(null);
+            AppLockManager.getInstance().getAppLock().setExemptActivities(null);
         }
 
         super.onPause();

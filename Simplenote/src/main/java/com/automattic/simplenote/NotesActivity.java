@@ -378,10 +378,10 @@ public class NotesActivity extends AppCompatActivity implements
                     // Disable the lock screen when sharing content and opening NoteEditorActivity
                     // Lock screen activities are enabled again in NoteEditorActivity.onPause()
                     if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
-                        AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(
+                        AppLockManager.getInstance().getAppLock().setExemptActivities(
                                 new String[]{"com.automattic.simplenote.NotesActivity",
                                 "com.automattic.simplenote.NoteEditorActivity"});
-                        AppLockManager.getInstance().getCurrentAppLock().setOneTimeTimeout(0);
+                        AppLockManager.getInstance().getAppLock().setOneTimeTimeout(0);
                     }
                 }
             }
