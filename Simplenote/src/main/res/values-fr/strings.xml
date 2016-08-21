@@ -25,7 +25,7 @@
 	<string name="markdown">Markdown</string>
 	<string name="tab_preview">Prévisualiser</string>
 	<string name="tab_edit">Modifier</string>
-	<string name="modified_time">%s modifié</string>
+	<string name="modified_time">modifié %s</string>
 	<string name="pin_to_top">Épingler en haut</string>
 	<string name="markdown_summary">Activer le bouton Markdown dans vos paramètres de note</string>
 	<string name="enable_markdown">Activer markdown</string>
