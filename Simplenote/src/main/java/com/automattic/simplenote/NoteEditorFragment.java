@@ -64,7 +64,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        ReminderBottomSheetDialog.ReminderSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -103,6 +104,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
+    private ReminderBottomSheetDialog mReminderBottomSheet;
 
     private Snackbar mPublishingSnackbar;
     private boolean mIsUndoingPublishing;
@@ -295,6 +297,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_reminder:
+	            setReminder();
+                return true;
             case R.id.menu_view_info:
                 showInfo();
                 return true;
@@ -363,6 +368,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             saveNote();
             showInfoSheet();
+        }
+    }
+
+	private void setReminder() {
+		if (mNote != null) {
+			mContentEditText.clearFocus();
+			showReminderPopUp();
+		}
+	}
+
+    private void showReminderPopUp() {
+        if (isAdded()) {
+            if (mReminderBottomSheet == null) {
+                mReminderBottomSheet = new ReminderBottomSheetDialog(this, this);
+            }
+            mReminderBottomSheet.show(mNote);
         }
     }
 
@@ -726,6 +747,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoDismissed() {
+
+    }
+
+    @Override
+    public void onReminderOn() {
+
+    }
+
+    @Override
+    public void onReminderOff() {
+
+    }
+
+    @Override
+    public void onReminderDismissed() {
 
     }
 

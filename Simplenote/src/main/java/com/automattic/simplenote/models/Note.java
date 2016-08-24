@@ -49,6 +49,8 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME="matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME="matchedContent";
     public static final String PUBLISH_URL="http://simp.ly/publish/";
+    public static final String REMINDER_PROPERTY = "reminder";
+    public static final String REMINDER_DATE = "reminderDate";
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
@@ -72,6 +74,8 @@ public class Note extends BucketObject {
             setDefault(DELETED_PROPERTY, false);
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
+            setDefault(REMINDER_PROPERTY, false);
+            setDefault(REMINDER_DATE, null);
         }
 
         public String getRemoteName(){
@@ -318,6 +322,36 @@ public class Note extends BucketObject {
 
     public void setDeleted(boolean deleted) {
         setProperty(DELETED_PROPERTY, deleted);
+    }
+
+    public Boolean hasReminder() {
+        Object reminder = getProperty(REMINDER_PROPERTY);
+        if (reminder == null) {
+            return false;
+        }
+        if (reminder instanceof Boolean) {
+            return (Boolean) reminder;
+        } else
+            return reminder instanceof Number && ((Number) reminder).intValue() != 0;
+    }
+
+    public void setReminder(boolean reminder) {
+        setProperty(REMINDER_PROPERTY, reminder);
+    }
+
+    public void setReminderDate(long timestamp) {
+        setProperty(REMINDER_DATE, timestamp);
+    }
+
+    public String getReminderDate() {
+        if (!hasReminder()) {
+            return null;
+        }
+        Object reminderDate = getProperty(REMINDER_DATE);
+        if (reminderDate == null) {
+            return null;
+        }
+        return (String) reminderDate;
     }
 
     public boolean isMarkdownEnabled() {
