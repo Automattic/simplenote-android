@@ -192,4 +192,10 @@
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="reminder">Reminder</string>
+
+    <!-- Reminder -->
+    <string name="enable_reminder">Enable Reminder</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+
 </resources>

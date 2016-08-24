@@ -18,53 +18,54 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class Note extends BucketObject {
-	
-	public static final String BUCKET_NAME="note";
-    public static final String MARKDOWN_TAG="markdown";
-    public static final String PINNED_TAG="pinned";
-    public static final String PUBLISHED_TAG="published";
-    public static final String NEW_LINE="\n";
 
-    private static final String BLANK_CONTENT="";
+    public static final String BUCKET_NAME = "note";
+    public static final String MARKDOWN_TAG = "markdown";
+    public static final String PINNED_TAG = "pinned";
+    public static final String PUBLISHED_TAG = "published";
+    public static final String NEW_LINE = "\n";
+
+    private static final String BLANK_CONTENT = "";
     private static final String SPACE = " ";
     private static final int MAX_PREVIEW_CHARS = 300;
-    
-    public static final String CONTENT_PROPERTY="content";
-    public static final String TAGS_PROPERTY="tags";
-    public static final String SYSTEM_TAGS_PROPERTY="systemTags";
-    public static final String CREATION_DATE_PROPERTY="creationDate";
-    public static final String MODIFICATION_DATE_PROPERTY="modificationDate";
-    public static final String SHARE_URL_PROPERTY="shareURL";
-    public static final String PUBLISH_URL_PROPERTY="publishURL";
-    public static final String DELETED_PROPERTY="deleted";
-    public static final String TITLE_INDEX_NAME="title";
-    public static final String CONTENT_PREVIEW_INDEX_NAME="contentPreview";
-    public static final String PINNED_INDEX_NAME="pinned";
-    public static final String MODIFIED_INDEX_NAME="modified";
-    public static final String CREATED_INDEX_NAME="created";
-    public static final String MATCHED_TITLE_INDEX_NAME="matchedTitle";
-    public static final String MATCHED_CONTENT_INDEX_NAME="matchedContent";
-    public static final String PUBLISH_URL="http://simp.ly/publish/";
+
+    public static final String CONTENT_PROPERTY = "content";
+    public static final String TAGS_PROPERTY = "tags";
+    public static final String SYSTEM_TAGS_PROPERTY = "systemTags";
+    public static final String CREATION_DATE_PROPERTY = "creationDate";
+    public static final String MODIFICATION_DATE_PROPERTY = "modificationDate";
+    public static final String SHARE_URL_PROPERTY = "shareURL";
+    public static final String PUBLISH_URL_PROPERTY = "publishURL";
+    public static final String DELETED_PROPERTY = "deleted";
+    public static final String TITLE_INDEX_NAME = "title";
+    public static final String CONTENT_PREVIEW_INDEX_NAME = "contentPreview";
+    public static final String PINNED_INDEX_NAME = "pinned";
+    public static final String MODIFIED_INDEX_NAME = "modified";
+    public static final String CREATED_INDEX_NAME = "created";
+    public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
+    public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
+    public static final String PUBLISH_URL = "http://simp.ly/publish/";
     public static final String REMINDER_PROPERTY = "reminder";
-    public static final String REMINDER_DATE = "reminderDate";
+    public static final String REMINDER_DATE_PROPERTY = "reminderDate";
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
-        Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
-	
-	protected String mTitle = null;
-	protected String mContentPreview = null;
+            Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
+
+    protected String mTitle = null;
+    protected String mContentPreview = null;
 
 
-	public static class Schema extends BucketSchema<Note> {
+    public static class Schema extends BucketSchema<Note> {
 
         protected static NoteIndexer sNoteIndexer = new NoteIndexer();
         protected static NoteFullTextIndexer sFullTextIndexer = new NoteFullTextIndexer();
 
-        public Schema(){
+        public Schema() {
             autoIndex();
             addIndex(sNoteIndexer);
             setupFullTextIndex(sFullTextIndexer, NoteFullTextIndexer.INDEXES);
@@ -75,10 +76,9 @@ public class Note extends BucketObject {
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
             setDefault(REMINDER_PROPERTY, false);
-            setDefault(REMINDER_DATE, null);
         }
 
-        public String getRemoteName(){
+        public String getRemoteName() {
             return Note.BUCKET_NAME;
         }
 
@@ -91,25 +91,25 @@ public class Note extends BucketObject {
             note.mTitle = null;
             note.mContentPreview = null;
         }
-	}
+    }
 
-    public static Query<Note> all(Bucket<Note> noteBucket){
+    public static Query<Note> all(Bucket<Note> noteBucket) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
-    public static Query<Note> allDeleted(Bucket<Note> noteBucket){
+    public static Query<Note> allDeleted(Bucket<Note> noteBucket) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
-    public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
+    public static Query<Note> search(Bucket<Note> noteBucket, String searchString) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(CONTENT_PROPERTY, ComparisonType.LIKE, "%" + searchString + "%");
     }
 
-    public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
+    public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
@@ -137,64 +137,62 @@ public class Note extends BucketObject {
 
             if (firstNewLinePosition < content.length()) {
                 mContentPreview = content.substring(firstNewLinePosition, content.length());
-                mContentPreview = mContentPreview.replace(NEW_LINE, SPACE).replace(SPACE+SPACE, SPACE).trim();
-            }
-            else {
+                mContentPreview = mContentPreview.replace(NEW_LINE, SPACE).replace(SPACE + SPACE, SPACE).trim();
+            } else {
                 mContentPreview = content;
             }
-        }
-        else {
+        } else {
             mTitle = content;
             mContentPreview = content;
         }
     }
-	
-	public String getTitle() {
+
+    public String getTitle() {
         if (mTitle == null) {
             updateTitleAndPreview();
         }
-		return mTitle;
-	}
+        return mTitle;
+    }
 
-	public String getContent() {
+    public String getContent() {
         Object content = getProperty(CONTENT_PROPERTY);
         if (content == null) {
             return BLANK_CONTENT;
         }
         return (String) content;
-	}
+    }
 
-	public void setContent(String content) {
+    public void setContent(String content) {
         mTitle = null;
         mContentPreview = null;
         setProperty(CONTENT_PROPERTY, content);
-	}
-	
-	public String getContentPreview() {
+    }
+
+    public String getContentPreview() {
         if (mContentPreview == null) {
             updateTitleAndPreview();
         }
-		return mContentPreview;
-	}
+        return mContentPreview;
+    }
 
-	public Calendar getCreationDate() {
-        return numberToDate((Number)getProperty(CREATION_DATE_PROPERTY));
-	}
+    public Calendar getCreationDate() {
+        return numberToDate((Number) getProperty(CREATION_DATE_PROPERTY));
+    }
 
-	public void setCreationDate(Calendar creationDate) {
-        setProperty(CREATION_DATE_PROPERTY, creationDate.getTimeInMillis()/1000);
-	}
+    public void setCreationDate(Calendar creationDate) {
+        setProperty(CREATION_DATE_PROPERTY, creationDate.getTimeInMillis() / 1000);
+    }
 
-	public Calendar getModificationDate() {
-        return numberToDate((Number)getProperty(MODIFICATION_DATE_PROPERTY));
-	}
+    public Calendar getModificationDate() {
+        return numberToDate((Number) getProperty(MODIFICATION_DATE_PROPERTY));
+    }
 
-	public void setModificationDate(Calendar modificationDate) {
-        setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis()/1000);
-	}
+    public void setModificationDate(Calendar modificationDate) {
+        setProperty(MODIFICATION_DATE_PROPERTY, modificationDate.getTimeInMillis() / 1000);
+    }
 
     public String getPublishedUrl() {
-        String urlCode = (String)getProperty(PUBLISH_URL_PROPERTY);
+        String urlCode = (String) getProperty(PUBLISH_URL_PROPERTY);
         if (TextUtils.isEmpty(urlCode)) {
             return "";
         }
@@ -202,7 +200,7 @@ public class Note extends BucketObject {
         return PUBLISH_URL + urlCode;
     }
 
-    public boolean hasTag(String tag){
+    public boolean hasTag(String tag) {
         List<String> tags = getTags();
         String tagLower = tag.toLowerCase();
         for (String tagName : tags) {
@@ -211,7 +209,7 @@ public class Note extends BucketObject {
         return false;
     }
 
-    public boolean hasTag(Tag tag){
+    public boolean hasTag(Tag tag) {
         return hasTag(tag.getSimperiumKey());
     }
 
@@ -230,7 +228,7 @@ public class Note extends BucketObject {
 
         if (length == 0) return tagList;
 
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             String tag = tags.optString(i);
             if (!tag.equals(""))
                 tagList.add(tag);
@@ -246,10 +244,10 @@ public class Note extends BucketObject {
     /**
      * String of tags delimited by a space
      */
-    public CharSequence getTagString(){
+    public CharSequence getTagString() {
         StringBuilder tagString = new StringBuilder();
         List<String> tags = getTags();
-        for(String tag : tags){
+        for (String tag : tags) {
             if (tagString.length() > 0) {
                 tagString.append(SPACE);
             }
@@ -261,10 +259,10 @@ public class Note extends BucketObject {
     /**
      * Sets the note's tags by providing it with a {@link String} of space
      * seperated tags. Filters out duplicate tags.
-     * 
+     *
      * @param tagString a space delimited list of tags
      */
-    public void setTagString(String tagString){
+    public void setTagString(String tagString) {
         List<String> tags = getTags();
         tags.clear();
 
@@ -296,7 +294,7 @@ public class Note extends BucketObject {
                 }
             }
             start = next + 1;
-        } while(next > -1);
+        } while (next > -1);
         setTags(tags);
     }
 
@@ -309,7 +307,7 @@ public class Note extends BucketObject {
         return tags;
     }
 
-	public Boolean isDeleted() {
+    public Boolean isDeleted() {
         Object deleted = getProperty(DELETED_PROPERTY);
         if (deleted == null) {
             return false;
@@ -339,19 +337,12 @@ public class Note extends BucketObject {
         setProperty(REMINDER_PROPERTY, reminder);
     }
 
-    public void setReminderDate(long timestamp) {
-        setProperty(REMINDER_DATE, timestamp);
+    public void setReminderDate(Calendar reminderDate) {
+        setProperty(REMINDER_DATE_PROPERTY, reminderDate.getTimeInMillis() / 1000);
     }
 
-    public String getReminderDate() {
-        if (!hasReminder()) {
-            return null;
-        }
-        Object reminderDate = getProperty(REMINDER_DATE);
-        if (reminderDate == null) {
-            return null;
-        }
-        return (String) reminderDate;
+    public Calendar getReminderDate() {
+        return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
     }
 
     public boolean isMarkdownEnabled() {
@@ -396,7 +387,7 @@ public class Note extends BucketObject {
 
         JSONArray tags = getSystemTags();
         int length = tags.length();
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             if (tags.optString(i).equals(tag)) {
                 return true;
             }
@@ -437,72 +428,75 @@ public class Note extends BucketObject {
         setProperty(SYSTEM_TAGS_PROPERTY, newTags);
     }
 
-    public static String dateString(Number time, boolean useShortFormat, Context context){
+    public static String dateString(Number time, boolean useShortFormat, Context context) {
         Calendar c = numberToDate(time);
         return dateString(c, useShortFormat, context);
     }
 
-	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
-		int year, month, day;
+    public static String dateString(Calendar c, boolean useShortFormat, Context context) {
+        int year, month, day;
 
-		String time, date, retVal;
-		time = date = "";
+        String time, date, retVal;
+        time = date = "";
 
-		Calendar diff = Calendar.getInstance();
-		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
+        Calendar diff = Calendar.getInstance();
+        diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
 
-		year = diff.get(Calendar.YEAR);
-		month = diff.get(Calendar.MONTH);
-		day = diff.get(Calendar.DAY_OF_MONTH);
+        year = diff.get(Calendar.YEAR);
+        month = diff.get(Calendar.MONTH);
+        day = diff.get(Calendar.DAY_OF_MONTH);
 
-		diff.setTimeInMillis(0); // starting time
-		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-		if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
-			date = context.getResources().getString(R.string.today);
-			if (useShortFormat)
-				retVal = time;
-			else
-				retVal = date + ", " + time;
-		} else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
-			date = context.getResources().getString(R.string.yesterday);
-			if (useShortFormat)
-				retVal = date;
-			else
-				retVal = date + ", " + time;
-		} else {
-			date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
-			retVal = date + ", " + time;
-		}
+        diff.setTimeInMillis(0); // starting time
+        time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
+            date = context.getResources().getString(R.string.today);
+            if (useShortFormat)
+                retVal = time;
+            else
+                retVal = date + ", " + time;
+        } else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
+            date = context.getResources().getString(R.string.yesterday);
+            if (useShortFormat)
+                retVal = date;
+            else
+                retVal = date + ", " + time;
+        } else {
+            date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
+            retVal = date + ", " + time;
+        }
 
-		return retVal;
-	}
+        return retVal;
+    }
 
-    public static Calendar numberToDate(Number time){
+    public static Calendar numberToDate(Number time) {
         Calendar date = Calendar.getInstance();
         if (time != null) {
             // Flick Note uses millisecond resolution timestamps Simplenote expects seconds
             // since we only deal with create and modify timestamps, they should all have occured
             // at the present time or in the past.
-            float now = date.getTimeInMillis()/1000;
-            float magnitude = time.floatValue()/now;
-            if (magnitude >= 2.f) time = time.longValue()/1000;
-            date.setTimeInMillis(time.longValue()*1000);
+            float now = date.getTimeInMillis() / 1000;
+            float magnitude = time.floatValue() / now;
+            if (magnitude >= 2.f) time = time.longValue() / 1000;
+            date.setTimeInMillis(time.longValue() * 1000);
         }
         return date;
     }
 
     /**
      * Check if the note has any changes
-     * @param content the new note content
-     * @param tagString space separated tags
-     * @param isPinned note is pinned
+     *
+     * @param content           the new note content
+     * @param tagString         space separated tags
+     * @param isPinned          note is pinned
      * @param isMarkdownEnabled note has markdown enabled
+     * @param hasReminder       note has a reminder enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled) {
+    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled, boolean hasReminder) {
         return !content.equals(this.getContent())
-            || !tagString.equals(this.getTagString().toString())
-            || this.isPinned() != isPinned
-            || this.isMarkdownEnabled() != isMarkdownEnabled;
+                || !tagString.equals(this.getTagString().toString())
+                || this.isPinned() != isPinned
+                || this.hasReminder() != hasReminder
+                || this.isMarkdownEnabled() != isMarkdownEnabled;
     }
 }

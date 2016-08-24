@@ -1,11 +1,10 @@
 package com.automattic.simplenote;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +42,12 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
         View infoView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
 
-        mInfoModifiedDate = (TextView)infoView.findViewById(R.id.info_modified_date_text);
-        mInfoWords = (TextView)infoView.findViewById(R.id.info_words_text);
-        mInfoLinkUrl = (TextView)infoView.findViewById(R.id.info_public_link_url);
-        mInfoLinkTitle = (TextView)infoView.findViewById(R.id.info_public_link_title);
+        mInfoModifiedDate = (TextView) infoView.findViewById(R.id.info_modified_date_text);
+        mInfoWords = (TextView) infoView.findViewById(R.id.info_words_text);
+        mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
+        mInfoLinkTitle = (TextView) infoView.findViewById(R.id.info_public_link_title);
 
-        mInfoPinSwitch = (Switch)infoView.findViewById(R.id.info_pin_switch);
+        mInfoPinSwitch = (Switch) infoView.findViewById(R.id.info_pin_switch);
         mInfoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -56,7 +55,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mInfoMarkdownSwitch = (Switch)infoView.findViewById(R.id.info_markdown_switch);
+        mInfoMarkdownSwitch = (Switch) infoView.findViewById(R.id.info_markdown_switch);
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -72,7 +71,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mCopyButton = (ImageButton)infoView.findViewById(R.id.info_copy_link_button);
+        mCopyButton = (ImageButton) infoView.findViewById(R.id.info_copy_link_button);
         mCopyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +79,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mShareButton = (ImageButton)infoView.findViewById(R.id.info_share_button);
+        mShareButton = (ImageButton) infoView.findViewById(R.id.info_share_button);
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +96,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
         setContentView(infoView);
     }
-    
+
     public void show(Note note) {
 
         if (mFragment.isAdded()) {
@@ -139,9 +138,13 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     public interface InfoSheetListener {
         void onInfoPinSwitchChanged(boolean isSwitchedOn);
+
         void onInfoMarkdownSwitchChanged(boolean isSwitchedOn);
+
         void onInfoCopyLinkClicked();
+
         void onInfoShareLinkClicked();
+
         void onInfoDismissed();
     }
 }

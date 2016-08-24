@@ -1,108 +1,113 @@
 package com.automattic.simplenote;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.utils.ShareButtonAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Reminder;
+
+import java.util.Calendar;
 
 /**
  * Created by Jesus Gumiel on 24/08/2016.
  */
-public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
+public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements View.OnClickListener {
 
-	private static final int SHARE_SHEET_COLUMN_COUNT = 3;
+    public static final int UPDATE_REMINDER_REQUEST_CODE = 101;
+    public static final String TIMESTAMP_BUNDLE_KEY = "reminder";
 
-	//private TextView mPublishButton;
-	//private TextView mUnpublishButton;
-	//private RecyclerView mRecyclerView;
+    private Switch mReminderSwitch;
+    private TextView mDateTextView;
+    private TextView mTimeTextView;
 
-	private Fragment mFragment;
-	private Intent mShareIntent;
-	private List<ShareButtonAdapter.ShareButtonItem> mShareButtons;
+    private Fragment mFragment;
+    private Note mNote;
 
-	public ReminderBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ReminderSheetListener reminderSheetListener) {
-		super(fragment.getActivity());
+    public ReminderBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ReminderSheetListener reminderSheetListener) {
+        super(fragment.getActivity());
 
-		mFragment = fragment;
+        mFragment = fragment;
 
-		View reminderView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
-	/*	mPublishButton = (TextView) reminderView.findViewById(R.id.share_publish_button);
-		mUnpublishButton = (TextView) reminderView.findViewById(R.id.share_unpublish_button);
+        View reminderView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
+        mReminderSwitch = (Switch) reminderView.findViewById(R.id.reminder_switch);
+        mDateTextView = (TextView) reminderView.findViewById(R.id.date_reminder);
+        mTimeTextView = (TextView) reminderView.findViewById(R.id.time_reminder);
 
-		mRecyclerView = (RecyclerView) reminderView.findViewById(R.id.share_button_recycler_view);
-		mRecyclerView.setHasFixedSize(true);
-		mRecyclerView.setLayoutManager(new GridLayoutManager(fragment.getActivity(), SHARE_SHEET_COLUMN_COUNT));
+        setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                reminderSheetListener.onReminderDismissed();
+            }
+        });
 
-		mShareIntent = new Intent(Intent.ACTION_SEND);
-		mShareIntent.setType("text/plain");
+        mReminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    reminderSheetListener.onReminderOn();
+                } else {
+                    reminderSheetListener.onReminderOff();
+                }
+            }
+        });
 
-		mShareButtons = getShareButtons(fragment.getActivity(), mShareIntent);
-*/
-		setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				reminderSheetListener.onReminderDismissed();
-			}
-		});
+        setContentView(reminderView);
+    }
 
-		setContentView(reminderView);
-	}
+    public void show(Note note) {
+        mNote = note;
+        if (mFragment.isAdded()) {
+            mDateTextView.setOnClickListener(this);
+            mTimeTextView.setOnClickListener(this);
+            refreshReminder();
+            show();
+        }
+    }
 
-	public void show(Note note) {
+    private void refreshReminder() {
+        Reminder reminder = new Reminder(mNote.getReminderDate().getTimeInMillis());
+        mDateTextView.setText(reminder.getDate());
+        mTimeTextView.setText(reminder.getTime());
+        mReminderSwitch.setChecked(mNote.hasReminder());
+    }
 
-		if (mFragment.isAdded()) {
+    @Override
+    public void onClick(View v) {
+        long timestamp = mNote.getReminderDate().getTimeInMillis();
+        switch (v.getId()) {
+            case R.id.date_reminder:
+                DialogFragment dateFragment = DatePickerFragment.newInstance(timestamp);
+                dateFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
+                dateFragment.show(mFragment.getFragmentManager(), "datePicker");
+                break;
+            case R.id.time_reminder:
+                DialogFragment timeFragment = TimePickerFragment.newInstance(timestamp);
+                timeFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
+                timeFragment.show(mFragment.getFragmentManager(), "timePicker");
+                break;
 
-		/*	mShareIntent.putExtra(Intent.EXTRA_TEXT, note.getContent());
+        }
+    }
 
-			final ShareButtonAdapter.ItemListener shareListener = new ShareButtonAdapter.ItemListener() {
-				@Override
-				public void onItemClick(ShareButtonAdapter.ShareButtonItem item) {
-					mShareIntent.setComponent(new ComponentName(item.getPackageName(), item.getActivityName()));
-					mFragment.getActivity().startActivity(Intent.createChooser(mShareIntent, mFragment.getString(R.string.share)));
-					dismiss();
-				}
-			};
-*/
-			//mRecyclerView.setAdapter(new ShareButtonAdapter(mShareButtons, shareListener));
+    public void updateReminder(Calendar calendar) {
+        mNote.setReminderDate(calendar);
+        refreshReminder();
+    }
 
-			show();
-		}
-	}
+    public interface ReminderSheetListener {
+        void onReminderOn();
 
-	@NonNull
-	private List<ShareButtonAdapter.ShareButtonItem> getShareButtons(Activity activity, Intent intent) {
+        void onReminderOff();
 
-		List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
-		final List<ResolveInfo> matches = activity.getPackageManager().queryIntentActivities(intent, 0);
-		for (ResolveInfo match : matches) {
-			final Drawable icon = match.loadIcon(activity.getPackageManager());
-			final CharSequence label = match.loadLabel(activity.getPackageManager());
-			shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
-					match.activityInfo.packageName, match.activityInfo.name));
-		}
+        public void onReminderUpdated(Calendar calendar);
 
-		return shareButtons;
-	}
-
-	public interface ReminderSheetListener {
-		void onReminderOn();
-
-		void onReminderOff();
-
-		void onReminderDismissed();
-	}
+        void onReminderDismissed();
+    }
 }
