@@ -26,9 +26,9 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
 
 	private static final int SHARE_SHEET_COLUMN_COUNT = 3;
 
-	private TextView mPublishButton;
-	private TextView mUnpublishButton;
-	private RecyclerView mRecyclerView;
+	//private TextView mPublishButton;
+	//private TextView mUnpublishButton;
+	//private RecyclerView mRecyclerView;
 
 	private Fragment mFragment;
 	private Intent mShareIntent;
@@ -39,11 +39,11 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
 
 		mFragment = fragment;
 
-		View shareView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
-		mPublishButton = (TextView) shareView.findViewById(R.id.share_publish_button);
-		mUnpublishButton = (TextView) shareView.findViewById(R.id.share_unpublish_button);
+		View reminderView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
+	/*	mPublishButton = (TextView) reminderView.findViewById(R.id.share_publish_button);
+		mUnpublishButton = (TextView) reminderView.findViewById(R.id.share_unpublish_button);
 
-		mRecyclerView = (RecyclerView) shareView.findViewById(R.id.share_button_recycler_view);
+		mRecyclerView = (RecyclerView) reminderView.findViewById(R.id.share_button_recycler_view);
 		mRecyclerView.setHasFixedSize(true);
 		mRecyclerView.setLayoutManager(new GridLayoutManager(fragment.getActivity(), SHARE_SHEET_COLUMN_COUNT));
 
@@ -51,7 +51,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
 		mShareIntent.setType("text/plain");
 
 		mShareButtons = getShareButtons(fragment.getActivity(), mShareIntent);
-
+*/
 		setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
@@ -59,21 +59,14 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
 			}
 		});
 
-		setContentView(shareView);
+		setContentView(reminderView);
 	}
 
 	public void show(Note note) {
 
 		if (mFragment.isAdded()) {
-			if (note.isPublished()) {
-				mPublishButton.setVisibility(View.GONE);
-				mUnpublishButton.setVisibility(View.VISIBLE);
-			} else {
-				mPublishButton.setVisibility(View.VISIBLE);
-				mUnpublishButton.setVisibility(View.GONE);
-			}
 
-			mShareIntent.putExtra(Intent.EXTRA_TEXT, note.getContent());
+		/*	mShareIntent.putExtra(Intent.EXTRA_TEXT, note.getContent());
 
 			final ShareButtonAdapter.ItemListener shareListener = new ShareButtonAdapter.ItemListener() {
 				@Override
@@ -83,8 +76,8 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase {
 					dismiss();
 				}
 			};
-
-			mRecyclerView.setAdapter(new ShareButtonAdapter(mShareButtons, shareListener));
+*/
+			//mRecyclerView.setAdapter(new ShareButtonAdapter(mShareButtons, shareListener));
 
 			show();
 		}
