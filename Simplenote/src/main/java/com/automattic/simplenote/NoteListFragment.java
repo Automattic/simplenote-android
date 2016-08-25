@@ -23,13 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.*;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -403,6 +397,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
 
+	    query.include(Note.REMINDER_PROPERTY);
         query.include(Note.PINNED_INDEX_NAME);
 
         sortNoteQuery(query);
@@ -501,6 +496,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
 				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+				holder.reminderImageView = (ImageView) view.findViewById(R.id.reminder_state);
 				view.setTag(holder);
 			} else {
 				holder = (NoteViewHolder) view.getTag();
@@ -537,6 +533,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     NoteUtils.setNotePin(note, holder.toggleView.isChecked());
                  }
              });
+
+			long reminder = mCursor.getLong(mCursor.getColumnIndex(Note.REMINDER_PROPERTY));
+			holder.reminderImageView.setVisibility(reminder == 1 ? View.VISIBLE : View.GONE);
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
@@ -594,6 +593,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		TextView titleTextView;
 		TextView contentTextView;
         ToggleButton toggleView;
+		ImageView reminderImageView;
         public String matchOffsets;
         private String mNoteId;
 
