@@ -32,7 +32,7 @@ public class NotificationUtils {
         notificationManager.cancelAll();
     }
 
-    public static void showAlarmNotification(Context context, String noteID, String content, String title) {
+    public static void showAlarmNotification(Context context, String noteID, String title, String content) {
         Bundle arguments = new Bundle();
         arguments.putString(AlarmUtils.REMINDER_EXTRA_ID, noteID);
         arguments.putString(AlarmUtils.REMINDER_EXTRA_TITLE, title);
