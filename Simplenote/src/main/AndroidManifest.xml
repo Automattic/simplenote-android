@@ -65,12 +65,12 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
+        <!-- Reminders -->
         <receiver android:process=":remote" android:name=".ReminderReceiver"/>
 
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
-
 
         <!-- Android Wear -->
         <service android:name=".utils.SimplenoteWearListenerService">

@@ -60,7 +60,6 @@ import com.simperium.client.Query;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -1268,7 +1267,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
             long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
-            Calendar calendar = new GregorianCalendar();
+            Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(timestamp));
 
             onReminderUpdated(calendar);
