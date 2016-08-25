@@ -106,7 +106,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
         void onReminderOff();
 
-        public void onReminderUpdated(Calendar calendar);
+        void onReminderUpdated(Calendar calendar);
 
         void onReminderDismissed();
     }

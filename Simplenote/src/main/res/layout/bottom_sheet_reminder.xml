@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_extra_large"
-        android:text="@string/enable_reminder"
+        android:text="@string/reminder_enable"
         android:textColor="@color/simplenote_dark_grey" />
 
     <View
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/view_helper"
             android:paddingBottom="@dimen/padding_small"
-            android:text="@string/date"
+            android:text="@string/reminder_date"
             android:textColor="@color/simplenote_dark_grey"
             android:textSize="@dimen/title_text_size_small" />
 
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/view_helper"
             android:paddingBottom="@dimen/padding_small"
-            android:text="@string/time"
+            android:text="@string/reminder_time"
             android:textColor="@color/simplenote_dark_grey"
             android:textSize="@dimen/title_text_size_small" />
 

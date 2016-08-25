@@ -194,8 +194,11 @@
     <string name="reminder">Reminder</string>
 
     <!-- Reminder -->
-    <string name="enable_reminder">Enable Reminder</string>
-    <string name="time">Time</string>
-    <string name="date">Date</string>
+    <string name="reminder_enable">Enable Reminder</string>
+    <string name="reminder_time">Time</string>
+    <string name="reminder_date">Date</string>
+    <string name="reminder_title">Task reminder</string>
+    <string name="reminder_snooze">Snooze</string>
+    <string name="reminder_stop">Stop</string>
 
 </resources>
