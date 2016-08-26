@@ -14,7 +14,7 @@ import android.support.v4.app.TaskStackBuilder;
 import com.automattic.simplenote.NoteEditorActivity;
 import com.automattic.simplenote.NoteEditorFragment;
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.ReminderActivity;
+import com.automattic.simplenote.ReminderActionsReceiver;
 
 /**
  * Created by jegumi on 25/08/16.
@@ -26,6 +26,7 @@ public class NotificationUtils {
     public static final int ARG_OPEN_ID = 0;
     public static final int ARG_SNOOZE_ID = 1;
     public static final int ARG_REMOVE_ID = 2;
+    public static final int ARG_DISMISS_ID = 3;
 
     public static void removeNotifications(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -38,19 +39,18 @@ public class NotificationUtils {
         arguments.putString(AlarmUtils.REMINDER_EXTRA_TITLE, title);
         arguments.putString(AlarmUtils.REMINDER_EXTRA_CONTENT, content);
 
-        Intent editNoteIntent = new Intent(context, NoteEditorActivity.class);
-        editNoteIntent.putExtra(NoteEditorFragment.ARG_ITEM_ID, noteID);
-
+        Intent openNoteIntent = getOpenIntent(context, noteID);
         Intent snoozeReminderIntent = getSnoozeIntent(context, arguments);
         Intent removeReminderIntent = getRemoveIntent(context, arguments);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(NoteEditorActivity.class);
-        stackBuilder.addNextIntent(editNoteIntent);
+        stackBuilder.addNextIntent(openNoteIntent);
 
         PendingIntent openNotePendingIntent = stackBuilder.getPendingIntent(ARG_OPEN_ID, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent snoozeReminder = PendingIntent.getActivity(context, ARG_SNOOZE_ID, snoozeReminderIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        PendingIntent removeReminder = PendingIntent.getActivity(context, ARG_REMOVE_ID, removeReminderIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent snoozeReminder = PendingIntent.getBroadcast(context, ARG_SNOOZE_ID, snoozeReminderIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent removeReminder = PendingIntent.getBroadcast(context, ARG_REMOVE_ID, removeReminderIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent dismissReminder = PendingIntent.getBroadcast(context, ARG_DISMISS_ID, removeReminderIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -62,6 +62,7 @@ public class NotificationUtils {
                         .setContentText(title)
                         .addAction(R.drawable.ic_action_alarm_snooze_24dp, context.getString(R.string.reminder_snooze), snoozeReminder)
                         .addAction(R.drawable.ic_action_alarm_off_24dp, context.getString(R.string.reminder_stop), removeReminder)
+                        .setDeleteIntent(dismissReminder)
                         .setAutoCancel(true)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
                         .setContentIntent(openNotePendingIntent)
@@ -72,8 +73,16 @@ public class NotificationUtils {
         notificationManager.notify(REMINDER_NOTIFICATION_ID, builder.build());
     }
 
+    private static Intent getOpenIntent(Context context, String noteID) {
+        Intent intent = new Intent(context, NoteEditorActivity.class);
+        intent.putExtra(NoteEditorFragment.ARG_ITEM_ID, noteID);
+        intent.putExtra(NoteEditorFragment.ARG_REMOVE_REMINDER, true);
+
+        return intent;
+    }
+
     private static Intent getSnoozeIntent(Context context, final Bundle arguments) {
-        Intent intent = new Intent(context, ReminderActivity.class);
+        Intent intent = new Intent(context, ReminderActionsReceiver.class);
         arguments.putInt(ARG_ACTION_KEY, ARG_SNOOZE_ID);
         intent.putExtras(arguments);
 
@@ -81,7 +90,7 @@ public class NotificationUtils {
     }
 
     private static Intent getRemoveIntent(Context context, final Bundle arguments) {
-        Intent intent = new Intent(context, ReminderActivity.class);
+        Intent intent = new Intent(context, ReminderActionsReceiver.class);
         arguments.putInt(ARG_ACTION_KEY, ARG_REMOVE_ID);
         intent.putExtras(arguments);
 

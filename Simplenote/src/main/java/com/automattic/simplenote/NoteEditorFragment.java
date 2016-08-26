@@ -70,6 +70,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         ReminderBottomSheetDialog.ReminderSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_REMOVE_REMINDER = "remove_reminder";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
@@ -115,6 +116,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private String mKey;
+    private boolean mRemoveReminder;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -217,6 +219,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
+            mRemoveReminder = arguments.getBoolean(ARG_REMOVE_REMINDER, false);
+
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mKey);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
@@ -762,8 +766,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onReminderOff() {
         mHasReminder = false;
-        AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(),
-                mNote.getContentPreview());
+        AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
     }
 
     @Override
@@ -772,8 +775,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mHasReminderDateChange = true;
         mReminderBottomSheet.updateReminder(calendar);
         if (mHasReminder) {
-            AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(),
-                    mNote.getContentPreview(), mNote.getReminderDate());
+            AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
         }
     }
 
@@ -851,6 +853,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
                     ((NoteEditorActivity) getActivity()).showTabs();
                 }
+            }
+
+            if (mNote != null && mRemoveReminder) {
+                mNote.setReminder(false);
+                saveAndSyncNote();
             }
 
             getActivity().invalidateOptionsMenu();
