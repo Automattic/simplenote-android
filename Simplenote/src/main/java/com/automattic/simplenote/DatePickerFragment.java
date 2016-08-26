@@ -16,12 +16,13 @@ import java.util.GregorianCalendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    private static final String ARG_DATE = "date";
     private Calendar calendar;
 
     public static DatePickerFragment newInstance(long timestamp) {
         DatePickerFragment fragment = new DatePickerFragment();
         Bundle args = new Bundle();
-        args.putLong("date", timestamp);
+        args.putLong(ARG_DATE, timestamp);
         fragment.setArguments(args);
 
         return fragment;
@@ -29,7 +30,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        long timestamp = getArguments().getLong("date");
+        long timestamp = getArguments().getLong(ARG_DATE);
 
         calendar = new GregorianCalendar();
         calendar.setTime(new Date(timestamp));
@@ -49,6 +50,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         Intent intent = new Intent();
         intent.putExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, calendar.getTimeInMillis());
+        intent.putExtra(ReminderBottomSheetDialog.REMINDER_ACTION_KEY, ReminderBottomSheetDialog.REMINDER_ACTION_DATE);
         getTargetFragment().onActivityResult(getTargetRequestCode(), ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE, intent);
     }
 }

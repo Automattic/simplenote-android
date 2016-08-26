@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -22,6 +23,11 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
     public static final int UPDATE_REMINDER_REQUEST_CODE = 101;
     public static final String TIMESTAMP_BUNDLE_KEY = "reminder";
+    public static final String REMINDER_ACTION_KEY = "reminderAction";
+    public static final int REMINDER_ACTION_DATE = 0;
+    public static final int REMINDER_ACTION_TIME = 1;
+
+    private static final long REMINDER_DELAY = 10 * DateUtils.MINUTE_IN_MILLIS;
 
     private Switch mReminderSwitch;
     private TextView mDateTextView;
@@ -29,6 +35,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
     private Fragment mFragment;
     private Note mNote;
+    private long timestamp;
 
     public ReminderBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ReminderSheetListener reminderSheetListener) {
         super(fragment.getActivity());
@@ -66,13 +73,23 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         if (mFragment.isAdded()) {
             mDateTextView.setOnClickListener(this);
             mTimeTextView.setOnClickListener(this);
-            refreshReminder();
+            initReminder(mNote.getReminderDate().getTimeInMillis());
             show();
         }
     }
 
-    private void refreshReminder() {
-        Reminder reminder = new Reminder(mNote.getReminderDate().getTimeInMillis());
+    private void initReminder(long timestamp) {
+        if (mNote.hasReminder()) {
+            refreshReminder(timestamp);
+        } else {
+            refreshReminder(Calendar.getInstance().getTimeInMillis() + REMINDER_DELAY);
+        }
+    }
+
+    private void refreshReminder(long timestamp) {
+        this.timestamp = timestamp;
+
+        Reminder reminder = new Reminder(timestamp);
         mDateTextView.setText(reminder.getDate());
         mTimeTextView.setText(reminder.getTime());
         mReminderSwitch.setChecked(mNote.hasReminder());
@@ -80,7 +97,6 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
     @Override
     public void onClick(View v) {
-        long timestamp = mNote.getReminderDate().getTimeInMillis();
         switch (v.getId()) {
             case R.id.date_reminder:
                 DialogFragment dateFragment = DatePickerFragment.newInstance(timestamp);
@@ -98,7 +114,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
     public void updateReminder(Calendar calendar) {
         mNote.setReminderDate(calendar);
-        refreshReminder();
+        refreshReminder(mNote.getReminderDate().getTimeInMillis());
     }
 
     public interface ReminderSheetListener {

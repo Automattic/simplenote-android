@@ -1,7 +1,8 @@
 package com.automattic.simplenote.models;
 
 import java.text.DateFormat;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -13,9 +14,14 @@ public class Reminder {
     private String time;
 
     public Reminder(long timestamp) {
-        Date reminderDate = timestamp == 0 ? new Date() : new Date(timestamp);
-        date = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(reminderDate);
-        time = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(reminderDate);
+        Calendar calendar = Calendar.getInstance();
+        if (timestamp != 0) {
+            calendar.setTimeInMillis(timestamp);
+        }
+
+        date = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(calendar.getTime());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        time = timeFormat.format(calendar.getTime());
     }
 
     public String getDate() {

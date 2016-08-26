@@ -22,53 +22,47 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_extra_large">
+        android:layout_marginBottom="@dimen/padding_extra_large"
+        android:layout_marginTop="@dimen/padding_extra_large">
 
         <View
             android:id="@+id/view_helper"
             android:layout_width="1dp"
+            android:padding="@dimen/padding_extra_small"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/date_title"
+            style="@style/ReminderTitleAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/view_helper"
-            android:paddingBottom="@dimen/padding_small"
-            android:text="@string/reminder_date"
-            android:textColor="@color/simplenote_dark_grey"
-            android:textSize="@dimen/title_text_size_small" />
+            android:text="@string/reminder_date" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/date_reminder"
+            style="@style/ReminderFieldAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_title"
-            android:layout_toLeftOf="@id/view_helper"
-            android:background="?attr/selectableItemBackground"
-            android:textColor="@color/simplenote_dark_grey"
-            android:textSize="@dimen/title_text_size_large" />
+            android:layout_toLeftOf="@id/view_helper" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/time_title"
+            style="@style/ReminderTitleAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/view_helper"
-            android:paddingBottom="@dimen/padding_small"
-            android:text="@string/reminder_time"
-            android:textColor="@color/simplenote_dark_grey"
-            android:textSize="@dimen/title_text_size_small" />
+            android:text="@string/reminder_time"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/time_reminder"
+            style="@style/ReminderFieldAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_title"
-            android:layout_toRightOf="@+id/view_helper"
-            android:background="?attr/selectableItemBackground"
-            android:textColor="@color/simplenote_dark_grey"
-            android:textSize="@dimen/title_text_size_large" />
+            android:layout_toRightOf="@+id/view_helper" />
 
     </RelativeLayout>
 

@@ -10,4 +10,21 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="ReminderTitleAppearance" parent="android:style/TextAppearance">
+        <item name="android:paddingLeft">@dimen/padding_extra_large</item>
+        <item name="android:paddingRight">@dimen/padding_extra_large</item>
+        <item name="android:textColor">@color/simplenote_dark_grey</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+
+    <style name="ReminderFieldAppearance" parent="android:style/TextAppearance">
+        <item name="android:paddingLeft">@dimen/padding_extra_large</item>
+        <item name="android:paddingRight">@dimen/padding_extra_large</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/simplenote_dark_grey</item>
+        <item name="android:textSize">@dimen/title_text_size_large</item>
+    </style>
+
 </resources>

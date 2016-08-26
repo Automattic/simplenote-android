@@ -59,7 +59,6 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -758,14 +757,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onReminderOn() {
-        mHasReminder = true;
-        AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(),
-                mNote.getContentPreview(), mNote.getReminderDate());
+        mNote.setReminder(true);
+        AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
     }
 
     @Override
     public void onReminderOff() {
-        mHasReminder = false;
+        mNote.setReminder(false);
         AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
     }
 
@@ -811,6 +809,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Set markdown flag for current note
                 if (mNote != null) {
                     mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                    mHasReminder = mNote.hasReminder();
                 }
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note
@@ -904,7 +903,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
-            mNote.setReminder(mHasReminder);
             // Send pinned event to google analytics if changed
             mNote.save();
 
@@ -1219,7 +1217,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     /**
      * Simperium listeners
      */
-
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
 
@@ -1274,10 +1271,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
             long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date(timestamp));
+            int updateAction = data.getIntExtra(ReminderBottomSheetDialog.REMINDER_ACTION_KEY, ReminderBottomSheetDialog.REMINDER_ACTION_DATE);
 
-            onReminderUpdated(calendar);
+            Calendar currentCalendar = mNote.getReminderDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(timestamp);
+
+            if (updateAction == ReminderBottomSheetDialog.REMINDER_ACTION_DATE) {
+                currentCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                currentCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                currentCalendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            } else {
+                currentCalendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                currentCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                currentCalendar.set(Calendar.SECOND, calendar.get(Calendar.SECOND));
+            }
+
+            onReminderUpdated(currentCalendar);
         }
     }
 }
