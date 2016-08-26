@@ -27,6 +27,7 @@ public class ReminderActionsReceiver extends BroadcastReceiver {
                 case NotificationUtils.ARG_SNOOZE_ID:
                     Calendar in10Minutes = Calendar.getInstance();
                     in10Minutes.add(Calendar.MINUTE, 10);
+                    in10Minutes.set(Calendar.SECOND, 0);
                     AlarmUtils.createAlarm(context, key, title, content, in10Minutes);
                     break;
                 case NotificationUtils.ARG_REMOVE_ID:

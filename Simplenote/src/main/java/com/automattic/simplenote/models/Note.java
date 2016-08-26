@@ -341,7 +341,12 @@ public class Note extends BucketObject {
     }
 
     public Calendar getReminderDate() {
-        return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
+        Calendar date = Calendar.getInstance();
+        Number time = (Number) getProperty(REMINDER_DATE_PROPERTY);
+        if (time != null) {
+            date.setTimeInMillis(time.longValue() * 1000);
+        }
+        return date;
     }
 
     public boolean isMarkdownEnabled() {

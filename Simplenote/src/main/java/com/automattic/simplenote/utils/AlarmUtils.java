@@ -25,7 +25,6 @@ public class AlarmUtils {
         intent.putExtra(REMINDER_EXTRA_CONTENT, content);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        calendar.set(Calendar.SECOND, 0);
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
