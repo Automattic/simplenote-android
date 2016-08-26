@@ -1284,7 +1284,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else {
                 currentCalendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
                 currentCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
-                currentCalendar.set(Calendar.SECOND, calendar.get(Calendar.SECOND));
+                currentCalendar.set(Calendar.SECOND, 0);
             }
 
             onReminderUpdated(currentCalendar);

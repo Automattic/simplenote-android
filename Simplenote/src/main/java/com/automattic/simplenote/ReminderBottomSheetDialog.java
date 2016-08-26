@@ -29,6 +29,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
     private static final long REMINDER_DELAY = 10 * DateUtils.MINUTE_IN_MILLIS;
 
+    private ReminderSheetListener mReminderSheetListener;
     private Switch mReminderSwitch;
     private TextView mDateTextView;
     private TextView mTimeTextView;
@@ -37,10 +38,11 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     private Note mNote;
     private long timestamp;
 
-    public ReminderBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ReminderSheetListener reminderSheetListener) {
+    public ReminderBottomSheetDialog(@NonNull final Fragment fragment, @NonNull ReminderSheetListener reminderSheetListener) {
         super(fragment.getActivity());
 
         mFragment = fragment;
+        mReminderSheetListener = reminderSheetListener;
 
         View reminderView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
         mReminderSwitch = (Switch) reminderView.findViewById(R.id.reminder_switch);
@@ -50,18 +52,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                reminderSheetListener.onReminderDismissed();
-            }
-        });
-
-        mReminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    reminderSheetListener.onReminderOn();
-                } else {
-                    reminderSheetListener.onReminderOff();
-                }
+                mReminderSheetListener.onReminderDismissed();
             }
         });
 
@@ -84,6 +75,20 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         } else {
             refreshReminder(Calendar.getInstance().getTimeInMillis() + REMINDER_DELAY);
         }
+        mReminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mReminderSheetListener.onReminderOn();
+                } else {
+                    mReminderSheetListener.onReminderOff();
+                }
+            }
+        });
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(this.timestamp);
+        mReminderSheetListener.onReminderUpdated(calendar);
+        mReminderSheetListener.onReminderUpdated(calendar);
     }
 
     private void refreshReminder(long timestamp) {
