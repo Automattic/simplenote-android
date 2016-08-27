@@ -1,0 +1,13 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="UntitledNoteAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">?attr/notePreviewColor</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+</resources>

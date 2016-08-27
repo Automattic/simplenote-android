@@ -1,0 +1,33 @@
+<resources>
+	<!-- 
+		nbradbury - dimensions for mdpi/hdpi displays 
+	-->
+    
+    <!-- padding/margins -->
+    <dimen name="padding_extra_small">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">12dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_extra_large">20dp</dimen>
+
+    <!-- http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing -->
+    <dimen name="nav_row_height">48dp</dimen>
+    <dimen name="toolbar_title_keyline">72dp</dimen>
+    <dimen name="nav_header_size">100dp</dimen>
+
+    <!-- Lollipop requires a margin for the sign out preference, see values-v21/dimens.xml -->
+    <dimen name="settings_sign_out_margin">0dp</dimen>
+
+    <dimen name="nav_drawer_item_image_margin">32dp</dimen>
+    <dimen name="nav_drawer_item_text_size">14sp</dimen>
+    <dimen name="nav_drawer_navigation_padding_top">0dp</dimen>
+
+    <dimen name="note_list_item_padding_right">52dp</dimen>
+    <dimen name="note_list_item_padding_bottom">@dimen/padding_small</dimen>
+    <dimen name="note_list_item_padding_top">@dimen/padding_small</dimen>
+    <dimen name="note_list_padding">@dimen/padding_small</dimen>
+    <dimen name="list_padding_left">@dimen/padding_large</dimen>
+
+    <dimen name="bottom_sheet_dialog_width">0dp</dimen>
+    <dimen name="add_reminder_fab_margin">16dp</dimen>
+</resources>

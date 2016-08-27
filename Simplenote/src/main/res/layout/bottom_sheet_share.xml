@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/share_custom_buttons"
+        android:padding="@dimen/padding_extra_large"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/padding_extra_large"
+        android:layout_marginRight="@dimen/padding_extra_large"
+        android:layout_marginStart="@dimen/padding_extra_large"
+        android:layout_marginLeft="@dimen/padding_extra_large"
+        android:layout_height="wrap_content">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/share_collaborate_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/collaborate"
+            android:textColor="@color/simplenote_dark_grey"
+            android:gravity="center_horizontal"
+            android:drawablePadding="@dimen/padding_small"
+            android:drawableTop="@drawable/ic_collaborate_48dp" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/share_publish_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/publish"
+            android:textColor="@color/simplenote_dark_grey"
+            android:gravity="center_horizontal"
+            android:drawablePadding="@dimen/padding_small"
+            android:drawableTop="@drawable/ic_publish_48dp" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/share_unpublish_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/unpublish"
+            android:textColor="@color/simplenote_dark_grey"
+            android:gravity="center_horizontal"
+            android:drawablePadding="@dimen/padding_small"
+            android:drawableTop="@drawable/ic_unpublish_48dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/share_custom_buttons"
+        android:background="@color/divider_grey" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/share_button_recycler_view"
+        android:layout_below="@id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:focusableInTouchMode="true">
+
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_height="0dp"
+      android:layout_width="fill_parent"
+      android:layout_weight="1">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:padding="8sp"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
+
+      <EditText
+          android:id="@+id/title"
+          android:singleLine="true"
+          android:inputType="text"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:gravity="center_horizontal"
+          android:hint="@string/reminder_title"/>
+
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          android:paddingTop="8sp"
+          android:orientation="horizontal"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/alarm_checkbox"
+            android:layout_weight="1"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:text="Alarm" />
+
+        <Spinner
+            android:id="@+id/occurence_spinner"
+            android:layout_weight="1"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:entries="@array/occurence" />
+
+      </LinearLayout>
+
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          android:paddingTop="8sp"
+          android:orientation="vertical"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp">
+
+
+        <Button
+            android:id="@+id/date_button"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/simplenote_blue"
+            android:layout_gravity="center"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/time_button"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:textColor="@color/simplenote_blue"
+            android:layout_gravity="center"
+            android:textSize="30dp"/>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </ScrollView>
+
+</LinearLayout>
+

@@ -1,0 +1,16 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <fragment
+        android:id="@+id/fragment_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.automattic.simplenote.ReminderFragment" />
+
+</LinearLayout>

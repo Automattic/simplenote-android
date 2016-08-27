@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+  android:orientation="vertical"
+  android:padding="4dip"
+  android:background="@color/white"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    >
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@mipmap/ic_launcher"
+      android:layout_marginTop="30dp"
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/simplenote_for_android"/>
+  <TextView
+    android:id="@+id/alarm_title_text"
+    android:layout_weight="2"
+    android:layout_width="fill_parent"
+    android:layout_height="0sp"
+    android:gravity="center"
+    android:padding="8dip"
+    android:textColor="@color/holo_blue_dark"
+    android:textSize="32dip"
+    android:textStyle="bold"
+    android:text="Reminder" />
+</LinearLayout>
+
+
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+      android:gravity="bottom">
+
+    <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="90dp"
+    android:id="@+id/dismiss"
+        >
+      <!-- Bottom View Start-->
+      <LinearLayout
+          android:id="@+id/bottom_wrapper"
+          android:background="@color/dismiss_reminder_color"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:gravity="center"
+          >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/white"
+              android:text="Dismissed"/>
+        <!--What you want to show-->
+      </LinearLayout>
+      <!-- Bottom View End-->
+
+      <!-- Surface View Start -->
+      <LinearLayout
+          android:background="@color/simplenote_blue"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:weightSum="1"
+          android:gravity="center">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/white"
+              android:text="Swipe to dismiss"/>
+
+        <!--What you want to show in SurfaceView-->
+      </LinearLayout>
+      <!-- Surface View End -->
+    </com.daimajia.swipe.SwipeLayout>
+
+  </LinearLayout>
+
+</LinearLayout>
+

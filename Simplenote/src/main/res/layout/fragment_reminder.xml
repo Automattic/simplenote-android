@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/no_reminder_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_reminder_found_for_this_note"
+        android:textColor="@color/dismiss_reminder_color"
+        android:gravity="center_horizontal"
+        />
+
+  <ListView
+    android:id="@+id/alarm_list"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_reminder_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/add_reminder_fab_margin"
+        android:src="@drawable/ic_add" />
+
+</android.support.design.widget.CoordinatorLayout>
+

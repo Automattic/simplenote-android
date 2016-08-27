@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+
+    <item
+        android:id="@+id/menu_history"
+        app:showAsAction="always"
+        android:title="@string/history"
+        android:icon="@drawable/ic_history_24dp" />
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_24dp"
+        android:title="@string/share"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_view_info"
+        android:icon="@drawable/ic_info_24dp"
+        app:showAsAction="always"
+        android:title="@string/note_info"/>
+
+    <item
+        android:id="@+id/menu_delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_trash_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_markdown_preview"
+        android:icon="@drawable/ic_markdown_outline_24dp"
+        android:title="@string/markdown_show"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_empty_trash"
+        android:icon="@drawable/ic_empty_trash_24dp"
+        android:title="@string/empty_trash"
+        app:showAsAction="ifRoom" />
+
+</menu>

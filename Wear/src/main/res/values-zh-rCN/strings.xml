@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Simplenote</string>
+    <string name="noted">已添加笔记</string>
+    <string name="error">错误</string>
+
+</resources>

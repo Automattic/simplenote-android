@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Simplenote</string>
+    <string name="noted">Con nota</string>
+    <string name="error">Errore</string>
+
+</resources>

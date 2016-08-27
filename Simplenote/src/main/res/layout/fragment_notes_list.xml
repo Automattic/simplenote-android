@@ -1,0 +1,59 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="6.5"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:divider="?attr/listDividerDrawable"
+        android:dividerHeight="1px" />
+
+    <LinearLayout
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/empty_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selectable_background_simplestyle"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/notePreviewColor"
+            android:textSize="20sp" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider_shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/right_shadow"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_marginEnd="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:tint="?attr/fabIconColor"
+        app:srcCompat="@drawable/ic_create_24dp"
+        app:borderWidth="0dp"
+        app:backgroundTint="?attr/fabColor"
+        app:elevation="8dp"
+        app:pressedTranslationZ="12dp" />
+
+</android.support.design.widget.CoordinatorLayout>

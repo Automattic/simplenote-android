@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
+        <!-- Material theme -->
+        <item name="colorPrimary">@color/simplenote_toolbar_dark</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
+
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
+        <item name="android:windowBackground">@color/simplenote_dark_bg</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="notePinColor">@color/white</item>
+        <item name="noteTitleColor">@color/white</item>
+        <item name="notePreviewColor">@color/simplenote_text_preview</item>
+        <item name="noteEditorTextColor">@color/white</item>
+        <item name="mainBackgroundColor">@color/simplenote_dark_bg</item>
+        <item name="tagChipShadowColor">@color/simplenote_dark_bg</item>
+        <item name="placeholderLogoColor">@color/simplenote_dark_text</item>
+        <item name="dividerColor">@color/simplenote_dark_list_divider</item>
+        <item name="iconTintColor">@color/simplenote_dark_text</item>
+        <item name="hintTextColor">@color/simplenote_text_preview</item>
+        <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
+        <item name="listDividerDrawable">@drawable/list_divider_dark</item>
+        <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
+        <item name="tagChipTextColor">@color/simplenote_dark_tag_text_color</item>
+        <item name="pinIconSelector">@drawable/pin_bg_selector_dark</item>
+
+        <item name="actionBarTextColor">@color/simplenote_blue</item>
+        <item name="actionModeTextColor">@color/simplenote_blue</item>
+        <item name="actionModeBackgroundColor">@color/simplenote_dark_selected_row</item>
+
+        <item name="toolbarColor">@color/simplenote_dark_bg</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+
+        <item name="settingsTextColor">@color/white</item>
+
+        <item name="fabColor">@color/simplenote_dark_selected_row</item>
+        <item name="fabIconColor">@color/simplenote_blue</item>
+
+        <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
+        <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
+        <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
+        <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
+    </style>
+
+    <style name="DrawerArrowStyle.Dark" parent="DrawerArrowStyle">
+        <item name="color">@color/simplenote_blue</item>
+    </style>
+
+    <style name="PopupMenu.Simplestyle.Dark" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
+    </style>
+
+</resources>

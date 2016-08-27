@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="notePinColor" format="reference|color"/>
+    <attr name="noteTitleColor" format="reference|color" />
+    <attr name="notePreviewColor" format="reference|color" />
+    <attr name="noteEditorTextColor" format="reference|color" />
+    <attr name="mainBackgroundColor" format="reference|color" />
+    <attr name="dividerColor" format="reference|color" />
+    <attr name="iconTintColor" format="reference|color" />
+    <attr name="hintTextColor" format="reference|color" />
+    <attr name="tagChipShadowColor" format="reference|color" />
+    <attr name="listDividerDrawable" format="reference" />
+    <attr name="listBackgroundSelector" format="reference" />
+    <attr name="listSearchHighlightForegroundColor" format="reference|color" />
+    <attr name="listSearchHighlightBackgroundColor" format="reference|color" />
+    <attr name="editorSearchHighlightForegroundColor" format="reference|color" />
+    <attr name="editorSearchHighlightBackgroundColor" format="reference|color" />
+    <attr name="placeholderLogoColor" format="reference|color" />
+    <attr name="tagChipBackgroundDrawable" format="reference" />
+    <attr name="tagChipTextColor" format="reference" />
+    <attr name="pinIconSelector" format="reference" />
+
+    <attr name="toolbarColor" format="reference|color" />
+    <attr name="toolbarPopupTheme" format="reference" />
+
+    <attr name="actionBarTextColor" format="reference|color" />
+    <attr name="actionModeTextColor" format="reference|color" />
+    <attr name="actionModeBackgroundColor" format="reference|color" />
+
+    <attr name="settingsTextColor" format="reference|color" />
+
+    <attr name="fabColor" format="reference" />
+    <attr name="fabIconColor" format="reference" />
+
+    <declare-styleable name="TintedTextView">
+        <attr name="tint" format="color"/>
+    </declare-styleable>
+
+</resources>
