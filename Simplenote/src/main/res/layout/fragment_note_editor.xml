@@ -31,7 +31,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="top"
-	                android:maxLength="999999999"
+                    android:maxLength="999999999"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                     android:paddingBottom="@dimen/padding_small"
                     android:paddingTop="@dimen/padding_small"
@@ -61,10 +61,6 @@
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorHint="?attr/hintTextColor"
                 android:textSize="16sp" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         </LinearLayout>
 
         <LinearLayout
@@ -81,10 +77,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/login_logo"
                 android:tint="?attr/placeholderLogoColor" />
-<<<<<<< HEAD
 
-=======
->>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

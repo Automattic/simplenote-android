@@ -191,7 +191,6 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
-<<<<<<< HEAD
     <string name="reminders">Reminders</string>
     <string name="add_reminder">Add reminder</string>
     <string name="remindermenu">Reminder</string>
@@ -223,6 +222,4 @@
         <item>300</item>
     </string-array>
 
-=======
->>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
 </resources>
