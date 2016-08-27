@@ -64,6 +64,28 @@ public class NoteUtils {
             try {
                 Note note = notesBucket.get(noteID);
                 note.setReminder(false);
+                note.setSnoozeDate(0);
+                note.save();
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle a missing note
+            }
+            return null;
+        }
+    }
+
+    public static void updateSnoozeDateInNote(String noteId, String snoozeDate) {
+        new updateSnoozeDateInNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteId, snoozeDate);
+    }
+
+    private static class updateSnoozeDateInNoteTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... args) {
+            String noteID = args[0];
+            Bucket<Note> notesBucket = Simplenote.getApp().getNotesBucket();
+            try {
+                Note note = notesBucket.get(noteID);
+                note.setSnoozeDate(Long.valueOf(args[1]));
                 note.save();
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note

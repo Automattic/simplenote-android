@@ -51,6 +51,7 @@ public class Note extends BucketObject {
     public static final String PUBLISH_URL = "http://simp.ly/publish/";
     public static final String REMINDER_PROPERTY = "reminder";
     public static final String REMINDER_DATE_PROPERTY = "reminderDate";
+    public static final String REMINDER_SNOOZE_PROPERTY = "snoozeDate";
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
@@ -347,6 +348,20 @@ public class Note extends BucketObject {
             date.setTimeInMillis(time.longValue() * 1000);
         }
         return date;
+    }
+
+    public void setSnoozeDate(long timestamp) {
+        setProperty(REMINDER_SNOOZE_PROPERTY, timestamp == 0 ? timestamp : timestamp / 1000);
+    }
+
+    public Calendar getSnoozeDate() {
+        Calendar date = Calendar.getInstance();
+        Number time = (Number) getProperty(REMINDER_SNOOZE_PROPERTY);
+        if (time != null && time.longValue() != 0) {
+            date.setTimeInMillis(time.longValue() * 1000);
+            return date;
+        }
+        return null;
     }
 
     public boolean isMarkdownEnabled() {

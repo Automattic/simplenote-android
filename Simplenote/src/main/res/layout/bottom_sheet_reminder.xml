@@ -22,14 +22,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_extra_large"
-        android:layout_marginTop="@dimen/padding_extra_large">
+        android:layout_marginTop="@dimen/padding_extra_large"
+        android:layout_marginBottom="@dimen/padding_large">
 
         <View
             android:id="@+id/view_helper"
             android:layout_width="1dp"
             android:padding="@dimen/padding_extra_small"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_centerHorizontal="true" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
@@ -65,5 +65,13 @@
             android:layout_toRightOf="@+id/view_helper" />
 
     </RelativeLayout>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/snooze_reminder"
+        style="@style/ReminderFieldAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -764,15 +764,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onReminderOff() {
         mNote.setReminder(false);
+        mNote.setSnoozeDate(0);
         AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
     }
 
     @Override
-    public void onReminderUpdated(Calendar calendar) {
+    public void onReminderUpdated(Calendar calendar, boolean updateAlarm) {
         mNote.setReminderDate(calendar);
         mHasReminderDateChange = true;
         mReminderBottomSheet.updateReminder(calendar);
-        if (mHasReminder) {
+        if (updateAlarm) {
+            updateAlarm();
+        }
+    }
+
+    public void updateAlarm() {
+        if (mNote.hasReminder()) {
             AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
         }
     }
@@ -809,7 +816,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Set markdown flag for current note
                 if (mNote != null) {
                     mIsMarkdownEnabled = mNote.isMarkdownEnabled();
-                    mHasReminder = mNote.hasReminder();
                 }
             } catch (BucketObjectMissingException e) {
                 // TODO: Handle a missing note
@@ -854,9 +860,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             }
 
-            if (mNote != null && mRemoveReminder) {
-                mNote.setReminder(false);
-                saveAndSyncNote();
+            if (mNote != null) {
+                if (mRemoveReminder) {
+                    mNote.setReminder(false);
+                    saveAndSyncNote();
+                }
+                mHasReminder = mNote.hasReminder();
             }
 
             getActivity().invalidateOptionsMenu();
@@ -1285,9 +1294,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 currentCalendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
                 currentCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
                 currentCalendar.set(Calendar.SECOND, 0);
+                currentCalendar.set(Calendar.MILLISECOND, 0);
             }
 
-            onReminderUpdated(currentCalendar);
+            onReminderUpdated(currentCalendar, true);
         }
     }
 }

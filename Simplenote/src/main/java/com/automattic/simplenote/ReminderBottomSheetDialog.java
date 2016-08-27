@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reminder;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Jesus Gumiel on 24/08/2016.
@@ -33,6 +35,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     private Switch mReminderSwitch;
     private TextView mDateTextView;
     private TextView mTimeTextView;
+    private TextView mSnoozeTextView;
 
     private Fragment mFragment;
     private Note mNote;
@@ -48,6 +51,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mReminderSwitch = (Switch) reminderView.findViewById(R.id.reminder_switch);
         mDateTextView = (TextView) reminderView.findViewById(R.id.date_reminder);
         mTimeTextView = (TextView) reminderView.findViewById(R.id.time_reminder);
+        mSnoozeTextView = (TextView) reminderView.findViewById(R.id.snooze_reminder);
 
         setOnDismissListener(new OnDismissListener() {
             @Override
@@ -82,13 +86,13 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
                     mReminderSheetListener.onReminderOn();
                 } else {
                     mReminderSheetListener.onReminderOff();
+                    mSnoozeTextView.setVisibility(View.GONE);
                 }
             }
         });
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(this.timestamp);
-        mReminderSheetListener.onReminderUpdated(calendar);
-        mReminderSheetListener.onReminderUpdated(calendar);
+        mReminderSheetListener.onReminderUpdated(calendar, false);
     }
 
     private void refreshReminder(long timestamp) {
@@ -98,6 +102,18 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mDateTextView.setText(reminder.getDate());
         mTimeTextView.setText(reminder.getTime());
         mReminderSwitch.setChecked(mNote.hasReminder());
+
+        if (mNote.hasReminder()) {
+            Calendar snoozeDate = mNote.getSnoozeDate();
+            if (snoozeDate != null) {
+                mSnoozeTextView.setVisibility(View.VISIBLE);
+                mSnoozeTextView.setText(getContext().getString(R.string.reminder_snooze_text,
+                        DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault())
+                                .format(snoozeDate.getTimeInMillis())));
+            } else {
+                mSnoozeTextView.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -127,7 +143,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
 
         void onReminderOff();
 
-        void onReminderUpdated(Calendar calendar);
+        void onReminderUpdated(Calendar calendar, boolean updateAlarm);
 
         void onReminderDismissed();
     }

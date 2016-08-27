@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.automattic.simplenote.utils.AlarmUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.NotificationUtils;
 
 import java.util.Calendar;
@@ -28,7 +29,9 @@ public class ReminderActionsReceiver extends BroadcastReceiver {
                     Calendar in10Minutes = Calendar.getInstance();
                     in10Minutes.add(Calendar.MINUTE, 10);
                     in10Minutes.set(Calendar.SECOND, 0);
+                    in10Minutes.set(Calendar.MILLISECOND, 0);
                     AlarmUtils.createAlarm(context, key, title, content, in10Minutes);
+                    NoteUtils.updateSnoozeDateInNote(key, String.valueOf(in10Minutes.getTimeInMillis()));
                     break;
                 case NotificationUtils.ARG_REMOVE_ID:
                     AlarmUtils.removeAlarm(context, key, title, content, false);

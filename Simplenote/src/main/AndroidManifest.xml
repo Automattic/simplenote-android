@@ -36,7 +36,11 @@
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.automattic.simplenote.NotesActivity"/>
+        </activity>
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:label="Preferences"

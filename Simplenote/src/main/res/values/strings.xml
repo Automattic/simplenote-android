@@ -200,5 +200,6 @@
     <string name="reminder_title">Task reminder</string>
     <string name="reminder_snooze">Snooze</string>
     <string name="reminder_stop">Stop</string>
+    <string name="reminder_snooze_text">The reminder has been snoozed. Next reminder at %s</string>
 
 </resources>

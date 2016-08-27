@@ -32,7 +32,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         long timestamp = getArguments().getLong(ARG_DATE);
 
-        calendar = new GregorianCalendar();
+        calendar = Calendar.getInstance();
         calendar.setTime(new Date(timestamp));
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
