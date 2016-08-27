@@ -3,7 +3,11 @@ buildscript {
         jcenter()
     }
     dependencies {
+<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:2.1.3'
+=======
+        classpath 'com.android.tools.build:gradle:1.5.0'
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
     }
 }
 apply plugin: 'com.android.application'

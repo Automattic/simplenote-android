@@ -5,8 +5,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
 
     <application
         android:name="com.automattic.simplenote.Simplenote"
@@ -15,7 +18,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Simplestyle">
+<<<<<<< HEAD
         <activity
+=======
+    <activity
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
             android:name="com.automattic.simplenote.NotesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_launcher_name"
@@ -25,6 +32,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<<<<<<< HEAD
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
@@ -33,6 +41,16 @@
                 <category android:name="com.google.android.voicesearch.SELF_NOTE" />
                 <data android:mimeType="text/*" />
             </intent-filter>
+=======
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <action android:name="com.google.android.gm.action.AUTO_SEND" />
+            <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="com.google.android.voicesearch.SELF_NOTE" />
+            <data android:mimeType="text/*" />
+        </intent-filter>
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         </activity>
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
@@ -46,7 +64,10 @@
         <activity
             android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         <activity
             android:name=".AboutActivity"
             android:theme="@style/Theme.Simplestyle.About"
@@ -64,6 +85,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
+<<<<<<< HEAD
         <activity
             android:name=".EditReminderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -96,6 +118,8 @@
         </receiver>
 
 
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />

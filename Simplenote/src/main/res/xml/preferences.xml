@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<<<<<<< HEAD
     <PreferenceCategory
         android:title="Reminder">
 
@@ -30,6 +31,12 @@
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="Display" >
+=======
+
+    <PreferenceCategory
+        android:key="pref_key_note_preferences"
+        android:title="@string/settings" >
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"

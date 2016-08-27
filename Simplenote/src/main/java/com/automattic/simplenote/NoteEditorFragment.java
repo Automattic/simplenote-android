@@ -31,7 +31,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+<<<<<<< HEAD
 import android.widget.Button;
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -309,14 +312,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (!isAdded()) return false;
                 deleteNote();
                 return true;
+<<<<<<< HEAD
             case R.id.menu_reminder:
                 reminder();
                 return true;
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
             case android.R.id.home:
                 if (!isAdded()) return false;
                 getActivity().finish();
                 return true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -371,12 +380,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+<<<<<<< HEAD
     private void reminder() {
         Intent reminder =new Intent(getActivity(), ReminderActivity.class);
         reminder.putExtra("noteid",mNote.getSimperiumKey());
         startActivity(reminder);
         }
 
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
     }

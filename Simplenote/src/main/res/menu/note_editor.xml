@@ -23,12 +23,15 @@
         android:title="@string/note_info"/>
 
     <item
+<<<<<<< HEAD
         android:id="@+id/menu_reminder"
         app:showAsAction="always"
         android:title="@string/remindermenu"
         android:icon="@drawable/ic_reminder_24dp" />
 
     <item
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
         android:id="@+id/menu_delete"
         app:showAsAction="always"
         android:title="@string/delete"

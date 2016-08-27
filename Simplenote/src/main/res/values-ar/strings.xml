@@ -158,6 +158,7 @@
 	<string name="share">مشاركة</string>
 	<string name="settings">إعدادات</string>
 	<string name="tag_hint">إضافة وسم…</string>
+<<<<<<< HEAD
 	<string name="reminders">إالمنبهات</string>
 	<string name="add_reminder">إضافة منبه</string>
 	<string name="remindermenu">منبه</string>
@@ -165,4 +166,6 @@
 	<string name="Done" > تم </string>
 	<string name="no_reminder_found_for_this_note">لا يوجد منبهات لهذه الملاحظة</string>
 
+=======
+>>>>>>> 588940fa45ad2485cda1cc313623c631376ca961
 </resources>
