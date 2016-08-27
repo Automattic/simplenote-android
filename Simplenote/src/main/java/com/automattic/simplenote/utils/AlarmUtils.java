@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import com.automattic.simplenote.ReminderReceiver;
 
@@ -23,8 +22,6 @@ public class AlarmUtils {
     public static final String REMINDER_EXTRA_CONTENT = "reminderContent";
 
     public static void createAlarm(Context context, String id, String title, String content, Calendar calendar) {
-        Log.i(TAG, "create Alarm with id: " + id + "at : " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE)
-                + ":" + calendar.get(Calendar.SECOND) + ":" + calendar.get(Calendar.MILLISECOND) + ":" + calendar.getTimeInMillis());
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.putExtra(REMINDER_EXTRA_ID, id);
         intent.putExtra(REMINDER_EXTRA_TITLE, title);
@@ -41,7 +38,6 @@ public class AlarmUtils {
     }
 
     public static void removeAlarm(Context context, String id, String title, String content) {
-        Log.i(TAG, "remove Alarm with : " + id);
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.putExtra(REMINDER_EXTRA_ID, id);
         intent.putExtra(REMINDER_EXTRA_TITLE, title);
