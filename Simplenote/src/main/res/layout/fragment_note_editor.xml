@@ -31,6 +31,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="top"
+                    android:lineSpacingExtra="4dp"
 	                android:maxLength="999999999"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                     android:paddingBottom="@dimen/padding_small"
