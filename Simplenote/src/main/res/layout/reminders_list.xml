@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:padding="8dip"
+  android:layout_width="match_parent"
+  android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    >
+
+  <com.automattic.simplenote.widgets.RobotoRegularTextView
+
+    android:id="@+id/item_title"
+    android:textSize="18dip"
+    android:textStyle="bold"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_gravity="center_horizontal"
+      />
+
+  <com.automattic.simplenote.widgets.RobotoRegularTextView
+    android:id="@+id/item_details"
+    android:textSize="14dip"
+    android:textColor="#9e9e9e"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content" />
+
+</LinearLayout>
+

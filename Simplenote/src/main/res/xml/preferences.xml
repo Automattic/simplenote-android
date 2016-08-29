@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="Reminder">
 
+        <CheckBoxPreference
+            android:title="Use 24-hour format"
+            android:defaultValue="false"
+            android:key="use_24h_pref" />
+
+
+        <RingtonePreference
+            android:title="Alarm sound"
+            android:name="Alarm"
+            android:key="alarm_sound_pref" />
+
+        <ListPreference
+            android:entries="@array/play_time"
+            android:title="Alarm sound play time"
+            android:key="alarm_play_time_pref"
+            android:entryValues="@array/play_time_values"
+            android:defaultValue="60" />
+
+        <CheckBoxPreference
+            android:title="Vibrate"
+            android:defaultValue="true"
+            android:key="vibrate_pref" />
+
+    </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/settings" >
+        android:title="Display" >
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"

@@ -191,4 +191,35 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="reminders">Reminders</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="remindermenu">Reminder</string>
+    <string name="reminder_title">Reminder title</string>
+    <string name="Done" >Done</string>
+    <string name="no_reminder_found_for_this_note">No reminder found for this note</string>
+
+    <!-- Remind: feature-->
+    <string-array name="occurence">
+        <item>Once</item>
+        <item>Weekly</item>
+    </string-array>
+
+    <string-array name="play_time">
+        <item>10 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>3 minutes</item>
+        <item>5 minutes</item>
+    </string-array>
+
+    <string-array name="play_time_values">
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>300</item>
+    </string-array>
+
 </resources>

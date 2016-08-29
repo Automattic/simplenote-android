@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="?attr/toolbarColor"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            app:contentInsetStart="@dimen/toolbar_title_keyline"
+            app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed"
+            app:popupTheme="?attr/toolbarPopupTheme"
+            app:theme="@style/ToolbarTheme" >
+        </android.support.v7.widget.Toolbar>
+
+    <fragment
+        android:id="@+id/fragment_edit_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.automattic.simplenote.EditReminderFragment" />
+
+</LinearLayout>

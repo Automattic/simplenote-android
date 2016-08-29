@@ -29,4 +29,5 @@
     <dimen name="list_padding_left">@dimen/padding_large</dimen>
 
     <dimen name="bottom_sheet_dialog_width">0dp</dimen>
+    <dimen name="add_reminder_fab_margin">16dp</dimen>
 </resources>

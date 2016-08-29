@@ -28,11 +28,6 @@ public class Note extends BucketObject {
     public static final String PINNED_TAG="pinned";
     public static final String PUBLISHED_TAG="published";
     public static final String NEW_LINE="\n";
-
-    private static final String BLANK_CONTENT="";
-    private static final String SPACE = " ";
-    private static final int MAX_PREVIEW_CHARS = 300;
-    
     public static final String CONTENT_PROPERTY="content";
     public static final String TAGS_PROPERTY="tags";
     public static final String SYSTEM_TAGS_PROPERTY="systemTags";
@@ -49,45 +44,23 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME="matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME="matchedContent";
     public static final String PUBLISH_URL="http://simp.ly/publish/";
-
+    public static final String REMINDER="reminderDate";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
-	
+    private static final String BLANK_CONTENT="";
+    private static final String SPACE = " ";
+    private static final int MAX_PREVIEW_CHARS = 300;
 	protected String mTitle = null;
 	protected String mContentPreview = null;
 
 
-	public static class Schema extends BucketSchema<Note> {
+    public Note(String key) {
+        super(key, new JSONObject());
+    }
 
-        protected static NoteIndexer sNoteIndexer = new NoteIndexer();
-        protected static NoteFullTextIndexer sFullTextIndexer = new NoteFullTextIndexer();
-
-        public Schema(){
-            autoIndex();
-            addIndex(sNoteIndexer);
-            setupFullTextIndex(sFullTextIndexer, NoteFullTextIndexer.INDEXES);
-            setDefault(CONTENT_PROPERTY, "");
-            setDefault(SYSTEM_TAGS_PROPERTY, new JSONArray());
-            setDefault(TAGS_PROPERTY, new JSONArray());
-            setDefault(DELETED_PROPERTY, false);
-            setDefault(SHARE_URL_PROPERTY, "");
-            setDefault(PUBLISH_URL_PROPERTY, "");
-        }
-
-        public String getRemoteName(){
-            return Note.BUCKET_NAME;
-        }
-
-        public Note build(String key, JSONObject properties) {
-            return new Note(key, properties);
-        }
-
-        public void update(Note note, JSONObject properties) {
-            note.setProperties(properties);
-            note.mTitle = null;
-            note.mContentPreview = null;
-        }
-	}
+    public Note(String key, JSONObject properties) {
+        super(key, properties);
+    }
 
     public static Query<Note> all(Bucket<Note> noteBucket){
         return noteBucket.query()
@@ -111,13 +84,58 @@ public class Note extends BucketObject {
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
-
-    public Note(String key) {
-        super(key, new JSONObject());
+    public static String dateString(Number time, boolean useShortFormat, Context context){
+        Calendar c = numberToDate(time);
+        return dateString(c, useShortFormat, context);
     }
 
-    public Note(String key, JSONObject properties) {
-        super(key, properties);
+	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
+		int year, month, day;
+
+		String time, date, retVal;
+		time = date = "";
+
+		Calendar diff = Calendar.getInstance();
+		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
+
+		year = diff.get(Calendar.YEAR);
+		month = diff.get(Calendar.MONTH);
+		day = diff.get(Calendar.DAY_OF_MONTH);
+
+		diff.setTimeInMillis(0); // starting time
+		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+		if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
+			date = context.getResources().getString(R.string.today);
+			if (useShortFormat)
+				retVal = time;
+			else
+				retVal = date + ", " + time;
+		} else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
+			date = context.getResources().getString(R.string.yesterday);
+			if (useShortFormat)
+				retVal = date;
+			else
+				retVal = date + ", " + time;
+		} else {
+			date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
+			retVal = date + ", " + time;
+		}
+
+		return retVal;
+	}
+	
+    public static Calendar numberToDate(Number time){
+        Calendar date = Calendar.getInstance();
+        if (time != null) {
+            // Flick Note uses millisecond resolution timestamps Simplenote expects seconds
+            // since we only deal with create and modify timestamps, they should all have occured
+            // at the present time or in the past.
+            float now = date.getTimeInMillis()/1000;
+            float magnitude = time.floatValue()/now;
+            if (magnitude >= 2.f) time = time.longValue()/1000;
+            date.setTimeInMillis(time.longValue()*1000);
+        }
+        return date;
     }
 
     protected void updateTitleAndPreview() {
@@ -144,14 +162,14 @@ public class Note extends BucketObject {
             mContentPreview = content;
         }
     }
-	
+
 	public String getTitle() {
         if (mTitle == null) {
             updateTitleAndPreview();
         }
 		return mTitle;
 	}
-
+	
 	public String getContent() {
         Object content = getProperty(CONTENT_PROPERTY);
         if (content == null) {
@@ -165,7 +183,7 @@ public class Note extends BucketObject {
         mContentPreview = null;
         setProperty(CONTENT_PROPERTY, content);
 	}
-	
+
 	public String getContentPreview() {
         if (mContentPreview == null) {
             updateTitleAndPreview();
@@ -234,9 +252,60 @@ public class Note extends BucketObject {
 
         return tagList;
     }
+    /*public Calendar getReminder()
+    {
+        return numberToDate((Number) getProperty(REMINDER));
+
+    }*/
 
     public void setTags(List<String> tags) {
         setProperty(TAGS_PROPERTY, new JSONArray(tags));
+    }
+
+    public List<Long> getReminders() {
+
+        JSONArray remindersJSONArray = (JSONArray) getProperty(REMINDER);
+
+        if (remindersJSONArray == null) {
+            remindersJSONArray = new JSONArray();
+            setProperty(REMINDER, remindersJSONArray);
+        }
+
+        int length = remindersJSONArray.length();
+
+        List<Long> remindersList = new ArrayList<>(length);
+
+        if (length == 0) return remindersList;
+
+        for (int i=0; i<length; i++) {
+            Long reminder = null;
+            try {
+                reminder = (Long) remindersJSONArray.get(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            remindersList.add(reminder);
+        }
+
+        return remindersList;
+    }
+
+   /* public void setReminder(Calendar calendar)
+    {
+        setProperty(REMINDER,calendar.getTimeInMillis()/1000);
+    }*/
+    public void setReminders(List<Long> reminders) {
+        setProperty(REMINDER, new JSONArray(reminders));
+    }
+
+    public void setReminder(Long lastReminder,Long newReminder){
+        List<Long> reminders = getReminders();
+        if(reminders.contains(lastReminder))
+        reminders.set(reminders.indexOf(lastReminder),newReminder);
+        else
+        reminders.add(newReminder);
+        setReminders(reminders);
     }
 
     /**
@@ -257,7 +326,7 @@ public class Note extends BucketObject {
     /**
      * Sets the note's tags by providing it with a {@link String} of space
      * seperated tags. Filters out duplicate tags.
-     * 
+     *
      * @param tagString a space delimited list of tags
      */
     public void setTagString(String tagString){
@@ -403,60 +472,6 @@ public class Note extends BucketObject {
         setProperty(SYSTEM_TAGS_PROPERTY, newTags);
     }
 
-    public static String dateString(Number time, boolean useShortFormat, Context context){
-        Calendar c = numberToDate(time);
-        return dateString(c, useShortFormat, context);
-    }
-
-	public static String dateString(Calendar c, boolean useShortFormat, Context context) {
-		int year, month, day;
-
-		String time, date, retVal;
-		time = date = "";
-
-		Calendar diff = Calendar.getInstance();
-		diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
-
-		year = diff.get(Calendar.YEAR);
-		month = diff.get(Calendar.MONTH);
-		day = diff.get(Calendar.DAY_OF_MONTH);
-
-		diff.setTimeInMillis(0); // starting time
-		time = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-		if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == diff.get(Calendar.DAY_OF_MONTH))) {
-			date = context.getResources().getString(R.string.today);
-			if (useShortFormat)
-				retVal = time;
-			else
-				retVal = date + ", " + time;
-		} else if ((year == diff.get(Calendar.YEAR)) && (month == diff.get(Calendar.MONTH)) && (day == 1)) {
-			date = context.getResources().getString(R.string.yesterday);
-			if (useShortFormat)
-				retVal = date;
-			else
-				retVal = date + ", " + time;
-		} else {
-			date = new SimpleDateFormat("MMM dd", Locale.US).format(c.getTime());
-			retVal = date + ", " + time;
-		}
-
-		return retVal;
-	}
-
-    public static Calendar numberToDate(Number time){
-        Calendar date = Calendar.getInstance();
-        if (time != null) {
-            // Flick Note uses millisecond resolution timestamps Simplenote expects seconds
-            // since we only deal with create and modify timestamps, they should all have occured
-            // at the present time or in the past.
-            float now = date.getTimeInMillis()/1000;
-            float magnitude = time.floatValue()/now;
-            if (magnitude >= 2.f) time = time.longValue()/1000;
-            date.setTimeInMillis(time.longValue()*1000);
-        }
-        return date;
-    }
-
     /**
      * Check if the note has any changes
      * @param content the new note content
@@ -471,4 +486,38 @@ public class Note extends BucketObject {
             || this.isPinned() != isPinned
             || this.isMarkdownEnabled() != isMarkdownEnabled;
     }
+
+	public static class Schema extends BucketSchema<Note> {
+
+        protected static NoteIndexer sNoteIndexer = new NoteIndexer();
+        protected static NoteFullTextIndexer sFullTextIndexer = new NoteFullTextIndexer();
+
+        public Schema(){
+            autoIndex();
+            addIndex(sNoteIndexer);
+            setupFullTextIndex(sFullTextIndexer, NoteFullTextIndexer.INDEXES);
+            setDefault(CONTENT_PROPERTY, "");
+            setDefault(SYSTEM_TAGS_PROPERTY, new JSONArray());
+            setDefault(TAGS_PROPERTY, new JSONArray());
+            setDefault(DELETED_PROPERTY, false);
+            setDefault(SHARE_URL_PROPERTY, "");
+            setDefault(PUBLISH_URL_PROPERTY, "");
+            setDefault(REMINDER, new JSONArray());
+
+        }
+
+        public String getRemoteName(){
+            return Note.BUCKET_NAME;
+        }
+
+        public Note build(String key, JSONObject properties) {
+            return new Note(key, properties);
+        }
+
+        public void update(Note note, JSONObject properties) {
+            note.setProperties(properties);
+            note.mTitle = null;
+            note.mContentPreview = null;
+        }
+	}
 }

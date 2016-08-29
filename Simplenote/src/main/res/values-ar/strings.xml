@@ -158,4 +158,10 @@
 	<string name="share">مشاركة</string>
 	<string name="settings">إعدادات</string>
 	<string name="tag_hint">إضافة وسم…</string>
+	<string name="reminders">إالمنبهات</string>
+	<string name="add_reminder">إضافة منبه</string>
+	<string name="remindermenu">منبه</string>
+	<string name="reminder_title">إسم المنبه</string>
+	<string name="Done" > تم </string>
+	<string name="no_reminder_found_for_this_note">لا يوجد منبهات لهذه الملاحظة</string>
 </resources>
