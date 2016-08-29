@@ -17,6 +17,7 @@ public class NoteIndexer implements Indexer<Note> {
         indexes.add(new Index(Note.TITLE_INDEX_NAME, note.getTitle()));
         indexes.add(new Index(Note.MODIFIED_INDEX_NAME, note.getModificationDate().getTimeInMillis()));
         indexes.add(new Index(Note.CREATED_INDEX_NAME, note.getCreationDate().getTimeInMillis()));
+        //  indexes.add(new Index(Note.REMINDER,note.getReminder().getTimeInMillis()));
         return indexes;
 
     }

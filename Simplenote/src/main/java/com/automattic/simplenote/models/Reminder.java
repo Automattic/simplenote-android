@@ -9,18 +9,16 @@ import java.util.Calendar;
 
 public class Reminder implements Comparable<Reminder>
 {
-    private long mId;
-    private String mTitle;
-    private String noteID;
-    private long mDate;
-    private boolean mEnabled;
-    private int mOccurence;
-    private int mDays;
-    private long mNextOccurence;
     public static final int ONCE = 0;
     public static final int WEEKLY = 1;
     public static final int NEVER = 0;
     public static final int EVERY_DAY = 0x7f;
+    private long mId;
+    private String noteID;
+    private long mDate;
+    private int mOccurence;
+    private int mDays;
+    private long mNextOccurence;
 
 
 
@@ -28,9 +26,7 @@ public class Reminder implements Comparable<Reminder>
     {
         mId = 0;
         this.noteID=noteID;
-        mTitle = "";
         mDate = System.currentTimeMillis();
-        mEnabled = true;
         mOccurence = ONCE;
         mDays = EVERY_DAY;
         update();
@@ -46,15 +42,6 @@ public class Reminder implements Comparable<Reminder>
         mId = id;
     }
 
-    public String getTitle()
-    {
-        return mTitle;
-    }
-
-    public void setTitle(String title)
-    {
-        mTitle = title;
-    }
 
     public int getOccurence()
     {
@@ -76,16 +63,6 @@ public class Reminder implements Comparable<Reminder>
     {
         mDate = date;
         update();
-    }
-
-    public boolean getEnabled()
-    {
-        return mEnabled;
-    }
-
-    public void setEnabled(boolean enabled)
-    {
-        mEnabled = enabled;
     }
 
     public int getDays()
@@ -177,9 +154,7 @@ public class Reminder implements Comparable<Reminder>
     {
         intent.putExtra("id", mId);
         intent.putExtra("noteid",noteID);
-        intent.putExtra("title", mTitle);
         intent.putExtra("date", mDate);
-        intent.putExtra("alarm", mEnabled);
         intent.putExtra("occurence", mOccurence);
         intent.putExtra("days", mDays);
     }
@@ -188,9 +163,7 @@ public class Reminder implements Comparable<Reminder>
     {
         mId = intent.getLongExtra("id", 0);
         noteID=intent.getStringExtra("noteid");
-        mTitle = intent.getStringExtra("title");
         mDate = intent.getLongExtra("date", 0);
-        mEnabled = intent.getBooleanExtra("alarm", true);
         mOccurence = intent.getIntExtra("occurence", 0);
         mDays = intent.getIntExtra("days", 0);
         update();
@@ -200,9 +173,7 @@ public class Reminder implements Comparable<Reminder>
     {
         dos.writeLong(mId);
         dos.writeUTF(noteID);
-        dos.writeUTF(mTitle);
         dos.writeLong(mDate);
-        dos.writeBoolean(mEnabled);
         dos.writeInt(mOccurence);
         dos.writeInt(mDays);
     }
@@ -211,9 +182,7 @@ public class Reminder implements Comparable<Reminder>
     {
         mId = dis.readLong();
         noteID = dis.readUTF();
-        mTitle = dis.readUTF();
         mDate = dis.readLong();
-        mEnabled = dis.readBoolean();
         mOccurence = dis.readInt();
         mDays = dis.readInt();
         update();

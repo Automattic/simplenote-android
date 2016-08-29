@@ -21,16 +21,29 @@ import com.automattic.simplenote.utils.ReminderListAdapter;
 
 public class ReminderFragment extends Fragment {
 
-    private ListView mAlarmList;
     static TextView noReminderFound;
+    private final int NEW_ALARM_ACTIVITY = 0;
+    private final int EDIT_ALARM_ACTIVITY = 1;
+    private ListView mAlarmList;
     private ReminderListAdapter mReminderListAdapter;
     private com.automattic.simplenote.models.Reminder mCurrentReminder;
     private FloatingActionButton fab;
-    private final int NEW_ALARM_ACTIVITY = 0;
-    private final int EDIT_ALARM_ACTIVITY = 1;
     private String noteID ;
+    private AdapterView.OnItemClickListener mListOnItemClickListener = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Intent intent = new Intent(getActivity().getBaseContext(), EditReminderActivity.class);
+            mCurrentReminder = mReminderListAdapter.getItem(position);
+            mCurrentReminder.toIntent(intent);
+            ReminderFragment.this.startActivityForResult(intent, EDIT_ALARM_ACTIVITY);
+        }
+    };
 
     public ReminderFragment(){}
+
+    public static void hideTV() {
+        noReminderFound.setVisibility(View.GONE);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +79,6 @@ public class ReminderFragment extends Fragment {
         return view;
     }
 
-    public static void hideTV()
-    {
-        noReminderFound.setVisibility(View.GONE);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -82,7 +90,6 @@ public class ReminderFragment extends Fragment {
         super.onResume();
         mReminderListAdapter.updateAlarms();
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -101,18 +108,6 @@ public class ReminderFragment extends Fragment {
             mCurrentReminder = null;
         }
     }
-
-    private AdapterView.OnItemClickListener mListOnItemClickListener = new AdapterView.OnItemClickListener()
-    {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-        {
-
-            Intent intent = new Intent(getActivity().getBaseContext(), EditReminderActivity.class);
-            mCurrentReminder = mReminderListAdapter.getItem(position);
-            mCurrentReminder.toIntent(intent);
-            ReminderFragment.this.startActivityForResult(intent, EDIT_ALARM_ACTIVITY);
-        }
-    };
 
 }
 

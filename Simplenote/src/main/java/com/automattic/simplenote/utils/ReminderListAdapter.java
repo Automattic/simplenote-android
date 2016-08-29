@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.ReminderFragment;
-import com.automattic.simplenote.models.Reminder;
 import com.automattic.simplenote.models.DateTime;
+import com.automattic.simplenote.models.Reminder;
 
 public class ReminderListAdapter extends BaseAdapter
 {
@@ -78,6 +78,7 @@ public class ReminderListAdapter extends BaseAdapter
         cancelAlarm(mReminderDataSource.get(index));
         mReminderDataSource.remove(index);
         dataSetChanged();
+
     }
 
     public int getCount()
@@ -106,21 +107,20 @@ public class ReminderListAdapter extends BaseAdapter
 
             convertView = mInflater.inflate(R.layout.reminders_list, null);
             holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.item_title);
             holder.details = (TextView) convertView.findViewById(R.id.item_details);
             convertView.setTag(holder);
 
-            holder.title.setText(reminder.getTitle());
-            holder.details.setText(mDateTime.formatDetails(reminder) + (reminder.getEnabled() ? "" : " [disabled]"));
+            holder.details.setText(mDateTime.formatDetails(reminder));
 
             if (reminder.getOutdated())
-                holder.title.setTextColor(mColorOutdated);
+                holder.details.setTextColor(mColorOutdated);
             else
-                holder.title.setTextColor(mColorActive);
+                holder.details.setTextColor(mColorActive);
         }
         else
             // return an empty view
             convertView = mInflater.inflate(R.layout.null_row_reminders_list, null);
+
 
         return convertView;
     }
@@ -141,7 +141,7 @@ public class ReminderListAdapter extends BaseAdapter
         PendingIntent sender;
         Intent intent;
 
-        if (reminder.getEnabled() && !reminder.getOutdated())
+        if (!reminder.getOutdated())
         {
             intent = new Intent(mContext, ReminderReceiver.class);
             reminder.toIntent(intent);
@@ -161,7 +161,6 @@ public class ReminderListAdapter extends BaseAdapter
 
     static class ViewHolder
     {
-        TextView title;
         TextView details;
     }
 }

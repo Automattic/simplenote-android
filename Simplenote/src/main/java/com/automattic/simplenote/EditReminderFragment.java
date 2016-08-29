@@ -2,33 +2,21 @@
 package com.automattic.simplenote;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Spinner;
 
-import com.automattic.simplenote.models.Reminder;
 import com.automattic.simplenote.models.DateTime;
-import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.models.Reminder;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
@@ -41,9 +29,6 @@ import java.util.GregorianCalendar;
 
 public class EditReminderFragment extends Fragment implements com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener, com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener
 {
-    private EditText mTitle;
-    private CheckBox mAlarmEnabled;
-    private Spinner mOccurence;
     private Button mDateButton;
     private Button mTimeButton;
     private Reminder mReminder;
@@ -54,14 +39,12 @@ public class EditReminderFragment extends Fragment implements com.wdullaer.mater
     private int mDay;
     private int mHour;
     private int mMinute;
+    private Long lastReminder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_edit_reminder, container, false);
-        mTitle = (EditText) view.findViewById(R.id.title);
-        mAlarmEnabled = (CheckBox) view.findViewById(R.id.alarm_checkbox);
-        mOccurence = (Spinner) view.findViewById(R.id.occurence_spinner);
         mDateButton = (Button) view.findViewById(R.id.date_button);
         mTimeButton = (Button) view.findViewById(R.id.time_button);
 
@@ -131,17 +114,9 @@ public class EditReminderFragment extends Fragment implements com.wdullaer.mater
 
         mReminder = new Reminder("");
         mReminder.fromIntent(getActivity().getIntent());
+        mReminder.setOccurence(0);
 
         mDateTime = new DateTime(getActivity());
-
-        mTitle.setText(mReminder.getTitle());
-        mTitle.addTextChangedListener(mTitleChangedListener);
-
-        mOccurence.setSelection(mReminder.getOccurence());
-        mOccurence.setOnItemSelectedListener(mOccurenceSelectedListener);
-
-        mAlarmEnabled.setChecked(mReminder.getEnabled());
-        mAlarmEnabled.setOnCheckedChangeListener(mAlarmEnabledChangeListener);
 
         mCalendar =  Calendar.getInstance();
 
@@ -152,52 +127,15 @@ public class EditReminderFragment extends Fragment implements com.wdullaer.mater
         mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
         mMinute = mCalendar.get(Calendar.MINUTE);
 
+        // save the last reminder time
+        lastReminder = mCalendar.getTimeInMillis();
+
         updateButtons();
 
         return view;
     }
 
 
-
-    private TextWatcher mTitleChangedListener = new TextWatcher()
-    {
-        public void afterTextChanged(Editable s)
-        {
-            mReminder.setTitle(mTitle.getText().toString());
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
-        }
-    };
-
-    private AdapterView.OnItemSelectedListener mOccurenceSelectedListener = new AdapterView.OnItemSelectedListener()
-    {
-        @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
-        {
-            mReminder.setOccurence(position);
-            updateButtons();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent)
-        {
-        }
-    };
-
-    private CompoundButton.OnCheckedChangeListener mAlarmEnabledChangeListener = new CompoundButton.OnCheckedChangeListener()
-    {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-        {
-            mReminder.setEnabled(isChecked);
-        }
-    };
 
     private void updateButtons()
     {
@@ -246,6 +184,7 @@ public class EditReminderFragment extends Fragment implements com.wdullaer.mater
         switch (item.getItemId()) {
 
             case R.id.done:
+                NoteEditorFragment.addReminder(lastReminder, mCalendar.getTimeInMillis());
                 Intent intent = new Intent();
                 mReminder.toIntent(intent);
                 getActivity().setResult(getActivity().RESULT_OK, intent);

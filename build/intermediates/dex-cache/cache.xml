@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/home/marwen/Downloads/simplenote-android-develop/Simplenote/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="4d24bd51156511867c3c6a4ca7e307d451cec145">
-        <dex dex="/home/marwen/Downloads/simplenote-android-develop/Simplenote/build/intermediates/pre-dexed/debug/instant-run-bootstrap_b495c78e104963062bfb91d2b5eccb8919bbc36f.jar" />
-    </item>
-
-</items>
+<items version="2" />

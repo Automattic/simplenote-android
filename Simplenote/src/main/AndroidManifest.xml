@@ -42,8 +42,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
-            android:label="Preferences"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Preferences">
         </activity>
         <activity
             android:name=".TagsActivity"
@@ -52,8 +52,8 @@
 
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/Theme.Simplestyle.About"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Simplestyle.About" />
 
         <!-- Passcode Unlock-->
         <activity
@@ -79,10 +79,6 @@
             />
 
         <activity
-            android:name=".utils.ReminderAlarmNotification"
-            android:label="Alarm notification" />
-
-        <activity
             android:name=".utils.Preferences"
             android:label="Preferences" />
 
@@ -101,7 +97,9 @@
 
 
         <!-- Samsung Multi-Window Support -->
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 
 

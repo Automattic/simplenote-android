@@ -1,11 +1,11 @@
 package com.automattic.simplenote;
 
-import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +33,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private Switch mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
+    private ImageButton reminder;
+    private Note mNote;
 
     private Fragment mFragment;
 
@@ -88,6 +90,16 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
+        reminder = (ImageButton) infoView.findViewById(R.id.reminder);
+        reminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reminder = new Intent(getContext(), ReminderActivity.class);
+                reminder.putExtra("noteid", mNote.getSimperiumKey());
+                getContext().startActivity(reminder);
+            }
+        });
+
         setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -97,9 +109,10 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
         setContentView(infoView);
     }
-    
+
     public void show(Note note) {
 
+        mNote = note;
         if (mFragment.isAdded()) {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));

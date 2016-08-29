@@ -5,33 +5,28 @@
 
     <item
         android:id="@+id/menu_history"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_history_24dp"
         android:title="@string/history"
-        android:icon="@drawable/ic_history_24dp" />
+        app:showAsAction="always" />
 
 
     <item
         android:id="@+id/menu_share"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_share_24dp"
         android:title="@string/share"
-        android:icon="@drawable/ic_share_24dp" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_view_info"
         android:icon="@drawable/ic_info_24dp"
-        app:showAsAction="always"
-        android:title="@string/note_info"/>
+        android:title="@string/note_info"
+        app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_reminder"
-        app:showAsAction="always"
-        android:title="@string/remindermenu"
-        android:icon="@drawable/ic_reminder_24dp" />
 
     <item
         android:id="@+id/menu_delete"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_trash_24dp"
         android:title="@string/delete"
-        android:icon="@drawable/ic_trash_24dp" />
+        app:showAsAction="always" />
 
 </menu>
