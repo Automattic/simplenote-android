@@ -32,6 +32,8 @@ simperiumAppKey=SIMPERIUM_KEY
 googleAnalyticsId=
 ```
 
+Note: you can also copy `Simplenote/gradle.properties-example` to `Simplenote/gradle.properties` and edit this file.
+
 4) Install debug build with Android Studio or `./gradlew installDebug`
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
