@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/empty_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +30,7 @@
             android:padding="8dp"
             android:textColor="?attr/notePreviewColor"
             android:textSize="20sp" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -48,9 +49,11 @@
         android:layout_marginBottom="@dimen/padding_large"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
-        android:src="?attr/fabIcon"
+        android:tint="?attr/fabIconColor"
+        app:srcCompat="@drawable/ic_create_24dp"
         app:borderWidth="0dp"
         app:backgroundTint="?attr/fabColor"
         app:elevation="8dp"
         app:pressedTranslationZ="12dp" />
+
 </android.support.design.widget.CoordinatorLayout>

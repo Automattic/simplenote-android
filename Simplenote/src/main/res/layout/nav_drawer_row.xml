@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/tags_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingStart="@dimen/list_padding_left"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tags"
+            android:paddingTop="@dimen/padding_extra_small"
+            android:paddingBottom="@dimen/padding_extra_small"
+            android:textSize="@dimen/nav_drawer_item_text_size"
+            android:textColor="?attr/notePreviewColor" />
+
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
+            android:id="@+id/edit_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/edit"
+            android:padding="@dimen/padding_extra_small"
+            android:clickable="true"
+            tools:text="Edit"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/nav_drawer_item_text_size"
+            android:textColor="@color/simplenote_blue" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/listBackgroundSelector"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/nav_row_height"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingStart="@dimen/list_padding_left"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large">
+
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
+            android:id="@+id/drawer_item_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            tools:text="Item 1"
+            android:drawablePadding="@dimen/nav_drawer_item_image_margin"
+            android:textSize="@dimen/nav_drawer_item_text_size"
+            android:textColor="?attr/noteTitleColor" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/section_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_small"
+        android:background="?attr/dividerColor"
+        android:visibility="gone" />
+
+</LinearLayout>

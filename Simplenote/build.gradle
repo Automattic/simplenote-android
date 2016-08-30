@@ -16,41 +16,41 @@ repositories {
     maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
     maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
     maven { url "https://jitpack.io" }
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
 }
 
 dependencies {
     compile "com.simperium.android:simperium:0.6.8"
-    compile "com.android.support:appcompat-v7:23.1.1"
-    compile 'com.android.support:design:23.1.1'
+    compile "com.android.support:appcompat-v7:23.3.0"
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:support-vector-drawable:23.3.0'
     compile "com.google.android.gms:play-services-analytics:8.3.0"
     compile "com.google.android.gms:play-services-wearable:8.3.0"
     compile "org.wordpress:passcodelock:1.0.0"
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.github.Kennyc1012:BottomSheet:2.0.4'
+    compile 'com.commonsware.cwac:anddown:0.2.4'
 
     wearApp project(':Wear')
 }
 
-version "1.4.0"
+version "1.5.1"
 
 android {
 
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 48
+        versionCode 53
         minSdkVersion 15
         targetSdkVersion 23
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
-        buildConfigField "String", "HOCKEY_APP_ID", "\"${project.hockeyAppId}\"";
         buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\"";
-        buildConfigField "String", "FACEBOOK_APP_ID", "\"${project.facebookAppId}\"";
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 

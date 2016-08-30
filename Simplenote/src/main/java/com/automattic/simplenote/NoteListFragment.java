@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -26,14 +26,16 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -110,6 +112,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.bulk_edit, menu);
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
         return true;
     }
@@ -121,8 +124,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        if (getListView().getCheckedItemIds().length > 0 && item.getItemId() == R.id.menu_delete)
-            new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (getListView().getCheckedItemIds().length > 0) {
+
+            switch (item.getItemId()) {
+                case R.id.menu_delete:
+                    new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    break;
+                case R.id.menu_pin:
+                    new pinNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    break;
+            }
+        }
         return false;
     }
 
@@ -159,7 +171,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		/**
 		 * Callback for when a note has been selected.
 		 */
-        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets);
+        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
 	}
 
 	/**
@@ -168,7 +180,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 */
 	private static Callbacks sCallbacks = new Callbacks() {
 		@Override
-		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets) {
+		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
 		}
 	};
 
@@ -191,8 +203,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	protected void getPrefs() {
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
 		mNumPreviewLines = (condensedList) ? 0 : 2;
-        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 18);
-        mTitleFontSize = Math.round(mPreviewFontSize + mPreviewFontSize * 0.222f);
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        mTitleFontSize = mPreviewFontSize + 2;
 	}
 
     @Override
@@ -291,7 +303,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NoteViewHolder holder = (NoteViewHolder)view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null) {
-            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets);
+            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
         }
 
         mActivatedPosition = position;
@@ -303,7 +315,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null);
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null, selectedNote.isMarkdownEnabled());
         }
     }
 
@@ -411,6 +423,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
+        note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
             String tagName = notesActivity.getSelectedTag().name;
@@ -421,11 +434,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		note.save();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null);
+            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
         } else {
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
+            arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
@@ -435,6 +449,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
+        //noinspection unchecked
         ObjectCursor<Note> cursor = (ObjectCursor<Note>) mNotesAdapter.getCursor();
         if (cursor != null) {
             for (int i = 0; i < cursor.getCount(); i++) {
@@ -477,15 +492,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
         */
 		@Override
-		public View getView(int position, View view, ViewGroup parent) {
+		public View getView(final int position, View view, ViewGroup parent) {
 
-			NoteViewHolder holder;
+			final NoteViewHolder holder;
 			if (view == null) {
 				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.pinImageView = (ImageView) view.findViewById(R.id.note_pin);
+				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
 				view.setTag(holder);
 			} else {
 				holder = (NoteViewHolder) view.getTag();
@@ -508,7 +523,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
-            holder.pinImageView.setVisibility(pinned == 1 ? View.VISIBLE : View.GONE);
+
+            if (pinned == 1) {
+                holder.toggleView.setChecked(true);
+                holder.toggleView.setVisibility(View.VISIBLE);
+            } else {
+                holder.toggleView.setVisibility(View.GONE);
+            }
+            holder.toggleView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                    Note note = mNotesAdapter.getItem(position);
+                    NoteUtils.setNotePin(note, holder.toggleView.isChecked());
+                 }
+             });
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
@@ -565,7 +593,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	private static class NoteViewHolder {
 		TextView titleTextView;
 		TextView contentTextView;
-		ImageView pinImageView;
+        ToggleButton toggleView;
         public String matchOffsets;
         private String mNoteId;
 
@@ -666,6 +694,47 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 setNoteSelected(mSelectedNoteId);
                 mSelectedNoteId = null;
             }
+        }
+    }
+
+    private class pinNotesTask extends AsyncTask<Void, Void, Void> {
+
+        private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
+
+        @Override
+        protected void onPreExecute() {
+            if (getListView() != null) {
+                mSelectedRows = getListView().getCheckedItemPositions();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... args) {
+
+            // Get the checked notes and add them to the pinnedNotesList
+            // We can't modify the note in this loop because the adapter could change
+            List<Note> pinnedNotesList = new ArrayList<>();
+            for (int i = 0; i < mSelectedRows.size(); i++) {
+                if (mSelectedRows.valueAt(i)) {
+                    pinnedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                }
+            }
+
+            // Now loop through the notes list and mark them as pinned
+            for (Note pinnedNote : pinnedNotesList) {
+                pinnedNote.setPinned(!pinnedNote.isPinned());
+                pinnedNote.setModificationDate(Calendar.getInstance());
+                pinnedNote.save();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            mActionMode.finish();
+            refreshList();
         }
     }
 

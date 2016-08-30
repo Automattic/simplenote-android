@@ -40,9 +40,9 @@
     <string-array name="array_font_size_values" translatable="false">
         <item>12</item>
         <item>14</item>
+        <item>16</item>
         <item>18</item>
         <item>22</item>
-        <item>26</item>
     </string-array>
 
 </resources>

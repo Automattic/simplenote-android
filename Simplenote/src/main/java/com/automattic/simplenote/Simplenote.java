@@ -9,7 +9,6 @@ import android.os.Bundle;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
-import com.automattic.simplenote.analytics.FacebookManager;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
@@ -70,10 +69,6 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
-
-        if (isFirstLaunch()) {
-            FacebookManager.reportInstallIfNecessary(this);
-        }
     }
 
     private boolean isFirstLaunch() {

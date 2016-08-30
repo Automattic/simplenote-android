@@ -6,7 +6,6 @@ package com.automattic.simplenote.utils;
  */
 
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
 

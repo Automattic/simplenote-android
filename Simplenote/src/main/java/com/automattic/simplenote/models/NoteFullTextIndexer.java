@@ -12,7 +12,7 @@ public class NoteFullTextIndexer implements FullTextIndex.Indexer<Note> {
 
     @Override
     public Map<String,String> index(String[] keys, Note note){
-        Map<String,String> values = new HashMap<String,String>(keys.length);
+        Map<String,String> values = new HashMap<>(keys.length);
         values.put(INDEXES[0], note.getTitle());
         values.put(INDEXES[1], note.getContent());
         return values;

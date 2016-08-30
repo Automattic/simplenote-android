@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/mainBackgroundColor"
     android:orientation="vertical"
     android:paddingBottom="@dimen/padding_small">
@@ -12,9 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/simplenote_blue"
-        android:padding="16dp">
+        android:padding="@dimen/padding_large">
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -22,7 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="@dimen/nav_drawer_item_text_size" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,28 +31,32 @@
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
                 android:id="@+id/welcome_sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/selectable_background_simplestyle"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:text="@string/sign_in"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/nav_drawer_item_text_size"
+                android:textAllCaps="true"
+                android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <com.automattic.simplenote.widgets.SourceSansTextView
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
                 android:id="@+id/welcome_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selectable_background_simplestyle"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:text="@string/dismiss"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/nav_drawer_item_text_size"
+                android:textAllCaps="true"
+                android:textStyle="bold"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
@@ -70,25 +75,26 @@
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large">
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingRight="@dimen/list_padding_left">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/nav_drawer_item_image_margin"
+            android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
             android:scaleType="center"
-            android:src="@drawable/ic_settings_black_24dp"
-            android:tint="?attr/noteTitleColor" />
+            app:srcCompat="@drawable/ic_settings_24dp"
+            android:tint="?attr/noteTitleColor"
+            android:contentDescription="@string/settings" />
 
-        <com.automattic.simplenote.widgets.SourceSansTextView
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:minHeight="@dimen/nav_row_height"
             android:text="@string/settings"
-            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textSize="@dimen/nav_drawer_item_text_size"
             android:textColor="?attr/noteTitleColor" />
 
     </LinearLayout>

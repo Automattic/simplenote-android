@@ -1,18 +1,17 @@
 # Simplenote for Android
 
-Handcrafted by the Automattic Mobile Team
+A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
 
-## Requirements
-
-Target SDK: Lollipop (android-21)
-Min SDK: Ice Cream Sandwich (android-15)
+## Development Requirements
+* A Simperium account. [Sign up here](https://simperium.com/signup/)
+* A Simperium Application ID and key. [Create a new app here](https://simperium.com/app/new/)
 
 ## How to Configure
 
 1) Clone repo
 
 ```bash
-git clone https://github.com/Simperium/simplenote-android.git
+git clone https://github.com/Automattic/simplenote-android.git
 cd simplenote-android
 ```
 
@@ -25,47 +24,17 @@ sdk.dir=/Applications/Android Studio.app/sdk
 
 3) Simperium Config
 
-Add your simperium appid and key to Simplenote/gradle.properties
+Add your simperium appid and key to Simplenote/gradle.properties, and an empty googleAnalyticsId:
 
 ```
 simperiumAppId=SIMPERIUM_APP_ID
 simperiumAppKey=SIMPERIUM_KEY
-hockeyAppId=HOCKEY_APP_ID
+googleAnalyticsId=
 ```
 
-4) (Optional) Add the analytics.xml file to support Google Analytics
+4) Install debug build with Android Studio or `./gradlew installDebug`
 
-5) Install debug build with Android Studio or `./gradlew installDebug`
-
-## Unit Tests
-
-1) Clone simperium-android into a separate folder.
-
-2) Go back to the Simplenote folder: 
-
-```bash
-cd path/to/simplenote-android
-```
-
-3) Add the Simperium folder:
-
-```bash
-ln -s /path/to/simperium-android/Simperium
-```
-
-4) Modify `Simperium/build.gradle` locally to default to the debug/test build:
-
-```bash
-defaultPublishConfig "supportDebug"
-```
-
-(Note this will change in the future)
-
-5) Run the test task via gradle:
-
-```bash
-./gradlew ./gradlew :Simplenote:connectedCheck
-```
+_Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
 ## Android Wear
 

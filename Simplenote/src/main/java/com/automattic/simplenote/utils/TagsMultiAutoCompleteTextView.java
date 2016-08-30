@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Editable;
 import android.text.Spannable;
@@ -21,14 +20,13 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.Simplenote;
 
 public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
 
     private boolean mShouldMoveNewTagText;
 
     public interface OnTagAddedListener {
-        public void onTagsChanged(String tagString);
+        void onTagsChanged(String tagString);
     }
 
     private final String TAG = "TagsMultiAutoCompleteTextView";

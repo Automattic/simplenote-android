@@ -2,21 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:id="@+id/menu_history"
+        app:showAsAction="always"
+        android:title="@string/history"
+        android:icon="@drawable/ic_history_24dp" />
+
+
+    <item
+        android:id="@+id/menu_share"
+        app:showAsAction="always"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share_24dp" />
+
     <item
         android:id="@+id/menu_view_info"
-        android:icon="?attr/actionBarIconInfo"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_info_24dp"
+        app:showAsAction="always"
         android:title="@string/note_info"/>
 
     <item
-            android:id="@+id/menu_share"
-            app:showAsAction="ifRoom"
-            android:title="@string/share"
-            android:icon="?attr/actionBarIconShare"/>
-
-    <item
-            android:id="@+id/menu_delete"
-            app:showAsAction="never"
-            android:title="@string/delete"/>
+        android:id="@+id/menu_delete"
+        app:showAsAction="always"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_trash_24dp" />
 
 </menu>

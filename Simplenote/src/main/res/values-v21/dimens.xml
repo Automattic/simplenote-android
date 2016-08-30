@@ -1,3 +1,4 @@
 <resources>
     <dimen name="settings_sign_out_margin">@dimen/padding_small</dimen>
+    <dimen name="nav_drawer_navigation_padding_top">24dp</dimen>
 </resources>

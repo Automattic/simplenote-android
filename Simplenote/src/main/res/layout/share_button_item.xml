@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/share_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center_horizontal"
+        android:drawablePadding="@dimen/padding_small"
+        android:layout_gravity="center"
+        android:textColor="@color/simplenote_dark_grey"
+        android:padding="@dimen/padding_large" />
+
+</FrameLayout>
