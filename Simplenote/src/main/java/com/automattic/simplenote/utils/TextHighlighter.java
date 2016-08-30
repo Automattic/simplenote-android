@@ -1,5 +1,6 @@
 package com.automattic.simplenote.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.style.BackgroundColorSpan;
@@ -12,6 +13,7 @@ implements MatchOffsetHighlighter.SpanFactory, SearchSnippetFormatter.SpanFactor
     int mForegroundColor;
     int mBackgroundColor;
 
+    @SuppressLint("ResourceType")
     public TextHighlighter(Context context, int foregroundResId, int backgroundResId) {
         TypedArray colors = context.obtainStyledAttributes(new int[]{ foregroundResId, backgroundResId });
         mForegroundColor = colors.getColor(0, 0xFFFF0000);
