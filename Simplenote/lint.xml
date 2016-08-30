@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="ExtraTranslation" severity="ignore" />
+    <issue id="HardcodedText" severity="error" />
+
+    <issue id="MissingPrefix">
+        <ignore regexp="Unexpected namespace prefix &quot;app&quot; found for tag `Image.*`" />
+    </issue>
+</lint>
