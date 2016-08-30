@@ -1,0 +1,27 @@
+language: android
+jdk: oraclejdk8
+sudo: required
+
+android:
+  components:
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - extra-android-support
+    - platform-tools
+    - tools
+    - build-tools-23.0.3
+    - android-23
+
+env:
+  global:
+    - MALLOC_ARENA_MAX=2
+    - GRADLE_OPTS="-XX:MaxPermSize=4g -Xmx4g"
+    - ANDROID_SDKS=android-14
+    - ANDROID_TARGET=android-14
+
+install:
+  # Setup gradle.properties
+  - cp Simplenote/gradle.properties-example Simplenote/gradle.properties
+
+script:
+  - ./gradlew build
