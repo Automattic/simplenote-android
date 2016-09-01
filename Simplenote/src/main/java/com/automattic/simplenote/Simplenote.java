@@ -36,9 +36,11 @@ public class Simplenote extends Application {
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private static Simplenote mInstance = null;
 
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
@@ -69,6 +71,10 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
+    }
+
+    public static Simplenote getApp() {
+        return mInstance;
     }
 
     private boolean isFirstLaunch() {

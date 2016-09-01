@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_extra_large"
+    android:orientation="vertical">
+
+    <Switch
+        android:id="@+id/reminder_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_extra_large"
+        android:text="@string/reminder_enable"
+        android:textColor="@color/simplenote_dark_grey" />
+
+    <View
+        android:id="@+id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_extra_large"
+        android:layout_marginBottom="@dimen/padding_large">
+
+        <View
+            android:id="@+id/view_helper"
+            android:layout_width="1dp"
+            android:padding="@dimen/padding_extra_small"
+            android:layout_height="1dp"
+            android:layout_centerHorizontal="true" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/date_title"
+            style="@style/ReminderTitleAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/view_helper"
+            android:text="@string/reminder_date" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/date_reminder"
+            style="@style/ReminderFieldAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_title"
+            android:layout_toLeftOf="@id/view_helper" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/time_title"
+            style="@style/ReminderTitleAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/view_helper"
+            android:text="@string/reminder_time"/>
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/time_reminder"
+            style="@style/ReminderFieldAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_title"
+            android:layout_toRightOf="@+id/view_helper" />
+
+    </RelativeLayout>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/snooze_reminder"
+        style="@style/ReminderFieldAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:visibility="gone"/>
+
+</LinearLayout>

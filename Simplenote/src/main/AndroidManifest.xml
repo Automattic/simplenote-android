@@ -3,6 +3,7 @@
     package="com.automattic.simplenote"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -35,7 +36,11 @@
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.automattic.simplenote.NotesActivity"/>
+        </activity>
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
             android:label="Preferences"
@@ -48,7 +53,7 @@
             android:name=".AboutActivity"
             android:theme="@style/Theme.Simplestyle.About"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-
+s
         <!-- Passcode Unlock-->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
@@ -61,10 +66,13 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
 
+        <!-- Reminders -->
+        <receiver android:name=".ReminderActionsReceiver"/>
+        <receiver android:process=":remote" android:name=".ReminderReceiver"/>
+
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
-
 
         <!-- Android Wear -->
         <service android:name=".utils.SimplenoteWearListenerService">

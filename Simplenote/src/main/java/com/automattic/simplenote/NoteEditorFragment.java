@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AlarmUtils;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -64,9 +65,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        ReminderBottomSheetDialog.ReminderSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_REMOVE_REMINDER = "remove_reminder";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
@@ -89,7 +92,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled;
+    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled, mHasReminder, mHasReminderDateChange;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -103,6 +106,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
+    private ReminderBottomSheetDialog mReminderBottomSheet;
 
     private Snackbar mPublishingSnackbar;
     private boolean mIsUndoingPublishing;
@@ -110,6 +114,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private NoteMarkdownFragment mNoteMarkdownFragment;
     private String mCss;
     private WebView mMarkdown;
+    private String mKey;
+    private boolean mRemoveReminder;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -153,7 +159,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             @Override
-            public CharSequence convertToString(Cursor cursor){
+            public CharSequence convertToString(Cursor cursor) {
                 return cursor.getString(cursor.getColumnIndex(Tag.NAME_PROPERTY));
             }
 
@@ -168,7 +174,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // sort the tags by their names
                 query.order(Tag.NAME_PROPERTY);
                 // if there's a filter string find only matching tag names
-                if (filter != null ) query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
+                if (filter != null)
+                    query.where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, String.format("%s%%", filter));
                 return query.execute();
             }
         };
@@ -207,16 +214,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Load note if we were passed a note Id
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
-            String key = arguments.getString(ARG_ITEM_ID);
+            mKey = arguments.getString(ARG_ITEM_ID);
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
-            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            mRemoveReminder = arguments.getBoolean(ARG_REMOVE_REMINDER, false);
+
+            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mKey);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-		return rootView;
-	}
+        return rootView;
+    }
 
     @Override
     public void onResume() {
@@ -295,6 +304,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_reminder:
+                setReminder();
+                return true;
             case R.id.menu_view_info:
                 showInfo();
                 return true;
@@ -322,7 +334,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         getActivity().finish();
     }
 
-	protected void clearMarkdown() {
+    protected void clearMarkdown() {
         mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
     }
 
@@ -352,8 +364,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             mHistoryTimeoutHandler.postDelayed(mHistoryTimeoutRunnable, HISTORY_TIMEOUT);
             showHistorySheet();
-        }
-        else {
+        } else {
             Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
         }
     }
@@ -363,6 +374,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             saveNote();
             showInfoSheet();
+        }
+    }
+
+    private void setReminder() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            showReminderPopUp();
+        }
+    }
+
+    private void showReminderPopUp() {
+        if (isAdded()) {
+            if (mReminderBottomSheet == null) {
+                mReminderBottomSheet = new ReminderBottomSheetDialog(this, this);
+            }
+            mReminderBottomSheet.show(mNote);
         }
     }
 
@@ -383,7 +410,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
     }
 
-    public void setNote(String noteID){
+    public void setNote(String noteID) {
         setNote(noteID, null);
     }
 
@@ -499,8 +526,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     AnalyticsTracker.CATEGORY_NOTE,
                     "tag_added_to_note"
             );
-        }
-        else {
+        } else {
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
                     AnalyticsTracker.CATEGORY_NOTE,
@@ -521,8 +547,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void afterTextChanged(Editable editable) {
-            attemptAutoList(editable);
-            setTitleSpan(editable);
+        attemptAutoList(editable);
+        setTitleSpan(editable);
     }
 
     @Override
@@ -617,7 +643,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     /**
-     *  Share bottom sheet callbacks
+     * Share bottom sheet callbacks
      */
 
     @Override
@@ -643,7 +669,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     /**
-     *  History bottom sheet listeners
+     * History bottom sheet listeners
      */
 
     @Override
@@ -675,7 +701,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     /**
-     *  Info bottom sheet listeners
+     * Info bottom sheet listeners
      */
 
     @Override
@@ -690,7 +716,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (activity instanceof NoteEditorActivity) {
 
-            NoteEditorActivity editorActivity = (NoteEditorActivity)activity;
+            NoteEditorActivity editorActivity = (NoteEditorActivity) activity;
             if (mIsMarkdownEnabled) {
 
                 editorActivity.showTabs();
@@ -706,7 +732,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         } else if (activity instanceof NotesActivity) {
             setMarkdownEnabled(mIsMarkdownEnabled);
-            ((NotesActivity)getActivity()).setMarkdownShowing(false);
+            ((NotesActivity) getActivity()).setMarkdownShowing(false);
         }
 
         saveNote();
@@ -726,7 +752,41 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoDismissed() {
+        mInfoBottomSheet.dismiss();
+    }
 
+    @Override
+    public void onReminderOn() {
+        mNote.setReminder(true);
+        AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
+    }
+
+    @Override
+    public void onReminderOff() {
+        mNote.setReminder(false);
+        mNote.setSnoozeDate(0);
+        AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
+    }
+
+    @Override
+    public void onReminderUpdated(Calendar calendar, boolean updateAlarm) {
+        mNote.setReminderDate(calendar);
+        mHasReminderDateChange = true;
+        mReminderBottomSheet.updateReminder(calendar);
+        if (updateAlarm) {
+            updateAlarm();
+        }
+    }
+
+    public void updateAlarm() {
+        if (mNote.hasReminder()) {
+            AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
+        }
+    }
+
+    @Override
+    public void onReminderDismissed() {
+        mReminderBottomSheet.dismiss();
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
@@ -800,6 +860,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             }
 
+            if (mNote != null) {
+                if (mRemoveReminder) {
+                    mNote.setReminder(false);
+                    saveAndSyncNote();
+                }
+                mHasReminder = mNote.hasReminder();
+            }
+
             getActivity().invalidateOptionsMenu();
 
             SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
@@ -839,7 +907,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
+        if (mHasReminderDateChange || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
@@ -947,7 +1015,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
-                    mActionMode = ((AppCompatActivity)getActivity()).startSupportActionMode(mActionModeCallback);
+                    mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
@@ -1056,8 +1124,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
                             R.color.simplenote_positive_green,
                             Snackbar.LENGTH_LONG);
-                }
-                else {
+                } else {
                     SnackbarUtils.showSnackbar(getActivity(), R.string.publish_successful,
                             R.color.simplenote_positive_green,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
@@ -1074,8 +1141,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
                             R.color.simplenote_negative_red,
                             Snackbar.LENGTH_LONG);
-                }
-                else {
+                } else {
                     SnackbarUtils.showSnackbar(getActivity(), R.string.unpublish_successful,
                             R.color.simplenote_negative_red,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
@@ -1160,7 +1226,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     /**
      * Simperium listeners
      */
-
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
 
@@ -1209,5 +1274,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
 
         note.setContent(getNoteContentString());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
+            long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
+            int updateAction = data.getIntExtra(ReminderBottomSheetDialog.REMINDER_ACTION_KEY, ReminderBottomSheetDialog.REMINDER_ACTION_DATE);
+
+            Calendar currentCalendar = mNote.getReminderDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(timestamp);
+
+            if (updateAction == ReminderBottomSheetDialog.REMINDER_ACTION_DATE) {
+                currentCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                currentCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                currentCalendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+            } else {
+                currentCalendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                currentCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                currentCalendar.set(Calendar.SECOND, 0);
+                currentCalendar.set(Calendar.MILLISECOND, 0);
+            }
+
+            onReminderUpdated(currentCalendar, true);
+        }
     }
 }

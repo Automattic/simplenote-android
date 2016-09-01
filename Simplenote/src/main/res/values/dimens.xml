@@ -29,4 +29,9 @@
     <dimen name="list_padding_left">@dimen/padding_large</dimen>
 
     <dimen name="bottom_sheet_dialog_width">0dp</dimen>
+
+    <dimen name="title_text_size_small">14sp</dimen>
+    <dimen name="title_text_size_medium">16sp</dimen>
+    <dimen name="title_text_size_large">18sp</dimen>
+
 </resources>

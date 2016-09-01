@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ import java.util.List;
  * tablet devices by allowing list items to be given an 'activated' state upon
  * selection. This helps indicate which item is currently being viewed in a
  * {@link NoteEditorFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -63,13 +64,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private ActionMode mActionMode;
 
-	protected NotesCursorAdapter mNotesAdapter;
+    protected NotesCursorAdapter mNotesAdapter;
 
     private View mRootView;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
     private FloatingActionButton mFloatingActionButton;
-	private int mNumPreviewLines;
+    private int mNumPreviewLines;
     protected String mSearchString;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
@@ -77,21 +78,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mTitleFontSize;
     private int mPreviewFontSize;
 
-	/**
-	 * The preferences key representing the activated item position. Only used on tablets.
-	 */
-	private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    /**
+     * The preferences key representing the activated item position. Only used on tablets.
+     */
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
-	private Callbacks mCallbacks = sCallbacks;
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private Callbacks mCallbacks = sCallbacks;
 
-	/**
-	 * The current activated item position. Only used on tablets.
-	 */
-	private int mActivatedPosition = ListView.INVALID_POSITION;
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     public void setEmptyListViewClickable(boolean isClickable) {
         if (mEmptyListTextView != null) {
@@ -163,67 +164,66 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     /**
-	 * A callback interface that all activities containing this fragment must
-	 * implement. This mechanism allows activities to be notified of item
-	 * selections.
-	 */
-	public interface Callbacks {
-		/**
-		 * Callback for when a note has been selected.
-		 */
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when a note has been selected.
+         */
         void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
-	}
+    }
 
-	/**
-	 * A dummy implementation of the {@link Callbacks} interface that does
-	 * nothing. Used only when this fragment is not attached to an activity.
-	 */
-	private static Callbacks sCallbacks = new Callbacks() {
-		@Override
-		public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
-		}
-	};
+    /**
+     * A dummy implementation of the {@link Callbacks} interface that does
+     * nothing. Used only when this fragment is not attached to an activity.
+     */
+    private static Callbacks sCallbacks = new Callbacks() {
+        @Override
+        public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
+        }
+    };
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
-	public NoteListFragment() {
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
-		setListAdapter(mNotesAdapter);
-	}
-
-    // nbradbury - load values from preferences
-	protected void getPrefs() {
-        boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
-		mNumPreviewLines = (condensedList) ? 0 : 2;
-        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
-        mTitleFontSize = mPreviewFontSize + 2;
-	}
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public NoteListFragment() {
+    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
+        setListAdapter(mNotesAdapter);
+    }
+
+    // nbradbury - load values from preferences
+    protected void getPrefs() {
+        boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
+        mNumPreviewLines = (condensedList) ? 0 : 2;
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        mTitleFontSize = mPreviewFontSize + 2;
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        NotesActivity notesActivity = (NotesActivity)getActivity();
+        NotesActivity notesActivity = (NotesActivity) getActivity();
 
         mRootView = view.findViewById(R.id.list_root);
 
-        LinearLayout emptyView = (LinearLayout)view.findViewById(android.R.id.empty);
+        LinearLayout emptyView = (LinearLayout) view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
+        mEmptyListTextView = (TextView) view.findViewById(R.id.empty_message);
         mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,14 +231,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
         setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-        mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
+        mDividerShadow = (LinearLayout) view.findViewById(R.id.divider_shadow);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
-        mFloatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_button);
+        mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,38 +255,38 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
-	}
+    }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
-		// Activities containing this fragment must implement its callbacks.
-		if (!(activity instanceof Callbacks)) {
-			throw new IllegalStateException("Activity must implement fragment's callbacks.");
-		}
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
 
-		mCallbacks = (Callbacks) activity;
-	}
+        mCallbacks = (Callbacks) activity;
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    @Override
+    public void onResume() {
+        super.onResume();
         getPrefs();
 
         refreshList();
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sCallbacks;
-	}
+    }
 
     @Override
-    public void onDestroy(){
+    public void onDetach() {
+        super.onDetach();
+
+        // Reset the active callbacks interface to the dummy implementation.
+        mCallbacks = sCallbacks;
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 
@@ -295,12 +295,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mEmptyListTextView.setText(Html.fromHtml(message));
     }
 
-	@Override
-	public void onListItemClick(ListView listView, View view, int position, long id) {
+    @Override
+    public void onListItemClick(ListView listView, View view, int position, long id) {
         if (!isAdded()) return;
-		super.onListItemClick(listView, view, position, id);
+        super.onListItemClick(listView, view, position, id);
 
-        NoteViewHolder holder = (NoteViewHolder)view.getTag();
+        NoteViewHolder holder = (NoteViewHolder) view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null) {
             mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
@@ -332,17 +332,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return mRootView;
     }
 
-	/**
-	 * Turns on activate-on-click mode. When this mode is on, list items will be
-	 * given the 'activated' state when touched.
-	 */
-	public void setActivateOnItemClick(boolean activateOnItemClick) {
-		// When setting CHOICE_MODE_SINGLE, ListView will automatically
-		// give items the 'activated' state when touched.
-		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
-	}
+    /**
+     * Turns on activate-on-click mode. When this mode is on, list items will be
+     * given the 'activated' state when touched.
+     */
+    public void setActivateOnItemClick(boolean activateOnItemClick) {
+        // When setting CHOICE_MODE_SINGLE, ListView will automatically
+        // give items the 'activated' state when touched.
+        getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+    }
 
-	public void setActivatedPosition(int position) {
+    public void setActivatedPosition(int position) {
         if (getListView() != null) {
             if (position == ListView.INVALID_POSITION) {
                 getListView().setItemChecked(mActivatedPosition, false);
@@ -352,7 +352,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             mActivatedPosition = position;
         }
-	}
+    }
 
     public void setDividerVisible(boolean visible) {
         if (visible)
@@ -371,9 +371,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-	public void refreshList() {
+    public void refreshList() {
         refreshList(false);
-	}
+    }
 
     public void refreshList(boolean fromNav) {
         if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
@@ -390,7 +390,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public ObjectCursor<Note> queryNotes() {
         if (!isAdded()) return null;
 
-        NotesActivity notesActivity = (NotesActivity)getActivity();
+        NotesActivity notesActivity = (NotesActivity) getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
 
         if (hasSearchQuery()) {
@@ -403,6 +403,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
 
+        query.include(Note.REMINDER_PROPERTY);
         query.include(Note.PINNED_INDEX_NAME);
 
         sortNoteQuery(query);
@@ -410,17 +411,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return query.execute();
     }
 
-	public void addNote() {
+    public void addNote() {
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
-        NotesActivity notesActivity = (NotesActivity)getActivity();
+        NotesActivity notesActivity = (NotesActivity) getActivity();
         if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
             notesActivity.stopListeningToNotesBucket();
 
-		// Create & save new note
-		Simplenote simplenote = (Simplenote) getActivity().getApplication();
-		Bucket<Note> notesBucket = simplenote.getNotesBucket();
-		Note note = notesBucket.newObject();
+        // Create & save new note
+        Simplenote simplenote = (Simplenote) getActivity().getApplication();
+        Bucket<Note> notesBucket = simplenote.getNotesBucket();
+        Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
@@ -431,7 +432,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 note.setTagString(tagName);
         }
 
-		note.save();
+        note.save();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
             mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
@@ -445,7 +446,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         }
-	}
+    }
 
     public void setNoteSelected(String selectedNoteID) {
         // Loop through notes and set note selected if found
@@ -466,18 +467,18 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSelectedNoteId = selectedNoteID;
     }
 
-	public class NotesCursorAdapter extends CursorAdapter {
+    public class NotesCursorAdapter extends CursorAdapter {
         private ObjectCursor<Note> mCursor;
 
         private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new TextHighlighter(getActivity(),
-            R.attr.listSearchHighlightForegroundColor, R.attr.listSearchHighlightBackgroundColor);
+                R.attr.listSearchHighlightForegroundColor, R.attr.listSearchHighlightBackgroundColor);
 
         public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
             super(context, c, flags);
             mCursor = c;
         }
 
-        public void changeCursor(ObjectCursor<Note> cursor){
+        public void changeCursor(ObjectCursor<Note> cursor) {
             mCursor = cursor;
             super.changeCursor(cursor);
         }
@@ -491,20 +492,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /*
         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
         */
-		@Override
-		public View getView(final int position, View view, ViewGroup parent) {
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
 
-			final NoteViewHolder holder;
-			if (view == null) {
-				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
-				holder = new NoteViewHolder();
-				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
-				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
-				view.setTag(holder);
-			} else {
-				holder = (NoteViewHolder) view.getTag();
-			}
+            final NoteViewHolder holder;
+            if (view == null) {
+                view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
+                holder = new NoteViewHolder();
+                holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
+                holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
+                holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+                holder.reminderImageView = (ImageView) view.findViewById(R.id.reminder_state);
+                view.setTag(holder);
+            } else {
+                holder = (NoteViewHolder) view.getTag();
+            }
 
             if (holder.titleTextView.getTextSize() != mTitleFontSize) {
                 holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
@@ -531,12 +533,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.toggleView.setVisibility(View.GONE);
             }
             holder.toggleView.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     Note note = mNotesAdapter.getItem(position);
                     NoteUtils.setNotePin(note, holder.toggleView.isChecked());
-                 }
-             });
+                }
+            });
+
+            long reminder = mCursor.getLong(mCursor.getColumnIndex(Note.REMINDER_PROPERTY));
+            holder.reminderImageView.setVisibility(reminder == 1 ? View.VISIBLE : View.GONE);
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
@@ -573,9 +578,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 else
                     holder.contentTextView.setText(contentPreview);
             }
-			
-			return view;
-		}
+
+            return view;
+        }
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
@@ -587,13 +592,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         }
 
-	}
+    }
 
-	// view holder for NotesCursorAdapter
-	private static class NoteViewHolder {
-		TextView titleTextView;
-		TextView contentTextView;
+    // view holder for NotesCursorAdapter
+    private static class NoteViewHolder {
+        TextView titleTextView;
+        TextView contentTextView;
         ToggleButton toggleView;
+        ImageView reminderImageView;
         public String matchOffsets;
         private String mNoteId;
 
@@ -604,59 +610,59 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         public String getNoteId() {
             return mNoteId;
         }
-	}
+    }
 
-	public void searchNotes(String searchString) {
-        if (!searchString.equals(mSearchString)){
+    public void searchNotes(String searchString) {
+        if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
             refreshList();
         }
-	}
+    }
 
     /**
      * Clear search and load all notes
      */
     public void clearSearch() {
-        if (mSearchString != null && !mSearchString.equals("")){
+        if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
             refreshList();
         }
     }
 
-    public boolean hasSearchQuery(){
+    public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
     }
 
-    public void sortNoteQuery(Query<Note> noteQuery){
+    public void sortNoteQuery(Query<Note> noteQuery) {
         noteQuery.order("pinned", SortType.DESCENDING);
-		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
-		switch (sortPref) {
-        case 0:
-            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
-            break;
-		case 1:
-            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
-			break;
-		case 2:
-            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
-			break;
-		case 3:
-            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
-			break;
-		case 4:
-            noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
-			break;
-		case 5:
-            noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
-			break;
-		}
+        int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
+        switch (sortPref) {
+            case 0:
+                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
+                break;
+            case 1:
+                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
+                break;
+            case 2:
+                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
+                break;
+            case 3:
+                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
+                break;
+            case 4:
+                noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
+                break;
+            case 5:
+                noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
+                break;
+        }
     }
 
     private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
         boolean mIsFromNavSelect;
 
         @Override
-        protected ObjectCursor<Note> doInBackground(Boolean ... args) {
+        protected ObjectCursor<Note> doInBackground(Boolean... args) {
             mIsFromNavSelect = args[0];
             return queryNotes();
         }
@@ -677,15 +683,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 mNotesAdapter.changeCursor(null);
             }
 
-            NotesActivity notesActivity = (NotesActivity)getActivity();
+            NotesActivity notesActivity = (NotesActivity) getActivity();
             if (notesActivity != null) {
                 if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
-                        if (count == 0) {
-                            notesActivity.showDetailPlaceholder();
-                        } else {
-                            // Select the first note
-                            selectFirstNote();
-                        }
+                    if (count == 0) {
+                        notesActivity.showDetailPlaceholder();
+                    } else {
+                        // Select the first note
+                        selectFirstNote();
+                    }
                 }
                 notesActivity.updateTrashMenuItem();
             }

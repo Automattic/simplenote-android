@@ -191,4 +191,15 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="reminder">Reminder</string>
+
+    <!-- Reminder -->
+    <string name="reminder_enable">Enable Reminder</string>
+    <string name="reminder_time">Time</string>
+    <string name="reminder_date">Date</string>
+    <string name="reminder_title">Task reminder</string>
+    <string name="reminder_snooze">Snooze</string>
+    <string name="reminder_stop">Stop</string>
+    <string name="reminder_snooze_text">The reminder has been snoozed. Next reminder at %s</string>
+
 </resources>

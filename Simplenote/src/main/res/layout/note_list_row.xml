@@ -8,7 +8,6 @@
     android:paddingBottom="@dimen/note_list_item_padding_bottom"
     android:paddingTop="@dimen/note_list_item_padding_top">
 
-
     <ToggleButton
         android:id="@+id/pin_button"
         android:layout_width="24dp"
@@ -22,6 +21,18 @@
         android:layout_alignParentEnd="true"
         android:textOff=""
         android:textOn="" />
+
+    <ImageView
+        android:id="@+id/reminder_state"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_medium"
+        android:background="@drawable/ic_reminder_24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"/>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_title"

@@ -58,7 +58,9 @@ public class NoteEditorActivity extends AppCompatActivity {
                     intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
+            boolean isRemoveReminder = intent.getBooleanExtra(NoteEditorFragment.ARG_REMOVE_REMINDER, false);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
+            arguments.putBoolean(NoteEditorFragment.ARG_REMOVE_REMINDER, isRemoveReminder);
             if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
                     intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
