@@ -137,22 +137,21 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
 
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
-
-        SwitchPreference switchPreference = (SwitchPreference)findPreference("pref_key_condensed_note_list");
-        switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((SwitchPreference)preference).isChecked()) {
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
-                            AnalyticsTracker.CATEGORY_USER,
-                            "condensed_list_preference"
-                    );
-                }
-
-                return true;
-            }
-        });
+//      MDD Remove condensed view (Bug)
+//        SwitchPreference switchPreference = (SwitchPreference)findPreference("pref_key_condensed_note_list");
+//        switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            public boolean onPreferenceChange(Preference preference, Object o) {
+//                if (((SwitchPreference)preference).isChecked()) {
+//                    AnalyticsTracker.track(
+//                            AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
+//                            AnalyticsTracker.CATEGORY_USER,
+//                            "condensed_list_preference"
+//                    );
+//                }
+//
+//                return true;
+//            }
+//        });
     }
 
     @Override
