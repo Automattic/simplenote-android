@@ -40,6 +40,10 @@ _Note: Simplenote API features such as sharing and publishing will not work with
 
 5) Через AVD manager создать виртуальный девайс, например Nexus 5 и для него скачать android 6.0 
 
+6) Запускаем девайс
+
+7) Сбоку будет меню gradle, и там в Симплноут выбираем install -> installDebug 
+
 ## Android Wear
 
 To properly install the wear app, run `./gradlew assembleRelease` to package up the app and then `adb install` with the generated .apk to the host device.
