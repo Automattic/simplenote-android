@@ -4,10 +4,6 @@
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/settings" >
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="pref_key_condensed_note_list"
-            android:title="@string/condensed_note_list" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_sort_order"
