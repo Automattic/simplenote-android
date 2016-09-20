@@ -2,11 +2,13 @@
 
 A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
 
-## Development Requirements
+## Development Requirements (Не надо)
 * A Simperium account. [Sign up here](https://simperium.com/signup/)
 * A Simperium Application ID and key. [Create a new app here](https://simperium.com/app/new/)
 
 ## How to Configure
+
+Скачать Android Studio и пакет Android SDK 23 версии (Android 6.0)
 
 1) Clone repo
 
