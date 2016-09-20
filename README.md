@@ -10,7 +10,7 @@ A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com]
 
 Скачать Android Studio и пакет Android SDK 23 версии (Android 6.0) через SDK Manager
 
-1) Clone repo
+1) Clone repo (Можно прям через Андроид Студио)
 
 ```bash
 git clone https://github.com/Asmadek/simplenote-android.git
@@ -34,9 +34,11 @@ simperiumAppKey=f4d9e4bab5fd40909481d91ae1f0d932
 googleAnalyticsId=
 ```
 
-4) Install debug build with Android Studio or `./gradlew installDebug`
+4) Install debug build with Android Studio or `./gradlew installDebug` (НЕ НАДО)
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
+
+5) Через AVD manager создать виртуальный девайс, например Nexus 5 и для него скачать android 6.0 
 
 ## Android Wear
 
