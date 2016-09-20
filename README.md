@@ -8,7 +8,7 @@ A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com]
 
 ## How to Configure
 
-Скачать Android Studio и пакет Android SDK 23 версии (Android 6.0)
+Скачать Android Studio и пакет Android SDK 23 версии (Android 6.0) через SDK Manager
 
 1) Clone repo
 
