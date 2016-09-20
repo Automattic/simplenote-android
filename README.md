@@ -11,7 +11,7 @@ A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com]
 1) Clone repo
 
 ```bash
-git clone https://github.com/Automattic/simplenote-android.git
+git clone https://github.com/Asmadek/simplenote-android.git
 cd simplenote-android
 ```
 
@@ -27,8 +27,8 @@ sdk.dir=/Applications/Android Studio.app/sdk
 Add your simperium appid and key to Simplenote/gradle.properties, and an empty googleAnalyticsId:
 
 ```
-simperiumAppId=SIMPERIUM_APP_ID
-simperiumAppKey=SIMPERIUM_KEY
+simperiumAppId=yield-cannons-00f
+simperiumAppKey=f4d9e4bab5fd40909481d91ae1f0d932
 googleAnalyticsId=
 ```
 
