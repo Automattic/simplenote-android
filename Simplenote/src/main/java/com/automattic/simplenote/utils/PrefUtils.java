@@ -20,7 +20,8 @@ public class PrefUtils {
     public static final String PREF_SORT_ORDER     = "pref_key_sort_order";
 
     // boolean, determines # of preview lines
-    public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
+    //MDD_R
+   // public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
 
     // boolean, determines whether dates are shown
     public static final String PREF_SHOW_DATES     = "pref_key_show_dates";
