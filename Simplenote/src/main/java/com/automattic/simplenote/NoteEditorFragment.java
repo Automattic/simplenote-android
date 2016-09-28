@@ -58,13 +58,16 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        ReminderBottomSheetDialog.ReminderSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -91,7 +94,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled;
+    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled, mHasReminder, mHasReminderDateChange;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -123,6 +126,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     };
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
+    private ReminderBottomSheetDialog mReminderBottomSheet;
     // Contextual action bar for dealing with links
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -403,6 +407,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_reminder:
+                setReminder();
+                return true;
             case R.id.menu_view_info:
                 showInfo();
                 return true;
@@ -470,6 +477,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             saveNote();
             showInfoSheet();
+        }
+    }
+
+    private void setReminder() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            showReminderPopUp();
+        }
+    }
+
+    private void showReminderPopUp() {
+        if (isAdded()) {
+            if (mReminderBottomSheet == null) {
+                mReminderBottomSheet = new ReminderBottomSheetDialog(this, this);
+            }
+            mReminderBottomSheet.show(mNote);
         }
     }
 
@@ -825,7 +848,29 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoDismissed() {
+        mInfoBottomSheet.dismiss();
+    }
 
+    @Override
+    public void onReminderOn() {
+        mHasReminder = true;
+    }
+
+    @Override
+    public void onReminderOff() {
+        mHasReminder = false;
+    }
+
+    @Override
+    public void onReminderUpdated(Calendar calendar) {
+        mNote.setReminderDate(calendar);
+        mHasReminderDateChange = true;
+        mReminderBottomSheet.updateReminder(calendar);
+    }
+
+    @Override
+    public void onReminderDismissed() {
+        mReminderBottomSheet.dismiss();
     }
 
     protected void saveNote() {
@@ -835,11 +880,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
+        if (mHasReminderDateChange || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
+            mNote.setReminder(mHasReminder);
             // Send pinned event to google analytics if changed
             mNote.save();
 
@@ -1193,6 +1239,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
                 }
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
+            long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date(timestamp));
+
+            onReminderUpdated(calendar);
         }
     }
 }

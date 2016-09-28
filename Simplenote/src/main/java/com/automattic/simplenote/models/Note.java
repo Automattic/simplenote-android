@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Date;
 
 public class Note extends BucketObject {
 
@@ -44,6 +45,8 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
     public static final String PUBLISH_URL = "http://simp.ly/publish/";
+    public static final String REMINDER_PROPERTY = "reminder";
+    public static final String REMINDER_DATE_PROPERTY = "reminderDate";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
     private static final String BLANK_CONTENT = "";
@@ -418,6 +421,31 @@ public class Note extends BucketObject {
         setProperty(SYSTEM_TAGS_PROPERTY, newTags);
     }
 
+
+    public Boolean hasReminder() {
+        Object reminder = getProperty(REMINDER_PROPERTY);
+
+        if (reminder == null) {
+            return false;
+        }
+        if (reminder instanceof Boolean) {
+            return (Boolean) reminder;
+        } else
+            return reminder instanceof Number && ((Number) reminder).intValue() != 0;
+    }
+
+    public void setReminder(boolean reminder) {
+        setProperty(REMINDER_PROPERTY, reminder);
+    }
+
+    public void setReminderDate(Calendar reminderDate) {
+        setProperty(REMINDER_DATE_PROPERTY, reminderDate.getTimeInMillis() / 1000);
+    }
+
+    public Calendar getReminderDate() {
+        return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
+    }
+
     /**
      * Check if the note has any changes
      *
@@ -427,11 +455,15 @@ public class Note extends BucketObject {
      * @param isMarkdownEnabled note has markdown enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled) {
+    public boolean hasChanges(String content,
+                              String tagString,
+                              boolean isPinned,
+                              boolean isMarkdownEnabled,
+                              boolean hasReminder) {
         return !content.equals(this.getContent())
-                || !tagString.equals(this.getTagString().toString())
-                || this.isPinned() != isPinned
-                || this.isMarkdownEnabled() != isMarkdownEnabled;
+            || !tagString.equals(this.getTagString().toString())
+            || this.isPinned() != isPinned || this.hasReminder() != hasReminder
+            || this.isMarkdownEnabled() != isMarkdownEnabled;
     }
 
     public static class Schema extends BucketSchema<Note> {
@@ -449,6 +481,9 @@ public class Note extends BucketObject {
             setDefault(DELETED_PROPERTY, false);
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
+            setDefault(REMINDER_PROPERTY, false);
+            setDefault(REMINDER_DATE_PROPERTY, null);
+
         }
 
         public String getRemoteName() {
