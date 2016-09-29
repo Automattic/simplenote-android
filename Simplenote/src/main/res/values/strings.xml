@@ -46,7 +46,7 @@
     <string name="trash">Trash</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
-    <string name="condensed_note_list">Condensed note list</string>
+    <!--<string name="condensed_note_list">Condensed note list</string>-->
     <string name="note_info">Info</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
