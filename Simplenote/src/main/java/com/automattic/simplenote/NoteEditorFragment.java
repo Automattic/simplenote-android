@@ -754,11 +754,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onReminderOn() {
         mHasReminder = true;
+        saveNote();
     }
 
     @Override
     public void onReminderOff() {
         mHasReminder = false;
+        saveNote();
     }
 
     @Override
