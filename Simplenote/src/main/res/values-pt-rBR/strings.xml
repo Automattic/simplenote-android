@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Nenhuma anotação aqui.</string>
 	<string name="close_drawer">Fechar gaveta</string>
 	<string name="open_drawer">Abrir gaveta</string>
-	<string name="condensed_note_list">Lista de anotações condensada</string>
+	<!--<string name="condensed_note_list">Lista de anotações condensada</string>-->
 	<string name="note_pinned">Anotação fixada.</string>
 	<string name="rename_tag">Renomear tag</string>
 	<string name="new_note_list">Nova anotação...</string>

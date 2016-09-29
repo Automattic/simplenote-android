@@ -68,7 +68,7 @@
 	<string name="app_description_short">Simplenote jest świetnym sposobem na przechowywanie notatek, list i wielu innych pomysłów.</string>
 	<string name="rename_tag">Edytuj tag</string>
 	<string name="note_pinned">Notatka przypięta.</string>
-	<string name="condensed_note_list">Zwarta lista notatek</string>
+	<!--<string name="condensed_note_list">Zwarta lista notatek</string>-->
 	<string name="open_drawer">Otwórz szufladę</string>
 	<string name="close_drawer">Zamknij szufladę</string>
 	<string name="delete">Przenieś do kosza</string>

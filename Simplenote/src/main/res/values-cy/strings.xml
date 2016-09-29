@@ -85,7 +85,7 @@
 	<string name="app_description_short">Mae Simplenote yn ffordd hawdd o gadw nodiadau, rhestrau, syniadau a mwy.</string>
 	<string name="rename_tag">Ailenwi tag</string>
 	<string name="note_pinned">Nodyn wedi\'i binio.</string>
-	<string name="condensed_note_list">Rhestr gryno o nodiadau</string>
+	<!--<string name="condensed_note_list">Rhestr gryno o nodiadau</string>-->
 	<string name="open_drawer">Agor y ddrôr</string>
 	<string name="close_drawer">Cau\'r ddrôr</string>
 	<string name="delete">Symud i\'r sbwriel</string>

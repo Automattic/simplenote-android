@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Pas de notes.</string>
 	<string name="close_drawer">Fermer le tiroir</string>
 	<string name="open_drawer">Ouvrir le tiroir</string>
-	<string name="condensed_note_list">Vue condensée</string>
+	<!--<string name="condensed_note_list">Vue condensée</string>-->
 	<string name="note_pinned">Note suivie.</string>
 	<string name="rename_tag">Renommer tag</string>
 	<string name="new_note_list">Nouvelle note...</string>

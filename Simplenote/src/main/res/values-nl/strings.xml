@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Hier staan geen notities.</string>
 	<string name="close_drawer">Schuifmenu sluiten</string>
 	<string name="open_drawer">Schuifmenu openen</string>
-	<string name="condensed_note_list">Beknopte notitielijst</string>
+	<!--<string name="condensed_note_list">Beknopte notitielijst</string>-->
 	<string name="note_pinned">Notitie vastgemaakt.</string>
 	<string name="rename_tag">Tag hernoemen</string>
 	<string name="new_note_list">Nieuwe notitie …</string>

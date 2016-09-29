@@ -116,7 +116,7 @@
 	<string name="no_notes_here">這裡沒有筆記。</string>
 	<string name="close_drawer">關閉側選單</string>
 	<string name="open_drawer">開啟側選單</string>
-	<string name="condensed_note_list">精簡版筆記清單</string>
+	<!--<string name="condensed_note_list">精簡版筆記清單</string>-->
 	<string name="note_pinned">已釘選筆記。</string>
 	<string name="rename_tag">重新命名標籤</string>
 	<string name="new_note_list">新增筆記…</string>

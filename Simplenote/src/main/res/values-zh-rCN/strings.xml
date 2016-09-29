@@ -116,7 +116,7 @@
 	<string name="no_notes_here">此处没有任何笔记。</string>
 	<string name="close_drawer">关闭抽屉式导航栏</string>
 	<string name="open_drawer">打开抽屉式导航栏</string>
-	<string name="condensed_note_list">压缩的笔记列表</string>
+	<!--<string name="condensed_note_list">压缩的笔记列表</string>-->
 	<string name="note_pinned">已固定笔记。</string>
 	<string name="rename_tag">重命名标签</string>
 	<string name="new_note_list">新建笔记…</string>

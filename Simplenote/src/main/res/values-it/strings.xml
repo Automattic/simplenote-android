@@ -115,7 +115,7 @@
 	<string name="no_notes_here">Non ci sono note.</string>
 	<string name="close_drawer">Chiudi menu</string>
 	<string name="open_drawer">Apri menu</string>
-	<string name="condensed_note_list">Formato lista note ridotta</string>
+	<!--<string name="condensed_note_list">Formato lista note ridotta</string>-->
 	<string name="note_pinned">Nota agganciata.</string>
 	<string name="rename_tag">Rinomina il tag</string>
 	<string name="new_note_list">Nuova nota...</string>
