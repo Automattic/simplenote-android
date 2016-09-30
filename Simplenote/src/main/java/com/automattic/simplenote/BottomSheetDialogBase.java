@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.WindowManager;
-
-import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.DisplayUtils;
 
 /**
