@@ -14,6 +14,26 @@
         android:textColor="@color/simplenote_dark_grey" />
 
     <View
+        android:id="@+id/time_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey" />
+
+    <Button
+        android:id="@+id/after_15_minutes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="In 15 minutes"
+        android:textColor="@color/simplenote_dark_grey" />
+
+    <Button
+        android:id="@+id/after_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="In 1 hour"
+        android:textColor="@color/simplenote_dark_grey" />
+
+    <View
         android:id="@+id/info_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -67,5 +87,9 @@
             android:textColor="@color/simplenote_dark_grey" />
 
     </RelativeLayout>
+
+
+
+
 
 </LinearLayout>
