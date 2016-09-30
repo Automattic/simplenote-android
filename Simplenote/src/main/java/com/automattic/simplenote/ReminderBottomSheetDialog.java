@@ -117,7 +117,6 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
                 calendar.add(Calendar.HOUR, 1);
                 updateReminder(calendar);
                 break;
-
         }
         mReminderSwitch.setChecked(true);
     }
