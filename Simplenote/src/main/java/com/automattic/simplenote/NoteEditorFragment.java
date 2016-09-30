@@ -1266,4 +1266,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             onReminderUpdated(calendar);
         }
     }
+    public void updateReminder(GregorianCalendar aCalendar) {
+        onReminderUpdated(aCalendar);
+    }
 }
