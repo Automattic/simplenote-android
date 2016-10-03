@@ -1,0 +1,10 @@
+p,
+h4,
+ul li,
+ol li { font-size: ${P-SIZE}px; }
+h1 { font-size: ${H1-SIZE}px; }
+h2 { font-size: ${H2-SIZE}px; }
+h3 { font-size: ${H3-SIZE}px; }
+pre,
+h5 { font-size: ${H5-SIZE}px; }
+h6 { font-size: ${H6-SIZE}px; }
