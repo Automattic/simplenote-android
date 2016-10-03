@@ -1,7 +1,5 @@
 package com.automattic.simplenote;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -22,11 +20,10 @@ import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
-import java.util.Calendar;
-
 public class NoteMarkdownFragment extends Fragment {
     private Note mNote;
     private String mCss;
+    private String mRawCss;
     private WebView mMarkdown;
     private boolean mIsLoadingNote;
 
@@ -75,14 +72,20 @@ public class NoteMarkdownFragment extends Fragment {
 
         switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_DARK:
-                mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"dark.css\" />";
+                mRawCss = ContextUtils.readCssFile(getActivity(), "dark.css");
                 break;
             case THEME_LIGHT:
-                mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"light.css\" />";
+                mRawCss = ContextUtils.readCssFile(getActivity(), "light.css");
                 break;
         }
 
         return layout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateCss();
     }
 
     @Override
@@ -119,8 +122,25 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
-        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
-                new AndDown().markdownToHtml(text), "text/html", "utf-8", null);
+        mMarkdown.loadData(mCss + new AndDown().markdownToHtml(text), "text/html", "utf-8");
+    }
+
+    private void updateCss() {
+        if (mRawCss == null) {
+            mCss = "";
+            return;
+        }
+
+        int fontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+
+        mCss = "<style>"
+                + mRawCss.replace("${H1-SIZE}", String.valueOf(fontSize + 16))
+                .replace("${H2-SIZE}", String.valueOf(fontSize + 8))
+                .replace("${H3-SIZE}", String.valueOf(fontSize + 3))
+                .replace("${P-SIZE}", String.valueOf(fontSize))
+                .replace("${H5-SIZE}", String.valueOf(fontSize - 2))
+                .replace("${H6-SIZE}", String.valueOf(fontSize - 5))
+                + "</style>";
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
