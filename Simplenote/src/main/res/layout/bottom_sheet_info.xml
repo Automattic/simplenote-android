@@ -46,7 +46,7 @@
         android:layout_below="@id/info_words_text"
         android:background="@color/divider_grey" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_pin_switch"
         android:layout_below="@+id/info_divider"
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
         android:paddingRight="@dimen/padding_large"
         android:text="@string/pin_to_top" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_markdown_switch"
         android:layout_below="@+id/info_pin_switch"
         android:layout_width="match_parent"
