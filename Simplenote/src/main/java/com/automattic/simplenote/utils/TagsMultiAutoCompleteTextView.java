@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -16,12 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.R;
 
-public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
+public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
 
     private boolean mShouldMoveNewTagText;
 
