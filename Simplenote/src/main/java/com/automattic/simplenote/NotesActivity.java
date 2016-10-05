@@ -23,7 +23,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -43,6 +42,7 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AniUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -516,7 +516,7 @@ public class NotesActivity extends AppCompatActivity implements
             String hintHexColor = (ThemeUtils.isLightTheme(this) ?
                     getString(R.color.simplenote_light_grey) :
                     getString(R.color.simplenote_text_preview)).replace("ff", "");
-            mSearchView.setQueryHint(Html.fromHtml(String.format("<font color=\"%s\">%s</font>",
+            mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));
         }

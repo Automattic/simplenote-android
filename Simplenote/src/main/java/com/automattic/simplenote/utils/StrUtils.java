@@ -5,7 +5,6 @@ package com.automattic.simplenote.utils;
  *  added 01-Apr-2013 by Nick Bradbury
  */
 
-import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 
@@ -112,19 +111,19 @@ public class StrUtils {
         if (html == null)
             return "";
 
-        // Html.fromHtml().toString() is not high-performance, so skip whenever possible
+        // HtmlCompat.fromHtml().toString() is not high-performance, so skip whenever possible
         if (!html.contains("<") && !html.contains("&"))
             return html;
 
         // http://stackoverflow.com/a/7389663/1673548
-        return Html.fromHtml(html).toString().trim();
+        return HtmlCompat.fromHtml(html).toString().trim();
     }
 
     public static Spanned setTextToUpperCaseAndBold(String originalString) {
         if (TextUtils.isEmpty(originalString)) {
-            return Html.fromHtml("");
+            return HtmlCompat.fromHtml("");
         }
 
-        return Html.fromHtml("<strong>" + originalString.toUpperCase() + "</strong>");
+        return HtmlCompat.fromHtml("<strong>" + originalString.toUpperCase() + "</strong>");
     }
 }

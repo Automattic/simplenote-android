@@ -88,7 +88,7 @@ public class PrefUtils {
             String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong> " +
                     BuildConfig.BUILD_TYPE + " (Build " + BuildConfig.VERSION_CODE + ")" +
                     "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
-            return Html.fromHtml(info);
+            return HtmlCompat.fromHtml(info);
         }
 
         return BuildConfig.VERSION_NAME;

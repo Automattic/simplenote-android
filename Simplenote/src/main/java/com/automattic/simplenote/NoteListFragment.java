@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
@@ -35,6 +34,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
@@ -272,7 +272,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void setEmptyListMessage(String message) {
         if (mEmptyListTextView != null && message != null)
-            mEmptyListTextView.setText(Html.fromHtml(message));
+            mEmptyListTextView.setText(HtmlCompat.fromHtml(message));
     }
 
     @Override

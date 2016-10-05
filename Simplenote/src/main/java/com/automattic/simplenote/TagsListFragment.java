@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Html;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
@@ -53,7 +53,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
 
         TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
-        emptyTextView.setText(Html.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
+        emptyTextView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
         return view;
     }
 
