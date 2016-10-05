@@ -34,7 +34,7 @@ import com.simperium.client.Query;
 
 import java.util.List;
 
-public class TagsListFragment extends ListFragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag>{
+public class TagsListFragment extends ListFragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag> {
 
     private ActionMode mActionMode;
     private Bucket<Tag> mTagsBucket;
@@ -52,7 +52,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
 
-        TextView emptyTextView = (TextView)view.findViewById(android.R.id.empty);
+        TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
         emptyTextView.setText(Html.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
         return view;
     }
@@ -204,7 +204,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            if (isAdded()){
+            if (isAdded()) {
                 getActivity().finish();
                 return true;
             }

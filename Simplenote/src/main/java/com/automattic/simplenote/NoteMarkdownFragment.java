@@ -21,16 +21,14 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteMarkdownFragment extends Fragment {
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+    public static final String ARG_ITEM_ID = "item_id";
     private Note mNote;
     private String mCss;
     private String mRawCss;
     private WebView mMarkdown;
     private boolean mIsLoadingNote;
-
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
-
-    public static final String ARG_ITEM_ID = "item_id";
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -28,10 +28,14 @@ public class UndoBarController {
     private UndoListener mUndoListener;
 
     private List<String> mDeletedNoteIds;
-
-    public interface UndoListener {
-        void onUndo();
-    }
+    private View.OnClickListener mOnUndoClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mUndoListener != null) {
+                mUndoListener.onUndo();
+            }
+        }
+    };
 
     public UndoBarController(UndoListener undoListener) {
         mUndoListener = undoListener;
@@ -46,20 +50,15 @@ public class UndoBarController {
                 .show();
     }
 
-    private View.OnClickListener mOnUndoClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mUndoListener != null) {
-                mUndoListener.onUndo();
-            }
-        }
-    };
-
     public List<String> getDeletedNoteIds() {
         return mDeletedNoteIds;
     }
 
     public void setDeletedNoteIds(List<String> noteIds) {
         mDeletedNoteIds = noteIds;
+    }
+
+    public interface UndoListener {
+        void onUndo();
     }
 }

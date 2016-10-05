@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -69,8 +69,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
+    protected Bucket<Note> mNotesBucket;
+    protected Bucket<Tag> mTagsBucket;
     private int TRASH_SELECTED_ID = 1;
-
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private String mTabletSearchQuery;
@@ -82,8 +83,6 @@ public class NotesActivity extends AppCompatActivity implements
     private NoteListFragment mNoteListFragment;
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
-    protected Bucket<Note> mNotesBucket;
-    protected Bucket<Tag> mTagsBucket;
     private MenuItem mEmptyTrashMenuItem;
 
     // Menu drawer
@@ -93,6 +92,36 @@ public class NotesActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
+    // Tags bucket listener
+    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        void updateNavigationDrawer() {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    updateNavigationDrawerItems();
+                }
+            });
+        }
+
+        @Override
+        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
+            updateNavigationDrawer();
+        }
+
+        @Override
+        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
+            // noop
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,24 +280,24 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
-        
+
         // Configure welcome view in the nav drawer
         mWelcomeView = mDrawerLayout.findViewById(R.id.welcome_view);
-        TextView welcomeSignInButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
+        TextView welcomeSignInButton = (TextView) mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
         welcomeSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startLoginActivity(true);
             }
         });
-        
-        TextView welcomeCloseButton = (TextView)mDrawerLayout.findViewById(R.id.welcome_close);
-                welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        removeWelcomeView();
-                    }
-                });
+
+        TextView welcomeCloseButton = (TextView) mDrawerLayout.findViewById(R.id.welcome_close);
+        welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeWelcomeView();
+            }
+        });
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +409,7 @@ public class NotesActivity extends AppCompatActivity implements
                     if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
                         AppLockManager.getInstance().getAppLock().setExemptActivities(
                                 new String[]{"com.automattic.simplenote.NotesActivity",
-                                "com.automattic.simplenote.NoteEditorActivity"});
+                                        "com.automattic.simplenote.NoteEditorActivity"});
                         AppLockManager.getInstance().getAppLock().setOneTimeTimeout(0);
                     }
                 }
@@ -401,42 +430,11 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
     }
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Adjust for header view
-            position -= mDrawerList.getHeaderViewsCount();
-            mSelectedTag = mTagsAdapter.getItem(position);
-            checkEmptyListText(false);
-            // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mNavigationView);
-
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
-            getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1) {
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                        AnalyticsTracker.CATEGORY_TAG,
-                        "selected_tag_in_navigation_drawer"
-                );
-            }
-        }
-    }
-
     public TagsAdapter.TagMenuItem getSelectedTag() {
         if (mSelectedTag == null) {
             mSelectedTag = mTagsAdapter.getDefaultItem();
         }
-        
+
         return mSelectedTag;
     }
 
@@ -845,13 +843,10 @@ public class NotesActivity extends AppCompatActivity implements
     @Override
     public void recreate() {
         Handler handler = new Handler();
-        handler.post(new Runnable()
-        {
+        handler.post(new Runnable() {
             @Override
-            public void run()
-            {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
-                {
+            public void run() {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
                     NotesActivity.this.finish();
                     NotesActivity.this.startActivity(NotesActivity.this.getIntent());
                 } else {
@@ -894,7 +889,7 @@ public class NotesActivity extends AppCompatActivity implements
             case Simperium.SIGNUP_SIGNIN_REQUEST:
                 invalidateOptionsMenu();
 
-                Simplenote app = (Simplenote)getApplication();
+                Simplenote app = (Simplenote) getApplication();
                 AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
 
                 AnalyticsTracker.track(
@@ -1046,28 +1041,6 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
-    private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (mNotesBucket == null) return null;
-
-            Query<Note> query = Note.allDeleted(mNotesBucket);
-            Bucket.ObjectCursor c = query.execute();
-            while (c.moveToNext()) {
-                c.getObject().delete();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nada) {
-            showDetailPlaceholder();
-        }
-    }
-
-
     /* Simperium Bucket Listeners */
     // received a change from the network, refresh the list
     @Override
@@ -1108,34 +1081,55 @@ public class NotesActivity extends AppCompatActivity implements
         // noop, NoteEditorFragment will handle this
     }
 
-    // Tags bucket listener
-    private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
-        void updateNavigationDrawer() {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    updateNavigationDrawerItems();
-                }
-            });
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            // Adjust for header view
+            position -= mDrawerList.getHeaderViewsCount();
+            mSelectedTag = mTagsAdapter.getItem(position);
+            checkEmptyListText(false);
+            // Update checked item in navigation drawer and close it
+            setSelectedTagActive();
+            mDrawerLayout.closeDrawer(mNavigationView);
+
+            // Disable long press on notes if we're viewing the trash
+            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+                getNoteListFragment().getListView().setLongClickable(false);
+            } else {
+                getNoteListFragment().getListView().setLongClickable(true);
+            }
+
+            getNoteListFragment().refreshListFromNavSelect();
+            if (position > 1) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                        AnalyticsTracker.CATEGORY_TAG,
+                        "selected_tag_in_navigation_drawer"
+                );
+            }
+        }
+    }
+
+    private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (mNotesBucket == null) return null;
+
+            Query<Note> query = Note.allDeleted(mNotesBucket);
+            Bucket.ObjectCursor c = query.execute();
+            while (c.moveToNext()) {
+                c.getObject().delete();
+            }
+
+            return null;
         }
 
         @Override
-        public void onSaveObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
+        protected void onPostExecute(Void nada) {
+            showDetailPlaceholder();
         }
-
-        @Override
-        public void onDeleteObject(Bucket<Tag> bucket, Tag tag) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
-            updateNavigationDrawer();
-        }
-
-        @Override
-        public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
-            // noop
-        }
-    };
+    }
 }

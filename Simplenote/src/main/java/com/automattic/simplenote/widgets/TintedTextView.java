@@ -16,8 +16,10 @@ import com.automattic.simplenote.utils.DrawableUtils;
  */
 public class TintedTextView extends TextView {
 
-    @ColorInt int tint;
-    @ColorInt int transparentColor;
+    @ColorInt
+    int tint;
+    @ColorInt
+    int transparentColor;
     Drawable l, r, t, b;
 
     public TintedTextView(Context context) {

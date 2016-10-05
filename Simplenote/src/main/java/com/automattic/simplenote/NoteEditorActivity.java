@@ -61,7 +61,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
             if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
-                    intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
+                        intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
 
             noteEditorFragment = new NoteEditorFragment();
             noteEditorFragment.setArguments(arguments);
@@ -78,24 +78,24 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
             mViewPager.setPagingEnabled(false);
             mViewPager.addOnPageChangeListener(
-                new NoteEditorViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        if (position == 1) {
-                            final InputMethodManager imm = (InputMethodManager) getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                    new NoteEditorViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageSelected(int position) {
+                            if (position == 1) {
+                                final InputMethodManager imm = (InputMethodManager) getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                            }
+                        }
+
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
                         }
                     }
-
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                }
             );
 
             isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);

@@ -7,7 +7,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 
 public class TextHighlighter
-implements MatchOffsetHighlighter.SpanFactory, SearchSnippetFormatter.SpanFactory {
+        implements MatchOffsetHighlighter.SpanFactory, SearchSnippetFormatter.SpanFactory {
 
 
     int mForegroundColor;
@@ -15,22 +15,22 @@ implements MatchOffsetHighlighter.SpanFactory, SearchSnippetFormatter.SpanFactor
 
     @SuppressLint("ResourceType")
     public TextHighlighter(Context context, int foregroundResId, int backgroundResId) {
-        TypedArray colors = context.obtainStyledAttributes(new int[]{ foregroundResId, backgroundResId });
+        TypedArray colors = context.obtainStyledAttributes(new int[]{foregroundResId, backgroundResId});
         mForegroundColor = colors.getColor(0, 0xFFFF0000);
         mBackgroundColor = colors.getColor(1, 0xFF00FFFF);
         colors.recycle();
     }
 
     @Override
-    public Object[] buildSpans(){
+    public Object[] buildSpans() {
         return buildSpans(null);
     }
 
     @Override
-    public Object[] buildSpans(String content){
-        return new Object[] {
-            new ForegroundColorSpan(mForegroundColor),
-            new BackgroundColorSpan(mBackgroundColor)
+    public Object[] buildSpans(String content) {
+        return new Object[]{
+                new ForegroundColorSpan(mForegroundColor),
+                new BackgroundColorSpan(mBackgroundColor)
         };
     }
 

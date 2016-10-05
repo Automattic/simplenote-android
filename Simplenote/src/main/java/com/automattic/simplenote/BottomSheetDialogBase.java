@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.WindowManager;
 
-import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.DisplayUtils;
 
 /**
@@ -23,7 +22,7 @@ public class BottomSheetDialogBase extends BottomSheetDialog {
 
         // limit the width of the bottom sheet on wide screens
         // non-zero width defined only for sw600dp
-        int dp = (int)getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
+        int dp = (int) getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
         if (dp > 0) {
 
             // convert dp to px

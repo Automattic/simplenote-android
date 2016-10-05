@@ -57,7 +57,7 @@ public class SearchTokenizer {
             isQuoteChar = !isEscaped && (current == SINGLE_QUOTE || current == DOUBLE_QUOTE);
 
             // if query starts with / we're just going to give the complete query
-            if (position == 0 && current == LITERAL && length > 1){
+            if (position == 0 && current == LITERAL && length > 1) {
                 isLiteral = true;
                 continue;
             }
@@ -80,7 +80,7 @@ public class SearchTokenizer {
             if (isQuoteChar) {
                 quoteChar = current;
                 // we were already in a term so end it with a glob
-                if (inTerm && !isLiteral) query.append(new char[]{ GLOB, SPACE });
+                if (inTerm && !isLiteral) query.append(new char[]{GLOB, SPACE});
                 // start the strict term
                 query.append(current);
                 inStrictTerm = true;
@@ -88,14 +88,14 @@ public class SearchTokenizer {
                 continue;
             }
 
-            if (current == COLON && inTerm){
+            if (current == COLON && inTerm) {
                 inTerm = false;
                 query.append(current);
                 continue;
             }
 
             if (current == SPACE) {
-                if(inTerm && !isLiteral) query.append(GLOB);
+                if (inTerm && !isLiteral) query.append(GLOB);
                 query.append(current);
                 inTerm = false;
                 continue;
