@@ -3,46 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/padding_extra_large"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_medium">
+    android:orientation="vertical">
 
     <Switch
         android:id="@+id/reminder_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_medium"
+        android:padding="@dimen/padding_extra_large"
         android:text="@string/enable_reminder"
         android:textColor="@color/simplenote_dark_grey" />
 
+    <View
+        android:id="@+id/time_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey" />
 
     <Button
         android:id="@+id/after_15_minutes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="In 15 minutes"
-        android:layout_margin="3dp"
-        android:textColor="@color/simplenote_blue_accent_60"
-        android:background="#E2E2E2"
-        android:layout_marginLeft="@dimen/padding_medium"
-        android:layout_marginRight="@dimen/padding_medium" />
-
+        android:textColor="@color/simplenote_dark_grey" />
 
     <Button
         android:id="@+id/after_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="In 1 hour"
-        android:layout_margin="2dp"
-        android:textColor="@color/simplenote_blue_accent_60"
-        android:background="#E2E2E2"
-        android:layout_marginLeft="@dimen/padding_medium"
-        android:layout_marginRight="@dimen/padding_medium" />
+        android:textColor="@color/simplenote_dark_grey" />
 
+    <View
+        android:id="@+id/info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_medium" >
+        android:padding="@dimen/padding_extra_large">
 
         <View
             android:id="@+id/view_helper"
@@ -57,7 +57,7 @@
             android:layout_toLeftOf="@id/view_helper"
             android:gravity="center"
             android:paddingBottom="@dimen/padding_small"
-            android:textSize="15dp"
+            android:textSize="20dp"
             android:text="@string/date"
             android:textColor="@color/simplenote_dark_grey" />
 
@@ -67,9 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_title"
             android:layout_toLeftOf="@id/view_helper"
-            android:textColor="@color/simplenote_blue_accent_60"
-            android:background="#E2E2E2"
-            android:layout_margin="2dp" />
+            android:textColor="#FFFFFF"
+            android:background="#4A95CE" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/time_title"
@@ -77,9 +76,10 @@
             android:layout_toRightOf="@+id/view_helper"
             android:gravity="center"
             android:paddingBottom="@dimen/padding_small"
-            android:textSize="15dp"
+            android:textSize="20dp"
             android:text="@string/time"
-            android:textColor="@color/simplenote_dark_grey"
+            android:textColor="#4A95CE"
+            android:background="#F6D061"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_width="match_parent" />
@@ -90,9 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/time_title"
             android:layout_toRightOf="@+id/view_helper"
-            android:textColor="@color/simplenote_blue_accent_60"
-            android:layout_margin="2dp"
-            android:background="#E2E2E2" />
+            android:textColor="@color/simplenote_dark_grey"
+            android:background="#4A95CE" />
 
     </RelativeLayout>
 
