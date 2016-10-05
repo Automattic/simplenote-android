@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:minHeight="?android:attr/listPreferredItemHeight"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="?android:attr/scrollbarSize">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:paddingLeft="8dp"
+    android:paddingRight="?android:attr/scrollbarSize">
 
-  <TextView android:id="@+android:id/title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:maxLines="1"
-      android:text="@string/sign_out"
-      android:textAppearance="?android:attr/textAppearanceMedium"
-      android:textColor="?attr/settingsTextColor"
-      android:ellipsize="marquee"
-      android:layout_marginLeft="@dimen/settings_sign_out_margin"
-      android:layout_marginRight="6dp"
-      android:fadingEdge="horizontal" />
+    <TextView
+        android:id="@+android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/settings_sign_out_margin"
+        android:layout_marginRight="6dp"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:maxLines="1"
+        android:text="@string/sign_out"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?attr/settingsTextColor"/>
 
-  <TextView android:id="@+android:id/summary"
-      android:maxLines="1"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:textAlignment="gravity"
-      android:ellipsize="marquee"
-      android:textColor="@color/mediumgrey"
-      android:textAppearance="?android:attr/textAppearanceMedium"
-      android:gravity="right" />
+    <TextView
+        android:id="@+android:id/summary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:gravity="right"
+        android:maxLines="1"
+        android:textAlignment="gravity"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/mediumgrey"/>
 </LinearLayout>

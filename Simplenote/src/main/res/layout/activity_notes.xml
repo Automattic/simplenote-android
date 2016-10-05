@@ -11,12 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar" />
+        <include layout="@layout/toolbar"/>
 
         <FrameLayout
-            android:foreground="@drawable/header_shadow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:foreground="@drawable/header_shadow">
 
             <LinearLayout
                 android:id="@+id/note_fragment_container"
@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:showDividers="middle"
-                android:weightSum="10" />
+                android:weightSum="10"/>
 
         </FrameLayout>
     </LinearLayout>
@@ -39,8 +39,8 @@
             android:id="@+id/drawer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/nav_drawer_navigation_padding_top"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/nav_drawer_navigation_padding_top">
 
             <ListView
                 android:id="@+id/drawer_list"
@@ -53,9 +53,9 @@
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:listSelector="@android:color/transparent"
-                android:paddingBottom="@dimen/padding_small" />
+                android:paddingBottom="@dimen/padding_small"/>
 
-            <include layout="@layout/nav_drawer_footer" />
+            <include layout="@layout/nav_drawer_footer"/>
 
         </LinearLayout>
     </android.support.design.widget.NavigationView>

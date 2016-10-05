@@ -17,8 +17,8 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/pin_icon_pinned" android:state_checked="true" android:state_pressed="true" />
-    <item android:drawable="@drawable/pin_icon_pinned" android:state_pressed="true" />
-    <item android:drawable="@drawable/pin_icon_pinned" android:state_checked="true" />
-    <item android:drawable="@drawable/pin_icon" />
+    <item android:drawable="@drawable/pin_icon_pinned" android:state_checked="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/pin_icon_pinned" android:state_pressed="true"/>
+    <item android:drawable="@drawable/pin_icon_pinned" android:state_checked="true"/>
+    <item android:drawable="@drawable/pin_icon"/>
 </selector>

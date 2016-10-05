@@ -15,8 +15,8 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/welcome_button" android:state_checked="true" android:state_pressed="true" />
-    <item android:drawable="@drawable/welcome_button_selected" android:state_pressed="true" />
-    <item android:drawable="@drawable/welcome_button_selected" android:state_checked="true" />
-    <item android:drawable="@drawable/welcome_button" />
+    <item android:drawable="@drawable/welcome_button" android:state_checked="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/welcome_button_selected" android:state_pressed="true"/>
+    <item android:drawable="@drawable/welcome_button_selected" android:state_checked="true"/>
+    <item android:drawable="@drawable/welcome_button"/>
 </selector>

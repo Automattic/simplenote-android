@@ -2,15 +2,15 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="16dp"
-    android:viewportWidth="208"
-    android:viewportHeight="128">
+    android:viewportHeight="128"
+    android:viewportWidth="208">
 
     <path
+        android:pathData="M 15 5 L 193 5 Q 203 5 203 15 L 203 113 Q 203 123 193 123 L 15 123 Q 5 123 5 113 L 5 15 Q 5 5 15 5 Z"
         android:strokeColor="#000"
-        android:strokeWidth="10"
-        android:pathData="M 15 5 L 193 5 Q 203 5 203 15 L 203 113 Q 203 123 193 123 L 15 123 Q 5 123 5 113 L 5 15 Q 5 5 15 5 Z" />
+        android:strokeWidth="10"/>
     <path
         android:fillColor="#000000"
         android:pathData="M30 98v-68h20l20 25 20-25h20v68h-20v-39l-20 25-20-25v39zM155
-98l-30-33h20v-35h20v35h20z" />
+98l-30-33h20v-35h20v35h20z"/>
 </vector>
