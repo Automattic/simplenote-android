@@ -297,6 +297,11 @@ public class NotesActivity extends AppCompatActivity implements
             public void onDrawerOpened(View drawerView) {
                 // noop
             }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0f);
+            }
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);

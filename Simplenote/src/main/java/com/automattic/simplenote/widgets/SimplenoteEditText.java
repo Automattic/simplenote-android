@@ -1,13 +1,13 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimplenoteEditText extends EditText {
+public class SimplenoteEditText extends AppCompatEditText {
 
     public interface OnSelectionChangedListener {
         void onSelectionChanged(int selStart, int selEnd);
