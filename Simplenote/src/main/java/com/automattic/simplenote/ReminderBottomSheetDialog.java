@@ -14,6 +14,8 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reminder;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by asmadek on 28/09/2016.
@@ -26,6 +28,11 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     private Switch mReminderSwitch;
     private TextView mDateTextView;
     private TextView mTimeTextView;
+    private TextView m15MinDateTextView;
+    private TextView m15MinTimeTextView;
+    private TextView mHourDateTextView;
+    private TextView mHourTimeTextView;
+
 
     private Fragment mFragment;
     private Note mNote;
@@ -39,6 +46,10 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mReminderSwitch = (Switch) reminderView.findViewById(R.id.reminder_switch);
         mDateTextView = (TextView) reminderView.findViewById(R.id.date_reminder);
         mTimeTextView = (TextView) reminderView.findViewById(R.id.time_reminder);
+        //m15MinDateTextView = (TextView) reminderView.findViewById(R.id.after_15_minutes);
+        m15MinTimeTextView = (TextView) reminderView.findViewById(R.id.after_15_minutes);
+       // mHourDateTextView = (TextView) reminderView.findViewById(R.id.after_hour);
+        mHourTimeTextView = (TextView) reminderView.findViewById(R.id.after_hour);
 
         setOnDismissListener(new OnDismissListener() {
             @Override
@@ -66,6 +77,8 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         if (mFragment.isAdded()) {
             mDateTextView.setOnClickListener(this);
             mTimeTextView.setOnClickListener(this);
+            m15MinTimeTextView.setOnClickListener(this);
+            mHourTimeTextView.setOnClickListener(this);
             refreshReminder();
             show();
         }
@@ -92,8 +105,20 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
                 timeFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
                 timeFragment.show(mFragment.getFragmentManager(), "timePicker");
                 break;
-
+            case R.id.after_15_minutes:
+                Calendar after15min = new GregorianCalendar();
+                after15min.setTime(Calendar.getInstance().getTime());
+                after15min.add(Calendar.MINUTE, 15);
+                updateReminder(after15min);
+            break;
+            case R.id.after_hour:
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(Calendar.getInstance().getTime());
+                calendar.add(Calendar.HOUR, 1);
+                updateReminder(calendar);
+                break;
         }
+        mReminderSwitch.setChecked(true);
     }
 
     public void updateReminder(Calendar calendar) {

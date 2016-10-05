@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_extra_large"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/set_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set color"
+        android:textColor="@color/simplenote_dark_grey" />
+
+    <Button
+        android:id="@+id/reset_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset color"
+        android:textColor="@color/simplenote_dark_grey" />
+
+
+
+
+</LinearLayout>
