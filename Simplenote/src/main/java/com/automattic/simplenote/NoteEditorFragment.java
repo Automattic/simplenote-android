@@ -212,7 +212,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Load note if we were passed a note Id
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
-            String mKey = arguments.getString(ARG_ITEM_ID);
+            mKey = arguments.getString(ARG_ITEM_ID);
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
@@ -755,14 +755,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onReminderOn() {
         mHasReminder = true;
         AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
-       // saveNote();
+        saveNote();
     }
 
     @Override
     public void onReminderOff() {
         mHasReminder = false;
         AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
-       // saveNote();
+        saveNote();
     }
 
     //MDD_M AK: notify f
