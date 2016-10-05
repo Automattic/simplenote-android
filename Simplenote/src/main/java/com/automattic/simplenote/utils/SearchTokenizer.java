@@ -38,7 +38,7 @@ public class SearchTokenizer {
         boolean isLiteral = false;
 
         // if the current char is a single or double quote
-        boolean isQuoteChar = false;
+        boolean isQuoteChar;
 
         // if the previous char was an eschape char
         boolean isEscaped = false;

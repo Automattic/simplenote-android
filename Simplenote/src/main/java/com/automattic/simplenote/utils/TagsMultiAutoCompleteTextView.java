@@ -128,7 +128,6 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
 
     /*This function has whole logic for chips generate*/
     public void setChips(CharSequence text) {
-        int cursorLocation = getSelectionStart();
         // split string with space
         SimpleStringSplitter tags = new SimpleStringSplitter(' ');
         tags.setString(text.toString());

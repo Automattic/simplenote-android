@@ -64,9 +64,6 @@ public class MatchOffsetHighlighter implements Runnable {
         if (TextUtils.isEmpty(matches)) return;
 
         Scanner scanner = new Scanner(matches);
-        int count = 0;
-
-        int total_offset = 0;
 
         // TODO: keep track of offsets and last index so we don't have to recalculate the entire byte length for every match which is pretty memory intensive
         while (scanner.hasNext()) {
@@ -93,7 +90,7 @@ public class MatchOffsetHighlighter implements Runnable {
     // TODO: get ride of memory pressure by preventing the toString()
     protected static int getByteOffset(CharSequence text, int start, int end) {
         String source = text.toString();
-        String substring = "";
+        String substring;
         int length = source.length();
 
         // starting index cannot be negative

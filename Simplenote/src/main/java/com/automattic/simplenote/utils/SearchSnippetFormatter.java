@@ -33,7 +33,6 @@ public class SearchSnippetFormatter {
         boolean inMatch = false;
 
         int position = 0;
-        int lastOpen = -1;
 
         do {
             if (inMatch) {

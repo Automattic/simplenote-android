@@ -92,7 +92,6 @@ public class Note extends BucketObject {
         int year, month, day;
 
         String time, date, retVal;
-        time = date = "";
 
         Calendar diff = Calendar.getInstance();
         diff.setTimeInMillis(diff.getTimeInMillis() - c.getTimeInMillis());
@@ -292,7 +291,7 @@ public class Note extends BucketObject {
         List<String> tagsUpperCase = new ArrayList<>();
         // remove all current tags
         int start = 0;
-        int next = -1;
+        int next;
         String possible;
         String possibleUpperCase;
         // search tag string for space characters and pull out individual tags
