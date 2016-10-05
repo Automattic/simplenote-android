@@ -12,7 +12,7 @@
   <TextView android:id="@+android:id/title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:singleLine="true"
+      android:maxLines="1"
       android:text="@string/sign_out"
       android:textAppearance="?android:attr/textAppearanceMedium"
       android:textColor="?attr/settingsTextColor"
@@ -22,7 +22,7 @@
       android:fadingEdge="horizontal" />
 
   <TextView android:id="@+android:id/summary"
-      android:singleLine="true"
+      android:maxLines="1"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
