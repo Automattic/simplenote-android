@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder;
 
 public class SearchSnippetFormatter {
 
+    @SuppressWarnings("unused")
     static public final char OPEN_BRACKET = '<';
     static public final String OPEN_MATCH = "<match>";
     static public final String CLOSE_MATCH = "</match>";

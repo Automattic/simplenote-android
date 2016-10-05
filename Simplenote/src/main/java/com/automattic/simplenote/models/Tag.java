@@ -19,7 +19,6 @@ public class Tag extends BucketObject {
     public static final String NOTE_COUNT_INDEX_NAME = "note_count";
     public static final String NAME_PROPERTY = "name";
     public static final String INDEX_PROPERTY = "index";
-    protected int tagIndex;
     protected String name = "";
 
     public Tag(String key) {

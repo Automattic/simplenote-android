@@ -23,7 +23,6 @@ import com.automattic.simplenote.R;
 
 public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView implements OnItemClickListener {
 
-    private final String TAG = "TagsMultiAutoCompleteTextView";
     private boolean mShouldMoveNewTagText;
     private OnTagAddedListener mTagsChangedListener;
     /*TextWatcher, If user types any tag name and presses space then following code will regenerate chips */
@@ -90,20 +89,20 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
     /* Constructor */
     public TagsMultiAutoCompleteTextView(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     /* Constructor */
     public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     /* Constructor */
     public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs,
                                          int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init();
     }
 
     public void setOnTagAddedListener(OnTagAddedListener listener) {
@@ -111,7 +110,7 @@ public class TagsMultiAutoCompleteTextView extends MultiAutoCompleteTextView imp
     }
 
     /* set listeners for item click and text change */
-    public void init(Context context) {
+    public void init() {
         setOnItemClickListener(this);
         addTextChangedListener(textWatcher);
     }

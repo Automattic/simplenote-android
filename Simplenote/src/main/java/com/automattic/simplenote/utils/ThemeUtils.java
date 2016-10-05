@@ -16,6 +16,7 @@ public class ThemeUtils {
 
     // theme constants
     public static final int THEME_LIGHT = 0;
+    @SuppressWarnings("unused")
     public static final int THEME_DARK = 1;
     static public final String PREFERENCES_URI_AUTHORITY = "preferences";
     static public final String URI_SEGMENT_THEME = "theme";

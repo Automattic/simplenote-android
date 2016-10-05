@@ -68,6 +68,7 @@ public class Simplenote extends Application {
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
     }
 
+    @SuppressWarnings("unused")
     private boolean isFirstLaunch() {
         // NotesActivity sets this pref to false after first launch
         return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);

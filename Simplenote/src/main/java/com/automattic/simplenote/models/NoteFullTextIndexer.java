@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class NoteFullTextIndexer implements FullTextIndex.Indexer<Note> {
 
+    @SuppressWarnings("unused")
     static public final String COMMA = ", ";
     static public final String[] INDEXES = Note.FULL_TEXT_INDEXES;
 

@@ -56,6 +56,7 @@ public final class AnalyticsTracker {
         }
     }
 
+    @SuppressWarnings("unused")
     public enum Stat {
         EDITOR_NOTE_CREATED,
         EDITOR_NOTE_DELETED,

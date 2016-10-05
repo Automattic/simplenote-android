@@ -12,6 +12,7 @@ import android.text.Html;
 
 import com.automattic.simplenote.BuildConfig;
 
+@SuppressWarnings("unused")
 public class PrefUtils {
 
     // key names for various preferences - note that these same key names are hard-coded in Preferences.xml

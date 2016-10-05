@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+@SuppressWarnings("unused")
 public class StrUtils {
     // suppress default constructor for non-instantiability
     private StrUtils() {

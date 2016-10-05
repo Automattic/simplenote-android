@@ -200,11 +200,6 @@ public class TagsAdapter extends BaseAdapter {
         public String name;
         public long id;
 
-        private TagMenuItem() {
-            name = "";
-            id = -3L;
-        }
-
         private TagMenuItem(long id, int resourceId) {
             this(id, mContext.getResources().getString(resourceId));
         }

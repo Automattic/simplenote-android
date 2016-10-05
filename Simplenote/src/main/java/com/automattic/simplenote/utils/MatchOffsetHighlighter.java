@@ -71,7 +71,7 @@ public class MatchOffsetHighlighter implements Runnable {
             if (Thread.interrupted()) return;
 
             int column = scanner.nextInt();
-            int token = scanner.nextInt();
+            scanner.nextInt(); // token
             int start = scanner.nextInt();
             int length = scanner.nextInt();
 

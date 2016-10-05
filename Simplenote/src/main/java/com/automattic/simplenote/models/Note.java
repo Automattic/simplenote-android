@@ -83,6 +83,7 @@ public class Note extends BucketObject {
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
+    @SuppressWarnings("unused")
     public static String dateString(Number time, boolean useShortFormat, Context context) {
         Calendar c = numberToDate(time);
         return dateString(c, useShortFormat, context);
