@@ -16,7 +16,6 @@
 
 package com.automattic.simplenote.utils;
 
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -41,7 +40,7 @@ public class UndoBarController {
         mUndoListener = undoListener;
     }
 
-    public void showUndoBar(View view, CharSequence message, Parcelable undoToken) {
+    public void showUndoBar(View view, CharSequence message) {
         if (view == null) return;
 
         Snackbar

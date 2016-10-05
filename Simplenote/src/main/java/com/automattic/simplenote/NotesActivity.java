@@ -662,7 +662,7 @@ public class NotesActivity extends AppCompatActivity implements
                             List<String> deletedNoteIds = new ArrayList<>();
                             deletedNoteIds.add(mCurrentNote.getSimperiumKey());
                             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                            mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted), null);
+                            mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
                             AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.LIST_NOTE_DELETED,
                                     AnalyticsTracker.CATEGORY_NOTE,
@@ -882,7 +882,7 @@ public class NotesActivity extends AppCompatActivity implements
                         List<String> deletedNoteIds = new ArrayList<>();
                         deletedNoteIds.add(noteId);
                         mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                        mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted), null);
+                        mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
                     }
                 }
                 break;
@@ -1035,8 +1035,7 @@ public class NotesActivity extends AppCompatActivity implements
             mUndoBarController.setDeletedNoteIds(noteIds);
             mUndoBarController.showUndoBar(
                     getUndoView(),
-                    getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size()),
-                    null
+                    getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size())
             );
         }
     }
