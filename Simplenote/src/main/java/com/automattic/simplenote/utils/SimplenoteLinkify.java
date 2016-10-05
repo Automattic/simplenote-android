@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class SimplenoteLinkify {
 
     static public final String SIMPLENOTE_SCHEME = "simplenote";
-    static public final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile("simplenote://preferences/[^\\s]{0,}");
+    static public final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile("simplenote://preferences/[^\\s]*");
 
     // Works the same as Linkify.addLinks, but doesn't set movement method
     public static boolean addLinks(TextView text, int mask) {
