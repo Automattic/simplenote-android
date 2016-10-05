@@ -63,6 +63,8 @@
     <string name="enable_reminder">Enable reminder</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="color">Color</string>
+
 
     <!-- Undo -->
     <string name="undo">Undo</string>

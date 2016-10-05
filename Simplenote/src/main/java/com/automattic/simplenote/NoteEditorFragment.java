@@ -60,6 +60,7 @@ import com.simperium.client.Query;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -67,7 +68,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
         InfoBottomSheetDialog.InfoSheetListener,
-        ReminderBottomSheetDialog.ReminderSheetListener {
+        ReminderBottomSheetDialog.ReminderSheetListener,
+        ColorBottomSheetDialog.ColorSheetListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -95,6 +97,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
     private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled, mHasReminder, mHasReminderDateChange;
+    private int mColor;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -127,6 +130,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
     private ReminderBottomSheetDialog mReminderBottomSheet;
+    private ColorBottomSheetDialog mColorBottomSheet;
+
     // Contextual action bar for dealing with links
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -407,6 +412,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_color:
+                showColor();
+                return true;
             case R.id.menu_reminder:
                 setReminder();
                 return true;
@@ -480,6 +488,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    private void showColor() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            saveNote();
+            showColorPopUp();
+        }
+    }
+
+
     private void setReminder() {
         if (mNote != null) {
             mContentEditText.clearFocus();
@@ -495,6 +512,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mReminderBottomSheet.show(mNote);
         }
     }
+
+    private void showColorPopUp() {
+        if (isAdded()) {
+            if (mColorBottomSheet == null) {
+                mColorBottomSheet = new ColorBottomSheetDialog(this, this);
+            }
+            mColorBottomSheet.show(mNote);
+        }
+    }
+
 
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
@@ -865,7 +892,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
        // saveNote();
     }
 
-    //MDD_M AK: notify f
     @Override
     public void onReminderUpdated(Calendar calendar) {
         mNote.setReminderDate(calendar);
@@ -888,12 +914,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mHasReminderDateChange || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder)) {
+        if (mHasReminderDateChange || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder, mColor)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
             mNote.setReminder(mHasReminder);
+            mNote.setColor(mColor);
             // Send pinned event to google analytics if changed
             mNote.save();
 
@@ -1093,6 +1120,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHistoryBottomSheet.show(mNote);
         }
     }
+
+    public void onColorOn() {
+
+    };
+
+    public void onColorOff() {
+
+    };
+
+    public void onColorUpdated(int color) {
+
+    };
+
+    public void onColorDismissed() {
+
+    };
+
 
     /**
      * Simperium listeners

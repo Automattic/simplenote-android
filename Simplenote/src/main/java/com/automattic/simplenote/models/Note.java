@@ -1,6 +1,7 @@
 package com.automattic.simplenote.models;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 
 import com.automattic.simplenote.R;
@@ -47,6 +48,7 @@ public class Note extends BucketObject {
     public static final String PUBLISH_URL = "http://simp.ly/publish/";
     public static final String REMINDER_PROPERTY = "reminder";
     public static final String REMINDER_DATE_PROPERTY = "reminderDate";
+    public static final String COLOR_PROPERTY = "color";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
     private static final String BLANK_CONTENT = "";
@@ -54,7 +56,6 @@ public class Note extends BucketObject {
     private static final int MAX_PREVIEW_CHARS = 300;
     protected String mTitle = null;
     protected String mContentPreview = null;
-
 
     public Note(String key) {
         super(key, new JSONObject());
@@ -446,6 +447,16 @@ public class Note extends BucketObject {
         return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
     }
 
+    public void setColor(int color) {
+        setProperty(COLOR_PROPERTY, color);
+    }
+
+    public int getColor() {
+        return 1;
+        //return (int) getProperty(COLOR_PROPERTY);
+    }
+
+
     /**
      * Check if the note has any changes
      *
@@ -459,11 +470,14 @@ public class Note extends BucketObject {
                               String tagString,
                               boolean isPinned,
                               boolean isMarkdownEnabled,
-                              boolean hasReminder) {
+                              boolean hasReminder,
+                              int color) {
         return !content.equals(this.getContent())
             || !tagString.equals(this.getTagString().toString())
-            || this.isPinned() != isPinned || this.hasReminder() != hasReminder
-            || this.isMarkdownEnabled() != isMarkdownEnabled;
+            || this.isPinned() != isPinned
+            || this.isMarkdownEnabled() != isMarkdownEnabled
+            || this.hasReminder() != hasReminder
+            || color != this.getColor();
     }
 
     public static class Schema extends BucketSchema<Note> {
@@ -483,6 +497,7 @@ public class Note extends BucketObject {
             setDefault(PUBLISH_URL_PROPERTY, "");
             setDefault(REMINDER_PROPERTY, false);
             setDefault(REMINDER_DATE_PROPERTY, null);
+            setDefault(COLOR_PROPERTY, null);
 
         }
 
