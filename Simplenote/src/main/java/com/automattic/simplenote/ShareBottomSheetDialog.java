@@ -27,7 +27,6 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
 
     private static final int SHARE_SHEET_COLUMN_COUNT = 3;
 
-    private TextView mCollaborateButton;
     private TextView mPublishButton;
     private TextView mUnpublishButton;
     private RecyclerView mRecyclerView;
@@ -42,7 +41,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View shareView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
-        mCollaborateButton = (TextView) shareView.findViewById(R.id.share_collaborate_button);
+        TextView mCollaborateButton = (TextView) shareView.findViewById(R.id.share_collaborate_button);
         mPublishButton = (TextView) shareView.findViewById(R.id.share_publish_button);
         mUnpublishButton = (TextView) shareView.findViewById(R.id.share_unpublish_button);
 
