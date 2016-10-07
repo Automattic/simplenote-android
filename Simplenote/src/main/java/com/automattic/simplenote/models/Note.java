@@ -80,7 +80,7 @@ public class Note extends BucketObject {
             setDefault(PUBLISH_URL_PROPERTY, "");
             setDefault(REMINDER_PROPERTY, false);
             setDefault(REMINDER_DATE_PROPERTY, null);
-            setDefault(COLOR_PROPERTY, null);
+            setDefault(COLOR_PROPERTY, Color.WHITE);
 
         }
 
@@ -491,13 +491,13 @@ public class Note extends BucketObject {
         return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
     }
 
-    public void setColor(int color) {
-        setProperty(COLOR_PROPERTY, color);
+    public void setColor(int tempcolor) {
+        setProperty(COLOR_PROPERTY, tempcolor);
     }
 
     public int getColor() {
-        return 1;
-        //return (int) getProperty(COLOR_PROPERTY);
+        int tempcolor = (int) getProperty(COLOR_PROPERTY);
+        return tempcolor;
     }
 
 
@@ -513,13 +513,12 @@ public class Note extends BucketObject {
                               String tagString,
                               boolean isPinned,
                               boolean isMarkdownEnabled,
-                              boolean hasReminder,
-                              int color) {
+                              boolean hasReminder) {
         return !content.equals(this.getContent())
             || !tagString.equals(this.getTagString().toString())
             || this.isPinned() != isPinned
             || this.isMarkdownEnabled() != isMarkdownEnabled
             || this.hasReminder() != hasReminder
-            || color != this.getColor();
+            ;
     }
 }

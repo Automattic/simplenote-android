@@ -5,6 +5,22 @@
     android:layout_margin="@dimen/padding_extra_large"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Color"
+        />
+
+    <View
+        android:id="@+id/colorbox"
+        android:layout_width="64dip"
+        android:layout_height="64dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView"
+        android:layout_margin="4sp" />
+
+
     <Button
         android:id="@+id/set_color"
         android:layout_width="match_parent"
