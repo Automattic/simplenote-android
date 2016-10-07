@@ -31,8 +31,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -227,6 +229,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private String mKey;
+
+    private MenuItem mPinnerItem;
+    private MenuItem mMarkdownItem;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -404,14 +410,26 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setTitle(R.string.delete);
         }
 
+        mPinnerItem = (MenuItem)menu.findItem(R.id.info_pin_switch_menu);
+        mPinnerItem.setTitle(mNote.isPinned()? R.string.unpin_from_top : R.string.pin_to_top);
+
+        mMarkdownItem = (MenuItem)menu.findItem(R.id.info_markdown_menu);
+        mMarkdownItem.setTitle(mNote.isMarkdownEnabled() ? R.string.markdown_hide : R.string.markdown_show);
+
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
         super.onCreateOptionsMenu(menu, inflater);
+
+
+
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.menu_color:
                 showColor();
                 return true;
@@ -431,14 +449,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (!isAdded()) return false;
                 deleteNote();
                 return true;
+            case R.id.info_pin_switch_menu:
+                item.setTitle(mNote.isPinned()? R.string.pin_to_top : R.string.unpin_from_top);
+                NoteUtils.setNotePin(mNote, !mNote.isPinned());
+                return true;
+            case R.id.info_markdown_menu:
+                item.setTitle(mNote.isMarkdownEnabled() ? R.string.markdown_show : R.string.markdown_hide);
+                onInfoMarkdownSwitchChanged(!mNote.isMarkdownEnabled());
+                return true;
             case android.R.id.home:
                 if (!isAdded()) return false;
                 getActivity().finish();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
