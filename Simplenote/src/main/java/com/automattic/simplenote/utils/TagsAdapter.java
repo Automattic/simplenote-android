@@ -154,7 +154,11 @@ public class TagsAdapter extends BaseAdapter {
         } else if (position == 1) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
             dividerView.setVisibility(View.VISIBLE);
-        } else {
+        }  else if (position == 2) {
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_reminder_24dp);
+            dividerView.setVisibility(View.VISIBLE);
+        }
+        else {
             dividerView.setVisibility(View.GONE);
         }
 
@@ -162,7 +166,7 @@ public class TagsAdapter extends BaseAdapter {
         drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
-        if (position == 2) {
+        if (position == 3) {
             tagsHeader.setVisibility(View.VISIBLE);
         } else {
             tagsHeader.setVisibility(View.GONE);
