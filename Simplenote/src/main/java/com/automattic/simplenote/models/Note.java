@@ -452,8 +452,8 @@ public class Note extends BucketObject {
     }
 
     public int getColor() {
-        return 1;
-        //return (int) getProperty(COLOR_PROPERTY);
+        int color = (int) getProperty(COLOR_PROPERTY);
+        return color;
     }
 
 

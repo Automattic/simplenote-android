@@ -383,6 +383,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
+        query.include(Note.COLOR_PROPERTY);
 
         sortNoteQuery(query);
 
@@ -594,6 +595,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
+            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
+
+            view.setBackgroundColor(color);
+
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
                 untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
@@ -628,8 +633,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.contentTextView.setText(contentPreview);
             }
 
-            return view;
-        }
+			return view;
+		}
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {

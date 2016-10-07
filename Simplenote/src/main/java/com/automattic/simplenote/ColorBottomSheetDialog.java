@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,11 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 
     private Fragment mFragment;
     private Note mNote;
+    private ColorPickerDialogFragment dialog;
+
+    private TextView mTextView;
+    private View mColorBox;
+
 
     public ColorBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ColorSheetListener colorSheetListener) {
         super(fragment.getActivity());
@@ -49,12 +55,18 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         mSetColor = (Button) colorView.findViewById(R.id.set_color);
         mResetColor = (Button) colorView.findViewById(R.id.reset_color);
 
+        mTextView = (TextView) colorView.findViewById(R.id.textView);
+        mColorBox = (View) colorView.findViewById(R.id.colorbox);
+
+
         setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                colorSheetListener.onColorDismissed();
+//                colorSheetListener.onColorDismissed();
             }
         });
+
+
 
         setContentView(colorView);
     }
@@ -70,24 +82,26 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     }
 
     private void refreshColor() {
-
+        int color = mNote.getColor();
+        mColorBox.setBackgroundColor(color);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.set_color:
-                ColorPickerDialogFragment dialog = new ColorPickerDialogFragment();
+                dialog = new ColorPickerDialogFragment();
 
                 ArrayList<AbstractPalette> palettes = new ArrayList<AbstractPalette>();
 
                 palettes.add(new ArrayPalette("material_primary", "Material Colors", MATERIAL_COLORS_PRIMARY, 4));
 
                 dialog.setPalettes(palettes.toArray(new AbstractPalette[palettes.size()]));
-                dialog.show(mFragment.getFragmentManager(), "");
-
+                dialog.show(mFragment.getChildFragmentManager(), "");
                 break;
             case R.id.reset_color:
+                mNote.setColor(Color.WHITE);
+                refreshColor();
 
                 break;
         }
@@ -98,13 +112,11 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         refreshColor();
     }
 
+
     public interface ColorSheetListener {
-        void onColorOn();
-
-        void onColorOff();
-
-        public void onColorUpdated(int color);
+        public void onColorUpdate(int color);
 
         void onColorDismissed();
     }
+
 }
