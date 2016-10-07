@@ -6,7 +6,7 @@
         android:id="@+id/menu_color"
         app:showAsAction="always"
         android:title="@string/color"
-        android:icon="@drawable/ic_reminder_24dp" />
+        android:icon="@drawable/ic_color_24dp" />
 
     <item
         android:id="@+id/menu_reminder"
