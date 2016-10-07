@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 
 import java.text.NumberFormat;
@@ -34,6 +36,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
 
+
+
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
@@ -47,6 +51,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoWords = (TextView)infoView.findViewById(R.id.info_words_text);
         mInfoLinkUrl = (TextView)infoView.findViewById(R.id.info_public_link_url);
         mInfoLinkTitle = (TextView)infoView.findViewById(R.id.info_public_link_title);
+
 
         mInfoPinSwitch = (Switch)infoView.findViewById(R.id.info_pin_switch);
         mInfoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,6 +93,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
+
+
         setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -96,7 +103,10 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         });
 
         setContentView(infoView);
+
     }
+
+
     
     public void show(Note note) {
 
@@ -104,7 +114,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoWords.setText(getWordCount(note.getContent()));
+
             mInfoPinSwitch.setChecked(note.isPinned());
+
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
 
             if (note.isPublished()) {
