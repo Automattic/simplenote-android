@@ -29,6 +29,7 @@ public class TagsAdapter extends BaseAdapter {
     public static final String ID_COLUMN = "_id";
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
+    public static final long ALL_REMINDERS_ID = -3L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
 
@@ -39,13 +40,14 @@ public class TagsAdapter extends BaseAdapter {
 
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
+    protected TagMenuItem mAllRemindersItem;
 
     private int mNameColumn;
     private int mRowIdColumn;
     private int mTextColorId;
     private int mHeaderCount;
 
-    protected static final int[] topItems = { R.string.notes, R.string.trash };
+    protected static final int[] topItems = { R.string.notes, R.string.trash, R.string.reminders };
 
     public TagsAdapter(Context context, Bucket<Note> notesBucket, int headerCount) {
         this(context, notesBucket, null);
@@ -65,6 +67,15 @@ public class TagsAdapter extends BaseAdapter {
 
         };
         mTrashItem = new TagMenuItem(TRASH_ID, R.string.trash){
+
+            @Override
+            public Query<Note> query(){
+                return Note.allDeleted(mNotesBucket);
+            }
+
+        };
+
+        mAllRemindersItem = new TagMenuItem(ALL_REMINDERS_ID, R.string.reminders){
 
             @Override
             public Query<Note> query(){
@@ -115,7 +126,9 @@ public class TagsAdapter extends BaseAdapter {
             return mAllNotesItem;
         } else if (i==1){
             return mTrashItem;
-        } else {
+        } else if (i==2){
+            return mAllRemindersItem;
+        }else {
             mCursor.moveToPosition(i-topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
                 StrUtils.notNullStr(mCursor.getString(mNameColumn)));
@@ -191,6 +204,7 @@ public class TagsAdapter extends BaseAdapter {
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
         if (mSelectedTag.id == TRASH_ID) return 1;
+        if (mSelectedTag.id == ALL_REMINDERS_ID) return 2;
         if (mCursor == null) return -1;
         int current = mCursor.getPosition();
         mCursor.moveToPosition(-1);
