@@ -207,4 +207,5 @@
     <string name="reminder_title">Task reminder</string>
     <string name="reminder_snooze">Snooze</string>
     <string name="reminder_stop">Stop</string>
+    <string name="reminders">All reminders</string>
 </resources>
