@@ -87,6 +87,11 @@ public class Note extends BucketObject {
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
+    public static Query<Note> allReminders(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(REMINDER_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
     @SuppressWarnings("unused")
     public static String dateString(Number time, boolean useShortFormat, Context context) {
         Calendar c = numberToDate(time);

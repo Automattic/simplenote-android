@@ -85,7 +85,7 @@ public class TagsAdapter extends BaseAdapter {
 
             @Override
             public Query<Note> query(){
-                return Note.allDeleted(mNotesBucket);
+                return Note.allReminders(mNotesBucket);
             }
 
         };
