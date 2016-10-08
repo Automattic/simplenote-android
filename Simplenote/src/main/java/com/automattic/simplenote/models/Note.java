@@ -109,6 +109,12 @@ public class Note extends BucketObject {
                 .where(DELETED_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
+    // MDD: AK_A - Method for returning all reminders we have
+    public static Query<Note> allReminders(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(REMINDER_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
     public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
