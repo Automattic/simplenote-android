@@ -101,6 +101,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
                 break;
             case R.id.reset_color:
                 mNote.setColor(Color.WHITE);
+                mNote.save();
                 refreshColor();
 
                 break;
