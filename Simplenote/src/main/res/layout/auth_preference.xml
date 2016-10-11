@@ -6,8 +6,8 @@
                 android:orientation="horizontal"
                 android:minHeight="?android:attr/listPreferredItemHeight"
                 android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="?android:attr/scrollbarSize">
+                android:paddingLeft="?listPreferredItemPaddingLeft"
+                android:paddingRight="?listPreferredItemPaddingRight">
 
   <TextView android:id="@+android:id/title"
       android:layout_width="wrap_content"
@@ -17,7 +17,6 @@
       android:textAppearance="?android:attr/textAppearanceMedium"
       android:textColor="?attr/settingsTextColor"
       android:ellipsize="marquee"
-      android:layout_marginLeft="@dimen/settings_sign_out_margin"
       android:layout_marginRight="6dp"
       android:fadingEdge="horizontal" />
 

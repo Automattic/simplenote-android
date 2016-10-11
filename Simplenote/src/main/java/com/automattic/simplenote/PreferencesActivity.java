@@ -1,9 +1,9 @@
 package com.automattic.simplenote;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.Preference;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -47,12 +47,12 @@ public class PreferencesActivity extends AppCompatActivity {
             mPasscodePreferenceFragment.setArguments(passcodeArgs);
 
             mPreferencesFragment = new PreferencesFragment();
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.preferences_container, mPreferencesFragment, preferencesTag)
                     .add(R.id.preferences_container, mPasscodePreferenceFragment, passcodeTag)
                     .commit();
         } else {
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             mPreferencesFragment = (PreferencesFragment)fragmentManager.findFragmentByTag(preferencesTag);
             mPasscodePreferenceFragment = (PasscodePreferenceFragment)fragmentManager.findFragmentByTag(passcodeTag);
         }
