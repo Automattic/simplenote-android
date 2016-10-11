@@ -126,6 +126,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private String mKey;
+    private View mColorIndicator;
 
     private MenuItem mPinnerItem;
     private MenuItem mMarkdownItem;
@@ -224,6 +225,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
+        mColorIndicator = rootView.findViewById(R.id.color_indicator);
         // Load note if we were passed a note Id
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
@@ -305,6 +307,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setTitle(R.string.undelete);
             else
                 trashItem.setTitle(R.string.delete);
+
+            mColorIndicator.setBackgroundColor(mNote.getColor());
+
         }
 
         mPinnerItem = (MenuItem)menu.findItem(R.id.info_pin_switch_menu);
@@ -1350,6 +1355,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNote.setColor(tempcolor);
         mColor = true;
         mColorBottomSheet.updateColor(tempcolor);
+        mColorIndicator.setBackgroundColor(tempcolor);
     }
 
     @Override
