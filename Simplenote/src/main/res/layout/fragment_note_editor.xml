@@ -11,6 +11,12 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
 
+        <View
+            android:id="@+id/color_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/red" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,10 +26,12 @@
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
+
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+
 
                 <com.automattic.simplenote.widgets.SimplenoteEditText
                     android:id="@+id/note_content"
