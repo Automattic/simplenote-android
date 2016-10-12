@@ -46,6 +46,7 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -77,6 +78,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mTitleFontSize;
     private int mPreviewFontSize;
 
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.M HH:mm");
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
 	 */
@@ -494,6 +496,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /*
         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
         */
+        //NOTE-56
 		@Override
 		public View getView(final int position, View view, ViewGroup parent) {
 
@@ -545,6 +548,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
 
+
+
+
             view.setBackgroundColor(color);
 
             if (title == null || title.equals("")) {
@@ -577,8 +583,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
-                else
-                    holder.contentTextView.setText(contentPreview);
+                else {
+                    //MDD_A_AK: Reminder date in note preview
+                    if (mCursor.getObject().hasReminder()) holder.contentTextView.setText(getString(R.string.reminder_on) + " " +
+                            sdf.format(mCursor.getObject().getReminderDate().getTime()) + "\n" + contentPreview);
+                    else holder.contentTextView.setText(contentPreview);
+                }
+
             }
 
 			return view;

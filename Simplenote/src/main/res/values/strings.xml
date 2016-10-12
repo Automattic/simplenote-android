@@ -208,4 +208,5 @@
     <string name="reminder_snooze">Snooze</string>
     <string name="reminder_stop">Stop</string>
     <string name="reminders">All reminders</string>
+    <string name="reminder_on">Reminder on:</string>
 </resources>

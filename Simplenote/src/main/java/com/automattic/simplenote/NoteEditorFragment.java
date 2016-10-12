@@ -1362,5 +1362,5 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onColorDialogCancelled() {
 
     }
-
+    
 }
