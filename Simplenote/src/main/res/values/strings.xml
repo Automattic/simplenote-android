@@ -51,9 +51,9 @@
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="enable_markdown">Enable markdown</string>
-    <string name="markdown_summary">Enable the Markdown toggle in your note settings</string>
-    <string name="pin_to_top">Pin to top</string>
-    <string name="unpin_from_top">Unpin from top</string>
+	<string name="markdown_summary">Enable the Markdown toggle in your note settings</string>
+    <string name="pin_to_top">Pin note</string>
+    <string name="unpin_from_top">Unpin note</string>
     <string name="modified_time">Modified %s</string>
     <string name="tab_edit">Edit</string>
     <string name="tab_preview">Preview</string>
