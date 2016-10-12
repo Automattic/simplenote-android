@@ -413,7 +413,10 @@ public class NotesActivity extends AppCompatActivity implements
             // Update checked item in navigation drawer and close it
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mNavigationView);
-
+            if (position > 2)
+                getNoteListFragment().addSearchTag(mSelectedTag.name);
+            else
+                getNoteListFragment().cleanSearchTag();
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);
