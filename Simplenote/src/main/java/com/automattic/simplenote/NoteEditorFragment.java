@@ -332,6 +332,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         switch (item.getItemId()) {
 
+            case R.id.menu_template:
+                if (!isAdded()) return false;
+                templateNote();
+                return true;
             case R.id.menu_color:
                 showColor();
                 return true;
@@ -372,6 +376,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
+        getActivity().finish();
+    }
+
+    private void templateNote() {
+        NoteUtils.templateNote(mNote, getActivity());
         getActivity().finish();
     }
 

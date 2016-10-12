@@ -54,6 +54,7 @@ public class Note extends BucketObject {
     public static final String REMINDER_PROPERTY = "reminder";
     public static final String REMINDER_DATE_PROPERTY = "reminderDate";
     public static final String COLOR_PROPERTY = "color";
+    public static final String TEMPLATE_PROPERTY = "template";
 
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
@@ -81,6 +82,7 @@ public class Note extends BucketObject {
             setDefault(REMINDER_PROPERTY, false);
             setDefault(REMINDER_DATE_PROPERTY, null);
             setDefault(COLOR_PROPERTY, Color.WHITE);
+            setDefault(TEMPLATE_PROPERTY, false);
 
         }
 
@@ -101,7 +103,8 @@ public class Note extends BucketObject {
 
     public static Query<Note> all(Bucket<Note> noteBucket){
         return noteBucket.query()
-                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
     public static Query<Note> allDeleted(Bucket<Note> noteBucket){
@@ -115,6 +118,12 @@ public class Note extends BucketObject {
                 .where(REMINDER_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
+    public static Query<Note> allTemplates(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
     public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
@@ -124,6 +133,7 @@ public class Note extends BucketObject {
     public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
@@ -335,6 +345,23 @@ public class Note extends BucketObject {
     public void setDeleted(boolean deleted) {
         setProperty(DELETED_PROPERTY, deleted);
     }
+
+    public Boolean isTemplate() {
+        Object template = getProperty(TEMPLATE_PROPERTY);
+        if (template == null) {
+            return false;
+        }
+        if (template instanceof Boolean) {
+            return (Boolean) template;
+        } else
+            return template instanceof Number && ((Number) template).intValue() != 0;
+    }
+
+
+    public void setTemplate(boolean template) {
+        setProperty(TEMPLATE_PROPERTY, template);
+    }
+
 
     public boolean isMarkdownEnabled() {
         return hasSystemTag(MARKDOWN_TAG);

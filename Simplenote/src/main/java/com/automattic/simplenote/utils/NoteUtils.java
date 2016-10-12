@@ -49,4 +49,18 @@ public class NoteUtils {
             );
         }
     }
+
+    public static void templateNote(Note note, Activity activity) {
+        if (note != null) {
+            note.setTemplate(!note.isTemplate());
+            note.setModificationDate(Calendar.getInstance());
+            note.save();
+            Intent resultIntent = new Intent();
+            if (note.isDeleted()) {
+                resultIntent.putExtra(Simplenote.TEMPLATE_NOTE_ID, note.getSimperiumKey());
+            }
+            activity.setResult(Activity.RESULT_OK, resultIntent);
+        }
+    }
+
 }
