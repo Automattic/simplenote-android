@@ -65,6 +65,8 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="color">Color</string>
+    <string name="template">Save as template</string>
+    <string name="templates">Templates</string>
 
 
     <!-- Undo -->

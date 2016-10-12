@@ -62,10 +62,6 @@ import java.util.List;
 public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
 
     /**
-     * The preferences key representing the activated item position. Only used on tablets.
-     */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
@@ -87,23 +83,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mTitleFontSize;
     private int mPreviewFontSize;
     /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sCallbacks;
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-<<<<<<< 41ab6dbe25370ef7e101da95d1a4bce21561787b
-    /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public NoteListFragment() {
     }
-=======
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd.M HH:mm");
 	/**
 	 * The preferences key representing the activated item position. Only used on tablets.
@@ -120,7 +105,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	 * The current activated item position. Only used on tablets.
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
->>>>>>> Added information about reminder in note list
 
     public void setEmptyListViewClickable(boolean isClickable) {
         if (mEmptyListTextView != null) {
@@ -566,7 +550,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /*
         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
         */
-<<<<<<< 41ab6dbe25370ef7e101da95d1a4bce21561787b
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
 
@@ -581,23 +564,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             } else {
                 holder = (NoteViewHolder) view.getTag();
             }
-=======
-        //NOTE-56
-		@Override
-		public View getView(final int position, View view, ViewGroup parent) {
-
-			final NoteViewHolder holder;
-			if (view == null) {
-				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
-				holder = new NoteViewHolder();
-				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
-				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
-				view.setTag(holder);
-			} else {
-				holder = (NoteViewHolder) view.getTag();
-			}
->>>>>>> Added information about reminder in note list
 
             if (holder.titleTextView.getTextSize() != mTitleFontSize) {
                 holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
@@ -634,9 +600,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
-
-
-
 
             view.setBackgroundColor(color);
 

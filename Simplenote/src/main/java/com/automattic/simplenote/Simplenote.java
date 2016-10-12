@@ -30,6 +30,8 @@ public class Simplenote extends Application {
     public static final int INTENT_EDIT_NOTE = 2;
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     private static final String AUTH_PROVIDER = "simplenote.com";
+    public static final String TEMPLATE_NOTE_ID = "templateNoteId";
+
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
