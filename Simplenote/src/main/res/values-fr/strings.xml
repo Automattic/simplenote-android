@@ -158,5 +158,20 @@
 	<string name="share">Partager</string>
 	<string name="settings">Paramètres</string>
 	<string name="tag_hint">Ajouter un tag...</string>
-	<string name="content_description_copy_button">Bouton Copier</string>
+	<string name="content_description_copy_button">Bouton de copie</string>
+	<string name="unpin_from_top">Note unpin</string>
+	<string name="templates">Modèles</string>
+	<string name="template">Enregistrer en tant que modèle</string>
+	<string name="reminder">Rappel</string>
+	<string name="reminder_date">Date</string>
+	<string name="reminder_enable">Activer rappel</string>
+	<string name="reminder_on">Rappel sur:</string>
+	<string name="reminder_snooze">Roupillon</string>
+	<string name="reminder_stop">Arrêtez</string>
+	<string name="reminder_time">Temps</string>
+	<string name="reminder_title">Rappel tâche</string>
+	<string name="reminders">Tous les rappels</string>
+	<string name="color">Couleur</string>
+	<string name="date">Date</string>
+	<string name="enable_reminder">Activer rappel</string>
 </resources>

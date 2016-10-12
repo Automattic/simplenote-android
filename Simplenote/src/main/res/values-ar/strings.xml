@@ -158,4 +158,20 @@
 	<string name="share">مشاركة</string>
 	<string name="settings">إعدادات</string>
 	<string name="tag_hint">إضافة وسم…</string>
+	<string name="unpin_from_top">مذكرة بفصل</string>
+	<string name="templates">النماذج</string>
+	<string name="template">حفظ كقالب</string>
+	<string name="reminder">تذكير</string>
+	<string name="reminder_date">تاريخ</string>
+	<string name="reminder_enable">تمكين تذكير</string>
+	<string name="reminder_on">تذكير على:</string>
+	<string name="reminder_snooze">غفوة</string>
+	<string name="reminder_stop">توقف</string>
+	<string name="reminder_time">مرة</string>
+	<string name="reminder_title">تذكير مهمة</string>
+	<string name="reminders">كل التذكير</string>
+	<string name="color">اللون</string>
+	<string name="content_description_copy_button">نسخة زر</string>
+	<string name="date">تاريخ</string>
+	<string name="enable_reminder">تمكين تذكير</string>
 </resources>

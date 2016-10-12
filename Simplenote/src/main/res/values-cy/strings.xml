@@ -128,4 +128,20 @@
 	<string name="yesterday">Ddoe</string>
 	<string name="undo">Dadwneud</string>
 	<string name="note_deleted">Dilëwyd y nodyn.</string>
+	<string name="unpin_from_top">Nodyn unpin</string>
+	<string name="templates">Templedi</string>
+	<string name="template">Cadw fel templed</string>
+	<string name="reminder">Nodyn Atgoffa</string>
+	<string name="reminder_date">Dyddiad</string>
+	<string name="reminder_enable">Galluogi Nodyn Atgoffa</string>
+	<string name="reminder_on">Nodyn Atgoffa ar:</string>
+	<string name="reminder_snooze">Snooze</string>
+	<string name="reminder_stop">Stop</string>
+	<string name="reminder_time">Amser</string>
+	<string name="reminder_title">atgoffa tasg</string>
+	<string name="reminders">Mae\'r holl nodiadau atgoffa</string>
+	<string name="color">Lliw</string>
+	<string name="content_description_copy_button">Botwm Copi</string>
+	<string name="date">Dyddiad</string>
+	<string name="enable_reminder">Galluogi atgoffa</string>
 </resources>

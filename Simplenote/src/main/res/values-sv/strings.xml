@@ -158,4 +158,20 @@
 	<string name="share">Dela</string>
 	<string name="settings">Inställningar</string>
 	<string name="tag_hint">Lägg till etikett...</string>
+	<string name="unpin_from_top">Unpin anteckning</string>
+	<string name="templates">Mallar</string>
+	<string name="template">Spara som mall</string>
+	<string name="reminder">Påminnelse</string>
+	<string name="reminder_date">Datum</string>
+	<string name="reminder_enable">Aktivera Påminnelse</string>
+	<string name="reminder_on">Påminnelse det:</string>
+	<string name="reminder_snooze">Snooze</string>
+	<string name="reminder_stop">Stanna</string>
+	<string name="reminder_time">Thieme</string>
+	<string name="reminder_title">Uppgift påminnelse</string>
+	<string name="reminders">Al påminnelser</string>
+	<string name="color">Färg</string>
+	<string name="content_description_copy_button">Kopia Knapp</string>
+	<string name="date">Datum</string>
+	<string name="enable_reminder">Aktivera påminnelse</string>
 </resources>

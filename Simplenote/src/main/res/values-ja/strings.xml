@@ -160,4 +160,19 @@
 	<string name="tag_hint">タグを追加…</string>
 	<string name="simplenote_blog_url">simplenote.com/blog</string>
 	<string name="content_description_copy_button">コピーボタン</string>
+	<string name="unpin_from_top">固定を解除ノート</string>
+	<string name="templates">テンプレート</string>
+	<string name="template">テンプレートとして保存</string>
+	<string name="reminder">リマインダー</string>
+	<string name="reminder_date">日付</string>
+	<string name="reminder_enable">リマインダーを有効にします</string>
+	<string name="reminder_on">リマインダーについて：</string>
+	<string name="reminder_snooze">居眠り</string>
+	<string name="reminder_stop">やめる</string>
+	<string name="reminder_time">時間</string>
+	<string name="reminder_title">タスクのリマインダー</string>
+	<string name="reminders">すべてのリマインダー</string>
+	<string name="color">色</string>
+	<string name="date">日付</string>
+	<string name="enable_reminder">リマインダーを有効にします</string>
 </resources>

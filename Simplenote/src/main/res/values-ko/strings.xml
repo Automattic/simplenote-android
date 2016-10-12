@@ -158,4 +158,20 @@
 	<string name="share">공유</string>
 	<string name="settings">설정</string>
 	<string name="tag_hint">태그 추가...</string>
+	<string name="unpin_from_top">고정 해제 참고</string>
+	<string name="templates">템플릿</string>
+	<string name="template">템플릿으로 저장</string>
+	<string name="reminder">조언</string>
+	<string name="reminder_date">날짜</string>
+	<string name="reminder_enable">알림 사용</string>
+	<string name="reminder_on">알림에 :</string>
+	<string name="reminder_snooze">선잠</string>
+	<string name="reminder_stop">중지</string>
+	<string name="reminder_time">중지</string>
+	<string name="reminder_title">작업 알림</string>
+	<string name="reminders">모든 알림</string>
+	<string name="color">색</string>
+	<string name="content_description_copy_button">복사 버튼</string>
+	<string name="date">날짜</string>
+	<string name="enable_reminder">알림 사용</string>
 </resources>

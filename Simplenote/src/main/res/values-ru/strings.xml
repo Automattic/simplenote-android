@@ -26,7 +26,7 @@
 	<string name="tab_preview">Предварительный просмотр</string>
 	<string name="tab_edit">Правка</string>
 	<string name="modified_time">Изменено %s</string>
-	<string name="pin_to_top">Закрепить наверху</string>
+	<string name="pin_to_top">Закрепить заметку</string>
 	<string name="markdown_summary">Включить переключатель Markdown в настройках заметок</string>
 	<string name="enable_markdown">Включить Markdown</string>
 	<string name="error_history">Не удалось загрузить историю.</string>
@@ -158,4 +158,20 @@
 	<string name="share">Поделиться</string>
 	<string name="settings">Настройки</string>
 	<string name="tag_hint">Добавить метку...</string>
+	<string name="unpin_from_top">Открепить заметку</string>
+	<string name="templates">Шаблоны</string>
+	<string name="template">Сохранить как шаблон</string>
+	<string name="reminder">Напоминание</string>
+	<string name="reminder_date">Дата</string>
+	<string name="reminder_enable">Включить напоминание</string>
+	<string name="reminder_on">Напоминание на:</string>
+	<string name="reminder_snooze">Отложить</string>
+	<string name="reminder_stop">Стоп</string>
+	<string name="reminder_time">Время</string>
+	<string name="reminder_title">Напоминание о задаче</string>
+	<string name="reminders">Все напоминания</string>
+	<string name="color">Цвет</string>
+	<string name="content_description_copy_button">Кнопка копирования</string>
+	<string name="date">Дата</string>
+	<string name="enable_reminder">Включить напоминание</string>
 </resources>

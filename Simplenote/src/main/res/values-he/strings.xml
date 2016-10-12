@@ -159,4 +159,20 @@
 	<string name="share">שיתוף</string>
 	<string name="settings">הגדרות</string>
 	<string name="tag_hint">להוסיף תגית...</string>
+	<string name="unpin_from_top">הערת ביטול הצמדה</string>
+	<string name="templates">תבניות</string>
+	<string name="template">שמור כתבנית</string>
+	<string name="reminder">תִזכּוֹרֶת</string>
+	<string name="reminder_date">תַאֲרִיך</string>
+	<string name="reminder_enable">אפשר תזכורת</string>
+	<string name="reminder_on">תזכורת על:</string>
+	<string name="reminder_snooze">נִמנוּם</string>
+	<string name="reminder_stop">תפסיק</string>
+	<string name="reminder_time">זְמַן</string>
+	<string name="reminder_title">תזכורת משימות</string>
+	<string name="reminders">כל התזכורות</string>
+	<string name="color">צֶבַע</string>
+	<string name="content_description_copy_button">לחצן העתק</string>
+	<string name="date">תַאֲרִיך</string>
+	<string name="enable_reminder">אפשר תזכורת</string>
 </resources>

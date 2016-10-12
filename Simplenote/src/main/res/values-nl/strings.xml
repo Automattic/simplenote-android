@@ -159,4 +159,19 @@
 	<string name="settings">Instellingen</string>
 	<string name="tag_hint">Tag toevoegen …</string>
 	<string name="content_description_copy_button">Knop Kopiëren</string>
+	<string name="unpin_from_top">losmaken note</string>
+	<string name="templates">Templates</string>
+	<string name="template">Sla op als sjabloon</string>
+	<string name="reminder">Herinnering</string>
+	<string name="reminder_date">Datum</string>
+	<string name="reminder_enable">Inschakelen deminder</string>
+	<string name="reminder_on">Herinnering op:</string>
+	<string name="reminder_snooze">Dutten</string>
+	<string name="reminder_stop">Stop</string>
+	<string name="reminder_time">Tijd</string>
+	<string name="reminder_title">Taakherinnering</string>
+	<string name="reminders">Alle herinneringen</string>
+	<string name="color">Kleur</string>
+	<string name="date">Datum</string>
+	<string name="enable_reminder">Inschakelen herinnering</string>
 </resources>

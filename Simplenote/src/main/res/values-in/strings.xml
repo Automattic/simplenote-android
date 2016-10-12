@@ -112,4 +112,20 @@
 	<string name="yesterday">Kemarin</string>
 	<string name="undo">Urungkan</string>
 	<string name="note_deleted">Catatan dibuang.</string>
+	<string name="unpin_from_top">Catatan lepas pin</string>
+	<string name="templates">Template</string>
+	<string name="template">Simpan sebagai template</string>
+	<string name="reminder">Peringatan</string>
+	<string name="reminder_date">Tanggal</string>
+	<string name="reminder_enable">Aktifkan pengingat</string>
+	<string name="reminder_on">Pengingat di:</string>
+	<string name="reminder_snooze">Tidur sebentar</string>
+	<string name="reminder_stop">Berhenti</string>
+	<string name="reminder_time">Waktu</string>
+	<string name="reminder_title">Pengingat tugas</string>
+	<string name="reminders">Semua pengingat</string>
+	<string name="color">Warna</string>
+	<string name="content_description_copy_button">Copy Tombol</string>
+	<string name="date">Tanggal</string>
+	<string name="enable_reminder">Aktifkan pengingat</string>
 </resources>
