@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
@@ -38,7 +39,9 @@ import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
+import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
@@ -48,6 +51,7 @@ import com.simperium.client.Query.SortType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -73,6 +77,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
     private ActionMode mActionMode;
+
+    private TagsMultiAutoCompleteTextView mTagView;
+    private String mTags;
+    private LinkedList<String> mTagList;
+
     private View mRootView;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
@@ -191,9 +200,36 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTitleFontSize = mPreviewFontSize + 2;
     }
 
+    public void addSearchTag(CharSequence newTag){
+        boolean isTheTagNew = true;
+        for (String tg : mTagList) {
+            if (tg.equals((String)newTag))
+                isTheTagNew = false;
+        }
+        if (isTheTagNew) {
+            mTags += " " + newTag;
+            mTagList.add((String)newTag);
+        }
+        mTagView.setChips(mTags);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void cleanSearchTag(){
+        mTagView.setVisibility(View.GONE);
+        mTags ="";
+        mTagList = new LinkedList<String>();
+        mTagView.setChips("");
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notes_list, container, false);
+
+        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
+        mTagView.setTokenizer(new SpaceTokenizer());
+        cleanSearchTag();
+
+        return rootView;
     }
 
     @Override
