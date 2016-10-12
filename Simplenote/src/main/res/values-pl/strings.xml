@@ -112,4 +112,16 @@
 	<string name="yesterday">Wczoraj</string>
 	<string name="undo">Cofnij</string>
 	<string name="note_deleted">Notatka usunięta.</string>
+	<string name="unpin_from_top">Odepnij note</string>
+	<string name="templates">Szablony</string>
+	<string name="template">Zachowaj jako szablon</string>
+	<string name="reminder">Przypomnienie</string>
+	<string name="reminder_date">Data</string>
+	<string name="reminder_enable">Włącz przypomnienia</string>
+	<string name="reminder_on">Przypomnienie:</string>
+	<string name="reminder_snooze">Drzemka</string>
+	<string name="reminder_stop">Zatrzymaj się</string>
+	<string name="reminder_time">Czas</string>
+	<string name="reminder_title">Przypominamy zadanie</string>
+	<string name="reminders">Wszystkie przypomnienia</string>
 </resources>

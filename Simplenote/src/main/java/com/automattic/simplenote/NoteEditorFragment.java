@@ -130,6 +130,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private MenuItem mPinnerItem;
     private MenuItem mMarkdownItem;
+    private MenuItem mTemplateItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -312,11 +313,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         }
 
-        mPinnerItem = (MenuItem)menu.findItem(R.id.info_pin_switch_menu);
+        mPinnerItem = (MenuItem) menu.findItem(R.id.info_pin_switch_menu);
         mPinnerItem.setTitle(mNote.isPinned()? R.string.unpin_from_top : R.string.pin_to_top);
 
-        mMarkdownItem = (MenuItem)menu.findItem(R.id.info_markdown_menu);
+        mMarkdownItem = (MenuItem) menu.findItem(R.id.info_markdown_menu);
         mMarkdownItem.setTitle(mNote.isMarkdownEnabled() ? R.string.markdown_hide : R.string.markdown_show);
+
+        mTemplateItem = (MenuItem) menu.findItem(R.id.menu_template);
+        mTemplateItem.setTitle(mNote.isTemplate()? R.string.use_template : R.string.template);
 
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
@@ -332,6 +336,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         switch (item.getItemId()) {
 
+            case R.id.menu_template:
+                if (!isAdded()) return false;
+                templateNote();
+                return true;
             case R.id.menu_color:
                 showColor();
                 return true;
@@ -373,6 +381,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
         getActivity().finish();
+    }
+
+    private void templateNote() {
+        if (mNote.isTemplate() == true) {
+            copyNote(mNote);
+        } else {
+            NoteUtils.templateNote(mNote, getActivity());
+            mTemplateItem.setTitle(R.string.use_template);
+        }
     }
 
     protected void clearMarkdown() {
@@ -1360,6 +1377,33 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onColorDialogCancelled() {
+
+    }
+
+    public void copyNote(Note source) {
+
+        // Create & save new note
+        Simplenote simplenote = (Simplenote) getActivity().getApplication();
+        Bucket<Note> notesBucket = simplenote.getNotesBucket();
+        Note note = notesBucket.newObject();
+        note.setCreationDate(Calendar.getInstance());
+        note.setModificationDate(note.getCreationDate());
+        note.setMarkdownEnabled(source.isMarkdownEnabled());
+        note.setContent(source.getContent());
+        note.setColor(source.getColor());
+        note.setTags(source.getTags());
+        note.setPinned(source.isPinned());
+
+        note.save();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+        arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
+        arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+        Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+        editNoteIntent.putExtras(arguments);
+
+        getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
 
     }
     

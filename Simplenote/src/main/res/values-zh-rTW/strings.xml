@@ -158,4 +158,20 @@
 	<string name="share">分享</string>
 	<string name="settings">設定</string>
 	<string name="tag_hint">新增標籤…</string>
+	<string name="unpin_from_top">取消固定註釋</string>
+	<string name="templates">型板</string>
+	<string name="template">另存为模板</string>
+	<string name="reminder">提醒</string>
+	<string name="reminder_date">日期</string>
+	<string name="reminder_enable">启用提醒</string>
+	<string name="reminder_on">提醒：</string>
+	<string name="reminder_snooze">打盹</string>
+	<string name="reminder_stop">停止</string>
+	<string name="reminder_time">时间</string>
+	<string name="reminder_title">任务提醒</string>
+	<string name="reminders">所有提醒</string>
+	<string name="color">颜色</string>
+	<string name="content_description_copy_button">复制按钮</string>
+	<string name="date">日期</string>
+	<string name="enable_reminder">启用提醒</string>
 </resources>

@@ -158,4 +158,20 @@
 	<string name="share">Compartir</string>
 	<string name="settings">Ajustes</string>
 	<string name="tag_hint">Añadir una etiqueta...</string>
+	<string name="unpin_from_top">Nota desanclar</string>
+	<string name="templates">Plantillas</string>
+	<string name="template">Guardar como plantilla</string>
+	<string name="reminder">Recordatorio</string>
+	<string name="reminder_date">Recordatorio Fecha Habilitar recordatorio Recordatorio sobre: dormitar Detener Hora recordatorio de la tarea todos los recordatorios</string>
+	<string name="reminder_enable">Habilitar recordatorio</string>
+	<string name="reminder_on">Recordatorio sobre:</string>
+	<string name="reminder_snooze">Dormitar</string>
+	<string name="reminder_stop">Detener</string>
+	<string name="reminder_time">Hora</string>
+	<string name="reminder_title">Recordatorio de la tarea</string>
+	<string name="reminders">Todos los recordatorios</string>
+	<string name="color">Color</string>
+	<string name="content_description_copy_button">Botón de copia</string>
+	<string name="date">Fecha</string>
+	<string name="enable_reminder">Habilitar recordatorio</string>
 </resources>

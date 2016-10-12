@@ -157,4 +157,20 @@
 	<string name="share">Condividi</string>
 	<string name="settings">Impostazioni</string>
 	<string name="tag_hint">Aggiungi tag...</string>
+	<string name="unpin_from_top">Nota sblocca</string>
+	<string name="templates">Modelli</string>
+	<string name="template">Salva come modello</string>
+	<string name="reminder">Promemoria</string>
+	<string name="reminder_date">Data</string>
+	<string name="reminder_enable">Abilita promemoria</string>
+	<string name="reminder_on">Promemoria su:</string>
+	<string name="reminder_snooze">Sonnellino</string>
+	<string name="reminder_stop">Stop</string>
+	<string name="reminder_time">Tempo</string>
+	<string name="reminder_title">Task promemoria</string>
+	<string name="reminders">Tutti i promemoria</string>
+	<string name="color">Colore</string>
+	<string name="content_description_copy_button">Pulsante Copia</string>
+	<string name="date">Data</string>
+	<string name="enable_reminder">Abilita promemoria</string>
 </resources>

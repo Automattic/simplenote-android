@@ -159,4 +159,19 @@
 	<string name="settings">Configurações</string>
 	<string name="tag_hint">Adicionar tag...</string>
 	<string name="content_description_copy_button">Botão Copiar</string>
+	<string name="unpin_from_top">Nota desanclar</string>
+	<string name="templates">Modelos</string>
+	<string name="template">Guardar como modelo</string>
+	<string name="reminder">Lembrete</string>
+	<string name="reminder_date">Encontro</string>
+	<string name="reminder_enable">Ativar Reminder</string>
+	<string name="reminder_on">Lembrete em:</string>
+	<string name="reminder_snooze">Soneca</string>
+	<string name="reminder_stop">Pare</string>
+	<string name="reminder_time">Tempo</string>
+	<string name="reminder_title">lembrete de tarefa</string>
+	<string name="reminders">Todos os lembretes</string>
+	<string name="color">Cor</string>
+	<string name="date">Encontro</string>
+	<string name="enable_reminder">Ativar lembrete</string>
 </resources>

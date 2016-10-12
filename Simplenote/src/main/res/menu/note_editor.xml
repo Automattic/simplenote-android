@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_template"
+        android:title="@string/template"
+        android:icon="@drawable/ic_trash_24dp"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_color"
         app:showAsAction="never"
         android:title="@string/color"

@@ -158,4 +158,20 @@
 	<string name="share">Teilen</string>
 	<string name="settings">Einstellungen</string>
 	<string name="tag_hint">Schlagwort hinzufügen…</string>
+	<string name="unpin_from_top">Unpin note</string>
+	<string name="templates">Vorlagen</string>
+	<string name="template">Als Vorlage speichern</string>
+	<string name="reminder">Mahnung</string>
+	<string name="reminder_date">Datum</string>
+	<string name="reminder_enable">Aktivieren Erinnerung</string>
+	<string name="reminder_on">Erinnerung auf:</string>
+	<string name="reminder_snooze">Schläfchen</string>
+	<string name="reminder_stop">Halt</string>
+	<string name="reminder_time">Zeit</string>
+	<string name="reminder_title">Aufgaben-Erinnerung</string>
+	<string name="reminders">Alle Erinnerungen</string>
+	<string name="color">Farbe</string>
+	<string name="content_description_copy_button">Copy-Taste</string>
+	<string name="date">Datum</string>
+	<string name="enable_reminder">Aktivieren Erinnerung</string>
 </resources>

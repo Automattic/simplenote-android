@@ -583,9 +583,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
 
-
-
-
             view.setBackgroundColor(color);
 
             if (title == null || title.equals("")) {

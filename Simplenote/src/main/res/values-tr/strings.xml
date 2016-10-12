@@ -158,4 +158,20 @@
 	<string name="share">Paylaş</string>
 	<string name="settings">Ayarlar</string>
 	<string name="tag_hint">Etiket ekle…</string>
+	<string name="unpin_from_top">Unpin not</string>
+	<string name="templates">Şablonlar</string>
+	<string name="template">Şablon olarak kaydet</string>
+	<string name="reminder">Hatırlatma</string>
+	<string name="reminder_date">Tarihi</string>
+	<string name="reminder_enable">Hatırlatma etkinleştirme</string>
+	<string name="reminder_on">Hatırlatma o:</string>
+	<string name="reminder_snooze">şekerleme</string>
+	<string name="reminder_stop">Dur</string>
+	<string name="reminder_time">Thieme</string>
+	<string name="reminder_title">Görev hatırlatma</string>
+	<string name="reminders">Al hatırlatmalar</string>
+	<string name="color">Renk</string>
+	<string name="content_description_copy_button">Kopya Düğmesi</string>
+	<string name="date">Tarih</string>
+	<string name="enable_reminder">Hatırlatıcı etkinleştirme</string>
 </resources>
