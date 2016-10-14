@@ -21,7 +21,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textOff=""
-        android:textOn="" />
+        android:textOn=""
+        />
+
+    <!--<ColorLine-->
+        <!--android:id="@+id/color_line"-->
+        <!--android:layout_width="10dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/red"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--/>-->
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_title"

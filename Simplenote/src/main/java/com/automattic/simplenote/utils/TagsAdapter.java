@@ -158,8 +158,7 @@ public class TagsAdapter extends BaseAdapter {
 
         if (view == null){
             view = mInflater.inflate(R.layout.nav_drawer_row, null);
-        }
-        TagMenuItem tagMenuItem = getItem(position);
+        }TagMenuItem tagMenuItem = getItem(position);
 
         TintedTextView drawerItemText = (TintedTextView) view.findViewById(R.id.drawer_item_name);
         drawerItemText.setText(tagMenuItem.name);
