@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -86,7 +88,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
     private FloatingActionButton mFloatingActionButton;
-    private int mNumPreviewLines;
+	private int mNumPreviewLines;
+    protected String mSearchString;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
@@ -589,17 +592,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
 
-            final NoteViewHolder holder;
-            if (view == null) {
-                view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
-                holder = new NoteViewHolder();
-                holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
-                holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
+			final NoteViewHolder holder;
+			if (view == null) {
+				view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
+				holder = new NoteViewHolder();
+				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
+				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
                 holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+                holder.colorView = (View) view.findViewById(R.id.color_line);
+
                 view.setTag(holder);
-            } else {
-                holder = (NoteViewHolder) view.getTag();
-            }
+			} else {
+				holder = (NoteViewHolder) view.getTag();
+			}
 
             if (holder.titleTextView.getTextSize() != mTitleFontSize) {
                 holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
@@ -617,6 +622,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+
+            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
+
+            holder.colorView.setBackgroundColor(color);
+            holder.colorView.setVisibility(View.VISIBLE);
+
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
 
             if (pinned == 1) {
@@ -635,9 +646,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
-            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
 
-            view.setBackgroundColor(color);
+//            View colorIndicator = view.findViewById(R.id.color_line);
+//            colorIndicator.setBackgroundColor(color);
 
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
@@ -691,6 +702,70 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         }
 
+    }
+
+	// view holder for NotesCursorAdapter
+	private static class NoteViewHolder {
+		TextView titleTextView;
+		TextView contentTextView;
+        ToggleButton toggleView;
+        View colorView;
+        public String matchOffsets;
+        private String mNoteId;
+
+        public void setNoteId(String noteId) {
+            mNoteId = noteId;
+        }
+
+        public String getNoteId() {
+            return mNoteId;
+        }
+	}
+
+	public void searchNotes(String searchString) {
+        if (!searchString.equals(mSearchString)){
+            mSearchString = searchString;
+            refreshList();
+        }
+	}
+
+    /**
+     * Clear search and load all notes
+     */
+    public void clearSearch() {
+        if (mSearchString != null && !mSearchString.equals("")){
+            mSearchString = null;
+            refreshList();
+        }
+    }
+
+    public boolean hasSearchQuery(){
+        return mSearchString != null && !mSearchString.equals("");
+    }
+
+    public void sortNoteQuery(Query<Note> noteQuery){
+        noteQuery.order("pinned", SortType.DESCENDING);
+		int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
+		switch (sortPref) {
+        case 0:
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
+            break;
+		case 1:
+            noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
+			break;
+		case 2:
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
+			break;
+		case 3:
+            noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
+			break;
+		case 4:
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
+			break;
+		case 5:
+            noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
+			break;
+		}
     }
 
     private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
