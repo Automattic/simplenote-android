@@ -118,6 +118,11 @@ public class TagsAdapter extends BaseAdapter {
         if (oldCursor != null) oldCursor.close();
     }
 
+    public int getTopItemsLength(){
+        return topItems.length;
+    }
+
+
     @Override
     public int getCount() {
         if (mCursor == null){
