@@ -1,70 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/listBackgroundSelector"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/note_list_item_padding_bottom"
-    android:paddingTop="@dimen/note_list_item_padding_top">
+    android:layout_height="wrap_content">
 
-
-    <ToggleButton
-        android:id="@+id/pin_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginRight="@dimen/padding_medium"
-        android:layout_marginEnd="@dimen/padding_medium"
-        android:focusable="false"
-        android:background="?attr/pinIconSelector"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textOff=""
-        android:textOn=""
-        />
-
-    <!--<ColorLine-->
-        <!--android:id="@+id/color_line"-->
-        <!--android:layout_width="10dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/red"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--/>-->
-
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/note_title"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/list_padding_left"
-        android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_toLeftOf="@id/pin_button"
-        android:layout_toStartOf="@id/pin_button"
-        android:ellipsize="end"
-        android:lines="1"
-        android:singleLine="true"
-        android:textColor="?attr/noteTitleColor"
-        android:textSize="18sp"
-        tools:text="Three-line item" />
+        android:layout_height="match_parent"
+        android:background="?attr/listBackgroundSelector"
+        android:orientation="vertical">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/note_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/note_title"
-        android:layout_marginLeft="@dimen/list_padding_left"
-        android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_toLeftOf="@id/pin_button"
-        android:layout_toStartOf="@id/pin_button"
-        android:lineSpacingExtra="4dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="?attr/notePreviewColor"
-        android:textSize="16sp"
-        tools:text="The first few times he tried to climb up on\nthe smooth chest of drawers." />
 
-</RelativeLayout>
+        <View
+            android:id="@+id/color_line"
+            android:layout_width="5dp"
+            android:layout_height="fill_parent"
+            android:minHeight="1px"
+            android:background="@color/red"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/listBackgroundSelector"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/note_list_item_padding_top"
+            android:paddingBottom="@dimen/note_list_item_padding_bottom">
+
+
+        <ToggleButton
+            android:id="@+id/pin_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:focusable="false"
+            android:background="?attr/pinIconSelector"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textOff=""
+            android:textOn=""
+            />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/list_padding_left"
+            android:layout_marginStart="@dimen/list_padding_left"
+            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/padding_large"
+            android:layout_toLeftOf="@id/pin_button"
+            android:layout_toStartOf="@id/pin_button"
+            android:ellipsize="end"
+            android:lines="1"
+            android:singleLine="true"
+            android:textColor="?attr/noteTitleColor"
+            android:textSize="18sp"
+            tools:text="Three-line item"/>
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/note_title"
+            android:layout_marginLeft="@dimen/list_padding_left"
+            android:layout_marginStart="@dimen/list_padding_left"
+            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/padding_large"
+            android:layout_toLeftOf="@id/pin_button"
+            android:layout_toStartOf="@id/pin_button"
+            android:lineSpacingExtra="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="?attr/notePreviewColor"
+            android:textSize="16sp"
+            tools:text="The first few times he tried to climb up on\nthe smooth chest of drawers."
+            />
+
+
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

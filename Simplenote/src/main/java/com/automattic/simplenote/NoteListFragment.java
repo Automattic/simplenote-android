@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -541,8 +543,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 				holder = new NoteViewHolder();
 				holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
 				holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-				holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
-				view.setTag(holder);
+                holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+                holder.colorView = (View) view.findViewById(R.id.color_line);
+
+                view.setTag(holder);
 			} else {
 				holder = (NoteViewHolder) view.getTag();
 			}
@@ -563,6 +567,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+
+            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
+
+            holder.colorView.setBackgroundColor(color);
+            holder.colorView.setVisibility(View.VISIBLE);
+
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
 
             if (pinned == 1) {
@@ -581,9 +591,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
-            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
 
-            view.setBackgroundColor(color);
+//            View colorIndicator = view.findViewById(R.id.color_line);
+//            colorIndicator.setBackgroundColor(color);
 
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
@@ -644,6 +654,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		TextView titleTextView;
 		TextView contentTextView;
         ToggleButton toggleView;
+        View colorView;
         public String matchOffsets;
         private String mNoteId;
 
