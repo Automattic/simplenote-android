@@ -626,7 +626,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
 
             holder.colorView.setBackgroundColor(color);
-            holder.colorView.setVisibility(View.VISIBLE);
+
+            if (color != Color.WHITE)
+                holder.colorView.setVisibility(View.VISIBLE);
 
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
 
