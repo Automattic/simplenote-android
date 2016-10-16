@@ -53,9 +53,12 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     private View mColorBox;
     private int index = 0;
 
+    private ColorSheetListener _colorSheetListener;
+
 
     public ColorBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ColorSheetListener colorSheetListener) {
         super(fragment.getActivity());
+        _colorSheetListener = colorSheetListener;
 
         mFragment = fragment;
 
@@ -113,6 +116,10 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
                 tv1[index].setLayoutParams(rlp);
                 tv1[index].setBackgroundColor(MATERIAL_COLORS_PRIMARY[index]);
                 rLayout.addView(tv1[index]);
+
+                View.OnClickListener listener = new ColorListener(index);
+
+                tv1[index].setOnClickListener(listener);
                 index++;
             }
         }
@@ -147,9 +154,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.reset_color:
-                mNote.setColor(Color.WHITE);
-                mNote.save();
-                refreshColor();
+                updateColor(Color.WHITE);
 
                 break;
         }
@@ -157,6 +162,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 
     public void updateColor(int color) {
         mNote.setColor(color);
+        mNote.save();
         refreshColor();
     }
 
@@ -172,5 +178,22 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 
         void onColorDismissed();
     }
+
+    public class ColorListener implements View.OnClickListener
+    {
+        int _index;
+
+
+        public ColorListener(int _index) {
+            this._index = _index;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (_colorSheetListener != null)
+                _colorSheetListener.onColorUpdate(MATERIAL_COLORS_PRIMARY[_index]);
+        }
+    }
+
 
 }
