@@ -2,32 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding_extra_large"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Color"
-        />
-
-
-    <RelativeLayout
-        android:id="@+id/colorbox"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4sp">
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/color_choose_indicator"
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_large"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/colorbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4sp">
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/reset_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reset color"
+                android:textColor="@color/simplenote_dark_grey" />
+        </LinearLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/reset_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reset color"
-        android:textColor="@color/simplenote_dark_grey" />
-
-
-
-
 </LinearLayout>
