@@ -53,6 +53,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     private View mColorBox;
     private int index = 0;
 
+    private Button[] tv1 = new Button[MATERIAL_COLORS_PRIMARY.length];
     private ColorSheetListener _colorSheetListener;
 
 
@@ -66,7 +67,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         mResetColor = (Button) colorView.findViewById(R.id.reset_color);
 
         mTextView = (TextView) colorView.findViewById(R.id.textView);
-        mColorBox = (View) colorView.findViewById(R.id.colorbox);
+        mColorBox = (View) colorView.findViewById(R.id.color_choose_indicator);
 
         Context cx = mFragment.getContext();
         RelativeLayout rLayout = (RelativeLayout) colorView.findViewById(R.id.colorbox);
@@ -76,7 +77,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 //        lprams.leftMargin = 5;
 //        lprams.addRule(RelativeLayout.BELOW);
 //        lprams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        View[] tv1 = new View[MATERIAL_COLORS_PRIMARY.length];
+
 //
 //        for (int i = 0; i < MATERIAL_COLORS_PRIMARY.length; i++) {
 //
@@ -97,7 +98,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         int marg = (int)convertDpToPixel(4.0, cx);
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
-                tv1[index] = new View(cx);
+                tv1[index] = new Button(cx);
                 tv1[index].setId(index + 56789999);
                 RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int)convertDpToPixel(36.0, cx), (int)convertDpToPixel(36.0, cx));
                 rlp.setMargins(marg, marg, marg, marg);
@@ -148,13 +149,14 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 
     private void refreshColor() {
         int color = mNote.getColor();
+        mColorBox.setBackgroundColor(color);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.reset_color:
-                updateColor(Color.WHITE);
+                _colorSheetListener.onColorUpdate(Color.WHITE);
 
                 break;
         }
@@ -192,8 +194,14 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         public void onClick(View v) {
             if (_colorSheetListener != null)
                 _colorSheetListener.onColorUpdate(MATERIAL_COLORS_PRIMARY[_index]);
+
+            for (int i = 0; i < tv1.length; i++) {
+                tv1[i].setAlpha(1);
+            }
+
+            v.setAlpha((float)0.8);
+
+            mColorBox.setBackgroundColor(MATERIAL_COLORS_PRIMARY[_index]);
         }
     }
-
-
 }
