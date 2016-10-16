@@ -629,8 +629,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.contentTextView.setVisibility(View.GONE);
                 else {
                     //MDD_A_AK: Reminder date in note preview
-                    if (mCursor.getObject().hasReminder()) holder.contentTextView.setText(getString(R.string.reminder_on) + " " +
-                            sdf.format(mCursor.getObject().getReminderDate().getTime()) + "\n" + contentPreview);
+                    if (mCursor.getObject().hasReminder()) holder.
+                            contentTextView.setText(getString(R.string.reminder_on) + " "
+                            + sdf.format(mCursor.getObject().getReminderDate().getTime()) + "\n" + contentPreview);
                     else holder.contentTextView.setText(contentPreview);
                 }
 
