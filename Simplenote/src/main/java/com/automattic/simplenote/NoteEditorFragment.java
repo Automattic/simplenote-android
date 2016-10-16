@@ -1177,7 +1177,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     public void onColorUpdate(int color) {
-
+        mNote.setColor(color);
+        mColor = true;
+        mColorBottomSheet.updateColor(color);
+        mColorIndicator.setBackgroundColor(color);
     };
 
     public void onColorDismissed() {
