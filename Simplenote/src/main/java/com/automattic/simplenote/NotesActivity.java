@@ -413,7 +413,7 @@ public class NotesActivity extends AppCompatActivity implements
             // Update checked item in navigation drawer and close it
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mNavigationView);
-            if (position > 2)
+            if (position > mTagsAdapter.getTopItemsLength()-1)
                 getNoteListFragment().addSearchTag(mSelectedTag.name);
             else
                 getNoteListFragment().cleanSearchTag();
