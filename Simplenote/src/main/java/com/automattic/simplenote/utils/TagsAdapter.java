@@ -246,7 +246,7 @@ public class TagsAdapter extends BaseAdapter {
 
         private TagMenuItem(){
             name = "";
-            id = -4L;
+            id = -5L;
         }
 
         private TagMenuItem(long id, int resourceId){
