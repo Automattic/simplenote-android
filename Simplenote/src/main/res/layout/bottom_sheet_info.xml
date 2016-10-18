@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:theme="@style/Theme.Simplestyle">
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/info_modified_date_text"
@@ -46,7 +47,7 @@
         android:layout_below="@id/info_words_text"
         android:background="@color/divider_grey"/>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_pin_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
         android:text="@string/pin_to_top"
         android:textColor="@color/simplenote_dark_grey"/>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_markdown_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
@@ -28,8 +28,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private TextView mInfoWords;
     private TextView mInfoLinkUrl;
     private TextView mInfoLinkTitle;
-    private Switch mInfoPinSwitch;
-    private Switch mInfoMarkdownSwitch;
+    private SwitchCompat mInfoPinSwitch;
+    private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
 
@@ -47,7 +47,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
         mInfoLinkTitle = (TextView) infoView.findViewById(R.id.info_public_link_title);
 
-        mInfoPinSwitch = (Switch) infoView.findViewById(R.id.info_pin_switch);
+        mInfoPinSwitch = (SwitchCompat) infoView.findViewById(R.id.info_pin_switch);
         mInfoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -55,7 +55,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mInfoMarkdownSwitch = (Switch) infoView.findViewById(R.id.info_markdown_switch);
+        mInfoMarkdownSwitch = (SwitchCompat) infoView.findViewById(R.id.info_markdown_switch);
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
