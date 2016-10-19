@@ -175,4 +175,5 @@
 	<string name="color">色</string>
 	<string name="date">日付</string>
 	<string name="enable_reminder">リマインダーを有効にします</string>
+	<string name="app_name">Simplenote</string>
 </resources>
