@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
@@ -11,6 +12,9 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -19,7 +23,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
+import com.automattic.simplenote.NoteListFragment;
 import com.automattic.simplenote.R;
+import java.util.LinkedList;
 
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
 
@@ -168,6 +174,78 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         notifyTagsChanged();
+    }
+
+    /*This function has whole logic for chips generate*/
+    public void drawChips(LinkedList<String> tagList, NoteListFragment aNoteListFragment) {
+       // LinkedList<Integer> xs = new LinkedList<Integer>();
+        StringBuilder txt = new StringBuilder();
+        String appendix = " | ×";
+        for (String tag : tagList) {
+            txt.append(tag);
+            txt.append(appendix);
+            txt.append(" ");
+        }
+
+        String text = txt.toString();
+            int cursorLocation = getSelectionStart();
+        // split string with space
+        SimpleStringSplitter tags = new SimpleStringSplitter(' ');
+        tags.setString(text.toString());
+        SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+        int x = 0;
+        // Loop will generate ImageSpan for every tag separated by spaces
+        for (String tag : tags) {
+            // Inflate tags_textview layout
+            LayoutInflater lf = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            TextView textView = (TextView) lf.inflate(R.layout.tags_textview, null);
+            textView.setText(tag); // set text
+
+            // Capture bitmap of generated textview
+            int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            textView.measure(spec, spec);
+            textView.layout(0, 0, textView.getMeasuredWidth(), textView.getMeasuredHeight());
+            Bitmap b = Bitmap.createBitmap(textView.getWidth(), textView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(b);
+            canvas.translate(-textView.getScrollX(), -textView.getScrollY());
+            textView.draw(canvas);
+            textView.setDrawingCacheEnabled(true);
+            Bitmap cacheBmp = textView.getDrawingCache();
+            Bitmap viewBmp = cacheBmp.copy(Bitmap.Config.ARGB_8888, true);
+            textView.destroyDrawingCache();  // destory drawable
+            // Create bitmap drawable for imagespan
+            BitmapDrawable bmpDrawable = new BitmapDrawable(getContext().getResources(), viewBmp);
+            bmpDrawable.setBounds(0, 0, bmpDrawable.getIntrinsicWidth(), bmpDrawable.getIntrinsicHeight());
+            // Create and set imagespan
+            ssb.setSpan(new ImageSpan(bmpDrawable), x, x + tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ClickableSpan clickSpan = new IndexedClickableSpan(tagList.indexOf(tag.substring(0,tag.length()-appendix.length())), aNoteListFragment);
+            ssb.setSpan(clickSpan, x, x + tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            //ssb.setSpan(new ForegroundColorSpan(Color.RED), x + tag.length()-3, x + tag.length(),  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            x = x + tag.length() + 1;
+            //xs.add(x);
+        }
+        if (ssb.length() > 0) ssb.append(' ');
+        // set chips span
+        setText(ssb);
+
+        setMovementMethod(LinkMovementMethod.getInstance());
+        setSelection(getText().length());
+    }
+    public class IndexedClickableSpan extends ClickableSpan {
+        int _index;
+        NoteListFragment mNoteListFragment;
+
+        public IndexedClickableSpan(int index, NoteListFragment aNoteListFragment) {
+            this._index = index;
+            mNoteListFragment = aNoteListFragment;
+        }
+
+        @Override
+        public void onClick(View v) {
+            mNoteListFragment.removeTag(_index);
+        }
     }
 
     public interface OnTagAddedListener {

@@ -1,6 +1,9 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -21,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -30,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -81,7 +86,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ActionMode mActionMode;
 
     private TagsMultiAutoCompleteTextView mTagView;
-    private String mTags;
+    //private String mTags;
     private LinkedList<String> mTagList;
 
     private View mRootView;
@@ -202,7 +207,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
         mTitleFontSize = mPreviewFontSize + 2;
     }
-
+    /*
     public void addSearchTag(CharSequence newTag){
         boolean isTheTagNew = true;
         for (String tg : mTagList) {
@@ -217,12 +222,101 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setVisibility(View.VISIBLE);
     }
 
+    */
+    public void addSearchTag(CharSequence newTag){
+        boolean isTheTagNew = true;
+        //String newTag = ((String)tag)+"  |×";
+        for (String tg : mTagList) {
+            if (tg.equals((String)newTag))
+                isTheTagNew = false;
+        }
+        if (isTheTagNew) {
+            //mTags += " " + newTag;
+            mTagList.add((String)newTag);
+        }
+        mTagView.drawChips(mTagList,this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void removeTag(int index){
+        if (mTagList.size()>index) {
+            mTagList.remove(index);
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void removeLastSearchTag(){
+        if (mTagList.size()>0) {
+            mTagList.removeLast();
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void refreshTags() {
+        if (mTagList.size()>0) {
+            mTagView.drawChips(mTagList, this);
+        }
+        mTagView.setChips("");
+    }
+
     public void cleanSearchTag(){
         mTagView.setVisibility(View.GONE);
-        mTags ="";
+        //mTags ="";
         mTagList = new LinkedList<String>();
         mTagView.setChips("");
     }
+
+
+    public void showAlert(String title) {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getContext());
+
+        // Setting Dialog Title
+        alertDialog2.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog2.setMessage("Press ok to close");
+
+        // Setting Icon to Dialog
+        //alertDialog2.setIcon(R.drawable.delete);
+
+        // Setting Positive "Yes" Btn
+        alertDialog2.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to execute after dialog
+                        Toast.makeText(getContext(),
+                                "You clicked on YES", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+        /*
+        // Setting Negative "NO" Btn
+        alertDialog2.setNegativeButton("NO",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Write your code here to execute after dialog
+                    Toast.makeText(getApplicationContext(),
+                                   "You clicked on NO", Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.cancel();
+                }
+            });
+        */
+        // Showing Alert Dialog
+        alertDialog2.show();
+    }
+
+
+    protected void getPrefs() {
+        //MDD_R - AK - removed condensed
+        //MDD_M - AK - modified preview
+        //boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
+		mNumPreviewLines = 3;
+        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        mTitleFontSize = mPreviewFontSize + 2;
+	}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -230,6 +324,24 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
         mTagView.setTokenizer(new SpaceTokenizer());
+        mTagView.setFocusable(false);
+        mTagView.setEnabled(true);
+        mTagView.setClickable(true);
+        mTagView.setFocusableInTouchMode(false);
+
+
+
+        /*mTagView.setOnTouchListener(new TextView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+
+                    showAlert("Touch coordinates : " +
+                            String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+                }
+                return true;
+            }
+        });*/
         cleanSearchTag();
 
         return rootView;
