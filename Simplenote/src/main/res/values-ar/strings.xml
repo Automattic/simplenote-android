@@ -174,4 +174,9 @@
 	<string name="content_description_copy_button">نسخة زر</string>
 	<string name="date">تاريخ</string>
 	<string name="enable_reminder">تمكين تذكير</string>
+	<string name="color_reset">اللون إعادة تعيين</string>
+	<string name="reminder_15_min">في 15 دقيقة</string>
+	<string name="reminder_1_hour">في 1 ساعة</string>
+	<string name="time">مرة</string>
+	<string name="use_template">جعل علما</string>
 </resources>

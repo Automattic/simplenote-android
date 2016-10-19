@@ -174,4 +174,10 @@
 	<string name="content_description_copy_button">复制按钮</string>
 	<string name="date">日期</string>
 	<string name="enable_reminder">启用提醒</string>
+	<string name="characters"></string>
+	<string name="color_reset">重置顏色</string>
+	<string name="reminder_15_min">在15分鐘</string>
+	<string name="reminder_1_hour">1小時內</string>
+	<string name="time">時間</string>
+	<string name="use_template">做記錄</string>
 </resources>

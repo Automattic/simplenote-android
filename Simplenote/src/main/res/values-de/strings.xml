@@ -174,4 +174,9 @@
 	<string name="content_description_copy_button">Copy-Taste</string>
 	<string name="date">Datum</string>
 	<string name="enable_reminder">Aktivieren Erinnerung</string>
+	<string name="color_reset">Farbe zurücksetzen</string>
+	<string name="reminder_15_min">In 15 Minuten</string>
+	<string name="reminder_1_hour">In 1 Stunde</string>
+	<string name="time">Zeit</string>
+	<string name="use_template">Notieren Sie sich</string>
 </resources>
