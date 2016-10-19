@@ -61,6 +61,7 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NotesActivity extends AppCompatActivity implements
@@ -93,6 +94,7 @@ public class NotesActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
+    private LinkedList<TagsAdapter.TagMenuItem> mTagList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -411,12 +413,16 @@ public class NotesActivity extends AppCompatActivity implements
             mSelectedTag = mTagsAdapter.getItem(position);
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
             mDrawerLayout.closeDrawer(mNavigationView);
-            if (position > mTagsAdapter.getTopItemsLength()-1)
+            if (position > mTagsAdapter.getTopItemsLength()-1) {
                 getNoteListFragment().addSearchTag(mSelectedTag.name);
-            else
+                setTitle("");
+                mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+            }
+            else {
                 getNoteListFragment().cleanSearchTag();
+                setSelectedTagActive();
+            }
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);
@@ -441,6 +447,19 @@ public class NotesActivity extends AppCompatActivity implements
         }
         
         return mSelectedTag;
+    }
+
+    public LinkedList<TagsAdapter.TagMenuItem> getTagList() {
+        if (mTagList == null) {
+            mTagList = new LinkedList<TagsAdapter.TagMenuItem>();
+            mTagList.add(mTagsAdapter.getDefaultItem());
+        }
+        if (mTagList.size() == 0) {
+            mTagList = new LinkedList<TagsAdapter.TagMenuItem>();
+            mTagList.add(mTagsAdapter.getDefaultItem());
+        }
+
+        return mTagList;
     }
 
     // Enable or disable the trash action bar button depending on if there are deleted notes or not
