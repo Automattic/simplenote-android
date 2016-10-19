@@ -23,7 +23,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Color"
+                android:text="@string/color"
                 />
 
 
@@ -38,7 +38,7 @@
                 android:id="@+id/reset_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reset color"
+                android:text="@string/color_reset"
                 android:textColor="@color/simplenote_dark_grey" />
         </LinearLayout>
     </RelativeLayout>
