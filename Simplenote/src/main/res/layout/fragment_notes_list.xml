@@ -15,11 +15,11 @@
         android:id="@+id/tags_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-11dp"
         android:layout_marginLeft="-4dp"
         android:layout_marginStart="-4dp"
         android:completionThreshold="1"
         android:imeOptions="actionNext"
-        android:inputType="textNoSuggestions"
         android:longClickable="false"
         android:minHeight="48dp"
         android:nextFocusForward="@+id/note_content"
@@ -27,8 +27,9 @@
         android:nextFocusUp="@id/tags_view"
         android:textColor="?attr/noteEditorTextColor"
         android:textColorHint="?attr/hintTextColor"
-        android:textSize="16sp" />
-
+        android:textSize="16sp"
+        android:inputType="textMultiLine"/>
+        <!--android:inputType="textNoSuggestions"-->
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

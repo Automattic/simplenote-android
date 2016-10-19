@@ -1,7 +1,9 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -23,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -32,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -71,7 +75,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ActionMode mActionMode;
 
     private TagsMultiAutoCompleteTextView mTagView;
-    private String mTags;
+    //private String mTags;
     private LinkedList<String> mTagList;
 
 
@@ -213,8 +217,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 	}
 
     // nbradbury - load values from preferences
-    public void addSearchTag(CharSequence newTag){
+    /*public void addSearchTag(CharSequence newTag){
         boolean isTheTagNew = true;
+        //String newTag = ((String)tag)+"  |×";
         for (String tg : mTagList) {
             if (tg.equals((String)newTag))
                 isTheTagNew = false;
@@ -227,12 +232,93 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setVisibility(View.VISIBLE);
     }
 
+    */
+    public void addSearchTag(CharSequence newTag){
+        boolean isTheTagNew = true;
+        //String newTag = ((String)tag)+"  |×";
+        for (String tg : mTagList) {
+            if (tg.equals((String)newTag))
+                isTheTagNew = false;
+        }
+        if (isTheTagNew) {
+            //mTags += " " + newTag;
+            mTagList.add((String)newTag);
+        }
+        mTagView.drawChips(mTagList,this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void removeTag(int index){
+        if (mTagList.size()>index) {
+            mTagList.remove(index);
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void removeLastSearchTag(){
+        if (mTagList.size()>0) {
+            mTagList.removeLast();
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    public void refreshTags() {
+        if (mTagList.size()>0) {
+            mTagView.drawChips(mTagList, this);
+        }
+        mTagView.setChips("");
+    }
+
     public void cleanSearchTag(){
         mTagView.setVisibility(View.GONE);
-        mTags ="";
+        //mTags ="";
         mTagList = new LinkedList<String>();
         mTagView.setChips("");
     }
+
+
+    public void showAlert(String title) {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getContext());
+
+        // Setting Dialog Title
+        alertDialog2.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog2.setMessage("Press ok to close");
+
+        // Setting Icon to Dialog
+        //alertDialog2.setIcon(R.drawable.delete);
+
+        // Setting Positive "Yes" Btn
+        alertDialog2.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to execute after dialog
+                        Toast.makeText(getContext(),
+                                "You clicked on YES", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+        /*
+        // Setting Negative "NO" Btn
+        alertDialog2.setNegativeButton("NO",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Write your code here to execute after dialog
+                    Toast.makeText(getApplicationContext(),
+                                   "You clicked on NO", Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.cancel();
+                }
+            });
+        */
+        // Showing Alert Dialog
+        alertDialog2.show();
+    }
+
+
     protected void getPrefs() {
         //MDD_R - AK - removed condensed
         //MDD_M - AK - modified preview
@@ -249,6 +335,24 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
         mTagView.setTokenizer(new SpaceTokenizer());
+        mTagView.setFocusable(false);
+        mTagView.setEnabled(true);
+        mTagView.setClickable(true);
+        mTagView.setFocusableInTouchMode(false);
+
+
+
+        /*mTagView.setOnTouchListener(new TextView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+
+                    showAlert("Touch coordinates : " +
+                            String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+                }
+                return true;
+            }
+        });*/
         cleanSearchTag();
 
         return rootView;
@@ -593,10 +697,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
-
-//            View colorIndicator = view.findViewById(R.id.color_line);
-//            colorIndicator.setBackgroundColor(color);
-
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
                 untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
@@ -623,10 +723,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
                     holder.contentTextView.setText(matchedContentPreview);
                 }
-            } else if (mNumPreviewLines > 0) {
+            } else {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
-                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
+                //MDD_A_AK: Removed reminder
+                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list))) {
                     holder.contentTextView.setVisibility(View.GONE);
+                    if (mCursor.getObject().hasReminder()) {
+                        holder.contentTextView.setText(getString(R.string.reminder_on) + " "
+                                + sdf.format(mCursor.getObject().getReminderDate().getTime()));
+                        holder.contentTextView.setVisibility(View.VISIBLE);
+                    }
+                }
                 else {
                     //MDD_A_AK: Reminder date in note preview
                     if (mCursor.getObject().hasReminder()) holder.

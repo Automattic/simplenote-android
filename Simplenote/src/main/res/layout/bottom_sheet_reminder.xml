@@ -24,7 +24,9 @@
         android:textColor="@color/simplenote_blue_accent"
         android:layout_marginLeft="@dimen/padding_medium"
         android:layout_marginRight="@dimen/padding_medium"
-        android:background = "@drawable/set_reminder_button_background" />
+        android:background = "@drawable/set_reminder_button_background"
+        style="?android:attr/borderlessButtonStyle"
+        />
 
 
     <Button
@@ -36,7 +38,9 @@
         android:textColor="@color/simplenote_blue_accent"
         android:layout_marginLeft="@dimen/padding_medium"
         android:layout_marginRight="@dimen/padding_medium"
-        android:background = "@drawable/set_reminder_button_background"  />
+        android:background = "@drawable/set_reminder_button_background"
+        style="?android:attr/borderlessButtonStyle"
+        />
 
 
     <RelativeLayout
@@ -69,7 +73,8 @@
             android:layout_toLeftOf="@id/view_helper"
             android:textColor="@color/simplenote_blue_accent"
             android:layout_margin="2dp"
-            android:background = "@drawable/set_reminder_button_background" />
+            android:background = "@drawable/set_reminder_button_background"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/time_title"
@@ -92,12 +97,7 @@
             android:layout_toRightOf="@+id/view_helper"
             android:textColor="@color/simplenote_blue_accent"
             android:layout_margin="2dp"
-            android:background = "@drawable/set_reminder_button_background"  />
-
+            android:background = "@drawable/set_reminder_button_background"
+            style="?android:attr/borderlessButtonStyle"/>
     </RelativeLayout>
-
-
-
-
-
 </LinearLayout>
