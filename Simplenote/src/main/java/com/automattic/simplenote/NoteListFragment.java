@@ -246,6 +246,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList,this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void removeTag(int index){
@@ -254,6 +256,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void removeLastSearchTag(){
@@ -262,6 +266,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void refreshTags() {
@@ -269,6 +275,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mTagView.drawChips(mTagList, this);
         }
         mTagView.setChips("");
+        queryNotes();
+        refreshList();
     }
 
     public void cleanSearchTag(){
@@ -332,7 +340,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_notes_list, container, false);
+        initmTagView(rootView);
 
+        return rootView;
+    }
+
+    public void initmTagView(View rootView) {
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setFocusable(false);
@@ -340,7 +353,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setClickable(true);
         mTagView.setFocusableInTouchMode(false);
 
-
+        cleanSearchTag();
 
         /*mTagView.setOnTouchListener(new TextView.OnTouchListener() {
             @Override
@@ -353,12 +366,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return true;
             }
         });*/
-        cleanSearchTag();
-
-        return rootView;
     }
 
-	@Override
+    @Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
@@ -536,9 +546,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (!isAdded()) return null;
 
         NotesActivity notesActivity = (NotesActivity)getActivity();
-        Query<Note> query = notesActivity.getSelectedTag().query();
+        Query<Note> query = new Query<Note>();
+        if ((mTagList != null)&& (mTagList.size()>0))
+            query = notesActivity.getSelectedTag().multipleQuery(mTagList);
+        else
+            query = notesActivity.getSelectedTag().query();
+
+
+/*boolean tagsAreNotUsed = true;
+        for ( Query.Condition cc : query.getConditions()){
+            if (cc.getKey().equals("tags")) tagsAreNotUsed = false;
+        }*/
 
         if (hasSearchQuery()) {
+           //
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
             query.include(new Query.FullTextOffsets("match_offsets"));
             query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));

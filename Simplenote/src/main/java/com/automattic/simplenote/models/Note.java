@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Date;
@@ -135,6 +136,16 @@ public class Note extends BucketObject {
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
+    }
+
+    public static Query<Note> allInTags(Bucket<Note> noteBucket, LinkedList<String> tags){
+        Query<Note> qr = noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+        for (String tag : tags){
+            qr = qr.where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
+        }
+        return qr;
     }
 
 
