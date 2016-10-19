@@ -32,22 +32,85 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-
-                <com.automattic.simplenote.widgets.SimplenoteEditText
-                    android:id="@+id/note_content"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:gravity="top"
-	                android:maxLength="999999999"
-                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:paddingBottom="@dimen/padding_small"
-                    android:paddingTop="@dimen/padding_small"
-                    android:scrollHorizontally="false"
-                    android:textColor="?attr/noteEditorTextColor"
-                    android:textColorLink="@color/simplenote_blue"
-                    android:textSize="16sp"
-                    tools:context=".NoteEditorFragment" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.automattic.simplenote.widgets.SimplenoteEditText
+                        android:id="@+id/note_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:maxLength="999999999"
+                        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:paddingTop="@dimen/padding_small"
+                        android:scrollHorizontally="false"
+                        android:textColor="?attr/noteEditorTextColor"
+                        android:textColorLink="@color/simplenote_blue"
+                        android:textSize="16sp"
+                        tools:context=".NoteEditorFragment" />
+
+                    <View
+                        android:id="@+id/note_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider_grey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/todo_add"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/todo_add_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:scrollHorizontally="true"
+                                android:layout_weight="0.7"
+                                android:hint="@string/new_todo"/>
+
+                            <Button
+                                android:id="@+id/todo_add_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/todo_add"
+                                android:layout_gravity="right"
+                                android:layout_weight="0.3"/>
+
+                        </LinearLayout>
+
+                        <ListView
+                            android:id="@+id/todo_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:id="@+id/todo_divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_grey" />
+
+                        <ListView
+                            android:id="@+id/todo_list_completed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
 
             </android.support.v4.widget.NestedScrollView>
 
@@ -69,6 +132,7 @@
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorHint="?attr/hintTextColor"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout

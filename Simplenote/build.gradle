@@ -45,7 +45,7 @@ android {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 53
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 23
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
