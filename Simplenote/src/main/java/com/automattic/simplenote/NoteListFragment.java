@@ -82,7 +82,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
-    protected String mSearchString;
     private ActionMode mActionMode;
 
     private TagsMultiAutoCompleteTextView mTagView;
@@ -236,6 +235,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList,this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void removeTag(int index){
@@ -244,6 +245,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void removeLastSearchTag(){
@@ -252,6 +255,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
     }
 
     public void refreshTags() {
@@ -259,6 +264,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mTagView.drawChips(mTagList, this);
         }
         mTagView.setChips("");
+        queryNotes();
+        refreshList();
     }
 
     public void cleanSearchTag(){
@@ -308,20 +315,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         alertDialog2.show();
     }
 
-
-    protected void getPrefs() {
-        //MDD_R - AK - removed condensed
-        //MDD_M - AK - modified preview
-        //boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
-		mNumPreviewLines = 3;
-        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
-        mTitleFontSize = mPreviewFontSize + 2;
-	}
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notes_list, container, false);
+        initmTagView(rootView);
 
+        return rootView;
+    }
+
+    public void initmTagView(View rootView) {
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setFocusable(false);
@@ -329,7 +331,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setClickable(true);
         mTagView.setFocusableInTouchMode(false);
 
-
+        cleanSearchTag();
 
         /*mTagView.setOnTouchListener(new TextView.OnTouchListener() {
             @Override
@@ -342,9 +344,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return true;
             }
         });*/
-        cleanSearchTag();
-
-        return rootView;
     }
 
     @Override
@@ -524,8 +523,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public ObjectCursor<Note> queryNotes() {
         if (!isAdded()) return null;
 
-        NotesActivity notesActivity = (NotesActivity) getActivity();
-        Query<Note> query = notesActivity.getSelectedTag().query();
+        NotesActivity notesActivity = (NotesActivity)getActivity();
+        Query<Note> query = new Query<Note>();
+        if ((mTagList != null)&& (mTagList.size()>0))
+            query = notesActivity.getSelectedTag().multipleQuery(mTagList);
+        else
+            query = notesActivity.getSelectedTag().query();
 
         if (hasSearchQuery()) {
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
@@ -601,51 +604,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSelectedNoteId = selectedNoteID;
     }
 
-    public void searchNotes(String searchString) {
-        if (!searchString.equals(mSearchString)) {
-            mSearchString = searchString;
-            refreshList();
-        }
-    }
-
-    /**
-     * Clear search and load all notes
-     */
-    public void clearSearch() {
-        if (mSearchString != null && !mSearchString.equals("")) {
-            mSearchString = null;
-            refreshList();
-        }
-    }
-
-    public boolean hasSearchQuery() {
-        return mSearchString != null && !mSearchString.equals("");
-    }
-
-    public void sortNoteQuery(Query<Note> noteQuery) {
-        noteQuery.order("pinned", SortType.DESCENDING);
-        int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
-        switch (sortPref) {
-            case 0:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 1:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 2:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 3:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 4:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
-                break;
-            case 5:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
-                break;
-        }
-    }
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -657,23 +615,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
          * Callback for when a note has been selected.
          */
         void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
-    }
-
-    // view holder for NotesCursorAdapter
-    private static class NoteViewHolder {
-        public String matchOffsets;
-        TextView titleTextView;
-        TextView contentTextView;
-        ToggleButton toggleView;
-        private String mNoteId;
-
-        public String getNoteId() {
-            return mNoteId;
-        }
-
-        public void setNoteId(String noteId) {
-            mNoteId = noteId;
-        }
     }
 
     public class NotesCursorAdapter extends CursorAdapter {

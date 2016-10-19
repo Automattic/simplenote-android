@@ -21,6 +21,8 @@ import com.automattic.simplenote.widgets.TintedTextView;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
+import java.util.LinkedList;
+
 /**
  * Created by beaucollins on 7/26/13.
  */
@@ -256,6 +258,14 @@ public class TagsAdapter extends BaseAdapter {
 
         public Query<Note> query() {
             return Note.allInTag(mNotesBucket, this.name);
+        }
+
+        public Query<Note> multipleQuery(LinkedList<String> tags) {
+            if (tags != null)
+                if (tags.size() > 0) {
+                    return Note.allInTags(mNotesBucket, tags);
+                }
+                    return Note.all(mNotesBucket);
         }
     }
 }
