@@ -144,4 +144,9 @@
 	<string name="content_description_copy_button">Botwm Copi</string>
 	<string name="date">Dyddiad</string>
 	<string name="enable_reminder">Galluogi atgoffa</string>
+	<string name="color_reset">Lliw ailosod</string>
+	<string name="reminder_15_min">Yn 15 munud</string>
+	<string name="reminder_1_hour">Mewn 1 awr</string>
+	<string name="time">Amser</string>
+	<string name="use_template">Gwnewch nodyn</string>
 </resources>

@@ -176,4 +176,9 @@
 	<string name="date">日付</string>
 	<string name="enable_reminder">リマインダーを有効にします</string>
 	<string name="app_name">Simplenote</string>
+	<string name="reminder_1_hour">1時間で</string>
+	<string name="reminder_15_min">15分で</string>
+	<string name="color_reset">リセット色</string>
+	<string name="time">時間</string>
+	<string name="use_template">メモを取ります</string>
 </resources>

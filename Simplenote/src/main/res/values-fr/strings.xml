@@ -174,4 +174,10 @@
 	<string name="color">Couleur</string>
 	<string name="date">Date</string>
 	<string name="enable_reminder">Activer rappel</string>
+	<string name="app_name">Simplenote</string>
+	<string name="color_reset">Réinitialiser la couleur</string>
+	<string name="reminder_15_min">En 15 minutes</string>
+	<string name="reminder_1_hour">Dans 1 heure</string>
+	<string name="time">Temps</string>
+	<string name="use_template">Prenez note</string>
 </resources>

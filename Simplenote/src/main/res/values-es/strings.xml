@@ -174,4 +174,10 @@
 	<string name="content_description_copy_button">Botón de copia</string>
 	<string name="date">Fecha</string>
 	<string name="enable_reminder">Habilitar recordatorio</string>
+	<string name="app_name">Simplenote</string>
+	<string name="color_reset">Color Reiniciar</string>
+	<string name="reminder_15_min">En 15 minutos</string>
+	<string name="use_template">Tome nota</string>
+	<string name="reminder_1_hour">En 1 hora</string>
+	<string name="time">Hora</string>
 </resources>

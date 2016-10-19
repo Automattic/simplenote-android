@@ -178,4 +178,5 @@
 	<string name="reminder_15_min">через 15 минут</string>
 	<string name="reminder_1_hour">через 1 час</string>
 	<string name="use_template">Добавить заметку</string>
+	<string name="time">Время</string>
 </resources>

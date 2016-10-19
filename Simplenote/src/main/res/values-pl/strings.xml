@@ -124,4 +124,9 @@
 	<string name="reminder_time">Czas</string>
 	<string name="reminder_title">Przypominamy zadanie</string>
 	<string name="reminders">Wszystkie przypomnienia</string>
+	<string name="color_reset">Resetowanie kolorów</string>
+	<string name="reminder_15_min">W ciągu 15 minut</string>
+	<string name="reminder_1_hour">W ciągu 1 godziny</string>
+	<string name="time">Czas</string>
+	<string name="use_template">Zanotuj</string>
 </resources>
