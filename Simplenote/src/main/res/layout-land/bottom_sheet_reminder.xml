@@ -24,14 +24,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="In 15 minutes"
-        android:textColor="@color/simplenote_dark_grey" />
+        android:textColor="@color/simplenote_dark_grey"
+        style="?android:attr/borderlessButtonStyle"
+        />
 
     <Button
         android:id="@+id/after_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="In 1 hour"
-        android:textColor="@color/simplenote_dark_grey" />
+        android:textColor="@color/simplenote_dark_grey"
+        android:stateListAnimator="@null"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <View
         android:id="@+id/info_divider"
@@ -68,7 +72,8 @@
             android:layout_below="@id/date_title"
             android:layout_toLeftOf="@id/view_helper"
             android:textColor="#FFFFFF"
-            android:background="#4A95CE" />
+            android:background="#4A95CE"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/time_title"
@@ -91,7 +96,8 @@
             android:layout_below="@id/time_title"
             android:layout_toRightOf="@+id/view_helper"
             android:textColor="@color/simplenote_dark_grey"
-            android:background="#4A95CE" />
+            android:background="#4A95CE"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </RelativeLayout>
 
