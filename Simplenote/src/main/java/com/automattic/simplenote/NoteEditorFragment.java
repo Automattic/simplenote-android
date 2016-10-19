@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,9 +33,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +69,9 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
 import org.dmfs.android.colorpicker.ColorPickerDialogFragment.ColorDialogResultListener;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 import java.util.Calendar;
@@ -241,6 +251,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MenuItem mMarkdownItem;
     private MenuItem mTemplateItem;
 
+    private EditText mAddTodoText;
+    private Button mAddTodoButton;
+    private JSONArray mTodos;
+    private JSONArray mTodosCompleted;
+    private ListView mTodoList;
+    private ListView mCompletedTodoList;
+    private JSONAdapter jSONAdapter ;
+
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -347,6 +366,27 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
+        mTodoList = (ListView) rootView.findViewById(R.id.todo_list);
+        mCompletedTodoList = (ListView) rootView.findViewById(R.id.todo_list_completed);
+        mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
+        mAddTodoButton = (Button) rootView.findViewById(R.id.todo_add_button);
+
+        mAddTodoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String todoText = mAddTodoText.getText().toString();
+                if (todoText.length() != 0) {
+                    mTodos.put(todoText);
+                    mNote.setTodos(mTodos);
+                    mNote.save();
+                    mAddTodoText.setText("");
+                    updateTodos();
+                }
+            }
+        });
+
+
+
         return rootView;
     }
 
@@ -419,7 +459,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setTitle(R.string.delete);
 
             mColorIndicator.setBackgroundColor(mNote.getColor());
-
+            mTodos = mNote.getTodos();
+            mTodosCompleted = mNote.getCompletedTodos();
+            updateTodos();
         }
 
         mPinnerItem = (MenuItem) menu.findItem(R.id.info_pin_switch_menu);
@@ -970,13 +1012,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mHasReminderDateChange || mColor || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder)) {
+        if (mHasReminderDateChange || mColor || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder, mTodos, mTodosCompleted)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
             mNote.setReminder(mHasReminder);
-            // Send pinned event to google analytics if changed
+            mNote.setTodos(mTodos);
+            mNote.setCompletedTodos(mTodosCompleted);
+
             mNote.save();
 
             AnalyticsTracker.track(
@@ -1397,6 +1441,154 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
 
+    }
+
+    private void updateTodos() {
+        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getTodos(), false);
+        mTodoList.setAdapter(jSONAdapter);
+        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getCompletedTodos(), true);
+        mCompletedTodoList.setAdapter(jSONAdapter);
+
+        NoteUtils.setListViewHeight(mTodoList);
+        NoteUtils.setListViewHeight(mCompletedTodoList);
+    }
+
+    public class TodoItem {
+        private String text;
+        private Boolean checked;
+
+        public TodoItem(String text, Boolean checked) {
+            this.text = text;
+            this.checked = checked;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Boolean getChecked() {
+            return checked;
+        }
+
+        public void setChecked(Boolean checked) {
+            this.checked = checked;
+        }
+    }
+
+    public class JSONAdapter extends BaseAdapter implements ListAdapter {
+
+        private final Activity activity;
+        private final JSONArray jsonArray;
+        private final Boolean checked;
+
+        public JSONAdapter (Activity activity, JSONArray jsonArray, Boolean checked) {
+            assert activity != null;
+            assert jsonArray != null;
+
+            this.jsonArray = jsonArray;
+            this.activity = activity;
+            this.checked = checked;
+        }
+
+
+        @Override public int getCount() {
+            if(jsonArray == null)
+                return 0;
+            else
+                return jsonArray.length();
+        }
+
+        @Override public JSONObject getItem(int position) {
+            if (jsonArray == null)
+                return null;
+            else {
+                JSONObject item = new JSONObject();
+                try {
+                    String temp = jsonArray.getString(position);
+                    item.put("text", temp);
+                } catch (JSONException e) {
+
+                }
+                return item;
+            }
+        }
+
+        @Override public long getItemId(int position) {
+            JSONObject jsonObject = getItem(position);
+
+            return jsonObject.optLong("id");
+        }
+
+        @Override public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView == null)
+                convertView = activity.getLayoutInflater().inflate(R.layout.fragment_todo_row, null);
+
+            TextView text = (TextView)convertView.findViewById(R.id.todo_title);
+            CheckBox check = (CheckBox)convertView.findViewById(R.id.todo_checked);
+
+
+
+            JSONObject json_data = getItem(position);
+            if(null != json_data ) {
+                try {
+                    String t = json_data.getString("text");
+                    text.setText(t);
+                    check.setChecked(checked);
+                    if (checked)
+                        text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                } catch (JSONException e) {
+
+                }
+            }
+
+            check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checked == false) {
+                        try {
+                            String completed_item = mTodos.getString(position);
+                            mTodosCompleted.put(completed_item);
+                            mTodos.remove(position);
+
+                            mNote.setTodos(mTodos);
+                            mNote.setCompletedTodos(mTodosCompleted);
+                            mNote.save();
+                            updateTodos();
+                        } catch (JSONException e) {
+
+                        }
+                    } else {
+                        try {
+                            String item = mTodosCompleted.getString(position);
+                            mTodos.put(item);
+                            mTodosCompleted.remove(position);
+
+                            mNote.setTodos(mTodos);
+                            mNote.setCompletedTodos(mTodosCompleted);
+                            mNote.save();
+                            updateTodos();
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }
+            });
+
+            text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+
+                }
+            });
+
+            return convertView;
+        }
     }
     
 }

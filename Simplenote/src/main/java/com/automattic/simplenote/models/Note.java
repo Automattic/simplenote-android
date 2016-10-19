@@ -51,6 +51,8 @@ public class Note extends BucketObject {
     public static final String REMINDER_DATE_PROPERTY = "reminderDate";
     public static final String COLOR_PROPERTY = "color";
     public static final String TEMPLATE_PROPERTY = "template";
+    public static final String TODO_PROPERTY = "todo";
+    public static final String TODO_COMPLETED_PROPERTY = "todo_completed";
 
 
     static public final String[] FULL_TEXT_INDEXES = new String[]{
@@ -502,13 +504,40 @@ public class Note extends BucketObject {
         return color;
     }
 
+    public void setTodos(JSONArray todos) {
+        setProperty(TODO_PROPERTY, todos);
+    }
+
+    public JSONArray getTodos() {
+        JSONArray todos = (JSONArray) getProperty(TODO_PROPERTY);
+        if (todos == null) {
+            todos = new JSONArray();
+            setProperty(TODO_PROPERTY, todos);
+        }
+        return todos;
+    }
+
+    public void setCompletedTodos(JSONArray todos) {
+        setProperty(TODO_COMPLETED_PROPERTY, todos);
+    }
+
+    public JSONArray getCompletedTodos() {
+        JSONArray todos = (JSONArray) getProperty(TODO_COMPLETED_PROPERTY);
+        if (todos == null) {
+            todos = new JSONArray();
+            setProperty(TODO_COMPLETED_PROPERTY, todos);
+        }
+        return todos;
+    }
+
+
+
 
     /**
      * Check if the note has any changes
-     *
-     * @param content           the new note content
-     * @param tagString         space separated tags
-     * @param isPinned          note is pinned
+     * @param content the new note content
+     * @param tagString space separated tags
+     * @param isPinned note is pinned
      * @param isMarkdownEnabled note has markdown enabled
      * @return true if note has changes, false if it is unchanged.
      */
@@ -517,13 +546,18 @@ public class Note extends BucketObject {
                               boolean isPinned,
                               boolean isMarkdownEnabled,
                               boolean hasReminder,
-                              int color) {
+                              int color,
+                              JSONArray todos,
+                              JSONArray completed_todos) {
         return !content.equals(this.getContent())
             || !tagString.equals(this.getTagString().toString())
             || this.isPinned() != isPinned
             || this.isMarkdownEnabled() != isMarkdownEnabled
             || this.hasReminder() != hasReminder
-            || color != this.getColor();
+            || color != this.getColor()
+            || this.getTodos() != todos
+            || this.getCompletedTodos() != completed_todos;
+
     }
 
     public static class Schema extends BucketSchema<Note> {
@@ -545,6 +579,9 @@ public class Note extends BucketObject {
             setDefault(REMINDER_DATE_PROPERTY, null);
             setDefault(COLOR_PROPERTY, null);
             setDefault(TEMPLATE_PROPERTY, false);
+            setDefault(TODO_PROPERTY, new JSONArray());
+            setDefault(TODO_COMPLETED_PROPERTY, new JSONArray());
+
         }
 
         public String getRemoteName() {
