@@ -718,10 +718,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
-
-//            View colorIndicator = view.findViewById(R.id.color_line);
-//            colorIndicator.setBackgroundColor(color);
-
             if (title == null || title.equals("")) {
                 SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
                 untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
@@ -748,10 +744,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
                     holder.contentTextView.setText(matchedContentPreview);
                 }
-            } else if (mNumPreviewLines > 0) {
+            } else {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
-                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
+                //MDD_A_AK: Removed reminder
+                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list))) {
                     holder.contentTextView.setVisibility(View.GONE);
+                    if (mCursor.getObject().hasReminder()) {
+                        holder.contentTextView.setText(getString(R.string.reminder_on) + " "
+                                + sdf.format(mCursor.getObject().getReminderDate().getTime()));
+                        holder.contentTextView.setVisibility(View.VISIBLE);
+                    }
+                }
                 else {
                     //MDD_A_AK: Reminder date in note preview
                     if (mCursor.getObject().hasReminder()) holder.
