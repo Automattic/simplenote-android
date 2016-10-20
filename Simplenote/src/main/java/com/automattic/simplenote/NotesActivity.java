@@ -429,14 +429,19 @@ public class NotesActivity extends AppCompatActivity implements
         mTagsAdapter.changeCursor(tagCursor);
     }
 
-    private void setSelectedTagActive() {
-        if (mSelectedTag == null)
-            mSelectedTag = mTagsAdapter.getDefaultItem();
-
+    public void setDefaultHeader(){
+        mSelectedTag = mTagsAdapter.getDefaultItem();
         setTitle(mSelectedTag.name);
         mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
     }
 
+    private void setSelectedTagActive() {
+        if (mSelectedTag == null)
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+        if (!getNoteListFragment().tagsAreUsed())
+            setTitle(mSelectedTag.name);
+        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+    }
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -444,16 +449,17 @@ public class NotesActivity extends AppCompatActivity implements
 
             // Adjust for header view
             position -= mDrawerList.getHeaderViewsCount();
-            mSelectedTag = mTagsAdapter.getItem(position);
             checkEmptyListText(false);
             // Update checked item in navigation drawer and close it
             mDrawerLayout.closeDrawer(mNavigationView);
             if (position > mTagsAdapter.getTopItemsLength()-1) {
-                getNoteListFragment().addSearchTag(mSelectedTag.name);
+                //mSelectedTag.name="";
+                getNoteListFragment().addSearchTag(mTagsAdapter.getTagName(position));
                 setTitle("");
-                mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+               // mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
             }
             else {
+                mSelectedTag = mTagsAdapter.getItem(position);
                 getNoteListFragment().cleanSearchTag();
                 setSelectedTagActive();
             }
