@@ -233,6 +233,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     */
+
+    public boolean tagsAreUsed(){
+        return ((mTagList != null)&& (mTagList.size()>0));
+    }
+
     public void addSearchTag(CharSequence newTag){
         boolean isTheTagNew = true;
         //String newTag = ((String)tag)+"  |×";
@@ -256,8 +261,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
-        queryNotes();
-        refreshList();
+        if (mTagList.size()==0) {
+            ((NotesActivity) getActivity()).setDefaultHeader();
+            mTagView.setVisibility(View.GONE);
+        }
+            //refreshListFromNavSelect();
+       // queryNotes();
+       refreshList();
     }
 
     public void removeLastSearchTag(){
@@ -266,7 +276,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
         mTagView.drawChips(mTagList, this);
         mTagView.setVisibility(View.VISIBLE);
-        queryNotes();
+        //queryNotes();
         refreshList();
     }
 

@@ -138,6 +138,13 @@ public class TagsAdapter extends BaseAdapter {
         return getItem(DEFAULT_ITEM_POSITION);
     }
 
+    public String getTagName(int i){
+
+        mCursor.moveToPosition(i-topItems.length);
+        return new TagMenuItem(mCursor.getLong(mRowIdColumn),
+                StrUtils.notNullStr(mCursor.getString(mNameColumn))).name;
+    }
+
     @Override
     public TagMenuItem getItem(int i) {
         if (i == 0) {
