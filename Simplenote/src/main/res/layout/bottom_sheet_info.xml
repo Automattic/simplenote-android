@@ -46,40 +46,12 @@
         android:layout_below="@id/info_words_text"
         android:background="@color/divider_grey" />
 
-    <Switch
-        android:id="@+id/info_pin_switch"
-        android:layout_below="@+id/info_divider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/simplenote_dark_grey"
-        android:paddingTop="@dimen/padding_extra_large"
-        android:paddingBottom="@dimen/padding_extra_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:text="@string/pin_to_top" />
-
-    <Switch
-        android:id="@+id/info_markdown_switch"
-        android:layout_below="@+id/info_pin_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/simplenote_dark_grey"
-        android:paddingTop="@dimen/padding_extra_large"
-        android:paddingBottom="@dimen/padding_extra_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:text="@string/enable_markdown" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
-        android:layout_below="@id/info_markdown_switch">
+        android:layout_below="@id/info_divider">
 
         <LinearLayout
             android:paddingTop="@dimen/padding_extra_large"
