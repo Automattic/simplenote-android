@@ -1144,37 +1144,6 @@ public class NotesActivity extends AppCompatActivity implements
         // noop, NoteEditorFragment will handle this
     }
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Adjust for header view
-            position -= mDrawerList.getHeaderViewsCount();
-            mSelectedTag = mTagsAdapter.getItem(position);
-            checkEmptyListText(false);
-            // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mNavigationView);
-
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
-            getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1) {
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                        AnalyticsTracker.CATEGORY_TAG,
-                        "selected_tag_in_navigation_drawer"
-                );
-            }
-        }
-    }
-
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
 
         @Override
