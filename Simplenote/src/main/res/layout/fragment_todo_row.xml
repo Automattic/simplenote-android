@@ -35,7 +35,10 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:text="@string/new_todo"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+
+            />
 
     </LinearLayout>
 </LinearLayout>
