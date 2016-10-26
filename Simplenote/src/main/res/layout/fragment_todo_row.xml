@@ -7,14 +7,26 @@
     android:paddingTop="8dp"
     android:paddingRight="8dp"
     android:paddingBottom="8dp"
-    android:paddingLeft="8dp">
+    android:paddingLeft="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:minHeight="48dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:layout_marginLeft="0dp">
+
+        <CheckBox
+            android:id="@+id/todo_checked"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:paddingLeft="0dp" />
 
         <EditText
             android:id="@+id/todo_title"
@@ -23,15 +35,10 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:text="@string/new_todo"
-            android:layout_gravity="center_vertical"/>
-        <CheckBox
-            android:id="@+id/todo_checked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:layout_gravity="right"/>
+            android:layout_gravity="center_vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+
+            />
 
     </LinearLayout>
 </LinearLayout>

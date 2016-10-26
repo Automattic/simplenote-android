@@ -31,8 +31,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private TextView mInfoWords;
     private TextView mInfoLinkUrl;
     private TextView mInfoLinkTitle;
-    private Switch mInfoPinSwitch;
-    private Switch mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
 
@@ -51,31 +49,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoWords = (TextView)infoView.findViewById(R.id.info_words_text);
         mInfoLinkUrl = (TextView)infoView.findViewById(R.id.info_public_link_url);
         mInfoLinkTitle = (TextView)infoView.findViewById(R.id.info_public_link_title);
-
-
-        mInfoPinSwitch = (Switch)infoView.findViewById(R.id.info_pin_switch);
-        mInfoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                infoSheetListener.onInfoPinSwitchChanged(isChecked);
-            }
-        });
-
-        mInfoMarkdownSwitch = (Switch)infoView.findViewById(R.id.info_markdown_switch);
-        mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!mFragment.isAdded()) return;
-
-                infoSheetListener.onInfoMarkdownSwitchChanged(isChecked);
-
-                // Set preference so that next new note will have markdown enabled
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mFragment.getActivity());
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
-                editor.apply();
-            }
-        });
 
         mCopyButton = (ImageButton)infoView.findViewById(R.id.info_copy_link_button);
         mCopyButton.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +87,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoWords.setText(getWordCount(note.getContent()));
-
-            mInfoPinSwitch.setChecked(note.isPinned());
-
-            mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
 
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
