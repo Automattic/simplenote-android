@@ -363,7 +363,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setEnabled(true);
         mTagView.setClickable(false);
         mTagView.setFocusableInTouchMode(false);
-       //mTagView.setInputType(InputType.TYPE_NULL);
+       // mTagView.setInputType(InputType.TYPE_NULL);
         mTagView.setCursorVisible(false);
         mTagView.setKeyListener(null);
 
