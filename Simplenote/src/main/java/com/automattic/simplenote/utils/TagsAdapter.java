@@ -32,7 +32,8 @@ public class TagsAdapter extends BaseAdapter {
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
     public static final long TEMPLATES_ID = -3L;
-    public static final long ALL_REMINDERS_ID = -4L;
+    public static final long TODO_ID = -4L;
+    public static final long ALL_REMINDERS_ID = -5L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
 
@@ -44,6 +45,7 @@ public class TagsAdapter extends BaseAdapter {
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
     protected TagMenuItem mTemplateItem;
+    protected TagMenuItem mTodoItem;
     protected TagMenuItem mAllRemindersItem;
 
     private int mNameColumn;
@@ -51,7 +53,7 @@ public class TagsAdapter extends BaseAdapter {
     private int mTextColorId;
     private int mHeaderCount;
 
-    protected static final int[] topItems = { R.string.notes, R.string.trash, R.string.templates, R.string.reminders };
+    protected static final int[] topItems = { R.string.notes, R.string.trash, R.string.templates, R.string.todoLists, R.string.reminders };
 
     public TagsAdapter(Context context, Bucket<Note> notesBucket, int headerCount) {
         this(context, notesBucket, null);
@@ -62,6 +64,7 @@ public class TagsAdapter extends BaseAdapter {
         mContext = context;
         mNotesBucket = notesBucket;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         mAllNotesItem = new TagMenuItem(ALL_NOTES_ID, R.string.notes){
 
             @Override
@@ -84,6 +87,15 @@ public class TagsAdapter extends BaseAdapter {
             @Override
             public Query<Note> query(){
                 return Note.allTemplates(mNotesBucket);
+            }
+
+        };
+
+        mTodoItem = new TagMenuItem(TODO_ID, R.string.todoLists){
+
+            @Override
+            public Query<Note> query(){
+                return Note.allTodoLists(mNotesBucket);
             }
 
         };
@@ -154,7 +166,10 @@ public class TagsAdapter extends BaseAdapter {
         } else if (i == 2) {
             return mTemplateItem;
         } else if (i == 3){
+            return mTodoItem;
+        } else if (i == 4){
             return mAllRemindersItem;
+
         } else {
             mCursor.moveToPosition(i-topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
@@ -196,7 +211,10 @@ public class TagsAdapter extends BaseAdapter {
         }  else if (position == 2) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_template_24dp);
             dividerView.setVisibility(View.GONE);
-        } else if (position == 3) {
+        }   else if (position == 3) {
+                icon = ContextCompat.getDrawable(mContext, R.drawable.ic_create_24dp);
+                dividerView.setVisibility(View.GONE);
+        } else if (position == 4) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_reminder_24dp);
             dividerView.setVisibility(View.VISIBLE);
         }
@@ -208,7 +226,7 @@ public class TagsAdapter extends BaseAdapter {
         drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
-        if (position == 4) {
+        if (position == 5) {
             tagsHeader.setVisibility(View.VISIBLE);
         } else {
             tagsHeader.setVisibility(View.GONE);
@@ -234,7 +252,8 @@ public class TagsAdapter extends BaseAdapter {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
         if (mSelectedTag.id == TRASH_ID) return 1;
         if (mSelectedTag.id == TEMPLATES_ID) return 2;
-        if (mSelectedTag.id == ALL_REMINDERS_ID) return 3;
+        if (mSelectedTag.id == TODO_ID) return 3;
+        if (mSelectedTag.id == ALL_REMINDERS_ID) return 4;
         if (mCursor == null) return -1;
         int current = mCursor.getPosition();
         mCursor.moveToPosition(-1);
@@ -255,7 +274,7 @@ public class TagsAdapter extends BaseAdapter {
 
         private TagMenuItem(){
             name = "";
-            id = -5L;
+            id = -6L;
         }
 
         private TagMenuItem(long id, int resourceId){

@@ -269,6 +269,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (todoText.length() != 0) {
                     mTodos.put(todoText);
                     mNote.setTodos(mTodos);
+//                    mNote.setTodo(true); // tag it that it should be in a TODOlist
                     mNote.save();
                     mAddTodoText.setText("");
                     updateTodos();

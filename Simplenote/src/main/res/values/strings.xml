@@ -69,6 +69,7 @@
     <string name="template">Save as template</string>
     <string name="use_template">Make note</string>
     <string name="templates">Templates</string>
+    <string name="todoLists">TODO lists</string>
 
 
     <!-- Undo -->

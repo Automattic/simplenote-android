@@ -33,6 +33,7 @@ public class Simplenote extends Application {
 
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String TEMPLATE_NOTE_ID = "templateNoteId";
+    public static final String TODO_NOTE_ID = "todoNoteId";
 
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
