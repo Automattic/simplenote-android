@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:paddingTop="8dp"
+    android:paddingTop="0dp"
     android:paddingRight="8dp"
-    android:paddingBottom="8dp"
+    android:paddingBottom="0dp"
     android:paddingLeft="0dp">
 
     <LinearLayout
@@ -16,7 +16,11 @@
         android:minHeight="48dp"
         android:orientation="horizontal"
         android:paddingLeft="0dp"
-        android:layout_marginLeft="0dp">
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp">
 
         <CheckBox
             android:id="@+id/todo_checked"
@@ -36,6 +40,7 @@
             android:layout_weight="1"
             android:text="@string/new_todo"
             android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
             android:scrollbarAlwaysDrawVerticalTrack="false"
 
             />
