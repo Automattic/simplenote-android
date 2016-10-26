@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
@@ -360,8 +361,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setFocusable(false);
         mTagView.setEnabled(true);
-        mTagView.setClickable(true);
+        mTagView.setClickable(false);
         mTagView.setFocusableInTouchMode(false);
+       // mTagView.setInputType(InputType.TYPE_NULL);
+        mTagView.setCursorVisible(false);
+        mTagView.setKeyListener(null);
 
         cleanSearchTag();
 
