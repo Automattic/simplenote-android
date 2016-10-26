@@ -10,10 +10,11 @@ import android.view.MenuItem;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
+import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
 public class PreferencesActivity extends AppCompatActivity {
 
-    //private PasscodePreferenceFragment mPasscodePreferenceFragment;
+    private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
 
     @SuppressWarnings("deprecation")
@@ -43,18 +44,18 @@ public class PreferencesActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle passcodeArgs = new Bundle();
             passcodeArgs.putBoolean(PasscodePreferenceFragment.KEY_SHOULD_INFLATE, false);
-            //mPasscodePreferenceFragment = new PasscodePreferenceFragment();
-            //mPasscodePreferenceFragment.setArguments(passcodeArgs);
+            mPasscodePreferenceFragment = new PasscodePreferenceFragmentCompat();
+            mPasscodePreferenceFragment.setArguments(passcodeArgs);
 
             mPreferencesFragment = new PreferencesFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.preferences_container, mPreferencesFragment, preferencesTag)
-                    //.add(R.id.preferences_container, mPasscodePreferenceFragment, passcodeTag)
+                    .add(R.id.preferences_container, mPasscodePreferenceFragment, passcodeTag)
                     .commit();
         } else {
             FragmentManager fragmentManager = getSupportFragmentManager();
             mPreferencesFragment = (PreferencesFragment)fragmentManager.findFragmentByTag(preferencesTag);
-            //mPasscodePreferenceFragment = (PasscodePreferenceFragment)fragmentManager.findFragmentByTag(passcodeTag);
+            mPasscodePreferenceFragment = (PasscodePreferenceFragmentCompat) fragmentManager.findFragmentByTag(passcodeTag);
         }
     }
 
@@ -67,9 +68,9 @@ public class PreferencesActivity extends AppCompatActivity {
         Preference changePref =
                 mPreferencesFragment.findPreference(getString(R.string.pref_key_change_passcode));
 
-        //if (togglePref != null && changePref != null) {
-            //mPasscodePreferenceFragment.setPreferences(togglePref, changePref);
-        //}
+        if (togglePref != null && changePref != null) {
+            mPasscodePreferenceFragment.setPreferences(togglePref, changePref);
+        }
     }
 
     @Override
