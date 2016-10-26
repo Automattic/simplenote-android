@@ -52,6 +52,7 @@ public class Note extends BucketObject {
     public static final String COLOR_PROPERTY = "color";
     public static final String TEMPLATE_PROPERTY = "template";
     public static final String TODO_PROPERTY = "todo";
+    public static final String IS_TODO_PROPERTY = "isTodo";
     public static final String TODO_COMPLETED_PROPERTY = "todo_completed";
 
 
@@ -74,7 +75,8 @@ public class Note extends BucketObject {
     public static Query<Note> all(Bucket<Note> noteBucket) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
-                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(IS_TODO_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
     public static Query<Note> allDeleted(Bucket<Note> noteBucket) {
@@ -92,6 +94,13 @@ public class Note extends BucketObject {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TEMPLATE_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
+    public static Query<Note> allTodoLists(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(IS_TODO_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
     public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
@@ -381,11 +390,24 @@ public class Note extends BucketObject {
             return template instanceof Number && ((Number) template).intValue() != 0;
     }
 
-
     public void setTemplate(boolean template) {
         setProperty(TEMPLATE_PROPERTY, template);
     }
 
+    public Boolean isTodo() {
+        Object todo = getProperty(IS_TODO_PROPERTY);
+        if (todo == null) {
+            return false;
+        }
+        if (todo instanceof Boolean) {
+            return (Boolean) todo;
+        } else
+            return todo instanceof Number && ((Number) todo).intValue() != 0;
+    }
+
+    public void setTodo(boolean todo) {
+        setProperty(IS_TODO_PROPERTY, todo);
+    }
 
     public boolean isMarkdownEnabled() {
         return hasSystemTag(MARKDOWN_TAG);
@@ -580,6 +602,7 @@ public class Note extends BucketObject {
             setDefault(COLOR_PROPERTY, null);
             setDefault(TEMPLATE_PROPERTY, false);
             setDefault(TODO_PROPERTY, new JSONArray());
+            setDefault(IS_TODO_PROPERTY, false);
             setDefault(TODO_COMPLETED_PROPERTY, new JSONArray());
 
         }

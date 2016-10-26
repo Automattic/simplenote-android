@@ -66,6 +66,19 @@ public class NoteUtils {
         }
     }
 
+    public static void todoNote(Note note, Activity activity) {
+        if (note != null) {
+            note.setTodo(!note.isTodo());
+            note.setModificationDate(Calendar.getInstance());
+            note.save();
+            Intent resultIntent = new Intent();
+            if (note.isDeleted()) {
+                resultIntent.putExtra(Simplenote.TODO_NOTE_ID, note.getSimperiumKey());
+            }
+            activity.setResult(Activity.RESULT_OK, resultIntent);
+        }
+    }
+
     public static void setListViewHeight(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
