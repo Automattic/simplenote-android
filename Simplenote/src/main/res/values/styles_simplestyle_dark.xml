@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
+    <style name="Base.Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_toolbar_dark</item>
         <item name="colorPrimaryDark">@color/black</item>
@@ -52,7 +52,11 @@
         <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
         <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
         <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
+
+    <style name="Theme.Simplestyle.Dark" parent="Base.Theme.Simplestyle.Dark"/>
 
     <style name="DrawerArrowStyle.Dark" parent="DrawerArrowStyle">
         <item name="color">@color/simplenote_blue</item>

@@ -5,10 +5,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
+import android.support.v7.preference.ListPreference;
+import android.support.v7.preference.Preference;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -17,21 +15,26 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
+import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferencesFragment extends PreferenceFragment implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
 
     public PreferencesFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+        addPreferencesFromResource(R.xml.preferences);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        addPreferencesFromResource(R.xml.preferences);
 
         Preference authenticatePreference = findPreference("pref_key_authenticate");
         Simplenote currentApp = (Simplenote) getActivity().getApplication();
@@ -138,11 +141,11 @@ public class PreferencesFragment extends PreferenceFragment implements User.Stat
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
 
-        SwitchPreference switchPreference = (SwitchPreference) findPreference("pref_key_condensed_note_list");
+        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference("pref_key_condensed_note_list");
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((SwitchPreference) preference).isChecked()) {
+                if (((SwitchPreferenceCompat) preference).isChecked()) {
                     AnalyticsTracker.track(
                             AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
                             AnalyticsTracker.CATEGORY_USER,
