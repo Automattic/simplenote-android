@@ -53,8 +53,8 @@ public class PreferencesActivity extends AppCompatActivity {
                     .commit();
         } else {
             FragmentManager fragmentManager = getFragmentManager();
-            mPreferencesFragment = (PreferencesFragment)fragmentManager.findFragmentByTag(preferencesTag);
-            mPasscodePreferenceFragment = (PasscodePreferenceFragment)fragmentManager.findFragmentByTag(passcodeTag);
+            mPreferencesFragment = (PreferencesFragment) fragmentManager.findFragmentByTag(preferencesTag);
+            mPasscodePreferenceFragment = (PasscodePreferenceFragment) fragmentManager.findFragmentByTag(passcodeTag);
         }
     }
 

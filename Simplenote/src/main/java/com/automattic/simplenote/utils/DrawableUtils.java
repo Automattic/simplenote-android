@@ -16,6 +16,7 @@ import android.view.MenuItem;
 /**
  * Created by Ondrej Ruttkay on 18/03/2016.
  */
+@SuppressWarnings("unused")
 public class DrawableUtils {
 
     public static Drawable tintDrawableWithResource(Context context, @DrawableRes int drawableRes, @ColorRes int colorRes) {

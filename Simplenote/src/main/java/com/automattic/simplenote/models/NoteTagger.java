@@ -8,16 +8,16 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 
-import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class NoteTagger implements Bucket.Listener<Note> {
 
+    private static final String KEY_ENCODING = "UTF-8";
     private Bucket<Tag> mTagsBucket;
-    private static final String KEY_ENCODING="UTF-8";
 
-    public NoteTagger(Bucket<Tag> tagsBucket){
+    public NoteTagger(Bucket<Tag> tagsBucket) {
         mTagsBucket = tagsBucket;
     }
 
@@ -26,20 +26,19 @@ public class NoteTagger implements Bucket.Listener<Note> {
     * object and create one if necessary. Re-save all tags so their indexes are updated.
     * */
     @Override
-    public void onSaveObject(Bucket<Note> bucket, Note note){
+    public void onSaveObject(Bucket<Note> bucket, Note note) {
         // make sure we have tags
         List<String> tags = note.getTags();
         for (String tagName : tags) {
             // find the tag by the lowercase tag string
-            Tag tag;
             String tagKey = null;
             try {
                 tagKey = URLEncoder.encode(tagName.toLowerCase(), KEY_ENCODING);
-                tag = mTagsBucket.getObject(tagKey);
+                mTagsBucket.getObject(tagKey);
             } catch (BucketObjectMissingException e) {
                 // tag doesn't exist, so we'll create one using the key
                 try {
-                    tag = mTagsBucket.newObject(tagKey);
+                    Tag tag = mTagsBucket.newObject(tagKey);
                     tag.setName(tagName);
                     tag.setIndex(mTagsBucket.count());
                     tag.save();

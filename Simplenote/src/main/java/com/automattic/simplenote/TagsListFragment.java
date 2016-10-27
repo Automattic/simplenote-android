@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,13 +27,14 @@ import android.widget.TextView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
 import java.util.List;
 
-public class TagsListFragment extends ListFragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag>{
+public class TagsListFragment extends ListFragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag> {
 
     private ActionMode mActionMode;
     private Bucket<Tag> mTagsBucket;
@@ -52,8 +52,8 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
 
-        TextView emptyTextView = (TextView)view.findViewById(android.R.id.empty);
-        emptyTextView.setText(Html.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
+        TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
+        emptyTextView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
         return view;
     }
 
@@ -204,7 +204,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            if (isAdded()){
+            if (isAdded()) {
                 getActivity().finish();
                 return true;
             }

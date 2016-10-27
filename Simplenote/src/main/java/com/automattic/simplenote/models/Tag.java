@@ -14,41 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tag extends BucketObject {
-	
-	public static final String BUCKET_NAME="tag";
+
+    public static final String BUCKET_NAME = "tag";
     public static final String NOTE_COUNT_INDEX_NAME = "note_count";
     public static final String NAME_PROPERTY = "name";
     public static final String INDEX_PROPERTY = "index";
-    protected int tagIndex;
     protected String name = "";
-
-    public static class Schema extends BucketSchema<Tag> {
-
-        public Schema(){
-            autoIndex();
-        }
-
-        public String getRemoteName(){
-            return Tag.BUCKET_NAME;
-        }
-
-        public Tag build(String key, JSONObject properties) {
-            return new Tag(key, properties);
-        }
-
-        public void update(Tag tag, JSONObject properties) {
-            tag.setProperties(properties);
-        }
-
-    }
-
-    public static Query<Tag> all(Bucket<Tag> bucket){
-        return bucket.query().order(INDEX_PROPERTY).orderByKey();
-    }
-
-    public static Query<Tag> allWithCount(Bucket<Tag> bucket) {
-        return all(bucket).include(NAME_PROPERTY, NOTE_COUNT_INDEX_NAME);
-    }
 
     public Tag(String key) {
         super(key, new JSONObject());
@@ -56,6 +27,14 @@ public class Tag extends BucketObject {
 
     public Tag(String key, JSONObject properties) {
         super(key, properties);
+    }
+
+    public static Query<Tag> all(Bucket<Tag> bucket) {
+        return bucket.query().order(INDEX_PROPERTY).orderByKey();
+    }
+
+    public static Query<Tag> allWithCount(Bucket<Tag> bucket) {
+        return all(bucket).include(NAME_PROPERTY, NOTE_COUNT_INDEX_NAME);
     }
 
     public String getName() {
@@ -86,7 +65,7 @@ public class Tag extends BucketObject {
     }
 
     public void renameTo(String name, Bucket<Note> notesBucket)
-    throws BucketObjectNameInvalid {
+            throws BucketObjectNameInvalid {
         String key = name.toLowerCase();
         if (!getSimperiumKey().equals(key)) {
             // create a new tag with the value as the key/name
@@ -96,7 +75,7 @@ public class Tag extends BucketObject {
             newTag.save();
             // get all the notes from tag, remove the item
             ObjectCursor<Note> notesCursor = findNotes(notesBucket);
-            while(notesCursor.moveToNext()){
+            while (notesCursor.moveToNext()) {
                 Note note = notesCursor.getObject();
                 List<String> tags = new ArrayList<>(note.getTags());
                 List<String> newTags = new ArrayList<>(tags.size());
@@ -114,13 +93,33 @@ public class Tag extends BucketObject {
             }
             notesCursor.close();
             delete();
-        } else if(!getName().equals(name)) {
+        } else if (!getName().equals(name)) {
             setName(name);
             save();
         }
     }
 
-    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket){
+    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket) {
         return notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()).execute();
+    }
+
+    public static class Schema extends BucketSchema<Tag> {
+
+        public Schema() {
+            autoIndex();
+        }
+
+        public String getRemoteName() {
+            return Tag.BUCKET_NAME;
+        }
+
+        public Tag build(String key, JSONObject properties) {
+            return new Tag(key, properties);
+        }
+
+        public void update(Tag tag, JSONObject properties) {
+            tag.setProperties(properties);
+        }
+
     }
 }

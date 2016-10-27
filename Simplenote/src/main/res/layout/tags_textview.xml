@@ -2,11 +2,11 @@
 <com.automattic.simplenote.widgets.RobotoRegularTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:background="?attr/tagChipBackgroundDrawable"
-    android:textColor="?attr/tagChipTextColor"
+    android:gravity="center"
+    android:shadowColor="?attr/tagChipShadowColor"
     android:shadowDx="0"
     android:shadowDy="0"
     android:shadowRadius="1"
-    android:shadowColor="?attr/tagChipShadowColor"
-    android:textSize="16sp" />
+    android:textColor="?attr/tagChipTextColor"
+    android:textSize="16sp"/>

@@ -16,7 +16,6 @@
 
 package com.automattic.simplenote.utils;
 
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -28,24 +27,6 @@ public class UndoBarController {
     private UndoListener mUndoListener;
 
     private List<String> mDeletedNoteIds;
-
-    public interface UndoListener {
-        void onUndo();
-    }
-
-    public UndoBarController(UndoListener undoListener) {
-        mUndoListener = undoListener;
-    }
-
-    public void showUndoBar(View view, CharSequence message, Parcelable undoToken) {
-        if (view == null) return;
-
-        Snackbar
-                .make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, mOnUndoClickListener)
-                .show();
-    }
-
     private View.OnClickListener mOnUndoClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -55,11 +36,28 @@ public class UndoBarController {
         }
     };
 
+    public UndoBarController(UndoListener undoListener) {
+        mUndoListener = undoListener;
+    }
+
+    public void showUndoBar(View view, CharSequence message) {
+        if (view == null) return;
+
+        Snackbar
+                .make(view, message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, mOnUndoClickListener)
+                .show();
+    }
+
     public List<String> getDeletedNoteIds() {
         return mDeletedNoteIds;
     }
 
     public void setDeletedNoteIds(List<String> noteIds) {
         mDeletedNoteIds = noteIds;
+    }
+
+    public interface UndoListener {
+        void onUndo();
     }
 }

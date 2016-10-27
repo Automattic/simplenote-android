@@ -14,33 +14,9 @@ import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
+    static public final String CHARSET = "UTF-8";
+    protected static OnMatchListener sListener = new DefaultMatcher();
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
-
-    public interface SpanFactory {
-        Object[] buildSpans();
-    }
-
-    public interface OnMatchListener {
-        public void onMatch(SpanFactory factory, Spannable text, int start, int end);
-    }
-
-    private static class DefaultMatcher implements OnMatchListener {
-
-        @Override
-        public void onMatch(SpanFactory factory, Spannable content, int start, int end){
-
-            Object[] spans = factory.buildSpans();
-
-            for (Object span : spans) {
-                if (start >= 0 && end >= start && end <= content.length() - 1) {
-                    content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mMatchedSpans.add(span);
-                }
-            }
-        }
-
-    }
-
     private SpanFactory mFactory;
     private Thread mThread;
     private TextView mTextView;
@@ -48,9 +24,6 @@ public class MatchOffsetHighlighter implements Runnable {
     private int mIndex;
     private Spannable mText;
     private boolean mStopped = false;
-
-    protected static OnMatchListener sListener = new DefaultMatcher();
-
     private OnMatchListener mListener = new OnMatchListener() {
 
         @Override
@@ -64,7 +37,7 @@ public class MatchOffsetHighlighter implements Runnable {
             handler.post(new Runnable() {
 
                 @Override
-                public void run(){
+                public void run() {
                     if (mStopped) return;
                     sListener.onMatch(factory, text, start, end);
                 }
@@ -79,50 +52,18 @@ public class MatchOffsetHighlighter implements Runnable {
         mTextView = textView;
     }
 
-    @Override
-    public void run(){
-        highlightMatches(mText, mMatches, mIndex, mFactory, mListener);
-    }
-
-    public void start(){
-        // if there are no matches, we don't have to do anything
-        if (TextUtils.isEmpty(mMatches)) return;
-
-        mThread = new Thread(this);
-        mStopped = false;
-        mThread.start();
-    }
-
-    public void stop(){
-        mStopped = true;
-        if (mThread != null) mThread.interrupt();
-    }
-
-    public void highlightMatches(String matches, int columnIndex) {
-        synchronized(this){
-            stop();
-            mText = mTextView.getEditableText();
-            mMatches = matches;
-            mIndex = columnIndex;
-            start();
-        }
-    }
-
     public static void highlightMatches(Spannable content, String matches, int columnIndex,
-    SpanFactory factory) {
+                                        SpanFactory factory) {
 
         highlightMatches(content, matches, columnIndex, factory, new DefaultMatcher());
     }
 
     public static void highlightMatches(Spannable content, String matches, int columnIndex,
-        SpanFactory factory, OnMatchListener listener) {
+                                        SpanFactory factory, OnMatchListener listener) {
 
         if (TextUtils.isEmpty(matches)) return;
 
         Scanner scanner = new Scanner(matches);
-        int count = 0;
-
-        int total_offset = 0;
 
         // TODO: keep track of offsets and last index so we don't have to recalculate the entire byte length for every match which is pretty memory intensive
         while (scanner.hasNext()) {
@@ -130,7 +71,7 @@ public class MatchOffsetHighlighter implements Runnable {
             if (Thread.interrupted()) return;
 
             int column = scanner.nextInt();
-            int token = scanner.nextInt();
+            scanner.nextInt(); // token
             int start = scanner.nextInt();
             int length = scanner.nextInt();
 
@@ -146,22 +87,10 @@ public class MatchOffsetHighlighter implements Runnable {
         }
     }
 
-    public synchronized void removeMatches() {
-        stop();
-        if (mText != null && mMatchedSpans != null) {
-            for (Object span : mMatchedSpans) {
-                mText.removeSpan(span);
-            }
-            mMatchedSpans.clear();
-        }
-    }
-
-    static public final String CHARSET = "UTF-8";
-
     // TODO: get ride of memory pressure by preventing the toString()
     protected static int getByteOffset(CharSequence text, int start, int end) {
         String source = text.toString();
-        String substring = "";
+        String substring;
         int length = source.length();
 
         // starting index cannot be negative
@@ -174,7 +103,7 @@ public class MatchOffsetHighlighter implements Runnable {
             return 0;
         } else if (end > length - 1) {
             // end is past the end of the string, so cap at string's end
-            substring = source.substring(start, length -1);
+            substring = source.substring(start, length - 1);
         } else {
             // start and end are both valid indices
             substring = source.substring(start, end);
@@ -184,6 +113,70 @@ public class MatchOffsetHighlighter implements Runnable {
         } catch (UnsupportedEncodingException e) {
             return 0;
         }
+    }
+
+    @Override
+    public void run() {
+        highlightMatches(mText, mMatches, mIndex, mFactory, mListener);
+    }
+
+    public void start() {
+        // if there are no matches, we don't have to do anything
+        if (TextUtils.isEmpty(mMatches)) return;
+
+        mThread = new Thread(this);
+        mStopped = false;
+        mThread.start();
+    }
+
+    public void stop() {
+        mStopped = true;
+        if (mThread != null) mThread.interrupt();
+    }
+
+    public void highlightMatches(String matches, int columnIndex) {
+        synchronized (this) {
+            stop();
+            mText = mTextView.getEditableText();
+            mMatches = matches;
+            mIndex = columnIndex;
+            start();
+        }
+    }
+
+    public synchronized void removeMatches() {
+        stop();
+        if (mText != null && mMatchedSpans != null) {
+            for (Object span : mMatchedSpans) {
+                mText.removeSpan(span);
+            }
+            mMatchedSpans.clear();
+        }
+    }
+
+    public interface SpanFactory {
+        Object[] buildSpans();
+    }
+
+    public interface OnMatchListener {
+        void onMatch(SpanFactory factory, Spannable text, int start, int end);
+    }
+
+    private static class DefaultMatcher implements OnMatchListener {
+
+        @Override
+        public void onMatch(SpanFactory factory, Spannable content, int start, int end) {
+
+            Object[] spans = factory.buildSpans();
+
+            for (Object span : spans) {
+                if (start >= 0 && end >= start && end <= content.length() - 1) {
+                    content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mMatchedSpans.add(span);
+                }
+            }
+        }
+
     }
 
 }

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/settings" >
+        android:title="@string/settings">
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"
-            android:title="@string/condensed_note_list" />
+            android:title="@string/condensed_note_list"/>
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_sort_order"
             android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"
             android:summary="%s"
-            android:title="@string/sort_order" />
+            android:title="@string/sort_order"/>
         <ListPreference
             android:defaultValue="16"
             android:entries="@array/array_font_size"
             android:entryValues="@array/array_font_size_values"
             android:key="pref_key_font_size"
             android:summary="%s"
-            android:title="@string/font_size" />
+            android:title="@string/font_size"/>
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
             android:key="pref_key_theme"
             android:summary="%s"
-            android:title="@string/theme" />
+            android:title="@string/theme"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -37,22 +37,22 @@
 
         <Preference
             android:key="@string/pref_key_passcode_toggle"
-            android:title="@string/passcode_turn_on"
-            android:persistent="false" />
+            android:persistent="false"
+            android:title="@string/passcode_turn_on"/>
 
         <Preference
             android:key="@string/pref_key_change_passcode"
-            android:title="@string/passcode_change_passcode"
-            android:persistent="false" />
+            android:persistent="false"
+            android:title="@string/passcode_change_passcode"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:key="pref_key_account_preferences"
-            android:title="@string/account" >
+        android:key="pref_key_account_preferences"
+        android:title="@string/account">
         <Preference
-                android:key="pref_key_authenticate"
-                android:layout="@layout/auth_preference" />
+            android:key="pref_key_authenticate"
+            android:layout="@layout/auth_preference"/>
         <!--<Preference
                 android:key="pref_key_billing"
                 android:persistent="false"
@@ -60,21 +60,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:key="pref_key_account_preferences"
-            android:title="@string/more_info" >
+        android:key="pref_key_account_preferences"
+        android:title="@string/more_info">
         <Preference
             android:key="pref_key_about"
-            android:title="@string/about"
-            android:persistent="false" />
+            android:persistent="false"
+            android:title="@string/about"/>
         <Preference
-                android:key="pref_key_website"
-                android:persistent="false"
-                android:title="@string/website" />
+            android:key="pref_key_website"
+            android:persistent="false"
+            android:title="@string/website"/>
         <Preference
-                android:key="pref_key_build"
-                android:title="@string/version"
-                android:persistent="false"
-                android:selectable="false" />
+            android:key="pref_key_build"
+            android:persistent="false"
+            android:selectable="false"
+            android:title="@string/version"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
