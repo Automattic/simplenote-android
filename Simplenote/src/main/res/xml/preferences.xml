@@ -3,7 +3,8 @@
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/settings" >
+        android:title="@string/settings">
+
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"

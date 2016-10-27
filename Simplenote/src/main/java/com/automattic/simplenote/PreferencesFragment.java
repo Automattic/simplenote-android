@@ -145,7 +145,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((SwitchPreferenceCompat)preference).isChecked()) {
+                if (((SwitchPreferenceCompat) preference).isChecked()) {
                     AnalyticsTracker.track(
                             AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
                             AnalyticsTracker.CATEGORY_USER,
