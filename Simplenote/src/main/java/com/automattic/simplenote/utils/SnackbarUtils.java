@@ -22,7 +22,7 @@ public class SnackbarUtils {
     }
 
     public static Snackbar showSnackbar(Activity activity, @StringRes int message, @ColorRes int color, int duration,
-                                  @StringRes int action, View.OnClickListener onClick) {
+                                        @StringRes int action, View.OnClickListener onClick) {
         Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, duration);
         snackbar.setAction(action, onClick);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(activity, color));

@@ -2,33 +2,33 @@
 
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_history"
-        app:showAsAction="always"
+        android:enabled="false"
         android:icon="@drawable/ic_history_24dp"
         android:title="@string/history"
-        android:enabled="false" />
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_share"
-        app:showAsAction="always"
+        android:enabled="false"
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/share"
-        android:enabled="false" />
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_view_info"
-        android:icon="@drawable/ic_info_24dp"
-        app:showAsAction="always"
         android:enabled="false"
-        android:title="@string/note_info"/>
+        android:icon="@drawable/ic_info_24dp"
+        android:title="@string/note_info"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_trash_24dp"
-        app:showAsAction="always"
-        android:title="@string/delete" />
+        android:title="@string/delete"
+        app:showAsAction="always"/>
 
 </menu>

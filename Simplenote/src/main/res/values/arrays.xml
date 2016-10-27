@@ -2,12 +2,12 @@
 <resources>
 
     <string-array name="array_sort_order">
-      <item>@string/sort_newest_modified</item>
-      <item>@string/sort_oldest_modified</item>
-      <item>@string/sort_newest_created</item>
-      <item>@string/sort_oldest_created</item>
-      <item>@string/sort_alphabetical</item>
-      <item>@string/sort_alphabetical_reverse</item>
+        <item>@string/sort_newest_modified</item>
+        <item>@string/sort_oldest_modified</item>
+        <item>@string/sort_newest_created</item>
+        <item>@string/sort_oldest_created</item>
+        <item>@string/sort_alphabetical</item>
+        <item>@string/sort_alphabetical_reverse</item>
     </string-array>
 
     <string-array name="array_sort_order_values" translatable="false">

@@ -25,7 +25,7 @@
         android:drawablePadding="32dp"
         android:textColor="?attr/noteTitleColor"
         app:tint="?attr/noteTitleColor"
-        tools:text="Test" />
+        tools:text="Test"/>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
@@ -37,7 +37,7 @@
         android:layout_marginRight="8dp"
         android:gravity="end"
         android:textColor="?attr/notePreviewColor"
-        tools:text="24" />
+        tools:text="24"/>
 
     <View
         android:id="@+id/imageView"
@@ -48,7 +48,7 @@
         android:layout_marginLeft="@dimen/padding_extra_small"
         android:layout_marginRight="@dimen/padding_extra_small"
         android:layout_marginTop="8dp"
-        android:background="?attr/dividerColor" />
+        android:background="?attr/dividerColor"/>
 
     <ImageButton
         android:id="@+id/tag_trash"
@@ -61,6 +61,6 @@
         android:padding="@dimen/padding_large"
         android:tint="@color/simplenote_blue"
         app:srcCompat="@drawable/ic_trash_24dp"
-        tools:src="@drawable/ic_trash_24dp" />
+        tools:src="@drawable/ic_trash_24dp"/>
 
 </LinearLayout>

@@ -28,11 +28,8 @@ public class Simplenote extends Application {
     // intent IDs
     public static final int INTENT_PREFERENCES = 1;
     public static final int INTENT_EDIT_NOTE = 2;
-
-    private static final String AUTH_PROVIDER = "simplenote.com";
-
     public static final String DELETED_NOTE_ID = "deletedNoteId";
-
+    private static final String AUTH_PROVIDER = "simplenote.com";
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
@@ -71,6 +68,7 @@ public class Simplenote extends Application {
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
     }
 
+    @SuppressWarnings("unused")
     private boolean isFirstLaunch() {
         // NotesActivity sets this pref to false after first launch
         return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
@@ -110,10 +108,12 @@ public class Simplenote extends Application {
         }
 
         @Override
-        public void onConfigurationChanged(Configuration newConfig) {}
+        public void onConfigurationChanged(Configuration newConfig) {
+        }
 
         @Override
-        public void onLowMemory() {}
+        public void onLowMemory() {
+        }
 
         // ActivityLifeCycle callbacks
         @Override
@@ -130,21 +130,27 @@ public class Simplenote extends Application {
         }
 
         @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        }
 
         @Override
-        public void onActivityStarted(Activity activity) {}
+        public void onActivityStarted(Activity activity) {
+        }
 
         @Override
-        public void onActivityPaused(Activity activity) {}
+        public void onActivityPaused(Activity activity) {
+        }
 
         @Override
-        public void onActivityStopped(Activity activity) {}
+        public void onActivityStopped(Activity activity) {
+        }
 
         @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        }
 
         @Override
-        public void onActivityDestroyed(Activity activity) {}
+        public void onActivityDestroyed(Activity activity) {
+        }
     }
 }

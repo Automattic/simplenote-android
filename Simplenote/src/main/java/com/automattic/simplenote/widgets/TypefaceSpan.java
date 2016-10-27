@@ -3,6 +3,7 @@ package com.automattic.simplenote.widgets;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 

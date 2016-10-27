@@ -11,7 +11,8 @@
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
 
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle
+        </item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>

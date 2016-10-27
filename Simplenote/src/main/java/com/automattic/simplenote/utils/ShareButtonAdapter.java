@@ -40,31 +40,6 @@ public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.
         return mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public TextView button;
-        public ShareButtonItem item;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            button = (TextView) itemView.findViewById(R.id.share_button);
-        }
-
-        public void setData(ShareButtonItem item) {
-            this.item = item;
-            button.setCompoundDrawablesWithIntrinsicBounds(null, item.getDrawable(), null, null);
-            button.setText(item.getTitle());
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mListener != null) {
-                mListener.onItemClick(item);
-            }
-        }
-    }
-
     public interface ItemListener {
         void onItemClick(ShareButtonItem item);
     }
@@ -99,6 +74,31 @@ public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.
 
         public String getActivityName() {
             return mActivityName;
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView button;
+        public ShareButtonItem item;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            button = (TextView) itemView.findViewById(R.id.share_button);
+        }
+
+        public void setData(ShareButtonItem item) {
+            this.item = item;
+            button.setCompoundDrawablesWithIntrinsicBounds(null, item.getDrawable(), null, null);
+            button.setText(item.getTitle());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mListener != null) {
+                mListener.onItemClick(item);
+            }
         }
     }
 }

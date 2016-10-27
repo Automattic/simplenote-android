@@ -17,16 +17,16 @@
             android:id="@+id/history_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true" />
+            android:indeterminate="true"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/history_error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/grey"
             android:text="@string/error_history"
-            android:visibility="gone" />
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -35,74 +35,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:visibility="visible"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        tools:visibility="visible">
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/history_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding_extra_large"
-            android:paddingBottom="@dimen/padding_extra_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingEnd="@dimen/padding_large"
             android:gravity="start"
-            tools:text="March 1, 2016 13:30"
+            android:paddingBottom="@dimen/padding_extra_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_extra_large"
+            android:textColor="@color/grey"
             android:textSize="14sp"
-            android:textColor="@color/grey" />
+            tools:text="March 1, 2016 13:30"/>
 
         <View
             android:id="@+id/info_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider_grey" />
+            android:background="@color/divider_grey"/>
 
         <SeekBar
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding_extra_large"
-            android:paddingBottom="@dimen/padding_small"
             android:layout_marginLeft="@dimen/padding_extra_small"
             android:layout_marginRight="@dimen/padding_small"
-            android:thumbTint="@color/simplenote_blue" />
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_extra_large"
+            android:thumbTint="@color/simplenote_blue"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_small"
+            android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
             <com.automattic.simplenote.widgets.RobotoMediumTextView
                 android:id="@+id/cancel_history_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_small"
-                android:text="@string/cancel"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:padding="@dimen/padding_small"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
                 android:textColor="@color/simplenote_blue"
                 android:textSize="14sp"
-                android:textAllCaps="true"
                 android:textStyle="bold"/>
 
             <com.automattic.simplenote.widgets.RobotoMediumTextView
                 android:id="@+id/restore_history_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_small"
-                android:text="@string/restore"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:padding="@dimen/padding_small"
+                android:text="@string/restore"
+                android:textAllCaps="true"
                 android:textColor="@color/simplenote_blue"
                 android:textSize="14sp"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </LinearLayout>
 
     </LinearLayout>

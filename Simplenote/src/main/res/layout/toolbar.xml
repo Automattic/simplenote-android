@@ -8,4 +8,4 @@
     android:elevation="3dp"
     app:contentInsetStart="@dimen/toolbar_title_keyline"
     app:popupTheme="?attr/toolbarPopupTheme"
-    app:theme="@style/ToolbarTheme" />
+    app:theme="@style/ToolbarTheme"/>

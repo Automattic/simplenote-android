@@ -14,9 +14,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:orientation="vertical"
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
@@ -31,16 +31,16 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="top"
-                    android:lineSpacingExtra="4dp"
-	                android:maxLength="999999999"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                    android:lineSpacingExtra="4dp"
+                    android:maxLength="999999999"
                     android:paddingBottom="@dimen/padding_small"
                     android:paddingTop="@dimen/padding_small"
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="@color/simplenote_blue"
                     android:textSize="16sp"
-                    tools:context=".NoteEditorFragment" />
+                    tools:context=".NoteEditorFragment"/>
 
             </android.support.v4.widget.NestedScrollView>
 
@@ -61,7 +61,7 @@
                 android:nextFocusUp="@id/tag_view"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorHint="?attr/hintTextColor"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:layout_height="160dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/login_logo"
-                android:tint="?attr/placeholderLogoColor" />
+                android:tint="?attr/placeholderLogoColor"/>
         </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -2,9 +2,7 @@ package com.automattic.simplenote.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
-import com.automattic.simplenote.ShareBottomSheetDialog;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -15,7 +13,7 @@ import java.util.Calendar;
  * Created by Ondrej Ruttkay on 28/03/2016.
  */
 public class NoteUtils {
-    
+
     public static void setNotePin(Note note, boolean isPinned) {
         if (note != null && isPinned != note.isPinned()) {
             note.setPinned(isPinned);
@@ -30,7 +28,7 @@ public class NoteUtils {
             );
         }
     }
-    
+
     public static void deleteNote(Note note, Activity activity) {
         if (note != null) {
             note.setDeleted(!note.isDeleted());

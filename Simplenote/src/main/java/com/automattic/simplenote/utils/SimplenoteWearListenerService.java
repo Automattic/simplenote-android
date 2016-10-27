@@ -19,7 +19,7 @@ public class SimplenoteWearListenerService extends WearableListenerService {
             if (messageEvent.getData() != null && messageEvent.getData().length > 0) {
 
                 String voiceNoteString = new String(messageEvent.getData());
-                Simplenote application = (Simplenote)getApplication();
+                Simplenote application = (Simplenote) getApplication();
 
                 if (!TextUtils.isEmpty(voiceNoteString) && application.getNotesBucket() != null) {
                     Note note = application.getNotesBucket().newObject();

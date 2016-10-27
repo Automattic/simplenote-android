@@ -1,13 +1,13 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +27,6 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
 
     private static final int SHARE_SHEET_COLUMN_COUNT = 3;
 
-    private TextView mCollaborateButton;
     private TextView mPublishButton;
     private TextView mUnpublishButton;
     private RecyclerView mRecyclerView;
@@ -42,9 +41,9 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View shareView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
-        mCollaborateButton = (TextView)shareView.findViewById(R.id.share_collaborate_button);
-        mPublishButton = (TextView)shareView.findViewById(R.id.share_publish_button);
-        mUnpublishButton = (TextView)shareView.findViewById(R.id.share_unpublish_button);
+        TextView mCollaborateButton = (TextView) shareView.findViewById(R.id.share_collaborate_button);
+        mPublishButton = (TextView) shareView.findViewById(R.id.share_publish_button);
+        mUnpublishButton = (TextView) shareView.findViewById(R.id.share_unpublish_button);
 
         mCollaborateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,8 +130,11 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
 
     public interface ShareSheetListener {
         void onSharePublishClicked();
+
         void onShareUnpublishClicked();
+
         void onShareCollaborateClicked();
+
         void onShareDismissed();
     }
 }

@@ -2,9 +2,9 @@
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <objectAnimator
+        android:duration="@android:integer/config_shortAnimTime"
         android:interpolator="@android:interpolator/accelerate_quad"
-        android:valueFrom="1"
-        android:valueTo="0"
         android:propertyName="alpha"
-        android:duration="@android:integer/config_shortAnimTime" />
+        android:valueFrom="1"
+        android:valueTo="0"/>
 </set>

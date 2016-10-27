@@ -12,7 +12,8 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
 
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle
+        </item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>

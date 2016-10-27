@@ -1,8 +1,8 @@
 <resources>
-	<!-- 
-		nbradbury - dimensions for mdpi/hdpi displays 
-	-->
-    
+    <!--
+        nbradbury - dimensions for mdpi/hdpi displays
+    -->
+
     <!-- padding/margins -->
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
