@@ -54,16 +54,12 @@
                     android:textSize="16sp"
                     tools:context=".NoteEditorFragment"/>
 
-                    <View
-                        android:id="@+id/note_divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_grey" />
-
                     <LinearLayout
+                        android:id="@+id/todo_component"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/todo_add"

@@ -59,6 +59,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
+import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
@@ -74,6 +75,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -253,10 +255,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private EditText mAddTodoText;
     private Button mAddTodoButton;
-    private JSONArray mTodos;
-    private JSONArray mTodosCompleted;
+    private Boolean mIsTodo;
+    private ArrayList<String> mTodos;
+    private ArrayList<String> mTodosCompleted;
     private ListView mTodoList;
     private ListView mCompletedTodoList;
+    private LinearLayout mTodoComponent;
     private JSONAdapter jSONAdapter ;
 
 
@@ -370,13 +374,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCompletedTodoList = (ListView) rootView.findViewById(R.id.todo_list_completed);
         mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
         mAddTodoButton = (Button) rootView.findViewById(R.id.todo_add_button);
+        mTodoComponent = (LinearLayout) rootView.findViewById(R.id.todo_component);
 
         mAddTodoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String todoText = mAddTodoText.getText().toString();
                 if (todoText.length() != 0) {
-                    mTodos.put(todoText);
+                    mTodos.add(todoText);
                     mNote.setTodos(mTodos);
 //                    mNote.setTodo(true); // tag it that it should be in a TODOlist
                     mNote.save();
@@ -463,6 +468,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mTodos = mNote.getTodos();
             mTodosCompleted = mNote.getCompletedTodos();
             updateTodos();
+
+            if (mNote.isTodo() == true) {
+                mTodoComponent.setVisibility(View.VISIBLE);
+            }
         }
 
         mPinnerItem = (MenuItem) menu.findItem(R.id.info_pin_switch_menu);
@@ -487,7 +496,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
+            case R.id.menu_todo:
+                if (!isAdded()) return false;
+                todoNote();
+                return true;
             case R.id.menu_template:
                 if (!isAdded()) return false;
                 templateNote();
@@ -543,6 +555,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mTemplateItem.setTitle(R.string.use_template);
         }
     }
+
+    private void todoNote() {
+        if (mNote != null) {
+            mIsTodo = !mNote.isTodo();
+            mNote.setTodo(mIsTodo);
+            mNote.save();
+
+            if(mIsTodo)
+                mTodoComponent.setVisibility(View.VISIBLE);
+            else
+                mTodoComponent.setVisibility(View.GONE);
+        }
+    }
+
 
     protected void clearMarkdown() {
         mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
@@ -1430,6 +1456,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         note.setColor(source.getColor());
         note.setTags(source.getTags());
         note.setPinned(source.isPinned());
+        note.setTodo(source.isTodo());
+        note.setTodos(source.getTodos());
+        note.setCompletedTodos(source.getCompletedTodos());
 
         note.save();
 
@@ -1483,10 +1512,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public class JSONAdapter extends BaseAdapter implements ListAdapter {
 
         private final Activity activity;
-        private final JSONArray jsonArray;
+        private final ArrayList<String> jsonArray;
         private final Boolean checked;
 
-        public JSONAdapter (Activity activity, JSONArray jsonArray, Boolean checked) {
+        public JSONAdapter (Activity activity, ArrayList<String> jsonArray, Boolean checked) {
             assert activity != null;
             assert jsonArray != null;
 
@@ -1500,7 +1529,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if(jsonArray == null)
                 return 0;
             else
-                return jsonArray.length();
+                return jsonArray.size();
         }
 
         @Override public JSONObject getItem(int position) {
@@ -1509,7 +1538,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             else {
                 JSONObject item = new JSONObject();
                 try {
-                    String temp = jsonArray.getString(position);
+                    String temp = jsonArray.get(position);
                     item.put("text", temp);
                 } catch (JSONException e) {
 
@@ -1551,31 +1580,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 @Override
                 public void onClick(View v) {
                     if (checked == false) {
-                        try {
-                            String completed_item = mTodos.getString(position);
-                            mTodosCompleted.put(completed_item);
-                            mTodos.remove(position);
+                        String completed_item = mTodos.get(position);
+                        mTodosCompleted.add(completed_item);
+                        mTodos.remove(position);
 
-                            mNote.setTodos(mTodos);
-                            mNote.setCompletedTodos(mTodosCompleted);
-                            mNote.save();
-                            updateTodos();
-                        } catch (JSONException e) {
-
-                        }
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
                     } else {
-                        try {
-                            String item = mTodosCompleted.getString(position);
-                            mTodos.put(item);
-                            mTodosCompleted.remove(position);
+                        String item = mTodosCompleted.get(position);
+                        mTodos.add(item);
+                        mTodosCompleted.remove(position);
 
-                            mNote.setTodos(mTodos);
-                            mNote.setCompletedTodos(mTodosCompleted);
-                            mNote.save();
-                            updateTodos();
-                        } catch (JSONException e) {
-
-                        }
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
 
                     }
                 }
