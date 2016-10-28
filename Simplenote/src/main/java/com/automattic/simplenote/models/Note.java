@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.text.TextUtils;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.StrUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
@@ -111,8 +112,7 @@ public class Note extends BucketObject {
     public static Query<Note> all(Bucket<Note> noteBucket){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
-                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
-                .where(IS_TODO_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
     public static Query<Note> allDeleted(Bucket<Note> noteBucket){
@@ -571,30 +571,61 @@ public class Note extends BucketObject {
         return tempcolor;
     }
 
-    public void setTodos(JSONArray todos) {
-        setProperty(TODO_PROPERTY, todos);
+    public void setTodos(ArrayList<String> todos) {
+        JSONArray json = new JSONArray();
+        for (int i = 0; i < todos.size(); i++)
+            json.put(todos.get(i));
+
+        setProperty(TODO_PROPERTY, json);
     }
 
-    public JSONArray getTodos() {
+    public ArrayList<String> getTodos() {
         JSONArray todos = (JSONArray) getProperty(TODO_PROPERTY);
         if (todos == null) {
             todos = new JSONArray();
             setProperty(TODO_PROPERTY, todos);
         }
-        return todos;
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < todos.length(); i++) {
+            try {
+                list.add(todos.getString(i));
+            } catch (JSONException ex) {
+
+            }
+
+        }
+
+
+        return list;
     }
 
-    public void setCompletedTodos(JSONArray todos) {
-        setProperty(TODO_COMPLETED_PROPERTY, todos);
+    public void setCompletedTodos(ArrayList<String> todos) {
+        JSONArray json = new JSONArray();
+        for (int i = 0; i < todos.size(); i++)
+            json.put(todos.get(i));
+
+        setProperty(TODO_COMPLETED_PROPERTY, json);
     }
 
-    public JSONArray getCompletedTodos() {
+    public ArrayList<String>  getCompletedTodos() {
         JSONArray todos = (JSONArray) getProperty(TODO_COMPLETED_PROPERTY);
         if (todos == null) {
             todos = new JSONArray();
             setProperty(TODO_COMPLETED_PROPERTY, todos);
         }
-        return todos;
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < todos.length(); i++) {
+            try {
+                list.add(todos.getString(i));
+            } catch (JSONException ex) {
+
+            }
+
+        }
+
+        return list;
     }
 
 
@@ -613,8 +644,8 @@ public class Note extends BucketObject {
                               boolean isPinned,
                               boolean isMarkdownEnabled,
                               boolean hasReminder,
-                              JSONArray todos,
-                              JSONArray completed_todos) {
+                              ArrayList todos,
+                              ArrayList completed_todos) {
         return !content.equals(this.getContent())
             || !tagString.equals(this.getTagString().toString())
             || this.isPinned() != isPinned

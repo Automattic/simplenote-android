@@ -179,4 +179,6 @@
 	<string name="reminder_1_hour">через 1 час</string>
 	<string name="use_template">Добавить заметку</string>
 	<string name="time">Время</string>
+	<string name="todo_add">Добавить</string>
+	<string name="new_todo">Добавить...</string>
 </resources>
