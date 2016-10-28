@@ -57,8 +57,7 @@ android {
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
-     }
-
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -70,12 +69,12 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-	
-	lintOptions {
-	    checkReleaseBuilds false
-	}
-
+    lintOptions {
+        checkReleaseBuilds false
+    }
     useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
