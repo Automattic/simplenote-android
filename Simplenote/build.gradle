@@ -37,15 +37,13 @@ dependencies {
 version "1.6.0"
 
 android {
-
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 53
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 23
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
@@ -54,8 +52,7 @@ android {
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
-     }
-
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -67,12 +64,12 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-	
-	lintOptions {
-	    checkReleaseBuilds false
-	}
-
+    lintOptions {
+        checkReleaseBuilds false
+    }
     useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){

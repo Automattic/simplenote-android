@@ -217,24 +217,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 		setListAdapter(mNotesAdapter);
 	}
 
-    // nbradbury - load values from preferences
-    /*public void addSearchTag(CharSequence newTag){
-        boolean isTheTagNew = true;
-        //String newTag = ((String)tag)+"  |×";
-        for (String tg : mTagList) {
-            if (tg.equals((String)newTag))
-                isTheTagNew = false;
-        }
-        if (isTheTagNew) {
-            mTags += " " + newTag;
-            mTagList.add((String)newTag);
-        }
-        mTagView.setChips(mTags);
-        mTagView.setVisibility(View.VISIBLE);
-    }
-
-    */
-
     public boolean tagsAreUsed(){
         return ((mTagList != null)&& (mTagList.size()>0));
     }
@@ -285,7 +267,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (mTagList.size()>0) {
             mTagView.drawChips(mTagList, this);
         }
-        mTagView.setChips("");
+        mTagView.drawChips(mTagList,this);
         queryNotes();
         refreshList();
     }
@@ -363,23 +345,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mTagView.setEnabled(true);
         mTagView.setClickable(false);
         mTagView.setFocusableInTouchMode(false);
-       // mTagView.setInputType(InputType.TYPE_NULL);
         mTagView.setCursorVisible(false);
         mTagView.setKeyListener(null);
 
         cleanSearchTag();
 
-        /*mTagView.setOnTouchListener(new TextView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){
-
-                    showAlert("Touch coordinates : " +
-                            String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
-                }
-                return true;
-            }
-        });*/
     }
 
     @Override
@@ -392,14 +362,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = (LinearLayout)view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
-        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNote();
-            }
-        });
-        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
+        //NOTE-78
+      //  mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
+//        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addNote();
+//            }
+//        });
+        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong>");
         mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
@@ -566,11 +537,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             query = notesActivity.getSelectedTag().query();
 
 
-/*boolean tagsAreNotUsed = true;
-        for ( Query.Condition cc : query.getConditions()){
-            if (cc.getKey().equals("tags")) tagsAreNotUsed = false;
-        }*/
-
         if (hasSearchQuery()) {
            //
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
@@ -610,7 +576,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
-//            String tagName = notesActivity.getSelectedTag().name;
             if (!tagName.equals(getString(R.string.notes)) && !tagName.equals(getString(R.string.trash)))
                 note.setTagString(tagName);
         }
