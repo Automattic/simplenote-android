@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
+
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reminder;
 
@@ -40,9 +41,10 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     public static final int UPDATE_COLOR_REQUEST_CODE = 101;
     public static final String TIMESTAMP_BUNDLE_KEY = "color";
 
-    private final static int[] MATERIAL_COLORS_PRIMARY =
-            {0xffe91e63, 0xfff44336, 0xffff5722, 0xffff9800, 0xffffc107, 0xffffeb3b, 0xffcddc39, 0xff8bc34a,
-            0xff4caf50, 0xff009688, 0xff00bcd4, 0xff03a9f4, 0xff2196f3, 0xff3f51b5, 0xff673ab7, 0xff9c27b0};
+//    private final static int[] MATERIAL_COLORS_PRIMARY =
+//            {0xffe91e63, 0xfff44336, 0xffff5722, 0xffff9800, 0xffffc107, 0xffffeb3b, 0xffcddc39, 0xff8bc34a,
+//            0xff4caf50, 0xff009688, 0xff00bcd4, 0xff03a9f4, 0xff2196f3, 0xff3f51b5, 0xff673ab7, 0xff9c27b0};
+    private final static int[] MATERIAL_COLORS_PRIMARY = {0xFFFF0000, 0xFFffa500, 0xFFFFFF00, 0xFF00e600, 0xFF42aaff, 0xFF0000FF, 0xFF9400D3};
 
     private Button mResetColor;
 
@@ -54,8 +56,10 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     private View mColorBox;
     private int index = 0;
 
+
     private Button[] tv1 = new Button[MATERIAL_COLORS_PRIMARY.length];
     private ColorSheetListener _colorSheetListener;
+
 
 
     public ColorBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ColorSheetListener colorSheetListener) {
@@ -73,8 +77,8 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         RelativeLayout rLayout = (RelativeLayout) colorView.findViewById(R.id.colorbox);
 
         int marg = (int)convertDpToPixel(2.0, cx);
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 8; j++) {
+
+            for (int j = 0; j < 7; j++) {
                 tv1[index] = new Button(cx);
                 tv1[index].setId(index + 56789999);
                 RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int)convertDpToPixel(34.0, cx), (int)convertDpToPixel(34.0, cx));
@@ -85,12 +89,10 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
                 } else {
                     rlp.addRule(RelativeLayout.RIGHT_OF, tv1[index - 1].getId());
                 }
-                if (i == 0) {
+
                     rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,
                             RelativeLayout.TRUE);
-                } else {
-                    rlp.addRule(RelativeLayout.BELOW, tv1[index - 8].getId());
-                }
+
                 tv1[index].setLayoutParams(rlp);
                 tv1[index].setBackgroundColor(MATERIAL_COLORS_PRIMARY[index]);
                 rLayout.addView(tv1[index]);
@@ -100,7 +102,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
                 tv1[index].setOnClickListener(listener);
                 index++;
             }
-        }
+
         rLayout.setGravity(Gravity.CENTER);
 
 
