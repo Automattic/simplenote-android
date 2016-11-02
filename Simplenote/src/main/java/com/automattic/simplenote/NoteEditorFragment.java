@@ -32,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
@@ -147,7 +148,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private MenuItem mTemplateItem;
 
     private EditText mAddTodoText;
-    private Button mAddTodoButton;
     private Boolean mIsTodo;
     private ArrayList<String> mTodos;
     private ArrayList<String> mTodosCompleted;
@@ -266,24 +266,36 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list);
         mCompletedTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list_completed);
         mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
-        mAddTodoButton = (Button) rootView.findViewById(R.id.todo_add_button);
         mTodoComponent = (LinearLayout) rootView.findViewById(R.id.todo_component);
         mTodoDivider = rootView.findViewById(R.id.todo_divider);
 
-        mAddTodoButton.setOnClickListener(new View.OnClickListener() {
+        mAddTodoText.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public void onClick(View v) {
-                String todoText = mAddTodoText.getText().toString();
-                if (todoText.length() != 0) {
-                    mTodos.add(todoText);
-                    mNote.setTodos(mTodos);
-//                    mNote.setTodo(true); // tag it that it should be in a TODOlist
-                    mNote.save();
-                    mAddTodoText.setText("");
-                    updateTodos();
-                }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0)
+                    if (s.charAt(s.length() - 1) == '\n') {
+                        String todoText = mAddTodoText.getText().toString();
+                        if (todoText.length() != 0) {
+                            mTodos.add(0, todoText);
+                            mNote.setTodos(mTodos);
+
+                            mNote.save();
+                            updateTodos();
+                            mAddTodoText.setText("");
+                        }
+                    }
             }
         });
+
 
         mTodoList.setDropListener(new DragSortListView.DropListener() {
             @Override public void drop(int from, int to) {
@@ -1621,7 +1633,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 public void onClick(View v) {
                     if (checked == false) {
                         String completed_item = mTodos.get(position);
-                        mTodosCompleted.add(completed_item);
+                        mTodosCompleted.add(0, completed_item);
                         mTodos.remove(position);
 
                         mNote.setTodos(mTodos);
@@ -1630,7 +1642,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         updateTodos();
                     } else {
                         String item = mTodosCompleted.get(position);
-                        mTodos.add(item);
+                        mTodos.add(0, item);
                         mTodosCompleted.remove(position);
 
                         mNote.setTodos(mTodos);

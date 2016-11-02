@@ -69,20 +69,12 @@
 
                             <EditText
                                 android:id="@+id/todo_add_text"
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:scrollHorizontally="true"
-                                android:layout_weight="0.7"
+                                android:imeOptions="actionSend"
                                 android:hint="@string/new_todo"/>
-
-                            <Button
-                                android:id="@+id/todo_add_button"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/todo_add"
-                                android:layout_gravity="right"
-                                android:layout_weight="0.3"/>
 
                         </LinearLayout>
 
