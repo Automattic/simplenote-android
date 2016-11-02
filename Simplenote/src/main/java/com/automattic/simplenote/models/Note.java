@@ -75,6 +75,7 @@ public class Note extends BucketObject {
     public static Query<Note> all(Bucket<Note> noteBucket) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(IS_TODO_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 

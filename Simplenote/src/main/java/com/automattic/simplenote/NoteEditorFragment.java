@@ -25,6 +25,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -65,6 +66,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedL
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.commonsware.cwac.anddown.AndDown;
+import com.mobeta.android.dslv.DragSortListView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
@@ -258,11 +260,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Boolean mIsTodo;
     private ArrayList<String> mTodos;
     private ArrayList<String> mTodosCompleted;
-    private ListView mTodoList;
-    private ListView mCompletedTodoList;
+    private DragSortListView mTodoList;
+    private DragSortListView mCompletedTodoList;
+    private View mTodoDivider;
     private LinearLayout mTodoComponent;
     private JSONAdapter jSONAdapter ;
-
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -370,11 +372,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
-        mTodoList = (ListView) rootView.findViewById(R.id.todo_list);
-        mCompletedTodoList = (ListView) rootView.findViewById(R.id.todo_list_completed);
+        mTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list);
+        mCompletedTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list_completed);
         mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
         mAddTodoButton = (Button) rootView.findViewById(R.id.todo_add_button);
         mTodoComponent = (LinearLayout) rootView.findViewById(R.id.todo_component);
+        mTodoDivider = rootView.findViewById(R.id.todo_divider);
 
         mAddTodoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -390,6 +393,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             }
         });
+
+        mTodoList.setDropListener(new DragSortListView.DropListener() {
+            @Override public void drop(int from, int to) {
+                String item = mTodos.get(from);
+                mTodos.remove(from);
+                if (from > to) --from;
+                mTodos.add(to, item);
+
+                mNote.setTodos(mTodos);
+                mNote.setCompletedTodos(mTodosCompleted);
+                mNote.save();
+                updateTodos();
+            }
+        });
+
+        mCompletedTodoList.setDropListener(new DragSortListView.DropListener() {
+            @Override public void drop(int from, int to) {
+                String item = mTodosCompleted.get(from);
+                mTodosCompleted.remove(from);
+                if (from > to) --from;
+                mTodosCompleted.add(to, item);
+
+                mNote.setTodos(mTodos);
+                mNote.setCompletedTodos(mTodosCompleted);
+                mNote.save();
+                updateTodos();
+            }
+        });
+
 
 
 
@@ -1479,6 +1511,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getCompletedTodos(), true);
         mCompletedTodoList.setAdapter(jSONAdapter);
 
+        if ((mNote.getTodos().size() == 0) || (mNote.getCompletedTodos().size() == 0) )
+            mTodoDivider.setVisibility(View.GONE);
+        else
+            mTodoDivider.setVisibility(View.VISIBLE);
+
         NoteUtils.setListViewHeight(mTodoList);
         NoteUtils.setListViewHeight(mCompletedTodoList);
     }
@@ -1532,25 +1569,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return jsonArray.size();
         }
 
-        @Override public JSONObject getItem(int position) {
+        @Override public String getItem(int position) {
             if (jsonArray == null)
                 return null;
             else {
-                JSONObject item = new JSONObject();
-                try {
-                    String temp = jsonArray.get(position);
-                    item.put("text", temp);
-                } catch (JSONException e) {
-
-                }
-                return item;
+                return jsonArray.get(position);
             }
         }
 
-        @Override public long getItemId(int position) {
-            JSONObject jsonObject = getItem(position);
+        public void setItem(int position, String item) {
+            if ((item != null) && (position < jsonArray.size())) {
+                jsonArray.set(position, item);
+            }
+        }
 
-            return jsonObject.optLong("id");
+
+        @Override public long getItemId(int position) {
+            return position;
         }
 
         @Override public View getView(final int position, View convertView, ViewGroup parent) {
@@ -1559,22 +1594,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             TextView text = (TextView)convertView.findViewById(R.id.todo_title);
             CheckBox check = (CheckBox)convertView.findViewById(R.id.todo_checked);
+            View remove = (View)convertView.findViewById(R.id.todo_remove);
 
-
-
-            JSONObject json_data = getItem(position);
-            if(null != json_data ) {
-                try {
-                    String t = json_data.getString("text");
-                    text.setText(t);
-                    check.setChecked(checked);
-                    if (checked)
-                        text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                } catch (JSONException e) {
-
-                }
+            String item = getItem(position);
+            if(null != item ) {
+                text.setText(item);
+                check.setChecked(checked);
+                if (checked)
+                    text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
+
 
             check.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1602,11 +1631,53 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             });
 
-            text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            remove.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onFocusChange(View v, boolean hasFocus) {
+                public void onClick(View v) {
+                    if (checked == false) {
+                        mTodos.remove(position);
 
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
+                    } else {
+                        String item = mTodosCompleted.get(position);
+                        mTodosCompleted.remove(item);
+
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
+                    }
                 }
+            });
+
+
+            final JSONAdapter jSONAdapter = this;
+
+            text.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (checked == false) {
+                        mTodos.set(position, charSequence.toString());
+                        mNote.setTodos(mTodos);
+                    } else {
+                        mTodosCompleted.set(position, charSequence.toString());
+                        mNote.setCompletedTodos(mTodosCompleted);
+                    }
+
+                    NoteUtils.setListViewHeight(mTodoList);
+                    NoteUtils.setListViewHeight(mCompletedTodoList);
+
+                    mNote.save();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {}
             });
 
             return convertView;
