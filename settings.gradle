@@ -1,1 +1,1 @@
-include ':Simplenote', ':Wear'
+include ':Simplenote'//, ':Wear'

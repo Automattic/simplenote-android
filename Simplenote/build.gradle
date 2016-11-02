@@ -1,3 +1,7 @@
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:24.1.1'
+}
+
 buildscript {
     repositories {
         jcenter()
@@ -31,8 +35,18 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commonsware.cwac:anddown:0.2.4'
     compile 'com.github.dmfs:color-picker:c3b3b52033dc0b33bd831e731ec6f74fb1e8a69a'
-    compile 'asia.ivity.android:drag-sort-listview:1.0'
-    wearApp project(':Wear')
+
+    //espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+    //Junit
+    // Required -- JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+   // wearApp project(':Wear')
 }
 
 version "1.6.0"
@@ -44,7 +58,7 @@ android {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 53
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 23
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
@@ -52,6 +66,9 @@ android {
         buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\"";
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
 
     }
     buildTypes {
