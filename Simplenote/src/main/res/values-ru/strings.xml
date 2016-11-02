@@ -177,6 +177,10 @@
 	<string name="color_reset">Сбросить цвет</string>
 	<string name="reminder_15_min">через 15 минут</string>
 	<string name="reminder_is_set">Напоминание установлено</string>
+	<string name="reminder_will_raise_in">Напоминание сработает через</string>
+	<string name="of_days">дней</string>
+	<string name="of_hours">час(a)</string>
+	<string name="of_minutes">минут</string>
 	<string name="reminder_1_hour">через 1 час</string>
 	<string name="use_template">Добавить заметку</string>
 	<string name="time">Время</string>

@@ -66,6 +66,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     reminderSheetListener.onReminderOn();
+                    showPopup();
                 } else {
                     reminderSheetListener.onReminderOff();
                 }
@@ -126,12 +127,53 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     }
 
     public void enableReminder(){
+       if (mReminderSwitch.isChecked())
+           showPopup();
+        else
         mReminderSwitch.setChecked(true);
-        showPopup(getContext().getString(R.string.reminder_is_set));
+        //showPopup(getContext().getString(R.string.reminder_is_set));
     }
 
-    public void showPopup(String message){
+    public void showPopup(){
+        Calendar now = new GregorianCalendar();
+        now.setTime(Calendar.getInstance().getTime());
+        Calendar remindersTime = mNote.getReminderDate();
+        String delay = getTimeDifference(now.getTime(), remindersTime.getTime());
+        if(!delay.equals("")){
+        String message = getContext().getString(R.string.reminder_will_raise_in)+" "+delay;
         Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
+        }
+        else mReminderSwitch.setChecked(false);
+    }
+
+    public String getTimeDifference(Date startDate, Date endDate){
+
+        //milliseconds
+        long different = endDate.getTime() - startDate.getTime();
+if(different<0) return "";
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli+1;
+
+
+        long elapsedMinutes = different / minutesInMilli+1;
+
+        if (elapsedMinutes==60) {
+            elapsedMinutes=0;
+            elapsedHours++;
+        }
+
+return (elapsedDays==0?"":Long.toString(elapsedDays)+" "+getContext().getString(R.string.of_days)+" ")
+        +(elapsedHours==0?"":Long.toString(elapsedHours)+" "+getContext().getString(R.string.of_hours)+" ")
+        +(elapsedMinutes==0?"":Long.toString(elapsedMinutes)+" "+getContext().getString(R.string.of_minutes));
+
     }
 
     public void updateReminder(Calendar calendar) {
