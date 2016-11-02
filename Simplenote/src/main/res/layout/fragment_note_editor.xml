@@ -1,5 +1,6 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dslv="http://schemas.android.com/apk/res-auto"
     android:id="@+id/note_editor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -85,10 +86,21 @@
 
                         </LinearLayout>
 
-                        <ListView
-                            android:id="@+id/todo_list"
+                        <LinearLayout
+                            android:id="@+id/todo_list_wrapper"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.mobeta.android.dslv.DragSortListView
+                                android:id="@+id/todo_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                dslv:drag_handle_id="@id/drag_handle"
+                                dslv:drag_enabled="true"
+                                dslv:float_background_color="@android:color/background_light"/>
+
+                        </LinearLayout>
 
                         <View
                             android:id="@+id/todo_divider"
@@ -96,10 +108,21 @@
                             android:layout_height="1dp"
                             android:background="@color/divider_grey" />
 
-                        <ListView
-                            android:id="@+id/todo_list_completed"
+                        <LinearLayout
+                            android:id="@+id/todo_list_completed_wrapper"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.mobeta.android.dslv.DragSortListView
+                                android:id="@+id/todo_list_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                dslv:drag_handle_id="@id/drag_handle"
+                                dslv:float_background_color="@android:color/background_light"/>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 

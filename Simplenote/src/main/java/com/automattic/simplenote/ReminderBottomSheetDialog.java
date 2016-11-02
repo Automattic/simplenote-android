@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reminder;
 
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -94,6 +95,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mTimeTextView.setText(reminder.getTime());
         mReminderSwitch.setChecked(mNote.hasReminder());
     }
+
 
     @Override
     public void onClick(View v) {
