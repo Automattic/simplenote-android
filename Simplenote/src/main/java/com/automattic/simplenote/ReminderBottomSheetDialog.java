@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reminder;
@@ -112,15 +113,25 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
                 after15min.setTime(Calendar.getInstance().getTime());
                 after15min.add(Calendar.MINUTE, 15);
                 reminderSheetListener.onReminderUpdated(after15min);
+                enableReminder();
                 break;
             case R.id.after_hour:
                 Calendar calendar = new GregorianCalendar();
                 calendar.setTime(Calendar.getInstance().getTime());
                 calendar.add(Calendar.HOUR, 1);
                 reminderSheetListener.onReminderUpdated(calendar);
+                enableReminder();
                 break;
         }
+    }
+
+    public void enableReminder(){
         mReminderSwitch.setChecked(true);
+        showPopup(getContext().getString(R.string.reminder_is_set));
+    }
+
+    public void showPopup(String message){
+        Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
     }
 
     public void updateReminder(Calendar calendar) {
