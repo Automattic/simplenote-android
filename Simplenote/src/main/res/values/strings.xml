@@ -218,6 +218,10 @@
     <string name="new_todo">Add todo...</string>
     <string name="reminder_15_min">In 15 Minutes</string>
     <string name="reminder_is_set">The reminder is set</string>
+    <string name="reminder_will_raise_in">The reminder will raise in</string>
+    <string name="of_days">days</string>
+    <string name="of_hours">hours</string>
+    <string name="of_minutes">minutes</string>
     <string name="reminder_1_hour">In 1 Hour</string>
     <string name="todo_list">TODO List</string>
 </resources>

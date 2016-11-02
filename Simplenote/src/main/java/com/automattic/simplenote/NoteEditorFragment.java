@@ -1453,8 +1453,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(timestamp));
-            mReminderBottomSheet.enableReminder();
             onReminderUpdated(calendar);
+            mReminderBottomSheet.enableReminder();
         }
     }
 
