@@ -31,6 +31,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commonsware.cwac:anddown:0.2.4'
     compile 'com.github.dmfs:color-picker:c3b3b52033dc0b33bd831e731ec6f74fb1e8a69a'
+    compile 'asia.ivity.android:drag-sort-listview:1.0'
     wearApp project(':Wear')
 }
 
