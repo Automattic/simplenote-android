@@ -61,7 +61,6 @@ public class Note extends BucketObject {
     public static final String IS_TODO_PROPERTY = "isTodo";
     public static final String TODO_COMPLETED_PROPERTY = "todo_completed";
 
-
     static public final String[] FULL_TEXT_INDEXES = new String[]{
         Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY };
 	
@@ -377,7 +376,7 @@ public class Note extends BucketObject {
             return false;
         }
         if (template instanceof Boolean) {
-            return (Boolean) template;
+            return (boolean) template;
         } else
             return template instanceof Number && ((Number) template).intValue() != 0;
     }
@@ -391,10 +390,13 @@ public class Note extends BucketObject {
         if (todo == null) {
             return false;
         }
-        if (todo instanceof Boolean) {
-            return (Boolean) todo;
-        } else
-            return todo instanceof Number && ((Number) todo).intValue() != 0;
+
+        //if (todo instanceof Boolean) {
+            boolean f = (boolean) todo;
+            return f;
+        // else
+          //  return todo.toString().equals("true");
+            //return todo instanceof Number && ((Number) todo).intValue() != 0;
     }
 
     public void setTodo(boolean todo) {
