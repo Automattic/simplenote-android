@@ -125,7 +125,6 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         }
     }
 
-
     public void enableReminder(){
         mReminderSwitch.setChecked(true);
         showPopup(getContext().getString(R.string.reminder_is_set));
