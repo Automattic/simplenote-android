@@ -9,6 +9,11 @@
     <string name="share_note">Share Note</string>
     <string name="share_url" translatable="false">Share Url</string>
     <string name="delete">Move to trash</string>
+    <string name="loosing_note_content">Loosing note content</string>
+    <string name="loosing_note_content_message">If you make a ToDo from this note you lose the note\'s content. Are you sure you want to continue?</string>
+    <string name="todo_from_note">Now it is ToDo</string>
+    <string name="note_from_todo">Now it is note</string>
+    <string name="still_note">The note has not changed</string>
     <string name="undelete">Restore note</string>
     <string name="new_note">New note</string>
     <string name="account">Account</string>

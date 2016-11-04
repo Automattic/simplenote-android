@@ -1,9 +1,11 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Paint;
@@ -20,7 +22,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -517,6 +521,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             if (mNote.isTodo() == true) {
                 mTodoComponent.setVisibility(View.VISIBLE);
+                //mContentEditText.setMaxLines(1);
+                mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                //mContentEditText.setEllipsize(TextUtils.TruncateAt.END);
+                cutContent();
             }
         }
 
@@ -536,6 +544,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
 
 
+    }
+
+    private void cutContent(){
+        String content = mNote.getContent();
+        int newLinePosition = content.indexOf("\n");
+        if (newLinePosition > 0)
+            mContentEditText.setText(content.substring(0,newLinePosition));
+    }
+
+    private void refreshContent(){
+            mContentEditText.setText(mNote.getContent());
     }
 
     @Override
@@ -604,17 +623,78 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void todoNote() {
         if (mNote != null) {
-            mIsTodo = !mNote.isTodo();
-            mNote.setTodo(mIsTodo);
-            mNote.save();
-
-            if(mIsTodo)
-                mTodoComponent.setVisibility(View.VISIBLE);
-            else
+            mIsTodo = mNote.isTodo();
+            if(mIsTodo)  {
                 mTodoComponent.setVisibility(View.GONE);
+                mContentEditText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                mContentEditText.setSingleLine(false);
+
+                mContentEditText.clearFocus();
+                mContentEditText.setFocusableInTouchMode(false);
+                mContentEditText.setFocusable(false);
+                mContentEditText.setFocusableInTouchMode(true);
+                mContentEditText.setFocusable(true);
+                Toast.makeText(getContext(),
+                        getContext().getString(R.string.note_from_todo), Toast.LENGTH_SHORT)
+                        .show();
+                mNote.setTodo(!mIsTodo);
+                mNote.save();
+            }
+            else{
+                String content = mNote.getContent();
+                int newLinePosition = content.indexOf("\n");
+                if (newLinePosition > 0)
+                    showAlert(getContext().getString(R.string.loosing_note_content_message), getContext().getString(R.string.loosing_note_content));
+                else{
+                    mTodoComponent.setVisibility(View.VISIBLE);
+                    mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                    cutContent();
+                    Toast.makeText(getContext(),
+                            getContext().getString(R.string.todo_from_note), Toast.LENGTH_SHORT)
+                            .show();
+                    mNote.setTodo(!mIsTodo);
+                    mNote.save();
+                }
+            }
+
+
+
+
         }
     }
 
+    public void showAlert(String message, String title) {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getContext());
+
+        alertDialog2.setTitle(title);
+        alertDialog2.setMessage(message);
+        alertDialog2.setIcon(R.drawable.ic_action_remove_24dp);
+
+        alertDialog2.setPositiveButton(getContext().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mTodoComponent.setVisibility(View.VISIBLE);
+                        mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                        cutContent();
+                        Toast.makeText(getContext(),
+                                getContext().getString(R.string.todo_from_note), Toast.LENGTH_SHORT)
+                                .show();
+                        mNote.setTodo(!mIsTodo);
+                        mNote.save();
+                    }
+                });
+
+        alertDialog2.setNegativeButton(getContext().getString(R.string.no),
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getContext(),
+                            getContext().getString(R.string.still_note), Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.cancel();
+                }
+            });
+        alertDialog2.show();
+    }
 
     protected void clearMarkdown() {
         mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
@@ -825,6 +905,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         updateTagList();
         mNote.save();
     }
+
+
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {

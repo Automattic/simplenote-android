@@ -38,22 +38,23 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <com.automattic.simplenote.widgets.SimplenoteEditText
-                    android:id="@+id/note_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:gravity="top"
-                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:lineSpacingExtra="4dp"
-                    android:maxLength="999999999"
-                    android:paddingBottom="@dimen/padding_small"
-                    android:paddingTop="@dimen/padding_small"
-                    android:scrollHorizontally="false"
-                    android:textColor="?attr/noteEditorTextColor"
-                    android:textColorLink="@color/simplenote_blue"
-                    android:textSize="16sp"
-                    tools:context=".NoteEditorFragment"/>
+                    <com.automattic.simplenote.widgets.SimplenoteEditText
+                        android:id="@+id/note_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:maxLength="999999999"
+                        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:paddingTop="@dimen/padding_small"
+                        android:scrollHorizontally="false"
+                        android:textColor="?attr/noteEditorTextColor"
+                        android:textColorLink="@color/simplenote_blue"
+                        android:textSize="16sp"
+                        tools:context=".NoteEditorFragment" />
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
 
                     <LinearLayout
                         android:id="@+id/todo_component"
