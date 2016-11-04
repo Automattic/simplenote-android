@@ -184,4 +184,5 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
             mColorBox.setBackgroundColor(MATERIAL_COLORS_PRIMARY[_index]);
         }
     }
+
 }
