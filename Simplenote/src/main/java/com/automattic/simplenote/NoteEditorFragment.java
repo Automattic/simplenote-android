@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -167,6 +168,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
      */
     public NoteEditorFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -646,18 +648,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showReminderPopUp() {
         if (isAdded()) {
-            if (mReminderBottomSheet == null) {
                 mReminderBottomSheet = new ReminderBottomSheetDialog(this, this);
-            }
             mReminderBottomSheet.show(mNote);
         }
     }
 
     private void showColorPopUp() {
         if (isAdded()) {
-            if (mColorBottomSheet == null) {
                 mColorBottomSheet = new ColorBottomSheetDialog(this, this);
-            }
             mColorBottomSheet.show(mNote);
         }
     }
@@ -1455,18 +1453,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShareSheet() {
         if (isAdded()) {
-            if (mShareBottomSheet == null) {
                 mShareBottomSheet = new ShareBottomSheetDialog(this, this);
-            }
             mShareBottomSheet.show(mNote);
         }
     }
 
     private void showInfoSheet() {
         if (isAdded()) {
-            if (mInfoBottomSheet == null) {
                 mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
-            }
+
             mInfoBottomSheet.show(mNote);
         }
 
@@ -1474,9 +1469,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showHistorySheet() {
         if (isAdded()) {
-            if (mHistoryBottomSheet == null) {
+
                 mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
-            }
+
 
             // Request revisions for the current note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());

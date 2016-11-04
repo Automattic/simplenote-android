@@ -15,10 +15,10 @@ public class BottomSheetDialogBase extends BottomSheetDialog {
         super(context);
     }
 
+
     @Override
     public void show() {
         super.show();
-
         // limit the width of the bottom sheet on wide screens
         // non-zero width defined only for sw600dp
         int dp = (int)getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
@@ -35,4 +35,5 @@ public class BottomSheetDialogBase extends BottomSheetDialog {
             getWindow().setAttributes(lp);
         }
     }
+
 }
