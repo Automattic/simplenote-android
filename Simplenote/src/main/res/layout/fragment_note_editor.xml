@@ -53,6 +53,8 @@
                         android:textColorLink="@color/simplenote_blue"
                         android:textSize="16sp"
                         tools:context=".NoteEditorFragment" />
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
 
                     <LinearLayout
                         android:id="@+id/todo_component"

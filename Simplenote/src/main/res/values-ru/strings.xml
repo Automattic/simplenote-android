@@ -128,6 +128,11 @@
 	<string name="sign_in">Войти</string>
 	<string name="new_note">Новая заметка</string>
 	<string name="delete">Переместить в корзину</string>
+	<string name="loosing_note_content">Потеря содержимого заметки</string>
+	<string name="loosing_note_content_message">Если Вы сделаете список ToDo из этой заметки, то потеряете все ее содержимое. Вы уверены, что хотите продолжить?</string>
+	<string name="todo_from_note">Теперь это список ToDo</string>
+	<string name="note_from_todo">Теперь это простая заметка</string>
+	<string name="still_note">Вы оставили заметку без изменений</string>
 	<string name="note_deleted">Заметка перемещена в корзину.</string>
 	<string name="undo">Отменить</string>
 	<string name="yesterday">Вчера</string>
