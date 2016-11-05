@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -288,7 +289,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             TextView tagTitle = (TextView) convertView.findViewById(R.id.tag_name);
             TextView tagCountTextView = (TextView) convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            Query<Note> tags = Note.allInTag(mNotesBucket, tag.getName());
+
+            //final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).execute().getCount();
+            final int tagCount = tags.count();
             if (tagCount > 0) {
                 tagCountTextView.setText(String.valueOf(tagCount));
             } else {

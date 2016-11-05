@@ -1,6 +1,6 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:dslv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,8 +44,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="top"
-                        android:maxLength="999999999"
                         android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                        android:maxLength="999999999"
                         android:paddingBottom="@dimen/padding_small"
                         android:paddingTop="@dimen/padding_small"
                         android:scrollHorizontally="false"
@@ -53,79 +53,71 @@
                         android:textColorLink="@color/simplenote_blue"
                         android:textSize="16sp"
                         tools:context=".NoteEditorFragment" />
-                    <!--android:ellipsize="end"-->
-                    <!--android:maxLines="1"-->
+                </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/todo_component"
+            </android.support.v4.widget.NestedScrollView>
+
+            <LinearLayout
+                android:id="@+id/todo_component"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/todo_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/todo_add_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:id="@+id/todo_add"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <EditText
-                                android:id="@+id/todo_add_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:scrollHorizontally="true"
-                                android:imeOptions="actionSend"
-                                android:hint="@string/new_todo"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/todo_list_wrapper"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.mobeta.android.dslv.DragSortListView
-                                android:id="@+id/todo_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                dslv:drag_handle_id="@id/drag_handle"
-                                dslv:drag_enabled="true"
-                                dslv:float_background_color="@android:color/background_light"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:id="@+id/todo_divider"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/divider_grey" />
-
-                        <LinearLayout
-                            android:id="@+id/todo_list_completed_wrapper"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.mobeta.android.dslv.DragSortListView
-                                android:id="@+id/todo_list_completed"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                dslv:drag_handle_id="@id/drag_handle"
-                                dslv:float_background_color="@android:color/background_light"/>
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
+                        android:layout_gravity="center_vertical"
+                        android:hint="@string/new_todo"
+                        android:scrollHorizontally="true" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/todo_list_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <com.mobeta.android.dslv.DragSortListView
+                        android:id="@+id/todo_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        dslv:drag_enabled="true"
+                        dslv:drag_handle_id="@id/drag_handle"
+                        dslv:float_background_color="@android:color/background_light" />
 
+                </LinearLayout>
 
-            </android.support.v4.widget.NestedScrollView>
+                <View
+                    android:id="@+id/todo_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_grey" />
+
+                <LinearLayout
+                    android:id="@+id/todo_list_completed_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.mobeta.android.dslv.DragSortListView
+                        android:id="@+id/todo_list_completed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        dslv:drag_handle_id="@id/drag_handle"
+                        dslv:float_background_color="@android:color/background_light" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"

@@ -229,4 +229,5 @@
     <string name="of_minutes">minutes</string>
     <string name="reminder_1_hour">In 1 Hour</string>
     <string name="todo_list">TODO List</string>
+    <string name="todo_completed">Completed</string>
 </resources>

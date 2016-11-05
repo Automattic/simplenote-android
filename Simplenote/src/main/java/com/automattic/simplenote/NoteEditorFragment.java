@@ -388,14 +388,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 if (s.length() > 0)
                     if (s.charAt(s.length() - 1) == '\n') {
                         String todoText = mAddTodoText.getText().toString();
@@ -408,6 +400,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             mAddTodoText.setText("");
                         }
                     }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
