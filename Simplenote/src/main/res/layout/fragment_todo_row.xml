@@ -25,42 +25,47 @@
         <TextView
             android:id="@id/drag_handle"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="■"
-            android:textSize="24sp"
-            />
-
-        <TextView
-            android:id="@+id/todo_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="0dp"
-            android:layout_gravity="right"
-            android:text="x"
+            android:layout_gravity="center_vertical"
+            android:text=" ⋮⋮"
             android:textSize="24sp"
             />
 
         <CheckBox
             android:id="@+id/todo_checked"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
+            android:layout_weight="0"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="0dp" />
 
         <EditText
             android:id="@+id/todo_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="@string/new_todo"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:layout_weight="1"
             />
+
+        <TextView
+            android:id="@+id/todo_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="✖"
+            android:textSize="24sp"
+            android:layout_weight="0"
+            />
+
+
 
 
 
