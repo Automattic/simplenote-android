@@ -10,4 +10,16 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textColor">@color/simplenote_blue_light</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CustomShowcaseTheme2" parent="ShowcaseView">
+        <item name="sv_backgroundColor">#e62291DB</item>
+        <item name="sv_buttonText">SKIP ALL THE TUTORIAL</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle</item>
+    </style>
+
+
 </resources>

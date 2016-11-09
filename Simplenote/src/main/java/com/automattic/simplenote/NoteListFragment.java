@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +20,9 @@ import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableString;
+import android.text.TextPaint;
 import android.text.style.TextAppearanceSpan;
+import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -93,6 +97,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     protected String mSearchString;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
+
+    private int mTutorialCounter;
+    ShowcaseView mSowcaseView;
 
     private int mTitleFontSize;
     private int mPreviewFontSize;
@@ -402,12 +409,26 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
 
-        new ShowcaseView.Builder(getActivity())
+        TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.RED);
+        mTutorialCounter = 0;
+        mSowcaseView = new ShowcaseView.Builder(getActivity())
                 .setTarget(new ViewTarget( R.id.fab_button, getActivity()))
                 .setContentTitle("ShowcaseView")
-                .setContentText("This is highlighting the Home button")
+                .setContentText("Tap on any space on the blue screen to hide only this part of tutorial")
                 .hideOnTouchOutside()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                                mSowcaseView.hide();
+                    }
+                })
+                //.setContentTitlePaint(paint)
                 .build();
+        mSowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
+        mSowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+
 	}
 
 	@Override
