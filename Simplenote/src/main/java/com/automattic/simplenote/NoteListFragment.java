@@ -51,11 +51,14 @@ import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
+import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -379,6 +382,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         mFloatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_button);
+
+
+
+
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -394,6 +401,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+        new ShowcaseView.Builder(getActivity())
+                .setTarget(new ViewTarget( R.id.fab_button, getActivity()))
+                .setContentTitle("ShowcaseView")
+                .setContentText("This is highlighting the Home button")
+                .hideOnTouchOutside()
+                .build();
 	}
 
 	@Override

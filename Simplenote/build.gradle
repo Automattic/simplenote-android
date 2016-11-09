@@ -36,7 +36,7 @@ dependencies {
     compile 'com.commonsware.cwac:anddown:0.2.4'
     compile 'com.github.dmfs:color-picker:c3b3b52033dc0b33bd831e731ec6f74fb1e8a69a'
     compile 'asia.ivity.android:drag-sort-listview:1.0'
-
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
     //espresso
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
