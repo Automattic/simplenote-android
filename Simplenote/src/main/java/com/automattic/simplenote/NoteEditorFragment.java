@@ -1030,19 +1030,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onReminderOn() {
         mHasReminder = true;
         AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
-        saveNote();
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
     }
 
     @Override
     public void onReminderOff() {
         mHasReminder = false;
         AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
-        saveNote();
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
     }
 
     //MDD_M AK: notify f
     @Override
     public void onReminderUpdated(Calendar calendar) {
+        //save information about reminder for note
         mNote.setReminderDate(calendar);
         mHasReminderDateChange = true;
         mReminderBottomSheet.updateReminder(calendar);
@@ -1159,6 +1162,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    // Performed every time when quiting note
     protected void saveNote() {
         if (mNote == null || (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
             return;
@@ -1171,7 +1175,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
-            mNote.setReminder(mHasReminder);
             mNote.setTodos(mTodos);
             mNote.setCompletedTodos(mTodosCompleted);
 
