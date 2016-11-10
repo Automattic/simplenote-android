@@ -1136,18 +1136,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onReminderOn() {
         mHasReminder = true;
         AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
-        saveNote();
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
     }
 
     @Override
     public void onReminderOff() {
         mHasReminder = false;
         AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
-        saveNote();
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
     }
 
     @Override
     public void onReminderUpdated(Calendar calendar) {
+        //save information about reminder for note
         mNote.setReminderDate(calendar);
         mHasReminderDateChange = true;
         mReminderBottomSheet.updateReminder(calendar);
