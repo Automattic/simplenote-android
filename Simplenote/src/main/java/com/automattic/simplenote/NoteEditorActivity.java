@@ -121,6 +121,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isTutorialRequired(){
+        return getIntent().getBooleanExtra(NoteEditorFragment.TUTORIAL_REQUIRED, false);
+    }
+
     @Override
     protected void onPause() {
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {

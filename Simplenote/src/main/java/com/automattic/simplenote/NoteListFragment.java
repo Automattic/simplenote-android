@@ -94,6 +94,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
 
+    private boolean mTutorialRequired;
+
     ShowcaseView mShowcaseView;
 
     private int mTitleFontSize;
@@ -217,7 +219,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mTutorialRequired = false;
         mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
     }
@@ -425,6 +427,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mTutorialRequired = false;
                         mShowcaseView.hide();
                     }
                 })
@@ -433,6 +436,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
         mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
         mShowcaseView.setButtonPosition(lps);
+        mTutorialRequired = mShowcaseView.isShowing();
 
 
 
@@ -631,6 +635,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+            arguments.putBoolean(NoteEditorFragment.TUTORIAL_REQUIRED, mTutorialRequired);
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
