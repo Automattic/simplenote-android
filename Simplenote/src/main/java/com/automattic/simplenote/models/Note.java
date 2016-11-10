@@ -631,7 +631,7 @@ public class Note extends BucketObject {
             setDefault(PUBLISH_URL_PROPERTY, "");
             setDefault(REMINDER_PROPERTY, false);
             setDefault(REMINDER_DATE_PROPERTY, null);
-            setDefault(COLOR_PROPERTY, null);
+            setDefault(COLOR_PROPERTY, Color.WHITE);
             setDefault(TEMPLATE_PROPERTY, false);
             setDefault(TODO_PROPERTY, new JSONArray());
             setDefault(IS_TODO_PROPERTY, false);

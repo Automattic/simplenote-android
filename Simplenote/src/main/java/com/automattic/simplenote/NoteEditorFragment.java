@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -514,7 +515,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             else
                 trashItem.setTitle(R.string.delete);
 
-            mColorIndicator.setBackgroundColor(mNote.getColor());
+            int color = mNote.getColor();
+            mColorIndicator.setBackgroundColor(color);
+
+            if (color != Color.WHITE)
+                mColorIndicator.setVisibility(View.VISIBLE);
+
+
             mTodos = mNote.getTodos();
             mTodosCompleted = mNote.getCompletedTodos();
             updateTodos();
@@ -1370,6 +1377,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mColor = true;
         mColorBottomSheet.updateColor(color);
         mColorIndicator.setBackgroundColor(color);
+
+        if (color != Color.WHITE)
+            mColorIndicator.setVisibility(View.VISIBLE);
     };
 
     public void onColorDismissed() {
@@ -1438,16 +1448,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mIsLoadingNote = true;
         }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
-            long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date(timestamp));
-            onReminderUpdated(calendar);
-            mReminderBottomSheet.enableReminder();
-        }
-    }
 
         @Override
         protected Void doInBackground(String... args) {
@@ -1555,68 +1555,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    public void updateReminder(Calendar aCalendar) {
-        onReminderUpdated(aCalendar);
-    }
-
-    @Override
-    public void onColorChanged(int tempcolor, String paletteId, String colorName, String paletteName) {
-        mNote.setColor(tempcolor);
-        mColor = true;
-        mColorBottomSheet.updateColor(tempcolor);
-        mColorIndicator.setBackgroundColor(tempcolor);
-    }
-
-    @Override
-    public void onColorDialogCancelled() {
-
-    }
-
-    public void copyNote(Note source) {
-
-        // Create & save new note
-        Simplenote simplenote = (Simplenote) getActivity().getApplication();
-        Bucket<Note> notesBucket = simplenote.getNotesBucket();
-        Note note = notesBucket.newObject();
-        note.setCreationDate(Calendar.getInstance());
-        note.setModificationDate(note.getCreationDate());
-        note.setMarkdownEnabled(source.isMarkdownEnabled());
-        note.setContent(source.getContent());
-        note.setColor(source.getColor());
-        note.setTags(source.getTags());
-        note.setPinned(source.isPinned());
-        note.setTodo(source.isTodo());
-        note.setTodos(source.getTodos());
-        note.setCompletedTodos(source.getCompletedTodos());
-
-        note.save();
-
-        Bundle arguments = new Bundle();
-        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
-        arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
-        arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
-        Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
-        editNoteIntent.putExtras(arguments);
-
-        getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
-
-    }
-
-    private void updateTodos() {
-        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getTodos(), false);
-        mTodoList.setAdapter(jSONAdapter);
-        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getCompletedTodos(), true);
-        mCompletedTodoList.setAdapter(jSONAdapter);
-
-        if ((mNote.getTodos().size() == 0) || (mNote.getCompletedTodos().size() == 0) )
-            mTodoDivider.setVisibility(View.GONE);
-        else
-            mTodoDivider.setVisibility(View.VISIBLE);
-
-        NoteUtils.setListViewHeight(mTodoList);
-        NoteUtils.setListViewHeight(mCompletedTodoList);
-    }
-
     public class TodoItem {
         private String text;
         private Boolean checked;
@@ -1781,7 +1719,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-}
     public void updateReminder(Calendar aCalendar) {
         onReminderUpdated(aCalendar);
     }
@@ -1842,170 +1779,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         NoteUtils.setListViewHeight(mTodoList);
         NoteUtils.setListViewHeight(mCompletedTodoList);
-    }
-
-    public class TodoItem {
-        private String text;
-        private Boolean checked;
-
-        public TodoItem(String text, Boolean checked) {
-            this.text = text;
-            this.checked = checked;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public Boolean getChecked() {
-            return checked;
-        }
-
-        public void setChecked(Boolean checked) {
-            this.checked = checked;
-        }
-    }
-
-    public class JSONAdapter extends BaseAdapter implements ListAdapter {
-
-        private final Activity activity;
-        private final ArrayList<String> jsonArray;
-        private final Boolean checked;
-
-        public JSONAdapter (Activity activity, ArrayList<String> jsonArray, Boolean checked) {
-            assert activity != null;
-            assert jsonArray != null;
-
-            this.jsonArray = jsonArray;
-            this.activity = activity;
-            this.checked = checked;
-        }
-
-
-        @Override public int getCount() {
-            if(jsonArray == null)
-                return 0;
-            else
-                return jsonArray.size();
-        }
-
-        @Override public String getItem(int position) {
-            if (jsonArray == null)
-                return null;
-            else {
-                return jsonArray.get(position);
-            }
-        }
-
-        public void setItem(int position, String item) {
-            if ((item != null) && (position < jsonArray.size())) {
-                jsonArray.set(position, item);
-            }
-        }
-
-
-        @Override public long getItemId(int position) {
-            return position;
-        }
-
-        @Override public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null)
-                convertView = activity.getLayoutInflater().inflate(R.layout.fragment_todo_row, null);
-
-            TextView text = (TextView)convertView.findViewById(R.id.todo_title);
-            CheckBox check = (CheckBox)convertView.findViewById(R.id.todo_checked);
-            View remove = (View)convertView.findViewById(R.id.todo_remove);
-
-            String item = getItem(position);
-            if(null != item ) {
-                text.setText(item);
-                check.setChecked(checked);
-                if (checked)
-                    text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-
-
-            check.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checked == false) {
-                        String completed_item = mTodos.get(position);
-                        mTodosCompleted.add(0, completed_item);
-                        mTodos.remove(position);
-
-                        mNote.setTodos(mTodos);
-                        mNote.setCompletedTodos(mTodosCompleted);
-                        mNote.save();
-                        updateTodos();
-                    } else {
-                        String item = mTodosCompleted.get(position);
-                        mTodos.add(0, item);
-                        mTodosCompleted.remove(position);
-
-                        mNote.setTodos(mTodos);
-                        mNote.setCompletedTodos(mTodosCompleted);
-                        mNote.save();
-                        updateTodos();
-
-                    }
-                }
-            });
-
-            remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checked == false) {
-                        mTodos.remove(position);
-
-                        mNote.setTodos(mTodos);
-                        mNote.setCompletedTodos(mTodosCompleted);
-                        mNote.save();
-                        updateTodos();
-                    } else {
-                        String item = mTodosCompleted.get(position);
-                        mTodosCompleted.remove(item);
-
-                        mNote.setTodos(mTodos);
-                        mNote.setCompletedTodos(mTodosCompleted);
-                        mNote.save();
-                        updateTodos();
-                    }
-                }
-            });
-
-
-            final JSONAdapter jSONAdapter = this;
-
-            text.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (checked == false) {
-                        mTodos.set(position, charSequence.toString());
-                        mNote.setTodos(mTodos);
-                    } else {
-                        mTodosCompleted.set(position, charSequence.toString());
-                        mNote.setCompletedTodos(mTodosCompleted);
-                    }
-
-                    NoteUtils.setListViewHeight(mTodoList);
-                    NoteUtils.setListViewHeight(mCompletedTodoList);
-
-                    mNote.save();
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {}
-            });
-
-            return convertView;
-        }
     }
 
 }

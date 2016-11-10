@@ -22,7 +22,7 @@ public class PrefUtils {
 
     // boolean, determines # of preview lines
     //MDD_R
-   // public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
+    public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
 
     // boolean, determines whether dates are shown
     public static final String PREF_SHOW_DATES = "pref_key_show_dates";
