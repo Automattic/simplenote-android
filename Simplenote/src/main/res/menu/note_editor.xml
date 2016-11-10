@@ -5,13 +5,11 @@
     <item
         android:id="@+id/menu_todo"
         android:title="@string/todo_list"
-        android:icon="@drawable/ic_trash_24dp"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_template"
         android:title="@string/template"
-        android:icon="@drawable/ic_trash_24dp"
         app:showAsAction="never" />
 
     <item
@@ -54,13 +52,11 @@
     <item
         android:id="@+id/info_pin_switch_menu"
         app:showAsAction="never"
-        android:title="@string/pin_to_top"
-        android:icon="@drawable/ic_trash_24dp" />
+        android:title="@string/pin_to_top"/>
 
     <item
         android:id="@+id/info_markdown_menu"
         app:showAsAction="never"
-        android:title="@string/markdown_show"
-        android:icon="@drawable/ic_trash_24dp" />
+        android:title="@string/markdown_show"/>
 
 </menu>

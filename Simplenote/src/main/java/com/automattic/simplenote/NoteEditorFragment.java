@@ -49,6 +49,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +73,10 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedL
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.commonsware.cwac.anddown.AndDown;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.mobeta.android.dslv.DragSortListView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -108,6 +113,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private static final int HISTORY_TIMEOUT = 10000;
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
+
+    ShowcaseView mShowcaseView;
 
     private Note mNote;
     private Bucket<Note> mNotesBucket;
@@ -147,7 +154,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private WebView mMarkdown;
     private String mKey;
     private View mColorIndicator;
-
+    private Button mPButtom;
     private MenuItem mPinnerItem;
     private MenuItem mMarkdownItem;
     private MenuItem mTemplateItem;
@@ -162,6 +169,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private LinearLayout mTodoComponent;
     private JSONAdapter jSONAdapter ;
 
+
+    private int mTutorialCounter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -230,12 +239,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
+        mPButtom =  (Button)rootView.findViewById(R.id.paskhalka);
+        mPButtom =  (Button)rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -254,6 +265,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     break;
             }
         }
+
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
@@ -333,7 +345,51 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
 
+        mContentEditText.clearFocus();
 
+        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        int margin = ((Number) (getResources().getDisplayMetrics().density * 25)).intValue();
+        lps.setMargins(margin, margin*2, margin, margin);
+
+         mTutorialCounter = 0;
+        mShowcaseView = new ShowcaseView.Builder(getActivity())
+                //.setTarget(new ViewTarget(findViewById(R.id.note_content)))
+              // .setTarget(new ViewTarget(rootView.findViewById(R.id.paskhalka)))
+               .setTarget(new ViewTarget(rootView.findViewById(R.id.note_content)))
+                //.setTarget(Target.NONE)
+                .setContentTitle("Use three dots menu to:")
+                .setContentText("- Create a TODO list\n" +
+                        "- Create a template for new notes\n" +
+                        "- Chose the color for your note\n" +
+                        "- Set reminder for desired time\n" +
+                        "- Pin important notes to the top\n" +
+                        "- Use Markdown\n")
+                .hideOnTouchOutside()
+                //.withMaterialShowcase()
+                .setStyle(R.style.MainScreenTutorial)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (mTutorialCounter) {
+                            case 0:
+                                mPButtom =  (Button)rootView.findViewById(R.id.paskhalka2);
+                                showcaseView.setShowcase(new ViewTarget(textView2), true);
+                                break;
+
+                            case 1:
+                                showcaseView.setShowcase(new ViewTarget(textView3), true);
+                                break;
+                        mShowcaseView.hide();
+                    }
+                })
+                //.replaceEndButton(R.layout.skip_tutorial_button)
+                //.setContentTitlePaint(paint)
+                .build();
+        //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
+        mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+        mShowcaseView.setButtonPosition(lps);
 
         return rootView;
     }

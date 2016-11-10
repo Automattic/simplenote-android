@@ -15,9 +15,9 @@
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="CustomShowcaseTheme2" parent="ShowcaseView">
+    <style name="MainScreenTutorial" parent="ShowcaseView">
         <item name="sv_backgroundColor">#e62291DB</item>
-        <item name="sv_buttonText">SKIP ALL THE TUTORIAL</item>
+        <!--<item name="sv_buttonText">SKIP ALL</item>-->
         <item name="sv_titleTextAppearance">@style/CustomTitle</item>
     </style>
 
