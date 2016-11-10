@@ -100,7 +100,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         InfoBottomSheetDialog.InfoSheetListener,
         ReminderBottomSheetDialog.ReminderSheetListener,
         ColorBottomSheetDialog.ColorSheetListener,
-        ColorDialogResultListener
+        ColorDialogResultListener,
+        View.OnClickListener
 {
 
     public static final String ARG_ITEM_ID = "item_id";
@@ -155,6 +156,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mKey;
     private View mColorIndicator;
     private Button mPButtom;
+    private Button mPButton;
     private MenuItem mPinnerItem;
     private MenuItem mMarkdownItem;
     private MenuItem mTemplateItem;
@@ -246,7 +248,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
         mPButtom =  (Button)rootView.findViewById(R.id.paskhalka);
-        mPButtom =  (Button)rootView.findViewById(R.id.paskhalka2);
+        mPButton =  (Button)rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -347,17 +349,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mContentEditText.clearFocus();
 
-        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        int margin = ((Number) (getResources().getDisplayMetrics().density * 25)).intValue();
-        lps.setMargins(margin, margin*2, margin, margin);
-
          mTutorialCounter = 0;
         mShowcaseView = new ShowcaseView.Builder(getActivity())
                 //.setTarget(new ViewTarget(findViewById(R.id.note_content)))
-              // .setTarget(new ViewTarget(rootView.findViewById(R.id.paskhalka)))
-               .setTarget(new ViewTarget(rootView.findViewById(R.id.note_content)))
+              .setTarget(new ViewTarget(rootView.findViewById(R.id.paskhalka)))
+               //.setTarget(new ViewTarget(rootView.findViewById(R.id.note_content)))
                 //.setTarget(Target.NONE)
                 .setContentTitle("Use three dots menu to:")
                 .setContentText("- Create a TODO list\n" +
@@ -368,31 +364,36 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         "- Use Markdown\n")
                 .hideOnTouchOutside()
                 //.withMaterialShowcase()
-                .setStyle(R.style.MainScreenTutorial)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (mTutorialCounter) {
-                            case 0:
-                                mPButtom =  (Button)rootView.findViewById(R.id.paskhalka2);
-                                showcaseView.setShowcase(new ViewTarget(textView2), true);
-                                break;
-
-                            case 1:
-                                showcaseView.setShowcase(new ViewTarget(textView3), true);
-                                break;
-                        mShowcaseView.hide();
-                    }
-                })
-                //.replaceEndButton(R.layout.skip_tutorial_button)
-                //.setContentTitlePaint(paint)
+                .setStyle(R.style.StandardTutorial)
+               .replaceEndButton(R.layout.get_tutorial_button)
+                .setOnClickListener(this)
                 .build();
+                //.setContentTitlePaint(paint)
         //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
         mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
-        mShowcaseView.setButtonPosition(lps);
 
         return rootView;
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (mTutorialCounter) {
+            case 0:
+                mTagView.clearFocus();
+                mShowcaseView.setShowcase(new ViewTarget(mPButton),true);
+                //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+                mShowcaseView.setContentTitle("Use tags to filter your search");
+                mShowcaseView.setContentText("You can add tags to your notes to find them quickly.\nJust write a tag here and press \"Next\" to add tag.");
+                mTutorialCounter++;
+                break;
+
+            case 1:
+                mShowcaseView.hide();
+                break;
+        }
+
+    }
+
 
     @Override
     public void onResume() {

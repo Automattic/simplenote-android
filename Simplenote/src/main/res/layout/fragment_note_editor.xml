@@ -48,68 +48,13 @@
                         android:background = "@drawable/set_reminder_button_background"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_marginTop="-50dp"
+                        android:layout_marginBottom="50dp"
                         android:hapticFeedbackEnabled="true"
                         android:layout_alignParentEnd="true"/>
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
 
-                    <Button
-                        android:id="@+id/paskhalka"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="340dp"
-                        android:text="@string/reminder_15_min"
-                        android:textColor="@color/simplenote_blue_accent"
-                        android:background = "@drawable/set_reminder_button_background"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_marginTop="-50dp"
-                        android:hapticFeedbackEnabled="true"
-                        android:layout_alignParentEnd="true"/>
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <Button
-                        android:id="@+id/paskhalka"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="340dp"
-                        android:text="@string/reminder_15_min"
-                        android:textColor="@color/simplenote_blue_accent"
-                        android:background = "@drawable/set_reminder_button_background"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_marginTop="-50dp"
-                        android:hapticFeedbackEnabled="true"
-                        android:layout_alignParentEnd="true"/>
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <Button
-                        android:id="@+id/paskhalka"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="340dp"
-                        android:text="@string/reminder_15_min"
-                        android:textColor="@color/simplenote_blue_accent"
-                        android:background = "@drawable/set_reminder_button_background"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_marginTop="-50dp"
-                        android:hapticFeedbackEnabled="true"
-                        android:layout_alignParentEnd="true"/>
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
 
-                    <Button
-                        android:id="@+id/paskhalka2"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="340dp"
-                        android:text="@string/reminder_15_min"
-                        android:textColor="@color/simplenote_blue_accent"
-                        android:background = "@drawable/set_reminder_button_background"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_marginTop="-50dp"
-                        android:hapticFeedbackEnabled="true"
-                        android:layout_alignParentEnd="true"/>
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
 
 
                     <com.automattic.simplenote.widgets.SimplenoteEditText
@@ -127,6 +72,8 @@
                         android:textColorLink="@color/simplenote_blue"
                         android:textSize="16sp"
                         tools:context=".NoteEditorFragment" />
+
+
                 </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
@@ -192,6 +139,22 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/paskhalka2"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="-40dp"
+                    android:text="@string/reminder_15_min"
+                    android:textColor="@color/simplenote_blue_accent"
+                    android:background = "@drawable/set_reminder_button_background"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="20dp"
+                    android:hapticFeedbackEnabled="true"
+                    android:layout_alignParentEnd="true"/>
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"
