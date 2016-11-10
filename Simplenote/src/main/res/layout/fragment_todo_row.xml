@@ -10,9 +10,9 @@
     android:paddingLeft="0dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|fill_vertical|center_horizontal"
         android:minHeight="48dp"
         android:orientation="horizontal"
         android:paddingLeft="0dp"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@id/drag_handle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:layout_gravity="fill"
@@ -34,7 +34,7 @@
 
         <CheckBox
             android:id="@+id/todo_checked"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:paddingTop="1dp"
@@ -46,28 +46,29 @@
 
         <EditText
             android:id="@+id/todo_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:paddingTop="4dp"
             android:text="@string/new_todo"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="fill_horizontal"
             android:background="@android:color/transparent"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:layout_weight="1"
-            android:gravity="fill_horizontal"
+            android:gravity="center_vertical|fill_vertical|fill_horizontal"
             />
 
         <TextView
             android:id="@+id/todo_remove"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill"
+            android:layout_gravity="right"
+            android:paddingTop="1dp"
             android:text="✖"
             android:textSize="24sp"
             android:layout_weight="0"
             android:gravity="right"
-            />
+            android:textAlignment="gravity"
+            android:layout_width="wrap_content" />
 
 
 
