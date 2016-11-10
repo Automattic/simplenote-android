@@ -602,15 +602,13 @@ public class Note extends BucketObject {
                               boolean isPinned,
                               boolean isMarkdownEnabled,
                               boolean hasReminder,
-                              int color,
-                              JSONArray todos,
-                              JSONArray completed_todos) {
+                              ArrayList todos,
+                              ArrayList completed_todos) {
         return !content.equals(this.getContent())
             || !tagString.equals(this.getTagString().toString())
             || this.isPinned() != isPinned
             || this.isMarkdownEnabled() != isMarkdownEnabled
             || this.hasReminder() != hasReminder
-            || color != this.getColor()
             || this.getTodos() != todos
             || this.getCompletedTodos() != completed_todos;
 

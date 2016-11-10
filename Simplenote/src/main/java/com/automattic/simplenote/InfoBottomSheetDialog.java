@@ -98,7 +98,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
         setContentView(infoView);
     }
-
+    
     public void show(Note note) {
 
         if (mFragment.isAdded()) {

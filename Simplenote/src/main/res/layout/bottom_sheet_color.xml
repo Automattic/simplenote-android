@@ -19,14 +19,6 @@
             android:layout_margin="@dimen/padding_extra_large"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/color"
-                />
-
-
             <RelativeLayout
                 android:id="@+id/colorbox"
                 android:layout_width="match_parent"
@@ -39,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/color_reset"
-                android:textColor="@color/simplenote_dark_grey" />
+                android:textColor="@color/simplenote_blue_accent"
                 android:layout_margin="10dp"
                 android:background = "@drawable/set_reminder_button_background"
                 style="?android:attr/borderlessButtonStyle"/>

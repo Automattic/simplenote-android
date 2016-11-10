@@ -16,6 +16,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
+import android.text.Html;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;

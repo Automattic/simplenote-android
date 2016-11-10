@@ -76,7 +76,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
         Context cx = mFragment.getContext();
         RelativeLayout rLayout = (RelativeLayout) colorView.findViewById(R.id.colorbox);
 
-        int marg = (int)convertDpToPixel(2.0, cx);
+        int marg = (int)convertDpToPixel(5.0, cx);
 
             for (int j = 0; j < 7; j++) {
                 tv1[index] = new Button(cx);

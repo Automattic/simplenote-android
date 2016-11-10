@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="fill"
             android:text=" ⋮⋮"
             android:textSize="24sp"
             />
@@ -37,32 +37,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
+            android:paddingTop="1dp"
             android:layout_weight="0"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="fill"
             android:paddingLeft="0dp" />
 
         <EditText
             android:id="@+id/todo_title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:paddingTop="4dp"
             android:text="@string/new_todo"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:layout_weight="1"
+            android:gravity="fill_horizontal"
             />
 
         <TextView
             android:id="@+id/todo_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="fill"
             android:text="✖"
             android:textSize="24sp"
             android:layout_weight="0"
+            android:gravity="right"
             />
 
 

@@ -36,7 +36,7 @@ public class TagsAdapter extends BaseAdapter {
     public static final long ALL_REMINDERS_ID = -5L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
-    protected static final int[] topItems = {R.string.notes, R.string.trash};
+    protected static final int[] topItems = { R.string.notes, R.string.trash, R.string.templates, R.string.todoLists, R.string.reminders };
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -51,6 +51,7 @@ public class TagsAdapter extends BaseAdapter {
     private int mRowIdColumn;
     private int mTextColorId;
     private int mHeaderCount;
+
     private View.OnClickListener mEditTagsOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

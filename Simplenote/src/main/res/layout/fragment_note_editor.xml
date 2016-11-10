@@ -27,7 +27,6 @@
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
-
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
