@@ -392,6 +392,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             @Override
             public void onClick(View v) {
                 if (!isAdded()) return;
+                mShowcaseView.hide();
                 addNote();
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_NOTE_CREATED,
@@ -420,13 +421,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 .hideOnTouchOutside()
                 //.withMaterialShowcase()
                 .setStyle(R.style.MainScreenTutorial)
+                .replaceEndButton(R.layout.skip_tutorial_button)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mShowcaseView.hide();
                     }
                 })
-                .replaceEndButton(R.layout.skip_tutorial_button)
                 //.setContentTitlePaint(paint)
                 .build();
         //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));

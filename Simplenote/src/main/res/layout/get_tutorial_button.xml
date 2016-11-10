@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Get it!"
+    android:text="Got it!"
     android:textAllCaps="false"
     android:background="@drawable/material_showcase_button_bg"
     android:textColor="@color/simplenote_blue_light"

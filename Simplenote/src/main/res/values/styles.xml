@@ -23,7 +23,7 @@
 
     <style name="StandardTutorial" parent="ShowcaseView">
     <item name="sv_backgroundColor">#e62291DB</item>
-    <item name="sv_buttonText">Get it!</item>
+    <item name="sv_buttonText">Got it!</item>
     <item name="sv_titleTextAppearance">@style/CustomTitle</item>
 </style>
 
