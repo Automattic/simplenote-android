@@ -44,7 +44,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 //    private final static int[] MATERIAL_COLORS_PRIMARY =
 //            {0xffe91e63, 0xfff44336, 0xffff5722, 0xffff9800, 0xffffc107, 0xffffeb3b, 0xffcddc39, 0xff8bc34a,
 //            0xff4caf50, 0xff009688, 0xff00bcd4, 0xff03a9f4, 0xff2196f3, 0xff3f51b5, 0xff673ab7, 0xff9c27b0};
-    private final static int[] MATERIAL_COLORS_PRIMARY = {0xFFFF0000, 0xFFffa500, 0xFFFFFF00, 0xFF00e600, 0xFF42aaff, 0xFF0000FF, 0xFF9400D3};
+    private final static int[] MATERIAL_COLORS_PRIMARY = {0xFFFF0000, 0xFFffa500, 0xFFFFFF00, 0xFF75DE45, 0xFF42aaff, 0xFF0000FF, 0xFF9400D3};
 
     private Button mResetColor;
 
