@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.mobeta.android.dslv.DragSortItemView;
+import com.mobeta.android.dslv.DragSortListView;
 
 import java.util.Calendar;
 
@@ -66,28 +70,32 @@ public class NoteUtils {
         }
     }
 
-    public static void setListViewHeight(ListView listView) {
-        ListAdapter mAdapter = listView.getAdapter();
+    public static void setListViewHeight(DragSortListView listView) {
+            ListAdapter listAdapter = listView.getAdapter();
+            if (listAdapter == null)
+                return;
 
-        int totalHeight = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                    View.MeasureSpec.UNSPECIFIED);
+            int totalHeight = 0;
+            View view = null;
+            int count = listAdapter.getCount();
 
-        for (int i = 0; i < mAdapter.getCount(); i++) {
-            View mView = mAdapter.getView(i, null, listView);
+            for (int i = 0; i < count; i++) {
+                view = listAdapter.getView(i, null, listView);
+                if (i == 0) {
+                    view.setLayoutParams(new RelativeLayout.LayoutParams(desiredWidth, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                }
 
-            mView.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-            totalHeight += mView.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight
-                + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
+                view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                totalHeight += view.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalHeight
+                    + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+            listView.setLayoutParams(params);
         listView.requestLayout();
-
+        listView.getParent().requestLayout();
     }
 
 

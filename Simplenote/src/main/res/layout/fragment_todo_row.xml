@@ -1,79 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:paddingTop="0dp"
-    android:paddingRight="8dp"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp">
 
-    <LinearLayout
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/todo_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/todo_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|fill_vertical|center_horizontal"
-        android:minHeight="48dp"
-        android:orientation="horizontal"
-        android:paddingLeft="0dp"
+        android:layout_marginRight="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_medium"
+        android:focusable="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="✖"
+        android:textSize="24sp"
+        />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:paddingTop="0dp"
+        android:paddingRight="8dp"
         android:paddingBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp">
+        android:paddingLeft="0dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_toLeftOf="@+id/todo_remove"
+        android:layout_toStartOf="@+id/todo_remove">
 
         <TextView
             android:id="@id/drag_handle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:layout_gravity="fill"
             android:text=" ⋮⋮"
             android:textSize="24sp"
+            android:layout_weight="0"
             />
 
         <CheckBox
             android:id="@+id/todo_checked"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:paddingTop="1dp"
-            android:layout_weight="0"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:layout_gravity="fill"
-            android:paddingLeft="0dp" />
+            android:paddingLeft="0dp"
+            android:layout_weight="0"
+            />
 
         <EditText
             android:id="@+id/todo_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:paddingTop="4dp"
             android:text="@string/new_todo"
-            android:layout_gravity="fill_horizontal"
             android:background="@android:color/transparent"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:layout_weight="1"
-            android:gravity="center_vertical|fill_vertical|fill_horizontal"
             />
 
-        <TextView
-            android:id="@+id/todo_remove"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:paddingTop="1dp"
-            android:text="✖"
-            android:textSize="24sp"
-            android:layout_weight="0"
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:layout_width="wrap_content" />
-
-
-
-
-
-
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
+

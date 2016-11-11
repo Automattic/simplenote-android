@@ -50,6 +50,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -390,7 +391,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0)
                     if (s.charAt(s.length() - 1) == '\n') {
-                        String todoText = mAddTodoText.getText().toString();
+                        String todoText = mAddTodoText.getText().toString().replaceAll("\n", "");
                         if (todoText.length() != 0) {
                             mTodos.add(0, todoText);
                             mNote.setTodos(mTodos);
@@ -1635,23 +1636,32 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         @Override public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null)
+
+            ViewHolder viewHolder;
+
+            if(convertView == null) {
                 convertView = activity.getLayoutInflater().inflate(R.layout.fragment_todo_row, null);
 
-            TextView text = (TextView)convertView.findViewById(R.id.todo_title);
-            CheckBox check = (CheckBox)convertView.findViewById(R.id.todo_checked);
-            View remove = (View)convertView.findViewById(R.id.todo_remove);
+                viewHolder = new ViewHolder();
+                viewHolder.text = (TextView) convertView.findViewById(R.id.todo_title);
+                viewHolder.check = (CheckBox) convertView.findViewById(R.id.todo_checked);
+                viewHolder.remove = (View) convertView.findViewById(R.id.todo_remove);
+
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
 
             String item = getItem(position);
             if(null != item ) {
-                text.setText(item);
-                check.setChecked(checked);
+                viewHolder.text.setText(item);
+                viewHolder.check.setChecked(checked);
                 if (checked)
-                    text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    viewHolder.text.setPaintFlags(viewHolder.text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
 
-            check.setOnClickListener(new View.OnClickListener() {
+            viewHolder.check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (checked == false) {
@@ -1677,21 +1687,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             });
 
-            remove.setOnClickListener(new View.OnClickListener() {
+            viewHolder.remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (checked == false) {
                         mTodos.remove(position);
-
                         mNote.setTodos(mTodos);
-                        mNote.setCompletedTodos(mTodosCompleted);
                         mNote.save();
                         updateTodos();
                     } else {
                         String item = mTodosCompleted.get(position);
                         mTodosCompleted.remove(item);
-
-                        mNote.setTodos(mTodos);
                         mNote.setCompletedTodos(mTodosCompleted);
                         mNote.save();
                         updateTodos();
@@ -1702,7 +1708,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             final JSONAdapter jSONAdapter = this;
 
-            text.addTextChangedListener(new TextWatcher() {
+            viewHolder.text.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -1728,6 +1734,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             return convertView;
         }
+
+        class ViewHolder {
+            TextView text;
+            CheckBox check;
+            View remove;
+        }
+
     }
 
     public void updateReminder(Calendar aCalendar) {
