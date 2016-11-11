@@ -217,7 +217,7 @@ public class TagsAdapter extends BaseAdapter {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_template_24dp);
             dividerView.setVisibility(View.GONE);
         }   else if (position == 3) {
-                icon = ContextCompat.getDrawable(mContext, R.drawable.ic_create_24dp);
+                icon = ContextCompat.getDrawable(mContext, R.drawable.ic_todo_24dp);
                 dividerView.setVisibility(View.GONE);
         } else if (position == 4) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_reminder_24dp);

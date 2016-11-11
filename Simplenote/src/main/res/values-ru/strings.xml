@@ -130,7 +130,7 @@
 	<string name="delete">Переместить в корзину</string>
 	<string name="loosing_note_content">Потеря содержимого заметки</string>
 	<string name="loosing_note_content_message">Если Вы сделаете список ToDo из этой заметки, то потеряете все ее содержимое. Вы уверены, что хотите продолжить?</string>
-	<string name="todo_from_note">Теперь это список ToDo</string>
+	<string name="todo_from_note">Заметка преобразована в Todo</string>
 	<string name="note_from_todo">Теперь это простая заметка</string>
 	<string name="still_note">Вы оставили заметку без изменений</string>
 	<string name="note_deleted">Заметка перемещена в корзину.</string>
@@ -164,7 +164,7 @@
 	<string name="settings">Настройки</string>
 	<string name="tag_hint">Добавить метку...</string>
 	<string name="unpin_from_top">Открепить заметку</string>
-	<string name="templates">Шаблоны</string>
+	<string name="templates">Все шаблоны</string>
 	<string name="template">Сохранить как шаблон</string>
 	<string name="reminder">Напоминание</string>
 	<string name="reminder_date">Дата</string>
@@ -175,7 +175,7 @@
 	<string name="reminder_time">Время</string>
 	<string name="reminder_title">Напоминание о задаче</string>
 	<string name="reminders">Все напоминания</string>
-	<string name="color">Цвет</string>
+	<string name="color">Цвет заметки</string>
 	<string name="content_description_copy_button">Кнопка копирования</string>
 	<string name="date">Дата</string>
 	<string name="enable_reminder">Включить напоминание</string>
@@ -191,4 +191,6 @@
 	<string name="time">Время</string>
 	<string name="todo_add">Добавить</string>
 	<string name="new_todo">Добавить...</string>
+	<string name="todoLists">Все Todo</string>
+	<string name="todo_list">Преобразовать в Todo</string>
 </resources>

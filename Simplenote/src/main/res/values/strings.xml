@@ -11,7 +11,7 @@
     <string name="delete">Move to trash</string>
     <string name="loosing_note_content">Loosing note content</string>
     <string name="loosing_note_content_message">If you make a ToDo from this note you lose the note\'s content. Are you sure you want to continue?</string>
-    <string name="todo_from_note">Now it is ToDo</string>
+    <string name="todo_from_note">Note has been converted to Todo</string>
     <string name="note_from_todo">Now it is note</string>
     <string name="still_note">The note has not changed</string>
     <string name="undelete">Restore note</string>
@@ -65,16 +65,16 @@
     <string name="markdown" translatable="false">Markdown</string>
     <string name="markdown_hide" translatable="false">Hide Markdown</string>
     <string name="markdown_show" translatable="false">Show Markdown</string>
-    <string name="reminder">Reminder</string>
+    <string name="reminder">Set reminder</string>
     <string name="enable_reminder" translatable="false">Enable reminder</string>
     <string name="date" translatable="false">Date</string>
     <string name="time">Time</string>
-    <string name="color" translatable="false">Color</string>
+    <string name="color" translatable="false">Set color</string>
     <string name="color_reset">Reset Color</string>
     <string name="template">Save as template</string>
     <string name="use_template">Make note</string>
-    <string name="templates">Templates</string>
-    <string name="todoLists">TODO lists</string>
+    <string name="templates">All Templates</string>
+    <string name="todoLists">All Todo</string>
 
 
     <!-- Undo -->
@@ -223,11 +223,11 @@
     <string name="new_todo">Add todo...</string>
     <string name="reminder_15_min">In 15 Minutes</string>
     <string name="reminder_is_set">The reminder is set</string>
-    <string name="reminder_will_raise_in">The reminder will raise in</string>
+    <string name="reminder_will_raise_in">Reminder will raise in</string>
     <string name="of_days">days</string>
     <string name="of_hours">hours</string>
     <string name="of_minutes">minutes</string>
     <string name="reminder_1_hour">In 1 Hour</string>
-    <string name="todo_list">TODO List</string>
+    <string name="todo_list">Convert to Todo</string>
     <string name="todo_completed">Completed</string>
 </resources>
