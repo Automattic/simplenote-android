@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Нет заметок.</string>
 	<string name="close_drawer">Закрыть боковую панель</string>
 	<string name="open_drawer">Открыть боковую панель</string>
-	<!--<string name="condensed_note_list">Компактный вид</string>-->
+	<string name="condensed_note_list">Компактный вид</string>
 	<string name="note_pinned">Заметка прикреплена.</string>
 	<string name="rename_tag">Переименовать метку</string>
 	<string name="new_note_list">Новая заметка...</string>

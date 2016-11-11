@@ -117,7 +117,7 @@
 	<string name="no_notes_here">אין כאן פתקים.</string>
 	<string name="close_drawer">סגירת מגירה</string>
 	<string name="open_drawer">פתיחת מגירה</string>
-	<!--<string name="condensed_note_list">רשימה מכווצת</string>-->
+	<string name="condensed_note_list">רשימה מכווצת</string>
 	<string name="note_pinned">הפתק הוצמד.</string>
 	<string name="rename_tag">שינוי שם תגית</string>
 	<string name="new_note_list">פתק חדש...</string>

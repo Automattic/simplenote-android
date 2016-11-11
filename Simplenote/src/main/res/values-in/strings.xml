@@ -70,7 +70,7 @@
 	<string name="app_description_short">Simplenote merupakan cara yang mudah untuk menyimpan catatan, daftar, ide dan lain-lain.</string>
 	<string name="rename_tag">Ganti nama label</string>
 	<string name="note_pinned">Catatan disematkan.</string>
-	<!--<string name="condensed_note_list">Daftar catatan ringkas</string>-->
+	<string name="condensed_note_list">Daftar catatan ringkas</string>-->
 	<string name="open_drawer">Buka laci</string>
 	<string name="close_drawer">Tutup laci</string>
 	<string name="delete">Pindahkan ke sampah</string>

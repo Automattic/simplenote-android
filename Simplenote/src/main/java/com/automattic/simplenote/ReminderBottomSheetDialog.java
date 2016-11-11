@@ -30,9 +30,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     private Switch mReminderSwitch;
     private TextView mDateTextView;
     private TextView mTimeTextView;
-    private TextView m15MinDateTextView;
     private TextView m15MinTimeTextView;
-    private TextView mHourDateTextView;
     private TextView mHourTimeTextView;
 
 
@@ -67,7 +65,6 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     reminderSheetListener.onReminderOn();
-                    showPopup();
                 } else {
                     reminderSheetListener.onReminderOff();
                 }
@@ -108,7 +105,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
                 break;
             case R.id.time_reminder:
                 DialogFragment timeFragment = TimePickerFragment.newInstance(timestamp);
-                    timeFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
+                timeFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
                 timeFragment.show(mFragment.getFragmentManager(), "timePicker");
                 break;
             case R.id.after_15_minutes:
@@ -128,31 +125,38 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         }
     }
 
-    public void enableReminder(){
-       if (mReminderSwitch.isChecked())
-           showPopup();
+    public void enableReminder() {
+        if (mReminderSwitch.isChecked())
+            showPopup();
         else
-        mReminderSwitch.setChecked(true);
+            mReminderSwitch.setChecked(true);
         //showPopup(getContext().getString(R.string.reminder_is_set));
     }
 
-    public void showPopup(){
-        Calendar now = new GregorianCalendar();
-        now.setTime(Calendar.getInstance().getTime());
-        Calendar remindersTime = mNote.getReminderDate();
-        String delay = getTimeDifference(now.getTime(), remindersTime.getTime());
-        if(!delay.equals("")){
-        String message = getContext().getString(R.string.reminder_will_raise_in)+" "+delay;
-        Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
-        }
-        else mReminderSwitch.setChecked(false);
+    public void disableReminder() {
+        mReminderSwitch.setChecked(false);
     }
 
-    public String getTimeDifference(Date startDate, Date endDate){
+
+    public void showPopup() {
+        Date now = Calendar.getInstance().getTime();
+        String delay = getTimeDifference(now, mNote.getReminderDate().getTime());
+
+        if (!delay.equals("")) {
+            String message = getContext().getString(R.string.reminder_will_raise_in) + " " + delay;
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        } else
+            mReminderSwitch.setChecked(false);
+    }
+
+    public String getTimeDifference(Date startDate, Date endDate) {
 
         //milliseconds
         long different = endDate.getTime() - startDate.getTime();
-if(different<0) return "";
+
+        if (different < 0)
+            return "";
+
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
@@ -162,19 +166,19 @@ if(different<0) return "";
         different = different % daysInMilli;
 
         long elapsedHours = different / hoursInMilli;
-        different = different % hoursInMilli+1;
+        different = different % hoursInMilli + 1;
 
 
-        long elapsedMinutes = different / minutesInMilli+1;
+        long elapsedMinutes = different / minutesInMilli + 1;
 
-        if (elapsedMinutes==60) {
-            elapsedMinutes=0;
+        if (elapsedMinutes == 60) {
+            elapsedMinutes = 0;
             elapsedHours++;
         }
 
-return (elapsedDays==0?"":Long.toString(elapsedDays)+" "+getContext().getString(R.string.of_days)+" ")
-        +(elapsedHours==0?"":Long.toString(elapsedHours)+" "+getContext().getString(R.string.of_hours)+" ")
-        +(elapsedMinutes==0?"":Long.toString(elapsedMinutes)+" "+getContext().getString(R.string.of_minutes));
+        return (elapsedDays == 0 ? "" : Long.toString(elapsedDays) + " " + getContext().getString(R.string.of_days) + " ")
+                + (elapsedHours == 0 ? "" : Long.toString(elapsedHours) + " " + getContext().getString(R.string.of_hours) + " ")
+                + (elapsedMinutes == 0 ? "" : Long.toString(elapsedMinutes) + " " + getContext().getString(R.string.of_minutes));
 
     }
 

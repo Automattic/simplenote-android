@@ -116,7 +116,7 @@
 	<string name="no_notes_here">ノートがありません。</string>
 	<string name="close_drawer">ドロワーを閉じる</string>
 	<string name="open_drawer">ドロワーを開く</string>
-	<!--<string name="condensed_note_list">要約版ノート一覧</string>-->
+	<string name="condensed_note_list">要約版ノート一覧</string>
 	<string name="note_pinned">ノートを上部に固定しました。</string>
 	<string name="rename_tag">タグ名を変更</string>
 	<string name="new_note_list">新規ノート…</string>

@@ -116,7 +116,7 @@
 	<string name="no_notes_here">لا توجد ملاحظات هنا.</string>
 	<string name="close_drawer">إغلاق ساحب القائمة</string>
 	<string name="open_drawer">فتح ساحب القائمة</string>
-	<!--<string name="condensed_note_list">قائمة الملاحظات الموجزة</string>-->
+	<string name="condensed_note_list">قائمة الملاحظات الموجزة</string>
 	<string name="note_pinned">تم تثبيت الملاحظة.</string>
 	<string name="rename_tag">إعادة تسمية الوسم</string>
 	<string name="new_note_list">ملاحظة جديدة...</string>

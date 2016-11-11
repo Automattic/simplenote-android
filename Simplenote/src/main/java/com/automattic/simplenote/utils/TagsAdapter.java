@@ -30,13 +30,13 @@ public class TagsAdapter extends BaseAdapter {
 
     public static final String ID_COLUMN = "_id";
     public static final long ALL_NOTES_ID = -1L;
-    public static final long TRASH_ID = -2L;
+    public static final long ALL_REMINDERS_ID = -2L;
     public static final long TEMPLATES_ID = -3L;
     public static final long TODO_ID = -4L;
-    public static final long ALL_REMINDERS_ID = -5L;
+    public static final long TRASH_ID = -5L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
-    protected static final int[] topItems = { R.string.notes, R.string.trash, R.string.templates, R.string.todoLists, R.string.reminders };
+    protected static final int[] topItems = { R.string.notes, R.string.templates, R.string.todoLists, R.string.reminders, R.string.trash };
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -168,13 +168,13 @@ public class TagsAdapter extends BaseAdapter {
         if (i == 0) {
             return mAllNotesItem;
         } else if (i == 1) {
-            return mTrashItem;
+            return mAllRemindersItem;
         } else if (i == 2) {
             return mTemplateItem;
         } else if (i == 3){
             return mTodoItem;
         } else if (i == 4){
-            return mAllRemindersItem;
+            return mTrashItem;
         } else {
             mCursor.moveToPosition(i - topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
@@ -211,7 +211,7 @@ public class TagsAdapter extends BaseAdapter {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_notes_24dp);
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
-            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_reminder_24dp);
             dividerView.setVisibility(View.GONE);
         }  else if (position == 2) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_template_24dp);
@@ -220,7 +220,7 @@ public class TagsAdapter extends BaseAdapter {
                 icon = ContextCompat.getDrawable(mContext, R.drawable.ic_todo_24dp);
                 dividerView.setVisibility(View.GONE);
         } else if (position == 4) {
-            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_reminder_24dp);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
             dividerView.setVisibility(View.VISIBLE);
         }
         else {
@@ -245,10 +245,10 @@ public class TagsAdapter extends BaseAdapter {
 
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
-        if (mSelectedTag.id == TRASH_ID) return 1;
+        if (mSelectedTag.id == ALL_REMINDERS_ID) return 1;
         if (mSelectedTag.id == TEMPLATES_ID) return 2;
         if (mSelectedTag.id == TODO_ID) return 3;
-        if (mSelectedTag.id == ALL_REMINDERS_ID) return 4;
+        if (mSelectedTag.id == TRASH_ID) return 4;
         if (mCursor == null) return -1;
         int current = mCursor.getPosition();
         mCursor.moveToPosition(-1);

@@ -116,7 +116,7 @@
 	<string name="no_notes_here">메모가 없습니다.</string>
 	<string name="close_drawer">보관함 닫기</string>
 	<string name="open_drawer">보관함 열기</string>
-	<!--<string name="condensed_note_list">메모 요약 목록</string>-->
+	<string name="condensed_note_list">메모 요약 목록</string>
 	<string name="note_pinned">메모가 고정되었습니다.</string>
 	<string name="rename_tag">태그 이름 변경</string>
 	<string name="new_note_list">새 메모...</string>

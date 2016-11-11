@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Burada not yok.</string>
 	<string name="close_drawer">Çekmeceyi kapat</string>
 	<string name="open_drawer">Çekmeceyi aç</string>
-	<!--<string name="condensed_note_list">Sıkıştırılmış not listesi</string>-->
+	<string name="condensed_note_list">Sıkıştırılmış not listesi</string>
 	<string name="note_pinned">Not iğnelendi.</string>
 	<string name="rename_tag">Etiketi yeniden adlandır</string>
 	<string name="new_note_list">Yeni not…</string>

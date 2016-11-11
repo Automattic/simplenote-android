@@ -116,7 +116,7 @@
 	<string name="no_notes_here">No se encontraron notas.</string>
 	<string name="close_drawer">Cerrar barra lateral</string>
 	<string name="open_drawer">Abrir barra lateral</string>
-	<!--<string name="condensed_note_list">Lista de notas condensada</string>-->
+	<string name="condensed_note_list">Lista de notas condensada</string>
 	<string name="note_pinned">Nota destacada.</string>
 	<string name="rename_tag">Renombrar etiqueta</string>
 	<string name="new_note_list">Nueva nota...</string>

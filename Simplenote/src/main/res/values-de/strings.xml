@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Keine Notizen vorhanden.</string>
 	<string name="close_drawer">Menübereich schließen </string>
 	<string name="open_drawer">Menübereich öffen</string>
-	<!--<string name="condensed_note_list">Notizenliste Kurzfassung</string>-->
+	<string name="condensed_note_list">Notizenliste Kurzfassung</string>
 	<string name="note_pinned">Notiz angeheftet.</string>
 	<string name="rename_tag">Schlagwort umbenennen</string>
 	<string name="new_note_list">Neue Notiz…</string>

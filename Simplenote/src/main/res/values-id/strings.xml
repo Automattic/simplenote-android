@@ -116,7 +116,7 @@
 	<string name="no_notes_here">Tidak ada catatan di sini.</string>
 	<string name="close_drawer">Tutup laci</string>
 	<string name="open_drawer">Buka laci</string>
-	<!--<string name="condensed_note_list">Daftar catatan ringkas</string>-->
+	<string name="condensed_note_list">Daftar catatan ringkas</string>
 	<string name="note_pinned">Catatan disematkan.</string>
 	<string name="rename_tag">Ganti nama label</string>
 	<string name="new_note_list">Catatan baru…</string>

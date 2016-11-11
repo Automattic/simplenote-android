@@ -1150,8 +1150,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onReminderUpdated(Calendar calendar) {
-        //save information about reminder for note
-        mNote.setReminderDate(calendar);
         mHasReminderDateChange = true;
         mReminderBottomSheet.updateReminder(calendar);
         if (mHasReminder) {
@@ -1161,6 +1159,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onReminderDismissed() {
+        if (mNote.hasReminder() == true)
+            mReminderBottomSheet.showPopup();
+
         mReminderBottomSheet.dismiss();
     }
 
@@ -1553,8 +1554,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(timestamp));
-            onReminderUpdated(calendar);
-            mReminderBottomSheet.enableReminder();
+
+            Date now = Calendar.getInstance().getTime();
+            String delay = mReminderBottomSheet.getTimeDifference(now, calendar.getTime());
+
+            if (!delay.equals("")) {
+                onReminderUpdated(calendar);
+                mReminderBottomSheet.enableReminder();
+            } else
+                mReminderBottomSheet.disableReminder();
         }
     }
 

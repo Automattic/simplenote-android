@@ -61,7 +61,7 @@
             android:layout_toStartOf="@id/pin_button"
             android:ellipsize="end"
             android:lines="1"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="?attr/noteTitleColor"
             android:textSize="18sp"
             tools:text="Three-line item"/>
