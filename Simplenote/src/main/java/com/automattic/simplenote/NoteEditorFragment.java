@@ -249,6 +249,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
         mPButtom = (Button) rootView.findViewById(R.id.paskhalka);
+
+//        mPButtom.setFocusable(true);
+//        mPButtom.setFocusableInTouchMode(true);
+//        mPButtom.requestFocus();
+
         mPButton = (Button) rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
@@ -1166,7 +1171,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
             if (mNote != null && mNote.getContent().isEmpty()) {
                 // Show soft keyboard
-                mContentEditText.requestFocus();
+               // mContentEditText.requestFocus();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
