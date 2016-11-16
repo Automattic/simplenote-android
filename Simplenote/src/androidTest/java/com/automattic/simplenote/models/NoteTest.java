@@ -1,8 +1,13 @@
 package com.automattic.simplenote.models;
 
+import android.graphics.Color;
+import android.util.Log;
+
 import junit.framework.TestCase;
 
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -86,6 +91,59 @@ public class NoteTest extends TestCase {
         assertTrue(note.isPinned());
         note.setPinned(false);
         assertFalse(note.isPinned());
+    }
+
+    public void testSetColor() {
+        Note note = new Note("note-test");
+        note.setColor(Color.BLUE);
+        assertEquals(Color.BLUE, note.getColor());
+    }
+
+    public void testResetColor() {
+        Note note = new Note("note-test");
+        note.setColor(Color.WHITE);
+        assertEquals(Color.WHITE, note.getColor());
+    }
+
+
+    public void testReminder() {
+        Note note = new Note("note-test");
+        note.setReminder(true);
+        Calendar calendar = Calendar.getInstance();
+        note.setReminderDate(calendar);
+        assertTrue(note.hasReminder());
+        note.setReminder(false);
+        assertFalse(note.hasReminder());
+
+        assertEquals(0, note.numberToDate(calendar.getTimeInMillis()).compareTo(note.getReminderDate()));
+    }
+
+    public void testTemplate() {
+        Note note = new Note("note-test");
+        note.setTemplate(true);
+        assertTrue(note.isTemplate());
+
+        note.setTemplate(false);
+        assertFalse(note.isTemplate());
+    }
+
+    public void testTodo() {
+        Note note = new Note("note-test");
+        note.setTodo(true);
+        assertTrue(note.isTodo());
+
+        ArrayList<String> todos = new ArrayList<String>();
+        todos.add("Todo item");
+        note.setTodos(todos);
+        assertTrue(note.getTodos().equals(todos));
+
+        ArrayList<String> completedTodos = new ArrayList<String>();
+        completedTodos.add("Todo item");
+        note.setCompletedTodos(completedTodos);
+        assertTrue(note.getCompletedTodos().equals(completedTodos));
+
+        note.setTodo(false);
+        assertFalse(note.isTodo());
     }
 
     protected List<String> tagList(String ... tags){
