@@ -1,11 +1,14 @@
 package com.automattic.simplenote;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     private TextView mTimeTextView;
     private TextView m15MinTimeTextView;
     private TextView mHourTimeTextView;
+    Animation fade;
 
 
     private Fragment mFragment;
@@ -43,7 +47,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         super(fragment.getActivity());
 
         reminderSheetListener = _reminderSheetListener;
-
+        fade = AnimationUtils.loadAnimation(fragment.getContext(), R.anim.quick_fade_in_out);
         mFragment = fragment;
 
         View reminderView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_reminder, null, false);
@@ -52,6 +56,7 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mTimeTextView = (TextView) reminderView.findViewById(R.id.time_reminder);
         m15MinTimeTextView = (TextView) reminderView.findViewById(R.id.after_15_minutes);
         mHourTimeTextView = (TextView) reminderView.findViewById(R.id.after_hour);
+
 
         setOnDismissListener(new OnDismissListener() {
             @Override
@@ -97,8 +102,10 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
     @Override
     public void onClick(View v) {
         long timestamp = mNote.getReminderDate().getTimeInMillis();
+        v.startAnimation(fade);
         switch (v.getId()) {
             case R.id.date_reminder:
+
                 DialogFragment dateFragment = DatePickerFragment.newInstance(timestamp);
                 dateFragment.setTargetFragment(mFragment, UPDATE_REMINDER_REQUEST_CODE);
                 dateFragment.show(mFragment.getFragmentManager(), "datePicker");
@@ -184,6 +191,8 @@ public class ReminderBottomSheetDialog extends BottomSheetDialogBase implements 
         mNote.setReminderDate(calendar);
         refreshReminder();
     }
+
+
 
     public interface ReminderSheetListener {
         void onReminderOn();

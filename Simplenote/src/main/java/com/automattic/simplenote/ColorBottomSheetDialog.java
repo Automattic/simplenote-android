@@ -15,6 +15,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -56,6 +58,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     private View mColorBox;
     private int index = 0;
 
+    Animation fadeInOut;
 
     private Button[] tv1 = new Button[MATERIAL_COLORS_PRIMARY.length];
     private ColorSheetListener _colorSheetListener;
@@ -65,7 +68,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
     public ColorBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ColorSheetListener colorSheetListener) {
         super(fragment.getActivity());
         _colorSheetListener = colorSheetListener;
-
+        fadeInOut = AnimationUtils.loadAnimation(fragment.getContext(), R.anim.quick_fade_in_out);
         mFragment = fragment;
 
         View colorView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_color, null, false);
@@ -134,6 +137,7 @@ public class ColorBottomSheetDialog extends BottomSheetDialogBase implements Vie
 
     @Override
     public void onClick(View v) {
+        v.startAnimation(fadeInOut);
         switch (v.getId()) {
             case R.id.reset_color:
                 _colorSheetListener.onColorUpdate(Color.WHITE);
