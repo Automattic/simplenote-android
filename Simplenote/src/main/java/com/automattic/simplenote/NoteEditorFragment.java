@@ -20,6 +20,7 @@ import android.os.SystemClock;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
@@ -47,6 +48,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -271,6 +273,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private DragSortListView mCompletedTodoList;
     private View mTodoDivider;
     private LinearLayout mTodoComponent;
+    private NestedScrollView mNoteComponent;
     private JSONAdapter jSONAdapter ;
 
     /**
@@ -383,6 +386,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCompletedTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list_completed);
         mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
         mTodoComponent = (LinearLayout) rootView.findViewById(R.id.todo_component);
+        mNoteComponent = (NestedScrollView) rootView.findViewById(R.id.note_component);
         mTodoDivider = rootView.findViewById(R.id.todo_divider);
 
         mAddTodoText.addTextChangedListener(new TextWatcher() {
@@ -528,11 +532,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             updateTodos();
 
             if (mNote.isTodo() == true) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                mNoteComponent.setLayoutParams(params);
                 mTodoComponent.setVisibility(View.VISIBLE);
                 //mContentEditText.setMaxLines(1);
                 mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
                 //mContentEditText.setEllipsize(TextUtils.TruncateAt.END);
                 cutContent();
+            } else {
+
             }
         }
 
@@ -634,6 +645,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mIsTodo = mNote.isTodo();
             if(mIsTodo)  {
                 mTodoComponent.setVisibility(View.GONE);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        0, 1.0f);
+                mNoteComponent.setLayoutParams(params);
+
                 mContentEditText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
                 mContentEditText.setSingleLine(false);
 
@@ -654,6 +671,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (newLinePosition > 0)
                     showAlert(getContext().getString(R.string.loosing_note_content_message), getContext().getString(R.string.loosing_note_content));
                 else{
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    mNoteComponent.setLayoutParams(params);
+
                     mTodoComponent.setVisibility(View.VISIBLE);
                     mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
                     cutContent();
@@ -681,6 +704,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         alertDialog2.setPositiveButton(getContext().getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        mNoteComponent.setLayoutParams(params);
+
                         mTodoComponent.setVisibility(View.VISIBLE);
                         mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
                         cutContent();
