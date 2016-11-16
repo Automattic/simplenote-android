@@ -249,11 +249,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
         mPButtom = (Button) rootView.findViewById(R.id.paskhalka);
-
-//        mPButtom.setFocusable(true);
-//        mPButtom.setFocusableInTouchMode(true);
-//        mPButtom.requestFocus();
-
         mPButton = (Button) rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
@@ -355,32 +350,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         //if (arguments.getBoolean(NoteEditorFragment.TUTORIAL_REQUIRED)) {
-        if (((NoteEditorActivity)getActivity()).isTutorialRequired()) {
-            mContentEditText.clearFocus();
-
-            mTutorialCounter = 0;
-            mShowcaseView = new ShowcaseView.Builder(getActivity())
-                    //.setTarget(new ViewTarget(findViewById(R.id.note_content)))
-                    .setTarget(new ViewTarget(rootView.findViewById(R.id.paskhalka)))
-                    //.setTarget(new ViewTarget(rootView.findViewById(R.id.note_content)))
-                    //.setTarget(Target.NONE)
-                    .setContentTitle("Use three dots menu to:")
-                    .setContentText("- Create a TODO list\n" +
-                            "- Create a template for new notes\n" +
-                            "- Chose the color for your note\n" +
-                            "- Set reminder for desired time\n" +
-                            "- Pin important notes to the top\n" +
-                            "- Use Markdown\n")
-                    .hideOnTouchOutside()
-                    //.withMaterialShowcase()
-                    .setStyle(R.style.StandardTutorial)
-                    .replaceEndButton(R.layout.get_tutorial_button)
-                    .setOnClickListener(this)
-                    .build();
-            //.setContentTitlePaint(paint)
-            //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
-            mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
-        }
+       if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+           initializeShowcaseView();
         return rootView;
     }
 
@@ -394,16 +365,55 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mShowcaseView.setContentTitle("Use tags to filter your search");
                 mShowcaseView.setContentText("You can add tags to your notes to find them quickly.\nJust write a tag here and press \"Next\" to add tag.");
                 mTutorialCounter++;
-
+                break;
+            case 1:
+                mShowcaseView.hide();
                 Bundle arguments = getArguments();
                 arguments.putBoolean(NoteEditorFragment.TUTORIAL_REQUIRED, false);
                 break;
-
-            case 1:
-                mShowcaseView.hide();
-                break;
         }
+    }
 
+    public void initializeShowcaseView() {
+        mTutorialCounter = 0;
+        mShowcaseView = new ShowcaseView.Builder(getActivity())
+                //.setTarget(Target.NONE)
+                .setContentTitle(" ")
+                .setContentText(" ")
+                //.withMaterialShowcase()
+                .setStyle(R.style.StandardTutorial)
+                .replaceEndButton(R.layout.get_tutorial_button)
+                .setOnClickListener(this)
+                .build();
+
+        mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+    }
+
+    public void showTemplateCaseView(){
+        mShowcaseView.setShowcase(new ViewTarget(mCompletedTodoList), false);
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        mTutorialCounter = 1;
+        mShowcaseView.setContentTitle("Use templates to save your time!");
+        mShowcaseView.setContentText("- Write down text to be used often in your notes\n" +
+                "- Use three dots menu to make a new note with prepared text\n" +
+                "- Edit your note\n" +
+                "- Enjoy saved time!");
+        mShowcaseView.forceTextPosition(ShowcaseView.BELOW_SHOWCASE);
+        mShowcaseView.show();
+    }
+
+
+    public void showNoteCaseView() {
+        mShowcaseView.show();
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+        mShowcaseView.setContentTitle("Use three dots menu to:");
+        mShowcaseView.setContentText("- Create a TODO list\n" +
+                "- Create a template for new notes\n" +
+                "- Chose the color for your note\n" +
+                "- Set reminder for desired time\n" +
+                "- Pin important notes to the top\n" +
+                "- Use Markdown\n");
     }
 
 
@@ -497,6 +507,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mTemplateItem = (MenuItem) menu.findItem(R.id.menu_template);
         mTemplateItem.setTitle(mNote.isTemplate()? R.string.use_template : R.string.template);
+        if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+            if(mNote.isTemplate()){
+               showTemplateCaseView();
+            }
+            else {
+                showNoteCaseView();
+            }
 
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
@@ -578,6 +595,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             copyNote(mNote);
         } else {
             NoteUtils.templateNote(mNote, getActivity());
+            if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+                showTemplateCaseView();
             mTemplateItem.setTitle(R.string.use_template);
         }
     }

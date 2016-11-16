@@ -51,14 +51,6 @@
                         android:layout_marginBottom="50dp"
                         android:hapticFeedbackEnabled="true"
                         android:layout_alignParentEnd="true"/>
-                        <!--android:focusableInTouchMode="true"-->
-
-
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-
-
-
 
                     <com.automattic.simplenote.widgets.SimplenoteEditText
                         android:id="@+id/note_content"
