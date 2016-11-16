@@ -176,7 +176,7 @@ public class Note extends BucketObject {
             float now = date.getTimeInMillis() / 1000;
             float magnitude = time.floatValue() / now;
             if (magnitude >= 2.f) time = time.longValue() / 1000;
-            date.setTimeInMillis(time.longValue() * 1000);
+                date.setTimeInMillis(time.longValue() * 1000);
         }
         return date;
     }

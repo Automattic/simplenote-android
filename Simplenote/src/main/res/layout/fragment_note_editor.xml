@@ -65,7 +65,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:background="@color/blue">
 
                 <LinearLayout
                     android:id="@+id/todo_add"
