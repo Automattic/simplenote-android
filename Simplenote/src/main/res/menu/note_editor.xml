@@ -3,30 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_todo"
-        android:title="@string/todo_list"
-        android:icon="@drawable/ic_trash_24dp"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_template"
-        android:title="@string/template"
-        android:icon="@drawable/ic_trash_24dp"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_color"
-        app:showAsAction="never"
-        android:title="@string/color"
-        android:icon="@drawable/ic_color_24dp" />
-
-    <item
-        android:id="@+id/menu_reminder"
-        app:showAsAction="never"
-        android:title="@string/reminder"
-        android:icon="@drawable/ic_reminder_24dp" />
-
-    <item
         android:id="@+id/menu_history"
         android:icon="@drawable/ic_history_24dp"
         android:title="@string/history"
@@ -52,6 +28,24 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/menu_reminder"
+        app:showAsAction="never"
+        android:title="@string/reminder"
+        android:icon="@drawable/ic_reminder_24dp" />
+
+    <item
+        android:id="@+id/menu_todo"
+        android:title="@string/todo_list"
+        android:icon="@drawable/ic_trash_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_color"
+        app:showAsAction="never"
+        android:title="@string/color"
+        android:icon="@drawable/ic_color_24dp" />
+
+    <item
         android:id="@+id/info_pin_switch_menu"
         app:showAsAction="never"
         android:title="@string/pin_to_top"
@@ -61,5 +55,13 @@
         android:id="@+id/info_markdown_menu"
         app:showAsAction="never"
         android:title="@string/markdown_show"
-        android:icon="@drawable/ic_trash_24dp" />
+        android:icon="@drawable/ic_markdown_solid_24dp" />
+
+    <item
+        android:id="@+id/menu_template"
+        android:title="@string/template"
+        android:icon="@drawable/ic_trash_24dp"
+        app:showAsAction="never" />
+
+
 </menu>
