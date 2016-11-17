@@ -179,4 +179,19 @@
 	<string name="reminder_1_hour">In 1 Stunde</string>
 	<string name="time">Zeit</string>
 	<string name="use_template">Notieren Sie sich</string>
+	<string name="todo_add">Hinzufügen</string>
+	<string name="new_todo">Aktualisieren</string>
+	<string name="todoLists">Alle Todo</string>
+	<string name="todo_completed">Abgeschlossen</string>
+	<string name="todo_list">In Todo umwandeln</string>
+	<string name="of_days">Tag</string>
+	<string name="of_hours">Stunde</string>
+	<string name="loosing_note_content_message">Wenn Sie ein ToDo aus dieser Notiz machen, verlieren Sie den Inhalt der Notiz. Bist du dir sicher, dass du weitermachen willst?</string>
+	<string name="loosing_note_content">Löschen von Noteninhalten</string>
+	<string name="of_minutes">Minute</string>
+	<string name="todo_from_note">Note wurde in Todo umgewandelt</string>
+	<string name="reminder_will_raise_in">Erinnerung wird in</string>
+	<string name="still_note">Die Notiz hat sich nicht geändert</string>
+	<string name="reminder_is_set">Die Erinnerung ist eingestellt</string>
+	<string name="note_from_todo">Jetzt ist es beachten</string>
 </resources>

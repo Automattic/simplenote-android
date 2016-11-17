@@ -174,4 +174,24 @@
 	<string name="content_description_copy_button">Kopia Knapp</string>
 	<string name="date">Datum</string>
 	<string name="enable_reminder">Aktivera påminnelse</string>
+	<string name="todo_add">Lägg till</string>
+	<string name="new_todo">Lägg todo ...</string>
+	<string name="todoLists">alla Todo</string>
+	<string name="todo_completed">Avslutad</string>
+	<string name="todo_list">Konvertera till Todo</string>
+	<string name="of_days">dag</string>
+	<string name="of_hours">timme</string>
+	<string name="loosing_note_content_message">Om du gör en ToDo från denna not du förlorar not innehåll. Är du säker på att du vill fortsätta?</string>
+	<string name="reminder_15_min">I 15 minuter</string>
+	<string name="reminder_1_hour">I en timme</string>
+	<string name="loosing_note_content">Förlora not innehåll</string>
+	<string name="of_minutes">minut</string>
+	<string name="todo_from_note">Obs har omvandlats till Todo</string>
+	<string name="reminder_will_raise_in">Påminnelse kommer att höja i</string>
+	<string name="still_note">Anteckningen har inte förändrats</string>
+	<string name="reminder_is_set">Påminnelsen är inställd</string>
+	<string name="time">tid</string>
+	<string name="color_reset">återställnings färg</string>
+	<string name="note_from_todo">Nu är det not</string>
+	<string name="use_template">notera</string>
 </resources>

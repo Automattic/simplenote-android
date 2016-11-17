@@ -174,4 +174,24 @@
 	<string name="color">Kleur</string>
 	<string name="date">Datum</string>
 	<string name="enable_reminder">Inschakelen herinnering</string>
+	<string name="todo_add">Toevoegen</string>
+	<string name="new_todo">Voeg todo ...</string>
+	<string name="todoLists">alle Todo</string>
+	<string name="todo_completed">Voltooid</string>
+	<string name="todo_list">Converteren naar Todo</string>
+	<string name="of_days">dag</string>
+	<string name="of_hours">uur</string>
+	<string name="loosing_note_content_message">Als u een ToDo van deze notitie te maken verlies je de inhoud van de notitie. Weet je zeker dat je door wilt gaan?</string>
+	<string name="loosing_note_content">Het losmaken van note inhoud</string>
+	<string name="of_minutes">minuut</string>
+	<string name="todo_from_note">Note is omgebouwd tot Todo</string>
+	<string name="reminder_will_raise_in">Herinnering zal verhogen in</string>
+	<string name="still_note">De notitie is niet veranderd</string>
+	<string name="reminder_is_set">De herinnering is ingesteld</string>
+	<string name="note_from_todo">Nu is het note</string>
+	<string name="reminder_15_min">In 15 Minutes</string>
+	<string name="reminder_1_hour">In 1 uur</string>
+	<string name="use_template">noteer</string>
+	<string name="color_reset">reset kleur</string>
+	<string name="time">tijd</string>
 </resources>

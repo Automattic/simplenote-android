@@ -174,4 +174,24 @@
 	<string name="content_description_copy_button">Kopya Düğmesi</string>
 	<string name="date">Tarih</string>
 	<string name="enable_reminder">Hatırlatıcı etkinleştirme</string>
+	<string name="todo_add">Eklemek</string>
+	<string name="new_todo">Şuna ekleyin ...</string>
+	<string name="todoLists">Tüm Yapılacaklar</string>
+	<string name="todo_completed">tamamlandı</string>
+	<string name="todo_list">Yapılacaklar\'a Dönüştür</string>
+	<string name="of_days">gün</string>
+	<string name="of_hours">saat</string>
+	<string name="loosing_note_content_message">Bu nottan bir İNDİR\'i yaparsanız, notun içeriğini kaybedersiniz. Devam etmek istediğine emin misin?</string>
+	<string name="reminder_15_min">15 Dakika İçinde</string>
+	<string name="reminder_1_hour">1 Saat İçinde</string>
+	<string name="loosing_note_content">Not içeriğini kaybetme</string>
+	<string name="of_minutes">dakika</string>
+	<string name="use_template">not al</string>
+	<string name="todo_from_note">Not Todo\'ya dönüştürüldü</string>
+	<string name="note_from_todo">Şimdi not</string>
+	<string name="reminder_will_raise_in">Hatırlatıcı,</string>
+	<string name="color_reset">renk sıfırla</string>
+	<string name="still_note">Not değişmedi</string>
+	<string name="reminder_is_set">Hatırlatıcı ayarlandı</string>
+	<string name="time">zaman</string>
 </resources>

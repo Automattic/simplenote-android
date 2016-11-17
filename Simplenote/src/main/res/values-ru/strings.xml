@@ -193,4 +193,5 @@
 	<string name="new_todo">Добавить...</string>
 	<string name="todoLists">Все Todo</string>
 	<string name="todo_list">Преобразовать в Todo</string>
+	<string name="todo_completed">Выполненно</string>
 </resources>

@@ -180,4 +180,19 @@
 	<string name="reminder_1_hour">Dans 1 heure</string>
 	<string name="time">Temps</string>
 	<string name="use_template">Prenez note</string>
+	<string name="todo_add">Ajouter</string>
+	<string name="new_todo">Ajouter tout ...</string>
+	<string name="todoLists">tout</string>
+	<string name="todo_list">Convertir en Tout</string>
+	<string name="todo_completed">Terminé</string>
+	<string name="of_days">journée</string>
+	<string name="of_hours">heure</string>
+	<string name="loosing_note_content_message">Si vous faites un ToDo à partir de cette note, vous perdez le contenu de la note. Es-tu sur de vouloir continuer?</string>
+	<string name="loosing_note_content">Perte du contenu de la note</string>
+	<string name="of_minutes">minute</string>
+	<string name="todo_from_note">Remarque a été converti en Tout</string>
+	<string name="reminder_will_raise_in">Rappel augmentera dans</string>
+	<string name="still_note">La note n\'a pas changé</string>
+	<string name="reminder_is_set">Le rappel est réglé</string>
+	<string name="note_from_todo">Maintenant, il est à noter</string>
 </resources>

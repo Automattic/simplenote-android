@@ -181,4 +181,19 @@
 	<string name="color_reset">リセット色</string>
 	<string name="time">時間</string>
 	<string name="use_template">メモを取ります</string>
+	<string name="loosing_note_content_message">このメモからToDoを作成すると、そのメモの内容が失われます。 続行してもよろしいですか？</string>
+	<string name="todo_add">追加</string>
+	<string name="todoLists">すべてのTodo</string>
+	<string name="todo_list">すべてのTodo</string>
+	<string name="todo_completed">完了しました</string>
+	<string name="of_days">日</string>
+	<string name="of_hours">時</string>
+	<string name="new_todo">ToDoを追加...</string>
+	<string name="loosing_note_content">ノートの内容を失う</string>
+	<string name="of_minutes">分</string>
+	<string name="todo_from_note">ノートはTodoに変換されました</string>
+	<string name="reminder_will_raise_in">リマインダーは</string>
+	<string name="still_note">ノートは変更されていません</string>
+	<string name="reminder_is_set">リマインダーが設定されています</string>
+	<string name="note_from_todo">今それはメモです</string>
 </resources>

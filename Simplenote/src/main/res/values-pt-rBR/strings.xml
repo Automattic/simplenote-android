@@ -174,4 +174,24 @@
 	<string name="color">Cor</string>
 	<string name="date">Encontro</string>
 	<string name="enable_reminder">Ativar lembrete</string>
+	<string name="todo_add">Adicionar</string>
+	<string name="of_days">dia</string>
+	<string name="new_todo">Adicionar tudo ...</string>
+	<string name="todoLists">tudo feito</string>
+	<string name="todo_completed">Concluído</string>
+	<string name="todo_list">Converter em Todo</string>
+	<string name="of_hours">hora</string>
+	<string name="loosing_note_content_message">Se você fizer um ToDo a partir desta nota, você perderá o conteúdo da nota. Você tem certeza que quer continuar?</string>
+	<string name="loosing_note_content">Afrouxando conteúdo da nota</string>
+	<string name="of_minutes">minuto</string>
+	<string name="todo_from_note">Nota foi convertida em Todo</string>
+	<string name="reminder_will_raise_in">Lembrete aumentará em</string>
+	<string name="still_note">A nota não mudou</string>
+	<string name="reminder_is_set">O lembrete está definido</string>
+	<string name="note_from_todo">Agora é nota</string>
+	<string name="reminder_15_min">Em 15 Minutos</string>
+	<string name="reminder_1_hour">Em 1 Hora</string>
+	<string name="use_template">fazer anotações</string>
+	<string name="color_reset">redefinir a cor</string>
+	<string name="time">Tempo</string>
 </resources>

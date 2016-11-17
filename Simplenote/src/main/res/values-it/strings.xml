@@ -173,4 +173,24 @@
 	<string name="content_description_copy_button">Pulsante Copia</string>
 	<string name="date">Data</string>
 	<string name="enable_reminder">Abilita promemoria</string>
+	<string name="todo_add">Aggiungere</string>
+	<string name="time">tempo</string>
+	<string name="new_todo">Aggiungere todo ...</string>
+	<string name="todoLists">Tutti Todo</string>
+	<string name="todo_completed">Completato</string>
+	<string name="todo_list">Conversione in todo</string>
+	<string name="of_days">giorno</string>
+	<string name="loosing_note_content_message">Se si effettua una ToDo da questa nota si perde il contenuto della nota. Sei sicuro di voler continuare?</string>
+	<string name="of_hours">ora</string>
+	<string name="loosing_note_content">Perdere il contenuto delle note</string>
+	<string name="of_minutes">minuto</string>
+	<string name="todo_from_note">Nota è stato convertito in Todo</string>
+	<string name="reminder_is_set">Il promemoria è impostato</string>
+	<string name="reminder_will_raise_in">Promemoria alzerà in</string>
+	<string name="still_note">La nota non è cambiato</string>
+	<string name="note_from_todo">Ora è nota</string>
+	<string name="reminder_15_min">In 15 minuti</string>
+	<string name="reminder_1_hour">In 1 ora</string>
+	<string name="use_template">annotare</string>
+	<string name="color_reset">colore di reset</string>
 </resources>

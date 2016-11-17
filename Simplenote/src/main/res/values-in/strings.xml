@@ -128,4 +128,25 @@
 	<string name="content_description_copy_button">Copy Tombol</string>
 	<string name="date">Tanggal</string>
 	<string name="enable_reminder">Aktifkan pengingat</string>
+	<string name="todo_completed">Lengkap</string>
+	<string name="todo_add">Menambahkan</string>
+	<string name="new_todo">Tambahkan todo ...</string>
+	<string name="todoLists">semua Todo</string>
+	<string name="todo_list">Dikonversi ke Todo</string>
+	<string name="of_days">hari</string>
+	<string name="of_hours">jam</string>
+	<string name="loosing_note_content_message">Jika Anda membuat ToDo dari catatan ini Anda kehilangan konten catatan ini. Apakah anda yakin ingin melanjutkan?</string>
+	<string name="loosing_note_content">Kehilangan konten catatan</string>
+	<string name="of_minutes">menit</string>
+	<string name="todo_from_note">Catatan telah dikonversi ke Todo</string>
+	<string name="reminder_will_raise_in">Pengingat akan meningkatkan di</string>
+	<string name="still_note">Catatan belum berubah</string>
+	<string name="reminder_is_set">pengingat diatur</string>
+	<string name="note_from_todo">Sekarang catatan</string>
+	<string name="reminder_15_min">Dalam 15 Menit</string>
+	<string name="reminder_1_hour">Dalam 1 Jam</string>
+	<string name="use_template">membuat catatan</string>
+	<string name="color_reset">warna ulang</string>
+	<string name="link_copied">Tautan disalin ke clipboard</string>
+	<string name="time">waktu</string>
 </resources>

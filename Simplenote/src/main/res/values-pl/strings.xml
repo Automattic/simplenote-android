@@ -129,4 +129,19 @@
 	<string name="reminder_1_hour">W ciągu 1 godziny</string>
 	<string name="time">Czas</string>
 	<string name="use_template">Zanotuj</string>
+	<string name="todo_add">Dodaj</string>
+	<string name="new_todo">Dodaj todo ...</string>
+	<string name="todoLists">wszystko Todo</string>
+	<string name="todo_completed">Zakończony</string>
+	<string name="todo_list">Konwersja na Todo</string>
+	<string name="of_days">dzień</string>
+	<string name="of_hours">godzina</string>
+	<string name="loosing_note_content_message">Jeśli popełnisz todo z niniejszej noty tracisz zawartości w nuty. Jesteś pewien, że chcesz kontynuować?</string>
+	<string name="loosing_note_content">Utrata treść notatki</string>
+	<string name="of_minutes">chwila</string>
+	<string name="todo_from_note">Uwaga został przerobiony na Todo</string>
+	<string name="reminder_will_raise_in">Przypomnienie podniesie się</string>
+	<string name="still_note">Nota nie zmienił</string>
+	<string name="reminder_is_set">Przypomnienie jest ustawiony</string>
+	<string name="note_from_todo">Teraz jest to notatka</string>
 </resources>

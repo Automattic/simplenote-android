@@ -94,7 +94,7 @@
 	<string name="required_field">שדה חובה</string>
 	<string name="required_fields">שדות נדרשים</string>
 	<string name="copy">להעתיק</string>
-	<string name="link_copied">הקישור הועתק ללוח</string>
+	<string name="link_copied">הקישור הועתק ללוחעכשיו זה הערה</string>
 	<string name="link">קישור</string>
 	<string name="view_in_browser">לפתוח בדפדפן</string>
 	<string name="view_map">לצפות במפה</string>
@@ -175,4 +175,24 @@
 	<string name="content_description_copy_button">לחצן העתק</string>
 	<string name="date">תַאֲרִיך</string>
 	<string name="enable_reminder">אפשר תזכורת</string>
+	<string name="todo_add">לְהוֹסִיף</string>
+	<string name="new_todo">להוסיף todo ...</string>
+	<string name="todo_list">להמיר ל- Todo</string>
+	<string name="todoLists">כל Todo</string>
+	<string name="todo_completed">הושלם</string>
+	<string name="of_days">יְוֹם</string>
+	<string name="of_hours">שָׁעָה</string>
+	<string name="loosing_note_content_message">אם אתם עושים ToDo מההערה הזו אתה מאבד את התוכן של הפתק. האם אתה בטוח שברצונך להמשיך?</string>
+	<string name="loosing_note_content">לאבד תוכן הפתק</string>
+	<string name="of_minutes">דַקָה</string>
+	<string name="todo_from_note">הערה שהומרה Todo</string>
+	<string name="reminder_will_raise_in">התזכורת תעלה ב</string>
+	<string name="still_note">הפתק לא השתנה</string>
+	<string name="reminder_is_set">התזכורת מוגדרת</string>
+	<string name="reminder_15_min">ב 15 דקות</string>
+	<string name="reminder_1_hour">ב 1 שעות</string>
+	<string name="note_from_todo">עכשיו זה הערה</string>
+	<string name="use_template">ליצור לעצמך</string>
+	<string name="color_reset">צבע איפוס</string>
+	<string name="time">זְמַן</string>
 </resources>

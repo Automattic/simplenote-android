@@ -179,4 +179,20 @@
 	<string name="reminder_1_hour">في 1 ساعة</string>
 	<string name="time">مرة</string>
 	<string name="use_template">جعل علما</string>
+	<string name="character"></string>
+	<string name="todo_add">إضافة</string>
+	<string name="new_todo">إضافة ما يجب عمله ...</string>
+	<string name="todoLists">كل تودو</string>
+	<string name="todo_completed">منجز</string>
+	<string name="todo_list">تحويل إلى تودو</string>
+	<string name="of_days">يوم</string>
+	<string name="of_hours">ساعة</string>
+	<string name="loosing_note_content_message">إذا قمت بإجراء تودو من هذه المذكرة تفقد محتوى هذه المذكرة ل. هل أنت متأكد أنك تريد المتابعة؟</string>
+	<string name="loosing_note_content">فقدان محتوى المذكرة</string>
+	<string name="of_minutes">دقيقة</string>
+	<string name="todo_from_note">وقد تم تحويل المذكرة إلى تودو</string>
+	<string name="note_from_todo">سوف تذكير رفع في</string>
+	<string name="reminder_will_raise_in">سوف تذكير رفع في</string>
+	<string name="still_note">لم يتغير الملاحظة</string>
+	<string name="reminder_is_set">تم تعيين تذكير</string>
 </resources>

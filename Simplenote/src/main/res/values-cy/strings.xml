@@ -149,4 +149,19 @@
 	<string name="reminder_1_hour">Mewn 1 awr</string>
 	<string name="time">Amser</string>
 	<string name="use_template">Gwnewch nodyn</string>
+	<string name="todo_add">Ychwanegu</string>
+	<string name="new_todo">Ychwanegu todo ...</string>
+	<string name="todo_completed">cwblhawyd</string>
+	<string name="todoLists">pob Todo</string>
+	<string name="todo_list">Trosi i todo</string>
+	<string name="of_days">dydd</string>
+	<string name="of_minutes">munud</string>
+	<string name="of_hours">awr</string>
+	<string name="loosing_note_content_message">Os ydych yn gwneud todo o\'r nodyn hwn byddwch yn colli cynnwys y nodyn yn. A ydych yn sicr eich bod am barhau?</string>
+	<string name="loosing_note_content">Golli cynnwys nodyn</string>
+	<string name="todo_from_note">Nodyn wedi\'i drosi i Todo</string>
+	<string name="reminder_will_raise_in">Bydd Nodyn Atgoffa codi mewn</string>
+	<string name="still_note">Nid yw\'r nodyn wedi newid</string>
+	<string name="reminder_is_set">Mae\'r nodyn atgoffa wedi ei osod</string>
+	<string name="note_from_todo">Nawr mae\'n nodyn</string>
 </resources>

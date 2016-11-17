@@ -180,4 +180,21 @@
 	<string name="reminder_1_hour">1小時內</string>
 	<string name="time">時間</string>
 	<string name="use_template">做記錄</string>
+	<string name="todo_add">加</string>
+	<string name="new_todo">添加待办事项...</string>
+	<string name="todoLists">所有Todo</string>
+	<string name="todo_completed">已完成</string>
+	<string name="todo_list">转换为Todo</string>
+	<string name="of_days">天</string>
+	<string name="of_hours">小时</string>
+	<string name="loosing_note_content_message">如果您从此注释中创建ToDo，则会丢失注释的内容。 您确定要继续吗？</string>
+	<string name="loosing_note_content">松动笔记内容</string>
+	<string name="todo_from_note">分钟</string>
+	<string name="reminder_will_raise_in">注意已转换为Todo</string>
+	<string name="still_note">提醒会提高</string>
+	<string name="reminder_is_set">提醒会提高</string>
+	<string name="note_from_todo">现在是注意</string>
+	<string name="of_minutes">注意</string>
+	<string name="of_minutes">注意</string>
+	<string name="character"></string>
 </resources>

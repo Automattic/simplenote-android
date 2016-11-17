@@ -174,4 +174,24 @@
 	<string name="content_description_copy_button">복사 버튼</string>
 	<string name="date">날짜</string>
 	<string name="enable_reminder">알림 사용</string>
+	<string name="todo_add">더하다</string>
+	<string name="new_todo">더하다</string>
+	<string name="todoLists">모든 Todo</string>
+	<string name="todo_completed">완료 됨</string>
+	<string name="todo_list">Todo로 변환</string>
+	<string name="of_days">일</string>
+	<string name="of_hours">시간</string>
+	<string name="loosing_note_content_message">이 메모에서 할 일을 만들면 쪽지의 내용이 손실됩니다. 계속 하시겠습니까?</string>
+	<string name="loosing_note_content">메모 내용 손실</string>
+	<string name="of_minutes">분</string>
+	<string name="todo_from_note">메모가 Todo로 변환되었습니다.</string>
+	<string name="reminder_will_raise_in">알림이에서 제기됩니다</string>
+	<string name="still_note">메모는 변경되지 않았습니다.</string>
+	<string name="reminder_is_set">알림이 설정되었습니다.</string>
+	<string name="note_from_todo">이제 메모입니다.</string>
+	<string name="reminder_15_min">15 분 만에</string>
+	<string name="reminder_1_hour">1 시간 후</string>
+	<string name="use_template">메모하다</string>
+	<string name="color_reset">색상 재설정</string>
+	<string name="time">시각</string>
 </resources>
