@@ -1,0 +1,14 @@
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Got it!"
+    android:textAllCaps="false"
+    android:background="@drawable/material_showcase_button_bg"
+    android:textColor="@color/simplenote_blue_light"
+    android:textSize="22sp"
+    android:shadowColor="#FF0000"
+    android:shadowRadius="0"
+    >
+    <!--//UNDONE: "Skip" to strings-->
+</Button>
