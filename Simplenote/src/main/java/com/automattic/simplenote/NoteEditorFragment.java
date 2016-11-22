@@ -78,6 +78,10 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedL
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.commonsware.cwac.anddown.AndDown;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.mobeta.android.dslv.DragSortListView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -102,19 +106,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         InfoBottomSheetDialog.InfoSheetListener,
         ReminderBottomSheetDialog.ReminderSheetListener,
         ColorBottomSheetDialog.ColorSheetListener,
-        ColorDialogResultListener
+        ColorDialogResultListener,
+        View.OnClickListener
 {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
+    static public final String TUTORIAL_REQUIRED = "tutorial required";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
     private static final int PUBLISH_TIMEOUT = 20000;
     private static final int HISTORY_TIMEOUT = 10000;
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+
+    ShowcaseView mShowcaseView;
+
     private Note mNote;
     private final Runnable mAutoSaveRunnable = new Runnable() {
         @Override
@@ -262,7 +271,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private WebView mMarkdown;
     private String mKey;
     private View mColorIndicator;
-
+    private Button mPButtom;
+    private Button mPButton;
     private MenuItem mPinnerItem;
     private MenuItem mMarkdownItem;
     private MenuItem mTemplateItem;
@@ -278,6 +288,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private NestedScrollView mNoteComponent;
     private JSONAdapter jSONAdapter ;
 
+
+    private int mTutorialCounter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -345,12 +357,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
+        mPButtom = (Button) rootView.findViewById(R.id.paskhalka);
+        mPButton = (Button) rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -421,7 +435,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
 
         mTodoList.setDropListener(new DragSortListView.DropListener() {
-            @Override public void drop(int from, int to) {
+            @Override
+            public void drop(int from, int to) {
                 String item = mTodos.get(from);
                 mTodos.remove(from);
                 if (from > to) --from;
@@ -435,7 +450,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
 
         mCompletedTodoList.setDropListener(new DragSortListView.DropListener() {
-            @Override public void drop(int from, int to) {
+            @Override
+            public void drop(int from, int to) {
                 String item = mTodosCompleted.get(from);
                 mTodosCompleted.remove(from);
                 if (from > to) --from;
@@ -448,11 +464,73 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         });
 
-
-
-
+        //if (arguments.getBoolean(NoteEditorFragment.TUTORIAL_REQUIRED)) {
+       if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+           initializeShowcaseView();
         return rootView;
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (mTutorialCounter) {
+            case 0:
+                mTagView.clearFocus();
+                mShowcaseView.setShowcase(new ViewTarget(mPButton),true);
+                //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+                mShowcaseView.setContentTitle("Use tags to filter your search");
+                mShowcaseView.setContentText("You can add tags to your notes to find them quickly.\nJust write a tag here and press \"Next\" to add tag.");
+                mTutorialCounter++;
+                break;
+            case 1:
+                mShowcaseView.hide();
+                Bundle arguments = getArguments();
+                arguments.putBoolean(NoteEditorFragment.TUTORIAL_REQUIRED, false);
+                break;
+        }
+    }
+
+    public void initializeShowcaseView() {
+        mTutorialCounter = 0;
+        mShowcaseView = new ShowcaseView.Builder(getActivity())
+                //.setTarget(Target.NONE)
+                .setContentTitle(" ")
+                .setContentText(" ")
+                //.withMaterialShowcase()
+                .setStyle(R.style.StandardTutorial)
+                .replaceEndButton(R.layout.get_tutorial_button)
+                .setOnClickListener(this)
+                .build();
+
+        mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+    }
+
+    public void showTemplateCaseView(){
+        mShowcaseView.setShowcase(new ViewTarget(mCompletedTodoList), false);
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        mTutorialCounter = 1;
+        mShowcaseView.setContentTitle("Use templates to save your time!");
+        mShowcaseView.setContentText("- Write down text to be used often in your notes\n" +
+                "- Use three dots menu to make a new note with prepared text\n" +
+                "- Edit your note\n" +
+                "- Enjoy saved time!");
+        mShowcaseView.forceTextPosition(ShowcaseView.BELOW_SHOWCASE);
+        mShowcaseView.show();
+    }
+
+
+    public void showNoteCaseView() {
+        mShowcaseView.show();
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+        mShowcaseView.setContentTitle("Use three dots menu to:");
+        mShowcaseView.setContentText("- Set reminder for desired time\n" +
+                "- Create a TODO list\n" +
+                "- Chose the color for your note\n" +
+                "- Pin important notes to the top\n" +
+                "- Use Markdown\n" +
+                "- Create a template for new notes\n");
+    }
+
 
     @Override
     public void onResume() {
@@ -557,6 +635,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mTemplateItem = (MenuItem) menu.findItem(R.id.menu_template);
         mTemplateItem.setTitle(mNote.isTemplate()? R.string.use_template : R.string.template);
+        if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+            if(mNote.isTemplate()){
+               showTemplateCaseView();
+            }
+            else {
+                showNoteCaseView();
+            }
 
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
@@ -638,6 +723,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             copyNote(mNote);
         } else {
             NoteUtils.templateNote(mNote, getActivity());
+            if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+                showTemplateCaseView();
             mTemplateItem.setTitle(R.string.use_template);
         }
     }
@@ -1197,6 +1284,109 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mReminderBottomSheet.dismiss();
     }
 
+    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
+            mIsLoadingNote = true;
+        }
+
+        @Override
+        protected Void doInBackground(String... args) {
+            if (getActivity() == null) {
+                return null;
+            }
+
+            String noteID = args[0];
+            Simplenote application = (Simplenote) getActivity().getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            try {
+                mNote = notesBucket.get(noteID);
+                // Set the current note in NotesActivity when on a tablet
+                if (getActivity() instanceof NotesActivity) {
+                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
+                }
+
+                // Set markdown flag for current note
+                if (mNote != null) {
+                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                }
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle a missing note
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            if (getActivity() == null || getActivity().isFinishing())
+                return;
+            refreshContent(false);
+            if (mMatchOffsets != null) {
+                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+            }
+            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
+            if (mNote != null && mNote.getContent().isEmpty()) {
+                // Show soft keyboard
+               // mContentEditText.requestFocus();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (inputMethodManager != null)
+                            inputMethodManager.showSoftInput(mContentEditText, 0);
+                    }
+                }, 100);
+
+            }
+
+            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
+            if (mIsMarkdownEnabled) {
+                // Get markdown view and update content
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    loadMarkdownData();
+                } else {
+                    mNoteMarkdownFragment =
+                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                    ((NoteEditorActivity) getActivity()).showTabs();
+                }
+            }
+
+            getActivity().invalidateOptionsMenu();
+
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+            mIsLoadingNote = false;
+        }
+    }
+
+    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            saveNote();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                // Update links
+                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+                // Update markdown fragment
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    loadMarkdownData();
+                } else if (mNoteMarkdownFragment != null) {
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                }
+            }
+        }
+    }
+
     protected void saveNote() {
         if (mNote == null || (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
             return;
@@ -1474,110 +1664,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
 
         note.setContent(getNoteContentString());
-    }
-
-    private class loadNoteTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
-            mIsLoadingNote = true;
-        }
-
-
-        @Override
-        protected Void doInBackground(String... args) {
-            if (getActivity() == null) {
-                return null;
-            }
-
-            String noteID = args[0];
-            Simplenote application = (Simplenote) getActivity().getApplication();
-            Bucket<Note> notesBucket = application.getNotesBucket();
-            try {
-                mNote = notesBucket.get(noteID);
-                // Set the current note in NotesActivity when on a tablet
-                if (getActivity() instanceof NotesActivity) {
-                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
-                }
-
-                // Set markdown flag for current note
-                if (mNote != null) {
-                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
-                }
-            } catch (BucketObjectMissingException e) {
-                // TODO: Handle a missing note
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nada) {
-            if (getActivity() == null || getActivity().isFinishing())
-                return;
-            refreshContent(false);
-            if (mMatchOffsets != null) {
-                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
-                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
-            }
-            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
-            if (mNote != null && mNote.getContent().isEmpty()) {
-                // Show soft keyboard
-                mContentEditText.requestFocus();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (inputMethodManager != null)
-                            inputMethodManager.showSoftInput(mContentEditText, 0);
-                    }
-                }, 100);
-
-            }
-
-            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
-            if (mIsMarkdownEnabled) {
-                // Get markdown view and update content
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else {
-                    mNoteMarkdownFragment =
-                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                    ((NoteEditorActivity) getActivity()).showTabs();
-                }
-            }
-
-            getActivity().invalidateOptionsMenu();
-
-            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
-            mIsLoadingNote = false;
-        }
-    }
-
-    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... args) {
-            saveNote();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nada) {
-            if (getActivity() != null && !getActivity().isFinishing()) {
-                // Update links
-                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
-                // Update markdown fragment
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else if (mNoteMarkdownFragment != null) {
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                }
-            }
-        }
     }
 
     @Override
