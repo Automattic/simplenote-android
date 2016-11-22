@@ -28,6 +28,7 @@
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
+
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/note_component"
                 android:layout_width="match_parent"
@@ -69,8 +70,6 @@
                         android:textColorLink="@color/simplenote_blue"
                         android:textSize="16sp"
                         tools:context=".NoteEditorFragment" />
-
-
                 </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
@@ -122,7 +121,6 @@
 
             </LinearLayout>
 
-
                 <Button
                     android:id="@+id/paskhalka2"
                     android:layout_width="1dp"
@@ -137,6 +135,7 @@
                     android:layout_alignParentEnd="true"/>
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
+
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"

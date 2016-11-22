@@ -3,13 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_todo"
-        android:title="@string/todo_list"
-        app:showAsAction="never" />
+        android:id="@+id/menu_history"
+        android:icon="@drawable/ic_history_24dp"
+        android:title="@string/history"
+        app:showAsAction="always"/>
+
 
     <item
-        android:id="@+id/menu_template"
-        android:title="@string/template"
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_24dp"
+        android:title="@string/share"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_view_info"
+        android:icon="@drawable/ic_info_24dp"
+        android:title="@string/note_info"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_delete"
+        android:icon="@drawable/ic_trash_24dp"
+        android:title="@string/delete"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_reminder"
+        app:showAsAction="never"
+        android:title="@string/reminder"
+        android:icon="@drawable/ic_reminder_24dp" />
+
+    <item
+        android:id="@+id/menu_todo"
+        android:title="@string/todo_list"
+        android:icon="@drawable/ic_trash_24dp"
         app:showAsAction="never" />
 
     <item
@@ -19,44 +46,20 @@
         android:icon="@drawable/ic_color_24dp" />
 
     <item
-        android:id="@+id/menu_reminder"
-        app:showAsAction="never"
-        android:title="@string/reminder"
-        android:icon="@drawable/ic_reminder_24dp" />
-
-    <item
-        android:id="@+id/menu_history"
-        app:showAsAction="always"
-        android:title="@string/history"
-        android:icon="@drawable/ic_history_24dp" />
-
-
-    <item
-        android:id="@+id/menu_share"
-        app:showAsAction="always"
-        android:title="@string/share"
-        android:icon="@drawable/ic_share_24dp" />
-
-    <item
-        android:id="@+id/menu_view_info"
-        android:icon="@drawable/ic_info_24dp"
-        app:showAsAction="always"
-        android:title="@string/note_info"/>
-
-    <item
-        android:id="@+id/menu_delete"
-        app:showAsAction="always"
-        android:title="@string/delete"
-        android:icon="@drawable/ic_trash_24dp" />
-
-    <item
         android:id="@+id/info_pin_switch_menu"
         app:showAsAction="never"
-        android:title="@string/pin_to_top"/>
+        android:title="@string/pin_to_top" />
 
     <item
         android:id="@+id/info_markdown_menu"
         app:showAsAction="never"
-        android:title="@string/markdown_show"/>
+        android:title="@string/markdown_show"
+        android:icon="@drawable/ic_markdown_solid_24dp" />
+
+    <item
+        android:id="@+id/menu_template"
+        android:title="@string/template"
+        app:showAsAction="never" />
+
 
 </menu>

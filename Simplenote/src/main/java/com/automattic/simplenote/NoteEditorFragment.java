@@ -523,12 +523,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
         //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
         mShowcaseView.setContentTitle("Use three dots menu to:");
-        mShowcaseView.setContentText("- Create a TODO list\n" +
-                "- Create a template for new notes\n" +
+        mShowcaseView.setContentText("- Set reminder for desired time\n" +
+                "- Create a TODO list\n" +
                 "- Chose the color for your note\n" +
-                "- Set reminder for desired time\n" +
                 "- Pin important notes to the top\n" +
-                "- Use Markdown\n");
+                "- Use Markdown\n" +
+                "- Create a template for new notes\n");
     }
 
 
