@@ -49,6 +49,9 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.widgets.TypefaceSpan;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
@@ -61,6 +64,7 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NotesActivity extends AppCompatActivity implements
@@ -92,6 +96,7 @@ public class NotesActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
+    private LinkedList<TagsAdapter.TagMenuItem> mTagList;
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
         void updateNavigationDrawer() {
@@ -189,6 +194,9 @@ public class NotesActivity extends AppCompatActivity implements
 
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
+
+
+
     }
 
     @Override
@@ -427,12 +435,56 @@ public class NotesActivity extends AppCompatActivity implements
         mTagsAdapter.changeCursor(tagCursor);
     }
 
+    public void setDefaultHeader(){
+        mSelectedTag = mTagsAdapter.getDefaultItem();
+        setTitle(mSelectedTag.name);
+        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+    }
+
     private void setSelectedTagActive() {
         if (mSelectedTag == null)
             mSelectedTag = mTagsAdapter.getDefaultItem();
-
-        setTitle(mSelectedTag.name);
+        if (!getNoteListFragment().tagsAreUsed())
+            setTitle(mSelectedTag.name);
         mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+    }
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            // Adjust for header view
+            position -= mDrawerList.getHeaderViewsCount();
+            checkEmptyListText(false);
+            // Update checked item in navigation drawer and close it
+            mDrawerLayout.closeDrawer(mNavigationView);
+            if (position > mTagsAdapter.getTopItemsLength()-1) {
+                //mSelectedTag.name="";
+                getNoteListFragment().addSearchTag(mTagsAdapter.getTagName(position));
+                setTitle("");
+               // mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
+            }
+            else {
+                mSelectedTag = mTagsAdapter.getItem(position);
+                getNoteListFragment().cleanSearchTag();
+                setSelectedTagActive();
+            }
+            // Disable long press on notes if we're viewing the trash
+            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+                getNoteListFragment().getListView().setLongClickable(false);
+            } else {
+                getNoteListFragment().getListView().setLongClickable(true);
+            }
+
+            getNoteListFragment().refreshListFromNavSelect();
+            if (position > 1) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                        AnalyticsTracker.CATEGORY_TAG,
+                        "selected_tag_in_navigation_drawer"
+                );
+            }
+        }
     }
 
     public TagsAdapter.TagMenuItem getSelectedTag() {
@@ -441,6 +493,19 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         return mSelectedTag;
+    }
+
+    public LinkedList<TagsAdapter.TagMenuItem> getTagList() {
+        if (mTagList == null) {
+            mTagList = new LinkedList<TagsAdapter.TagMenuItem>();
+            mTagList.add(mTagsAdapter.getDefaultItem());
+        }
+        if (mTagList.size() == 0) {
+            mTagList = new LinkedList<TagsAdapter.TagMenuItem>();
+            mTagList.add(mTagsAdapter.getDefaultItem());
+        }
+
+        return mTagList;
     }
 
     // Enable or disable the trash action bar button depending on if there are deleted notes or not
@@ -1083,37 +1148,6 @@ public class NotesActivity extends AppCompatActivity implements
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
         // noop, NoteEditorFragment will handle this
-    }
-
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Adjust for header view
-            position -= mDrawerList.getHeaderViewsCount();
-            mSelectedTag = mTagsAdapter.getItem(position);
-            checkEmptyListText(false);
-            // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mNavigationView);
-
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
-            getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1) {
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                        AnalyticsTracker.CATEGORY_TAG,
-                        "selected_tag_in_navigation_drawer"
-                );
-            }
-        }
     }
 
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {

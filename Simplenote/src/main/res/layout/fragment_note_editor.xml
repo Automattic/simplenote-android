@@ -1,4 +1,5 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
     android:layout_width="match_parent"
@@ -11,6 +12,13 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
 
+        <View
+            android:id="@+id/color_indicator"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,29 +28,114 @@
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large">
 
+
             <android.support.v4.widget.NestedScrollView
+                android:id="@+id/note_component"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <com.automattic.simplenote.widgets.SimplenoteEditText
-                    android:id="@+id/note_content"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:gravity="top"
-                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:lineSpacingExtra="4dp"
-                    android:maxLength="999999999"
-                    android:paddingBottom="@dimen/padding_small"
-                    android:paddingTop="@dimen/padding_small"
-                    android:scrollHorizontally="false"
-                    android:textColor="?attr/noteEditorTextColor"
-                    android:textColorLink="@color/simplenote_blue"
-                    android:textSize="16sp"
-                    tools:context=".NoteEditorFragment"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/paskhalka"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="340dp"
+                        android:text="@string/reminder_15_min"
+                        android:textColor="@color/simplenote_blue_accent"
+                        android:background = "@drawable/set_reminder_button_background"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_marginTop="-50dp"
+                        android:layout_marginBottom="50dp"
+                        android:hapticFeedbackEnabled="true"
+                        android:layout_alignParentEnd="true"/>
+
+                    <com.automattic.simplenote.widgets.SimplenoteEditText
+                        android:id="@+id/note_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                        android:maxLength="999999999"
+                        android:lineSpacingExtra="4dp"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:paddingTop="@dimen/padding_small"
+                        android:scrollHorizontally="false"
+                        android:textColor="?attr/noteEditorTextColor"
+                        android:textColorLink="@color/simplenote_blue"
+                        android:textSize="16sp"
+                        tools:context=".NoteEditorFragment" />
+                </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
+
+            <LinearLayout
+                android:id="@+id/todo_component"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/todo_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/todo_add_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:hint="@string/new_todo"
+                        android:scrollHorizontally="true" />
+
+                </LinearLayout>
+
+                <com.mobeta.android.dslv.DragSortListView
+                    android:id="@+id/todo_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    dslv:drag_enabled="true"
+                    dslv:drag_handle_id="@id/drag_handle"
+                    dslv:float_background_color="@android:color/background_light" />
+
+                <View
+                    android:id="@+id/todo_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_grey" />
+
+                <com.mobeta.android.dslv.DragSortListView
+                    android:id="@+id/todo_list_completed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    dslv:drag_handle_id="@id/drag_handle"
+                    dslv:float_background_color="@android:color/background_light" />
+
+            </LinearLayout>
+
+                <Button
+                    android:id="@+id/paskhalka2"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="-40dp"
+                    android:text="@string/reminder_15_min"
+                    android:textColor="@color/simplenote_blue_accent"
+                    android:background = "@drawable/set_reminder_button_background"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="20dp"
+                    android:hapticFeedbackEnabled="true"
+                    android:layout_alignParentEnd="true"/>
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"
@@ -61,7 +154,8 @@
                 android:nextFocusUp="@id/tag_view"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorHint="?attr/hintTextColor"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +171,7 @@
                 android:layout_height="160dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/login_logo"
-                android:tint="?attr/placeholderLogoColor"/>
+                android:tint="?attr/placeholderLogoColor" />
         </LinearLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

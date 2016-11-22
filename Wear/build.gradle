@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 apply plugin: 'com.android.application'
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
-        minSdkVersion 20
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

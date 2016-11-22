@@ -6,13 +6,41 @@
     android:layout_weight="6.5"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
+        android:id="@+id/tags_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-11dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginStart="-4dp"
+        android:completionThreshold="1"
+        android:imeOptions="actionNext"
+        android:longClickable="false"
+        android:minHeight="48dp"
+        android:nextFocusForward="@+id/note_content"
+        android:nextFocusLeft="@id/tags_view"
+        android:nextFocusUp="@id/tags_view"
+        android:textColor="?attr/noteEditorTextColor"
+        android:textColorHint="?attr/hintTextColor"
+        android:textSize="16sp"
+        android:inputType="textMultiLine"/>
+        <!--android:inputType="textNoSuggestions"-->
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="1px"/>
+        android:dividerHeight="1px"
+        android:layout_below="@id/tags_view" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@android:id/empty"

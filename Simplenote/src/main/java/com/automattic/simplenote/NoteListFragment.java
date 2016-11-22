@@ -1,16 +1,25 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.text.InputType;
+import android.text.Html;
 import android.text.SpannableString;
+import android.text.TextPaint;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -23,10 +32,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -38,15 +50,21 @@ import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
+import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.Query.SortType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -61,10 +79,6 @@ import java.util.List;
 public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
 
     /**
-     * The preferences key representing the activated item position. Only used on tablets.
-     */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
@@ -74,33 +88,50 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
-    protected String mSearchString;
     private ActionMode mActionMode;
+
+    private TagsMultiAutoCompleteTextView mTagView;
+    //private String mTags;
+    private LinkedList<String> mTagList;
+
     private View mRootView;
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
     private FloatingActionButton mFloatingActionButton;
     private int mNumPreviewLines;
+    protected String mSearchString;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
+
+    private boolean mTutorialRequired;
+
+    ShowcaseView mShowcaseView;
+
     private int mTitleFontSize;
     private int mPreviewFontSize;
-    /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sCallbacks;
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public NoteListFragment() {
     }
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.M HH:mm");
+    /**
+     * The preferences key representing the activated item position. Only used on tablets.
+     */
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private Callbacks mCallbacks = sCallbacks;
+
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     public void setEmptyListViewClickable(boolean isClickable) {
         if (mEmptyListTextView != null) {
@@ -171,12 +202,144 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             actionMode.setTitle(getResources().getQuantityString(R.plurals.selected_notes, checkedCount, checkedCount));
     }
 
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when a note has been selected.
+         */
+        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mTutorialRequired = false;
         mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
+    }
+
+
+    /*
+    public void addSearchTag(CharSequence newTag){
+        boolean isTheTagNew = true;
+        for (String tg : mTagList) {
+            if (tg.equals((String)newTag))
+                isTheTagNew = false;
+        }
+        if (isTheTagNew) {
+            mTags += " " + newTag;
+            mTagList.add((String)newTag);
+        }
+        mTagView.setChips(mTags);
+        mTagView.setVisibility(View.VISIBLE);
+    }
+
+    */
+
+    public boolean tagsAreUsed(){
+        return ((mTagList != null)&& (mTagList.size()>0));
+    }
+
+    public void addSearchTag(CharSequence newTag){
+        boolean isTheTagNew = true;
+        //String newTag = ((String)tag)+"  |×";
+        for (String tg : mTagList) {
+            if (tg.equals((String)newTag))
+                isTheTagNew = false;
+        }
+        if (isTheTagNew) {
+            //mTags += " " + newTag;
+            mTagList.add((String)newTag);
+        }
+        mTagView.drawChips(mTagList,this);
+        mTagView.setVisibility(View.VISIBLE);
+        queryNotes();
+        refreshList();
+    }
+
+    public void removeTag(int index){
+        if (mTagList.size()>index) {
+            mTagList.remove(index);
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+        if (mTagList.size()==0) {
+            ((NotesActivity) getActivity()).setDefaultHeader();
+            mTagView.setVisibility(View.GONE);
+        }
+        //refreshListFromNavSelect();
+        // queryNotes();
+        refreshList();
+    }
+
+    public void removeLastSearchTag(){
+        if (mTagList.size()>0) {
+            mTagList.removeLast();
+        }
+        mTagView.drawChips(mTagList, this);
+        mTagView.setVisibility(View.VISIBLE);
+        //queryNotes();
+        refreshList();
+    }
+
+    public void refreshTags() {
+        if (mTagList.size()>0) {
+            mTagView.drawChips(mTagList, this);
+        }
+        mTagView.drawChips(mTagList,this);
+        queryNotes();
+        refreshList();
+    }
+
+    public void cleanSearchTag(){
+        mTagView.setVisibility(View.GONE);
+        //mTags ="";
+        mTagList = new LinkedList<String>();
+        mTagView.setChips("");
+    }
+
+
+    public void showAlert(String title) {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getContext());
+
+        // Setting Dialog Title
+        alertDialog2.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog2.setMessage("Press ok to close");
+
+        // Setting Icon to Dialog
+        //alertDialog2.setIcon(R.drawable.delete);
+
+        // Setting Positive "Yes" Btn
+        alertDialog2.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to execute after dialog
+                        Toast.makeText(getContext(),
+                                "You clicked on YES", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+        /*
+        // Setting Negative "NO" Btn
+        alertDialog2.setNegativeButton("NO",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Write your code here to execute after dialog
+                    Toast.makeText(getApplicationContext(),
+                                   "You clicked on NO", Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.cancel();
+                }
+            });
+        */
+        // Showing Alert Dialog
+        alertDialog2.show();
     }
 
     // nbradbury - load values from preferences
@@ -189,7 +352,24 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notes_list, container, false);
+        initmTagView(rootView);
+
+        return rootView;
+    }
+
+    public void initmTagView(View rootView) {
+        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tags_view);
+        mTagView.setTokenizer(new SpaceTokenizer());
+        mTagView.setFocusable(false);
+        mTagView.setEnabled(true);
+        mTagView.setClickable(false);
+        mTagView.setFocusableInTouchMode(false);
+        mTagView.setCursorVisible(false);
+        mTagView.setKeyListener(null);
+
+        cleanSearchTag();
+
     }
 
     @Override
@@ -202,15 +382,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = (LinearLayout) view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = (TextView) view.findViewById(R.id.empty_message);
-        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNote();
-            }
-        });
-        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-        mDividerShadow = (LinearLayout) view.findViewById(R.id.divider_shadow);
+      //  mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
+        //NOTE-78
+        //  mEmptyListTextView = (TextView)view.findViewById(R.id.empty_message);
+//        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addNote();
+//            }
+//        });
+        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong>");
+        mDividerShadow = (LinearLayout)view.findViewById(R.id.divider_shadow);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
@@ -218,11 +400,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_button);
+        mFloatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isAdded()) return;
-
+                mShowcaseView.hide();
                 addNote();
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_NOTE_CREATED,
@@ -234,6 +417,41 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+
+        TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.RED);
+
+        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        int margin = ((Number) (getResources().getDisplayMetrics().density * 25)).intValue();
+        lps.setMargins(margin, margin*2, margin, margin);
+
+        mShowcaseView = new ShowcaseView.Builder(getActivity())
+                .setTarget(new ViewTarget( R.id.fab_button, getActivity()))
+                .setContentTitle("Hi there!\nTap the button in the right-down corner to create a new note\n")
+                .setContentText("Tap on any space on the blue screen to hide only this part of the tutorial")
+                .hideOnTouchOutside()
+                //.withMaterialShowcase()
+                .setStyle(R.style.MainScreenTutorial)
+                .replaceEndButton(R.layout.skip_tutorial_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mTutorialRequired = false;
+                        mShowcaseView.hide();
+                    }
+                })
+                //.setContentTitlePaint(paint)
+                .build();
+        //mShowcaseView.setButtonPosition(new RelativeLayout.LayoutParams(900,180));
+        mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+        mShowcaseView.setButtonPosition(lps);
+        mTutorialRequired = mShowcaseView.isShowing();
+
+
+
     }
 
     @Override
@@ -247,6 +465,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mCallbacks = (Callbacks) activity;
     }
+
 
     @Override
     public void onResume() {
@@ -369,8 +588,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public ObjectCursor<Note> queryNotes() {
         if (!isAdded()) return null;
 
-        NotesActivity notesActivity = (NotesActivity) getActivity();
-        Query<Note> query = notesActivity.getSelectedTag().query();
+        NotesActivity notesActivity = (NotesActivity)getActivity();
+        Query<Note> query = new Query<Note>();
+        if ((mTagList != null)&& (mTagList.size()>0))
+            query = notesActivity.getSelectedTag().multipleQuery(mTagList);
+        else
+            query = notesActivity.getSelectedTag().query();
 
         if (hasSearchQuery()) {
             query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
@@ -383,6 +606,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
+        query.include(Note.COLOR_PROPERTY);
 
         sortNoteQuery(query);
 
@@ -402,10 +626,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
+        String tagName = notesActivity.getSelectedTag().name;
+        if (tagName.equals(getString(R.string.todoLists))){
+            note.setTodo(true);
+        }
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
-            String tagName = notesActivity.getSelectedTag().name;
             if (!tagName.equals(getString(R.string.notes)) && !tagName.equals(getString(R.string.trash)))
                 note.setTagString(tagName);
         }
@@ -419,6 +646,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+            arguments.putBoolean(NoteEditorFragment.TUTORIAL_REQUIRED, mTutorialRequired);
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
@@ -443,81 +671,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         // Didn't find the note, let's try again after the cursor updates (see refreshListTask)
         mSelectedNoteId = selectedNoteID;
-    }
-
-    public void searchNotes(String searchString) {
-        if (!searchString.equals(mSearchString)) {
-            mSearchString = searchString;
-            refreshList();
-        }
-    }
-
-    /**
-     * Clear search and load all notes
-     */
-    public void clearSearch() {
-        if (mSearchString != null && !mSearchString.equals("")) {
-            mSearchString = null;
-            refreshList();
-        }
-    }
-
-    public boolean hasSearchQuery() {
-        return mSearchString != null && !mSearchString.equals("");
-    }
-
-    public void sortNoteQuery(Query<Note> noteQuery) {
-        noteQuery.order("pinned", SortType.DESCENDING);
-        int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
-        switch (sortPref) {
-            case 0:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 1:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 2:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 3:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 4:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
-                break;
-            case 5:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
-                break;
-        }
-    }
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when a note has been selected.
-         */
-        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
-    }
-
-    // view holder for NotesCursorAdapter
-    private static class NoteViewHolder {
-        public String matchOffsets;
-        TextView titleTextView;
-        TextView contentTextView;
-        ToggleButton toggleView;
-        private String mNoteId;
-
-        public String getNoteId() {
-            return mNoteId;
-        }
-
-        public void setNoteId(String noteId) {
-            mNoteId = noteId;
-        }
     }
 
     public class NotesCursorAdapter extends CursorAdapter {
@@ -555,6 +708,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
                 holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
                 holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+                holder.colorView = (View) view.findViewById(R.id.color_line);
+
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
@@ -576,6 +731,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setMaxLines(mNumPreviewLines);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+
+            int color = mCursor.getInt(mCursor.getColumnIndex(Note.COLOR_PROPERTY));
+
+            holder.colorView.setBackgroundColor(color);
+
+            if (color != Color.WHITE)
+                holder.colorView.setVisibility(View.VISIBLE);
+
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
 
             if (pinned == 1) {
@@ -620,12 +783,25 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
                     holder.contentTextView.setText(matchedContentPreview);
                 }
-            } else if (mNumPreviewLines > 0) {
+            } else {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
-                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
+                //MDD_A_AK: Removed reminder
+                if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list))) {
                     holder.contentTextView.setVisibility(View.GONE);
-                else
-                    holder.contentTextView.setText(contentPreview);
+                    if (mCursor.getObject().hasReminder()) {
+                        holder.contentTextView.setText(getString(R.string.reminder_on) + " "
+                                + sdf.format(mCursor.getObject().getReminderDate().getTime()));
+                        holder.contentTextView.setVisibility(View.VISIBLE);
+                    }
+                }
+                else {
+                    //MDD_A_AK: Reminder date in note preview
+                    if (mCursor.getObject().hasReminder()) holder.
+                            contentTextView.setText(getString(R.string.reminder_on) + " "
+                            + sdf.format(mCursor.getObject().getReminderDate().getTime()) + "\n" + contentPreview);
+                    else holder.contentTextView.setText(contentPreview);
+                }
+
             }
 
             return view;
@@ -641,6 +817,70 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         }
 
+    }
+
+    // view holder for NotesCursorAdapter
+    private static class NoteViewHolder {
+        TextView titleTextView;
+        TextView contentTextView;
+        ToggleButton toggleView;
+        View colorView;
+        public String matchOffsets;
+        private String mNoteId;
+
+        public void setNoteId(String noteId) {
+            mNoteId = noteId;
+        }
+
+        public String getNoteId() {
+            return mNoteId;
+        }
+    }
+
+    public void searchNotes(String searchString) {
+        if (!searchString.equals(mSearchString)){
+            mSearchString = searchString;
+            refreshList();
+        }
+    }
+
+    /**
+     * Clear search and load all notes
+     */
+    public void clearSearch() {
+        if (mSearchString != null && !mSearchString.equals("")){
+            mSearchString = null;
+            refreshList();
+        }
+    }
+
+    public boolean hasSearchQuery(){
+        return mSearchString != null && !mSearchString.equals("");
+    }
+
+    public void sortNoteQuery(Query<Note> noteQuery){
+        noteQuery.order("pinned", SortType.DESCENDING);
+        int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
+        switch (sortPref) {
+            case 0:
+                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
+                break;
+            case 1:
+                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
+                break;
+            case 2:
+                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
+                break;
+            case 3:
+                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
+                break;
+            case 4:
+                noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
+                break;
+            case 5:
+                noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
+                break;
+        }
     }
 
     private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {

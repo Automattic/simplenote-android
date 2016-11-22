@@ -1,44 +1,68 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AlarmUtils;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -48,34 +72,58 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
+import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.commonsware.cwac.anddown.AndDown;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.mobeta.android.dslv.DragSortListView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import org.dmfs.android.colorpicker.ColorPickerDialogFragment.ColorDialogResultListener;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        ReminderBottomSheetDialog.ReminderSheetListener,
+        ColorBottomSheetDialog.ColorSheetListener,
+        ColorDialogResultListener,
+        View.OnClickListener
+{
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     static public final String ARG_MATCH_OFFSETS = "match_offsets";
     static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
+    static public final String TUTORIAL_REQUIRED = "tutorial required";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
     private static final int PUBLISH_TIMEOUT = 20000;
     private static final int HISTORY_TIMEOUT = 10000;
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+
+    ShowcaseView mShowcaseView;
+
     private Note mNote;
     private final Runnable mAutoSaveRunnable = new Runnable() {
         @Override
@@ -91,7 +139,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled;
+    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled, mHasReminder, mHasReminderDateChange;
+    private boolean mColor;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -123,6 +172,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     };
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
+    private ReminderBottomSheetDialog mReminderBottomSheet;
+    private ColorBottomSheetDialog mColorBottomSheet;
+
     // Contextual action bar for dealing with links
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -217,7 +269,27 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private NoteMarkdownFragment mNoteMarkdownFragment;
     private String mCss;
     private WebView mMarkdown;
+    private String mKey;
+    private View mColorIndicator;
+    private Button mPButtom;
+    private Button mPButton;
+    private MenuItem mPinnerItem;
+    private MenuItem mMarkdownItem;
+    private MenuItem mTemplateItem;
 
+    private EditText mAddTodoText;
+    private Boolean mIsTodo;
+    private ArrayList<String> mTodos;
+    private ArrayList<String> mTodosCompleted;
+    private DragSortListView mTodoList;
+    private DragSortListView mCompletedTodoList;
+    private View mTodoDivider;
+    private LinearLayout mTodoComponent;
+    private NestedScrollView mNoteComponent;
+    private JSONAdapter jSONAdapter ;
+
+
+    private int mTutorialCounter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -285,12 +357,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
         mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
+        mPButtom = (Button) rootView.findViewById(R.id.paskhalka);
+        mPButton = (Button) rootView.findViewById(R.id.paskhalka2);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
@@ -312,19 +386,151 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
+        mColorIndicator = rootView.findViewById(R.id.color_indicator);
         // Load note if we were passed a note Id
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
-            String key = arguments.getString(ARG_ITEM_ID);
+            mKey = arguments.getString(ARG_ITEM_ID);
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
-            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mKey);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         }
 
+        mTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list);
+        mCompletedTodoList = (DragSortListView) rootView.findViewById(R.id.todo_list_completed);
+        mAddTodoText = (EditText) rootView.findViewById(R.id.todo_add_text);
+        mTodoComponent = (LinearLayout) rootView.findViewById(R.id.todo_component);
+        mNoteComponent = (NestedScrollView) rootView.findViewById(R.id.note_component);
+        mTodoDivider = rootView.findViewById(R.id.todo_divider);
+
+        mAddTodoText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0)
+                    if (s.charAt(s.length() - 1) == '\n') {
+                        String todoText = mAddTodoText.getText().toString().replaceAll("\n", "");
+                        if (todoText.length() != 0) {
+                            mTodos.add(0, todoText);
+                            mNote.setTodos(mTodos);
+
+                            mNote.save();
+                            updateTodos();
+                            mAddTodoText.setText("");
+                        }
+                    }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        mTodoList.setDropListener(new DragSortListView.DropListener() {
+            @Override
+            public void drop(int from, int to) {
+                String item = mTodos.get(from);
+                mTodos.remove(from);
+                if (from > to) --from;
+                mTodos.add(to, item);
+
+                mNote.setTodos(mTodos);
+                mNote.setCompletedTodos(mTodosCompleted);
+                mNote.save();
+                updateTodos();
+            }
+        });
+
+        mCompletedTodoList.setDropListener(new DragSortListView.DropListener() {
+            @Override
+            public void drop(int from, int to) {
+                String item = mTodosCompleted.get(from);
+                mTodosCompleted.remove(from);
+                if (from > to) --from;
+                mTodosCompleted.add(to, item);
+
+                mNote.setTodos(mTodos);
+                mNote.setCompletedTodos(mTodosCompleted);
+                mNote.save();
+                updateTodos();
+            }
+        });
+
+        //if (arguments.getBoolean(NoteEditorFragment.TUTORIAL_REQUIRED)) {
+       if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+           initializeShowcaseView();
         return rootView;
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (mTutorialCounter) {
+            case 0:
+                mTagView.clearFocus();
+                mShowcaseView.setShowcase(new ViewTarget(mPButton),true);
+                //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+                mShowcaseView.setContentTitle("Use tags to filter your search");
+                mShowcaseView.setContentText("You can add tags to your notes to find them quickly.\nJust write a tag here and press \"Next\" to add tag.");
+                mTutorialCounter++;
+                break;
+            case 1:
+                mShowcaseView.hide();
+                Bundle arguments = getArguments();
+                arguments.putBoolean(NoteEditorFragment.TUTORIAL_REQUIRED, false);
+                break;
+        }
+    }
+
+    public void initializeShowcaseView() {
+        mTutorialCounter = 0;
+        mShowcaseView = new ShowcaseView.Builder(getActivity())
+                //.setTarget(Target.NONE)
+                .setContentTitle(" ")
+                .setContentText(" ")
+                //.withMaterialShowcase()
+                .setStyle(R.style.StandardTutorial)
+                .replaceEndButton(R.layout.get_tutorial_button)
+                .setOnClickListener(this)
+                .build();
+
+        mShowcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+    }
+
+    public void showTemplateCaseView(){
+        mShowcaseView.setShowcase(new ViewTarget(mCompletedTodoList), false);
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        mTutorialCounter = 1;
+        mShowcaseView.setContentTitle("Use templates to save your time!");
+        mShowcaseView.setContentText("- Write down text to be used often in your notes\n" +
+                "- Use three dots menu to make a new note with prepared text\n" +
+                "- Edit your note\n" +
+                "- Enjoy saved time!");
+        mShowcaseView.forceTextPosition(ShowcaseView.BELOW_SHOWCASE);
+        mShowcaseView.show();
+    }
+
+
+    public void showNoteCaseView() {
+        mShowcaseView.show();
+        mShowcaseView.setShowcase(new ViewTarget(mPButtom), true);
+        //mShowcaseView.setShowcase(new ViewTarget(rootView.findViewById(R.id.paskhalka2)), true);
+        mShowcaseView.setContentTitle("Use three dots menu to:");
+        mShowcaseView.setContentText("- Set reminder for desired time\n" +
+                "- Create a TODO list\n" +
+                "- Chose the color for your note\n" +
+                "- Pin important notes to the top\n" +
+                "- Use Markdown\n" +
+                "- Create a template for new notes\n");
+    }
+
 
     @Override
     public void onResume() {
@@ -393,16 +599,88 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setTitle(R.string.undelete);
             else
                 trashItem.setTitle(R.string.delete);
+
+            int color = mNote.getColor();
+            mColorIndicator.setBackgroundColor(color);
+
+            if (color != Color.WHITE)
+                mColorIndicator.setVisibility(View.VISIBLE);
+
+
+            mTodos = mNote.getTodos();
+            mTodosCompleted = mNote.getCompletedTodos();
+            updateTodos();
+
+            if (mNote.isTodo() == true) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                mNoteComponent.setLayoutParams(params);
+                mTodoComponent.setVisibility(View.VISIBLE);
+                //mContentEditText.setMaxLines(1);
+                mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                //mContentEditText.setEllipsize(TextUtils.TruncateAt.END);
+                cutContent();
+            } else {
+
+            }
         }
+
+        mPinnerItem = (MenuItem) menu.findItem(R.id.info_pin_switch_menu);
+        mPinnerItem.setTitle(mNote.isPinned()? R.string.unpin_from_top : R.string.pin_to_top);
+
+        mMarkdownItem = (MenuItem) menu.findItem(R.id.info_markdown_menu);
+        mMarkdownItem.setTitle(mNote.isMarkdownEnabled() ? R.string.markdown_hide : R.string.markdown_show);
+
+        mTemplateItem = (MenuItem) menu.findItem(R.id.menu_template);
+        mTemplateItem.setTitle(mNote.isTemplate()? R.string.use_template : R.string.template);
+        if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+            if(mNote.isTemplate()){
+               showTemplateCaseView();
+            }
+            else {
+                showNoteCaseView();
+            }
 
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
 
         super.onCreateOptionsMenu(menu, inflater);
+
+
+
+
+    }
+
+    private void cutContent(){
+        String content = mNote.getContent();
+        int newLinePosition = content.indexOf("\n");
+        if (newLinePosition > 0)
+            mContentEditText.setText(content.substring(0,newLinePosition));
+    }
+
+    private void refreshContent(){
+            mContentEditText.setText(mNote.getContent());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+            case R.id.menu_todo:
+                if (!isAdded()) return false;
+                todoNote();
+                return true;
+            case R.id.menu_template:
+                if (!isAdded()) return false;
+                templateNote();
+                return true;
+            case R.id.menu_color:
+                showColor();
+                return true;
+            case R.id.menu_reminder:
+                setReminder();
+                return true;
             case R.id.menu_view_info:
                 showInfo();
                 return true;
@@ -416,18 +694,132 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (!isAdded()) return false;
                 deleteNote();
                 return true;
+            case R.id.info_pin_switch_menu:
+                item.setTitle(mNote.isPinned()? R.string.pin_to_top : R.string.unpin_from_top);
+                NoteUtils.setNotePin(mNote, !mNote.isPinned());
+                return true;
+            case R.id.info_markdown_menu:
+                item.setTitle(mNote.isMarkdownEnabled() ? R.string.markdown_show : R.string.markdown_hide);
+                onInfoMarkdownSwitchChanged(!mNote.isMarkdownEnabled());
+                return true;
             case android.R.id.home:
                 if (!isAdded()) return false;
                 getActivity().finish();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
         getActivity().finish();
+    }
+
+    private void templateNote() {
+        if (mNote.isTemplate() == true) {
+            copyNote(mNote);
+        } else {
+            NoteUtils.templateNote(mNote, getActivity());
+            if (((NoteEditorActivity)getActivity()).isTutorialRequired())
+                showTemplateCaseView();
+            mTemplateItem.setTitle(R.string.use_template);
+        }
+    }
+
+    private void todoNote() {
+        if (mNote != null) {
+            mIsTodo = mNote.isTodo();
+            if(mIsTodo)  {
+                mTodoComponent.setVisibility(View.GONE);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        0, 1.0f);
+                mNoteComponent.setLayoutParams(params);
+
+                mContentEditText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                mContentEditText.setSingleLine(false);
+
+                mContentEditText.clearFocus();
+                mContentEditText.setFocusableInTouchMode(false);
+                mContentEditText.setFocusable(false);
+                mContentEditText.setFocusableInTouchMode(true);
+                mContentEditText.setFocusable(true);
+                Toast.makeText(getContext(),
+                        getContext().getString(R.string.note_from_todo), Toast.LENGTH_SHORT)
+                        .show();
+                mNote.setTodo(!mIsTodo);
+                mNote.save();
+            }
+            else{
+                String content = mNote.getContent();
+                int newLinePosition = content.indexOf("\n");
+                if (newLinePosition > 0)
+                    showAlert(getContext().getString(R.string.loosing_note_content_message), getContext().getString(R.string.loosing_note_content));
+                else{
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    mNoteComponent.setLayoutParams(params);
+
+                    mTodoComponent.setVisibility(View.VISIBLE);
+                    mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                    cutContent();
+                    Toast.makeText(getContext(),
+                            getContext().getString(R.string.todo_from_note), Toast.LENGTH_SHORT)
+                            .show();
+                    mNote.setTodo(!mIsTodo);
+                    mNote.save();
+                }
+            }
+
+
+
+
+        }
+    }
+
+    public void showAlert(String message, String title) {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getContext());
+
+        alertDialog2.setTitle(title);
+        alertDialog2.setMessage(message);
+        alertDialog2.setIcon(R.drawable.ic_action_remove_24dp);
+
+        alertDialog2.setPositiveButton(getContext().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        mNoteComponent.setLayoutParams(params);
+
+                        mTodoComponent.setVisibility(View.VISIBLE);
+                        mContentEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                        cutContent();
+                        Toast.makeText(getContext(),
+                                getContext().getString(R.string.todo_from_note), Toast.LENGTH_SHORT)
+                                .show();
+                        mNote.setTodo(!mIsTodo);
+                        mNote.save();
+                    }
+                });
+
+        alertDialog2.setNegativeButton(getContext().getString(R.string.no),
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getContext(),
+                            getContext().getString(R.string.still_note), Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.cancel();
+                }
+            });
+        alertDialog2.show();
     }
 
     protected void clearMarkdown() {
@@ -472,6 +864,37 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             showInfoSheet();
         }
     }
+
+    private void showColor() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            saveNote();
+            showColorPopUp();
+        }
+    }
+
+
+    private void setReminder() {
+        if (mNote != null) {
+            mContentEditText.clearFocus();
+            showReminderPopUp();
+        }
+    }
+
+    private void showReminderPopUp() {
+        if (isAdded()) {
+                mReminderBottomSheet = new ReminderBottomSheetDialog(this, this);
+            mReminderBottomSheet.show(mNote);
+        }
+    }
+
+    private void showColorPopUp() {
+        if (isAdded()) {
+                mColorBottomSheet = new ColorBottomSheetDialog(this, this);
+            mColorBottomSheet.show(mNote);
+        }
+    }
+
 
     private boolean noteIsEmpty() {
         return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
@@ -825,7 +1248,143 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoDismissed() {
+        mInfoBottomSheet.dismiss();
+    }
 
+    @Override
+    public void onReminderOn() {
+        mHasReminder = true;
+        AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
+    }
+
+    @Override
+    public void onReminderOff() {
+        mHasReminder = false;
+        AlarmUtils.removeAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview());
+        //save information about reminder for note
+        mNote.setReminder(mHasReminder);
+    }
+
+    @Override
+    public void onReminderUpdated(Calendar calendar) {
+        mHasReminderDateChange = true;
+        mReminderBottomSheet.updateReminder(calendar);
+        if (mHasReminder) {
+            AlarmUtils.createAlarm(getActivity(), mKey, mNote.getTitle(), mNote.getContentPreview(), mNote.getReminderDate());
+        }
+    }
+
+    @Override
+    public void onReminderDismissed() {
+        if (mNote.hasReminder() == true)
+            mReminderBottomSheet.showPopup();
+
+        mReminderBottomSheet.dismiss();
+    }
+
+    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
+            mIsLoadingNote = true;
+        }
+
+        @Override
+        protected Void doInBackground(String... args) {
+            if (getActivity() == null) {
+                return null;
+            }
+
+            String noteID = args[0];
+            Simplenote application = (Simplenote) getActivity().getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            try {
+                mNote = notesBucket.get(noteID);
+                // Set the current note in NotesActivity when on a tablet
+                if (getActivity() instanceof NotesActivity) {
+                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
+                }
+
+                // Set markdown flag for current note
+                if (mNote != null) {
+                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                }
+            } catch (BucketObjectMissingException e) {
+                // TODO: Handle a missing note
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            if (getActivity() == null || getActivity().isFinishing())
+                return;
+            refreshContent(false);
+            if (mMatchOffsets != null) {
+                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+            }
+            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
+            if (mNote != null && mNote.getContent().isEmpty()) {
+                // Show soft keyboard
+               // mContentEditText.requestFocus();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (inputMethodManager != null)
+                            inputMethodManager.showSoftInput(mContentEditText, 0);
+                    }
+                }, 100);
+
+            }
+
+            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
+            if (mIsMarkdownEnabled) {
+                // Get markdown view and update content
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    loadMarkdownData();
+                } else {
+                    mNoteMarkdownFragment =
+                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                    ((NoteEditorActivity) getActivity()).showTabs();
+                }
+            }
+
+            getActivity().invalidateOptionsMenu();
+
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+            mIsLoadingNote = false;
+        }
+    }
+
+    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            saveNote();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nada) {
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                // Update links
+                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+
+                // Update markdown fragment
+                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+                    loadMarkdownData();
+                } else if (mNoteMarkdownFragment != null) {
+                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                }
+            }
+        }
     }
 
     protected void saveNote() {
@@ -835,12 +1394,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = getNoteContentString();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
+        if (mHasReminderDateChange || mColor || mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mHasReminder, mTodos, mTodosCompleted)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
-            // Send pinned event to google analytics if changed
+            mNote.setTodos(mTodos);
+            mNote.setCompletedTodos(mTodosCompleted);
+
             mNote.save();
 
             AnalyticsTracker.track(
@@ -1009,18 +1570,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShareSheet() {
         if (isAdded()) {
-            if (mShareBottomSheet == null) {
                 mShareBottomSheet = new ShareBottomSheetDialog(this, this);
-            }
             mShareBottomSheet.show(mNote);
         }
     }
 
     private void showInfoSheet() {
         if (isAdded()) {
-            if (mInfoBottomSheet == null) {
                 mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
-            }
+
             mInfoBottomSheet.show(mNote);
         }
 
@@ -1028,9 +1586,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showHistorySheet() {
         if (isAdded()) {
-            if (mHistoryBottomSheet == null) {
+
                 mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
-            }
+
 
             // Request revisions for the current note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
@@ -1039,6 +1597,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHistoryBottomSheet.show(mNote);
         }
     }
+
+    public void onColorUpdate(int color) {
+        mNote.setColor(color);
+        mColor = true;
+        mColorBottomSheet.updateColor(color);
+        mColorIndicator.setBackgroundColor(color);
+
+        if (color != Color.WHITE)
+            mColorIndicator.setVisibility(View.VISIBLE);
+    };
+
+    public void onColorDismissed() {
+
+    };
+
 
     /**
      * Simperium listeners
@@ -1093,106 +1666,260 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         note.setContent(getNoteContentString());
     }
 
-    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ReminderBottomSheetDialog.UPDATE_REMINDER_REQUEST_CODE) {
+            long timestamp = data.getLongExtra(ReminderBottomSheetDialog.TIMESTAMP_BUNDLE_KEY, 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date(timestamp));
 
-        @Override
-        protected void onPreExecute() {
-            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
-            mIsLoadingNote = true;
+            Date now = Calendar.getInstance().getTime();
+            String delay = mReminderBottomSheet.getTimeDifference(now, calendar.getTime());
+
+            if (!delay.equals("")) {
+                onReminderUpdated(calendar);
+                mReminderBottomSheet.enableReminder();
+            } else
+                mReminderBottomSheet.disableReminder();
+        }
+    }
+
+    public class TodoItem {
+        private String text;
+        private Boolean checked;
+
+        public TodoItem(String text, Boolean checked) {
+            this.text = text;
+            this.checked = checked;
         }
 
-        @Override
-        protected Void doInBackground(String... args) {
-            if (getActivity() == null) {
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Boolean getChecked() {
+            return checked;
+        }
+
+        public void setChecked(Boolean checked) {
+            this.checked = checked;
+        }
+    }
+
+    public class JSONAdapter extends BaseAdapter implements ListAdapter {
+
+        private final Activity activity;
+        private final ArrayList<String> jsonArray;
+        private final Boolean checked;
+
+        public JSONAdapter (Activity activity, ArrayList<String> jsonArray, Boolean checked) {
+            assert activity != null;
+            assert jsonArray != null;
+
+            this.jsonArray = jsonArray;
+            this.activity = activity;
+            this.checked = checked;
+        }
+
+
+        @Override public int getCount() {
+            if(jsonArray == null)
+                return 0;
+            else
+                return jsonArray.size();
+        }
+
+        @Override public String getItem(int position) {
+            if (jsonArray == null)
                 return null;
+            else {
+                return jsonArray.get(position);
             }
-
-            String noteID = args[0];
-            Simplenote application = (Simplenote) getActivity().getApplication();
-            Bucket<Note> notesBucket = application.getNotesBucket();
-            try {
-                mNote = notesBucket.get(noteID);
-                // Set the current note in NotesActivity when on a tablet
-                if (getActivity() instanceof NotesActivity) {
-                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
-                }
-
-                // Set markdown flag for current note
-                if (mNote != null) {
-                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
-                }
-            } catch (BucketObjectMissingException e) {
-                // TODO: Handle a missing note
-            }
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(Void nada) {
-            if (getActivity() == null || getActivity().isFinishing())
-                return;
-            refreshContent(false);
-            if (mMatchOffsets != null) {
-                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
-                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+        public void setItem(int position, String item) {
+            if ((item != null) && (position < jsonArray.size())) {
+                jsonArray.set(position, item);
             }
-            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
-            if (mNote != null && mNote.getContent().isEmpty()) {
-                // Show soft keyboard
-                mContentEditText.requestFocus();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (inputMethodManager != null)
-                            inputMethodManager.showSoftInput(mContentEditText, 0);
+        }
+
+
+        @Override public long getItemId(int position) {
+            return position;
+        }
+
+        @Override public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ViewHolder viewHolder;
+
+            if(convertView == null) {
+                convertView = activity.getLayoutInflater().inflate(R.layout.fragment_todo_row, null);
+
+                viewHolder = new ViewHolder();
+                viewHolder.text = (TextView) convertView.findViewById(R.id.todo_title);
+                viewHolder.check = (CheckBox) convertView.findViewById(R.id.todo_checked);
+                viewHolder.remove = (View) convertView.findViewById(R.id.todo_remove);
+
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            String item = getItem(position);
+            if(null != item ) {
+                viewHolder.text.setText(item);
+                viewHolder.check.setChecked(checked);
+                if (checked)
+                    viewHolder.text.setPaintFlags(viewHolder.text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
+
+            viewHolder.check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checked == false) {
+                        String completed_item = mTodos.get(position);
+                        mTodosCompleted.add(0, completed_item);
+                        mTodos.remove(position);
+
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
+                    } else {
+                        String item = mTodosCompleted.get(position);
+                        mTodos.add(0, item);
+                        mTodosCompleted.remove(position);
+
+                        mNote.setTodos(mTodos);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
+
                     }
-                }, 100);
-
-            }
-
-            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
-            if (mIsMarkdownEnabled) {
-                // Get markdown view and update content
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else {
-                    mNoteMarkdownFragment =
-                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                    ((NoteEditorActivity) getActivity()).showTabs();
                 }
-            }
+            });
 
-            getActivity().invalidateOptionsMenu();
+            viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checked == false) {
+                        mTodos.remove(position);
+                        mNote.setTodos(mTodos);
+                        mNote.save();
+                        updateTodos();
+                    } else {
+                        String item = mTodosCompleted.get(position);
+                        mTodosCompleted.remove(item);
+                        mNote.setCompletedTodos(mTodosCompleted);
+                        mNote.save();
+                        updateTodos();
+                    }
+                }
+            });
 
-            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
 
-            mIsLoadingNote = false;
+            final JSONAdapter jSONAdapter = this;
+
+            viewHolder.text.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (checked == false) {
+                        mTodos.set(position, charSequence.toString());
+                        mNote.setTodos(mTodos);
+                    } else {
+                        mTodosCompleted.set(position, charSequence.toString());
+                        mNote.setCompletedTodos(mTodosCompleted);
+                    }
+
+                    NoteUtils.setListViewHeight(mTodoList);
+                    NoteUtils.setListViewHeight(mCompletedTodoList);
+
+                    mNote.save();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {}
+            });
+
+            return convertView;
         }
+
+        class ViewHolder {
+            TextView text;
+            CheckBox check;
+            View remove;
+        }
+
     }
 
-    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... args) {
-            saveNote();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nada) {
-            if (getActivity() != null && !getActivity().isFinishing()) {
-                // Update links
-                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
-                // Update markdown fragment
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else if (mNoteMarkdownFragment != null) {
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                }
-            }
-        }
+    public void updateReminder(Calendar aCalendar) {
+        onReminderUpdated(aCalendar);
     }
+
+    @Override
+    public void onColorChanged(int tempcolor, String paletteId, String colorName, String paletteName) {
+        mNote.setColor(tempcolor);
+        mColor = true;
+        mColorBottomSheet.updateColor(tempcolor);
+        mColorIndicator.setBackgroundColor(tempcolor);
+    }
+
+    @Override
+    public void onColorDialogCancelled() {
+
+    }
+
+    public void copyNote(Note source) {
+
+        // Create & save new note
+        Simplenote simplenote = (Simplenote) getActivity().getApplication();
+        Bucket<Note> notesBucket = simplenote.getNotesBucket();
+        Note note = notesBucket.newObject();
+        note.setCreationDate(Calendar.getInstance());
+        note.setModificationDate(note.getCreationDate());
+        note.setMarkdownEnabled(source.isMarkdownEnabled());
+        note.setContent(source.getContent());
+        note.setColor(source.getColor());
+        note.setTags(source.getTags());
+        note.setPinned(source.isPinned());
+        note.setTodo(source.isTodo());
+        note.setTodos(source.getTodos());
+        note.setCompletedTodos(source.getCompletedTodos());
+
+        note.save();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+        arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
+        arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+        Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
+        editNoteIntent.putExtras(arguments);
+
+        getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+
+    }
+
+    private void updateTodos() {
+        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getTodos(), false);
+        mTodoList.setAdapter(jSONAdapter);
+        jSONAdapter = new JSONAdapter(this.getActivity(), mNote.getCompletedTodos(), true);
+        mCompletedTodoList.setAdapter(jSONAdapter);
+
+        if ((mNote.getTodos().size() == 0) || (mNote.getCompletedTodos().size() == 0) )
+            mTodoDivider.setVisibility(View.GONE);
+        else
+            mTodoDivider.setVisibility(View.VISIBLE);
+
+        NoteUtils.setListViewHeight(mTodoList);
+        NoteUtils.setListViewHeight(mCompletedTodoList);
+    }
+
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_extra_large"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_medium">
+
+    <Switch
+        android:id="@+id/reminder_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:text="@string/enable_reminder"
+        android:textColor="@color/simplenote_dark_grey" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium" >
+
+        <View
+            android:id="@+id/view_helper"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/date_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/view_helper"
+            android:gravity="center"
+            android:paddingBottom="@dimen/padding_small"
+            android:textSize="15dp"
+            android:text="@string/reminder_date"
+            android:textColor="@color/simplenote_dark_grey" />
+
+        <Button
+            android:id="@+id/date_reminder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_title"
+            android:layout_toLeftOf="@id/view_helper"
+            android:textColor="@color/simplenote_blue_accent"
+            android:layout_margin="1dp"
+            android:background = "@drawable/set_reminder_button_background"
+            android:hapticFeedbackEnabled="true"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/time_title"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/view_helper"
+            android:gravity="center"
+            android:paddingBottom="@dimen/padding_small"
+            android:textSize="15dp"
+            android:text="@string/reminder_time"
+            android:textColor="@color/simplenote_dark_grey"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="match_parent" />
+
+        <Button
+            android:id="@+id/time_reminder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_title"
+            android:layout_toRightOf="@+id/view_helper"
+            android:textColor="@color/simplenote_blue_accent"
+            android:layout_margin="1dp"
+            android:background = "@drawable/set_reminder_button_background"
+            android:hapticFeedbackEnabled="true"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <Button
+            android:id="@+id/after_15_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reminder_15_min"
+            android:textColor="@color/simplenote_blue_accent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background = "@drawable/set_reminder_button_background"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/after_hour"
+            android:hapticFeedbackEnabled="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/after_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reminder_1_hour"
+            android:textColor="@color/simplenote_blue_accent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background = "@drawable/set_reminder_button_background"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_below="@+id/date_reminder"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
+</LinearLayout>

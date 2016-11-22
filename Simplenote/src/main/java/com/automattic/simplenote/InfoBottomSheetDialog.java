@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 
 import java.text.NumberFormat;
@@ -96,7 +98,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
         setContentView(infoView);
     }
-
+    
     public void show(Note note) {
 
         if (mFragment.isAdded()) {

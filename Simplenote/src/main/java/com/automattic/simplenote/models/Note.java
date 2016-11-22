@@ -1,9 +1,11 @@
 package com.automattic.simplenote.models;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.StrUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
@@ -18,8 +20,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Date;
 
 public class Note extends BucketObject {
 
@@ -44,6 +48,14 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
     public static final String PUBLISH_URL = "http://simp.ly/publish/";
+    public static final String REMINDER_PROPERTY = "reminder";
+    public static final String REMINDER_DATE_PROPERTY = "reminderDate";
+    public static final String COLOR_PROPERTY = "color";
+    public static final String TEMPLATE_PROPERTY = "template";
+    public static final String TODO_PROPERTY = "todo";
+    public static final String IS_TODO_PROPERTY = "isTodo";
+    public static final String TODO_COMPLETED_PROPERTY = "todo_completed";
+
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
     private static final String BLANK_CONTENT = "";
@@ -51,7 +63,6 @@ public class Note extends BucketObject {
     private static final int MAX_PREVIEW_CHARS = 300;
     protected String mTitle = null;
     protected String mContentPreview = null;
-
 
     public Note(String key) {
         super(key, new JSONObject());
@@ -63,7 +74,9 @@ public class Note extends BucketObject {
 
     public static Query<Note> all(Bucket<Note> noteBucket) {
         return noteBucket.query()
-                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(IS_TODO_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
     }
 
     public static Query<Note> allDeleted(Bucket<Note> noteBucket) {
@@ -71,7 +84,26 @@ public class Note extends BucketObject {
                 .where(DELETED_PROPERTY, ComparisonType.EQUAL_TO, true);
     }
 
-    public static Query<Note> search(Bucket<Note> noteBucket, String searchString) {
+    // MDD: AK_A - Method for returning all reminders we have
+    public static Query<Note> allReminders(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(REMINDER_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
+    public static Query<Note> allTemplates(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
+    public static Query<Note> allTodoLists(Bucket<Note> noteBucket){
+        return noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(IS_TODO_PROPERTY, ComparisonType.EQUAL_TO, true);
+    }
+
+    public static Query<Note> search(Bucket<Note> noteBucket, String searchString){
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(CONTENT_PROPERTY, ComparisonType.LIKE, "%" + searchString + "%");
@@ -80,8 +112,20 @@ public class Note extends BucketObject {
     public static Query<Note> allInTag(Bucket<Note> noteBucket, String tag) {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
+
+    public static Query<Note> allInTags(Bucket<Note> noteBucket, LinkedList<String> tags){
+        Query<Note> qr = noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TEMPLATE_PROPERTY, ComparisonType.NOT_EQUAL_TO, true);
+        for (String tag : tags){
+            qr = qr.where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
+        }
+        return qr;
+    }
+
 
     @SuppressWarnings("unused")
     public static String dateString(Number time, boolean useShortFormat, Context context) {
@@ -132,7 +176,7 @@ public class Note extends BucketObject {
             float now = date.getTimeInMillis() / 1000;
             float magnitude = time.floatValue() / now;
             if (magnitude >= 2.f) time = time.longValue() / 1000;
-            date.setTimeInMillis(time.longValue() * 1000);
+                date.setTimeInMillis(time.longValue() * 1000);
         }
         return date;
     }
@@ -335,6 +379,39 @@ public class Note extends BucketObject {
         setProperty(DELETED_PROPERTY, deleted);
     }
 
+    public Boolean isTemplate() {
+        Object template = getProperty(TEMPLATE_PROPERTY);
+        if (template == null) {
+            return false;
+        }
+        if (template instanceof Boolean) {
+            return (boolean) template;
+        } else
+            return template instanceof Number && ((Number) template).intValue() != 0;
+    }
+
+    public void setTemplate(boolean template) {
+        setProperty(TEMPLATE_PROPERTY, template);
+    }
+
+    public Boolean isTodo() {
+        Object todo = getProperty(IS_TODO_PROPERTY);
+        if (todo == null) {
+            return false;
+        }
+
+        //if (todo instanceof Boolean) {
+            boolean f = (boolean) todo;
+            return f;
+        // else
+          //  return todo.toString().equals("true");
+            //return todo instanceof Number && ((Number) todo).intValue() != 0;
+    }
+
+    public void setTodo(boolean todo) {
+        setProperty(IS_TODO_PROPERTY, todo);
+    }
+
     public boolean isMarkdownEnabled() {
         return hasSystemTag(MARKDOWN_TAG);
     }
@@ -418,20 +495,123 @@ public class Note extends BucketObject {
         setProperty(SYSTEM_TAGS_PROPERTY, newTags);
     }
 
+
+    public Boolean hasReminder() {
+        Object reminder = getProperty(REMINDER_PROPERTY);
+
+        if (reminder == null) {
+            return false;
+        }
+        if (reminder instanceof Boolean) {
+            return (Boolean) reminder;
+        } else
+            return reminder instanceof Number && ((Number) reminder).intValue() != 0;
+    }
+
+    public void setReminder(boolean reminder) {
+        setProperty(REMINDER_PROPERTY, reminder);
+    }
+
+    public void setReminderDate(Calendar reminderDate) {
+        setProperty(REMINDER_DATE_PROPERTY, reminderDate.getTimeInMillis() / 1000);
+    }
+
+    public Calendar getReminderDate() {
+        return numberToDate((Number) getProperty(REMINDER_DATE_PROPERTY));
+    }
+
+    public void setColor(int color) {
+        setProperty(COLOR_PROPERTY, color);
+    }
+
+    public int getColor() {
+        int color = (int) getProperty(COLOR_PROPERTY);
+        return color;
+    }
+
+    public void setTodos(ArrayList<String> todos) {
+        JSONArray json = new JSONArray();
+        for (int i = 0; i < todos.size(); i++)
+            json.put(todos.get(i));
+
+        setProperty(TODO_PROPERTY, json);
+    }
+
+    public ArrayList<String> getTodos() {
+        JSONArray todos = (JSONArray) getProperty(TODO_PROPERTY);
+        if (todos == null) {
+            todos = new JSONArray();
+            setProperty(TODO_PROPERTY, todos);
+        }
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < todos.length(); i++) {
+            try {
+                list.add(todos.getString(i));
+            } catch (JSONException ex) {
+
+            }
+
+        }
+
+
+        return list;
+    }
+
+    public void setCompletedTodos(ArrayList<String> todos) {
+        JSONArray json = new JSONArray();
+        for (int i = 0; i < todos.size(); i++)
+            json.put(todos.get(i));
+
+        setProperty(TODO_COMPLETED_PROPERTY, json);
+    }
+
+    public ArrayList<String>  getCompletedTodos() {
+        JSONArray todos = (JSONArray) getProperty(TODO_COMPLETED_PROPERTY);
+        if (todos == null) {
+            todos = new JSONArray();
+            setProperty(TODO_COMPLETED_PROPERTY, todos);
+        }
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < todos.length(); i++) {
+            try {
+                list.add(todos.getString(i));
+            } catch (JSONException ex) {
+
+            }
+
+        }
+
+        return list;
+    }
+
+
+
+
     /**
      * Check if the note has any changes
-     *
-     * @param content           the new note content
-     * @param tagString         space separated tags
-     * @param isPinned          note is pinned
+     * @param content the new note content
+     * @param tagString space separated tags
+     * @param isPinned note is pinned
      * @param isMarkdownEnabled note has markdown enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled) {
+    public boolean hasChanges(String content,
+                              String tagString,
+                              boolean isPinned,
+                              boolean isMarkdownEnabled,
+                              boolean hasReminder,
+                              ArrayList todos,
+                              ArrayList completed_todos) {
         return !content.equals(this.getContent())
-                || !tagString.equals(this.getTagString().toString())
-                || this.isPinned() != isPinned
-                || this.isMarkdownEnabled() != isMarkdownEnabled;
+            || !tagString.equals(this.getTagString().toString())
+            || this.isPinned() != isPinned
+            || this.isMarkdownEnabled() != isMarkdownEnabled
+            || this.hasReminder() != hasReminder
+            || this.getTodos() != todos
+            || this.getCompletedTodos() != completed_todos;
+
     }
 
     public static class Schema extends BucketSchema<Note> {
@@ -449,6 +629,14 @@ public class Note extends BucketObject {
             setDefault(DELETED_PROPERTY, false);
             setDefault(SHARE_URL_PROPERTY, "");
             setDefault(PUBLISH_URL_PROPERTY, "");
+            setDefault(REMINDER_PROPERTY, false);
+            setDefault(REMINDER_DATE_PROPERTY, null);
+            setDefault(COLOR_PROPERTY, Color.WHITE);
+            setDefault(TEMPLATE_PROPERTY, false);
+            setDefault(TODO_PROPERTY, new JSONArray());
+            setDefault(IS_TODO_PROPERTY, false);
+            setDefault(TODO_COMPLETED_PROPERTY, new JSONArray());
+
         }
 
         public String getRemoteName() {

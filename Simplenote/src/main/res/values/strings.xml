@@ -7,8 +7,13 @@
     <string name="settings">Settings</string>
     <string name="share">Share</string>
     <string name="share_note">Share Note</string>
-    <string name="share_url">Share Url</string>
+    <string name="share_url" translatable="false">Share Url</string>
     <string name="delete">Move to trash</string>
+    <string name="loosing_note_content">Loosing note content</string>
+    <string name="loosing_note_content_message">If you make a ToDo from this note you lose the note\'s content. Are you sure you want to continue?</string>
+    <string name="todo_from_note">Note has been converted to Todo</string>
+    <string name="note_from_todo">Now it is note</string>
+    <string name="still_note">The note has not changed</string>
     <string name="undelete">Restore note</string>
     <string name="new_note">New note</string>
     <string name="account">Account</string>
@@ -39,7 +44,7 @@
     <string name="note_pinned">Note pinned.</string>
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
-    <string name="note_added">Note added</string>
+    <string name="note_added" translatable="false">Note added</string>
     <string name="sort_order">Sort order</string>
     <string name="search">Search notes</string>
     <string name="notes">All Notes</string>
@@ -47,18 +52,30 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="condensed_note_list">Condensed note list</string>
-    <string name="note_info">Info</string>
-    <string name="tags">Tags</string>
-    <string name="edit">Edit</string>
-    <string name="enable_markdown">Enable markdown</string>
-    <string name="markdown_summary">Enable the Markdown toggle in your note settings</string>
-    <string name="pin_to_top">Pin to top</string>
-    <string name="modified_time">Modified %s</string>
-    <string name="tab_edit">Edit</string>
-    <string name="tab_preview">Preview</string>
-    <string name="markdown">Markdown</string>
-    <string name="markdown_hide">Hide Markdown</string>
-    <string name="markdown_show">Show Markdown</string>
+    <string name="note_info" translatable="false">Info</string>
+    <string name="tags" translatable="false">Tags</string>
+    <string name="edit" translatable="false">Edit</string>
+    <string name="enable_markdown" translatable="false">Enable markdown</string>
+	<string name="markdown_summary" translatable="false">Enable the Markdown toggle in your note settings</string>
+    <string name="pin_to_top" translatable="false">Pin note</string>
+    <string name="unpin_from_top">Unpin note</string>
+    <string name="modified_time" translatable="false">Modified %s</string>
+    <string name="tab_edit" translatable="false">Edit</string>
+    <string name="tab_preview" translatable="false">Preview</string>
+    <string name="markdown" translatable="false">Markdown</string>
+    <string name="markdown_hide" translatable="false">Hide Markdown</string>
+    <string name="markdown_show" translatable="false">Show Markdown</string>
+    <string name="reminder">Set reminder</string>
+    <string name="enable_reminder" translatable="false">Enable reminder</string>
+    <string name="date" translatable="false">Date</string>
+    <string name="time">Time</string>
+    <string name="color" translatable="false">Set color</string>
+    <string name="color_reset">Reset Color</string>
+    <string name="template">Save as template</string>
+    <string name="use_template">Make note</string>
+    <string name="templates">All Templates</string>
+    <string name="todoLists">All Todo</string>
+
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -77,7 +94,7 @@
     <string name="new_note_list">New note…</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
-    <string name="dismiss">Dismiss</string>
+    <string name="dismiss" translatable="false">Dismiss</string>
 
     <!-- Sorting Options -->
     <string name="sort_newest_modified">Newest modified date</string>
@@ -145,50 +162,72 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme">Theme</string>
-    <string name="version">Version</string>
+    <string name="version" translatable="false">Version</string>
 
     <!-- About screen -->
-    <string name="about">About Simplenote</string>
-    <string name="about_hiring">Simplenote is made with love by the folks at Automattic. Are you a developer? We\'re hiring.</string>
-    <string name="about_play_store">Google Play Store</string>
+    <string name="about" translatable="false">About Simplenote</string>
+    <string name="about_hiring" translatable="false">Simplenote is made with love by the folks at Automattic. Are you a developer? We\'re hiring.</string>
+    <string name="about_play_store" translatable="false">Google Play Store</string>
     <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
-    <string name="twitter">Twitter</string>
-    <string name="rate_us">Rate Us</string>
+    <string name="twitter" translatable="false">Twitter</string>
+    <string name="rate_us" translatable="false">Rate Us</string>
     <string name="automattic_copyright" translatable="false">©2016 Automattic, Inc.</string>
-    <string name="blog">Blog</string>
-    <string name="simplenote_for_android">Simplenote for Android</string>
-    <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
+    <string name="blog" translatable="false">Blog</string>
+    <string name="simplenote_for_android" translatable="false">Simplenote for Android</string>
+    <string name="no_browser_available" translatable="false">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
 
     <!-- Note publishing -->
-    <string name="content_description_copy_button">Copy Button</string>
-    <string name="public_link">Public link</string>
-    <string name="publish">Publish</string>
-    <string name="unpublish">Remove public link</string>
-    <string name="published">Published</string>
-    <string name="publish_error">Could not create link...</string>
-    <string name="unpublish_error">Could not remove link...</string>
-    <string name="publish_successful">Success! Link copied to clipboard...</string>
-    <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing link...</string>
-    <string name="unpublishing">Removing public link...</string>
-    <string name="collaborate">Collaborate</string>
-    <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
-    <string name="note_not_published">Note not published</string>
+    <string name="content_description_copy_button" translatable="false">Copy Button</string>
+    <string name="public_link" translatable="false">Public link</string>
+    <string name="publish" translatable="false">Publish</string>
+    <string name="unpublish" translatable="false">Remove public link</string>
+    <string name="published" translatable="false">Published</string>
+    <string name="publish_error" translatable="false">Could not create link...</string>
+    <string name="unpublish_error" translatable="false">Could not remove link...</string>
+    <string name="publish_successful" translatable="false">Success! Link copied to clipboard...</string>
+    <string name="unpublish_successful" translatable="false">Public link removed.</string>
+    <string name="publishing" translatable="false">Publishing link...</string>
+    <string name="unpublishing" translatable="false">Removing public link...</string>
+    <string name="collaborate" translatable="false">Collaborate</string>
+    <string name="collaborate_message" translatable="false">Add an email in the tag field to collaborate with other users.</string>
+    <string name="note_not_published" translatable="false">Note not published</string>
 
     <!-- Font Sizes -->
-    <string name="font_size">Font size</string>
-    <string name="font_size_extra_small">Extra small</string>
-    <string name="font_size_small">Small</string>
-    <string name="font_size_normal">Normal</string>
-    <string name="font_size_large">Large</string>
-    <string name="font_size_extra_large">Extra large</string>
+    <string name="font_size" translatable="false">Font size</string>
+    <string name="font_size_extra_small" translatable="false">Extra small</string>
+    <string name="font_size_small" translatable="false">Small</string>
+    <string name="font_size_normal" translatable="false">Normal</string>
+    <string name="font_size_large" translatable="false">Large</string>
+    <string name="font_size_extra_large" translatable="false">Extra large</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
-    <string name="noted">Noted</string>
+    <string name="noted" translatable="false">Noted</string>
     <string name="error">Error</string>
-    <string name="restore">Restore</string>
-    <string name="history">History</string>
-    <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="restore" translatable="false">Restore</string>
+    <string name="history" translatable="false">History</string>
+    <string name="error_history" translatable="false">Couldn\'t retrieve history.</string>
+
+
+    <!-- Reminder -->
+    <string name="reminder_enable">Enable Reminder</string>
+    <string name="reminder_time">Time</string>
+    <string name="reminder_date">Date</string>
+    <string name="reminder_title">Task reminder</string>
+    <string name="reminder_snooze">Snooze</string>
+    <string name="reminder_stop">Stop</string>
+    <string name="reminders">All reminders</string>
+    <string name="reminder_on">Reminder on:</string>
+    <string name="todo_add">Add</string>
+    <string name="new_todo">Add todo...</string>
+    <string name="reminder_15_min">In 15 Minutes</string>
+    <string name="reminder_is_set">The reminder is set</string>
+    <string name="reminder_will_raise_in">Reminder will raise in</string>
+    <string name="of_days">day(s)</string>
+    <string name="of_hours">hour(s)</string>
+    <string name="of_minutes">minute(s)</string>
+    <string name="reminder_1_hour">In 1 Hour</string>
+    <string name="todo_list">Convert to Todo</string>
+    <string name="todo_completed">Completed</string>
 </resources>

@@ -1,10 +1,14 @@
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:24.1.1'
+}
+
 buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/repo' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
@@ -12,11 +16,11 @@ apply plugin: 'com.android.application'
 
 repositories {
     jcenter()
-    maven { url "http://simperium.github.io/simplenote-android" }
-    maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
+    maven { url 'http://simperium.github.io/simplenote-android' }
+    maven { url 'http://wordpress-mobile.github.io/Android-PasscodeLock'}
     maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
-    maven { url "https://jitpack.io" }
-    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://s3.amazonaws.com/repo.commonsware.com' }
 }
 
 dependencies {
@@ -33,8 +37,20 @@ dependencies {
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commonsware.cwac:anddown:0.2.4'
+    compile 'com.github.dmfs:color-picker:c3b3b52033dc0b33bd831e731ec6f74fb1e8a69a'
+    compile 'asia.ivity.android:drag-sort-listview:1.0'
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
+    //espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
 
-    wearApp project(':Wear')
+    //Junit
+    // Required -- JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+   // wearApp project(':Wear')
 }
 
 version "1.5.1"
@@ -57,8 +73,10 @@ android {
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
 
-     }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -70,12 +88,12 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-	
-	lintOptions {
-	    checkReleaseBuilds false
-	}
-
+    lintOptions {
+        checkReleaseBuilds false
+    }
     useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){

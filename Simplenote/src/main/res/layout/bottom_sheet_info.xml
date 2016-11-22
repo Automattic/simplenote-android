@@ -78,9 +78,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info_markdown_switch"
         android:paddingLeft="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large">
+        android:paddingStart="@dimen/padding_large"
+        android:layout_below="@id/info_markdown_switch">
 
         <LinearLayout
             android:layout_width="wrap_content"
