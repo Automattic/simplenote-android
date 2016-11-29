@@ -17,6 +17,10 @@ env:
     - ANDROID_SDKS=android-14
     - ANDROID_TARGET=android-14
 
+before_install:
+  # TODO: Remove the following line when Travis' platform-tools are updated to v25+
+  - echo yes | android update sdk -a --filter platform-tools --no-ui --force
+
 install:
   # Setup gradle.properties
   - cp Simplenote/gradle.properties-example Simplenote/gradle.properties
