@@ -120,7 +120,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
-        mMarkdown.loadData(mCss + new AndDown().markdownToHtml(text), "text/html", "utf-8");
+        mMarkdown.loadData(mCss + new AndDown().markdownToHtml(text), "text/html; charset=utf-8", "utf-8");
     }
 
     private void updateCss() {
