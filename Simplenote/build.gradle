@@ -37,7 +37,7 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.5.2"
+version "1.5.3"
 
 android {
 
