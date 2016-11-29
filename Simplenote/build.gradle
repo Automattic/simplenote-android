@@ -4,7 +4,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/repo' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.0.0'
     }
 }
 
@@ -70,7 +70,7 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-	
+
 	lintOptions {
 	    checkReleaseBuilds false
 	}
@@ -97,4 +97,3 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     }
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
-
