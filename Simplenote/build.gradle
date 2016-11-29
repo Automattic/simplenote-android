@@ -41,15 +41,15 @@ version "1.5.2"
 
 android {
 
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 54
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
