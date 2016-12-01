@@ -29,7 +29,7 @@ dependencies {
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
     compile "com.google.android.gms:play-services-analytics:9.6.1"
     compile "com.google.android.gms:play-services-wearable:9.6.1"
-    compile 'org.wordpress:passcodelock:1.5.0'
+    compile 'org.wordpress:passcodelock:1.5.1'
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commonsware.cwac:anddown:0.2.4'
@@ -37,7 +37,7 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.5.3"
+version "1.5.4"
 
 android {
 
@@ -47,7 +47,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 56
+        versionCode 57
         minSdkVersion 15
         targetSdkVersion 24
 
