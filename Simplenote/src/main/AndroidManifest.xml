@@ -52,12 +52,12 @@
         <!-- Passcode Unlock-->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 

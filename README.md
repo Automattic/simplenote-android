@@ -8,27 +8,27 @@ A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com]
 
 ## How to Configure
 
-1. Clone repo
-```bash
+* Clone repo
+```shell
 git clone https://github.com/Automattic/simplenote-android.git
 cd simplenote-android
 ```
 
-2. Import into Android Studio using the "Gradle" build option. You may need to create a `local.properties` file with the absolute path to the Android SDK:
+* Import into Android Studio using the "Gradle" build option. You may need to create a `local.properties` file with the absolute path to the Android SDK:
 Sample `local.properties`
 ```
 sdk.dir=/Applications/Android Studio.app/sdk
 ```
 
-3. Configure Simperium, copy the `Simplenote/gradle.properties-example` file to `Simplenote/gradle.properties` and edit your simperium appid and key (You can keep the `googleAnalyticsId` field empty). Your `Simplenote/gradle.properties` file should looks like:
+* Configure Simperium, copy the `Simplenote/gradle.properties-example` file to `Simplenote/gradle.properties` and edit your simperium appid and key (You can keep the `googleAnalyticsId` field empty). Your `Simplenote/gradle.properties` file should look like:
 ```
 simperiumAppId=SIMPERIUM_APP_ID
 simperiumAppKey=SIMPERIUM_KEY
 googleAnalyticsId=
 ```
 
-4. Install debug build with Android Studio or:
-```
+* Install debug build with Android Studio or:
+```shell
 ./gradlew installDebug
 ```
 
