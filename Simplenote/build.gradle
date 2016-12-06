@@ -4,7 +4,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/repo' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.0.0'
     }
 }
 
@@ -41,15 +41,15 @@ version "1.5.4"
 
 android {
 
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 57
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
@@ -70,7 +70,7 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-	
+
 	lintOptions {
 	    checkReleaseBuilds false
 	}
@@ -97,4 +97,3 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     }
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
-
