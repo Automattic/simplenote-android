@@ -50,8 +50,6 @@ android {
         versionCode 58
         minSdkVersion 15
         targetSdkVersion 25
-        
-        vectorDrawables.useSupportLibrary = true
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
