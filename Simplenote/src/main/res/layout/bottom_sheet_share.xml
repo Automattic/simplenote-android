@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_collaborate_48dp"
+            android:drawableTop="@drawable/ic_collaborate_selector"
             android:gravity="center_horizontal"
             android:text="@string/collaborate"
             android:textColor="@color/simplenote_dark_grey"/>
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_publish_48dp"
+            android:drawableTop="@drawable/ic_publish_selector"
             android:gravity="center_horizontal"
             android:text="@string/publish"
             android:textColor="@color/simplenote_dark_grey"/>
@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_unpublish_48dp"
+            android:drawableTop="@drawable/ic_unpublish_selector"
             android:gravity="center_horizontal"
             android:text="@string/unpublish"
             android:textColor="@color/simplenote_dark_grey"/>

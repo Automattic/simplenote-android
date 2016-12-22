@@ -21,7 +21,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/ic_tags_24dp"
+        android:drawableLeft="@drawable/ic_tags_selector"
         android:drawablePadding="32dp"
         android:textColor="?attr/noteTitleColor"
         app:tint="?attr/noteTitleColor"
