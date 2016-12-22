@@ -6,6 +6,7 @@ import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
@@ -61,6 +62,8 @@ public class Simplenote extends Application {
         } catch (BucketNameInvalid e) {
             throw new RuntimeException("Could not create bucket", e);
         }
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         ApplicationLifecycleMonitor applicationLifecycleMonitor = new ApplicationLifecycleMonitor();
         registerComponentCallbacks(applicationLifecycleMonitor);
