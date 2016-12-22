@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.Simplestyle.Dark" parent="Base.Theme.Simplestyle.Dark">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
