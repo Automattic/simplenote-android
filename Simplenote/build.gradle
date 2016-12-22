@@ -21,14 +21,14 @@ repositories {
 
 dependencies {
     compile "com.simperium.android:simperium:0.6.8"
-    compile "com.android.support:appcompat-v7:24.2.1"
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:support-vector-drawable:24.2.1'
-    compile 'com.android.support:preference-v7:24.2.1'
-    compile 'com.android.support:preference-v14:24.2.1'
+    compile "com.android.support:appcompat-v7:25.0.1"
+    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:support-vector-drawable:25.0.1'
+    compile 'com.android.support:preference-v7:25.0.1'
+    compile 'com.android.support:preference-v14:25.0.1'
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
-    compile "com.google.android.gms:play-services-analytics:9.6.1"
-    compile "com.google.android.gms:play-services-wearable:9.6.1"
+    compile "com.google.android.gms:play-services-analytics:10.0.1"
+    compile "com.google.android.gms:play-services-wearable:10.0.1"
     compile 'org.wordpress:passcodelock:1.5.1'
     compile 'com.automattic:tracks:1.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
@@ -37,7 +37,7 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.5.4"
+version "1.5.5"
 
 android {
 
@@ -47,9 +47,11 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 57
+        versionCode 58
         minSdkVersion 15
         targetSdkVersion 25
+
+        vectorDrawables.useSupportLibrary = true
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
