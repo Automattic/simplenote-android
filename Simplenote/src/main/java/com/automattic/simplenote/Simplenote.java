@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
@@ -21,6 +22,8 @@ import com.simperium.client.BucketNameInvalid;
 import org.wordpress.passcodelock.AppLockManager;
 
 public class Simplenote extends Application {
+
+    private static final int TEN_SECONDS_MILLIS = 10000;
 
     // log tag
     public static final String TAG = "Simplenote";
@@ -93,9 +96,27 @@ public class Simplenote extends Application {
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
-            // Send analytics if app is in the background
             if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
                 mIsInBackground = true;
+
+                // Give the buckets some time to finish sync, then stop them
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!mIsInBackground) {
+                            return;
+                        }
+
+                        if (mNotesBucket != null) {
+                            mNotesBucket.stop();
+                        }
+                        if (mTagsBucket != null) {
+                            mTagsBucket.stop();
+                        }
+                    }
+                }, TEN_SECONDS_MILLIS);
+
+                // Send analytics if app is in the background
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.APPLICATION_CLOSED,
                         AnalyticsTracker.CATEGORY_USER,
