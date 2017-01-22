@@ -722,13 +722,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onSharePublishClicked() {
         publishNote();
-        mShareBottomSheet.dismiss();
+        if (mShareBottomSheet != null) {
+            mShareBottomSheet.dismiss();
+        }
     }
 
     @Override
     public void onShareUnpublishClicked() {
         unpublishNote();
-        mShareBottomSheet.dismiss();
+        if (mShareBottomSheet != null) {
+            mShareBottomSheet.dismiss();
+        }
     }
 
     @Override
@@ -748,12 +752,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onHistoryCancelClicked() {
         mContentEditText.setText(mNote.getContent());
-        mHistoryBottomSheet.dismiss();
+        if (mHistoryBottomSheet != null) {
+            mHistoryBottomSheet.dismiss();
+        }
     }
 
     @Override
     public void onHistoryRestoreClicked() {
-        mHistoryBottomSheet.dismiss();
+        if (mHistoryBottomSheet != null) {
+            mHistoryBottomSheet.dismiss();
+        }
         saveAndSyncNote();
     }
 
@@ -819,7 +827,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoShareLinkClicked() {
-        mInfoBottomSheet.dismiss();
+        if (mInfoBottomSheet != null) {
+            mInfoBottomSheet.dismiss();
+        }
         showShareSheet();
     }
 
@@ -1009,18 +1019,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShareSheet() {
         if (isAdded()) {
-            if (mShareBottomSheet == null) {
-                mShareBottomSheet = new ShareBottomSheetDialog(this, this);
-            }
+            mShareBottomSheet = new ShareBottomSheetDialog(this, this);
             mShareBottomSheet.show(mNote);
         }
     }
 
     private void showInfoSheet() {
         if (isAdded()) {
-            if (mInfoBottomSheet == null) {
-                mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
-            }
+            mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
             mInfoBottomSheet.show(mNote);
         }
 
@@ -1028,9 +1034,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showHistorySheet() {
         if (isAdded()) {
-            if (mHistoryBottomSheet == null) {
-                mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
-            }
+            mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
 
             // Request revisions for the current note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
