@@ -389,10 +389,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-            if (mNote.isDeleted())
+
+            if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
-            else
+                trashItem.setIcon(R.drawable.ic_empty_trash_24dp);
+            } else {
                 trashItem.setTitle(R.string.delete);
+                trashItem.setIcon(R.drawable.ic_trash_24dp);
+            }
         }
 
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
