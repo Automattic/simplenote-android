@@ -392,7 +392,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
-                trashItem.setIcon(R.drawable.ic_empty_trash_24dp);
+                trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
             } else {
                 trashItem.setTitle(R.string.delete);
                 trashItem.setIcon(R.drawable.ic_trash_24dp);
