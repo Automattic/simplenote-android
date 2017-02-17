@@ -55,8 +55,6 @@
                 android:listSelector="@android:color/transparent"
                 android:paddingBottom="@dimen/padding_small"/>
 
-            <include layout="@layout/nav_drawer_footer"/>
-
         </LinearLayout>
     </android.support.design.widget.NavigationView>
 

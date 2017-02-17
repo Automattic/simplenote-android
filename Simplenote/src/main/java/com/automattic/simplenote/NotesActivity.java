@@ -281,33 +281,6 @@ public class NotesActivity extends AppCompatActivity implements
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
 
-        // Configure welcome view in the nav drawer
-        mWelcomeView = mDrawerLayout.findViewById(R.id.welcome_view);
-        TextView welcomeSignInButton = (TextView) mDrawerLayout.findViewById(R.id.welcome_sign_in_button);
-        welcomeSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startLoginActivity(true);
-            }
-        });
-
-        TextView welcomeCloseButton = (TextView) mDrawerLayout.findViewById(R.id.welcome_close);
-        welcomeCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeWelcomeView();
-            }
-        });
-
-        View settingsButton = findViewById(R.id.nav_settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
-                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
-            }
-        });
-
         mNavigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
         mDrawerList.setAdapter(mTagsAdapter);
