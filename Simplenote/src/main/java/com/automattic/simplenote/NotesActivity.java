@@ -34,7 +34,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -208,7 +207,6 @@ public class NotesActivity extends AppCompatActivity implements
         mNotesBucket.addOnDeleteObjectListener(this);
         mTagsBucket.addListener(mTagsMenuUpdater);
 
-        setWelcomeViewVisibility();
         updateNavigationDrawerItems();
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
@@ -281,6 +279,16 @@ public class NotesActivity extends AppCompatActivity implements
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
 
+        View settingsButton = findViewById(R.id.nav_settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
+                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+            }
+        });
+
+
         mNavigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
         mDrawerList.setAdapter(mTagsAdapter);
@@ -309,29 +317,6 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
-    private void setWelcomeViewVisibility() {
-        if (mWelcomeView == null) return;
-        // Hide welcome view if user is signed in or closed the welcome view
-        if (userIsAuthorized() || PrefUtils.getBoolPref(this, PrefUtils.PREF_APP_TRIAL)) {
-            mWelcomeView.setVisibility(View.GONE);
-        } else {
-            mWelcomeView.setVisibility(View.VISIBLE);
-            mWelcomeView.setAlpha(1.0f);
-        }
-    }
-
-    private void removeWelcomeView() {
-        if (mWelcomeView == null) return;
-
-        AniUtils.swipeOutToLeft(mWelcomeView);
-
-        // Set preference so the welcome view never shows again
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(PrefUtils.PREF_APP_TRIAL, true);
-        editor.apply();
-    }
-
     private void checkForFirstLaunch() {
         if (PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true)) {
             // Create the welcome note
@@ -349,6 +334,7 @@ public class NotesActivity extends AppCompatActivity implements
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(PrefUtils.PREF_FIRST_LAUNCH, false);
+            editor.putBoolean(PrefUtils.PREF_ACCOUNT_REQUIRED, true);
             editor.apply();
         }
     }
@@ -441,8 +427,13 @@ public class NotesActivity extends AppCompatActivity implements
         fm.executePendingTransactions();
     }
 
+    private boolean userAccountRequired() {
+        return PrefUtils.getBoolPref(this, PrefUtils.PREF_ACCOUNT_REQUIRED, false);
+    }
+
     /**
      * Checks for a previously valid user that is now not authenticated
+     * Also checks if user account is required (added in version 1.5.6)
      *
      * @return true if user has invalid authorization
      */
@@ -450,17 +441,14 @@ public class NotesActivity extends AppCompatActivity implements
         Simplenote currentApp = (Simplenote) getApplication();
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
-        return user.hasAccessToken() && user.getStatus().equals(User.Status.NOT_AUTHORIZED);
+        boolean isNotAuthorized = user.getStatus().equals(User.Status.NOT_AUTHORIZED);
+        return (user.hasAccessToken() && isNotAuthorized) ||
+                (userAccountRequired() && isNotAuthorized);
     }
 
     private boolean userIsUnauthorized() {
         Simplenote currentApp = (Simplenote) getApplication();
         return currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
-    }
-
-    private boolean userIsAuthorized() {
-        Simplenote app = (Simplenote) getApplication();
-        return !app.getSimperium().needsAuthorization();
     }
 
     public void setCurrentNote(Note note) {

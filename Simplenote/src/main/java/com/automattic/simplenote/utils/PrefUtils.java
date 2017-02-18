@@ -32,6 +32,9 @@ public class PrefUtils {
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
 
+    // boolean, set on first launch
+    public static final String PREF_ACCOUNT_REQUIRED = "pref_key_account_required";
+
     // boolean, set on when user taps to just try the app in the welcome view
     public static final String PREF_APP_TRIAL = "pref_key_app_trial";
 
