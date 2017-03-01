@@ -37,3 +37,6 @@ gradle.properties
 
 # When developing against Simperium-android source directly
 Simperium
+
+# Crashlytics API Key
+Simplenote/crashlytics.properties
