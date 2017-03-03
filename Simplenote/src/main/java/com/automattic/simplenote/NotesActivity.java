@@ -76,7 +76,6 @@ public class NotesActivity extends AppCompatActivity implements
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private View mFragmentsContainer;
-    private View mWelcomeView;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
     private NoteListFragment mNoteListFragment;
@@ -287,7 +286,6 @@ public class NotesActivity extends AppCompatActivity implements
                 startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
             }
         });
-
 
         mNavigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
