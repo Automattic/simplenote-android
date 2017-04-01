@@ -30,6 +30,12 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme"/>
+        <EditTextPreference
+            android:name="@string/crypto_pass_phrase"
+            android:summary="@string/crypto_pass_phrase_summary"
+            android:defaultValue=""
+            android:title="@string/crypto_pass_phrase"
+            android:key="pref_crypto_pass_phrase" />
     </PreferenceCategory>
 
     <PreferenceCategory

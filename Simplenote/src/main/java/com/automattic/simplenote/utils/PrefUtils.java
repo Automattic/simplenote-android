@@ -8,7 +8,6 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.Html;
 
 import com.automattic.simplenote.BuildConfig;
 
@@ -44,7 +43,12 @@ public class PrefUtils {
     // boolean, determines if the theme was ever changed
     public static final String PREF_THEME_MODIFIED = "pref_theme_modified";
 
+    // string, the cryptography passphrase (can be easily seen in rooted devices)
+    public static final String PREF_CRYPTO_PASS_PHRASE = "pref_crypto_pass_phrase";
+
     private static SharedPreferences getPrefs(Context context) {
+        // todo we should cache this instance instead of getting it fresh each time, for better performance.
+        // see: http://stackoverflow.com/a/4371883/4718652
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
