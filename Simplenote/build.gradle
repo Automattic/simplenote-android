@@ -44,6 +44,9 @@ dependencies {
     }
 
     wearApp project(':Wear')
+    compile 'com.scottyab:secure-preferences-lib:0.1.4'
+    compile 'com.madgag.spongycastle:pg:1.54.0.0'
+    compile 'com.madgag.spongycastle:prov:1.54.0.0'
 }
 
 version "1.5.5"
