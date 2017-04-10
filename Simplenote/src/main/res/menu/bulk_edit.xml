@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_delete"
-        android:icon="@drawable/ic_trash_24dp"
-        android:title="@string/delete"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/menu_pin"
         android:icon="@drawable/ic_item_list_default_pin_active"
         android:title="@string/pin_to_top"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_delete"
+        android:icon="@drawable/ic_trash_24dp"
+        android:title="@string/delete"
         app:showAsAction="always"/>
 
 </menu>
