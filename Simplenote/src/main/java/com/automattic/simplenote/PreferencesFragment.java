@@ -10,11 +10,13 @@ import android.support.v7.preference.Preference;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.utils.PassphraseUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
+import com.takisoft.fix.support.v7.preference.EditTextPreference;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
@@ -141,7 +143,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
 
-        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference("pref_key_condensed_note_list");
+        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference(PrefUtils.PREF_CONDENSED_LIST);
+        switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                PassphraseUtils.setCryptographyAgentInstance();
+
+                return true;
+            }
+        });
+
+        EditTextPreference passPreference = (EditTextPreference) findPreference(PrefUtils.PREF_CRYPTO_PASS_PHRASE);
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {

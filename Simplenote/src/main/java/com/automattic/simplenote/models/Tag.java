@@ -64,15 +64,10 @@ public class Tag extends BucketObject {
         }
     }
 
-    public void renameTo(String name, Bucket<Note> notesBucket)
+    public void renameTo(String newName, Bucket<Note> notesBucket)
             throws BucketObjectNameInvalid {
-        String key = name.toLowerCase();
-        if (!getSimperiumKey().equals(key)) {
-            // create a new tag with the value as the key/name
-            //noinspection unchecked
-            Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
-            newTag.setName(name);
-            newTag.save();
+        String oldName = getName();
+        if (!newName.equals(oldName)) {
             // get all the notes from tag, remove the item
             ObjectCursor<Note> notesCursor = findNotes(notesBucket);
             while (notesCursor.moveToNext()) {
@@ -81,9 +76,9 @@ public class Tag extends BucketObject {
                 List<String> newTags = new ArrayList<>(tags.size());
                 // iterate and do a case insensitive comparison on each tag
                 for (String tag : tags) {
-                    // if it's this tag, add the new tag
-                    if (tag.toLowerCase().equals(getSimperiumKey())) {
-                        newTags.add(name);
+                    // if it's this tag, replace it with the new tag
+                    if (tag.toLowerCase().equals(oldName.toLowerCase())) {
+                        newTags.add(newName);
                     } else {
                         newTags.add(tag);
                     }
@@ -92,15 +87,13 @@ public class Tag extends BucketObject {
                 note.save();
             }
             notesCursor.close();
-            delete();
-        } else if (!getName().equals(name)) {
-            setName(name);
+            setName(newName);
             save();
         }
     }
 
     public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket) {
-        return notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()).execute();
+        return notesBucket.query().where("tags", ComparisonType.LIKE, getName().toLowerCase()).execute(); // use the name, not the key
     }
 
     public static class Schema extends BucketSchema<Tag> {

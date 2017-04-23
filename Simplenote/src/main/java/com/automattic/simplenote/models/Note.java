@@ -223,7 +223,7 @@ public class Note extends BucketObject {
     }
 
     public boolean hasTag(Tag tag) {
-        return hasTag(tag.getSimperiumKey());
+        return hasTag(tag.getName()); // note: uses the name instead of the key, since the key will be a UUID
     }
 
     public List<String> getTags() {
@@ -271,7 +271,7 @@ public class Note extends BucketObject {
 
     /**
      * Sets the note's tags by providing it with a {@link String} of space
-     * seperated tags. Filters out duplicate tags.
+     * separated tags. Filters out duplicate tags.
      *
      * @param tagString a space delimited list of tags
      */

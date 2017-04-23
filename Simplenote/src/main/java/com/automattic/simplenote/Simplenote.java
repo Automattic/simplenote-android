@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,15 +16,19 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.PassphraseUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.crashlytics.android.Crashlytics;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 
+import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.wordpress.passcodelock.AppLockManager;
 
 import io.fabric.sdk.android.Fabric;
+
+import java.security.Security;
 
 public class Simplenote extends Application {
 
@@ -41,6 +46,8 @@ public class Simplenote extends Application {
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
 
+    private static Simplenote INSTANCE;
+
     public void onCreate() {
         super.onCreate();
 
@@ -49,6 +56,10 @@ public class Simplenote extends Application {
         }
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
+
+        Security.addProvider(new BouncyCastleProvider());
+        // for debugging crypto
+        // AndroidCryptographyInspector.printSupportedAlgorithms();
 
         mSimperium = Simperium.newClient(
                 BuildConfig.SIMPERIUM_APP_ID,
@@ -79,6 +90,18 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
+
+        INSTANCE = this;
+        PassphraseUtils.setCryptographyAgentInstance();
+    }
+
+    @Override
+    public void onTerminate() {
+        INSTANCE = null;
+    }
+
+    public static Context getCryptoContext() {
+        return INSTANCE == null ? null : INSTANCE.getApplicationContext();
     }
 
     @SuppressWarnings("unused")
