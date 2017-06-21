@@ -2,10 +2,6 @@
 
 A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
 
-## Development Requirements
-* A Simperium account. [Sign up here](https://simperium.com/signup/)
-* A Simperium Application ID and key. [Create a new app here](https://simperium.com/app/new/)
-
 ## How to Configure
 
 * Clone repo
@@ -20,17 +16,12 @@ Sample `local.properties`
 sdk.dir=/Applications/Android Studio.app/sdk
 ```
 
-* Configure Simperium, copy the `Simplenote/gradle.properties-example` file to `Simplenote/gradle.properties` and edit your simperium appid and key (You can keep the `googleAnalyticsId` field empty). Your `Simplenote/gradle.properties` file should look like:
-```
-simperiumAppId=SIMPERIUM_APP_ID
-simperiumAppKey=SIMPERIUM_KEY
-googleAnalyticsId=
-```
-
 * Install debug build with Android Studio or:
 ```shell
 ./gradlew installDebug
 ```
+
+Sign up for a new account within the app. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
