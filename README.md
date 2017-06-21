@@ -21,7 +21,7 @@ sdk.dir=/Applications/Android Studio.app/sdk
 ./gradlew installDebug
 ```
 
-Sign up for a new account within the app. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
+* Create a new account in order to use a dev build. Signing in with an existing Simplenote account won't work. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
