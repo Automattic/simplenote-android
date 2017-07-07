@@ -1,43 +1,52 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url 'https://maven.fabric.io/repo' }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: "io.fabric"
 
 repositories {
     jcenter()
-    maven { url "http://simperium.github.io/simplenote-android" }
-    maven { url "http://wordpress-mobile.github.io/Android-PasscodeLock"}
-    maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
-    maven { url "https://jitpack.io" }
     maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
+    // Automattic and WordPress dependencies
     compile "com.simperium.android:simperium:0.6.8"
+    compile 'com.automattic:tracks:1.1.0'
+    compile 'org.wordpress:passcodelock:1.5.1'
+
+    // Google Support
     compile "com.android.support:appcompat-v7:25.0.1"
     compile 'com.android.support:design:25.0.1'
     compile 'com.android.support:support-vector-drawable:25.0.1'
     compile 'com.android.support:preference-v7:25.0.1'
     compile 'com.android.support:preference-v14:25.0.1'
-    compile 'com.takisoft.fix:preference-v7:24.2.1.0'
+
+    // Google Play Services
     compile "com.google.android.gms:play-services-analytics:10.0.1"
     compile "com.google.android.gms:play-services-wearable:10.0.1"
-    compile 'org.wordpress:passcodelock:1.5.1'
-    compile 'com.automattic:tracks:1.1.0'
+
+    // Third Party
+    compile 'com.takisoft.fix:preference-v7:24.2.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commonsware.cwac:anddown:0.2.4'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 
     wearApp project(':Wear')
 }
 
-version "1.5.5"
+version "1.5.6"
 
 android {
 
@@ -47,7 +56,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 58
+        versionCode 59
         minSdkVersion 15
         targetSdkVersion 25
 
@@ -58,7 +67,6 @@ android {
         buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\"";
         buildConfigField "String", "BUILD", "\"${gitDescribe()}\"";
         buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\"";
-
      }
 
     buildTypes {
@@ -98,4 +106,31 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
       }
     }
     android.buildTypes.release.signingConfig = android.signingConfigs.release
+}
+
+task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
+    def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
+    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
+    if (!inputFile.exists()) {
+        throw new StopActionException("Build configuration file:" + inputFile
+                + " doesn't exist, follow README instructions")
+    }
+    outputs.file outputFile
+    inputs.file inputFile
+    doLast {
+        def properties = new Properties()
+        inputFile.withInputStream { stream ->
+            properties.load(stream)
+        }
+        def crashlyticsApiKey = properties.getProperty('crashlyticsApiKey', '0')
+        def writer = new FileWriter(outputFile)
+        writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
+apiKey=${crashlyticsApiKey}""")
+        writer.close()
+    }
+}
+
+// Add generateCrashlyticsConfig to all generateBuildConfig tasks (all variants)
+android.applicationVariants.all { variant ->
+    variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
 }

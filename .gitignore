@@ -31,9 +31,10 @@ config.properties
 .idea/
 .gradle/
 
-gradle.properties
-
 *.keystore
 
 # When developing against Simperium-android source directly
 Simperium
+
+# Crashlytics API Key
+Simplenote/crashlytics.properties

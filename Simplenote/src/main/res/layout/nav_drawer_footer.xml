@@ -7,60 +7,6 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/padding_small">
 
-    <LinearLayout
-        android:id="@+id/welcome_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/simplenote_blue"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_large">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_horizontal"
-            android:text="@string/backup_notes"
-            android:textColor="@color/white"
-            android:textSize="@dimen/nav_drawer_item_text_size"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
-                android:id="@+id/welcome_sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:text="@string/sign_in"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/nav_drawer_item_text_size"
-                android:textStyle="bold"/>
-
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
-                android:id="@+id/welcome_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:text="@string/dismiss"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/nav_drawer_item_text_size"
-                android:textStyle="bold"/>
-        </LinearLayout>
-    </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -99,3 +45,4 @@
 
     </LinearLayout>
 </LinearLayout>
+

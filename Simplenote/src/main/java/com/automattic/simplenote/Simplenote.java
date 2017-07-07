@@ -16,11 +16,14 @@ import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.crashlytics.android.Crashlytics;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 
 import org.wordpress.passcodelock.AppLockManager;
+
+import io.fabric.sdk.android.Fabric;
 
 public class Simplenote extends Application {
 
@@ -40,6 +43,10 @@ public class Simplenote extends Application {
 
     public void onCreate() {
         super.onCreate();
+
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
