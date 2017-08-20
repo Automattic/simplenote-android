@@ -64,6 +64,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * The preferences key representing the activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -234,6 +235,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction())){
+            mFloatingActionButton.performClick();
+        }
     }
 
     @Override

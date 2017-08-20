@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="25">
+    <shortcut
+        android:shortcutId="shortcut_new_note"
+        android:enabled="true"
+        android:icon="@drawable/ic_create_24dp"
+        android:shortcutShortLabel="@string/new_note">
+        <intent
+            android:action="com.automattic.simplenote.NEW_NOTE"
+            android:targetPackage="com.automattic.simplenote"
+            android:targetClass="com.automattic.simplenote.NotesActivity" />
+    </shortcut>
+</shortcuts>
