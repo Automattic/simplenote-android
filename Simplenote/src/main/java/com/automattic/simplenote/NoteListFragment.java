@@ -199,6 +199,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
 
+        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction())){
+            //if user tap on "app shortcut", create a new note
+            createNewNote();
+        }
+
         mRootView = view.findViewById(R.id.list_root);
 
         LinearLayout emptyView = (LinearLayout) view.findViewById(android.R.id.empty);
@@ -222,23 +227,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isAdded()) return;
-
-                addNote();
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "action_bar_button"
-                );
+                createNewNote();
             }
         });
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+    }
 
-        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction())){
-            mFloatingActionButton.performClick();
-        }
+    private void createNewNote(){
+        if (!isAdded()) return;
+
+        addNote();
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "action_bar_button"
+        );
     }
 
     @Override
