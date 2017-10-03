@@ -1162,14 +1162,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
             if (mIsMarkdownEnabled) {
                 // Get markdown view and update content
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else {
-                    mNoteMarkdownFragment =
-                            ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                    ((NoteEditorActivity) getActivity()).showTabs();
-                }
+                updateMarkdownView();
             }
 
             getActivity().invalidateOptionsMenu();
@@ -1193,14 +1186,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (getActivity() != null && !getActivity().isFinishing()) {
                 // Update links
                 SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
-                // Update markdown fragment
-                if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-                    loadMarkdownData();
-                } else if (mNoteMarkdownFragment != null) {
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
-                }
+                updateMarkdownView();
             }
+        }
+    }
+
+    private void updateMarkdownView() {
+        Activity activity = getActivity();
+
+        if (activity instanceof NotesActivity) {
+            // This fragment lives in NotesActivity, so load markdown in this fragment's WebView.
+            loadMarkdownData();
+        } else {
+            // This fragment lives in the NoteEditorActivity's ViewPager.
+            if (mNoteMarkdownFragment == null) {
+                mNoteMarkdownFragment = ((NoteEditorActivity) getActivity()).getNoteMarkdownFragment();
+                ((NoteEditorActivity) getActivity()).showTabs();
+            }
+            // Load markdown in the sibling NoteMarkdownFragment's WebView.
+            mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
         }
     }
 }
