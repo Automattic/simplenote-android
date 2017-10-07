@@ -444,7 +444,7 @@ public class NotesActivity extends AppCompatActivity implements
                 (userAccountRequired() && isNotAuthorized);
     }
 
-    private boolean userIsUnauthorized() {
+    public boolean userIsUnauthorized() {
         Simplenote currentApp = (Simplenote) getApplication();
         return currentApp.getSimperium().getUser().getStatus() == User.Status.NOT_AUTHORIZED;
     }

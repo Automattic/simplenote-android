@@ -64,7 +64,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * The preferences key representing the activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
+    public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -199,9 +199,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
 
+        if (notesActivity.userIsUnauthorized()){
+            notesActivity.startLoginActivity(true);
+        }
+
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction())){
             //if user tap on "app shortcut", create a new note
-            createNewNote();
+            createNewNote("new_note_shortcut");
         }
 
         mRootView = view.findViewById(R.id.list_root);
@@ -227,7 +231,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewNote();
+                createNewNote("action_bar_button");
             }
         });
 
@@ -235,14 +239,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         getListView().setMultiChoiceModeListener(this);
     }
 
-    private void createNewNote(){
+    private void createNewNote(String label){
         if (!isAdded()) return;
 
         addNote();
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.LIST_NOTE_CREATED,
                 AnalyticsTracker.CATEGORY_NOTE,
-                "action_bar_button"
+                label
         );
     }
 
