@@ -198,12 +198,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onViewCreated(view, savedInstanceState);
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
-
-        if (notesActivity.userIsUnauthorized()){
-            notesActivity.startLoginActivity(true);
-        }
-
-        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction())){
+        
+        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
+                !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
             createNewNote("new_note_shortcut");
         }
