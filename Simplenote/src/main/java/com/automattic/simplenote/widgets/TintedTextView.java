@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.support.v7.widget.AppCompatTextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -14,7 +14,7 @@ import com.automattic.simplenote.utils.DrawableUtils;
 /**
  * Created by Ondrej Ruttkay on 19/03/2016.
  */
-public class TintedTextView extends TextView {
+public class TintedTextView extends AppCompatTextView {
 
     @ColorInt
     int tint;
