@@ -64,6 +64,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * The preferences key representing the activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -197,6 +198,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onViewCreated(view, savedInstanceState);
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
+        
+        if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
+                !notesActivity.userIsUnauthorized()){
+            //if user tap on "app shortcut", create a new note
+            createNewNote("new_note_shortcut");
+        }
 
         mRootView = view.findViewById(R.id.list_root);
 
@@ -221,19 +228,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isAdded()) return;
-
-                addNote();
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "action_bar_button"
-                );
+                createNewNote("action_bar_button");
             }
         });
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+    }
+
+    private void createNewNote(String label){
+        if (!isAdded()) return;
+
+        addNote();
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                label
+        );
     }
 
     @Override
