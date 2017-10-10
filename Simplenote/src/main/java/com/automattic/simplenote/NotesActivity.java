@@ -38,7 +38,6 @@ import android.widget.ProgressBar;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.AniUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -408,10 +407,8 @@ public class NotesActivity extends AppCompatActivity implements
         // Disable the trash icon if there are no notes trashed.
         Query<Note> query = Note.allDeleted(mNotesBucket);
         if (query.count() == 0) {
-            mEmptyTrashMenuItem.getIcon().setAlpha(127);
             mEmptyTrashMenuItem.setEnabled(false);
         } else {
-            mEmptyTrashMenuItem.getIcon().setAlpha(255);
             mEmptyTrashMenuItem.setEnabled(true);
         }
     }
