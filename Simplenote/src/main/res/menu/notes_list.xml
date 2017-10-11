@@ -42,7 +42,7 @@
 
     <item
         android:id="@+id/menu_empty_trash"
-        android:icon="@drawable/ic_trash_24dp"
+        android:icon="@drawable/ic_trash_selector"
         android:title="@string/empty_trash"
         app:showAsAction="ifRoom"/>
 
