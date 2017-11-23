@@ -1159,11 +1159,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             }
 
-            // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
-            if (mIsMarkdownEnabled) {
-                // Get markdown view and update content
-                updateMarkdownView();
-            }
+            updateMarkdownView();
 
             getActivity().invalidateOptionsMenu();
 
@@ -1191,9 +1187,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    // Show tabs if markdown is enabled globally, for current note, and not tablet landscape
     private void updateMarkdownView() {
-        Activity activity = getActivity();
+        if (!mIsMarkdownEnabled) {
+            return;
+        }
 
+        Activity activity = getActivity();
         if (activity instanceof NotesActivity) {
             // This fragment lives in NotesActivity, so load markdown in this fragment's WebView.
             loadMarkdownData();
