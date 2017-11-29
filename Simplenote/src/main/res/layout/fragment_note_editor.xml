@@ -33,7 +33,6 @@
                     android:background="@null"
                     android:gravity="top"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:lineSpacingExtra="4dp"
                     android:maxLength="999999999"
                     android:paddingBottom="@dimen/padding_small"
                     android:paddingTop="@dimen/padding_small"
