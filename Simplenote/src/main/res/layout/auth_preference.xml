@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:ellipsize="marquee"
         android:gravity="right"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textAlignment="gravity"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/mediumgrey"/>
