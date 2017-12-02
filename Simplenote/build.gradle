@@ -57,7 +57,7 @@ android {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 59
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
 
         vectorDrawables.useSupportLibrary = true
