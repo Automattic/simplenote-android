@@ -622,6 +622,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void afterTextChanged(Editable editable) {
         attemptAutoList(editable);
         setTitleSpan(editable);
+
+        // Prevents line heights from compacting
+        // https://issuetracker.google.com/issues/37009353
+        float lineSpacingExtra = mContentEditText.getLineSpacingExtra();
+        float lineSpacingMultiplier = mContentEditText.getLineSpacingMultiplier();
+        mContentEditText.setLineSpacing(0.0f, 1.0f);
+        mContentEditText.setLineSpacing(lineSpacingExtra, lineSpacingMultiplier);
     }
 
     @Override
