@@ -66,7 +66,7 @@ public class NoteMarkdownFragment extends Fragment {
         setHasOptionsMenu(true);
 
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
-        mMarkdown = (WebView) layout.findViewById(R.id.markdown);
+        mMarkdown = layout.findViewById(R.id.markdown);
 
         switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_DARK:
@@ -120,7 +120,12 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
-        mMarkdown.loadDataWithBaseURL(null, mCss + new AndDown().markdownToHtml(text), "text/html", "utf-8", null);
+        String parsedMarkdown = new AndDown().markdownToHtml(
+                text,
+                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_TABLES | AndDown.HOEDOWN_EXT_FENCED_CODE,
+                AndDown.HOEDOWN_HTML_ESCAPE
+        );
+        mMarkdown.loadDataWithBaseURL(null, mCss + parsedMarkdown, "text/html", "utf-8", null);
     }
 
     private void updateCss() {
