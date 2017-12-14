@@ -122,7 +122,7 @@ public class NoteMarkdownFragment extends Fragment {
     public void updateMarkdown(String text) {
         String parsedMarkdown = new AndDown().markdownToHtml(
                 text,
-                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_TABLES | AndDown.HOEDOWN_EXT_FENCED_CODE,
+                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE | AndDown.HOEDOWN_EXT_QUOTE,
                 AndDown.HOEDOWN_HTML_ESCAPE
         );
         mMarkdown.loadDataWithBaseURL(null, mCss + parsedMarkdown, "text/html", "utf-8", null);
