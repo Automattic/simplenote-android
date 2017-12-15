@@ -32,9 +32,9 @@ function checkGradleProperties() {
 }
 
 function checkKeystore() {
-  keystore=`cat gradle.properties | grep storeFile | cut -d= -f 2 | sed -e 's/^[ \t]*//'`
+  keystore=`cat gradle.properties | grep storeFile | cut -d= -f 2 | sed -e 's/^[ ]*//'`
   /bin/echo -n "Check Keystore..."
-  checkFileAgainstHash "$APPDIR/$keystore" 7b20577a43b217b668fa875693c006d693679c0c
+  checkFileAgainstHash "$keystore" 7b20577a43b217b668fa875693c006d693679c0c
 }
 
 checkGradleProperties
