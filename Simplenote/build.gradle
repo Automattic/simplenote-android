@@ -38,7 +38,7 @@ dependencies {
     // Third Party
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.commonsware.cwac:anddown:0.2.4'
+    compile 'com.commonsware.cwac:anddown:0.4.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
