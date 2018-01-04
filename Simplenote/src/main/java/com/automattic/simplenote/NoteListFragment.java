@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -48,6 +49,10 @@ import com.simperium.client.Query.SortType;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -383,8 +388,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NotesActivity notesActivity = (NotesActivity) getActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
 
+        String searchString = mSearchString;
         if (hasSearchQuery()) {
-            query.where(new Query.FullTextMatch(new SearchTokenizer(mSearchString)));
+            searchString = queryTags(query, mSearchString);
+        }
+        if (!TextUtils.isEmpty(searchString)) {
+            query.where(new Query.FullTextMatch(new SearchTokenizer(searchString)));
             query.include(new Query.FullTextOffsets("match_offsets"));
             query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
             query.include(new Query.FullTextSnippet(Note.MATCHED_CONTENT_INDEX_NAME, Note.CONTENT_PROPERTY));
@@ -398,6 +407,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         sortNoteQuery(query);
 
         return query.execute();
+    }
+
+    private String queryTags(Query<Note> query, String searchString) {
+        Pattern pattern = Pattern.compile("tag:(.*?)( |$)");
+        Matcher matcher = pattern.matcher(searchString);
+        while (matcher.find()) {
+            query.where(TAGS_PROPERTY, Query.ComparisonType.LIKE, matcher.group(1));
+        }
+        return matcher.replaceAll("");
     }
 
     public void addNote() {
