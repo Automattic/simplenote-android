@@ -3,7 +3,7 @@
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/settings">
+        android:title="@string/settings_general">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -17,6 +17,17 @@
             android:summary="%s"
             android:title="@string/sort_order"/>
         <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/array_theme_names"
+            android:entryValues="@array/array_theme_values"
+            android:key="pref_key_theme"
+            android:summary="%s"
+            android:title="@string/theme"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_font">
+        <ListPreference
             android:defaultValue="16"
             android:entries="@array/array_font_size"
             android:entryValues="@array/array_font_size_values"
@@ -26,14 +37,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_font_monospace"
-            android:title="@string/monospace_font"/>
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/array_theme_names"
-            android:entryValues="@array/array_theme_values"
-            android:key="pref_key_theme"
-            android:summary="%s"
-            android:title="@string/theme"/>
+            android:title="@string/monospace_font" />
     </PreferenceCategory>
 
     <PreferenceCategory

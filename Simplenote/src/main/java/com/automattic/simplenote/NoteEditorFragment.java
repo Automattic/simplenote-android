@@ -53,6 +53,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.automattic.simplenote.widgets.TypefaceCache;
 import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -339,7 +340,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14));
 
             if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_FONT_MONOSPACE, false)) {
-                mContentEditText.setTypeface(Typeface.MONOSPACE);
+                mContentEditText.setTypeface(TypefaceCache.getTypeface(getActivity(), TypefaceCache.TYPEFACE_NAME_MONOSPACE));
             } else {
                 mContentEditText.setTypeface(Typeface.DEFAULT);
             }
