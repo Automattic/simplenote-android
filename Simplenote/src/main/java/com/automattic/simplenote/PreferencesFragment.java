@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widgets.FontPickerListPreference;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
@@ -177,6 +179,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     AnalyticsTracker.CATEGORY_USER,
                     "signed_in_from_preferences_activity"
             );
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (preference instanceof FontPickerListPreference) {
+            DialogFragment dialogFragment = FontPickerListPreferenceDialogFragment.newInstance(preference.getKey());
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(getFragmentManager(),
+                    "android.support.v7.preference.PreferenceFragment.DIALOG");
+        } else {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 

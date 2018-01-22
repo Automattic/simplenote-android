@@ -34,10 +34,13 @@
             android:key="pref_key_font_size"
             android:summary="%s"
             android:title="@string/font_size"/>
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="pref_key_font_monospace"
-            android:title="@string/monospace_font" />
+        <com.automattic.simplenote.widgets.FontPickerListPreference
+            android:defaultValue="0"
+            android:entries="@array/array_font_names"
+            android:entryValues="@array/array_font_name_values"
+            android:key="pref_key_editor_font"
+            android:summary="%s"
+            android:title="@string/editor_font"/>
     </PreferenceCategory>
 
     <PreferenceCategory

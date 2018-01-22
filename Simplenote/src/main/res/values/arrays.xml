@@ -45,4 +45,15 @@
         <item>22</item>
     </string-array>
 
+    <string-array name="array_font_names">
+        <item>@string/font_name_default</item>
+        <item>@string/font_name_monospace</item>
+    </string-array>
+
+    <string-array name="array_font_name_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+
 </resources>

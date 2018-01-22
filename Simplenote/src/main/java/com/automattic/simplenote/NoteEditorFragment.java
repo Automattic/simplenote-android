@@ -339,7 +339,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mContentEditText != null) {
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14));
 
-            if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_FONT_MONOSPACE, false)) {
+            if (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_EDITOR_FONT, 0) == 1) {
                 mContentEditText.setTypeface(TypefaceCache.getTypeface(getActivity(), TypefaceCache.TYPEFACE_NAME_MONOSPACE));
             } else {
                 mContentEditText.setTypeface(Typeface.DEFAULT);

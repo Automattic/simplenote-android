@@ -58,9 +58,13 @@
     <string name="markdown">Markdown</string>
     <string name="markdown_hide">Hide Markdown</string>
     <string name="markdown_show">Show Markdown</string>
-    <string name="monospace_font">Monospace editor font</string>
+    <string name="editor_font">Editor font</string>
+    <string name="font_name_default">Default</string>
+    <string name="font_name_monospace">Monospace</string>
     <string name="settings_general">General</string>
     <string name="settings_font">Text Appearance</string>
+    <string name="font_summary_default">Compact, clean and easy to read.</string>
+    <string name="font_summary_monospace">Evenly spaced letters makes it easy to align text.</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>

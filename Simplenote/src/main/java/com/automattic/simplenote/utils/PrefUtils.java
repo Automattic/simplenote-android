@@ -30,7 +30,7 @@ public class PrefUtils {
     public static final String PREF_FONT_SIZE = "pref_key_font_size";
 
     // boolean, use monospace font in editor
-    public static final String PREF_FONT_MONOSPACE = "pref_key_font_monospace";
+    public static final String PREF_EDITOR_FONT = "pref_key_editor_font";
 
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
