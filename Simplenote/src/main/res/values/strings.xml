@@ -156,6 +156,11 @@
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
 
+    <!-- Unsynced note warnings -->
+    <string name="unsynced_notes">Unsynced Notes Detected</string>
+    <string name="unsynced_notes_message">Signing out will delete any unsynced notes. You can verify your synced notes by signing in to the Web App.</string>
+    <string name="visit_web_app">Visit Web App</string>
+
     <!-- Note publishing -->
     <string name="content_description_copy_button">Copy Button</string>
     <string name="public_link">Public link</string>

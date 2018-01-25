@@ -1,6 +1,9 @@
 package com.automattic.simplenote;
 
 
+import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,18 +13,24 @@ import android.support.v7.preference.Preference;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
+import com.simperium.client.Bucket;
 import com.simperium.client.User;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
+
+import java.lang.ref.WeakReference;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+
+    private static final String WEB_APP_URL = "https://app.simplenote.com";
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -50,7 +59,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         authenticatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (!isAdded()) return false;
+                if (!isAdded()) {
+                    return false;
+                }
 
                 Simplenote currentApp = (Simplenote) getActivity().getApplication();
                 if (currentApp.getSimperium().needsAuthorization()) {
@@ -58,22 +69,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
-                    Simplenote application = (Simplenote) getActivity().getApplication();
-                    application.getSimperium().deauthorizeUser();
-                    application.getNotesBucket().reset();
-                    application.getTagsBucket().reset();
-                    application.getNotesBucket().stop();
-                    application.getTagsBucket().stop();
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.USER_SIGNED_OUT,
-                            AnalyticsTracker.CATEGORY_USER,
-                            "preferences_sign_out_button"
-                    );
-
-                    // Resets analytics user back to 'anon' type
-                    AnalyticsTracker.refreshMetadata(null);
-
-                    getActivity().finish();
+                    new SignOutAsyncTask(PreferencesFragment.this).execute();
                 }
                 return true;
             }
@@ -156,6 +152,88 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+    }
+
+    private static class SignOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private WeakReference<PreferencesFragment> fragmentWeakReference;
+
+        SignOutAsyncTask(PreferencesFragment fragment) {
+            fragmentWeakReference = new WeakReference<>(fragment);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            PreferencesFragment fragment = fragmentWeakReference.get();
+            return fragment == null || fragment.hasUnsyncedNotes();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean hasUnsyncedNotes) {
+            PreferencesFragment fragment = fragmentWeakReference.get();
+            if (fragment == null) {
+                return;
+            }
+
+            // Safety first! Check if any notes are unsynced and warn the user if so.
+            if (hasUnsyncedNotes) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
+                builder.setTitle(R.string.unsynced_notes);
+                builder.setMessage(R.string.unsynced_notes_message);
+                builder.setPositiveButton(R.string.sign_out, fragment.signOutClickListener);
+                builder.setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener);
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.show();
+            } else {
+                fragment.signOut();
+            }
+        }
+    }
+
+    private DialogInterface.OnClickListener signOutClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            signOut();
+        }
+    };
+
+    private DialogInterface.OnClickListener loadWebAppClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(WEB_APP_URL)));
+        }
+    };
+
+    public boolean hasUnsyncedNotes() {
+        Simplenote application = (Simplenote) getActivity().getApplication();
+        Bucket<Note> notesBucket = application.getNotesBucket();
+        Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
+        while (notesCursor.moveToNext()) {
+            Note note = notesCursor.getObject();
+            if (note.getVersion() == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void signOut() {
+        Simplenote application = (Simplenote) getActivity().getApplication();
+        application.getSimperium().deauthorizeUser();
+        application.getNotesBucket().reset();
+        application.getTagsBucket().reset();
+        application.getNotesBucket().stop();
+        application.getTagsBucket().stop();
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.USER_SIGNED_OUT,
+                AnalyticsTracker.CATEGORY_USER,
+                "preferences_sign_out_button"
+        );
+
+        // Resets analytics user back to 'anon' type
+        AnalyticsTracker.refreshMetadata(null);
+
+        getActivity().finish();
     }
 
     @Override
