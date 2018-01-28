@@ -18,22 +18,40 @@ repositories {
     maven { url "https://maven.google.com" }
 }
 
+ext {
+    googleVersion = '25.4.0'
+    playServiceVersion = '11.0.4'
+}
+
 dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.8.47'
+    androidTestCompile "com.android.support:support-annotations:$googleVersion"
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:3.0.1') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+
     // Automattic and WordPress dependencies
     compile "com.simperium.android:simperium:0.6.8"
     compile 'com.automattic:tracks:1.1.0'
     compile 'org.wordpress:passcodelock:1.5.1'
 
     // Google Support
-    compile "com.android.support:appcompat-v7:25.3.1"
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
-    compile 'com.android.support:preference-v7:25.3.1'
-    compile 'com.android.support:preference-v14:25.3.1'
+    compile "com.android.support:appcompat-v7:$googleVersion"
+    compile "com.android.support:design:$googleVersion"
+    compile "com.android.support:support-vector-drawable:$googleVersion"
+    compile "com.android.support:preference-v7:$googleVersion"
+    compile "com.android.support:preference-v14:$googleVersion"
 
     // Google Play Services
-    compile "com.google.android.gms:play-services-analytics:11.0.4"
-    compile "com.google.android.gms:play-services-wearable:11.0.4"
+    compile "com.google.android.gms:play-services-analytics:$playServiceVersion"
+    compile "com.google.android.gms:play-services-wearable:$playServiceVersion"
 
     // Third Party
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
@@ -49,6 +67,9 @@ dependencies {
 version "1.5.7"
 
 android {
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -61,6 +82,8 @@ android {
         targetSdkVersion 26
 
         vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
         buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""

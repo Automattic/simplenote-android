@@ -1,94 +1,111 @@
 package com.automattic.simplenote.models;
 
-import junit.framework.TestCase;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
-public class NoteTest extends TestCase {
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
-    protected Note mNote;
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class NoteTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        mNote = new Note("test");
+    private static final String TEST = "test";
+    private Note mNote;
+
+    @Before
+    public void setUp() throws Exception {
+        mNote = new Note(TEST);
     }
 
-    public void testKey(){
-        assertEquals("test", mNote.getSimperiumKey());
+    @Test
+    public void testKey() {
+        assertThat(mNote.getSimperiumKey(), is(TEST));
     }
 
-    public void testTagString(){
-        List<String> tags = tagList("one", "two", "three", "four");
-
+    @Test
+    public void testTagString() {
         mNote.setTagString(" one two three  four ");
 
-        assertEquals(tags, mNote.getTags());
-        assertEquals("one two three four", mNote.getTagString().toString());
+        assertThat(mNote.getTags(), is(tagList("one", "two", "three", "four")));
+        assertThat(mNote.getTagString().toString(), is("one two three four"));
     }
 
-    public void testTagStringNull(){
-
+    @Test
+    public void testTagStringNull() {
         mNote.setTags(tagList("one", "two", "three"));
 
         mNote.setTagString(null);
-        assertEquals(new ArrayList<String>(), mNote.getTags());
+
+        assertThat(mNote.getTags(), is(Collections.<String>emptyList()));
     }
 
-    public void testRemoveDupsFromTagString(){
-        List<String> tags = tagList("one", "two", "three", "four");
-
+    @Test
+    public void testRemoveDupsFromTagString() {
         mNote.setTagString(" one two tWo three two four ");
 
-        assertEquals(tags, mNote.getTags());
-        assertEquals("one two three four", mNote.getTagString().toString());
+        assertThat(mNote.getTags(), is(tagList("one", "two", "three", "four")));
+        assertThat(mNote.getTagString().toString(), is("one two three four"));
     }
 
-    public void testParseTitleAndPreview(){
+    @Test
+    public void testParseTitleAndPreview() {
         String title = "Lorem ipsum dolor sit amet,";
         String preview = "consectetur adipisicing elit, "
-            + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-            + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-            + "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pa";
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+                + "Duis aute irure dolor in reprehenderit in voluptate velit esse cil";
 
         mNote.setContent("Lorem ipsum dolor sit amet,\n"
-            + "consectetur adipisicing elit,\n"
-            + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
-            + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
-            + "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
+                + "consectetur adipisicing elit,\n"
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
+                + "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.");
 
-        assertEquals(title, mNote.getTitle());
-        assertEquals(preview, mNote.getContentPreview());
+        assertThat(mNote.getTitle(), is(title));
+        assertThat(mNote.getContentPreview(), is(preview));
     }
 
-    public void testNoteDoesHaveTag(){
+    @Test
+    public void testNoteDoesHaveTag() {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
 
         mNote.setTagString("tag tag2 tag3");
 
-        assertTrue(mNote.hasTag(tag));
+        assertThat(mNote.hasTag(tag), is(true));
     }
 
-    public void testNoteDoesNotHaveTag(){
+    @Test
+    public void testNoteDoesNotHaveTag() {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
 
         mNote.setTagString("tag2 tag3");
 
-        assertFalse(mNote.hasTag(tag));
+        assertThat(mNote.hasTag(tag), is(false));
     }
 
+    @Test
     public void testPinAndUnpinNote() {
         Note note = new Note("note-test");
+
         note.setPinned(true);
-        assertTrue(note.isPinned());
+        assertThat(note.isPinned(), is(true));
+
         note.setPinned(false);
-        assertFalse(note.isPinned());
+        assertThat(note.isPinned(), is(false));
     }
 
-    protected List<String> tagList(String ... tags){
+    private List<String> tagList(String... tags) {
         List<String> tagArray = new ArrayList<>(tags.length);
         Collections.addAll(tagArray, tags);
         return tagArray;

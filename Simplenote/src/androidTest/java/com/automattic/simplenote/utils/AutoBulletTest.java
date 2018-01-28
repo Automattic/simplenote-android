@@ -1,14 +1,23 @@
 package com.automattic.simplenote.utils;
 
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.text.Editable;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class AutoBulletTest extends TestCase {
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class AutoBulletTest {
     private Editable buildEditable(CharSequence source) {
         return Editable.Factory.getInstance().newEditable(source);
     }
 
+    @Test
     public void testLineBreakOnly() {
         String source = "\n";
         String target = "\n";
@@ -17,9 +26,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(target, is(editable.toString()));
     }
 
+    @Test
     public void testMultipleLineBreakOnly() {
         String source = "\n\n\n";
         String target = "\n\n\n";
@@ -28,9 +39,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testBlankString() {
         String source = " ";
         String target = " ";
@@ -39,9 +52,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testEmptyStringNoIncrement() {
         String source = "";
         String target = "";
@@ -50,9 +65,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testNoIncrement() {
         String source = "Test";
         String target = "Test";
@@ -61,9 +78,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testLineBreakWithoutPreceedingList() {
         String source = "Hello\nWorld\n";
         String target = "Hello\nWorld\n";
@@ -72,9 +91,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testNonLineBreakPosition() {
         String source = "Hello\nWorld\n- list";
         String target = "Hello\nWorld\n- list";
@@ -83,9 +104,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testTopLevelBullet() {
         String source = "- Hello\n";
         String target = "- Hello\n- ";
@@ -94,9 +117,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testStarBullet() {
         String source = "* Hello\n";
         String target = "* Hello\n* ";
@@ -105,9 +130,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testPlusBullet() {
         String source = "+ Hello\n";
         String target = "+ Hello\n+ ";
@@ -116,9 +143,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testInvalidBulletChar() {
         String source = "# Hello\n";
         String target = source;
@@ -127,9 +156,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testSecondLevelBullet() {
         String source = "- Hello\n - World\n";
         String target = "- Hello\n - World\n - ";
@@ -138,9 +169,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testMultiLevelBullet() {
         String source = "- Hello\n - World\n  - Again\n";
         String target = "- Hello\n - World\n  - Again\n  - ";
@@ -149,9 +182,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testBulletBreak() {
         String source = "- Hello\n- \n";
         String target = "- Hello\n\n";
@@ -160,9 +195,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testCursorMovedBackwardsToList() {
         String source = "- Hello\n";
         String target = "- Hello\n";
@@ -171,9 +208,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testCursorMovedBackwardsToNonList() {
         String source = "Hello\n";
         String target = "Hello\n";
@@ -182,9 +221,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testCursorMovedForwardMultipleToList() {
         String source = "Hello\n- list\n";
         String target = "Hello\n- list\n- ";
@@ -193,9 +234,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testCursorMovedForwardMultipleToNonList() {
         String source = "Hello\nWorld";
         String target = "Hello\nWorld";
@@ -204,9 +247,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testBulletMiddleOfString() {
         String source = "Hello World\n- list\n\nHula Mundo";
         String target = "Hello World\n- list\n- \nHula Mundo";
@@ -215,9 +260,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testEmptyTopLevelBullet() {
         String source = "- first\n- \n";
         String target = "- first\n\n";
@@ -226,9 +273,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testEmptySecondLevelBullet() {
         String source = "- first\n - second\n - \n";
         String target = "- first\n - second\n- ";
@@ -237,9 +286,11 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 
+    @Test
     public void testBulletNoSpace() {
         String source = "-first\n";
         String target = "-first\n";
@@ -248,6 +299,7 @@ public class AutoBulletTest extends TestCase {
 
         Editable editable = buildEditable(source);
         AutoBullet.apply(editable, oldPos, newPos);
-        assertEquals(target, editable.toString());
+
+        assertThat(editable.toString(), is(target));
     }
 }
