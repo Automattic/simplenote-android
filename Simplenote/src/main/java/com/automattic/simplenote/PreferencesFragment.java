@@ -179,7 +179,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
                 builder.setTitle(R.string.unsynced_notes);
                 builder.setMessage(R.string.unsynced_notes_message);
-                builder.setPositiveButton(R.string.sign_out, fragment.signOutClickListener);
+                builder.setPositiveButton(R.string.delete_notes, fragment.signOutClickListener);
                 builder.setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener);
                 builder.setNegativeButton(R.string.cancel, null);
                 builder.show();
