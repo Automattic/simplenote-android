@@ -1,87 +1,51 @@
 package com.automattic.simplenote;
 
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.NoteCountIndexer;
-import com.automattic.simplenote.models.NoteTagger;
-import com.automattic.simplenote.models.Tag;
+import android.support.test.filters.SmallTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
-import android.test.ActivityInstrumentationTestCase2;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.automattic.simplenote.simperium.MockAndroidClient;
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.IsNot.not;
 
-import com.simperium.Simperium;
-import com.simperium.client.Bucket;
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class NoteListFragmentTest {
+    @Rule
+    public ActivityTestRule<NotesActivity> mActivityRule = new ActivityTestRule<>(NotesActivity.class);
+    private NotesActivity mActivity;
 
-/**
- * This is a simple framework for a test of an Application.  See
- * {@link android.test.ApplicationTestCase ApplicationTestCase} for more information on
- * how to write and extend Application tests.
- * <p/>
- * To run this test, you can type:
- * adb shell am instrument -w \
- * -e class com.automattic.simplenote.NotesActivityTest \
- * com.automattic.simplenote.tests/android.test.InstrumentationTestRunner
- */
-public class NoteListFragmentTest extends ActivityInstrumentationTestCase2<NotesActivity> {
-
-    Simperium mSimperium;
-    MockAndroidClient mClient;
-    NotesActivity mActivity;
-    Bucket<Note> mNotesBucket;
-    Bucket<Tag> mTagsBucket;
-
-    public NoteListFragmentTest() {
-        super(NotesActivity.class);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-        mActivity = getActivity();
-
-        mClient = new MockAndroidClient(mActivity);
-
-        mSimperium = new Simperium("mock-app", "mock-secret", mClient);
-
-        mNotesBucket = mSimperium.bucket(new Note.Schema());
-        Tag.Schema tagSchema = new Tag.Schema();
-        tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
-        mTagsBucket = mSimperium.bucket(tagSchema);
-
-        // Every time a note changes or is deleted we need to reindex the tag counts
-        mNotesBucket.addListener(new NoteTagger(mTagsBucket));
-
-        mActivity.mNotesBucket = mNotesBucket;
-        mActivity.mTagsBucket = mTagsBucket;
-
+    @Before
+    public void setUp() throws Exception {
+        mActivity = mActivityRule.getActivity();
     }
 
     /**
      * Test to reproduce issue #142, issues refreshList async task a cursor then sets
      * a search string so when the cursor returns the NoteCursorAdapter attempts to
      * access the <code>match_offset</code> field.
-     * 
+     * <p>
      * See: https://github.com/Simperium/simplenote-android/issues/142
-     *
+     * <p>
      * Fails on Android 4.0.3 (android-15) amd emulator
      */
-    public void testNonSearchCursorReturnsAfterSearchApplied()
-    throws Exception {
+    @Test
+    public void testNonSearchCursorReturnsAfterSearchApplied() {
+        NoteListFragment noteListFragment = mActivity.getNoteListFragment();
 
-        NotesActivity activity = getActivity();
-
-        NoteListFragment noteListFragment = activity.getNoteListFragment();
-
-        assertNotNull(noteListFragment);
+        assertThat(noteListFragment, not(nullValue()));
         noteListFragment.refreshList();
 
         NoteListFragment.NotesCursorAdapter adapter = noteListFragment.mNotesAdapter;
         noteListFragment.mSearchString = "welcome";
 
-        assertEquals(1, adapter.getCount());
+        assertThat(adapter.getCount(), is(1));
 
     }
-
 }

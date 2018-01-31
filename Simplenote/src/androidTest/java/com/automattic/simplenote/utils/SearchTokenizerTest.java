@@ -1,57 +1,68 @@
 package com.automattic.simplenote.utils;
 
-import junit.framework.TestCase;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
-public class SearchTokenizerTest extends TestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testPerformsLiteralQuery()
-    throws Exception {
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class SearchTokenizerTest {
+
+    @Test
+    public void testPerformsLiteralQuery() {
         SearchTokenizer tokenizer = new SearchTokenizer("/hello world");
-        assertEquals("hello world", tokenizer.toString());
+
+        assertThat(tokenizer.toString(), is("hello world"));
     }
 
-    public void testFixesMalformedLiteralQuery(){
+    @Test
+    public void testFixesMalformedLiteralQuery() {
         SearchTokenizer tokenizer = new SearchTokenizer("/\"hello\" \"world");
-        assertEquals("\"hello\" \"world\"", tokenizer.toString());
+
+        assertThat(tokenizer.toString(), is("\"hello\" \"world\""));
     }
 
-    public void testDetectsTokensAndAddsGlobs()
-    throws Exception {
+    @Test
+    public void testDetectsTokensAndAddsGlobs() {
         SearchTokenizer tokenizer = new SearchTokenizer("hello world");
-        assertEquals("hello* world*", tokenizer.toString());
+
+        assertThat(tokenizer.toString(), is("hello* world*"));
     }
 
-    public void testDetectsStrictSearchStrings()
-    throws Exception {
+    @Test
+    public void testDetectsStrictSearchStrings() {
         SearchTokenizer tokenizer = new SearchTokenizer("\"hello world\" lorem");
-        assertEquals("\"hello world\" lorem*", tokenizer.toString());
+
+        assertThat(tokenizer.toString(), is("\"hello world\" lorem*"));
     }
 
-    public void testDetectsFieldScopes()
-    throws Exception {
+    @Test
+    public void testDetectsFieldScopes() {
         SearchTokenizer tokenizer = new SearchTokenizer("tag: something");
-        assertEquals("tag: something*", tokenizer.toString());
+
+        assertThat(tokenizer.toString(), is("tag: something*"));
     }
 
-    public void testDetectsEscapedQuotes()
-    throws Exception {
+    @Test
+    public void testDetectsEscapedQuotes() {
         SearchTokenizer tokenizer = new SearchTokenizer("this is \\\" an escaped quote");
-        assertEquals("this* is* \\\"* an* escaped* quote*", tokenizer.toString());
+        assertThat(tokenizer.toString(), is("this* is* \\\"* an* escaped* quote*"));
 
         tokenizer = new SearchTokenizer("this is \\' an escaped quote");
-        assertEquals("this* is* \\'* an* escaped* quote*", tokenizer.toString());
-
+        assertThat(tokenizer.toString(), is("this* is* \\'* an* escaped* quote*"));
     }
 
-    public void testMixedQuotes()
-    throws Exception {
-
+    @Test
+    public void testMixedQuotes() {
         SearchTokenizer tokenizer = new SearchTokenizer("quote in 'a \" quote");
-        assertEquals("quote* in* 'a \" quote'", tokenizer.toString());
+        assertThat(tokenizer.toString(), is("quote* in* 'a \" quote'"));
 
         tokenizer = new SearchTokenizer("quote in \"a ' quote\"");
-        assertEquals("quote* in* \"a ' quote\"", tokenizer.toString());
-
+        assertThat(tokenizer.toString(), is("quote* in* \"a ' quote\""));
     }
-
 }
