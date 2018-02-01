@@ -174,7 +174,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
         while (notesCursor.moveToNext()) {
             Note note = notesCursor.getObject();
-            if (note.getVersion() == 0) {
+            if (note.isNew() || note.isModified()) {
                 return true;
             }
         }
