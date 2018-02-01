@@ -150,7 +150,6 @@
     <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
     <string name="twitter">Twitter</string>
     <string name="rate_us">Rate Us</string>
-    <string name="automattic_copyright" translatable="false">©2016 Automattic, Inc.</string>
     <string name="blog">Blog</string>
     <string name="simplenote_for_android">Simplenote for Android</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>

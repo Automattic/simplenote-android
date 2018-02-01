@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * Created by Ondrej Ruttkay on 24/03/2016.
  */
@@ -31,13 +34,17 @@ public class AboutFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        TextView version = (TextView) view.findViewById(R.id.about_version);
+        TextView version = view.findViewById(R.id.about_version);
+        TextView copyright = view.findViewById(R.id.about_copyright);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
         View playStore = view.findViewById(R.id.about_play_store);
         View hiring = view.findViewById(R.id.about_hiring);
 
         version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
+
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override
