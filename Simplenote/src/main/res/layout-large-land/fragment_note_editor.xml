@@ -75,10 +75,10 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/login_logo"
+                android:src="@drawable/logo_login"
                 android:tint="?attr/placeholderLogoColor"/>
         </LinearLayout>
 
