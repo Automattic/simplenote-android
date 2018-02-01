@@ -154,41 +154,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
     }
 
-    private static class SignOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        private WeakReference<PreferencesFragment> fragmentWeakReference;
-
-        SignOutAsyncTask(PreferencesFragment fragment) {
-            fragmentWeakReference = new WeakReference<>(fragment);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            PreferencesFragment fragment = fragmentWeakReference.get();
-            return fragment == null || fragment.hasUnsyncedNotes();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean hasUnsyncedNotes) {
-            PreferencesFragment fragment = fragmentWeakReference.get();
-            if (fragment == null) {
-                return;
-            }
-
-            // Safety first! Check if any notes are unsynced and warn the user if so.
-            if (hasUnsyncedNotes) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
-                builder.setTitle(R.string.unsynced_notes);
-                builder.setMessage(R.string.unsynced_notes_message);
-                builder.setPositiveButton(R.string.delete_notes, fragment.signOutClickListener);
-                builder.setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener);
-                builder.setNegativeButton(R.string.cancel, null);
-                builder.show();
-            } else {
-                fragment.signOut();
-            }
-        }
-    }
-
     private DialogInterface.OnClickListener signOutClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
@@ -203,7 +168,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     };
 
-    public boolean hasUnsyncedNotes() {
+    private boolean hasUnsyncedNotes() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Note> notesBucket = application.getNotesBucket();
         Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
@@ -217,7 +182,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         return false;
     }
 
-    void signOut() {
+    private void signOut() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         application.getSimperium().deauthorizeUser();
         application.getNotesBucket().reset();
@@ -265,5 +230,40 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 AnalyticsTracker.CATEGORY_USER,
                 "account_created_from_preferences_activity"
         );
+    }
+
+    private static class SignOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private WeakReference<PreferencesFragment> fragmentWeakReference;
+
+        SignOutAsyncTask(PreferencesFragment fragment) {
+            fragmentWeakReference = new WeakReference<>(fragment);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            PreferencesFragment fragment = fragmentWeakReference.get();
+            return fragment == null || fragment.hasUnsyncedNotes();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean hasUnsyncedNotes) {
+            PreferencesFragment fragment = fragmentWeakReference.get();
+            if (fragment == null) {
+                return;
+            }
+
+            // Safety first! Check if any notes are unsynced and warn the user if so.
+            if (hasUnsyncedNotes) {
+                new AlertDialog.Builder(fragment.getContext())
+                        .setTitle(R.string.unsynced_notes)
+                        .setMessage(R.string.unsynced_notes_message)
+                        .setPositiveButton(R.string.delete_notes, fragment.signOutClickListener)
+                        .setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener)
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+            } else {
+                fragment.signOut();
+            }
+        }
     }
 }
