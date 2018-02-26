@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -337,12 +336,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mContentEditText != null) {
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14));
-
-            if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_FONT_MONOSPACE, false)) {
-                mContentEditText.setTypeface(Typeface.MONOSPACE);
-            } else {
-                mContentEditText.setTypeface(Typeface.DEFAULT);
-            }
         }
     }
 

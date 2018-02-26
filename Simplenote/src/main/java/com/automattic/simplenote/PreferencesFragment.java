@@ -8,10 +8,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -22,6 +20,8 @@ import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.User;
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
+import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
 import java.lang.ref.WeakReference;
 
@@ -37,7 +37,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
     }
 
@@ -137,11 +137,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
 
-        SwitchPreference switchPreference = (SwitchPreference) findPreference("pref_key_condensed_note_list");
+        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference("pref_key_condensed_note_list");
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((SwitchPreference) preference).isChecked()) {
+                if (((SwitchPreferenceCompat) preference).isChecked()) {
                     AnalyticsTracker.track(
                             AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
                             AnalyticsTracker.CATEGORY_USER,

@@ -58,7 +58,6 @@
     <string name="markdown">Markdown</string>
     <string name="markdown_hide">Hide Markdown</string>
     <string name="markdown_show">Show Markdown</string>
-    <string name="monospace_font">Monospace font</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>

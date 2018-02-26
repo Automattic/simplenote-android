@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
         android:title="@string/settings">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_key_condensed_note_list"
             android:title="@string/condensed_note_list"/>
@@ -23,10 +23,6 @@
             android:key="pref_key_font_size"
             android:summary="%s"
             android:title="@string/font_size"/>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="pref_key_font_monospace"
-            android:title="@string/monospace_font"/>
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
@@ -58,6 +54,10 @@
         <Preference
             android:key="pref_key_authenticate"
             android:layout="@layout/auth_preference"/>
+        <!--<Preference
+                android:key="pref_key_billing"
+                android:persistent="false"
+                android:title="@string/premium_title" />-->
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -78,4 +78,4 @@
             android:title="@string/version"/>
     </PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</PreferenceScreen>
