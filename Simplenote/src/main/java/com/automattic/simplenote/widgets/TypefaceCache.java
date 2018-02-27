@@ -11,7 +11,6 @@ public class TypefaceCache {
     public static final String TYPEFACE_NAME_ROBOTO_REGULAR = "Roboto-Regular.ttf";
     public static final String TYPEFACE_NAME_ROBOTO_MEDIUM = "Roboto-Medium.ttf";
     public static final String TYPEFACE_NAME_ROBOTO_LIGHT = "Roboto-Light.ttf";
-    public static final String TYPEFACE_NAME_MONOSPACE = "iAWriterDuospace-Regular.otf";
 
     private static final Hashtable<String, Typeface> mTypefaceCache = new Hashtable<>();
 
