@@ -134,7 +134,7 @@ public class NoteMarkdownFragment extends Fragment {
             return;
         }
 
-        int fontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        int fontSize = PrefUtils.getFontSize(getActivity());
 
         mCss = "<style>"
                 + mRawCss.replace("${H1-SIZE}", String.valueOf(fontSize + 16))
