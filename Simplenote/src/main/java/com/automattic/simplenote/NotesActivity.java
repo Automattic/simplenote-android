@@ -900,7 +900,7 @@ public class NotesActivity extends AppCompatActivity implements
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
+    
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -929,23 +929,25 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.getListView().clearChoices();
                 }
                 invalidateOptionsMenu();
-            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
-                // Remove the editor fragment when rotating back to portrait
-                mCurrentNote = null;
-                if (mNoteListFragment != null) {
-                    mNoteListFragment.setActivateOnItemClick(false);
-                    mNoteListFragment.setDividerVisible(false);
-                    mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
-                    mNoteListFragment.refreshList();
-                }
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.remove(mNoteEditorFragment);
-                mNoteEditorFragment = null;
-                ft.commitAllowingStateLoss();
-                fm.executePendingTransactions();
-                invalidateOptionsMenu();
             }
+        }
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
+            // Remove the editor fragment when rotating back to portrait
+            mCurrentNote = null;
+            if (mNoteListFragment != null) {
+                mNoteListFragment.setActivateOnItemClick(false);
+                mNoteListFragment.setDividerVisible(false);
+                mNoteListFragment.setActivatedPosition(ListView.INVALID_POSITION);
+                mNoteListFragment.refreshList();
+            }
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.remove(mNoteEditorFragment);
+            mNoteEditorFragment = null;
+            ft.commitAllowingStateLoss();
+            fm.executePendingTransactions();
+            invalidateOptionsMenu();
         }
     }
 
