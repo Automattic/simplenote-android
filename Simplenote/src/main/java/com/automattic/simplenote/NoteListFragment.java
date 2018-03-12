@@ -239,6 +239,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+        if (savedInstanceState != null) {
+            int savedActivatedPosition = savedInstanceState.getInt(STATE_ACTIVATED_POSITION, -1);
+            if (savedActivatedPosition >= 0) {
+                setActivatedPosition(savedActivatedPosition);
+            }
+        }
+
     }
 
     private void createNewNote(String label){
