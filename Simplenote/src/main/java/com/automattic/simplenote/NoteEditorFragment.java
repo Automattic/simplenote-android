@@ -68,8 +68,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
-    static public final String ARG_MATCH_OFFSETS = "match_offsets";
-    static public final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
+    public static final String ARG_MATCH_OFFSETS = "match_offsets";
+    public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
@@ -1163,7 +1163,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             inputMethodManager.showSoftInput(mContentEditText, 0);
                     }
                 }, 100);
-
+            } else if (mNote != null) {
+                // If we have a valid note, hide the placeholder
+                setPlaceholderVisible(false);
             }
 
             updateMarkdownView();

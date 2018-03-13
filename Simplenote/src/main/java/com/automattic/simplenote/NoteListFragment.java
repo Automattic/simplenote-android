@@ -428,7 +428,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         // Create & save new note
         Simplenote simplenote = (Simplenote) getActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
-        Note note = notesBucket.newObject();
+        final Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
@@ -442,7 +442,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         note.save();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
-            mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
+            // Hack: Simperium saves async so we add a small delay to ensure the new note is truly
+            // saved before proceeding.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
+                }
+            }, 50);
         } else {
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
