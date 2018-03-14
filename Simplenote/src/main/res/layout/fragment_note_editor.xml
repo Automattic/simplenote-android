@@ -62,7 +62,7 @@
                 android:minHeight="48dp"
                 android:nextFocusForward="@+id/note_content"
                 android:nextFocusLeft="@id/tag_view"
-                android:nextFocusUp="@id/tag_view"
+                android:nextFocusUp="@id/note_editor"
                 android:textColor="?attr/noteEditorTextColor"
                 android:textColorHint="?attr/hintTextColor"
                 android:textSize="16sp"/>
