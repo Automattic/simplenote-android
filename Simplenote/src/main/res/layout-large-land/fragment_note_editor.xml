@@ -42,6 +42,8 @@
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="@color/simplenote_blue"
                     android:textSize="14sp"
+                    android:nextFocusForward="@id/tag_view"
+                    android:nextFocusDown="@id/tag_view"
                     tools:context=".NoteEditorFragment"/>
 
             </android.support.v4.widget.NestedScrollView>
