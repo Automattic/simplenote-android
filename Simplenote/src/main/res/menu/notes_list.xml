@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_markdown_preview"
+        android:icon="@drawable/ic_preview_24dp"
+        android:title="@string/markdown_show"
+        android:visible="false"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_24dp"
         android:title="@string/search"
@@ -31,13 +38,6 @@
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_trash_24dp"
         android:title="@string/delete"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_markdown_preview"
-        android:icon="@drawable/ic_markdown_outline_24dp"
-        android:title="@string/markdown_show"
-        android:visible="false"
         app:showAsAction="always"/>
 
     <item
