@@ -850,7 +850,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void saveNote() {
-        if (mNote == null || (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
+        if (mNote == null || mContentEditText == null ||
+                (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
             return;
         }
 
