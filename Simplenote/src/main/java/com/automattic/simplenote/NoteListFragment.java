@@ -195,7 +195,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     protected void getPrefs() {
         boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mNumPreviewLines = (condensedList) ? 0 : 2;
-        mPreviewFontSize = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_FONT_SIZE, 14);
+        mPreviewFontSize = PrefUtils.getFontSize(getActivity());
         mTitleFontSize = mPreviewFontSize + 2;
     }
 

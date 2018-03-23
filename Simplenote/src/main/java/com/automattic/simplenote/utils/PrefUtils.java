@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 
 import com.automattic.simplenote.BuildConfig;
+import com.automattic.simplenote.R;
 
 @SuppressWarnings("unused")
 public class PrefUtils {
@@ -27,7 +28,7 @@ public class PrefUtils {
     public static final String PREF_SHOW_DATES = "pref_key_show_dates";
 
     // int, preferred font size
-    public static final String PREF_FONT_SIZE = "pref_key_font_size";
+    private static final String PREF_FONT_SIZE = "pref_key_font_size";
 
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
@@ -95,7 +96,19 @@ public class PrefUtils {
         }
 
         return BuildConfig.VERSION_NAME;
+    }
 
+    public static int getFontSize(Context context) {
+        int defaultFontSize = 16;
+        // Just in case
+        if (context == null) {
+            return defaultFontSize;
+        }
+
+        // Get default value for normal font size (differs based on screen/dpi size)
+        defaultFontSize = context.getResources().getInteger(R.integer.default_font_size);
+
+        return getIntPref(context, PREF_FONT_SIZE, defaultFontSize);
     }
 
 }
