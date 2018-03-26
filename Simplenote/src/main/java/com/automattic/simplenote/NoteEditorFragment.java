@@ -1144,23 +1144,32 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            if (getActivity() == null || getActivity().isFinishing())
+            if (getActivity() == null || getActivity().isFinishing()) {
                 return;
+            }
+
             refreshContent(false);
             if (mMatchOffsets != null) {
                 int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
             }
+
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
+
             if (mNote != null && mNote.getContent().isEmpty()) {
                 // Show soft keyboard
                 mContentEditText.requestFocus();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (getActivity() == null) {
+                            return;
+                        }
+
                         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (inputMethodManager != null)
+                        if (inputMethodManager != null) {
                             inputMethodManager.showSoftInput(mContentEditText, 0);
+                        }
                     }
                 }, 100);
 
