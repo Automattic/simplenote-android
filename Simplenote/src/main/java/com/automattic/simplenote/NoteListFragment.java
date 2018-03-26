@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -118,15 +116,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-        toggleMultiSelectActionMode(position);
-        return true;
-    }
-
-    private void toggleMultiSelectActionMode(int position) {
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setItemChecked(position, true);
         if (mActionMode == null)
             getActivity().startActionMode(this);
+        return true;
     }
 
     @Override
@@ -662,20 +656,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 else
                     holder.contentTextView.setText(contentPreview);
             }
-
-            // Add mouse right click support for starting multi-select mode
-            view.setOnTouchListener(new View.OnTouchListener() {
-                @SuppressLint("ClickableViewAccessibility")
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                        toggleMultiSelectActionMode(position);
-                        return true;
-                    }
-
-                    return false;
-                }
-            });
 
             return view;
         }
