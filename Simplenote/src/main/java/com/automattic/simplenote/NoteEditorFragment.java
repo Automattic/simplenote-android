@@ -70,6 +70,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_NEW_NOTE = "new_note";
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
     public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
+    private static final String STATE_NOTE_ID = "state_note_id";
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
@@ -312,15 +313,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mTagView.setAdapter(mAutocompleteAdapter);
 
-        // Load note if we were passed a note Id
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
+            // Load note if we were passed a note Id
             String key = arguments.getString(ARG_ITEM_ID);
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
             setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
+        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
+            // Restore selected note when in dual pane mode
+            String noteId = savedInstanceState.getString(STATE_NOTE_ID);
+            if (noteId != null) {
+                setNote(noteId);
+            }
         }
 
         return rootView;
@@ -374,6 +381,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mHighlighter.stop();
 
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote != null) {
+            outState.putString(STATE_NOTE_ID, mNote.getSimperiumKey());
+        }
     }
 
     @Override
