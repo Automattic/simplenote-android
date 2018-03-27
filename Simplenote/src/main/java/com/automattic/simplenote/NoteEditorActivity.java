@@ -1,7 +1,9 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 
@@ -25,6 +28,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
     private boolean isMarkdownEnabled;
+    private String mNoteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,8 @@ public class NoteEditorActivity extends AppCompatActivity {
             Intent intent = getIntent();
             // Create the note editor fragment
             Bundle arguments = new Bundle();
-            arguments.putString(NoteEditorFragment.ARG_ITEM_ID,
-                    intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID));
+            mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
+            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
@@ -138,6 +142,22 @@ public class NoteEditorActivity extends AppCompatActivity {
                 .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // If changing to large screen landscape, we finish the activity to go back to
+        // NotesActivity with the note selected in the multipane layout.
+        if (DisplayUtils.isLargeScreen(this) &&
+                newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE && mNoteId != null) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(Simplenote.SELECTED_NOTE_ID, mNoteId);
+            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }
     }
 
     protected NoteMarkdownFragment getNoteMarkdownFragment() {

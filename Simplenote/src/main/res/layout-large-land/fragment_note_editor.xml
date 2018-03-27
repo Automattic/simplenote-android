@@ -4,7 +4,7 @@
     android:id="@+id/note_editor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="3.5"
+    android:layout_weight="3"
     android:fillViewport="true"
     android:scrollbars="vertical">
 

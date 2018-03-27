@@ -15,7 +15,8 @@
         android:theme="@style/Theme.Simplestyle">
         <activity
             android:name="com.automattic.simplenote.NotesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
+            android:resizeableActivity="true"
             android:label="@string/app_launcher_name"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
@@ -37,7 +38,7 @@
         </activity>
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.automattic.simplenote.PreferencesActivity"
