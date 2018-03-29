@@ -54,11 +54,12 @@ public class NoteEditorActivity extends AppCompatActivity {
         mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
+        Intent intent = getIntent();
+        mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
+        
         if (savedInstanceState == null) {
-            Intent intent = getIntent();
             // Create the note editor fragment
             Bundle arguments = new Bundle();
-            mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);

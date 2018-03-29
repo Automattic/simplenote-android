@@ -920,7 +920,11 @@ public class NotesActivity extends AppCompatActivity implements
 
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // Add the editor fragment
-                addEditorFragment();
+                if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
+                    mNoteEditorFragment = (NoteEditorFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR);
+                } else if (DisplayUtils.isLandscape(this)) {
+                    addEditorFragment();
+                }
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
                     mNoteListFragment.setDividerVisible(true);
