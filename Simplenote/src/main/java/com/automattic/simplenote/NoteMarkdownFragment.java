@@ -113,14 +113,19 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
+        String header = "<html><head>" +
+                "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
+                mCss + "</head><body>";
+
         String parsedMarkdown = new AndDown().markdownToHtml(
                 text,
                 AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE |
                         AndDown.HOEDOWN_EXT_QUOTE | AndDown.HOEDOWN_EXT_TABLES,
                 AndDown.HOEDOWN_HTML_ESCAPE
         );
-        parsedMarkdown = "<div class=\"note-detail-markdown\">" + parsedMarkdown + "</div>";
-        mMarkdown.loadDataWithBaseURL(null, mCss + parsedMarkdown, "text/html", "utf-8", null);
+        String htmlContent = header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
+                "</div></body></html>";
+        mMarkdown.loadDataWithBaseURL(null, htmlContent, "text/html", "utf-8", null);
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
