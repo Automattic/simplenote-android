@@ -26,7 +26,6 @@ public class NoteMarkdownFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private Note mNote;
     private String mCss;
-    private String mRawCss;
     private WebView mMarkdown;
     private boolean mIsLoadingNote;
 
@@ -70,20 +69,14 @@ public class NoteMarkdownFragment extends Fragment {
 
         switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_DARK:
-                mRawCss = ContextUtils.readCssFile(getActivity(), "dark.css");
+                mCss = ContextUtils.readCssFile(getActivity(), "dark.css");
                 break;
             case THEME_LIGHT:
-                mRawCss = ContextUtils.readCssFile(getActivity(), "light.css");
+                mCss = ContextUtils.readCssFile(getActivity(), "light.css");
                 break;
         }
 
         return layout;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateCss();
     }
 
     @Override
@@ -122,28 +115,12 @@ public class NoteMarkdownFragment extends Fragment {
     public void updateMarkdown(String text) {
         String parsedMarkdown = new AndDown().markdownToHtml(
                 text,
-                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE | AndDown.HOEDOWN_EXT_QUOTE,
+                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE |
+                        AndDown.HOEDOWN_EXT_QUOTE | AndDown.HOEDOWN_EXT_TABLES,
                 AndDown.HOEDOWN_HTML_ESCAPE
         );
+        parsedMarkdown = "<div class=\"note-detail-markdown\">" + parsedMarkdown + "</div>";
         mMarkdown.loadDataWithBaseURL(null, mCss + parsedMarkdown, "text/html", "utf-8", null);
-    }
-
-    private void updateCss() {
-        if (mRawCss == null) {
-            mCss = "";
-            return;
-        }
-
-        int fontSize = PrefUtils.getFontSize(getActivity());
-
-        mCss = "<style>"
-                + mRawCss.replace("${H1-SIZE}", String.valueOf(fontSize + 16))
-                .replace("${H2-SIZE}", String.valueOf(fontSize + 8))
-                .replace("${H3-SIZE}", String.valueOf(fontSize + 3))
-                .replace("${P-SIZE}", String.valueOf(fontSize))
-                .replace("${H5-SIZE}", String.valueOf(fontSize - 2))
-                .replace("${H6-SIZE}", String.valueOf(fontSize - 5))
-                + "</style>";
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
