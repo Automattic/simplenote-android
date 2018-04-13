@@ -538,10 +538,14 @@ public class NotesActivity extends AppCompatActivity implements
         });
 
         MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-        if (mCurrentNote != null && mCurrentNote.isDeleted())
+        if (mCurrentNote != null && mCurrentNote.isDeleted()) {
             trashItem.setTitle(R.string.undelete);
-        else
+            trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
+        }
+        else {
             trashItem.setTitle(R.string.delete);
+            trashItem.setIcon(R.drawable.ic_trash_24dp);
+        }
 
         if (DisplayUtils.isLargeScreenLandscape(this)) {
             // Restore the search query on landscape tablets
@@ -619,29 +623,7 @@ public class NotesActivity extends AppCompatActivity implements
                         mCurrentNote.setModificationDate(Calendar.getInstance());
                         mCurrentNote.save();
 
-                        if (mCurrentNote.isDeleted()) {
-                            List<String> deletedNoteIds = new ArrayList<>();
-                            deletedNoteIds.add(mCurrentNote.getSimperiumKey());
-                            mUndoBarController.setDeletedNoteIds(deletedNoteIds);
-                            mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
-                            AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_NOTE_DELETED,
-                                    AnalyticsTracker.CATEGORY_NOTE,
-                                    "overflow_menu"
-                            );
-                        } else {
-                            AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED,
-                                    AnalyticsTracker.CATEGORY_NOTE,
-                                    "overflow_menu"
-                            );
-                        }
-                        showDetailPlaceholder();
-                    }
-                    NoteListFragment fragment = getNoteListFragment();
-                    if (fragment != null) {
-                        fragment.getPrefs();
-                        fragment.refreshList();
+                        updateViewsAfterTrashAction(mCurrentNote);
                     }
                 }
                 return true;
@@ -690,6 +672,43 @@ public class NotesActivity extends AppCompatActivity implements
         DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.actionBarTextColor);
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void updateViewsAfterTrashAction(Note note) {
+        if (note == null || isFinishing()) {
+            return;
+        }
+
+        if (note.isDeleted()) {
+            List<String> deletedNoteIds = new ArrayList<>();
+            deletedNoteIds.add(note.getSimperiumKey());
+            mUndoBarController.setDeletedNoteIds(deletedNoteIds);
+            mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.LIST_NOTE_DELETED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "overflow_menu"
+            );
+        } else {
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "overflow_menu"
+            );
+        }
+
+        // If we just deleted/restored the active note, show the placeholder
+        if (mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(note.getSimperiumKey())) {
+            showDetailPlaceholder();
+        }
+
+        NoteListFragment fragment = getNoteListFragment();
+        if (fragment != null) {
+            fragment.getPrefs();
+            fragment.refreshList();
+        }
+
+        invalidateOptionsMenu();
     }
 
     public void setMarkdownShowing(boolean isMarkdownShowing) {
