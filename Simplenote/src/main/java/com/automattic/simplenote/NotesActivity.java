@@ -795,9 +795,9 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     public void startLoginActivity(boolean signInFirst) {
-        Intent loginIntent = new Intent(this, LoginActivity.class);
+        Intent loginIntent = new Intent(this, SignInActivity.class);
         if (signInFirst)
-            loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+            loginIntent.putExtra(SignInActivity.EXTRA_SIGN_IN_FIRST, true);
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 

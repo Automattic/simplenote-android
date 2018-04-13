@@ -189,4 +189,6 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="or">or</string>
+    <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
 </resources>

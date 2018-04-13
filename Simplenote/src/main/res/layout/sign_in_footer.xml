@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_medium"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or"/>
+    <Button
+        android:id="@+id/wpcom_signin_button"
+        android:background="@drawable/login_button_selector"
+        android:drawableLeft="@drawable/ic_wordpress_24dp"
+        android:drawableStart="@drawable/ic_wordpress_24dp"
+        android:drawablePadding="@dimen/padding_large"
+        android:layout_gravity="center"
+        android:paddingLeft="44dp"
+        android:paddingStart="44dp"
+        android:paddingRight="20dp"
+        android:paddingEnd="20dp"
+        android:textColor="#FFFFFF"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/sign_in_with_wordpress_com"
+        android:textSize="20sp"/>
+</LinearLayout>
