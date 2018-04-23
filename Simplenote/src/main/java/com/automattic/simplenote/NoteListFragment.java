@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -86,7 +87,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private TextView mEmptyListTextView;
     private LinearLayout mDividerShadow;
     private FloatingActionButton mFloatingActionButton;
-    private int mNumPreviewLines;
+    private boolean mIsCondensedNoteList;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
@@ -187,8 +188,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     // nbradbury - load values from preferences
     protected void getPrefs() {
-        boolean condensedList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
-        mNumPreviewLines = (condensedList) ? 0 : 2;
+        mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mPreviewFontSize = PrefUtils.getFontSize(getActivity());
         mTitleFontSize = mPreviewFontSize + 2;
     }
@@ -608,8 +608,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // for performance reasons we are going to get indexed values
             // from the cursor instead of instantiating the entire bucket object
-            holder.contentTextView.setVisibility(View.VISIBLE);
-            holder.contentTextView.setMaxLines(mNumPreviewLines);
+            holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
@@ -630,10 +629,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
-            if (title == null || title.equals("")) {
-                SpannableString untitled = new SpannableString(getString(R.string.new_note_list));
-                untitled.setSpan(new TextAppearanceSpan(getActivity(), R.style.UntitledNoteAppearance), 0, untitled.length(), 0x0);
-                holder.titleTextView.setText(untitled);
+            if (TextUtils.isEmpty(title)) {
+                SpannableString newNoteString = new SpannableString(getString(R.string.new_note_list));
+                newNoteString.setSpan(new TextAppearanceSpan(getActivity(),R.style.UntitledNoteAppearance),
+                        0,
+                        newNoteString.length(),
+                        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                newNoteString.setSpan(new AbsoluteSizeSpan(mTitleFontSize, true),
+                        0,
+                        newNoteString.length(),
+                        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                holder.titleTextView.setText(newNoteString);
             } else {
                 holder.titleTextView.setText(title);
             }
@@ -656,7 +664,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
                     holder.contentTextView.setText(matchedContentPreview);
                 }
-            } else if (mNumPreviewLines > 0) {
+            } else if (!mIsCondensedNoteList) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
