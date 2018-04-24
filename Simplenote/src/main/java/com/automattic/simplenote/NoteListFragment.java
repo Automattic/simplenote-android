@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
@@ -17,10 +19,12 @@ import android.text.style.TextAppearanceSpan;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -70,6 +74,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * The preferences key representing the activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final int POPUP_MENU_FIRST_ITEM_POSITION = 0;
     public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
@@ -672,6 +677,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.contentTextView.setText(contentPreview);
             }
 
+            // Add mouse right click support for showing a popup menu
+            view.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    showPopupMenuAtPosition(view, position);
+                    return true;
+                }
+
+                    return false;
+                }
+            });
+
             return view;
         }
 
@@ -685,6 +704,59 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         }
 
+    }
+
+    private void showPopupMenuAtPosition(View view, int position) {
+        if (view.getContext() == null) {
+            return;
+        }
+
+        final Note note = mNotesAdapter.getItem(position);
+        if (note == null) {
+            return;
+        }
+
+        PopupMenu popup = new PopupMenu(view.getContext(), view, Gravity.END);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.bulk_edit, popup.getMenu());
+
+        if (!getListView().isLongClickable()) {
+            // If viewing the trash, remove pin menu item and change trash menu title to 'Restore'
+            popup.getMenu().removeItem(R.id.menu_pin);
+            if (popup.getMenu().getItem(POPUP_MENU_FIRST_ITEM_POSITION) != null) {
+                popup.getMenu().getItem(POPUP_MENU_FIRST_ITEM_POSITION).setTitle(R.string.restore);
+            }
+        } else if (popup.getMenu().getItem(POPUP_MENU_FIRST_ITEM_POSITION) != null) {
+            // If not viewing the trash, set pin menu title based on note pin state
+            int pinTitle = note.isPinned() ? R.string.unpin_from_top : R.string.pin_to_top;
+            popup.getMenu().getItem(POPUP_MENU_FIRST_ITEM_POSITION).setTitle(pinTitle);
+        }
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_pin:
+                        note.setPinned(!note.isPinned());
+                        note.setModificationDate(Calendar.getInstance());
+                        note.save();
+                        refreshList();
+                        return true;
+                    case R.id.menu_delete:
+                        note.setDeleted(!note.isDeleted());
+                        note.setModificationDate(Calendar.getInstance());
+                        note.save();
+                        if (getActivity() != null) {
+                            ((NotesActivity) getActivity()).updateViewsAfterTrashAction(note);
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popup.show();
     }
 
     private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
