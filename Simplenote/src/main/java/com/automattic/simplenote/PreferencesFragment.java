@@ -137,7 +137,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
 
-        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference("pref_key_condensed_note_list");
+        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference(PrefUtils.PREF_CONDENSED_LIST);
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -146,6 +146,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                             AnalyticsTracker.Stat.SETTINGS_LIST_CONDENSED_ENABLED,
                             AnalyticsTracker.CATEGORY_USER,
                             "condensed_list_preference"
+                    );
+                }
+
+                return true;
+            }
+        });
+
+        SwitchPreferenceCompat keepScreenOnPreference = (SwitchPreferenceCompat) findPreference(PrefUtils.PREF_EDIT_NOTE_KEEP_SCREEN_ON);
+        keepScreenOnPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((SwitchPreferenceCompat) preference).isChecked()) {
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_EDIT_NOTE_KEEP_SCREEN_ON_ENABLED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "keep_screen_on"
                     );
                 }
 

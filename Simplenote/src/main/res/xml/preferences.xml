@@ -30,6 +30,11 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_key_edit_note_keep_screen_on"
+            android:title="@string/edit_note_keep_screen_on"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

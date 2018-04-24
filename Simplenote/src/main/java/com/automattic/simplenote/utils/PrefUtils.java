@@ -24,6 +24,9 @@ public class PrefUtils {
     // boolean, determines # of preview lines
     public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
 
+    // boolean, determines whether to keep the screen on during note editing
+    public static final String PREF_EDIT_NOTE_KEEP_SCREEN_ON = "pref_key_edit_note_keep_screen_on";
+
     // boolean, determines whether dates are shown
     public static final String PREF_SHOW_DATES = "pref_key_show_dates";
 
