@@ -29,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.CursorAdapter;
@@ -336,6 +337,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        // Determine if user wants to keep the screen on for editing.
+        if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_EDIT_NOTE_KEEP_SCREEN_ON, false)) {
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
         mNotesBucket.start();
         mNotesBucket.addListener(this);
 
@@ -348,6 +354,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onPause() {
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mNotesBucket.removeListener(this);
         // Hide soft keyboard if it is showing...
         if (getActivity() != null) {

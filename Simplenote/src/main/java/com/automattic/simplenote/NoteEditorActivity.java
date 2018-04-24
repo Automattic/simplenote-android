@@ -13,11 +13,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.utils.DisplayUtils;
-import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 
@@ -129,22 +127,10 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        // Determine if user wants to keep the screen on for editing.
-        if (PrefUtils.getBoolPref(this, PrefUtils.PREF_EDIT_NOTE_KEEP_SCREEN_ON, false)) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-
-        super.onResume();
-    }
-
-    @Override
     protected void onPause() {
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
             AppLockManager.getInstance().getAppLock().setExemptActivities(null);
         }
-
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         super.onPause();
     }
