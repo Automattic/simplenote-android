@@ -29,15 +29,17 @@ public class TagsAdapter extends BaseAdapter {
     public static final String ID_COLUMN = "_id";
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
+    public static final long UNTAGGED_NOTES_ID = -3L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
-    protected static final int[] topItems = {R.string.notes, R.string.trash};
+    protected static final int[] topItems = {R.string.notes, R.string.trash, R.string.untaggedNotes};
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
     protected Bucket<Note> mNotesBucket;
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
+    protected TagMenuItem mUntaggedNotesItem;
     private int mNameColumn;
     private int mRowIdColumn;
     private int mTextColorId;
@@ -74,6 +76,14 @@ public class TagsAdapter extends BaseAdapter {
             @Override
             public Query<Note> query() {
                 return Note.allDeleted(mNotesBucket);
+            }
+
+        };
+        mUntaggedNotesItem = new TagMenuItem(UNTAGGED_NOTES_ID, R.string.untaggedNotes) {
+
+            @Override
+            public Query<Note> query() {
+                return Note.allWithNoTag(mNotesBucket);
             }
 
         };
@@ -120,6 +130,8 @@ public class TagsAdapter extends BaseAdapter {
             return mAllNotesItem;
         } else if (i == 1) {
             return mTrashItem;
+        } else if(i == 2) {
+            return mUntaggedNotesItem;
         } else {
             mCursor.moveToPosition(i - topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
@@ -158,6 +170,9 @@ public class TagsAdapter extends BaseAdapter {
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
+            dividerView.setVisibility(View.GONE);
+        } else if (position == 2) {
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_tags_24dp);
             dividerView.setVisibility(View.VISIBLE);
         } else {
             dividerView.setVisibility(View.GONE);
@@ -167,7 +182,7 @@ public class TagsAdapter extends BaseAdapter {
         drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);
-        if (position == 2) {
+        if (position == 3) {
             tagsHeader.setVisibility(View.VISIBLE);
         } else {
             tagsHeader.setVisibility(View.GONE);
@@ -182,6 +197,7 @@ public class TagsAdapter extends BaseAdapter {
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
         if (mSelectedTag.id == TRASH_ID) return 1;
+        if (mSelectedTag.id == UNTAGGED_NOTES_ID) return 2;
         if (mCursor == null) return -1;
         int current = mCursor.getPosition();
         mCursor.moveToPosition(-1);

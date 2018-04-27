@@ -83,6 +83,12 @@ public class Note extends BucketObject {
                 .where(TAGS_PROPERTY, ComparisonType.LIKE, tag);
     }
 
+    public static Query<Note> allWithNoTag(Bucket<Note> noteBucket) {
+        return noteBucket.query()
+                .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
+                .where(TAGS_PROPERTY, ComparisonType.EQUAL_TO, null);
+    }
+
     @SuppressWarnings("unused")
     public static String dateString(Number time, boolean useShortFormat, Context context) {
         Calendar c = numberToDate(time);
@@ -232,7 +238,7 @@ public class Note extends BucketObject {
 
         if (tags == null) {
             tags = new JSONArray();
-            setProperty(TAGS_PROPERTY, tags);
+            setProperty(TAGS_PROPERTY, "");
         }
 
         int length = tags.length();
