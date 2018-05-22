@@ -42,7 +42,6 @@ public class SignInActivity extends LoginActivity {
 
     private String mAuthState;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
