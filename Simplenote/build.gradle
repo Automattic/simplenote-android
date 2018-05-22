@@ -62,6 +62,8 @@ dependencies {
         transitive = true;
     }
 
+    implementation "com.android.support:customtabs:$googleVersion"
+
     wearApp project(':Wear')
 }
 
