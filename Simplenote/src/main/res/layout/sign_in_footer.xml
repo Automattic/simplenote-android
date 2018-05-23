@@ -20,11 +20,10 @@
         android:paddingBottom="@dimen/padding_small">
 
         <TextView
+            android:id="@+id/wpcom_signin_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableLeft="@drawable/ic_wordpress_24dp"
-            android:drawableStart="@drawable/ic_wordpress_24dp"
             android:drawablePadding="@dimen/padding_small"
             android:gravity="center"
             android:textSize="20sp"

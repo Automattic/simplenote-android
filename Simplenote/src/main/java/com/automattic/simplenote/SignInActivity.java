@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
@@ -63,6 +66,15 @@ public class SignInActivity extends LoginActivity {
 
         View footerButton = signInFooter.findViewById(R.id.wpcom_signin_button);
         footerButton.setOnClickListener(mWPSignInButtonClickListener);
+
+        // Manually create vector drawable to support older API levels
+        Drawable leftDrawable = VectorDrawableCompat.create(
+                getResources(),
+                R.drawable.ic_wordpress_24dp,
+                null
+        );
+        TextView buttonTextView = signInFooter.findViewById(R.id.wpcom_signin_text);
+        buttonTextView.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
 
         layout.addView(signInFooter);
     }
