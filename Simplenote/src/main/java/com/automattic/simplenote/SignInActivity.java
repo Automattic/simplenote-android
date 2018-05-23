@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -29,7 +30,6 @@ import net.openid.appauth.ResponseTypeValues;
 
 import java.util.UUID;
 
-import static com.automattic.simplenote.utils.PrefUtils.PREFS_PRIVATE_NAME;
 import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
 import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
@@ -123,54 +123,55 @@ public class SignInActivity extends LoginActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == OAUTH_ACTIVITY_CODE) {
-            AuthorizationResponse authResponse = AuthorizationResponse.fromIntent(data);
-            AuthorizationException authException = AuthorizationException.fromIntent(data);
-            if (authResponse != null) {
-                String userEmail = authResponse.additionalParameters.get("user");
-                String spToken = authResponse.additionalParameters.get("token");
-                String wpToken = authResponse.additionalParameters.get("wp_token");
+        if (requestCode != OAUTH_ACTIVITY_CODE || data == null) {
+            return;
+        }
 
-                // Sanity checks
-                if (userEmail == null || spToken == null ||
-                        !StrUtils.isSameStr(authResponse.state, mAuthState)) {
-                    showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
-                    return;
-                }
+        AuthorizationResponse authResponse = AuthorizationResponse.fromIntent(data);
+        AuthorizationException authException = AuthorizationException.fromIntent(data);
+        if (authResponse != null) {
+            String userEmail = authResponse.additionalParameters.get("user");
+            String spToken = authResponse.additionalParameters.get("token");
+            String wpToken = authResponse.additionalParameters.get("wp_token");
 
-                // Manually authorize the user with Simperium
-                Simplenote app = (Simplenote)getApplication();
-                User user = app.getSimperium().getUser();
-                user.setAccessToken(spToken);
-                user.setEmail(userEmail);
-                user.setStatus(User.Status.AUTHORIZED);
+            // Sanity checks
+            if (userEmail == null || spToken == null ||
+                    !StrUtils.isSameStr(authResponse.state, mAuthState)) {
+                showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
+                return;
+            }
 
-                // Store the user data in Simperium shared preferences
-                SharedPreferences.Editor editor = AndroidClient.sharedPreferences(this).edit();
-                editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
-                editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
-                editor.apply();
+            // Manually authorize the user with Simperium
+            Simplenote app = (Simplenote)getApplication();
+            User user = app.getSimperium().getUser();
+            user.setAccessToken(spToken);
+            user.setEmail(userEmail);
+            user.setStatus(User.Status.AUTHORIZED);
 
-                if (wpToken != null) {
-                    SharedPreferences preferences = getSharedPreferences(
-                            PREFS_PRIVATE_NAME,
-                            Context.MODE_PRIVATE
-                    );
-                    SharedPreferences.Editor spEditor = preferences.edit();
-                    spEditor.putString(PrefUtils.PREF_WP_TOKEN, wpToken);
-                    spEditor.apply();
-                }
+            // Store the user data in Simperium shared preferences
+            SharedPreferences.Editor editor = AndroidClient.sharedPreferences(this).edit();
+            editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
+            editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
+            editor.apply();
 
-                finish();
-            } else if (authException != null) {
-                Uri dataUri = data.getData();
-                if (dataUri != null) {
-                    if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
-                        showErrorDialog(getString(R.string.wpcom_sign_in_error_unverified));
-                    } else {
-                        showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
-                    }
-                }
+            if (wpToken != null) {
+                SharedPreferences.Editor appEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                appEditor.putString(PrefUtils.PREF_WP_TOKEN, wpToken);
+                appEditor.apply();
+            }
+
+            finish();
+        } else if (authException != null) {
+            Uri dataUri = data.getData();
+
+            if (dataUri == null) {
+                return;
+            }
+
+            if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
+                showErrorDialog(getString(R.string.wpcom_sign_in_error_unverified));
+            } else {
+                showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
             }
         }
     }

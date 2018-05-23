@@ -51,9 +51,6 @@ public class PrefUtils {
     // string. WordPress.com access token
     public static final String PREF_WP_TOKEN = "pref_key_wp_token";
 
-    // string. Private Simplenote preferences name
-    public static final String PREFS_PRIVATE_NAME = "prefs_simplenote";
-
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

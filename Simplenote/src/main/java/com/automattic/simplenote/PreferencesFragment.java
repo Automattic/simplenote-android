@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -26,8 +27,6 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
 import java.lang.ref.WeakReference;
-
-import static com.automattic.simplenote.utils.PrefUtils.PREFS_PRIVATE_NAME;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -203,11 +202,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         AnalyticsTracker.refreshMetadata(null);
 
         // Remove wp.com token
-        SharedPreferences preferences = getActivity().getSharedPreferences(
-                PREFS_PRIVATE_NAME,
-                Context.MODE_PRIVATE
-        );
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.remove(PrefUtils.PREF_WP_TOKEN);
         editor.apply();
 
