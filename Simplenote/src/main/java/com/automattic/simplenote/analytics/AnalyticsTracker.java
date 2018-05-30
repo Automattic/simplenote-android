@@ -110,7 +110,10 @@ public final class AnalyticsTracker {
         USER_SIGNED_IN,
         USER_SIGNED_OUT,
         APPLICATION_OPENED,
-        APPLICATION_CLOSED
+        APPLICATION_CLOSED,
+        WPCC_BUTTON_PRESSED,
+        WPCC_LOGIN_SUCCEEDED,
+        WPCC_LOGIN_FAILED
     }
 
     public interface Tracker {

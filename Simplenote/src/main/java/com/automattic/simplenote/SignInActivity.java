@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.simperium.android.AndroidClient;
@@ -39,9 +40,7 @@ public class SignInActivity extends LoginActivity {
     private static String STATE_KEY_AUTH = "authState";
 
     static String WPCOM_OAUTH_URL = "https://public-api.wordpress.com/oauth2/";
-
-    // TODO: Update to production Url once deployed at app.simplenote.com
-    static String WPCOM_OAUTH_REDIRECT_URL = "https://wpcom-connect-dot-simple-note-hrd.appspot.com/wpcc";
+    static String WPCOM_OAUTH_REDIRECT_URL = "https://app.simplenote.com/wpcc";
 
     private String mAuthState;
 
@@ -102,6 +101,12 @@ public class SignInActivity extends LoginActivity {
             AuthorizationService authService = new AuthorizationService(SignInActivity.this);
             Intent authIntent = authService.getAuthorizationRequestIntent(request);
             startActivityForResult(authIntent, OAUTH_ACTIVITY_CODE);
+
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.WPCC_BUTTON_PRESSED,
+                    AnalyticsTracker.CATEGORY_USER,
+                    "wpcc_button_press_signin_activity"
+            );
         }
     };
 
@@ -160,6 +165,12 @@ public class SignInActivity extends LoginActivity {
                 appEditor.apply();
             }
 
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
+                    AnalyticsTracker.CATEGORY_USER,
+                    "wpcc_login_succeeded_signin_activity"
+            );
+
             finish();
         } else if (authException != null) {
             Uri dataUri = data.getData();
@@ -193,5 +204,11 @@ public class SignInActivity extends LoginActivity {
         });
         dialogBuilder.setCancelable(true);
         dialogBuilder.create().show();
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.WPCC_LOGIN_FAILED,
+                AnalyticsTracker.CATEGORY_USER,
+                "wpcc_login_failed_signin_activity"
+        );
     }
 }
