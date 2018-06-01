@@ -82,7 +82,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     private static Callbacks sCallbacks = new Callbacks() {
         @Override
-        public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
+        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
@@ -303,7 +303,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         NoteViewHolder holder = (NoteViewHolder) view.getTag();
         String noteID = holder.getNoteId();
         if (noteID != null) {
-            mCallbacks.onNoteSelected(noteID, position, false, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
+            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
         }
 
         mActivatedPosition = position;
@@ -315,7 +315,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, false, null, selectedNote.isMarkdownEnabled());
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled());
         }
     }
 
@@ -452,7 +452,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, true, null, note.isMarkdownEnabled());
+                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled());
                 }
             }, 50);
         } else {
@@ -541,7 +541,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /**
          * Callback for when a note has been selected.
          */
-        void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled);
+        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled);
     }
 
     // view holder for NotesCursorAdapter

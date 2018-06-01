@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -92,7 +91,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsNewNote, mIsLoadingNote, mIsMarkdownEnabled;
+    private boolean mIsLoadingNote, mIsMarkdownEnabled, mTextDidChange;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -136,9 +135,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 inflater.inflate(R.menu.view_link, menu);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                    mode.setTitleOptionalHint(false);
-                }
+                mode.setTitleOptionalHint(false);
 
                 DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
             }
@@ -209,10 +206,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mNote.save();
 
                     updatePublishedState(false);
-
                 }
             });
-
         }
     };
     private NoteMarkdownFragment mNoteMarkdownFragment;
@@ -321,7 +316,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
-            setIsNewNote(getArguments().getBoolean(ARG_NEW_NOTE, false));
         } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
             // Restore selected note when in dual pane mode
             String noteId = savedInstanceState.getString(STATE_NOTE_ID);
@@ -357,13 +351,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
 
-        // Delete the note if it is new and has empty fields
-        if (mNote != null && mIsNewNote && noteIsEmpty()) {
-            mNote.delete();
-        } else {
-            saveNote();
-        }
-
         mTagView.setOnTagAddedListener(null);
 
         if (mAutoSaveHandler != null) {
@@ -379,6 +366,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mHighlighter.stop();
+
+        // Delete the note if user never edited a new note
+        if (newNoteWasNeverEdited()) {
+            permanentlyDeleteNote();
+        } else {
+            saveNote();
+        }
 
         super.onPause();
     }
@@ -463,6 +457,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mMarkdown.setVisibility(View.VISIBLE);
     }
 
+    private void permanentlyDeleteNote() {
+        if (mNote == null) {
+            return;
+        }
+
+        // A note has to be 'trashed' first before it can be deleted forever
+        // setDeleted() sets a 'deleted' property to signify a note is in the trash
+        mNote.setDeleted(true);
+        mNote.save();
+
+        // delete() actually permanently deletes the note from Simperium
+        mNote.delete();
+    }
+
     private void shareNote() {
         if (mNote != null) {
             mContentEditText.clearFocus();
@@ -493,8 +501,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private boolean noteIsEmpty() {
-        return (getNoteContentString().trim().length() == 0 && getNoteTagsString().trim().length() == 0);
+    private boolean newNoteWasNeverEdited() {
+        return  mNote != null && mNote.isNew() && !mTextDidChange;
     }
 
     protected void setMarkdownEnabled(boolean enabled) {
@@ -522,12 +530,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mMatchOffsets = null;
         }
 
-        // If we have a note already (on a tablet in landscape), save the note.
-        if (mNote != null) {
-            if (mIsNewNote && noteIsEmpty())
-                mNote.delete();
-            else if (mNote != null)
-                saveNote();
+
+        if (newNoteWasNeverEdited()) {
+            // Delete a new, never edited note
+            permanentlyDeleteNote();
+        } else {
+            // If we have a note already (on a tablet in landscape), save the note.
+            saveNote();
         }
 
         new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
@@ -649,7 +658,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
+        mTextDidChange = true;
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
         if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
@@ -702,10 +711,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mPlaceholderView != null)
                 mPlaceholderView.setVisibility(View.GONE);
         }
-    }
-
-    public void setIsNewNote(boolean isNewNote) {
-        this.mIsNewNote = isNewNote;
     }
 
     @Override
@@ -866,7 +871,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void saveNote() {
-        if (mNote == null || mContentEditText == null ||
+        if (mNote == null ||
+                mContentEditText == null ||
+                mIsLoadingNote ||
                 (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
             return;
         }

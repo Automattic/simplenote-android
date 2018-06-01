@@ -218,7 +218,7 @@ public class NotesActivity extends AppCompatActivity implements
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, true, null, mCurrentNote.isMarkdownEnabled());
+            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
             mShouldSelectNewNote = false;
         }
 
@@ -728,12 +728,11 @@ public class NotesActivity extends AppCompatActivity implements
      * the item with the given ID was selected. Used for tablets only.
      */
     @Override
-    public void onNoteSelected(String noteID, int position, boolean isNew, String matchOffsets, boolean isMarkdownEnabled) {
+    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
         if (!DisplayUtils.isLargeScreenLandscape(this)) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
-            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNew);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
 
             if (matchOffsets != null)
@@ -743,7 +742,6 @@ public class NotesActivity extends AppCompatActivity implements
             editNoteIntent.putExtras(arguments);
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
-            mNoteEditorFragment.setIsNewNote(isNew);
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
 
@@ -950,7 +948,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
                 // Select the current note on a tablet
                 if (mCurrentNote != null)
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, false, null, mCurrentNote.isMarkdownEnabled());
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
                 else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
