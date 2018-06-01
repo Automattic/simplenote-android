@@ -46,6 +46,15 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/top_section_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_small"
+        android:background="?attr/dividerColor"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
