@@ -30,6 +30,9 @@ public class PrefUtils {
     // int, preferred font size
     private static final String PREF_FONT_SIZE = "pref_key_font_size";
 
+    // boolean, determines linkifying content in the editor
+    public static final String PREF_DETECT_LINKS = "pref_key_detect_links";
+
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
 

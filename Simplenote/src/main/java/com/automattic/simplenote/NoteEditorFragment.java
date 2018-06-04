@@ -1205,8 +1205,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             getActivity().invalidateOptionsMenu();
 
-            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
-
+            linkifyEditorContent();
             mIsLoadingNote = false;
         }
     }
@@ -1223,9 +1222,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         protected void onPostExecute(Void nada) {
             if (getActivity() != null && !getActivity().isFinishing()) {
                 // Update links
-                SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
+                linkifyEditorContent();
                 updateMarkdownView();
             }
+        }
+    }
+
+    private void linkifyEditorContent() {
+        if (getActivity() == null || getActivity().isFinishing()) {
+            return;
+        }
+
+        if (PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_DETECT_LINKS)) {
+            SimplenoteLinkify.addLinks(mContentEditText, Linkify.ALL);
         }
     }
 
