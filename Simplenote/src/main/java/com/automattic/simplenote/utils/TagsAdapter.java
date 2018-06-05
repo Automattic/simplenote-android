@@ -29,15 +29,18 @@ public class TagsAdapter extends BaseAdapter {
     public static final String ID_COLUMN = "_id";
     public static final long ALL_NOTES_ID = -1L;
     public static final long TRASH_ID = -2L;
+    public static final long UNTAGGED_NOTES_ID = -3L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
     protected static final int[] topItems = {R.string.notes, R.string.trash};
+    protected static final int[] bottomItems = {R.string.untagged_notes};
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
     protected Bucket<Note> mNotesBucket;
     protected TagMenuItem mAllNotesItem;
     protected TagMenuItem mTrashItem;
+    protected TagMenuItem mUntaggedNotesItem;
     private int mNameColumn;
     private int mRowIdColumn;
     private int mTextColorId;
@@ -77,6 +80,14 @@ public class TagsAdapter extends BaseAdapter {
             }
 
         };
+        mUntaggedNotesItem = new TagMenuItem(UNTAGGED_NOTES_ID, R.string.untagged_notes) {
+
+            @Override
+            public Query<Note> query() {
+                return Note.allWithNoTag(mNotesBucket);
+            }
+
+        };
 
         TypedArray a = mContext.obtainStyledAttributes(new int[]{R.attr.noteTitleColor});
         mTextColorId = a.getResourceId(0, 0);
@@ -104,9 +115,9 @@ public class TagsAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mCursor == null) {
-            return topItems.length;
+            return topItems.length + bottomItems.length;
         } else {
-            return mCursor.getCount() + topItems.length;
+            return mCursor.getCount() + topItems.length + bottomItems.length;
         }
     }
 
@@ -120,6 +131,8 @@ public class TagsAdapter extends BaseAdapter {
             return mAllNotesItem;
         } else if (i == 1) {
             return mTrashItem;
+        } else if (i == this.getCount() - 1) {
+            return mUntaggedNotesItem;
         } else {
             mCursor.moveToPosition(i - topItems.length);
             return new TagMenuItem(mCursor.getLong(mRowIdColumn),
@@ -151,6 +164,7 @@ public class TagsAdapter extends BaseAdapter {
         }
 
         View dividerView = view.findViewById(R.id.section_divider);
+        View topDividerView = view.findViewById(R.id.top_section_divider);
 
         Drawable icon = null;
         if (position == 0) {
@@ -158,6 +172,10 @@ public class TagsAdapter extends BaseAdapter {
             dividerView.setVisibility(View.GONE);
         } else if (position == 1) {
             icon = ContextCompat.getDrawable(mContext, R.drawable.ic_trash_24dp);
+            dividerView.setVisibility(View.VISIBLE);
+        } else if (position == this.getCount() - 1) {
+            topDividerView.setVisibility(View.VISIBLE);
+            icon = ContextCompat.getDrawable(mContext, R.drawable.ic_tags_24dp);
             dividerView.setVisibility(View.VISIBLE);
         } else {
             dividerView.setVisibility(View.GONE);
@@ -172,7 +190,6 @@ public class TagsAdapter extends BaseAdapter {
         } else {
             tagsHeader.setVisibility(View.GONE);
         }
-
         View editTags = view.findViewById(R.id.edit_tags);
         editTags.setOnClickListener(mEditTagsOnClickListener);
 
@@ -182,6 +199,7 @@ public class TagsAdapter extends BaseAdapter {
     public int getPosition(TagMenuItem mSelectedTag) {
         if (mSelectedTag.id == ALL_NOTES_ID) return 0;
         if (mSelectedTag.id == TRASH_ID) return 1;
+        if (mSelectedTag.id == UNTAGGED_NOTES_ID) return this.getCount() - 1;
         if (mCursor == null) return -1;
         int current = mCursor.getPosition();
         mCursor.moveToPosition(-1);

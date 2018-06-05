@@ -43,6 +43,7 @@
     <string name="search">Search notes</string>
     <string name="notes">All Notes</string>
     <string name="trash">Trash</string>
+    <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="condensed_note_list">Condensed note list</string>

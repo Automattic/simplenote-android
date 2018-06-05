@@ -440,7 +440,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
             String tagName = notesActivity.getSelectedTag().name;
-            if (!tagName.equals(getString(R.string.notes)) && !tagName.equals(getString(R.string.trash)))
+            if (!tagName.equals(getString(R.string.notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes)))
                 note.setTagString(tagName);
         }
 
