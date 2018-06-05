@@ -33,7 +33,7 @@ public class TagsAdapter extends BaseAdapter {
 
     public static final int DEFAULT_ITEM_POSITION = 0;
     protected static final int[] topItems = {R.string.notes, R.string.trash};
-    protected static final int[] bottomItems = {R.string.untaggedNotes};
+    protected static final int[] bottomItems = {R.string.untagged_notes};
     protected Cursor mCursor;
     protected Context mContext;
     protected LayoutInflater mInflater;
@@ -80,7 +80,7 @@ public class TagsAdapter extends BaseAdapter {
             }
 
         };
-        mUntaggedNotesItem = new TagMenuItem(UNTAGGED_NOTES_ID, R.string.untaggedNotes) {
+        mUntaggedNotesItem = new TagMenuItem(UNTAGGED_NOTES_ID, R.string.untagged_notes) {
 
             @Override
             public Query<Note> query() {
