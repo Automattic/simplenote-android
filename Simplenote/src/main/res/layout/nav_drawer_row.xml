@@ -50,8 +50,8 @@
         android:id="@+id/top_section_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
         android:background="?attr/dividerColor"
         android:visibility="gone"/>
 
@@ -86,8 +86,8 @@
         android:id="@+id/section_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
         android:background="?attr/dividerColor"
         android:visibility="gone"/>
 
