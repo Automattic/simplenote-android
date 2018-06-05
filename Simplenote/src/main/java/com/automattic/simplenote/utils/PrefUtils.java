@@ -48,6 +48,9 @@ public class PrefUtils {
     // boolean, determines if the theme was ever changed
     public static final String PREF_THEME_MODIFIED = "pref_theme_modified";
 
+    // string. WordPress.com access token
+    public static final String PREF_WP_TOKEN = "pref_key_wp_token";
+
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

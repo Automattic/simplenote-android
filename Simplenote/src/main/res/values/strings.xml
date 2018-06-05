@@ -123,6 +123,8 @@
 
         The best way to learn about Simplenote is to try it. Once you\'re up and running, visit simplenote.com to download it on other devices and start accessing your notes everywhere.</string>
     <string name="app_description_short">Simplenote is an easy way to keep notes, lists, ideas and more.</string>
+    <string name="wpcom_sign_in_error_generic">Couldn\'t sign in with WordPress.com. Please try again.</string>
+    <string name="wpcom_sign_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
     <!-- PIN lock -->
     <string name="passcode_manage">Manage PIN lock</string>
@@ -191,4 +193,6 @@
     <string name="restore">Restore</string>
     <string name="history">History</string>
     <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="or">or</string>
+    <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
 </resources>

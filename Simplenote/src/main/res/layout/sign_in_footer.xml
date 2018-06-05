@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:text="@string/or"/>
+    <FrameLayout
+        android:id="@+id/wpcom_signin_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/login_button_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/wpcom_signin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:text="@string/sign_in_with_wordpress_com" />
+    </FrameLayout>
+</LinearLayout>
