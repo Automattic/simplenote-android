@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -502,7 +503,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private boolean newNoteWasNeverEdited() {
-        return  mNote != null && mNote.isNew() && !mTextDidChange;
+        return  mNote != null && TextUtils.isEmpty(getNoteContentString()) && mNote.isNew() && !mTextDidChange;
     }
 
     protected void setMarkdownEnabled(boolean enabled) {
