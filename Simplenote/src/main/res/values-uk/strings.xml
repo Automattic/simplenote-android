@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Simplenote</string>
+    <string name="app_launcher_name" translatable="false">@string/app_name</string>
+    <string name="tag_hint">Додати мітку…</string>
+    <string name="settings">Налаштування</string>
+    <string name="share">Поділитися</string>
+    <string name="share_note">Поділитися нотаткою</string>
+    <string name="share_url">Поділитися посиланням</string>
+    <string name="delete">Перемістити в кошик</string>
+    <string name="undelete">Відновити нотатку</string>
+    <string name="new_note">Нова нотатка</string>
+    <string name="account">Обліковий запис</string>
+    <string name="sign_out">Вийти</string>
+    <string name="sign_in">Увійти</string>
+    <string name="preview_lines">Попер. перегляд рядків</string>
+    <string name="words">Слова</string>
+    <string name="edit_tags">Змінити мітки</string>
+    <string name="edit_tag">Змінити мітку</string>
+    <string name="rename_tag">Перейменувати мітку</string>
+    <string name="tag_name">Назва мітки</string>
+    <string name="delete_tag">Видалити мітку</string>
+    <string name="save">Зберегти</string>
+    <string name="cancel">Відмінити</string>
+    <string name="empty_trash">Очистити кошик</string>
+    <string name="confirm_empty_trash">Ви дійсно хочете назавжди видалити усі нотатки з кошика?</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="word">Слово</string>
+    <string name="no_notes_here">Тут немає нотаток.</string>
+    <string name="why_not_create_one">Чому б не %1$sстворити одну%2$s?</string>
+    <string name="no_tags_found">Не знайдено жодної мітки.</string>
+    <string name="trash_is_empty">Кошик порожній.</string>
+    <string name="no_notes_found">Не знайдено нотаток.</string>
+    <string name="website">Відвідати simplenote.com</string>
+    <string name="more_info">Більше інформації</string>
+    <string name="note_pinned">Нотатка закріплена.</string>
+    <string name="note_selected">%d нотатка обрана</string>
+    <string name="notes_selected">%d нотаток обрано</string>
+    <string name="note_added">Нотатка додана</string>
+    <string name="sort_order">Порядок сортування</string>
+    <string name="search">Пошук нотаток</string>
+    <string name="notes">Всі нотатки</string>
+    <string name="trash">Кошик</string>
+    <string name="untagged_notes">Нотатки без міток</string>
+    <string name="today">Сьогодні</string>
+    <string name="yesterday">Вчора</string>
+    <string name="condensed_note_list">Компактній список</string>
+    <string name="note_info">Інформація</string>
+    <string name="tags">Мітки</string>
+    <string name="edit">Змінити</string>
+    <string name="enable_markdown">Увімкнути Markdown</string>
+    <string name="markdown_summary">Дозволити перемикання Markdown у налаштуваннях ваших нотаток</string>
+    <string name="pin_to_top">Закріпити зверху</string>
+    <string name="unpin_from_top">Відкріпити зверу</string>
+    <string name="modified_time">Змінено %s</string>
+    <string name="tab_edit">Змінення</string>
+    <string name="tab_preview">Попер. перегляд</string>
+    <string name="markdown">Markdown</string>
+    <string name="markdown_hide">Сховати Markdown</string>
+    <string name="markdown_show">Показати Markdown</string>
+
+    <!-- Undo -->
+    <string name="undo">Відмінити</string>
+    <string name="note_deleted">Нотатка видалена.</string>
+    <string name="notes_trashed">Нотатка переміщена до кошику.</string>
+
+    <!-- welcome note for new users -->
+    <string name = "welcome_note">Ласкаво просимо в Simplenote для Android! \n\nВідкрийте цю нотатку для отримання інструкцій. \n\nЩоб створити нову нотатку, торкніться кнопки зі знаком плюс. \n\nДля пошуку серед ваших нотаток торкніться кнопки пошуку в панелі управління і потім введіть будь-який текст. Simplenote покаже результати пошуку миттєво. \n\nМаєте дійсно важливу нотатку? У режимі перегляду торкніться іконки праворуч від поля міток і закріпіть поточну нотатку у верхній частині списку. \n\nВикористовуйте мітки для того щоб упорядкувати ваші нотатки. Також ви можете додати адресу електронної пошти як мітку і поділитися нотаткою з ким завгодно. \n\nЩе простіше поділитися нотаткою можна використовуючи інші встановлені програми через кнопку "Поділитися" в меню. \n\nВидалені нотатки переміщуються в кошик. Якщо ви захочете, ви завжди зможете відновити їх або ж видалити назавжди, очистивши кошик. \n\nТакож ви можете отримати доступ до ваших нотаток через браузер і інші пристрої. Перейдіть за адресою http://simplenote.com щоб спробувати. \n\nМи сподіваємося, що використання Simlenote вам сподобається!</string>
+    <string name="confirm_delete_tag">Ви дійсно хочете видалити цю мітку?</string>
+    <string name="new_note_list">Нова нотатка…</string>
+    <string name="open_drawer">Відкрити бічну панель</string>
+    <string name="close_drawer">Закрити бічну панель</string>
+    <string name="dismiss">Закрити</string>
+
+    <!-- Sorting Options -->
+    <string name="sort_newest_modified">Дата змінення (нові зверху)</string>
+    <string name="sort_oldest_modified">Дата змінення (нові знизу)</string>
+    <string name="sort_newest_created">Дата створення (нові зверху)</string>
+    <string name="sort_oldest_created">Дата створення (нові знизу)</string>
+    <string name="sort_alphabetical">За алфавітом, А-Я</string>
+    <string name="sort_alphabetical_reverse">За алфавітом, Я-А</string>
+
+
+    <!-- Editor link options -->
+    <string name="call">Зателефонувати</string>
+    <string name="email">Надіслати email</string>
+    <string name="view_map">Подивитися карту</string>
+    <string name="view_in_browser">Подивитися в браузері</string>
+    <string name="link">Посилання</string>
+    <string name="link_copied">Посилання скопійована в буфер обміну. ​​</string>
+    <string name="copy">Копіювати</string>
+
+    <!-- account setup -->
+    <string name="required_fields">Обов'язкові поля</string>
+    <string name="required_field">Обов'язкове поле</string>
+    <string name="username_password_required">Будь ласка, заповніть всі поля перед відправкою.</string>
+    <string name="invalid_email_title">Неправильний email</string>
+    <string name="invalid_email_message">Ви вказали недійсний email.</string>
+    <string name="invalid_password_title">Неправильний пароль</string>
+    <string name="invalid_password_message">Пароль повинен містити як мінімум 4 символи.</string>
+    <string name="passwords_do_not_match_message">Паролі не збігаються.</string>
+    <string name="email_hint">Адреса email</string>
+    <string name="password_hint">Пароль</string>
+    <string name="confirm_password_hint">Підтвердити пароль</string>
+    <string name="signup_label">Sign Up</string>
+    <string name="signin_label">Sign In</string>
+    <string name="no_network_title">No network available</string>
+    <string name="no_network_message">There is no network available. Please connect to a network and try again.</string>
+    <string name="account_setup">Account Setup</string>
+    <string name="signing_up">Виконується вихід…</string>
+    <string name="signin_label">Виконується вхід…</string>
+    <string name="agree_terms_of_service">Зареєстровуючись, ви приймаєте Умови обслуговування.</string>
+    <string name="login_failed_message">Неможливо виконати вхід із зазначеними адресою email і паролем.</string>
+    <string name="create_account">Створити новий обліковий звпис</string>
+    <string name="forgot_password">Забули ваш пароль?</string>
+    <string name="ok">ОК</string>
+    <string name="no_account">Ще не маєте облікового запису?</string>
+    <string name="have_account">Вже маєте обліковий запис?</string>
+    <string name = "app_description">Володар нагород в своєму класі - додаток Simplenote тепер доступний і на Android. Simplenote - це простий спосіб зберегти свої нотатки, плани, ідеї та багато іншого. Ваші записи синхронізуються на всіх підключених пристроях абсолютно безкоштовно. \n\nКлючовою особливістю Simplenote є виняткова швидкість і ефективність роботи. Відкрийте програму, запишіть кілька думок і готово. Оскільки колекція ваших нотаток буде збільшуватися, ми забезпечили можливість миттєво знайти потрібні, а також упорядкувати їх, закріпивши в верхній частині списку або зазначивши мітками. \n\nЛіпший спосіб вивчити Simplenote - спробувати. Це дійсно дуже просто, відвідайте simplenote.com щоб завантажити Simplenote для інших пристроїв і ваші нотатки стануть доступні вам в будь-якому місці.</string>
+    <string name="app_description_short">Simplenote це простий шлях утримання нотаток, списків, ідей та іншого.</string>
+    <string name="wpcom_sign_in_error_generic">Неможливо виконати вхід з використанням WordPress.com. Будь ласка, спробуйте пізніше.</string>
+    <string name="wpcom_sign_in_error_unverified">Активуйте ваш обліковий запис WordPress.com за допомогою елктронної пошти та спробуйте ще раз.</string>
+
+    <!-- PIN lock -->
+    <string name="passcode_manage">Керування PIN блокуванням</string>
+    <string name="passcode_enter_passcode">Введіть ваш PIN-код</string>
+    <string name="passcode_enter_old_passcode">Введіть ваш старий PIN-код</string>
+    <string name="passcode_re_enter_passcode">Підтвердіть ваш PIN-код</string>
+    <string name="passcode_change_passcode">Змінити PIN-код</string>
+    <string name="passcode_set">PIN-код встановлений</string>
+    <string name="passcode_wrong_passcode">Неправильний PIN-код, спробуйте ще раз</string>
+    <string name="passcode_preference_title">PIN блокування</string>
+    <string name="passcode_turn_off">Вимкнути PIN блокування</string>
+    <string name="passcode_turn_on">Увімкнути PIN блокування</string>
+
+    <!-- Themes -->
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme">Тема оформлення</string>
+    <string name="version">Версія</string>
+
+    <!-- About screen -->
+    <string name="about">Про Simplenote</string>
+    <string name="about_hiring">Додаток Simplenote створено з любов'ю розробниками Automattic. Ви розробник? У нас є вакансії.</string>
+    <string name="about_play_store">Магазин Google Play</string>
+    <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
+    <string name="twitter">Twitter</string>
+    <string name="rate_us">Оцінити нас</string>
+    <string name="blog">Блог</string>
+    <string name="simplenote_for_android">Simplenote для Android</string>
+    <string name="no_browser_available">\"Неможливо відкрити веб-сайт. Браузер недоступний.\"</string>
+    <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+
+    <!-- Unsynced note warnings -->
+    <string name="unsynced_notes">Знайдені несинхронізовані нотатки</string>
+    <string name="unsynced_notes_message">Вихід з облікового запису призведе до втрати всіх несинхронізованих нотаток. Ви можете перевірити синхронізацію ваших нотаток увійшовши до додатку через браузер.</string>
+    <string name="visit_web_app">Відвідати сторінку додатку</string>
+    <string name="delete_notes">Видалити нотатки</string>
+
+    <!-- Note publishing -->
+    <string name="content_description_copy_button">Кнопка Копіювання</string>
+    <string name="public_link">Загальнодоступне посилання</string>
+    <string name="publish">Опублікувати</string>
+    <string name="unpublish">Видалити загальнодоступне посилання</string>
+    <string name="published">Опубліковано</string>
+    <string name="publish_error">Неможливо створити посилання…</string>
+    <string name="unpublish_error">Неможливо видалити посилання…</string>
+    <string name="publish_successful">Зроблено! Посилання зкопійовано до буферу обміну…</string>
+    <string name="unpublish_successful">Загальнодоступне посилання видалено.</string>
+    <string name="publishing">Публікація посилання…</string>
+    <string name="unpublishing">Видалення загальнодоступного посилання…</string>
+    <string name="collaborate">Спільна робота</string>
+    <string name="collaborate_message">Для спільної роботи з іншими користувачами вкажіть адресу електронної пошти в поле тегів.</string>
+    <string name="note_not_published">Нотатка не опублiкована</string>
+
+    <!-- Font Sizes -->
+    <string name="font_size">Розмір шрифту</string>
+    <string name="font_size_extra_small">Дуже малий</string>
+    <string name="font_size_small">Малий</string>
+    <string name="font_size_normal">Звичайний</string>
+    <string name="font_size_large">Великий</string>
+    <string name="font_size_extra_large">Дуже великий</string>
+
+    <!-- Android Wear strings, added here to make GlotPress translation easier -->
+    <!-- Note: These need to be manually copied to the Wear app strings -->
+    <string name="noted">Занотовано</string>
+    <string name="error">Помилка</string>
+    <string name="restore">Відновити</string>
+    <string name="history">Історія</string>
+    <string name="error_history">Не вдалося отримати історію.</string>
+    <string name="or">або</string>
+    <string name="sign_in_with_wordpress_com">Увійти за допомогою WordPress.com</string>
+</resources>
