@@ -20,11 +20,12 @@ import java.util.Locale;
  */
 public class AboutFragment extends Fragment {
 
-    private static final String SIMPLENOTE_BLOG_URL = "http://simplenote.com/blog";
+    private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
     private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
+    private static final String SIMPERIUM_URL = "https://simperium.com";
     private static final String PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
     private static final String PLAY_STORE_URI = "market://details?id=";
 
@@ -38,6 +39,7 @@ public class AboutFragment extends Fragment {
         TextView copyright = view.findViewById(R.id.about_copyright);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
+        View simperium = view.findViewById(R.id.about_simperium);
         View playStore = view.findViewById(R.id.about_play_store);
         View hiring = view.findViewById(R.id.about_hiring);
 
@@ -64,6 +66,17 @@ public class AboutFragment extends Fragment {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_APP_URI + SIMPLENOTE_TWITTER_HANDLE)));
                 } catch (Exception e) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_PROFILE_URL + SIMPLENOTE_TWITTER_HANDLE)));
+                }
+            }
+        });
+
+        simperium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SIMPERIUM_URL)));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
             }
         });

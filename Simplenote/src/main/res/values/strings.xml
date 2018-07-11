@@ -152,9 +152,10 @@
     <string name="twitter">Twitter</string>
     <string name="rate_us">Rate Us</string>
     <string name="blog">Blog</string>
-    <string name="simplenote_for_android">Simplenote for Android</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="simperium">Simperium</string>
+    <string name="simperium_summary">Add data sync to your app</string>
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
