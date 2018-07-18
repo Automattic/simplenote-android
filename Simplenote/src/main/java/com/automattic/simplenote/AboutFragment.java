@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class AboutFragment extends Fragment {
 
         TextView version = view.findViewById(R.id.about_version);
         TextView copyright = view.findViewById(R.id.about_copyright);
+        ImageView logoImageView = view.findViewById(R.id.about_logo);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
         View simperium = view.findViewById(R.id.about_simperium);
@@ -47,6 +49,8 @@ public class AboutFragment extends Fragment {
 
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
+
+        logoImageView.setImageDrawable(getResources().getDrawable(R.drawable.simplenote_logo));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override

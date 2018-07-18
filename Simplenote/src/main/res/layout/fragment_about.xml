@@ -11,10 +11,10 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/about_logo"
             android:layout_gravity="center_horizontal"
             android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_height="90dp" />
 
         <com.automattic.simplenote.widgets.RobotoLightTextView
             android:layout_width="match_parent"
