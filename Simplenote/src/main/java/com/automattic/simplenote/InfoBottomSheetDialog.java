@@ -32,7 +32,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
-
+    private boolean isCharCountInstead;
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
@@ -41,7 +41,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View infoView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
-
+        isCharCountInstead = PrefUtils.getBoolPref(fragment.getActivity(),PrefUtils.PREF_CHAR_COUNT_INSTEAD,false);
         mInfoModifiedDate = (TextView) infoView.findViewById(R.id.info_modified_date_text);
         mInfoWords = (TextView) infoView.findViewById(R.id.info_words_text);
         mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
@@ -102,10 +102,14 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         if (mFragment.isAdded()) {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
-            mInfoWords.setText(getWordCount(note.getContent()));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
 
+            if (isCharCountInstead){
+                mInfoWords.setText(getCharactersCount(note.getContent()));
+            }else{
+                mInfoWords.setText(getWordCount(note.getContent()));
+            }
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
                 mInfoLinkUrl.setText(note.getPublishedUrl());
@@ -136,6 +140,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         return String.format("%s %s", formattedWordCount, wordCountString);
     }
 
+    private String getCharactersCount(String content) {
+        int numChars = content.length();
+        String charCountString = mFragment.getResources().getQuantityString(R.plurals.char_count,numChars);
+        return String.format("%s %s", numChars , charCountString);
+    }
     public interface InfoSheetListener {
         void onInfoPinSwitchChanged(boolean isSwitchedOn);
 

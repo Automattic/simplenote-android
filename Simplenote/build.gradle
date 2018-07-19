@@ -36,23 +36,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
-
     // Automattic and WordPress dependencies
-    compile "com.simperium.android:simperium:0.6.9"
+    compile 'com.simperium.android:simperium:0.6.9'
     compile 'com.automattic:tracks:1.1.0'
     compile 'org.wordpress:passcodelock:1.5.1'
-
     // Google Support
     compile "com.android.support:appcompat-v7:$googleVersion"
     compile "com.android.support:design:$googleVersion"
     compile "com.android.support:support-vector-drawable:$googleVersion"
     compile "com.android.support:preference-v7:$googleVersion"
     compile "com.android.support:preference-v14:$googleVersion"
-
     // Google Play Services
     compile "com.google.android.gms:play-services-analytics:$playServiceVersion"
     compile "com.google.android.gms:play-services-wearable:$playServiceVersion"
-
     // Third Party
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
@@ -61,9 +57,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
-
     implementation "com.android.support:customtabs:$googleVersion"
-
     wearApp project(':Wear')
 }
 
@@ -75,7 +69,7 @@ android {
     }
 
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
