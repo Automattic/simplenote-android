@@ -32,7 +32,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
-    private boolean isCharCountInstead;
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
