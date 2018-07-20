@@ -51,8 +51,6 @@ public class PrefUtils {
     // string. WordPress.com access token
     public static final String PREF_WP_TOKEN = "pref_key_wp_token";
 
-    public static final String PREF_CHAR_COUNT_INSTEAD = "pref_key_char_count_instead_word_count";
-
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

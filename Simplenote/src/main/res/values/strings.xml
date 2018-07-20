@@ -60,7 +60,6 @@
     <string name="markdown">Markdown</string>
     <string name="markdown_hide">Hide Markdown</string>
     <string name="markdown_show">Show Markdown</string>
-    <string name="char_count_instead_word_count">Characters Count Instead Word Count on Note Info</string>
     <string name="character">Character</string>
     <string name="characters">Characters</string>
     <!-- Undo -->

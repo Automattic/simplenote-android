@@ -41,7 +41,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View infoView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
-        isCharCountInstead = PrefUtils.getBoolPref(fragment.getActivity(),PrefUtils.PREF_CHAR_COUNT_INSTEAD,false);
         mInfoModifiedDate = (TextView) infoView.findViewById(R.id.info_modified_date_text);
         mInfoWords = (TextView) infoView.findViewById(R.id.info_words_text);
         mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
@@ -104,7 +103,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
-            mInfoWords.setText(getConbineCount(note.getContent()));
+            mInfoWords.setText(getCombinedCount(note.getContent()));
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
                 mInfoLinkUrl.setText(note.getPublishedUrl());
@@ -123,7 +122,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
     }
 
-    private String getConbineCount(String content) {
+    private String getCombinedCount(String content) {
         return String.format("%s\n%s",getWordCount(content),getCharactersCount(content));
     }
 
