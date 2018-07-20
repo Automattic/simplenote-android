@@ -104,12 +104,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
-
-            if (isCharCountInstead){
-                mInfoWords.setText(getCharactersCount(note.getContent()));
-            }else{
-                mInfoWords.setText(getWordCount(note.getContent()));
-            }
+            mInfoWords.setText(getConbineCount(note.getContent()));
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
                 mInfoLinkUrl.setText(note.getPublishedUrl());
@@ -126,6 +121,10 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
             show();
         }
+    }
+
+    private String getConbineCount(String content) {
+        return String.format("%s\n%s",getWordCount(content),getCharactersCount(content));
     }
 
     private String getWordCount(String content) {

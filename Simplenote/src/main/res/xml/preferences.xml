@@ -31,10 +31,7 @@
             android:summary="%s"
             android:title="@string/theme"/>
 
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="pref_key_char_count_instead_word_count"
-            android:title="@string/char_count_instead_word_count"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
