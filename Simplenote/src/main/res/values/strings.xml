@@ -39,14 +39,12 @@
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
-    <string name="sort_order">Sort order</string>
     <string name="search">Search notes</string>
     <string name="notes">All Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
-    <string name="condensed_note_list">Condensed note list</string>
     <string name="note_info">Info</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
@@ -62,6 +60,14 @@
     <string name="markdown_show">Show Markdown</string>
     <string name="character">Character</string>
     <string name="characters">Characters</string>
+
+    <!-- Preferences -->
+    <string name="general">General</string>
+    <string name="editor">Editor</string>
+    <string name="condensed_note_list">Condensed note list</string>
+    <string name="sort_order">Sort order</string>
+    <string name="detect_links">Detect links</string>
+
     <!-- Undo -->
     <string name="undo">Undo</string>
     <string name="note_deleted">Note trashed.</string>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/settings">
+        android:title="@string/general">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -17,13 +17,6 @@
             android:summary="%s"
             android:title="@string/sort_order"/>
         <ListPreference
-            android:defaultValue="@integer/default_font_size"
-            android:entries="@array/array_font_size"
-            android:entryValues="@array/array_font_size_values"
-            android:key="pref_key_font_size"
-            android:summary="%s"
-            android:title="@string/font_size"/>
-        <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
@@ -32,6 +25,22 @@
             android:title="@string/theme"/>
 
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_note_preferences"
+        android:title="@string/editor">
+        <ListPreference
+            android:defaultValue="@integer/default_font_size"
+            android:entries="@array/array_font_size"
+            android:entryValues="@array/array_font_size_values"
+            android:key="pref_key_font_size"
+            android:summary="%s"
+            android:title="@string/font_size"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_key_detect_links"
+            android:title="@string/detect_links"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -80,4 +89,4 @@
             android:title="@string/version"/>
     </PreferenceCategory>
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>
