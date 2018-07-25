@@ -138,7 +138,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private String getCharactersCount(String content) {
         int numChars = content.length();
         String charCount = NumberFormat.getInstance().format(numChars);
-        String charCountString = mFragment.getResources().getQuantityString(R.plurals.char_count,numChars);
+        String charCountString = mFragment.getResources().getQuantityString(R.plurals.char_count, numChars);
         return String.format("%s %s", charCount, charCountString);
     }
     public interface InfoSheetListener {
