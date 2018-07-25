@@ -127,8 +127,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     private String getWordCount(String content) {
 
-        if (TextUtils.isEmpty(content)) return "";
-
         int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
 
         String wordCountString = mFragment.getResources().getQuantityString(R.plurals.word_count, numWords);
@@ -139,8 +137,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     private String getCharactersCount(String content) {
         int numChars = content.length();
+        String charCount = NumberFormat.getInstance().format(numChars);
         String charCountString = mFragment.getResources().getQuantityString(R.plurals.char_count,numChars);
-        return String.format("%s %s", numChars, charCountString);
+        return String.format("%s %s", charCount, charCountString);
     }
     public interface InfoSheetListener {
         void onInfoPinSwitchChanged(boolean isSwitchedOn);
