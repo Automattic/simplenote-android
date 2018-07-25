@@ -23,6 +23,8 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme"/>
+
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -6,45 +6,48 @@
     android:layout_height="match_parent"
     app:theme="@style/Theme.Simplestyle">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/info_modified_date_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearDateWordCountInfo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/padding_extra_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_extra_large"
-        android:textColor="@color/grey"
-        tools:text="Modified Jan 1, 20015, 8:00AM"
-        />
+        android:orientation="horizontal">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/info_words_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/padding_extra_large"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_extra_large"
-        android:textColor="@color/grey"
-        tools:text="101 words"
-        />
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/info_modified_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/padding_extra_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_extra_large"
+            android:textColor="@color/grey"
+            tools:text="Modified Jan 1, 20015, 8:00AM" />
 
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/info_words_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:paddingBottom="@dimen/padding_extra_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_extra_large"
+            android:textColor="@color/grey"
+            tools:text="101 words\n1010 characters" />
+    </LinearLayout>
     <View
         android:id="@+id/info_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/info_words_text"
+        android:layout_below="@id/linearDateWordCountInfo"
         android:background="@color/divider_grey"/>
 
     <android.support.v7.widget.SwitchCompat

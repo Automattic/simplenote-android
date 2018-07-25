@@ -58,6 +58,8 @@
     <string name="markdown">Markdown</string>
     <string name="markdown_hide">Hide Markdown</string>
     <string name="markdown_show">Show Markdown</string>
+    <string name="character">Character</string>
+    <string name="characters">Characters</string>
 
     <!-- Preferences -->
     <string name="general">General</string>
@@ -201,4 +203,5 @@
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="or">or</string>
     <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
+
 </resources>

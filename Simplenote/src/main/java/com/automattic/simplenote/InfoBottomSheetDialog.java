@@ -32,7 +32,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
-
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
@@ -41,7 +40,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View infoView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
-
         mInfoModifiedDate = (TextView) infoView.findViewById(R.id.info_modified_date_text);
         mInfoWords = (TextView) infoView.findViewById(R.id.info_words_text);
         mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
@@ -102,10 +100,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         if (mFragment.isAdded()) {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
-            mInfoWords.setText(getWordCount(note.getContent()));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
-
+            mInfoWords.setText(getCombinedCount(note.getContent()));
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
                 mInfoLinkUrl.setText(note.getPublishedUrl());
@@ -124,9 +121,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
     }
 
-    private String getWordCount(String content) {
+    private String getCombinedCount(String content) {
+        return String.format("%s\n%s", getWordCount(content), getCharactersCount(content));
+    }
 
-        if (TextUtils.isEmpty(content)) return "";
+    private String getWordCount(String content) {
 
         int numWords = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
 
@@ -136,6 +135,12 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         return String.format("%s %s", formattedWordCount, wordCountString);
     }
 
+    private String getCharactersCount(String content) {
+        int numChars = content.length();
+        String charCount = NumberFormat.getInstance().format(numChars);
+        String charCountString = mFragment.getResources().getQuantityString(R.plurals.char_count, numChars);
+        return String.format("%s %s", charCount, charCountString);
+    }
     public interface InfoSheetListener {
         void onInfoPinSwitchChanged(boolean isSwitchedOn);
 
