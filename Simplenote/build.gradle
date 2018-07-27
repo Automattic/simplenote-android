@@ -61,7 +61,7 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.6.2"
+version "1.6.3"
 
 android {
     testOptions {
@@ -74,7 +74,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 65
+        versionCode 66
         minSdkVersion 16
         targetSdkVersion 26
 
@@ -98,7 +98,7 @@ android {
         }
 
         debug {
-            applicationIdSuffix '.debug'
+            //applicationIdSuffix '.debug'
         }
     }
 

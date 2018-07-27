@@ -92,7 +92,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsLoadingNote, mIsMarkdownEnabled, mTextDidChange;
+    private boolean mIsLoadingNote, mIsMarkdownEnabled;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -367,13 +367,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mHighlighter.stop();
-
-        // Delete the note if user never edited a new note
-        if (newNoteWasNeverEdited()) {
-            permanentlyDeleteNote();
-        } else {
-            saveNote();
-        }
+        saveNote();
 
         super.onPause();
     }
@@ -502,10 +496,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private boolean newNoteWasNeverEdited() {
-        return  mNote != null && TextUtils.isEmpty(getNoteContentString()) && mNote.isNew() && !mTextDidChange;
-    }
-
     protected void setMarkdownEnabled(boolean enabled) {
         mIsMarkdownEnabled = enabled;
 
@@ -532,13 +522,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
 
-        if (newNoteWasNeverEdited()) {
-            // Delete a new, never edited note
-            permanentlyDeleteNote();
-        } else {
-            // If we have a note already (on a tablet in landscape), save the note.
-            saveNote();
-        }
+        saveNote();
 
         new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
@@ -659,7 +643,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-        mTextDidChange = true;
         // When text changes, start timer that will fire after AUTOSAVE_DELAY_MILLIS passes
         if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
@@ -1162,8 +1145,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mIsMarkdownEnabled = mNote.isMarkdownEnabled();
                 }
             } catch (BucketObjectMissingException e) {
-                // TODO: Handle a missing note
+                // See if the note is in the object store
+                Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
+                while (notesCursor.moveToNext()) {
+                    Note currentNote = notesCursor.getObject();
+                    if (currentNote != null && currentNote.getSimperiumKey().equals(noteID)) {
+                        mNote = currentNote;
+                        return null;
+                    }
+                }
             }
+
             return null;
         }
 
