@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -338,6 +337,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mContentEditText != null) {
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(getActivity()));
+        }
+
+        // Sync all changes made on server since last pause. It allows the client to pick up the new
+        // changes immediately and also prevents the old note on the app from overwriting the newer
+        // note on the server.
+        if (mNote != null) {
+            new loadNoteTask().executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR, mNote.getSimperiumKey());
         }
     }
 
