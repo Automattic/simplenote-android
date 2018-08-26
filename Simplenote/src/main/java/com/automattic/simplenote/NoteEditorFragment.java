@@ -343,7 +343,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onPause() {
+        super.onPause();  // Always call the superclass method first
+
         mNotesBucket.removeListener(this);
+        mNotesBucket.stop();
+
         // Hide soft keyboard if it is showing...
         if (getActivity() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -368,8 +372,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mHighlighter.stop();
         saveNote();
-
-        super.onPause();
     }
 
     @Override

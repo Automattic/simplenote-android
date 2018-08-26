@@ -229,13 +229,15 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause() {
-        super.onPause();
+        super.onPause();  // Always call the superclass method first
 
         mTagsBucket.removeListener(mTagsMenuUpdater);
+        mTagsBucket.stop();
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+        mNotesBucket.stop();
     }
 
     @Override
