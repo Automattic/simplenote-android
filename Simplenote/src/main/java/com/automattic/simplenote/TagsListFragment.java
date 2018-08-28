@@ -96,6 +96,9 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         mTagsBucket.removeOnNetworkChangeListener(this);
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
+
+        mNotesBucket.stop();
+        mTagsBucket.stop();
     }
 
     protected void refreshTags() {
