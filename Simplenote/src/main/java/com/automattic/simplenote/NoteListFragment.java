@@ -403,6 +403,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
             query.include(new Query.FullTextSnippet(Note.MATCHED_CONTENT_INDEX_NAME, Note.CONTENT_PROPERTY));
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+
+            // Fall back to a 'LIKE' query if no full text results were found. See issue #463
+            if (query.execute().getCount() == 0) {
+                query = notesActivity.getSelectedTag().query();
+                query.where(Note.CONTENT_PROPERTY, Query.ComparisonType.LIKE, String.format("%%%s%%", mSearchString));
+                query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+            }
         } else {
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
