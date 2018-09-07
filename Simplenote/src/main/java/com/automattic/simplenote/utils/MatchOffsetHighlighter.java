@@ -89,7 +89,9 @@ public class MatchOffsetHighlighter implements Runnable {
         }
     }
 
-    // Returns the character location of the first match (3rd index)
+    // Returns the character location of the first match (3rd index, the 'start' value)
+    // The data format for a match is 4 space-separated integers that represent the location
+    // of the match: "column token start length" ex: "1 0 42 7"
     public static int getFirstMatchLocation(String matches) {
         if (TextUtils.isEmpty(matches)) {
             return 0;
