@@ -15,6 +15,8 @@ import java.util.Scanner;
 public class MatchOffsetHighlighter implements Runnable {
 
     static public final String CHARSET = "UTF-8";
+    static private final int FIRST_MATCH_LOCATION = 2;
+
     protected static OnMatchListener sListener = new DefaultMatcher();
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
     private SpanFactory mFactory;
@@ -85,6 +87,24 @@ public class MatchOffsetHighlighter implements Runnable {
             listener.onMatch(factory, content, span_start, span_end);
 
         }
+    }
+
+    // Returns the character location of the first match (3rd index)
+    public static int getFirstMatchLocation(String matches) {
+        if (TextUtils.isEmpty(matches)) {
+            return 0;
+        }
+
+        String[] values = matches.split("\\s+", 4);
+        if (values.length > FIRST_MATCH_LOCATION) {
+            try {
+                return Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+            } catch (NumberFormatException exception) {
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     // TODO: get ride of memory pressure by preventing the toString()

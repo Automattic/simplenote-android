@@ -13,11 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
@@ -29,10 +30,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +88,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     };
     private Bucket<Note> mNotesBucket;
+    private View mRootView;
     private SimplenoteEditText mContentEditText;
     private TagsMultiAutoCompleteTextView mTagView;
     private Handler mAutoSaveHandler;
@@ -92,7 +96,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsLoadingNote, mIsMarkdownEnabled;
+    private boolean mIsLoadingNote, mIsMarkdownEnabled, mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -282,20 +286,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-        mContentEditText = ((SimplenoteEditText) rootView.findViewById(R.id.note_content));
+        mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
+        mContentEditText = ((SimplenoteEditText) mRootView.findViewById(R.id.note_content));
         mContentEditText.addOnSelectionChangedListener(this);
-        mTagView = (TagsMultiAutoCompleteTextView) rootView.findViewById(R.id.tag_view);
+        mTagView = (TagsMultiAutoCompleteTextView) mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
-        mPlaceholderView = (LinearLayout) rootView.findViewById(R.id.placeholder);
+        mPlaceholderView = (LinearLayout) mRootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             getActivity().invalidateOptionsMenu();
-            mMarkdown = (WebView) rootView.findViewById(R.id.markdown);
+            mMarkdown = (WebView) mRootView.findViewById(R.id.markdown);
 
             switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
                 case THEME_DARK:
@@ -325,7 +329,42 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
 
-        return rootView;
+        ViewTreeObserver viewTreeObserver = mContentEditText.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // If a note was loaded with search matches, scroll to the first match in the editor
+                if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    // Get the character location of the first search match
+                    int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(mMatchOffsets);
+                    if (matchLocation == 0) {
+                        return;
+                    }
+
+                    // Calculate how far to scroll to bring the match into view
+                    Layout layout = mContentEditText.getLayout();
+                    int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
+                    lineTop -= DisplayUtils.getActionBarHeight(getActivity());
+                    lineTop -= getResources().getDimensionPixelSize(R.dimen.padding_large);
+
+                    // We use different scroll views in the root of the layout files... yuck.
+                    // So we have to cast appropriately to do a smooth scroll
+                    if (mRootView instanceof NestedScrollView) {
+                        ((NestedScrollView)mRootView).smoothScrollTo(0, lineTop);
+                    } else {
+                        ((ScrollView)mRootView).smoothScrollTo(0, lineTop);
+                    }
+
+                    mShouldScrollToSearchMatch = false;
+                }
+            }
+        });
+
+        return mRootView;
     }
 
     @Override
@@ -1171,6 +1210,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mMatchOffsets != null) {
                 int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+
+                mShouldScrollToSearchMatch = true;
             }
 
             mContentEditText.addTextChangedListener(NoteEditorFragment.this);
