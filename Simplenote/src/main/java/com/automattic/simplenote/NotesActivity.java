@@ -48,7 +48,6 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.simperium.Simperium;
-import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
