@@ -825,12 +825,7 @@ public class NotesActivity extends AppCompatActivity implements
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                    NotesActivity.this.finish();
-                    NotesActivity.this.startActivity(NotesActivity.this.getIntent());
-                } else {
-                    NotesActivity.super.recreate();
-                }
+                NotesActivity.super.recreate();
             }
         });
     }
