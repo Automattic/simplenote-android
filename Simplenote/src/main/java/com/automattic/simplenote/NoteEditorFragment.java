@@ -287,19 +287,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
-        mContentEditText = ((SimplenoteEditText) mRootView.findViewById(R.id.note_content));
+        mContentEditText = mRootView.findViewById(R.id.note_content);
         mContentEditText.addOnSelectionChangedListener(this);
-        mTagView = (TagsMultiAutoCompleteTextView) mRootView.findViewById(R.id.tag_view);
+        mTagView = mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
 
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
-        mPlaceholderView = (LinearLayout) mRootView.findViewById(R.id.placeholder);
+        mPlaceholderView = mRootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             getActivity().invalidateOptionsMenu();
-            mMarkdown = (WebView) mRootView.findViewById(R.id.markdown);
+            mMarkdown = mRootView.findViewById(R.id.markdown);
 
             switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
                 case THEME_DARK:

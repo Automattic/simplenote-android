@@ -52,7 +52,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
 
-        TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
+        TextView emptyTextView = view.findViewById(android.R.id.empty);
         emptyTextView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
         return view;
     }
@@ -116,7 +116,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
         final Tag tag = mTagsAdapter.getItem(row);
 
-        final EditText tagNameEditText = (EditText) alertView.findViewById(R.id.tag_name_edit);
+        final EditText tagNameEditText = alertView.findViewById(R.id.tag_name_edit);
         tagNameEditText.setText(tag.getName());
         tagNameEditText.setSelection(tagNameEditText.length());
         alert.setView(alertView);
@@ -288,8 +288,8 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             final Tag tag = mCursor.getObject();
             convertView.setTag(tag.getSimperiumKey());
 
-            TextView tagTitle = (TextView) convertView.findViewById(R.id.tag_name);
-            TextView tagCountTextView = (TextView) convertView.findViewById(R.id.tag_count);
+            TextView tagTitle = convertView.findViewById(R.id.tag_name);
+            TextView tagCountTextView = convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
             final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
             if (tagCount > 0) {
@@ -298,7 +298,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
                 tagCountTextView.setText("");
             }
 
-            ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.tag_trash);
+            ImageButton deleteButton = convertView.findViewById(R.id.tag_trash);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

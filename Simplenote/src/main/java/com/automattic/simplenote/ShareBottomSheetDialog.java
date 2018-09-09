@@ -41,9 +41,9 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View shareView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
-        TextView mCollaborateButton = (TextView) shareView.findViewById(R.id.share_collaborate_button);
-        mPublishButton = (TextView) shareView.findViewById(R.id.share_publish_button);
-        mUnpublishButton = (TextView) shareView.findViewById(R.id.share_unpublish_button);
+        TextView mCollaborateButton = shareView.findViewById(R.id.share_collaborate_button);
+        mPublishButton = shareView.findViewById(R.id.share_publish_button);
+        mUnpublishButton = shareView.findViewById(R.id.share_unpublish_button);
 
         mCollaborateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mRecyclerView = (RecyclerView) shareView.findViewById(R.id.share_button_recycler_view);
+        mRecyclerView = shareView.findViewById(R.id.share_button_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(fragment.getActivity(), SHARE_SHEET_COLUMN_COUNT));
 

@@ -85,7 +85,7 @@ public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            button = (TextView) itemView.findViewById(R.id.share_button);
+            button = itemView.findViewById(R.id.share_button);
         }
 
         public void setData(ShareButtonItem item) {

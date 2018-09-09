@@ -40,12 +40,12 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View infoView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_info, null, false);
-        mInfoModifiedDate = (TextView) infoView.findViewById(R.id.info_modified_date_text);
-        mInfoWords = (TextView) infoView.findViewById(R.id.info_words_text);
-        mInfoLinkUrl = (TextView) infoView.findViewById(R.id.info_public_link_url);
-        mInfoLinkTitle = (TextView) infoView.findViewById(R.id.info_public_link_title);
+        mInfoModifiedDate = infoView.findViewById(R.id.info_modified_date_text);
+        mInfoWords = infoView.findViewById(R.id.info_words_text);
+        mInfoLinkUrl = infoView.findViewById(R.id.info_public_link_url);
+        mInfoLinkTitle = infoView.findViewById(R.id.info_public_link_title);
 
-        mInfoPinSwitch = (SwitchCompat) infoView.findViewById(R.id.info_pin_switch);
+        mInfoPinSwitch = infoView.findViewById(R.id.info_pin_switch);
         mInfoPinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -53,7 +53,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mInfoMarkdownSwitch = (SwitchCompat) infoView.findViewById(R.id.info_markdown_switch);
+        mInfoMarkdownSwitch = infoView.findViewById(R.id.info_markdown_switch);
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -69,7 +69,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mCopyButton = (ImageButton) infoView.findViewById(R.id.info_copy_link_button);
+        mCopyButton = infoView.findViewById(R.id.info_copy_link_button);
         mCopyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +77,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mShareButton = (ImageButton) infoView.findViewById(R.id.info_share_button);
+        mShareButton = infoView.findViewById(R.id.info_share_button);
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
