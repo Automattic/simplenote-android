@@ -153,7 +153,7 @@ public class TagsAdapter extends BaseAdapter {
         }
         TagMenuItem tagMenuItem = getItem(position);
 
-        TintedTextView drawerItemText = (TintedTextView) view.findViewById(R.id.drawer_item_name);
+        TintedTextView drawerItemText = view.findViewById(R.id.drawer_item_name);
         drawerItemText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView) viewGroup).getCheckedItemPosition() - mHeaderCount;

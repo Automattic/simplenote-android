@@ -48,7 +48,6 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.simperium.Simperium;
-import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -826,12 +825,7 @@ public class NotesActivity extends AppCompatActivity implements
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                    NotesActivity.this.finish();
-                    NotesActivity.this.startActivity(NotesActivity.this.getIntent());
-                } else {
-                    NotesActivity.super.recreate();
-                }
+                NotesActivity.super.recreate();
             }
         });
     }

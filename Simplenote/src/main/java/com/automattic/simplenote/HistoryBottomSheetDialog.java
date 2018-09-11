@@ -76,8 +76,8 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
         mFragment = fragment;
 
         View mHistoryView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_history, null, false);
-        mHistoryDate = (TextView) mHistoryView.findViewById(R.id.history_date);
-        mHistorySeekBar = (SeekBar) mHistoryView.findViewById(R.id.seek_bar);
+        mHistoryDate = mHistoryView.findViewById(R.id.history_date);
+        mHistorySeekBar = mHistoryView.findViewById(R.id.seek_bar);
         mProgressBar = mHistoryView.findViewById(R.id.history_progress_bar);
         mErrorText = mHistoryView.findViewById(R.id.history_error_text);
         mLoadingView = mHistoryView.findViewById(R.id.history_loading_view);

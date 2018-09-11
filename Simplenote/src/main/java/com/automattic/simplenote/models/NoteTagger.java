@@ -1,7 +1,3 @@
-/**
- * Listens to the notes bucket and creates tags for any non-existant tags
- * in the tags bucket.
- */
 package com.automattic.simplenote.models;
 
 import com.simperium.client.Bucket;
@@ -12,6 +8,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+/**
+ * Listens to the notes bucket and creates tags for any non-existant tags
+ * in the tags bucket.
+ */
 public class NoteTagger implements Bucket.Listener<Note> {
 
     private static final String KEY_ENCODING = "UTF-8";

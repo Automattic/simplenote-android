@@ -217,9 +217,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mRootView = view.findViewById(R.id.list_root);
 
-        LinearLayout emptyView = (LinearLayout) view.findViewById(android.R.id.empty);
+        LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = (TextView) view.findViewById(R.id.empty_message);
+        mEmptyListTextView = view.findViewById(R.id.empty_message);
         mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,14 +227,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
         setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-        mDividerShadow = (LinearLayout) view.findViewById(R.id.divider_shadow);
+        mDividerShadow = view.findViewById(R.id.divider_shadow);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
             mDividerShadow.setVisibility(View.VISIBLE);
         }
 
-        mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_button);
+        mFloatingActionButton = view.findViewById(R.id.fab_button);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -593,9 +593,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             if (view == null) {
                 view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
-                holder.titleTextView = (TextView) view.findViewById(R.id.note_title);
-                holder.contentTextView = (TextView) view.findViewById(R.id.note_content);
-                holder.toggleView = (ToggleButton) view.findViewById(R.id.pin_button);
+                holder.titleTextView = view.findViewById(R.id.note_title);
+                holder.contentTextView = view.findViewById(R.id.note_content);
+                holder.toggleView = view.findViewById(R.id.pin_button);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();

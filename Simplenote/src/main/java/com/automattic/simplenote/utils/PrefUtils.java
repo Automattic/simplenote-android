@@ -8,7 +8,6 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.Html;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.R;

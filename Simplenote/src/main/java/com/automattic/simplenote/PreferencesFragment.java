@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
