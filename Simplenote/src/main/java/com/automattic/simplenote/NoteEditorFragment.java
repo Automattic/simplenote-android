@@ -340,7 +340,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     }
 
                     // Get the character location of the first search match
-                    int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(mMatchOffsets);
+                    int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(
+                            mContentEditText.getText(),
+                            mMatchOffsets
+                    );
                     if (matchLocation == 0) {
                         return;
                     }
@@ -348,8 +351,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Calculate how far to scroll to bring the match into view
                     Layout layout = mContentEditText.getLayout();
                     int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-                    lineTop -= DisplayUtils.getActionBarHeight(getActivity());
-                    lineTop -= getResources().getDimensionPixelSize(R.dimen.padding_large);
 
                     // We use different scroll views in the root of the layout files... yuck.
                     // So we have to cast appropriately to do a smooth scroll

@@ -92,7 +92,7 @@ public class MatchOffsetHighlighter implements Runnable {
     // Returns the character location of the first match (3rd index, the 'start' value)
     // The data format for a match is 4 space-separated integers that represent the location
     // of the match: "column token start length" ex: "1 0 42 7"
-    public static int getFirstMatchLocation(String matches) {
+    public static int getFirstMatchLocation(Spannable content, String matches) {
         if (TextUtils.isEmpty(matches)) {
             return 0;
         }
@@ -100,7 +100,9 @@ public class MatchOffsetHighlighter implements Runnable {
         String[] values = matches.split("\\s+", 4);
         if (values.length > FIRST_MATCH_LOCATION) {
             try {
-                return Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+                int location = Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+
+                return location + getByteOffset(content, 0, location);
             } catch (NumberFormatException exception) {
                 return 0;
             }
@@ -111,8 +113,12 @@ public class MatchOffsetHighlighter implements Runnable {
 
     // TODO: get ride of memory pressure by preventing the toString()
     protected static int getByteOffset(CharSequence text, int start, int end) {
-        String source = text.toString();
-        String substring;
+        if (text.length() == 0) {
+            return 0;
+        }
+
+        String source = getEscapeSequenceCorrectedString(text.toString());
+        String sourceUpToMatch;
         int length = source.length();
 
         // starting index cannot be negative
@@ -125,16 +131,27 @@ public class MatchOffsetHighlighter implements Runnable {
             return 0;
         } else if (end > length - 1) {
             // end is past the end of the string, so cap at string's end
-            substring = source.substring(start, length - 1);
+            sourceUpToMatch = source.substring(start, length - 1);
         } else {
             // start and end are both valid indices
-            substring = source.substring(start, end);
+            sourceUpToMatch = source.substring(start, end);
         }
+
         try {
-            return substring.length() - substring.getBytes(CHARSET).length;
+            return sourceUpToMatch.length() - sourceUpToMatch.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
             return 0;
         }
+    }
+
+    // The SQL matches count escape sequences like `\n` as two characters, where Java counts it as one.
+    // This method returns the escape sequences replaced with two spaces to correct this.
+    private static String getEscapeSequenceCorrectedString(String source) {
+        if (TextUtils.isEmpty(source)) {
+            return "";
+        }
+
+        return source.replaceAll("[^\\S ]", "  ");
     }
 
     @Override
@@ -192,7 +209,7 @@ public class MatchOffsetHighlighter implements Runnable {
             Object[] spans = factory.buildSpans();
 
             for (Object span : spans) {
-                if (start >= 0 && end >= start && end <= content.length() - 1) {
+                if (start >= 0 && end >= start && end <= content.length()) {
                     content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     mMatchedSpans.add(span);
                 }
