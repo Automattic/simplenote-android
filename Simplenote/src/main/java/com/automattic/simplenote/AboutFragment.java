@@ -86,7 +86,6 @@ public class AboutFragment extends Fragment {
         });
 
         playStore.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse(PLAY_STORE_URI + getActivity().getPackageName());

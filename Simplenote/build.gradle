@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
@@ -19,17 +20,17 @@ repositories {
 }
 
 ext {
-    googleVersion = '25.4.0'
-    playServiceVersion = '11.0.4'
+    googleVersion = '27.1.1'
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    androidTestCompile "com.android.support:support-annotations:$googleVersion"
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:3.0.1') {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    androidTestImplementation "com.android.support:support-annotations:$googleVersion"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
         // Necessary to avoid version conflicts
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
@@ -41,19 +42,19 @@ dependencies {
     compile 'com.automattic:tracks:1.1.4'
     compile 'org.wordpress:passcodelock:1.5.1'
     // Google Support
-    compile "com.android.support:appcompat-v7:$googleVersion"
-    compile "com.android.support:design:$googleVersion"
-    compile "com.android.support:support-vector-drawable:$googleVersion"
-    compile "com.android.support:preference-v7:$googleVersion"
-    compile "com.android.support:preference-v14:$googleVersion"
+    implementation "com.android.support:appcompat-v7:$googleVersion"
+    implementation "com.android.support:design:$googleVersion"
+    implementation "com.android.support:support-vector-drawable:$googleVersion"
+    implementation "com.android.support:preference-v7:$googleVersion"
+    implementation "com.android.support:preference-v14:$googleVersion"
     // Google Play Services
-    compile "com.google.android.gms:play-services-wearable:$playServiceVersion"
+    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
     // Third Party
-    compile 'com.takisoft.fix:preference-v7:24.2.1.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.commonsware.cwac:anddown:0.4.0'
-    compile 'net.openid:appauth:0.7.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    implementation 'com.takisoft.fix:preference-v7:27.1.1.1'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.commonsware.cwac:anddown:0.4.0'
+    implementation 'net.openid:appauth:0.7.0'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true;
     }
     implementation "com.android.support:customtabs:$googleVersion"
@@ -68,7 +69,7 @@ android {
     }
 
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.automattic.simplenote"

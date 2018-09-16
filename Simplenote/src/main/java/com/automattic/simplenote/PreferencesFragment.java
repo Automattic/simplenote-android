@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.SwitchPreferenceCompat;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -27,7 +28,6 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
-import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
 import java.lang.ref.WeakReference;
 

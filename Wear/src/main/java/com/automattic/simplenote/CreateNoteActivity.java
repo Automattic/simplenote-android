@@ -7,26 +7,20 @@ import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.text.TextUtils;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
+
+import java.util.List;
 
 public class CreateNoteActivity extends Activity {
 
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Disable transition animations for this activity
-        overridePendingTransition(0,0);
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .build();
-        mGoogleApiClient.connect();
+        overridePendingTransition(0, 0);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -55,18 +49,18 @@ public class CreateNoteActivity extends Activity {
             }
 
             String voiceNote = voiceNotes[0];
-            NodeApi.GetConnectedNodesResult rawNodes =
-                    Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+            Task<List<Node>> rawNodes =
+                    Wearable.getNodeClient(getApplicationContext()).getConnectedNodes();
 
             boolean isSuccess = false;
 
             // A Node represents a connected device.
             // Should be one device in most cases but we'll loop anyways.
-            for (Node node : rawNodes.getNodes()) {
-                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                        mGoogleApiClient, node.getId(), "new-note", voiceNote.getBytes()).await();
+            for (Node node : rawNodes.getResult()) {
+                Task<Integer> result = Wearable.getMessageClient(getApplicationContext()).sendMessage(
+                        node.getId(), "new-note", voiceNote.getBytes());
 
-                isSuccess = result.getStatus().isSuccess();
+                isSuccess = result.isSuccessful();
             }
 
             return isSuccess;
@@ -88,7 +82,7 @@ public class CreateNoteActivity extends Activity {
         confirmationIntent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, message);
 
         startActivity(confirmationIntent);
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         finish();
     }
 }
