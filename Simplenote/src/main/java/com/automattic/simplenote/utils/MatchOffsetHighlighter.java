@@ -8,13 +8,14 @@ import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
-    static public final String CHARSET = "UTF-8";
+    static private final String CHARSET = "UTF-8";
     static private final int FIRST_MATCH_LOCATION = 2;
 
     protected static OnMatchListener sListener = new DefaultMatcher();
@@ -111,15 +112,16 @@ public class MatchOffsetHighlighter implements Runnable {
         return 0;
     }
 
-    // TODO: get ride of memory pressure by preventing the toString()
+    // Returns the byte offset of the source string up to the matching search result.
+    // Note: We need to convert the source string to a byte[] because SQLite provides
+    // indices and lengths in bytes. See: https://www.sqlite.org/fts3.html#offsets
     protected static int getByteOffset(CharSequence text, int start, int end) {
-        if (text.length() == 0) {
-            return 0;
-        }
+        String source = text.toString();
 
-        String source = getEscapeSequenceCorrectedString(text.toString());
-        String sourceUpToMatch;
-        int length = source.length();
+        byte[] sourceBytes = source.getBytes();
+
+        String substring;
+        int length = sourceBytes.length;
 
         // starting index cannot be negative
         if (start < 0) {
@@ -131,27 +133,17 @@ public class MatchOffsetHighlighter implements Runnable {
             return 0;
         } else if (end > length - 1) {
             // end is past the end of the string, so cap at string's end
-            sourceUpToMatch = source.substring(start, length - 1);
+            substring = new String(Arrays.copyOfRange(sourceBytes, start, length - 1));
         } else {
             // start and end are both valid indices
-            sourceUpToMatch = source.substring(start, end);
+            substring = new String(Arrays.copyOfRange(sourceBytes, start, end));
         }
 
         try {
-            return sourceUpToMatch.length() - sourceUpToMatch.getBytes(CHARSET).length;
+            return substring.length() - substring.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
             return 0;
         }
-    }
-
-    // The SQL matches count escape sequences like `\n` as two characters, where Java counts it as one.
-    // This method returns the escape sequences replaced with two spaces to correct this.
-    private static String getEscapeSequenceCorrectedString(String source) {
-        if (TextUtils.isEmpty(source)) {
-            return "";
-        }
-
-        return source.replaceAll("[^\\S ]", "  ");
     }
 
     @Override
