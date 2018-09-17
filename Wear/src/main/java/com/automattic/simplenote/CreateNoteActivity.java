@@ -6,12 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CreateNoteActivity extends Activity {
 
@@ -48,19 +51,31 @@ public class CreateNoteActivity extends Activity {
                 return false;
             }
 
+            boolean isSuccess = false;
+
             String voiceNote = voiceNotes[0];
             Task<List<Node>> rawNodes =
                     Wearable.getNodeClient(getApplicationContext()).getConnectedNodes();
 
-            boolean isSuccess = false;
+            try {
+                List<Node> nodes = Tasks.await(rawNodes);
 
-            // A Node represents a connected device.
-            // Should be one device in most cases but we'll loop anyways.
-            for (Node node : rawNodes.getResult()) {
-                Task<Integer> result = Wearable.getMessageClient(getApplicationContext()).sendMessage(
-                        node.getId(), "new-note", voiceNote.getBytes());
+                // A Node represents a connected device.
+                // Should be one device in most cases but we'll loop anyways.
+                for (Node node : nodes) {
+                    try {
+                        Task<Integer> sendMessage = Wearable.getMessageClient(getApplicationContext()).sendMessage(
+                                node.getId(), "new-note", voiceNote.getBytes());
+                        Tasks.await(sendMessage);
 
-                isSuccess = result.isSuccessful();
+                        isSuccess = sendMessage.isSuccessful();
+                    } catch (ExecutionException | InterruptedException e) {
+                        Log.e("Create Note", "Failed to send new-note messages: " + e.getMessage(), e);
+                    }
+
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                Log.e("Create Note", "Failed to get connected Nodes: " + e.getMessage(), e);
             }
 
             return isSuccess;
