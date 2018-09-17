@@ -9,7 +9,7 @@ android:
     - platform-tools
     - tools
     - build-tools-27.0.3
-    - android-26
+    - android-27
 
 env:
   global:

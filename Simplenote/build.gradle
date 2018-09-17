@@ -68,7 +68,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
@@ -76,7 +76,7 @@ android {
         versionName project.version
         versionCode 68
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
 
         vectorDrawables.useSupportLibrary = true
 
