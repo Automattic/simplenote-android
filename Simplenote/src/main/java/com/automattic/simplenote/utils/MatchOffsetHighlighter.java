@@ -117,7 +117,6 @@ public class MatchOffsetHighlighter implements Runnable {
     // indices and lengths in bytes. See: https://www.sqlite.org/fts3.html#offsets
     protected static int getByteOffset(CharSequence text, int start, int end) {
         String source = text.toString();
-
         byte[] sourceBytes = source.getBytes();
 
         String substring;
