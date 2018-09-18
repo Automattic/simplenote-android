@@ -8,13 +8,14 @@ import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class MatchOffsetHighlighter implements Runnable {
 
-    static public final String CHARSET = "UTF-8";
+    static private final String CHARSET = "UTF-8";
     static private final int FIRST_MATCH_LOCATION = 2;
 
     protected static OnMatchListener sListener = new DefaultMatcher();
@@ -92,7 +93,7 @@ public class MatchOffsetHighlighter implements Runnable {
     // Returns the character location of the first match (3rd index, the 'start' value)
     // The data format for a match is 4 space-separated integers that represent the location
     // of the match: "column token start length" ex: "1 0 42 7"
-    public static int getFirstMatchLocation(String matches) {
+    public static int getFirstMatchLocation(Spannable content, String matches) {
         if (TextUtils.isEmpty(matches)) {
             return 0;
         }
@@ -100,7 +101,9 @@ public class MatchOffsetHighlighter implements Runnable {
         String[] values = matches.split("\\s+", 4);
         if (values.length > FIRST_MATCH_LOCATION) {
             try {
-                return Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+                int location = Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+
+                return location + getByteOffset(content, 0, location);
             } catch (NumberFormatException exception) {
                 return 0;
             }
@@ -109,11 +112,15 @@ public class MatchOffsetHighlighter implements Runnable {
         return 0;
     }
 
-    // TODO: get ride of memory pressure by preventing the toString()
+    // Returns the byte offset of the source string up to the matching search result.
+    // Note: We need to convert the source string to a byte[] because SQLite provides
+    // indices and lengths in bytes. See: https://www.sqlite.org/fts3.html#offsets
     protected static int getByteOffset(CharSequence text, int start, int end) {
         String source = text.toString();
+        byte[] sourceBytes = source.getBytes();
+
         String substring;
-        int length = source.length();
+        int length = sourceBytes.length;
 
         // starting index cannot be negative
         if (start < 0) {
@@ -125,11 +132,12 @@ public class MatchOffsetHighlighter implements Runnable {
             return 0;
         } else if (end > length - 1) {
             // end is past the end of the string, so cap at string's end
-            substring = source.substring(start, length - 1);
+            substring = new String(Arrays.copyOfRange(sourceBytes, start, length - 1));
         } else {
             // start and end are both valid indices
-            substring = source.substring(start, end);
+            substring = new String(Arrays.copyOfRange(sourceBytes, start, end));
         }
+
         try {
             return substring.length() - substring.getBytes(CHARSET).length;
         } catch (UnsupportedEncodingException e) {
@@ -192,7 +200,7 @@ public class MatchOffsetHighlighter implements Runnable {
             Object[] spans = factory.buildSpans();
 
             for (Object span : spans) {
-                if (start >= 0 && end >= start && end <= content.length() - 1) {
+                if (start >= 0 && end >= start && end <= content.length()) {
                     content.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     mMatchedSpans.add(span);
                 }
