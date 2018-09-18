@@ -60,6 +60,7 @@
     <string name="markdown_show">Show Markdown</string>
     <string name="character">Character</string>
     <string name="characters">Characters</string>
+    <string name="logo">Logo</string>
 
     <!-- Preferences -->
     <string name="general">General</string>
