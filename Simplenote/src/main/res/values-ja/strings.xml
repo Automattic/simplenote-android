@@ -4,11 +4,11 @@
     <string name="collaborate_message">メールアドレスをタグフィールドに追加すると、他のユーザーと共同作業できます。</string>
     <string name="collaborate">共同編集</string>
     <string name="unpublishing">公開リンクを削除中…</string>
-    <string name="publishing">リンクを公開中...</string>
+    <string name="publishing">リンクを公開中…</string>
     <string name="unpublish_successful">公開リンクを削除しました。</string>
-    <string name="publish_successful">成功しました。リンクをクリップボードにコピーしました...</string>
-    <string name="unpublish_error">リンクを削除できませんでした...</string>
-    <string name="publish_error">リンクを作成できませんでした...</string>
+    <string name="publish_successful">成功しました。リンクをクリップボードにコピーしました…</string>
+    <string name="unpublish_error">リンクを削除できませんでした…</string>
+    <string name="publish_error">リンクを作成できませんでした…</string>
     <string name="unpublish">公開リンクを削除</string>
     <string name="public_link">公開リンク</string>
     <string name="no_browser_available">「サイトを開けません。使用可能なブラウザーがありません。」</string>

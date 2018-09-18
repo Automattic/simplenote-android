@@ -3,12 +3,12 @@
     <string name="note_not_published">笔记尚未发布</string>
     <string name="collaborate_message">在标签字段中添加电子邮件，从而与其他用户协作。</string>
     <string name="collaborate">协作</string>
-    <string name="unpublishing">正在移除公共链接...</string>
-    <string name="publishing">正在发布链接...</string>
+    <string name="unpublishing">正在移除公共链接…</string>
+    <string name="publishing">正在发布链接…</string>
     <string name="unpublish_successful">公共链接已移除。</string>
-    <string name="publish_successful">成功！已将链接复制到剪贴板...</string>
-    <string name="unpublish_error">无法移除链接...</string>
-    <string name="publish_error">无法创建链接...</string>
+    <string name="publish_successful">成功！已将链接复制到剪贴板…</string>
+    <string name="unpublish_error">无法移除链接…</string>
+    <string name="publish_error">无法创建链接…</string>
     <string name="unpublish">移除公共链接</string>
     <string name="public_link">公共链接</string>
     <string name="no_browser_available">“无法打开网站。无可用的浏览器。”</string>

@@ -3,12 +3,12 @@
     <string name="note_not_published">Hinweis nicht veröffentlicht</string>
     <string name="collaborate_message">Füge im Feld „Schlagwort“ eine E-Mail-Adresse für die Zusammenarbeit mit anderen Benutzern hinzu.</string>
     <string name="collaborate">Zusammenarbeiten</string>
-    <string name="unpublishing">Öffentlicher Link wird entfernt ...</string>
-    <string name="publishing">Link wird veröffentlicht ...</string>
+    <string name="unpublishing"><![CDATA[Öffentlicher Link wird entfernt …]]></string>
+    <string name="publishing"><![CDATA[Link wird veröffentlicht …]]></string>
     <string name="unpublish_successful">Öffentlicher Link wurde entfernt.</string>
-    <string name="publish_successful">Erledigt! Link in Zwischenablage kopiert ...</string>
-    <string name="unpublish_error">Link konnte nicht entfernt werden ...</string>
-    <string name="publish_error">Link konnte nicht erstellt werden ...</string>
+    <string name="publish_successful"><![CDATA[Erledigt! Link in Zwischenablage kopiert …]]></string>
+    <string name="unpublish_error"><![CDATA[Link konnte nicht entfernt werden …]]></string>
+    <string name="publish_error"><![CDATA[Link konnte nicht erstellt werden …]]></string>
     <string name="unpublish">Öffentlichen Link entfernen</string>
     <string name="public_link">Öffentlicher Link</string>
     <string name="no_browser_available">„Öffnen der Website nicht möglich. Kein Browser verfügbar.“</string>
@@ -74,7 +74,7 @@
     <string name="create_account">Neues Konto erstellen</string>
     <string name="login_failed_message">Anmeldung mit der angegebenen E-Mail-Adresse und dem Passwort nicht möglich.</string>
     <string name="agree_terms_of_service">Durch das Registrieren stimmst du unseren Geschäftsbedingungen zu.</string>
-    <string name="signing_in">Anmeldung läuft...</string>
+    <string name="signing_in">Anmeldung läuft…</string>
     <string name="signing_up">Registrierung läuft …</string>
     <string name="account_setup">Kontoeinrichtung</string>
     <string name="no_network_message">Es steht kein Netzwerk zur Verfügung. Stelle bitte eine Verbindung mit einem Netzwerk her und versuche es erneut.</string>

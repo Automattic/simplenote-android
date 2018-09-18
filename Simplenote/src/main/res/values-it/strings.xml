@@ -3,12 +3,12 @@
     <string name="note_not_published">Nota non pubblicata</string>
     <string name="collaborate_message">Aggiungi un\'e-mail nel campo di tag per collaborare con altri utenti.</string>
     <string name="collaborate">Collabora</string>
-    <string name="unpublishing">Rimozione del link pubblico in corso...</string>
-    <string name="publishing">Pubblicazione del link in corso...</string>
+    <string name="unpublishing">Rimozione del link pubblico in corso…</string>
+    <string name="publishing">Pubblicazione del link in corso…</string>
     <string name="unpublish_successful">Link pubblico rimosso.</string>
-    <string name="publish_successful">Operazione completata. Link copiato negli Appunti...</string>
-    <string name="unpublish_error">Impossibile rimuovere il link...</string>
-    <string name="publish_error">Impossibile creare il link...</string>
+    <string name="publish_successful">Operazione completata. Link copiato negli Appunti…</string>
+    <string name="unpublish_error">Impossibile rimuovere il link…</string>
+    <string name="publish_error">Impossibile creare il link…</string>
     <string name="unpublish">Rimuovi link pubblico</string>
     <string name="public_link">Link pubblico</string>
     <string name="no_browser_available">"Impossibile aprire il sito Web. Nessun browser disponibile."</string>
@@ -73,8 +73,8 @@
     <string name="create_account">Crea un Nuovo Account</string>
     <string name="login_failed_message">Impossibile accedere con l\'indirizzo email e la password inseriti.</string>
     <string name="agree_terms_of_service">Con la creazione di un nuovo account, accetti i nostri Termini di servizio.</string>
-    <string name="signing_in">Accesso in corso...</string>
-    <string name="signing_up">Registrazione in corso...</string>
+    <string name="signing_in">Accesso in corso…</string>
+    <string name="signing_up">Registrazione in corso…</string>
     <string name="account_setup">Creazione Account</string>
     <string name="no_network_message">Non c\'è una rete wireless disponibile. Per favore, effettua l\'accesso ad una rete e riprova l\'operazione.</string>
     <string name="no_network_title">Rete wireless non disponibile</string>
@@ -118,7 +118,7 @@
     <string name="condensed_note_list">Formato lista note ridotta</string>
     <string name="note_pinned">Nota agganciata.</string>
     <string name="rename_tag">Rinomina il tag</string>
-    <string name="new_note_list">Nuova nota...</string>
+    <string name="new_note_list">Nuova nota…</string>
     <string name="backup_notes">Conserva una copia delle tue note, visualizzale nel tuo broswer, e sincronizzale con altre dispositivi.</string>
     <string name="confirm_delete_tag">Sei sicuro di voler cancellare questo tag?</string>
     <string name="welcome_signup_prompt">Avvia la sincronizzazione delle note.</string>
@@ -156,5 +156,5 @@
     <string name="undelete">Ripristina nota</string>
     <string name="share">Condividi</string>
     <string name="settings">Impostazioni</string>
-    <string name="tag_hint">Aggiungi tag...</string>
+    <string name="tag_hint">Aggiungi tag…</string>
 </resources>
