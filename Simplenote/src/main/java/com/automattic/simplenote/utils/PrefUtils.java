@@ -53,6 +53,9 @@ public class PrefUtils {
     // string. WordPress.com access token
     public static final String PREF_WP_TOKEN = "pref_key_wp_token";
 
+    // boolean. determines if analytics is enabled
+    public static final String PREF_ANALYTICS_ENABLED = "pref_key_analytics_enabled";
+
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

@@ -1,12 +1,14 @@
 package com.automattic.simplenote.analytics;
 
+import com.automattic.simplenote.Simplenote;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public final class AnalyticsTracker {
 
-    private static final List<Tracker> TRACKERS = new ArrayList<>();
+    private static List<Tracker> TRACKERS = new ArrayList<>();
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
@@ -21,36 +23,60 @@ public final class AnalyticsTracker {
     }
 
     public static void track(Stat stat, String category, String label) {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.track(stat, category, label, null);
         }
     }
 
     public static void track(Stat stat, String category, String label, Map<String, ?> properties) {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.track(stat, category, label, properties);
         }
     }
 
     public static void refreshMetadata(String username) {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.refreshMetadata(username);
         }
     }
 
     public static void flush() {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.flush();
         }
     }
 
     public void track(Stat stat) {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.track(stat, null, null);
         }
     }
 
     public void track(Stat stat, Map<String, ?> properties) {
+        if (!Simplenote.analyticsIsEnabled()) {
+            return;
+        }
+
         for (Tracker tracker : TRACKERS) {
             tracker.track(stat, null, null, properties);
         }
