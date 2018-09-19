@@ -100,8 +100,8 @@ public class Simplenote extends Application {
         }
 
         try {
-            Preferences Preferences = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
-            return Preferences.getAnalyticsEnabled();
+            Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
+            return prefs.getAnalyticsEnabled();
         } catch (BucketObjectMissingException e) {
             return true;
         }

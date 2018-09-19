@@ -289,8 +289,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private void updateAnalyticsSwitchState() {
         try {
-            Preferences preferences = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
-            mAnalyticsSwitch.setChecked(preferences.getAnalyticsEnabled());
+            Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
+            mAnalyticsSwitch.setChecked(prefs.getAnalyticsEnabled());
         } catch (BucketObjectMissingException e) {
             // The preferences object doesn't exist for this user yet, create it
             try {

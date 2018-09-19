@@ -47,8 +47,8 @@ public class Preferences extends BucketObject {
             return new Preferences(key, properties);
         }
 
-        public void update(Preferences Preferences, JSONObject properties) {
-            Preferences.setProperties(properties);
+        public void update(Preferences prefs, JSONObject properties) {
+            prefs.setProperties(properties);
         }
     }
 }
