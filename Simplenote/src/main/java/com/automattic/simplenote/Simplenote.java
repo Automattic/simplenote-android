@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
-import com.automattic.simplenote.analytics.AnalyticsTrackerGoogleAnalytics;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
@@ -77,7 +76,6 @@ public class Simplenote extends Application {
         registerComponentCallbacks(applicationLifecycleMonitor);
         registerActivityLifecycleCallbacks(applicationLifecycleMonitor);
 
-        AnalyticsTracker.registerTracker(new AnalyticsTrackerGoogleAnalytics(this));
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
     }
