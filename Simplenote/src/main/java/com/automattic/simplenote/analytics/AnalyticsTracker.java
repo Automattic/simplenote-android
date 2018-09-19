@@ -8,7 +8,7 @@ import java.util.Map;
 
 public final class AnalyticsTracker {
 
-    private static List<Tracker> TRACKERS = new ArrayList<>();
+    private static final List<Tracker> TRACKERS = new ArrayList<>();
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
