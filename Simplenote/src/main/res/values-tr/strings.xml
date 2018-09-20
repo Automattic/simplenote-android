@@ -3,12 +3,12 @@
     <string name="note_not_published">Not yayınlanmadı</string>
     <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
-    <string name="unpublishing">Herkese açık bağlantı kaldırılıyor…</string>
-    <string name="publishing">Bağlantı yayımlanıyor…</string>
+    <string name="unpublishing">Herkese açık bağlantı kaldırılıyor...</string>
+    <string name="publishing">Bağlantı yayımlanıyor...</string>
     <string name="unpublish_successful">Herkese açık bağlantı kaldırıldı.</string>
-    <string name="publish_successful">Başarılı! Bağlantı, panoya kopyalandı…</string>
-    <string name="unpublish_error">Bağlantı kaldırılamadı…</string>
-    <string name="publish_error">Bağlantı oluşturulamadı…</string>
+    <string name="publish_successful">Başarılı! Bağlantı, panoya kopyalandı...</string>
+    <string name="unpublish_error">Bağlantı kaldırılamadı...</string>
+    <string name="publish_error">Bağlantı oluşturulamadı...</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
     <string name="public_link">Herkese açık bağlantı</string>
     <string name="no_browser_available">"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok."</string>
@@ -74,7 +74,7 @@
     <string name="create_account">Yeni Hesap Oluştur</string>
     <string name="login_failed_message">Verilen e-posta adresi ve parolayla oturum açılamadı.</string>
     <string name="agree_terms_of_service">Kaydolmakla Hizmet Koşulları\'nı kabul etmiş olursunuz.</string>
-    <string name="signing_in">Giriş yapılıyor…</string>
+    <string name="signing_in">Giriş yapılıyor...</string>
     <string name="signing_up">Kaydınız yapılıyor…</string>
     <string name="account_setup">Hesap Kurulumu</string>
     <string name="no_network_message">Kullanılabilir ağ yok. Lütfen bir ağa bağlanıp tekrar deneyin.</string>

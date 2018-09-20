@@ -3,12 +3,12 @@
     <string name="note_not_published">הפתק לא פורסם</string>
     <string name="collaborate_message">הוספת אימייל בשדה \'תגית\' לצורך שיתוף פעולה בעריכה עם משתמשים אחרים.</string>
     <string name="collaborate">שיתוף פעולה בעריכה</string>
-    <string name="unpublishing">מסיר קישור ציבורי…</string>
-    <string name="publishing">מפרסם קישור…</string>
+    <string name="unpublishing">מסיר קישור ציבורי...</string>
+    <string name="publishing">מפרסם קישור...</string>
     <string name="unpublish_successful">קישור ציבורי.</string>
-    <string name="publish_successful">הצליח! הקישור הועתק ללוח…</string>
-    <string name="unpublish_error">לא הצלחנו להסיר את הקישור…</string>
-    <string name="publish_error">לא הצלחנו ליצור את הקישור…</string>
+    <string name="publish_successful">הצליח! הקישור הועתק ללוח...</string>
+    <string name="unpublish_error">לא הצלחנו להסיר את הקישור...</string>
+    <string name="publish_error">לא הצלחנו ליצור את הקישור...</string>
     <string name="unpublish">הסרת קישור ציבורי</string>
     <string name="public_link">קישור ציבורי</string>
     <string name="no_browser_available">"לא ניתן היה לפתוח את אתר האינטרנט. אין דפדפן זמין."</string>
@@ -75,8 +75,8 @@
     <string name="create_account">ליצור חשבון חדש</string>
     <string name="login_failed_message">לא ניתן להיכנס באמצעות כתובת המייל שסופקה.</string>
     <string name="agree_terms_of_service">בביצוע הרשמה, הינך מסכימ/ה לתנאי השימוש שלנו.</string>
-    <string name="signing_in">כניסה…</string>
-    <string name="signing_up">הרשמה…</string>
+    <string name="signing_in">כניסה...</string>
+    <string name="signing_up">הרשמה...</string>
     <string name="account_setup">פתיחת חשבון</string>
     <string name="no_network_message">אין חיבור רשת זמין. נא להתחבר לרשת ולנשות שנית.</string>
     <string name="no_network_title">אין חיבור רשת זמין</string>
@@ -120,7 +120,7 @@
     <string name="condensed_note_list">רשימה מכווצת</string>
     <string name="note_pinned">הפתק הוצמד.</string>
     <string name="rename_tag">שינוי שם תגית</string>
-    <string name="new_note_list">פתק חדש…</string>
+    <string name="new_note_list">פתק חדש...</string>
     <string name="backup_notes">גבו את הפתקים שלכם, ערכו אותם בווב, וסנכרנו אותם בין מכשירים.</string>
     <string name="confirm_delete_tag">בטוח שברצונך למחוק תגית זו?</string>
     <string name="welcome_signup_prompt">להתחיל לסנכרן פתקים עכשיו.</string>
@@ -158,5 +158,5 @@
     <string name="undelete">לשחזר פתק</string>
     <string name="share">שיתוף</string>
     <string name="settings">הגדרות</string>
-    <string name="tag_hint">להוסיף תגית…</string>
+    <string name="tag_hint">להוסיף תגית...</string>
 </resources>

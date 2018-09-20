@@ -3,12 +3,12 @@
     <string name="note_not_published">Notitie niet gepubliceerd</string>
     <string name="collaborate_message">Voeg een e-mail toe aan het tag-veld om met andere gebruikers samen te werken.</string>
     <string name="collaborate">Samenwerken</string>
-    <string name="unpublishing">Openbare link wordt verwijderd…</string>
-    <string name="publishing">Link wordt gepubliceerd…</string>
+    <string name="unpublishing">Openbare link wordt verwijderd...</string>
+    <string name="publishing">Link wordt gepubliceerd...</string>
     <string name="unpublish_successful">Openbare link verwijderd.</string>
-    <string name="publish_successful">Gelukt! Link gekopieerd naar klembord…</string>
-    <string name="unpublish_error">Kon link niet verwijderen…</string>
-    <string name="publish_error">Kon link niet aanmaken…</string>
+    <string name="publish_successful">Gelukt! Link gekopieerd naar klembord...</string>
+    <string name="unpublish_error">Kon link niet verwijderen...</string>
+    <string name="publish_error">Kon link niet aanmaken...</string>
     <string name="unpublish">Openbare link verwijderen</string>
     <string name="public_link">Openbare link</string>
     <string name="no_browser_available">"Website openen mislukt. Geen browser beschikbaar."</string>
@@ -74,7 +74,7 @@
     <string name="create_account">Een nieuwe account maken</string>
     <string name="login_failed_message">Kan niet inloggen met het opgegeven e-mailadres en wachtwoord.</string>
     <string name="agree_terms_of_service">Als je je registreert, ga je akkoord met onze Servicevoorwaarden.</string>
-    <string name="signing_in">Aanmelden …</string>
+    <string name="signing_in">Aanmelden ...</string>
     <string name="signing_up">Registreren …</string>
     <string name="account_setup">Accountconfiguratie</string>
     <string name="no_network_message">Er is geen netwerk beschikbaar. Maak verbinding met een netwerk en probeer het opnieuw.</string>

@@ -3,12 +3,12 @@
     <string name="note_not_published">Note non publiée</string>
     <string name="collaborate_message">Ajoutez un e-mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
     <string name="collaborate">Collaborer</string>
-    <string name="unpublishing">Supprimer le lien public…</string>
-    <string name="publishing">Publier le lien…</string>
+    <string name="unpublishing">Supprimer le lien public...</string>
+    <string name="publishing">Publier le lien...</string>
     <string name="unpublish_successful">Lien public supprimé.</string>
-    <string name="publish_successful"><![CDATA[Terminé ! Lien copié dans le presse-papier…]]></string>
-    <string name="unpublish_error">Impossible de supprimer le lien…</string>
-    <string name="publish_error">Impossible de créer le lien…</string>
+    <string name="publish_successful">Terminé ! Lien copié dans le presse-papier...</string>
+    <string name="unpublish_error">Impossible de supprimer le lien...</string>
+    <string name="publish_error">Impossible de créer le lien...</string>
     <string name="unpublish">Supprimer le lien public</string>
     <string name="public_link">Lien public</string>
     <string name="no_browser_available">« Impossible d’ouvrir le site web. Aucun navigateur disponible. »</string>
@@ -75,7 +75,7 @@
     <string name="login_failed_message">Impossible de se connecter avec l\'email et le mot de passe fourni.</string>
     <string name="agree_terms_of_service">En vous inscrivant, vous acceptez les Conditions d\'Utilisation.</string>
     <string name="signing_in">Connexion en cours…</string>
-    <string name="signing_up">Inscription en cours…</string>
+    <string name="signing_up">Inscription en cours...</string>
     <string name="account_setup">Configuration du compte</string>
     <string name="no_network_message">Il n\'y pas de réseau disponible. Connectez-vous à un réseau et essayer de nouveau.</string>
     <string name="no_network_title">Pas de réseau disponible</string>
@@ -119,7 +119,7 @@
     <string name="condensed_note_list">Vue condensée</string>
     <string name="note_pinned">Note suivie.</string>
     <string name="rename_tag">Renommer tag</string>
-    <string name="new_note_list">Nouvelle note…</string>
+    <string name="new_note_list">Nouvelle note...</string>
     <string name="backup_notes">Sauvegardez vos notes, utilisez les sur le web et synchronisez les sur tous vos appareils.</string>
     <string name="confirm_delete_tag">Êtes-vous sûr de vouloir supprimer ce tag ?</string>
     <string name="welcome_signup_prompt">Commencer à synchroniser les notes maintenant.</string>
@@ -157,6 +157,6 @@
     <string name="undelete">Restorer note</string>
     <string name="share">Partager</string>
     <string name="settings">Paramètres</string>
-    <string name="tag_hint">Ajouter un tag…</string>
+    <string name="tag_hint">Ajouter un tag...</string>
     <string name="content_description_copy_button">Bouton Copier</string>
 </resources>

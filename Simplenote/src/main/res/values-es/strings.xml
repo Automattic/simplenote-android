@@ -119,7 +119,7 @@
     <string name="condensed_note_list">Lista de notas condensada</string>
     <string name="note_pinned">Nota destacada.</string>
     <string name="rename_tag">Renombrar etiqueta</string>
-    <string name="new_note_list">Nueva nota…</string>
+    <string name="new_note_list">Nueva nota...</string>
     <string name="backup_notes">Conserva una copia de tus notas, úsalas en la web, y sincroniza con otros dispositivos.</string>
     <string name="confirm_delete_tag">¿Estás seguro de borrar esta etiqueta?</string>
     <string name="welcome_signup_prompt">Comenzar a sincronizar notas.</string>
@@ -157,5 +157,5 @@
     <string name="undelete">Restaurar nota</string>
     <string name="share">Compartir</string>
     <string name="settings">Ajustes</string>
-    <string name="tag_hint">Añadir una etiqueta…</string>
+    <string name="tag_hint">Añadir una etiqueta...</string>
 </resources>

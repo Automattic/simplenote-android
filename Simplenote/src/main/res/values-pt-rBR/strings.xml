@@ -3,12 +3,12 @@
     <string name="note_not_published">Anotação não publicada</string>
     <string name="collaborate_message">Adicione um email ao campo da tag para colaborar com outros usuários.</string>
     <string name="collaborate">Colaborar</string>
-    <string name="unpublishing">Removendo link público…</string>
-    <string name="publishing">Publicando link…</string>
+    <string name="unpublishing">Removendo link público...</string>
+    <string name="publishing">Publicando link...</string>
     <string name="unpublish_successful">Link público removido.</string>
-    <string name="publish_successful">Sucesso! Link copiado para a área de transferência…</string>
-    <string name="unpublish_error">Não foi possível remover o link…</string>
-    <string name="publish_error">Não foi possível criar o link…</string>
+    <string name="publish_successful">Sucesso! Link copiado para a área de transferência...</string>
+    <string name="unpublish_error">Não foi possível remover o link...</string>
+    <string name="publish_error">Não foi possível criar o link...</string>
     <string name="unpublish">Remover link público</string>
     <string name="public_link">Link público</string>
     <string name="no_browser_available">"Não foi possível abrir o site. Nenhum navegador disponível."</string>
@@ -74,7 +74,7 @@
     <string name="create_account">Criar nova conta</string>
     <string name="login_failed_message">Não foi possível fazer login com o endereço de email e senha fornecidos.</string>
     <string name="agree_terms_of_service">Ao se registrar, você concorda com os Termos de Serviço.</string>
-    <string name="signing_in">Entrando…</string>
+    <string name="signing_in">Entrando...</string>
     <string name="signing_up">Registrando-se…</string>
     <string name="account_setup">Configuração de Conta</string>
     <string name="no_network_message">Não há redes disponíveis. Conecte-se a uma rede e tente novamente.</string>
@@ -119,7 +119,7 @@
     <string name="condensed_note_list">Lista de anotações condensada</string>
     <string name="note_pinned">Anotação fixada.</string>
     <string name="rename_tag">Renomear tag</string>
-    <string name="new_note_list">Nova anotação…</string>
+    <string name="new_note_list">Nova anotação...</string>
     <string name="backup_notes">Faça backup de suas anotações, com acesso pela web e sincronização com outros dispositivos.</string>
     <string name="confirm_delete_tag">Tem certeza que deseja excluir esta tag?</string>
     <string name="welcome_signup_prompt">Comece a sincronizar anotações agora.</string>
@@ -157,6 +157,6 @@
     <string name="undelete">Restaurar anotação</string>
     <string name="share">Compartilhar</string>
     <string name="settings">Configurações</string>
-    <string name="tag_hint">Adicionar tag…</string>
+    <string name="tag_hint">Adicionar tag...</string>
     <string name="content_description_copy_button">Botão Copiar</string>
 </resources>

@@ -3,12 +3,12 @@
     <string name="note_not_published">메모 게시 안 됨</string>
     <string name="collaborate_message">다른 시용자와 협업하려면 태그 필그에서 이메일을 추가하세요.</string>
     <string name="collaborate">협업</string>
-    <string name="unpublishing">공개 링크를 삭제하는 중…</string>
-    <string name="publishing">링크를 게시하는 중…</string>
+    <string name="unpublishing">공개 링크를 삭제하는 중...</string>
+    <string name="publishing">링크를 게시하는 중...</string>
     <string name="unpublish_successful">공개 링크가 삭제되었습니다.</string>
-    <string name="publish_successful">성공! 링크가 클립보드에 복사되었습니다…</string>
-    <string name="unpublish_error">링크를 삭제할 수 없음…</string>
-    <string name="publish_error">링크를 생성할 수 없음…</string>
+    <string name="publish_successful">성공! 링크가 클립보드에 복사되었습니다...</string>
+    <string name="unpublish_error">링크를 삭제할 수 없음...</string>
+    <string name="publish_error">링크를 생성할 수 없음...</string>
     <string name="unpublish">공개 링크 삭제</string>
     <string name="public_link">공개 링크</string>
     <string name="no_browser_available">"웹사이트를 열 수 없습니다. 브라우저를 사용할 수 없습니다."</string>
@@ -74,8 +74,8 @@
     <string name="create_account">새 계정 생성</string>
     <string name="login_failed_message">입력하신 이메일 주소와 비밀번호로 로그인하지 못했습니다.</string>
     <string name="agree_terms_of_service">가입하려면 서비스 약관에 동의해야 합니다.</string>
-    <string name="signing_in">로그인 중…</string>
-    <string name="signing_up">가입 중…</string>
+    <string name="signing_in">로그인 중...</string>
+    <string name="signing_up">가입 중...</string>
     <string name="account_setup">계정 설정</string>
     <string name="no_network_message">지원되는 네트워크가 없습니다. 네트워크에 연결한 후 다시 시도해 주세요.</string>
     <string name="no_network_title">지원되는 네트워크 없음</string>
@@ -119,7 +119,7 @@
     <string name="condensed_note_list">메모 요약 목록</string>
     <string name="note_pinned">메모가 고정되었습니다.</string>
     <string name="rename_tag">태그 이름 변경</string>
-    <string name="new_note_list">새 메모…</string>
+    <string name="new_note_list">새 메모...</string>
     <string name="backup_notes">메모를 백업하고 인터넷에서 사용하며 다른 장치의 메모와 동기화할 수 있습니다.</string>
     <string name="confirm_delete_tag">이 태그를 삭제하시겠습니까?</string>
     <string name="welcome_signup_prompt">지금 바로 메모를 동기화하세요.</string>
@@ -157,5 +157,5 @@
     <string name="undelete">메모 복구</string>
     <string name="share">공유</string>
     <string name="settings">설정</string>
-    <string name="tag_hint">태그 추가…</string>
+    <string name="tag_hint">태그 추가...</string>
 </resources>

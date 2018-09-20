@@ -54,8 +54,8 @@
     <string name="no_network_title">Brak dostępnej sieci</string>
     <string name="no_network_message">Brak dostępnej sieci. Połącz się z siecią i spróbuj ponownie.</string>
     <string name="account_setup">Tworzenie konta</string>
-    <string name="signing_up">Rejestracja…</string>
-    <string name="signing_in">Logowanie…</string>
+    <string name="signing_up">Rejestracja...</string>
+    <string name="signing_in">Logowanie...</string>
     <string name="agree_terms_of_service">Rejestrując się, zatwierdzasz Warunki korzystania z usługi</string>
     <string name="login_failed_message">Nie można zalogować się na podany adres email i hasło.</string>
     <string name="create_account">Załóż nowe konto</string>
@@ -79,8 +79,8 @@
     <string name="welcome_signup_prompt">Synchronizuj notatki.</string>
     <string name="confirm_delete_tag">Czy na pewno chcesz usunąć ten tag?</string>
     <string name="backup_notes">Twórz kopie swoich notatek, używaj ich w sieci oraz synchronizuj z innymi urządzeniami.</string>
-    <string name="new_note_list">Nowa notatka…</string>
-    <string name="tag_hint">Dodaj tag…</string>
+    <string name="new_note_list">Nowa notatka...</string>
+    <string name="tag_hint">Dodaj tag...</string>
     <string name="settings">Ustawienia</string>
     <string name="share">Udostępnij</string>
     <string name="undelete">Przywróć notatkę</string>

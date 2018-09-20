@@ -3,12 +3,12 @@
     <string name="note_not_published">Заметка не опубликована</string>
     <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>
     <string name="collaborate">Совместная работа</string>
-    <string name="unpublishing">Удаление общедоступной ссылки…</string>
-    <string name="publishing">Публикация ссылки…</string>
+    <string name="unpublishing">Удаление общедоступной ссылки...</string>
+    <string name="publishing">Публикация ссылки...</string>
     <string name="unpublish_successful">Общедоступная ссылка удалена.</string>
-    <string name="publish_successful">Готово! Ссылка скопирована в буфер обмена…</string>
-    <string name="unpublish_error">Не удалось удалить ссылку…</string>
-    <string name="publish_error">Не удалось создать ссылку…</string>
+    <string name="publish_successful">Готово! Ссылка скопирована в буфер обмена...</string>
+    <string name="unpublish_error">Не удалось удалить ссылку...</string>
+    <string name="publish_error">Не удалось создать ссылку...</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
     <string name="public_link">Общедоступная ссылка</string>
     <string name="no_browser_available">"Не удалось открыть веб-сайт. Браузер недоступен".</string>
@@ -74,8 +74,8 @@
     <string name="create_account">Создать новую учетную запись</string>
     <string name="login_failed_message">Невозможно войти с указанными email и паролем.</string>
     <string name="agree_terms_of_service">Зарегистрировавшись, вы принимаете условия Terms of Service.</string>
-    <string name="signing_in">Вход…</string>
-    <string name="signing_up">Регистрация…</string>
+    <string name="signing_in">Вход...</string>
+    <string name="signing_up">Регистрация...</string>
     <string name="account_setup">Настройка учетной записи</string>
     <string name="no_network_message">Нет доступных сетей. Пожалуйста, подключитесь к сети и попробуйте снова.</string>
     <string name="no_network_title">Сеть недоступна</string>
@@ -119,7 +119,7 @@
     <string name="condensed_note_list">Компактный вид</string>
     <string name="note_pinned">Заметка прикреплена.</string>
     <string name="rename_tag">Переименовать метку</string>
-    <string name="new_note_list">Новая заметка…</string>
+    <string name="new_note_list">Новая заметка...</string>
     <string name="backup_notes">Сохраняйте ваши заметки, работайте с ними через браузер и синхронизируйте их с другими устройствами.</string>
     <string name="confirm_delete_tag">Вы действительно хотите удалить эту метку?</string>
     <string name="welcome_signup_prompt">Началась синхронизация заметок.</string>
@@ -157,5 +157,5 @@
     <string name="undelete">Восстановить заметку</string>
     <string name="share">Поделиться</string>
     <string name="settings">Настройки</string>
-    <string name="tag_hint">Добавить метку…</string>
+    <string name="tag_hint">Добавить метку...</string>
 </resources>

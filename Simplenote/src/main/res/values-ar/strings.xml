@@ -3,12 +3,12 @@
     <string name="note_not_published">لم يتم نشر الملاحظة</string>
     <string name="collaborate_message">إضافة بريد إلكتروني في حقل العلامة للتعاون مع مستخدمين آخرين.</string>
     <string name="collaborate">تعاون</string>
-    <string name="unpublishing">جارٍ إزالة الرابط العام…</string>
-    <string name="publishing">جارٍ نشر الرابط…</string>
+    <string name="unpublishing">جارٍ إزالة الرابط العام...</string>
+    <string name="publishing">جارٍ نشر الرابط...</string>
     <string name="unpublish_successful">تمت إزالة الرابط العام.</string>
-    <string name="publish_successful">نجاح! تم نسخ الرابط إلى الحافظة…</string>
-    <string name="unpublish_error">تعذرت إزالة الرابط…</string>
-    <string name="publish_error">تعذر إنشاء الرابط…</string>
+    <string name="publish_successful">نجاح! تم نسخ الرابط إلى الحافظة...</string>
+    <string name="unpublish_error">تعذرت إزالة الرابط...</string>
+    <string name="publish_error">تعذر إنشاء الرابط...</string>
     <string name="unpublish">إزالة الرابط العام</string>
     <string name="public_link">الرابط العام</string>
     <string name="no_browser_available">"يتعذر فتح موقع الويب. لا يتوفر متصفح."</string>
@@ -74,8 +74,8 @@
     <string name="create_account">إنشاء حساب جديد</string>
     <string name="login_failed_message">تعذر تسجيل الدخول باستخدام عنوان البريد الإلكتروني وكلمة المرور المقدمين.</string>
     <string name="agree_terms_of_service">يعني الاشتراك موافقتك على شروط الخدمة.</string>
-    <string name="signing_in">جارٍ تسجيل الدخول…</string>
-    <string name="signing_up">جارٍ الاشتراك…</string>
+    <string name="signing_in">جارٍ تسجيل الدخول...</string>
+    <string name="signing_up">جارٍ الاشتراك...</string>
     <string name="account_setup">إعداد الحساب</string>
     <string name="no_network_message">لا توجد شبكة متاحة. يُرجى الاتصال بشبكة ثم المحاولة مرة أخرى.</string>
     <string name="no_network_title">لا تتوفر شبكة</string>
@@ -119,7 +119,7 @@
     <string name="condensed_note_list">قائمة الملاحظات الموجزة</string>
     <string name="note_pinned">تم تثبيت الملاحظة.</string>
     <string name="rename_tag">إعادة تسمية الوسم</string>
-    <string name="new_note_list">ملاحظة جديدة…</string>
+    <string name="new_note_list">ملاحظة جديدة...</string>
     <string name="backup_notes">انسخ ملاحظاتك احتياطيًا واستخدمها على الويب وقم بمزامنتها مع الأجهزة الأخرى.</string>
     <string name="confirm_delete_tag">هل أنت متأكد من رغبتك في حذف هذا الوسم؟</string>
     <string name="welcome_signup_prompt">بدء مزامنة الملاحظات الآن.</string>

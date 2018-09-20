@@ -3,12 +3,12 @@
     <string name="note_not_published">Catatan tidak diterbitkan</string>
     <string name="collaborate_message">Tambahkan email di bidang tag untuk berkolaborasi dengan pengguna lain.</string>
     <string name="collaborate">Kolaborasi</string>
-    <string name="unpublishing">Menghapus tautan publik…</string>
-    <string name="publishing">Memublikasikan tautan…</string>
+    <string name="unpublishing">Menghapus tautan publik...</string>
+    <string name="publishing">Memublikasikan tautan...</string>
     <string name="unpublish_successful">Tautan publik dihapus.</string>
-    <string name="publish_successful">Berhasil! Tautan disalin ke clipboard…</string>
-    <string name="unpublish_error">Tidak dapat menghapus tautan…</string>
-    <string name="publish_error">Tidak dapat membuat tautan…</string>
+    <string name="publish_successful">Berhasil! Tautan disalin ke clipboard...</string>
+    <string name="unpublish_error">Tidak dapat menghapus tautan...</string>
+    <string name="publish_error">Tidak dapat membuat tautan...</string>
     <string name="unpublish">Hapus tautan publik</string>
     <string name="public_link">Tautan publik</string>
     <string name="no_browser_available">"Tidak dapat membuka situs web. Browser tidak tersedia."</string>
