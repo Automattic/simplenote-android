@@ -235,10 +235,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private void signOut() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         application.getSimperium().deauthorizeUser();
+
         application.getNotesBucket().reset();
         application.getTagsBucket().reset();
+        application.getPreferencesBucket().reset();
+
         application.getNotesBucket().stop();
         application.getTagsBucket().stop();
+        application.getPreferencesBucket().stop();
+
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.USER_SIGNED_OUT,
                 AnalyticsTracker.CATEGORY_USER,
