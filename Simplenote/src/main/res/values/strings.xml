@@ -179,12 +179,12 @@
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not create link...</string>
-    <string name="unpublish_error">Could not remove link...</string>
-    <string name="publish_successful">Success! Link copied to clipboard...</string>
+    <string name="publish_error">Could not create link…</string>
+    <string name="unpublish_error">Could not remove link…</string>
+    <string name="publish_successful">Success! Link copied to clipboard…</string>
     <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing link...</string>
-    <string name="unpublishing">Removing public link...</string>
+    <string name="publishing">Publishing link…</string>
+    <string name="unpublishing">Removing public link…</string>
     <string name="collaborate">Collaborate</string>
     <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
     <string name="note_not_published">Note not published</string>
