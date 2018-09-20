@@ -17,17 +17,22 @@ public class Preferences extends BucketObject {
     }
 
     public boolean getAnalyticsEnabled() {
-        try {
-            return getProperties().getInt(ANALYTICS_ENABLED_KEY) > 0;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        Object isEnabled = getProperty(ANALYTICS_ENABLED_KEY);
+        if (isEnabled == null) {
             return true;
+        }
+
+        if (isEnabled instanceof Boolean) {
+            return (Boolean) isEnabled;
+        } else {
+            // Simperium-iOS sets booleans as integer values (0 or 1)
+            return isEnabled instanceof Integer && ((Integer) isEnabled) > 0;
         }
     }
 
     public void setAnalyticsEnabled(boolean enabled) {
         try {
-            getProperties().put(ANALYTICS_ENABLED_KEY, enabled ? 1 : 0);
+            getProperties().put(ANALYTICS_ENABLED_KEY, enabled);
         } catch (JSONException e) {
             e.printStackTrace();
         }
