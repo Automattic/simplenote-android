@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -500,7 +499,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         });
 
-        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
@@ -542,8 +541,7 @@ public class NotesActivity extends AppCompatActivity implements
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
             trashItem.setTitle(R.string.undelete);
             trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
-        }
-        else {
+        } else {
             trashItem.setTitle(R.string.delete);
             trashItem.setIcon(R.drawable.ic_trash_24dp);
         }
@@ -921,7 +919,7 @@ public class NotesActivity extends AppCompatActivity implements
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-    
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
