@@ -43,6 +43,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
@@ -303,10 +304,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
                 case THEME_DARK:
-                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"dark.css\" />";
+                    mCss = ContextUtils.readCssFile(getActivity(), "dark.css");
                     break;
                 case THEME_LIGHT:
-                    mCss = "<link rel=\"stylesheet\" type=\"text/css\" href=\"light.css\" />";
+                    mCss = ContextUtils.readCssFile(getActivity(), "light.css");
                     break;
             }
         }
@@ -547,8 +548,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void loadMarkdownData() {
-        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss +
-                new AndDown().markdownToHtml(getNoteContentString()), "text/html", "utf-8", null);
+        String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
+                mCss,
+                getNoteContentString()
+        );
+
+        mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
     }
 
     public void setNote(String noteID, String matchOffsets) {
