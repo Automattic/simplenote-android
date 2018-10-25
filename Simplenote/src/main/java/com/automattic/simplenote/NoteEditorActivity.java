@@ -56,7 +56,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
-        
+
         if (savedInstanceState == null) {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
@@ -137,10 +137,14 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        getSupportFragmentManager()
-                .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
-        getSupportFragmentManager()
-                .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
+        if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(0).isAdded()) {
+            getSupportFragmentManager()
+                    .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
+        }
+        if (mNoteEditorFragmentPagerAdapter.getCount() > 1 && mNoteEditorFragmentPagerAdapter.getItem(1).isAdded()) {
+            getSupportFragmentManager()
+                    .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
+        }
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
         super.onSaveInstanceState(outState);
     }
