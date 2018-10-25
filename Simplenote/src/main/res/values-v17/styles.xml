@@ -4,9 +4,4 @@
         <item name="android:listPreferredItemPaddingStart">16dp</item>
         <item name="android:listPreferredItemPaddingEnd">16dp</item>
     </style>
-
-    <style name="Theme.Simplestyle.Dark" parent="Base.Theme.Simplestyle.Dark">
-        <item name="android:listPreferredItemPaddingStart">16dp</item>
-        <item name="android:listPreferredItemPaddingEnd">16dp</item>
-    </style>
 </resources>

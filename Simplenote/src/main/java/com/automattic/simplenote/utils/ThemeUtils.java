@@ -7,8 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-
-import com.automattic.simplenote.R;
+import android.support.v7.app.AppCompatDelegate;
 
 import java.util.List;
 
@@ -16,8 +15,9 @@ public class ThemeUtils {
 
     // theme constants
     public static final int THEME_LIGHT = 0;
-    @SuppressWarnings("unused")
     public static final int THEME_DARK = 1;
+    @SuppressWarnings("unused")
+    public static final int THEME_AUTO = 2;
     static public final String PREFERENCES_URI_AUTHORITY = "preferences";
     static public final String URI_SEGMENT_THEME = "theme";
     public static String THEME_CHANGED_EXTRA = "themeChanged";
@@ -45,9 +45,11 @@ public class ThemeUtils {
 
         int theme = PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT);
         if (theme == THEME_LIGHT)
-            activity.setTheme(R.style.Theme_Simplestyle);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        else if (theme == THEME_DARK)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         else
-            activity.setTheme(R.style.Theme_Simplestyle_Dark);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     public static boolean isLightTheme(Context context) {
