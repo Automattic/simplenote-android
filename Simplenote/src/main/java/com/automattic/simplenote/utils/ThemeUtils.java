@@ -30,7 +30,7 @@ public class ThemeUtils {
             if (data.getAuthority().equals(PREFERENCES_URI_AUTHORITY)) {
                 List<String> segments = data.getPathSegments();
 
-                // check if we have reched /preferences/theme
+                // check if we have reached /preferences/theme
                 if (segments.size() > 0 && segments.get(0).equals(URI_SEGMENT_THEME)) {
 
                     // activate the theme preference
