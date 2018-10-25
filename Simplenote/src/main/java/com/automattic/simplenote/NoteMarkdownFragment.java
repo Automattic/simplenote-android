@@ -162,7 +162,7 @@ public class NoteMarkdownFragment extends Fragment {
             mIsLoadingNote = false;
 
             if (mNote != null) {
-                if(getActivity() != null) {
+                if (getActivity() != null) {
                     getActivity().invalidateOptionsMenu();
                 }
             }
