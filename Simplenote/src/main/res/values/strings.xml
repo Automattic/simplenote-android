@@ -152,7 +152,7 @@
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_auto">Automatic Daylight Mode</string>
+    <string name="theme_auto">Dark at night only</string>
     <string name="theme">Theme</string>
     <string name="version">Version</string>
 
