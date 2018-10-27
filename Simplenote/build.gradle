@@ -58,6 +58,7 @@ dependencies {
         transitive = true;
     }
     implementation "com.android.support:customtabs:$googleVersion"
+    implementation 'com.karumi:dexter:5.0.0'
     wearApp project(':Wear')
 }
 

@@ -1,6 +1,6 @@
 package com.automattic.simplenote;
 
-
+import android.Manifest;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +21,9 @@ import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
@@ -117,7 +120,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                int index = Integer.parseInt(newValue.toString());
+                final int index = Integer.parseInt(newValue.toString());
+                if (index == ThemeUtils.THEME_AUTO) {
+
+                    PermissionListener dialogPermissionListener =
+                            DialogOnDeniedPermissionListener.Builder
+                                    .withContext(getContext())
+                                    .withTitle(R.string.location_permission)
+                                    .withMessage(R.string.location_permission_explanation)
+                                    .withButtonText(android.R.string.ok)
+                                    .build();
+
+                    Dexter.withActivity(getActivity())
+                            .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            .withListener(dialogPermissionListener).check();
+                }
+
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
 
