@@ -128,12 +128,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 if (index == ThemeUtils.THEME_AUTO) {
 
                     PermissionListener permissionListener = new BasePermissionListener() {
-
                         @Override
                         public void onPermissionGranted(PermissionGrantedResponse response) {
                             updateTheme(activity, index);
                         }
-
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse response) {
                             new AlertDialog.Builder(activity)
@@ -147,11 +145,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                                     .show();
                         }
                     };
-
                     Dexter.withActivity(activity)
                             .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                             .withListener(permissionListener)
                             .check();
+                    updateTheme(activity, index);
                 } else {
                     updateTheme(activity, index);
                 }
