@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +23,9 @@ import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.karumi.dexter.Dexter;
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.single.BasePermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
@@ -120,22 +123,43 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
+                final Activity activity = getActivity();
                 final int index = Integer.parseInt(newValue.toString());
                 if (index == ThemeUtils.THEME_AUTO) {
 
-                    PermissionListener dialogPermissionListener =
-                            DialogOnDeniedPermissionListener.Builder
-                                    .withContext(getContext())
-                                    .withTitle(R.string.location_permission)
-                                    .withMessage(R.string.location_permission_explanation)
-                                    .withButtonText(android.R.string.ok)
-                                    .build();
+                    PermissionListener permissionListener = new BasePermissionListener() {
 
-                    Dexter.withActivity(getActivity())
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            updateTheme(activity, index);
+                        }
+
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle(R.string.location_permission_denied)
+                                    .setMessage(R.string.location_permission_explanation)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    };
+
+                    Dexter.withActivity(activity)
                             .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                            .withListener(dialogPermissionListener).check();
+                            .withListener(permissionListener)
+                            .check();
+                } else {
+                    updateTheme(activity, index);
                 }
 
+                return true;
+            }
+
+            private void updateTheme(Activity activity, int index) {
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
 
@@ -146,12 +170,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 );
 
                 // update intent to indicate the theme setting was changed
-                getActivity().setIntent(ThemeUtils.makeThemeChangeIntent());
+                activity.setIntent(ThemeUtils.makeThemeChangeIntent());
 
                 // recreate the activity so new theme is applied
-                getActivity().recreate();
-
-                return true;
+                activity.recreate();
             }
         });
 

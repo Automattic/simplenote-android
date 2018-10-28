@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
 
     <string name="app_name" translatable="false">Simplenote</string>
@@ -200,7 +199,7 @@
     <string name="font_size_extra_large">Extra large</string>
 
     <!--Permissions-->
-    <string name="location_permission">Location Permission</string>
+    <string name="location_permission_denied">Location Permission Denied</string>
     <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
