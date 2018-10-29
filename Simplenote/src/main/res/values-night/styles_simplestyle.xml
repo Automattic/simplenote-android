@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Base.Theme.Simplestyle.Dark" parent="Theme.AppCompat.NoActionBar">
+    <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_toolbar_dark</item>
         <item name="colorPrimaryDark">@color/black</item>
@@ -9,11 +9,11 @@
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle.Dark</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle
         </item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle.Dark</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
@@ -56,13 +56,14 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
-    <style name="Theme.Simplestyle.Dark" parent="Base.Theme.Simplestyle.Dark"/>
+    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle"/>
 
-    <style name="DrawerArrowStyle.Dark" parent="DrawerArrowStyle">
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
         <item name="color">@color/simplenote_blue</item>
     </style>
 
-    <style name="PopupMenu.Simplestyle.Dark" parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
     </style>
 
