@@ -7,11 +7,11 @@
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="vertical">
 
-    <com.automattic.simplenote.widgets.MarkdownWebView
+    <WebView
         android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
-    </com.automattic.simplenote.widgets.MarkdownWebView>
+    </WebView>
 
 </android.support.v4.widget.NestedScrollView>
