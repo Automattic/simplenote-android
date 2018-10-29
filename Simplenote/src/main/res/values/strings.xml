@@ -151,6 +151,7 @@
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Dark at night only</string>
     <string name="theme">Theme</string>
     <string name="version">Version</string>
 
@@ -196,6 +197,10 @@
     <string name="font_size_normal">Normal</string>
     <string name="font_size_large">Large</string>
     <string name="font_size_extra_large">Extra large</string>
+
+    <!--Permissions-->
+    <string name="location_permission_denied">Location Permission Denied</string>
+    <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->

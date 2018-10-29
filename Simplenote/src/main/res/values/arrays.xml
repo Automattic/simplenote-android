@@ -22,11 +22,13 @@
     <string-array name="array_theme_names">
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
+        <item>@string/theme_auto</item>
     </string-array>
 
     <string-array name="array_theme_values" translatable="false">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="array_font_size">
