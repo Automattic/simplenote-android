@@ -40,6 +40,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.ListViewScrollTracker;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
@@ -97,6 +98,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
     private int mPreviewFontSize;
+    private ListViewScrollTracker mScrollTracker;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -242,8 +244,27 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
+        mScrollTracker = new ListViewScrollTracker(getListView());
+
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+        getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int incrementalOffset = mScrollTracker.calculateIncrementalOffset(firstVisibleItem, visibleItemCount);
+                if (incrementalOffset < 0) {
+                    setFloatingActionButtonVisible(false);
+                } else {
+                    setFloatingActionButtonVisible(true);
+                }
+            }
+
+        });
     }
 
     private void createNewNote(String label){
