@@ -60,6 +60,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
@@ -320,7 +321,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
-            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
             // Restore selected note when in dual pane mode
             String noteId = savedInstanceState.getString(STATE_NOTE_ID);
@@ -570,7 +571,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         saveNote();
 
-        new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
+        new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
     private void updateNote(Note updatedNote) {
@@ -1162,33 +1163,42 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         note.setContent(getNoteContentString());
     }
 
-    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+    private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
+        WeakReference<NoteEditorFragment> weakFragment;
+
+        LoadNoteTask(NoteEditorFragment fragment) {
+            weakFragment = new WeakReference<>(fragment);
+        }
 
         @Override
         protected void onPreExecute() {
-            mContentEditText.removeTextChangedListener(NoteEditorFragment.this);
-            mIsLoadingNote = true;
+            NoteEditorFragment fragment = weakFragment.get();
+            if (fragment != null) {
+                fragment.mContentEditText.removeTextChangedListener(fragment);
+                fragment.mIsLoadingNote = true;
+            }
         }
 
         @Override
         protected Void doInBackground(String... args) {
-            if (getActivity() == null) {
+            NoteEditorFragment fragment = weakFragment.get();
+            if (fragment == null || fragment.getActivity() == null) {
                 return null;
             }
 
             String noteID = args[0];
-            Simplenote application = (Simplenote) getActivity().getApplication();
+            Simplenote application = (Simplenote) fragment.getActivity().getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
             try {
-                mNote = notesBucket.get(noteID);
+                fragment.mNote = notesBucket.get(noteID);
                 // Set the current note in NotesActivity when on a tablet
-                if (getActivity() instanceof NotesActivity) {
-                    ((NotesActivity) getActivity()).setCurrentNote(mNote);
+                if (fragment.getActivity() instanceof NotesActivity) {
+                    ((NotesActivity) fragment.getActivity()).setCurrentNote(fragment.mNote);
                 }
 
                 // Set markdown flag for current note
-                if (mNote != null) {
-                    mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                if (fragment.mNote != null) {
+                    fragment.mIsMarkdownEnabled = fragment.mNote.isMarkdownEnabled();
                 }
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store
@@ -1196,7 +1206,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 while (notesCursor.moveToNext()) {
                     Note currentNote = notesCursor.getObject();
                     if (currentNote != null && currentNote.getSimperiumKey().equals(noteID)) {
-                        mNote = currentNote;
+                        fragment.mNote = currentNote;
                         return null;
                     }
                 }
@@ -1207,47 +1217,51 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            if (getActivity() == null || getActivity().isFinishing()) {
+            final NoteEditorFragment fragment = weakFragment.get();
+            if (fragment == null
+                    || fragment.getActivity() == null
+                    || fragment.getActivity().isFinishing()) {
                 return;
             }
 
-            refreshContent(false);
-            if (mMatchOffsets != null) {
-                int columnIndex = mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
-                mHighlighter.highlightMatches(mMatchOffsets, columnIndex);
+            fragment.refreshContent(false);
+            if (fragment.mMatchOffsets != null) {
+                int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
+                fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
 
-                mShouldScrollToSearchMatch = true;
+                fragment.mShouldScrollToSearchMatch = true;
             }
 
-            mContentEditText.addTextChangedListener(NoteEditorFragment.this);
+            fragment.mContentEditText.addTextChangedListener(fragment);
 
-            if (mNote != null && mNote.getContent().isEmpty()) {
+            if (fragment.mNote != null && fragment.mNote.getContent().isEmpty()) {
                 // Show soft keyboard
-                mContentEditText.requestFocus();
+                fragment.mContentEditText.requestFocus();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (getActivity() == null) {
+                        if (fragment.getActivity() == null) {
                             return;
                         }
 
-                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager inputMethodManager = (InputMethodManager) fragment
+                                .getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         if (inputMethodManager != null) {
-                            inputMethodManager.showSoftInput(mContentEditText, 0);
+                            inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
                         }
                     }
                 }, 100);
-            } else if (mNote != null) {
+            } else if (fragment.mNote != null) {
                 // If we have a valid note, hide the placeholder
-                setPlaceholderVisible(false);
+                fragment.setPlaceholderVisible(false);
             }
 
-            updateMarkdownView();
+            fragment.updateMarkdownView();
 
-            getActivity().invalidateOptionsMenu();
+            fragment.getActivity().invalidateOptionsMenu();
 
-            linkifyEditorContent();
-            mIsLoadingNote = false;
+            fragment.linkifyEditorContent();
+            fragment.mIsLoadingNote = false;
         }
     }
 
