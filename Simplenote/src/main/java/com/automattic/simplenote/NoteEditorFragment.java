@@ -727,7 +727,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
-        new saveNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void setPlaceholderVisible(boolean isVisible) {
@@ -1251,20 +1251,29 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private class saveNoteTask extends AsyncTask<Void, Void, Void> {
+    private static class SaveNoteTask extends AsyncTask<Void, Void, Void> {
+        WeakReference<NoteEditorFragment> weakFragment;
+
+        SaveNoteTask(NoteEditorFragment fragment) {
+            weakFragment = new WeakReference<>(fragment);
+        }
 
         @Override
         protected Void doInBackground(Void... args) {
-            saveNote();
+            NoteEditorFragment fragment = weakFragment.get();
+            if (fragment != null) {
+                fragment.saveNote();
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void nada) {
-            if (getActivity() != null && !getActivity().isFinishing()) {
+            NoteEditorFragment fragment = weakFragment.get();
+            if (fragment != null && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                 // Update links
-                linkifyEditorContent();
-                updateMarkdownView();
+                fragment.linkifyEditorContent();
+                fragment.updateMarkdownView();
             }
         }
     }
