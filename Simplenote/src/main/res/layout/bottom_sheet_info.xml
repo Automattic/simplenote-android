@@ -7,7 +7,7 @@
     app:theme="@style/Theme.Simplestyle">
 
     <LinearLayout
-        android:id="@+id/linearDateWordCountInfo"
+        android:id="@+id/info_date_word_char_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -43,11 +43,12 @@
             android:textColor="@color/grey"
             tools:text="101 words\n1010 characters" />
     </LinearLayout>
+
     <View
         android:id="@+id/info_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/linearDateWordCountInfo"
+        android:layout_below="@+id/info_date_word_char_count"
         android:background="@color/divider_grey"/>
 
     <android.support.v7.widget.SwitchCompat
