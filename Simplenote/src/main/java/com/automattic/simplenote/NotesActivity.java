@@ -141,7 +141,7 @@ public class NotesActivity extends AppCompatActivity implements
             mTagsBucket = currentApp.getTagsBucket();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureNavigationDrawer(toolbar);
 
