@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.commonsware.cwac:anddown:0.4.0'
     implementation 'net.openid:appauth:0.7.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true;
+        transitive = true
     }
     implementation "com.android.support:customtabs:$googleVersion"
     implementation 'com.karumi:dexter:5.0.0'
