@@ -60,18 +60,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
 
-        <!-- Passcode Unlock-->
-        <activity
-            android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
-            android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-
         <!-- Samsung Multi-Window Support -->
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
