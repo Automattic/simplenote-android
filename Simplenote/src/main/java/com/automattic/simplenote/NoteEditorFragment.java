@@ -60,6 +60,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.Query;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
