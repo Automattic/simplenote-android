@@ -52,7 +52,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         mNoteEditorFragmentPagerAdapter =
                 new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.pager);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout = findViewById(R.id.tabs);
 
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);

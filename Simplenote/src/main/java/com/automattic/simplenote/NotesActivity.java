@@ -274,8 +274,8 @@ public class NotesActivity extends AppCompatActivity implements
     private void configureNavigationDrawer(Toolbar toolbar) {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mNavigationView = findViewById(R.id.navigation_view);
+        mDrawerList = findViewById(R.id.drawer_list);
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
