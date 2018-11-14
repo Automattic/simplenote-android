@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
+import com.automattic.simplenote.utils.WordPressUtils;
 import com.simperium.android.AndroidClient;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.User;
@@ -34,12 +35,7 @@ import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE
 import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class SignInActivity extends LoginActivity {
-
-    private static int OAUTH_ACTIVITY_CODE = 1001;
     private static String STATE_KEY_AUTH = "authState";
-
-    static String WPCOM_OAUTH_URL = "https://public-api.wordpress.com/oauth2/";
-    static String WPCOM_OAUTH_REDIRECT_URL = "https://app.simplenote.com/wpcc";
 
     private String mAuthState;
 
@@ -80,17 +76,7 @@ public class SignInActivity extends LoginActivity {
     private View.OnClickListener mWPSignInButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
-                    Uri.parse(WPCOM_OAUTH_URL + "authorize"),
-                    Uri.parse(WPCOM_OAUTH_URL + "token"));
-
-            Uri redirectUri = Uri.parse(WPCOM_OAUTH_REDIRECT_URL);
-            AuthorizationRequest.Builder authRequestBuilder =
-                    new AuthorizationRequest.Builder(
-                            serviceConfig,
-                            BuildConfig.WPCOM_CLIENT_ID,
-                            ResponseTypeValues.CODE,
-                            redirectUri);
+            AuthorizationRequest.Builder authRequestBuilder = WordPressUtils.getWordPressAuthorizationRequestBuilder();
 
             // Set a unique state value
             mAuthState = "app-" + UUID.randomUUID();
@@ -99,7 +85,7 @@ public class SignInActivity extends LoginActivity {
             AuthorizationRequest request = authRequestBuilder.build();
             AuthorizationService authService = new AuthorizationService(SignInActivity.this);
             Intent authIntent = authService.getAuthorizationRequestIntent(request);
-            startActivityForResult(authIntent, OAUTH_ACTIVITY_CODE);
+            startActivityForResult(authIntent, WordPressUtils.OAUTH_ACTIVITY_CODE);
 
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.WPCC_BUTTON_PRESSED,
@@ -127,51 +113,14 @@ public class SignInActivity extends LoginActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != OAUTH_ACTIVITY_CODE || data == null) {
+        if (requestCode != WordPressUtils.OAUTH_ACTIVITY_CODE || data == null) {
             return;
         }
 
         AuthorizationResponse authResponse = AuthorizationResponse.fromIntent(data);
         AuthorizationException authException = AuthorizationException.fromIntent(data);
-        if (authResponse != null) {
-            String userEmail = authResponse.additionalParameters.get("user");
-            String spToken = authResponse.additionalParameters.get("token");
-            String wpToken = authResponse.additionalParameters.get("wp_token");
-
-            // Sanity checks
-            if (userEmail == null || spToken == null ||
-                    !StrUtils.isSameStr(authResponse.state, mAuthState)) {
-                showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
-                return;
-            }
-
-            // Manually authorize the user with Simperium
-            Simplenote app = (Simplenote)getApplication();
-            User user = app.getSimperium().getUser();
-            user.setAccessToken(spToken);
-            user.setEmail(userEmail);
-            user.setStatus(User.Status.AUTHORIZED);
-
-            // Store the user data in Simperium shared preferences
-            SharedPreferences.Editor editor = AndroidClient.sharedPreferences(this).edit();
-            editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
-            editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
-            editor.apply();
-
-            if (wpToken != null) {
-                SharedPreferences.Editor appEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-                appEditor.putString(PrefUtils.PREF_WP_TOKEN, wpToken);
-                appEditor.apply();
-            }
-
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
-                    AnalyticsTracker.CATEGORY_USER,
-                    "wpcc_login_succeeded_signin_activity"
-            );
-
-            finish();
-        } else if (authException != null) {
+        if (authException != null) {
+            // Error encountered
             Uri dataUri = data.getData();
 
             if (dataUri == null) {
@@ -182,6 +131,20 @@ public class SignInActivity extends LoginActivity {
                 showErrorDialog(getString(R.string.wpcom_sign_in_error_unverified));
             } else {
                 showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
+            }
+        } else if (authResponse != null) {
+            // Save token and finish activity
+            boolean authSuccess = WordPressUtils.processAuthResponse((Simplenote)getApplication(), authResponse, mAuthState, true);
+            if (!authSuccess) {
+                showErrorDialog(getString(R.string.wpcom_sign_in_error_generic));
+            } else {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "wpcc_login_succeeded_signin_activity"
+                );
+
+                finish();
             }
         }
     }

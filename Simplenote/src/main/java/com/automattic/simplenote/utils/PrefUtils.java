@@ -56,6 +56,9 @@ public class PrefUtils {
     // boolean. determines if analytics is enabled
     public static final String PREF_ANALYTICS_ENABLED = "pref_key_analytics_enabled";
 
+    // string. json array of sites used to publish to WordPress
+    public static final String PREF_WORDPRESS_SITES = "pref_key_wordpress_sites";
+
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

@@ -211,5 +211,23 @@
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="or">or</string>
     <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
+    <string name="wordpress_post">WordPress Post</string>
+    <string name="send_post">Post</string>
+    <string name="wordpress_post_draft">Post as a draft</string>
+    <string name="uploading_post">Uploading post</string>
+    <string name="copy_url">Copy URL</string>
+    <string name="success">Successfully posted to</string>
+    <string name="done">Done</string>
+    <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
+    <string name="connect_with_wordpress">Connect with WordPress.com</string>
+    <string name="untitled_site">Untitled site</string>
+    <string name="post_to_wordpress">Post to WordPress</string>
+    <string name="refresh_sites">Refresh sites</string>
+    <string name="select_site">Select a site to post to.</string>
+    <string name="network_error_message">A network error was encountered. Please try again.</string>
+    <string name="reconnect_to_wordpress">Please reconnect to WordPress.com.</string>
+    <string name="wordpress_post_link">Share WordPress Post</string>
+    <string name="could_not_access_site_data">Could not access site data.</string>
+    <string name="empty_note_post">Can\'t post an empty note.</string>
 
 </resources>

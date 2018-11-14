@@ -294,6 +294,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         // Remove wp.com token
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.remove(PrefUtils.PREF_WP_TOKEN);
+
+        // Remove WordPress sites
+        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
         getActivity().finish();

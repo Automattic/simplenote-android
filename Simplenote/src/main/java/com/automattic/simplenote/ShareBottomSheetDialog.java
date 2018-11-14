@@ -29,6 +29,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
 
     private TextView mPublishButton;
     private TextView mUnpublishButton;
+    private TextView mWordPressButton;
     private RecyclerView mRecyclerView;
 
     private Fragment mFragment;
@@ -44,6 +45,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
         TextView mCollaborateButton = shareView.findViewById(R.id.share_collaborate_button);
         mPublishButton = shareView.findViewById(R.id.share_publish_button);
         mUnpublishButton = shareView.findViewById(R.id.share_unpublish_button);
+        mWordPressButton = shareView.findViewById(R.id.share_wp_post);
 
         mCollaborateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +65,13 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             @Override
             public void onClick(View v) {
                 shareSheetListener.onShareUnpublishClicked();
+            }
+        });
+
+        mWordPressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareSheetListener.onWordPressPostClicked();
             }
         });
 
@@ -136,5 +145,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
         void onShareCollaborateClicked();
 
         void onShareDismissed();
+
+        void onWordPressPostClicked();
     }
 }
