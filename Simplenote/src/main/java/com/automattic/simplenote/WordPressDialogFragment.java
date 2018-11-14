@@ -276,6 +276,12 @@ public class WordPressDialogFragment extends DialogFragment {
 
                                     mPostUrlTextView.setText(postResult.getString(API_FIELD_URL));
                                     setDialogStatus(DialogStatus.SUCCESS);
+                                    
+                                    AnalyticsTracker.track(
+                                            AnalyticsTracker.Stat.NOTE_SHARED_TO_WORDPRESS,
+                                            AnalyticsTracker.CATEGORY_NOTE,
+                                            "wordpress_note_share_success"
+                                    );
                                 } else if (response.code() == 403) {
                                     Toast.makeText(getContext(), R.string.reconnect_to_wordpress, Toast.LENGTH_SHORT).show();
                                     setDialogStatus(DialogStatus.CONNECT);

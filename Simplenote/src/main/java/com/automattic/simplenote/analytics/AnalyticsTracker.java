@@ -139,7 +139,8 @@ public final class AnalyticsTracker {
         APPLICATION_CLOSED,
         WPCC_BUTTON_PRESSED,
         WPCC_LOGIN_SUCCEEDED,
-        WPCC_LOGIN_FAILED
+        WPCC_LOGIN_FAILED,
+        NOTE_SHARED_TO_WORDPRESS
     }
 
     public interface Tracker {
