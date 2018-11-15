@@ -276,7 +276,7 @@ public class WordPressDialogFragment extends DialogFragment {
 
                                     mPostUrlTextView.setText(postResult.getString(API_FIELD_URL));
                                     setDialogStatus(DialogStatus.SUCCESS);
-                                    
+
                                     AnalyticsTracker.track(
                                             AnalyticsTracker.Stat.NOTE_SHARED_TO_WORDPRESS,
                                             AnalyticsTracker.CATEGORY_NOTE,
