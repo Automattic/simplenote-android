@@ -5,25 +5,28 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.AppCompatCheckedTextView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,7 +38,6 @@ import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
-import com.simperium.android.AndroidClient;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -57,10 +59,10 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WordPressDialogFragment extends DialogFragment {
-    public static String DIALOG_TAG = "wordpress_dialog";
-    private static String API_FIELD_URL = "URL";
-    private static String API_FIELD_NAME = "name";
-    private static String API_FIELD_SITES = "sites";
+    public final static String DIALOG_TAG = "wordpress_dialog";
+    private final static String API_FIELD_URL = "URL";
+    private final static String API_FIELD_NAME = "name";
+    private final static String API_FIELD_SITES = "sites";
 
     private View mConnectSection, mPostingSection, mFieldsSection, mSuccessSection;
     private ListView mListView;
@@ -82,6 +84,10 @@ public class WordPressDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (getDialog().getWindow() != null) {
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
+
         View view = inflater.inflate(R.layout.dialog_wordpress_post, container, false);
 
         mConnectSection = view.findViewById(R.id.wp_dialog_section_connect);
@@ -165,26 +171,27 @@ public class WordPressDialogFragment extends DialogFragment {
             }
         });
 
-        // Manually tint some drawables, required for API version < 23
-        if (shareUrlButton.getCompoundDrawables().length > 0) {
+        if (getActivity() != null) {
+            Drawable shareDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_share_24dp);
             DrawableUtils.tintDrawable(
-                    shareUrlButton.getCompoundDrawables()[0],
+                    shareDrawable,
                     getResources().getColor(R.color.simplenote_blue)
             );
-        }
+            shareUrlButton.setCompoundDrawablesWithIntrinsicBounds(shareDrawable, null, null, null);
 
-        if (copyUrlButton.getCompoundDrawables().length > 0) {
+            Drawable copyDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_content_copy_white_24dp);
             DrawableUtils.tintDrawable(
-                    copyUrlButton.getCompoundDrawables()[0],
+                    copyDrawable,
                     getResources().getColor(R.color.simplenote_blue)
             );
-        }
+            copyUrlButton.setCompoundDrawablesWithIntrinsicBounds(copyDrawable, null, null, null);
 
-        if (!WordPressUtils.hasWPToken(getActivity())) {
-            // No WordPress token found, show connect UI
-            setDialogStatus(DialogStatus.CONNECT);
-        } else {
-            setDialogStatus(DialogStatus.FIELDS);
+            if (!WordPressUtils.hasWPToken(getActivity())) {
+                // No WordPress token found, show connect UI
+                setDialogStatus(DialogStatus.CONNECT);
+            } else {
+                setDialogStatus(DialogStatus.FIELDS);
+            }
         }
 
         return view;
@@ -197,7 +204,7 @@ public class WordPressDialogFragment extends DialogFragment {
         loadSites();
     }
 
-    private View.OnClickListener onPostClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onPostClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (mNote == null || !isAdded()) {
@@ -306,7 +313,7 @@ public class WordPressDialogFragment extends DialogFragment {
         }
 
         if (loadSitesFromPreferences()) {
-            SitesAdapter sitesAdapter = new SitesAdapter(getActivity(), 0);
+            SitesAdapter sitesAdapter = new SitesAdapter(getActivity());
             mListView.setAdapter(sitesAdapter);
             return;
         }
@@ -379,7 +386,7 @@ public class WordPressDialogFragment extends DialogFragment {
                                     mSitesArray = newSitesArray;
                                     saveSitesToPreferences();
                                 }
-                                SitesAdapter sitesAdapter = new SitesAdapter(getActivity(), 0);
+                                SitesAdapter sitesAdapter = new SitesAdapter(getActivity());
                                 mListView.setAdapter(sitesAdapter);
                             }
                         });
@@ -448,8 +455,8 @@ public class WordPressDialogFragment extends DialogFragment {
     }
 
     private class SitesAdapter extends ArrayAdapter<String> {
-        private SitesAdapter(@NonNull Context context, int resource) {
-            super(context, resource);
+        private SitesAdapter(@NonNull Context context) {
+            super(context, 0);
         }
 
         @Override
@@ -491,7 +498,7 @@ public class WordPressDialogFragment extends DialogFragment {
         }
 
         private class SiteViewHolder {
-            CheckedTextView titleTextView;
+            AppCompatCheckedTextView titleTextView;
         }
     }
 
@@ -499,7 +506,7 @@ public class WordPressDialogFragment extends DialogFragment {
         mNote = note;
     }
 
-    public void setDialogStatus(DialogStatus status) {
+    private void setDialogStatus(DialogStatus status) {
         mConnectSection.setVisibility(status == DialogStatus.CONNECT ? View.VISIBLE : View.GONE);
         mFieldsSection.setVisibility(status == DialogStatus.FIELDS ? View.VISIBLE : View.GONE);
         mRefreshImageView.setVisibility(status == DialogStatus.FIELDS ? View.VISIBLE : View.GONE);
