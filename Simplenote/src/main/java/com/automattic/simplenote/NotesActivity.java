@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -811,9 +811,16 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     public void startLoginActivity(boolean signInFirst) {
+        // Clear some account-specific prefs
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.remove(PrefUtils.PREF_WP_TOKEN);
+        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
+        editor.apply();
+
         Intent loginIntent = new Intent(this, SignInActivity.class);
-        if (signInFirst)
+        if (signInFirst) {
             loginIntent.putExtra(SignInActivity.EXTRA_SIGN_IN_FIRST, true);
+        }
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
