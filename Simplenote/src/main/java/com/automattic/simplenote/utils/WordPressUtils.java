@@ -18,6 +18,7 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
 import okhttp3.MultipartBody;
@@ -53,7 +54,7 @@ public class WordPressUtils {
 
         String wpToken = PrefUtils.getStringPref(context, PrefUtils.PREF_WP_TOKEN);
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(30, TimeUnit.SECONDS).build();
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("title", title)
@@ -77,7 +78,7 @@ public class WordPressUtils {
 
         String wpToken = PrefUtils.getStringPref(context, PrefUtils.PREF_WP_TOKEN);
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(30, TimeUnit.SECONDS).build();
         Request request = new Request.Builder()
                     .url(WP_API_URL + "me/sites")
                     .header("Authorization", String.format(Locale.ENGLISH, "BEARER %s", wpToken))

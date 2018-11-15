@@ -14,8 +14,7 @@
         android:layout_gravity="top"
         android:background="@color/simplenote_blue"
         android:padding="@dimen/padding_large"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/padding_medium">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/wp_dialog_title"
@@ -52,17 +51,15 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ListView
-                    android:id="@+id/wp_dialog_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:choiceMode="singleChoice"
-                    android:listSelector="@drawable/selectable_background_simplestyle" />
-            </RelativeLayout>
+            <ListView
+                android:id="@+id/wp_dialog_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="@dimen/padding_medium"
+                android:clipToPadding="false"
+                android:choiceMode="singleChoice"
+                android:layout_weight="1"
+                android:listSelector="@drawable/selectable_background_simplestyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,8 +137,6 @@
                 android:id="@+id/wp_dialog_success_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:layout_marginBottom="@dimen/padding_medium"
                 android:autoLink="web"
                 android:textSize="16sp"
@@ -189,7 +184,7 @@
                 android:theme="@style/FlatButton.Simplestyle" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/wp_dialog_section_connect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -197,6 +192,7 @@
             android:padding="@dimen/padding_large">
 
             <TextView
+                android:id="@+id/wp_dialog_connect_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/padding_medium"
@@ -208,10 +204,11 @@
                 android:id="@+id/wp_dialog_wp_connect_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_below="@id/wp_dialog_connect_summary"
+                android:layout_centerHorizontal="true"
                 android:theme="@style/FlatButton.Simplestyle"
                 android:text="@string/connect_with_wordpress" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

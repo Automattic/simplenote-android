@@ -424,7 +424,7 @@ public class WordPressDialogFragment extends DialogFragment {
             return;
         }
 
-        SharedPreferences.Editor editor = AndroidClient.sharedPreferences(getActivity()).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.putString(PrefUtils.PREF_WORDPRESS_SITES, mSitesArray.toString());
         editor.apply();
     }
@@ -475,7 +475,7 @@ public class WordPressDialogFragment extends DialogFragment {
                 JSONObject site = mSitesArray.getJSONObject(position);
                 Spanned rowText = Html.fromHtml(String.format(
                         Locale.ENGLISH,
-                        "<big>%s</big>\n<em>%s</em>",
+                        "<big>%s</big><br /><em>%s</em>",
                         site.getString(API_FIELD_NAME),
                         site.getString(API_FIELD_URL)
                 ));
