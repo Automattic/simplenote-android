@@ -213,7 +213,7 @@
     <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
     <string name="wordpress_post">WordPress Post</string>
     <string name="send_post">Post</string>
-    <string name="wordpress_post_draft">Post as a draft</string>
+    <string name="wordpress_post_draft">Set status to draft</string>
     <string name="uploading_post">Uploading post</string>
     <string name="copy_url">Copy URL</string>
     <string name="success">Successfully posted to</string>

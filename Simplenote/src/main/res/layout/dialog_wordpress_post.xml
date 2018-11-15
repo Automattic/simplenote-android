@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
@@ -116,15 +117,15 @@
                 android:layout_marginBottom="@dimen/padding_large"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/wp_dialog_section_success"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
             android:padding="@dimen/padding_large">
 
             <TextView
+                android:id="@+id/wp_dialog_success_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/padding_medium"
@@ -137,18 +138,21 @@
                 android:id="@+id/wp_dialog_success_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/wp_dialog_success_summary"
                 android:layout_marginBottom="@dimen/padding_medium"
                 android:autoLink="web"
                 android:textSize="16sp"
-                android:gravity="center_horizontal" />
+                android:layout_centerHorizontal="true" />
 
             <LinearLayout
+                android:id="@+id/wp_dialog_share_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/wp_dialog_success_url"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_centerHorizontal="true">
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/wp_dialog_share"
                     android:theme="@style/FlatButton.Simplestyle"
                     android:layout_width="wrap_content"
@@ -161,7 +165,7 @@
                     android:drawablePadding="@dimen/padding_extra_small"
                     android:text="@string/share" />
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/wp_dialog_copy_url"
                     android:theme="@style/FlatButton.Simplestyle"
                     android:layout_width="wrap_content"
@@ -174,15 +178,17 @@
 
             </LinearLayout>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/wp_dialog_done_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_below="@id/wp_dialog_share_buttons"
                 android:layout_marginTop="@dimen/padding_extra_large"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="@string/done"
                 android:theme="@style/FlatButton.Simplestyle" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/wp_dialog_section_connect"

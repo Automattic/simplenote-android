@@ -434,8 +434,7 @@ public class WordPressDialogFragment extends DialogFragment {
             return false;
         }
 
-        SharedPreferences prefs = AndroidClient.sharedPreferences(getActivity());
-        String savedSites = prefs.getString(PrefUtils.PREF_WORDPRESS_SITES, null);
+        String savedSites = PrefUtils.getStringPref(getActivity(), PrefUtils.PREF_WORDPRESS_SITES);
         if (!TextUtils.isEmpty(savedSites)) {
             try {
                 mSitesArray = new JSONArray(savedSites);
