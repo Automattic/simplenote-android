@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,24 +11,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +54,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class WordPressDialogFragment extends DialogFragment {
+public class WordPressDialogFragment extends AppCompatDialogFragment {
     public final static String DIALOG_TAG = "wordpress_dialog";
     private final static String API_FIELD_URL = "URL";
     private final static String API_FIELD_NAME = "name";
@@ -68,7 +64,7 @@ public class WordPressDialogFragment extends DialogFragment {
     private ListView mListView;
     private CheckBox mDraftCheckbox;
     private TextView mPostUrlTextView;
-    private ImageView mRefreshImageView;
+    private Button mPostButton, mCancelButton;
 
     private JSONArray mSitesArray = new JSONArray();
     private Note mNote;
@@ -81,15 +77,10 @@ public class WordPressDialogFragment extends DialogFragment {
         SUCCESS
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (getDialog().getWindow() != null) {
-            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        }
-
-        View view = inflater.inflate(R.layout.dialog_wordpress_post, container, false);
-
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = View.inflate(getActivity(), R.layout.dialog_wordpress_post, null);
         mConnectSection = view.findViewById(R.id.wp_dialog_section_connect);
         mPostingSection = view.findViewById(R.id.wp_dialog_section_posting);
         mFieldsSection = view.findViewById(R.id.wp_dialog_section_fields);
@@ -100,14 +91,8 @@ public class WordPressDialogFragment extends DialogFragment {
 
         Button copyUrlButton = view.findViewById(R.id.wp_dialog_copy_url);
         Button shareUrlButton = view.findViewById(R.id.wp_dialog_share);
-        Button doneButton = view.findViewById(R.id.wp_dialog_done_button);
-        Button connectButton = view.findViewById(R.id.wp_dialog_wp_connect_button);
         mPostUrlTextView = view.findViewById(R.id.wp_dialog_success_url);
-        mRefreshImageView = view.findViewById(R.id.wp_dialog_refresh_image_view);
 
-        final Button mPostButton = view.findViewById(R.id.wp_dialog_post_button);
-
-        mPostButton.setOnClickListener(onPostClickListener);
         copyUrlButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,39 +123,6 @@ public class WordPressDialogFragment extends DialogFragment {
             }
         });
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
-
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getActivity() == null) {
-                    return;
-                }
-
-                AuthorizationRequest.Builder authBuilder = WordPressUtils.getWordPressAuthorizationRequestBuilder();
-                // Set a unique state value
-                mAuthState = "app-" + UUID.randomUUID();
-                authBuilder.setState(mAuthState);
-
-                AuthorizationRequest request = authBuilder.build();
-                AuthorizationService authService = new AuthorizationService(getActivity());
-                Intent authIntent = authService.getAuthorizationRequestIntent(request);
-                startActivityForResult(authIntent, WordPressUtils.OAUTH_ACTIVITY_CODE);
-            }
-        });
-
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchSitesFromAPI();
-            }
-        });
-
         if (getActivity() != null) {
             Drawable shareDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_share_24dp);
             DrawableUtils.tintDrawable(
@@ -185,29 +137,226 @@ public class WordPressDialogFragment extends DialogFragment {
                     getResources().getColor(R.color.simplenote_blue)
             );
             copyUrlButton.setCompoundDrawablesWithIntrinsicBounds(copyDrawable, null, null, null);
-
-            if (!WordPressUtils.hasWPToken(getActivity())) {
-                // No WordPress token found, show connect UI
-                setDialogStatus(DialogStatus.CONNECT);
-            } else {
-                setDialogStatus(DialogStatus.FIELDS);
-            }
         }
 
-        return view;
+        if (getActivity() != null) {
+            return new AlertDialog.Builder(getActivity())
+                    .setView(view)
+                    .setTitle(R.string.post_to_wordpress)
+                    .setPositiveButton(R.string.send_post, null)
+                    .setNegativeButton(R.string.cancel, null)
+                    .create();
+        } else {
+            return super.onCreateDialog(savedInstanceState);
+        }
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
-        loadSites();
+        // Get the alert dialog buttons, so we can set their visibility and titles
+        final AlertDialog dialog = (AlertDialog)getDialog();
+        if (dialog != null)
+        {
+            mPostButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+            mPostButton.setOnClickListener(onPostClickListener);
+            mCancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+        }
+
+        // Don't reset if we've resumed in a state besides connect
+        if (mConnectSection.getVisibility() != View.VISIBLE) {
+            return;
+        }
+
+        if (!WordPressUtils.hasWPToken(getActivity())) {
+            // No WordPress token found, show connect UI
+            setDialogStatus(DialogStatus.CONNECT);
+        } else {
+            setDialogStatus(DialogStatus.FIELDS);
+        }
+
+        loadSites(); // Load locally stored sites
+        fetchSitesFromAPI(); // Fetch any new sites from the API
+    }
+
+    private void loadSites() {
+        if (getActivity() == null || !WordPressUtils.hasWPToken(getActivity())) {
+            return;
+        }
+
+        if (loadSitesFromPreferences()) {
+            SitesAdapter sitesAdapter = new SitesAdapter(getActivity());
+            mListView.setAdapter(sitesAdapter);
+            return;
+        }
+
+        fetchSitesFromAPI();
+    }
+
+    private class SitesAdapter extends ArrayAdapter<String> {
+        private SitesAdapter(@NonNull Context context) {
+            super(context, 0);
+        }
+
+        @Override
+        public int getCount() {
+            return mSitesArray.length();
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            final SiteViewHolder holder;
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_single_choice, parent, false);
+                holder = new SiteViewHolder();
+                holder.titleTextView = convertView.findViewById(android.R.id.text1);
+                convertView.setTag(holder);
+            } else {
+                holder = (SiteViewHolder) convertView.getTag();
+            }
+
+            try {
+                JSONObject site = mSitesArray.getJSONObject(position);
+                Spanned rowText = Html.fromHtml(String.format(
+                        Locale.ENGLISH,
+                        "<big>%s</big><br /><em>%s</em>",
+                        site.getString(API_FIELD_NAME),
+                        site.getString(API_FIELD_URL)
+                ));
+                holder.titleTextView.setText(rowText);
+            } catch (JSONException e) {
+                holder.titleTextView.setText(R.string.untitled_site);
+            }
+
+            if (position == 0 && mListView.getCheckedItemPosition() < 0) {
+                mListView.setItemChecked(0, true);
+            }
+
+            return convertView;
+        }
+
+        private class SiteViewHolder {
+            AppCompatCheckedTextView titleTextView;
+        }
+    }
+
+    private void saveSitesToPreferences() {
+        if (getActivity() == null) {
+            return;
+        }
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString(PrefUtils.PREF_WORDPRESS_SITES, mSitesArray.toString());
+        editor.apply();
+    }
+
+    private boolean loadSitesFromPreferences() {
+        if (getActivity() == null) {
+            return false;
+        }
+
+        String savedSites = PrefUtils.getStringPref(getActivity(), PrefUtils.PREF_WORDPRESS_SITES);
+        if (!TextUtils.isEmpty(savedSites)) {
+            try {
+                mSitesArray = new JSONArray(savedSites);
+                return true;
+            } catch (JSONException e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public void setNote(Note note) {
+        mNote = note;
+    }
+
+    private void setDialogStatus(DialogStatus status) {
+        mConnectSection.setVisibility(status == DialogStatus.CONNECT ? View.VISIBLE : View.GONE);
+        mFieldsSection.setVisibility(status == DialogStatus.FIELDS ? View.VISIBLE : View.GONE);
+        mPostingSection.setVisibility(status == DialogStatus.POSTING ? View.VISIBLE : View.GONE);
+        mSuccessSection.setVisibility(status == DialogStatus.SUCCESS ? View.VISIBLE : View.GONE);
+        mCancelButton.setVisibility(status == DialogStatus.FIELDS || status == DialogStatus.CONNECT ? View.VISIBLE : View.GONE);
+
+        // Set state and text of the dialog positive button
+        mPostButton.setEnabled(!(status == DialogStatus.POSTING));
+        if (status == DialogStatus.SUCCESS) {
+            mPostButton.setText(R.string.done);
+        } else if (status == DialogStatus.CONNECT) {
+            mPostButton.setText(R.string.connect_with_wordpress);
+        } else {
+            mPostButton.setText(R.string.send_post);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != WordPressUtils.OAUTH_ACTIVITY_CODE || data == null || getActivity() == null) {
+            return;
+        }
+
+        AuthorizationResponse authResponse = AuthorizationResponse.fromIntent(data);
+        AuthorizationException authException = AuthorizationException.fromIntent(data);
+        if (authException != null) {
+            // Error encountered
+            Uri dataUri = data.getData();
+
+            if (dataUri == null) {
+                return;
+            }
+
+            if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
+                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_unverified), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
+            }
+        } else if (authResponse != null) {
+            // Save token and finish activity
+            Simplenote app = (Simplenote)getActivity().getApplication();
+            boolean authSuccess = WordPressUtils.processAuthResponse(app, authResponse, mAuthState, false);
+            if (!authSuccess) {
+                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
+            } else {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "wpcc_login_succeeded_post_fragment"
+                );
+
+                loadSites();
+                setDialogStatus(DialogStatus.FIELDS);
+            }
+        }
     }
 
     private final View.OnClickListener onPostClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (mNote == null || !isAdded()) {
+                return;
+            }
+
+            // Perform different actions depending on the state of the dialog
+            if (mSuccessSection.getVisibility() == View.VISIBLE) {
+                dismiss();
+                return;
+            } else if (mConnectSection.getVisibility() == View.VISIBLE) {
+                if (getActivity() == null) {
+                    return;
+                }
+
+                AuthorizationRequest.Builder authBuilder = WordPressUtils.getWordPressAuthorizationRequestBuilder();
+                // Set a unique state value
+                mAuthState = "app-" + UUID.randomUUID();
+                authBuilder.setState(mAuthState);
+
+                AuthorizationRequest request = authBuilder.build();
+                AuthorizationService authService = new AuthorizationService(getActivity());
+                Intent authIntent = authService.getAuthorizationRequestIntent(request);
+                startActivityForResult(authIntent, WordPressUtils.OAUTH_ACTIVITY_CODE);
                 return;
             }
 
@@ -307,27 +456,7 @@ public class WordPressDialogFragment extends DialogFragment {
         }
     };
 
-    private void loadSites() {
-        if (getActivity() == null || !WordPressUtils.hasWPToken(getActivity())) {
-            return;
-        }
-
-        if (loadSitesFromPreferences()) {
-            SitesAdapter sitesAdapter = new SitesAdapter(getActivity());
-            mListView.setAdapter(sitesAdapter);
-            return;
-        }
-
-        fetchSitesFromAPI();
-    }
-
     private void fetchSitesFromAPI() {
-        mRefreshImageView.setEnabled(false);
-        RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnimation.setDuration(500);
-        rotateAnimation.setRepeatCount(-1);
-        rotateAnimation.setInterpolator(new LinearInterpolator());
-        mRefreshImageView.startAnimation(rotateAnimation);
         WordPressUtils.getSites(getActivity(), new Callback() {
             @Override
             public void onFailure(@NonNull final Call call, @NonNull IOException e) {
@@ -338,8 +467,6 @@ public class WordPressDialogFragment extends DialogFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mRefreshImageView.clearAnimation();
-                        mRefreshImageView.setEnabled(true);
                         if (mSitesArray.length() == 0) {
                             // Reset to connect state if we reached an error
                             setDialogStatus(DialogStatus.CONNECT);
@@ -380,8 +507,6 @@ public class WordPressDialogFragment extends DialogFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mRefreshImageView.clearAnimation();
-                                mRefreshImageView.setEnabled(true);
                                 if (newSitesArray.length() > 0) {
                                     mSitesArray = newSitesArray;
                                     saveSitesToPreferences();
@@ -395,10 +520,10 @@ public class WordPressDialogFragment extends DialogFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mRefreshImageView.clearAnimation();
-                                mRefreshImageView.setEnabled(true);
                                 // Reset to connect state if we reached an error
-                                setDialogStatus(DialogStatus.CONNECT);
+                                if (mSitesArray.length() == 0) {
+                                    setDialogStatus(DialogStatus.CONNECT);
+                                }
                             }
                         });
 
@@ -411,8 +536,6 @@ public class WordPressDialogFragment extends DialogFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mRefreshImageView.clearAnimation();
-                            mRefreshImageView.setEnabled(true);
                             // Remove WordPress sites
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                             editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
@@ -424,133 +547,5 @@ public class WordPressDialogFragment extends DialogFragment {
                 }
             }
         });
-    }
-
-    private void saveSitesToPreferences() {
-        if (getActivity() == null) {
-            return;
-        }
-
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-        editor.putString(PrefUtils.PREF_WORDPRESS_SITES, mSitesArray.toString());
-        editor.apply();
-    }
-
-    private boolean loadSitesFromPreferences() {
-        if (getActivity() == null) {
-            return false;
-        }
-
-        String savedSites = PrefUtils.getStringPref(getActivity(), PrefUtils.PREF_WORDPRESS_SITES);
-        if (!TextUtils.isEmpty(savedSites)) {
-            try {
-                mSitesArray = new JSONArray(savedSites);
-                return true;
-            } catch (JSONException e) {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private class SitesAdapter extends ArrayAdapter<String> {
-        private SitesAdapter(@NonNull Context context) {
-            super(context, 0);
-        }
-
-        @Override
-        public int getCount() {
-            return mSitesArray.length();
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            final SiteViewHolder holder;
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_single_choice, parent, false);
-                holder = new SiteViewHolder();
-                holder.titleTextView = convertView.findViewById(android.R.id.text1);
-                convertView.setTag(holder);
-            } else {
-                holder = (SiteViewHolder) convertView.getTag();
-            }
-
-            try {
-                JSONObject site = mSitesArray.getJSONObject(position);
-                Spanned rowText = Html.fromHtml(String.format(
-                        Locale.ENGLISH,
-                        "<big>%s</big><br /><em>%s</em>",
-                        site.getString(API_FIELD_NAME),
-                        site.getString(API_FIELD_URL)
-                ));
-                holder.titleTextView.setText(rowText);
-            } catch (JSONException e) {
-                holder.titleTextView.setText(R.string.untitled_site);
-            }
-
-            if (position == 0 && mListView.getCheckedItemPosition() < 0) {
-                mListView.setItemChecked(0, true);
-            }
-
-            return convertView;
-        }
-
-        private class SiteViewHolder {
-            AppCompatCheckedTextView titleTextView;
-        }
-    }
-
-    public void setNote(Note note) {
-        mNote = note;
-    }
-
-    private void setDialogStatus(DialogStatus status) {
-        mConnectSection.setVisibility(status == DialogStatus.CONNECT ? View.VISIBLE : View.GONE);
-        mFieldsSection.setVisibility(status == DialogStatus.FIELDS ? View.VISIBLE : View.GONE);
-        mRefreshImageView.setVisibility(status == DialogStatus.FIELDS ? View.VISIBLE : View.GONE);
-        mPostingSection.setVisibility(status == DialogStatus.POSTING ? View.VISIBLE : View.GONE);
-        mSuccessSection.setVisibility(status == DialogStatus.SUCCESS ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != WordPressUtils.OAUTH_ACTIVITY_CODE || data == null || getActivity() == null) {
-            return;
-        }
-
-        AuthorizationResponse authResponse = AuthorizationResponse.fromIntent(data);
-        AuthorizationException authException = AuthorizationException.fromIntent(data);
-        if (authException != null) {
-            // Error encountered
-            Uri dataUri = data.getData();
-
-            if (dataUri == null) {
-                return;
-            }
-
-            if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_unverified), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
-            }
-        } else if (authResponse != null) {
-            // Save token and finish activity
-            Simplenote app = (Simplenote)getActivity().getApplication();
-            boolean authSuccess = WordPressUtils.processAuthResponse(app, authResponse, mAuthState, false);
-            if (!authSuccess) {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
-            } else {
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
-                        AnalyticsTracker.CATEGORY_USER,
-                        "wpcc_login_succeeded_post_fragment"
-                );
-
-                loadSites();
-                setDialogStatus(DialogStatus.FIELDS);
-            }
-        }
     }
 }

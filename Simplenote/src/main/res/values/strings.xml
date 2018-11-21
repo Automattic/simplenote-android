@@ -219,7 +219,7 @@
     <string name="success">Successfully posted to</string>
     <string name="done">Done</string>
     <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
-    <string name="connect_with_wordpress">Connect with WordPress.com</string>
+    <string name="connect_with_wordpress">Connect</string>
     <string name="untitled_site">Untitled site</string>
     <string name="post_to_wordpress">Post to WordPress</string>
     <string name="refresh_sites">Refresh sites</string>
