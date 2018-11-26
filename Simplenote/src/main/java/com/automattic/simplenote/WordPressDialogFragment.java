@@ -63,8 +63,9 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
     private View mConnectSection, mPostingSection, mFieldsSection, mSuccessSection;
     private ListView mListView;
     private CheckBox mDraftCheckbox;
-    private TextView mPostUrlTextView;
+    private TextView mPostSuccessTextView;
     private Button mPostButton, mCancelButton;
+    private String mPostUrl;
 
     private JSONArray mSitesArray = new JSONArray();
     private Note mNote;
@@ -91,7 +92,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
 
         Button copyUrlButton = view.findViewById(R.id.wp_dialog_copy_url);
         Button shareUrlButton = view.findViewById(R.id.wp_dialog_share);
-        mPostUrlTextView = view.findViewById(R.id.wp_dialog_success_url);
+        mPostSuccessTextView = view.findViewById(R.id.wp_dialog_success_summary);
 
         copyUrlButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +103,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
 
                 ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 if (clipboard != null) {
-                    ClipData clip = ClipData.newPlainText("Simplenote", mPostUrlTextView.getText());
+                    ClipData clip = ClipData.newPlainText("Simplenote", mPostUrl);
                     clipboard.setPrimaryClip(clip);
                 }
             }
@@ -117,7 +118,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
 
                 Intent share = new Intent(android.content.Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, mPostUrlTextView.getText());
+                share.putExtra(Intent.EXTRA_TEXT, mPostUrl);
 
                 startActivity(Intent.createChooser(share, getString(R.string.wordpress_post_link)));
             }
@@ -429,7 +430,8 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                                     String responseString = response.body().string();
                                     JSONObject postResult = new JSONObject(responseString);
 
-                                    mPostUrlTextView.setText(postResult.getString(API_FIELD_URL));
+                                    mPostUrl = postResult.getString(API_FIELD_URL);
+                                    mPostSuccessTextView.setText(getString(R.string.success, mPostUrl));
                                     setDialogStatus(DialogStatus.SUCCESS);
 
                                     AnalyticsTracker.track(
