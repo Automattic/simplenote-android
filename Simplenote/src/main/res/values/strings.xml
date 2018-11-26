@@ -222,7 +222,6 @@
     <string name="connect_with_wordpress">Connect</string>
     <string name="untitled_site">Untitled site</string>
     <string name="post_to_wordpress">Post to WordPress</string>
-    <string name="refresh_sites">Refresh sites</string>
     <string name="select_site">Select a site to post to.</string>
     <string name="network_error_message">A network error was encountered. Please try again.</string>
     <string name="reconnect_to_wordpress">Please reconnect to WordPress.com.</string>
