@@ -3,36 +3,26 @@ package com.automattic.simplenote;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
-import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
-import com.simperium.android.AndroidClient;
 import com.simperium.android.LoginActivity;
-import com.simperium.client.User;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
-import net.openid.appauth.AuthorizationServiceConfiguration;
-import net.openid.appauth.ResponseTypeValues;
 
 import java.util.UUID;
-
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class SignInActivity extends LoginActivity {
     private static String STATE_KEY_AUTH = "authState";

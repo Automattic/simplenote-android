@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
@@ -58,7 +56,6 @@ import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
-import com.automattic.simplenote.utils.WordPressUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
