@@ -105,6 +105,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                 if (clipboard != null) {
                     ClipData clip = ClipData.newPlainText("Simplenote", mPostUrl);
                     clipboard.setPrimaryClip(clip);
+                    Toast.makeText(requireContext(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
                 }
             }
         });
