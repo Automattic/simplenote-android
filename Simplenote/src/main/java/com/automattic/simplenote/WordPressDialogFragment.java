@@ -280,9 +280,8 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
         mPostingSection.setVisibility(status == DialogStatus.POSTING ? View.VISIBLE : View.GONE);
         mSuccessSection.setVisibility(status == DialogStatus.SUCCESS ? View.VISIBLE : View.GONE);
         mCancelButton.setVisibility(status == DialogStatus.FIELDS || status == DialogStatus.CONNECT ? View.VISIBLE : View.GONE);
+        mPostButton.setVisibility(status == DialogStatus.POSTING ? View.GONE : View.VISIBLE);
 
-        // Set state and text of the dialog positive button
-        mPostButton.setEnabled(!(status == DialogStatus.POSTING));
         if (status == DialogStatus.SUCCESS) {
             mPostButton.setText(R.string.done);
         } else if (status == DialogStatus.CONNECT) {
