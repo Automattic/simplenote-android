@@ -138,21 +138,24 @@
 
     <RelativeLayout
         android:id="@+id/wp_dialog_section_connect"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="@dimen/padding_large"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_extra_extra_large"
+        android:paddingLeft="@dimen/padding_extra_extra_large"
+        android:paddingRight="@dimen/padding_extra_extra_large"
+        android:paddingStart="@dimen/padding_extra_extra_large"
+        android:paddingTop="@dimen/padding_large" >
 
         <TextView
             android:id="@+id/wp_dialog_connect_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_medium"
             android:gravity="start"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:text="@string/wordpress_connect_summary"
-            android:textColor="?attr/noteTitleColor" />
+            android:textColor="?attr/noteTitleColor" >
+        </TextView>
 
     </RelativeLayout>
+
 </LinearLayout>
