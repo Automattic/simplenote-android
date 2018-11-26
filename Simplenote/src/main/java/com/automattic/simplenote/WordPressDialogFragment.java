@@ -221,7 +221,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                 JSONObject site = mSitesArray.getJSONObject(position);
                 Spanned rowText = Html.fromHtml(String.format(
                         Locale.ENGLISH,
-                        "<big>%s</big><br /><em>%s</em>",
+                        "%s<br/><small><span style=\"color:#899199\">%s</span></small>",
                         site.getString(API_FIELD_NAME),
                         site.getString(API_FIELD_URL)
                 ));
