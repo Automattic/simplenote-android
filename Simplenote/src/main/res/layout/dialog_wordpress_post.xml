@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/wp_dialog_section_fields"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone" >
 
         <ListView
             android:id="@+id/wp_dialog_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
             android:choiceMode="singleChoice"
             android:clipToPadding="false"
             android:divider="@null"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:listSelector="@drawable/selectable_background_simplestyle"
             android:paddingLeft="@dimen/padding_extra_small"
             android:paddingRight="@dimen/padding_extra_small"
-            android:listSelector="@drawable/selectable_background_simplestyle"
-            android:paddingTop="@dimen/padding_medium" />
+            android:paddingTop="@dimen/padding_medium" >
+        </ListView>
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:padding="@dimen/padding_large">
+            android:padding="@dimen/padding_large" >
 
             <CheckBox
                 android:id="@+id/wp_dialog_draft_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
                 android:text="@string/wordpress_post_draft"
+                android:textColor="?attr/noteTitleColor"
                 android:textSize="16sp"
-                android:textColor="?attr/noteTitleColor" />
+                tools:ignore="RtlSymmetry" >
+            </CheckBox>
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
