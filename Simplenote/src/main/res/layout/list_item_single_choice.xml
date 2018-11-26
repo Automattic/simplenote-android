@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.AppCompatCheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.AppCompatCheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
     android:checkMark="@null"
-    android:drawableStart="?android:attr/listChoiceIndicatorSingle"
     android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
-    android:paddingStart="@dimen/padding_medium"
+    android:drawablePadding="@dimen/padding_medium"
+    android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:lineSpacingExtra="4dp"
+    android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingEnd="@dimen/padding_medium"
     android:paddingLeft="@dimen/padding_medium"
-    android:paddingRight="@dimen/padding_medium" />
+    android:paddingRight="@dimen/padding_medium"
+    android:paddingStart="@dimen/padding_medium"
+    android:textColor="?attr/noteTitleColor"
+    android:textSize="18sp"
+    tools:text="Example Item" >
+</android.support.v7.widget.AppCompatCheckedTextView>
