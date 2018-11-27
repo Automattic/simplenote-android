@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -795,6 +796,29 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mShareBottomSheet != null) {
             mShareBottomSheet.dismiss();
         }
+    }
+
+    @Override
+    public void onWordPressPostClicked() {
+        if (mShareBottomSheet != null) {
+            mShareBottomSheet.dismiss();
+        }
+
+        if (getFragmentManager() == null) {
+            return;
+        }
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(WordPressDialogFragment.DIALOG_TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        WordPressDialogFragment wpDialogFragment = new WordPressDialogFragment();
+        wpDialogFragment.setNote(mNote);
+        wpDialogFragment.show(ft, WordPressDialogFragment.DIALOG_TAG);
     }
 
     @Override
