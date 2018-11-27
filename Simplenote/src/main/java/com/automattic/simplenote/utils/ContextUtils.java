@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+@SuppressWarnings("TryFinallyCanBeTryWithResources") // try with resources requires API 19+
 public class ContextUtils {
     public static String readCssFile(Context context, String css) {
         InputStream stream = null;

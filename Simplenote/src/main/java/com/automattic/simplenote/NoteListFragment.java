@@ -285,11 +285,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mCallbacks = sCallbacks;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     public void setEmptyListMessage(String message) {
         if (mEmptyListTextView != null && message != null)
             mEmptyListTextView.setText(HtmlCompat.fromHtml(message));

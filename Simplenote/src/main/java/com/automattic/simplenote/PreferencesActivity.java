@@ -30,7 +30,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_preferences);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setTitle(R.string.settings);

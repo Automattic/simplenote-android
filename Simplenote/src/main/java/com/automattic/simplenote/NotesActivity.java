@@ -141,7 +141,7 @@ public class NotesActivity extends AppCompatActivity implements
             mTagsBucket = currentApp.getTagsBucket();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureNavigationDrawer(toolbar);
 
@@ -272,10 +272,10 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void configureNavigationDrawer(Toolbar toolbar) {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mNavigationView = findViewById(R.id.navigation_view);
+        mDrawerList = findViewById(R.id.drawer_list);
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
