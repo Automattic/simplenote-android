@@ -40,7 +40,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.ListViewScrollTracker;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
@@ -98,7 +97,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
     private int mPreviewFontSize;
-    private ListViewScrollTracker mScrollTracker;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -210,7 +208,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onViewCreated(view, savedInstanceState);
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
-        
+
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
@@ -244,27 +242,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
-        mScrollTracker = new ListViewScrollTracker(getListView());
-
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
-        getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int incrementalOffset = mScrollTracker.calculateIncrementalOffset(firstVisibleItem, visibleItemCount);
-                if (incrementalOffset < 0) {
-                    setFloatingActionButtonVisible(false);
-                } else {
-                    setFloatingActionButtonVisible(true);
-                }
-            }
-
-        });
     }
 
     private void createNewNote(String label){
@@ -605,8 +584,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         /*
-        *  nbradbury - implemented "holder pattern" to boost performance with large note lists
-        */
+         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
+         */
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
 
@@ -700,13 +679,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // Add mouse right click support for showing a popup menu
             view.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                    showPopupMenuAtPosition(view, position);
-                    return true;
-                }
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                        showPopupMenuAtPosition(view, position);
+                        return true;
+                    }
 
                     return false;
                 }
