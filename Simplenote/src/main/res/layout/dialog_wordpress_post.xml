@@ -98,8 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_large"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="@dimen/padding_extra_extra_large"
+        android:paddingRight="@dimen/padding_extra_extra_large"
         android:paddingTop="@dimen/padding_large" >
 
         <TextView
