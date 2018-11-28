@@ -6,6 +6,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 
     <application
         android:name="com.automattic.simplenote.Simplenote"
@@ -59,11 +61,13 @@
             android:windowSoftInputMode="stateHidden" />
 
         <!-- Passcode Unlock-->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

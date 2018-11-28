@@ -1,23 +1,24 @@
 buildscript {
     repositories {
+        google()
         jcenter()
     }
 }
 apply plugin: 'com.android.application'
 
 repositories {
-    jcenter()
     maven { url "https://maven.google.com" }
+    jcenter()
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         minSdkVersion 20
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -31,10 +32,12 @@ android {
 }
 
 dependencies {
-    provided 'com.google.android.wearable:wearable:2.0.5'
+    compileOnly 'com.google.android.wearable:wearable:2.3.0'
 
-    compile 'com.google.android.support:wearable:2.0.5'
-    compile 'com.google.android.gms:play-services-wearable:11.0.4'
+    implementation 'com.google.android.support:wearable:2.3.0'
+    implementation ('com.google.android.gms:play-services-wearable:15.0.1'){
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){

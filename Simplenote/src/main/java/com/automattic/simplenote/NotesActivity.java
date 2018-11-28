@@ -10,19 +10,18 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -142,7 +141,7 @@ public class NotesActivity extends AppCompatActivity implements
             mTagsBucket = currentApp.getTagsBucket();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureNavigationDrawer(toolbar);
 
@@ -273,10 +272,10 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void configureNavigationDrawer(Toolbar toolbar) {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mNavigationView = findViewById(R.id.navigation_view);
+        mDrawerList = findViewById(R.id.drawer_list);
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -500,7 +499,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         });
 
-        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 checkEmptyListText(true);
@@ -542,8 +541,7 @@ public class NotesActivity extends AppCompatActivity implements
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
             trashItem.setTitle(R.string.undelete);
             trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
-        }
-        else {
+        } else {
             trashItem.setTitle(R.string.delete);
             trashItem.setIcon(R.drawable.ic_trash_24dp);
         }
@@ -813,9 +811,16 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     public void startLoginActivity(boolean signInFirst) {
+        // Clear some account-specific prefs
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.remove(PrefUtils.PREF_WP_TOKEN);
+        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
+        editor.apply();
+
         Intent loginIntent = new Intent(this, SignInActivity.class);
-        if (signInFirst)
+        if (signInFirst) {
             loginIntent.putExtra(SignInActivity.EXTRA_SIGN_IN_FIRST, true);
+        }
         startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
@@ -921,7 +926,7 @@ public class NotesActivity extends AppCompatActivity implements
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-    
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

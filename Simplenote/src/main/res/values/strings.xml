@@ -68,6 +68,8 @@
     <string name="condensed_note_list">Condensed note list</string>
     <string name="sort_order">Sort order</string>
     <string name="detect_links">Detect links</string>
+    <string name="share_analytics">Share analytics</string>
+    <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -149,6 +151,7 @@
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Dark at night only</string>
     <string name="theme">Theme</string>
     <string name="version">Version</string>
 
@@ -177,12 +180,12 @@
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not create link...</string>
-    <string name="unpublish_error">Could not remove link...</string>
-    <string name="publish_successful">Success! Link copied to clipboard...</string>
+    <string name="publish_error">Could not create link…</string>
+    <string name="unpublish_error">Could not remove link…</string>
+    <string name="publish_successful">Success! Link copied to clipboard…</string>
     <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing link...</string>
-    <string name="unpublishing">Removing public link...</string>
+    <string name="publishing">Publishing link…</string>
+    <string name="unpublishing">Removing public link…</string>
     <string name="collaborate">Collaborate</string>
     <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
     <string name="note_not_published">Note not published</string>
@@ -195,6 +198,10 @@
     <string name="font_size_large">Large</string>
     <string name="font_size_extra_large">Extra large</string>
 
+    <!--Permissions-->
+    <string name="location_permission_denied">Location Permission Denied</string>
+    <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
+
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
@@ -204,5 +211,22 @@
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="or">or</string>
     <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
+    <string name="wordpress_post">WordPress Post</string>
+    <string name="send_post">Post</string>
+    <string name="wordpress_post_draft">Set status to draft</string>
+    <string name="uploading_post">Uploading post</string>
+    <string name="copy_url">Copy URL</string>
+    <string name="success">Successfully posted to</string>
+    <string name="done">Done</string>
+    <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
+    <string name="connect_with_wordpress">Connect</string>
+    <string name="untitled_site">Untitled site</string>
+    <string name="post_to_wordpress">Post to WordPress</string>
+    <string name="select_site">Select a site to post to.</string>
+    <string name="network_error_message">A network error was encountered. Please try again.</string>
+    <string name="reconnect_to_wordpress">Please reconnect to WordPress.com.</string>
+    <string name="wordpress_post_link">Share WordPress Post</string>
+    <string name="could_not_access_site_data">Could not access site data.</string>
+    <string name="empty_note_post">Can\'t post an empty note.</string>
 
 </resources>

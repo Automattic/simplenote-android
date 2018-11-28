@@ -65,14 +65,24 @@
         <Preference
             android:key="pref_key_authenticate"
             android:layout="@layout/auth_preference"/>
-        <!--<Preference
-                android:key="pref_key_billing"
-                android:persistent="false"
-                android:title="@string/premium_title" />-->
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_account_preferences"
+        android:key="pref_key_privacy"
+        android:title="Privacy">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_key_analytics_switch"
+            android:title="@string/share_analytics" />
+        <Preference
+            android:key="pref_key_analytics_enabled_summary"
+            android:summary="@string/share_analytics_summary">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://automattic.com/cookies" />
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/more_info">
         <Preference
             android:key="pref_key_about"

@@ -333,8 +333,10 @@ public class Note extends BucketObject {
         }
         if (deleted instanceof Boolean) {
             return (Boolean) deleted;
-        } else
+        } else {
+            // Simperium-iOS sets booleans as integer values (0 or 1)
             return deleted instanceof Number && ((Number) deleted).intValue() != 0;
+        }
     }
 
     public void setDeleted(boolean deleted) {

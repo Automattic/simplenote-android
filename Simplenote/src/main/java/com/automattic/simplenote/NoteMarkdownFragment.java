@@ -113,19 +113,23 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     public void updateMarkdown(String text) {
+        mMarkdown.loadDataWithBaseURL(null, getMarkdownFormattedContent(mCss, text), "text/html", "utf-8", null);
+    }
+
+    public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
         String header = "<html><head>" +
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
-                mCss + "</head><body>";
+                cssContent + "</head><body>";
 
         String parsedMarkdown = new AndDown().markdownToHtml(
-                text,
+                sourceContent,
                 AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE |
                         AndDown.HOEDOWN_EXT_QUOTE | AndDown.HOEDOWN_EXT_TABLES,
                 AndDown.HOEDOWN_HTML_ESCAPE
         );
-        String htmlContent = header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
+
+        return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
-        mMarkdown.loadDataWithBaseURL(null, htmlContent, "text/html", "utf-8", null);
     }
 
     private class loadNoteTask extends AsyncTask<String, Void, Void> {
@@ -158,7 +162,9 @@ public class NoteMarkdownFragment extends Fragment {
             mIsLoadingNote = false;
 
             if (mNote != null) {
-                getActivity().invalidateOptionsMenu();
+                if (getActivity() != null) {
+                    getActivity().invalidateOptionsMenu();
+                }
             }
         }
     }

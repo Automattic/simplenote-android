@@ -1,38 +1,54 @@
 package com.automattic.simplenote;
 
-
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.SwitchPreferenceCompat;
 import android.widget.Toast;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.single.BasePermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
 import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
-import com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat;
 
 import java.lang.ref.WeakReference;
+
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
+        Simperium.OnUserCreatedListener {
 
     private static final String WEB_APP_URL = "https://app.simplenote.com";
+
+    private Bucket<Preferences> mPreferencesBucket;
+    private SwitchPreferenceCompat mAnalyticsSwitch;
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -49,10 +65,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         Preference authenticatePreference = findPreference("pref_key_authenticate");
         Simplenote currentApp = (Simplenote) getActivity().getApplication();
-        currentApp.getSimperium().setUserStatusChangeListener(this);
-        currentApp.getSimperium().setOnUserCreatedListener(this);
+        Simperium simperium = currentApp.getSimperium();
+        simperium.setUserStatusChangeListener(this);
+        simperium.setOnUserCreatedListener(this);
+        mPreferencesBucket = currentApp.getPreferencesBucket();
+        mPreferencesBucket.start();
+
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
-        if (currentApp.getSimperium().needsAuthorization()) {
+        if (simperium.needsAuthorization()) {
             authenticatePreference.setTitle(R.string.sign_in);
         } else {
             authenticatePreference.setTitle(R.string.sign_out);
@@ -103,7 +123,41 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                int index = Integer.parseInt(newValue.toString());
+                final Activity activity = getActivity();
+                final int index = Integer.parseInt(newValue.toString());
+                if (index == ThemeUtils.THEME_AUTO) {
+
+                    PermissionListener permissionListener = new BasePermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            updateTheme(activity, index);
+                        }
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle(R.string.location_permission_denied)
+                                    .setMessage(R.string.location_permission_explanation)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    };
+                    Dexter.withActivity(activity)
+                            .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            .withListener(permissionListener)
+                            .check();
+                    updateTheme(activity, index);
+                } else {
+                    updateTheme(activity, index);
+                }
+
+                return true;
+            }
+
+            private void updateTheme(Activity activity, int index) {
                 CharSequence[] entries = themePreference.getEntries();
                 themePreference.setSummary(entries[index]);
 
@@ -114,12 +168,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 );
 
                 // update intent to indicate the theme setting was changed
-                getActivity().setIntent(ThemeUtils.makeThemeChangeIntent());
+                activity.setIntent(ThemeUtils.makeThemeChangeIntent());
 
                 // recreate the activity so new theme is applied
-                getActivity().recreate();
-
-                return true;
+                activity.recreate();
             }
         });
 
@@ -154,6 +206,40 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+
+        // Add the hyperlink to the analytics summary
+        Preference analyticsSummaryPreference = findPreference("pref_key_analytics_enabled_summary");
+        String formattedSummary = String.format(
+                getString(R.string.share_analytics_summary),
+                "<a href=\"https://automattic.com/cookies\">",
+                "</a>"
+        );
+        analyticsSummaryPreference.setSummary(HtmlCompat.fromHtml(formattedSummary));
+
+        mAnalyticsSwitch = (SwitchPreferenceCompat)findPreference("pref_key_analytics_switch");
+        mAnalyticsSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                try {
+                    boolean isChecked = (boolean)newValue;
+                    Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
+                    prefs.setAnalyticsEnabled(isChecked);
+                    prefs.save();
+                } catch (BucketObjectMissingException e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            }
+        });
+
+        updateAnalyticsSwitchState();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPreferencesBucket.stop();
     }
 
     private DialogInterface.OnClickListener signOutClickListener = new DialogInterface.OnClickListener() {
@@ -187,10 +273,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private void signOut() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         application.getSimperium().deauthorizeUser();
+
         application.getNotesBucket().reset();
         application.getTagsBucket().reset();
+        application.getPreferencesBucket().reset();
+
         application.getNotesBucket().stop();
         application.getTagsBucket().stop();
+        application.getPreferencesBucket().stop();
+
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.USER_SIGNED_OUT,
                 AnalyticsTracker.CATEGORY_USER,
@@ -203,6 +294,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         // Remove wp.com token
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.remove(PrefUtils.PREF_WP_TOKEN);
+
+        // Remove WordPress sites
+        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
         getActivity().finish();
@@ -237,6 +331,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 AnalyticsTracker.CATEGORY_USER,
                 "account_created_from_preferences_activity"
         );
+    }
+
+    private void updateAnalyticsSwitchState() {
+        try {
+            Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
+            mAnalyticsSwitch.setChecked(prefs.getAnalyticsEnabled());
+        } catch (BucketObjectMissingException e) {
+            // The preferences object doesn't exist for this user yet, create it
+            try {
+                Preferences prefs = mPreferencesBucket.newObject(PREFERENCES_OBJECT_KEY);
+                prefs.setAnalyticsEnabled(true);
+                prefs.save();
+            } catch (BucketObjectNameInvalid bucketObjectNameInvalid) {
+                bucketObjectNameInvalid.printStackTrace();
+            }
+        }
     }
 
     private static class SignOutAsyncTask extends AsyncTask<Void, Void, Boolean> {

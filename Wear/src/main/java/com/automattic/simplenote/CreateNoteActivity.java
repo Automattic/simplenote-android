@@ -1,32 +1,31 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CreateNoteActivity extends Activity {
 
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Disable transition animations for this activity
-        overridePendingTransition(0,0);
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .build();
-        mGoogleApiClient.connect();
+        overridePendingTransition(0, 0);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -37,7 +36,8 @@ public class CreateNoteActivity extends Activity {
         if (extras.containsKey(android.content.Intent.EXTRA_TEXT)) {
             String voiceNote = extras.getString(android.content.Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(voiceNote)) {
-                new SendNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voiceNote);
+                new SendNoteTask(this)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voiceNote);
             } else {
                 showConfirmationActivityAndFinish(false);
             }
@@ -47,26 +47,46 @@ public class CreateNoteActivity extends Activity {
     }
 
 
-    private class SendNoteTask extends AsyncTask<String, Void, Boolean> {
+    private static class SendNoteTask extends AsyncTask<String, Void, Boolean> {
+        WeakReference<CreateNoteActivity> weakActivity;
+
+        SendNoteTask(CreateNoteActivity activity) {
+            weakActivity = new WeakReference<>(activity);
+        }
+
         @Override
         protected Boolean doInBackground(String... voiceNotes) {
-            if (voiceNotes.length == 0) {
+            Activity activity = weakActivity.get();
+            if (voiceNotes.length == 0 || activity == null) {
                 return false;
             }
 
-            String voiceNote = voiceNotes[0];
-            NodeApi.GetConnectedNodesResult rawNodes =
-                    Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
-
             boolean isSuccess = false;
 
-            // A Node represents a connected device.
-            // Should be one device in most cases but we'll loop anyways.
-            for (Node node : rawNodes.getNodes()) {
-                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                        mGoogleApiClient, node.getId(), "new-note", voiceNote.getBytes()).await();
+            String voiceNote = voiceNotes[0];
+            Task<List<Node>> rawNodes =
+                    Wearable.getNodeClient(activity.getApplicationContext()).getConnectedNodes();
 
-                isSuccess = result.getStatus().isSuccess();
+            try {
+                List<Node> nodes = Tasks.await(rawNodes);
+
+                // A Node represents a connected device.
+                // Should be one device in most cases but we'll loop anyways.
+                for (Node node : nodes) {
+                    try {
+                        Task<Integer> sendMessage = Wearable.getMessageClient(
+                                activity.getApplicationContext()).sendMessage(
+                                node.getId(), "new-note", voiceNote.getBytes());
+                        Tasks.await(sendMessage);
+
+                        isSuccess = sendMessage.isSuccessful();
+                    } catch (ExecutionException | InterruptedException e) {
+                        Log.e("Create Note", "Failed to send new-note messages: " + e.getMessage(), e);
+                    }
+
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                Log.e("Create Note", "Failed to get connected Nodes: " + e.getMessage(), e);
             }
 
             return isSuccess;
@@ -74,7 +94,10 @@ public class CreateNoteActivity extends Activity {
 
         @Override
         protected void onPostExecute(Boolean isSuccess) {
-            showConfirmationActivityAndFinish(isSuccess);
+            CreateNoteActivity activity = weakActivity.get();
+            if (activity != null) {
+                activity.showConfirmationActivityAndFinish(isSuccess);
+            }
         }
     }
 
@@ -88,7 +111,7 @@ public class CreateNoteActivity extends Activity {
         confirmationIntent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, message);
 
         startActivity(confirmationIntent);
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         finish();
     }
 }

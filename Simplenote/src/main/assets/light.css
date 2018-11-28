@@ -141,6 +141,7 @@ html {
     padding: 1em;
     border-radius: 3px;
     background: #f6f7f8;
+    white-space: pre-wrap;
 }
 
 .note-detail-markdown pre code {

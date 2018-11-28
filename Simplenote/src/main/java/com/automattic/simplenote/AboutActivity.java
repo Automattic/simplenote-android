@@ -20,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
 
         setTitle("");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && toolbar != null) {
             toolbar.setElevation(0);
         }

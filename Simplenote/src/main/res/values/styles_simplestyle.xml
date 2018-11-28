@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_toolbar_light</item>
         <item name="colorPrimaryDark">@color/lightgrey</item>
@@ -107,6 +107,12 @@
         <item name="background">?attr/actionModeBackgroundColor</item>
         <item name="titleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
         <item name="subtitleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
+    </style>
+
+    <style name="FlatButton.Simplestyle" parent="Theme.AppCompat.Light">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="colorControlHighlight">@color/simplenote_blue_accent</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
     </style>
 
     <style name="Simplestyle.ActionModeTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

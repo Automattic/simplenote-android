@@ -13,16 +13,20 @@ import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
+import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.crashlytics.android.Crashlytics;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
+import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 public class Simplenote extends Application {
 
@@ -40,6 +44,7 @@ public class Simplenote extends Application {
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private static Bucket<Preferences> mPreferencesBucket;
 
     public void onCreate() {
         super.onCreate();
@@ -63,6 +68,8 @@ public class Simplenote extends Application {
             Tag.Schema tagSchema = new Tag.Schema();
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
+            mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
+            mPreferencesBucket.start();
 
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
@@ -86,6 +93,19 @@ public class Simplenote extends Application {
         return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
     }
 
+    public static boolean analyticsIsEnabled() {
+        if (mPreferencesBucket == null) {
+            return true;
+        }
+
+        try {
+            Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
+            return prefs.getAnalyticsEnabled();
+        } catch (BucketObjectMissingException e) {
+            return true;
+        }
+    }
+
     public Simperium getSimperium() {
         return mSimperium;
     }
@@ -96,6 +116,10 @@ public class Simplenote extends Application {
 
     public Bucket<Tag> getTagsBucket() {
         return mTagsBucket;
+    }
+
+    public Bucket<Preferences> getPreferencesBucket() {
+        return mPreferencesBucket;
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks,
@@ -121,6 +145,9 @@ public class Simplenote extends Application {
                         }
                         if (mTagsBucket != null) {
                             mTagsBucket.stop();
+                        }
+                        if (mPreferencesBucket != null) {
+                            mPreferencesBucket.stop();
                         }
                     }
                 }, TEN_SECONDS_MILLIS);
