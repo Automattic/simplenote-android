@@ -208,7 +208,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onViewCreated(view, savedInstanceState);
 
         NotesActivity notesActivity = (NotesActivity) getActivity();
-        
+
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
@@ -579,8 +579,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         /*
-        *  nbradbury - implemented "holder pattern" to boost performance with large note lists
-        */
+         *  nbradbury - implemented "holder pattern" to boost performance with large note lists
+         */
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
 
@@ -674,13 +674,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // Add mouse right click support for showing a popup menu
             view.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                    showPopupMenuAtPosition(view, position);
-                    return true;
-                }
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                        showPopupMenuAtPosition(view, position);
+                        return true;
+                    }
 
                     return false;
                 }
