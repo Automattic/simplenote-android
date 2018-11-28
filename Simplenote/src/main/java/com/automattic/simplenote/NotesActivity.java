@@ -379,7 +379,14 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void updateNavigationDrawerItems() {
-        Bucket.ObjectCursor<Tag> tagCursor = Tag.allWithCount(mTagsBucket).execute();
+        boolean isAlphaSort = PrefUtils.getBoolPref(this, PrefUtils.PREF_SORT_TAGS_ALPHA);
+        Bucket.ObjectCursor<Tag> tagCursor;
+        if (isAlphaSort) {
+            tagCursor = Tag.allSortedAlphabetically(mTagsBucket).execute();
+        } else {
+            tagCursor = Tag.allWithName(mTagsBucket).execute();
+        }
+
         mTagsAdapter.changeCursor(tagCursor);
     }
 

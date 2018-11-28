@@ -12,13 +12,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Tag extends BucketObject {
 
-    public static final String BUCKET_NAME = "tag";
+    private static final String BUCKET_NAME = "tag";
     public static final String NOTE_COUNT_INDEX_NAME = "note_count";
     public static final String NAME_PROPERTY = "name";
-    public static final String INDEX_PROPERTY = "index";
+    private static final String INDEX_PROPERTY = "index";
     protected String name = "";
 
     public Tag(String key) {
@@ -33,8 +34,13 @@ public class Tag extends BucketObject {
         return bucket.query().order(INDEX_PROPERTY).orderByKey();
     }
 
-    public static Query<Tag> allWithCount(Bucket<Tag> bucket) {
-        return all(bucket).include(NAME_PROPERTY, NOTE_COUNT_INDEX_NAME);
+    public static Query<Tag> allWithName(Bucket<Tag> bucket) {
+        return all(bucket).include(NAME_PROPERTY);
+    }
+
+    public static Query<Tag> allSortedAlphabetically(Bucket<Tag> bucket) {
+        String lowerCaseOrderBy = String.format(Locale.US, "LOWER(%s)", NAME_PROPERTY);
+        return bucket.query().include(NAME_PROPERTY).order(lowerCaseOrderBy);
     }
 
     public String getName() {
