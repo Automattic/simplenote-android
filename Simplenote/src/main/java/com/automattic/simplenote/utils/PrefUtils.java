@@ -23,6 +23,9 @@ public class PrefUtils {
     // boolean, determines # of preview lines
     public static final String PREF_CONDENSED_LIST = "pref_key_condensed_note_list";
 
+    // boolean, determines whether to sort the tags list alphabetically
+    public static final String PREF_SORT_TAGS_ALPHA = "pref_key_sort_tags_alpha";
+
     // boolean, determines whether dates are shown
     public static final String PREF_SHOW_DATES = "pref_key_show_dates";
 

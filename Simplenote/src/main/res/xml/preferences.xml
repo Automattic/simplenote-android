@@ -3,7 +3,7 @@
 
     <PreferenceCategory
         android:key="pref_key_note_preferences"
-        android:title="@string/general">
+        android:title="@string/notes">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -16,6 +16,20 @@
             android:key="pref_key_sort_order"
             android:summary="%s"
             android:title="@string/sort_order"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_tags_preferences"
+        android:title="@string/tags">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_key_sort_tags_alpha"
+            android:title="@string/sort_tags_alphabetically" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_appearance_preferences"
+        android:title="@string/appearance">
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
@@ -23,8 +37,6 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme"/>
-
-
     </PreferenceCategory>
 
     <PreferenceCategory
