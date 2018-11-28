@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Tag extends BucketObject {
 
@@ -38,7 +39,8 @@ public class Tag extends BucketObject {
     }
 
     public static Query<Tag> allSortedAlphabetically(Bucket<Tag> bucket) {
-        return bucket.query().include(NAME_PROPERTY).order(NAME_PROPERTY, Query.SortType.ASCENDING);
+        String lowerCaseOrderBy = String.format(Locale.US, "LOWER(%s)", NAME_PROPERTY);
+        return bucket.query().include(NAME_PROPERTY).order(lowerCaseOrderBy);
     }
 
     public String getName() {
