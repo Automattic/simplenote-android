@@ -216,7 +216,6 @@
     <string name="wordpress_post_draft">Set status to draft</string>
     <string name="uploading_post">Uploading post</string>
     <string name="copy_url">Copy URL</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="success">Successfully posted note to: %1$s</string>
     <string name="done">Done</string>
     <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
