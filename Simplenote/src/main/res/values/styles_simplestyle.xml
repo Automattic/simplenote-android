@@ -109,6 +109,12 @@
         <item name="subtitleTextStyle">@style/Simplestyle.ActionModeTitleTextStyle</item>
     </style>
 
+    <style name="FlatButton.Simplestyle" parent="Theme.AppCompat.Light">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="colorControlHighlight">@color/simplenote_blue_accent</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
+    </style>
+
     <style name="Simplestyle.ActionModeTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">?attr/actionModeTextColor</item>
     </style>

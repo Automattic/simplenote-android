@@ -40,7 +40,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="search">Search notes</string>
-    <string name="notes">All Notes</string>
+    <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
@@ -214,5 +214,24 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="configure">Configure</string>
+    <string name="wordpress_post">WordPress Post</string>
+    <string name="send_post">Post</string>
+    <string name="wordpress_post_draft">Set status to draft</string>
+    <string name="uploading_post">Uploading post</string>
+    <string name="success">Successfully posted note to: %1$s</string>
+    <string name="done">Done</string>
+    <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
+    <string name="connect_with_wordpress">Connect</string>
+    <string name="untitled_site">Untitled site</string>
+    <string name="post_to_wordpress">Post to WordPress</string>
+    <string name="select_site">Select a site to post to.</string>
+    <string name="network_error_message">A network error was encountered. Please try again.</string>
+    <string name="reconnect_to_wordpress">Please reconnect to WordPress.com.</string>
+    <string name="wordpress_post_link">Share WordPress Post</string>
+    <string name="could_not_access_site_data">Could not access site data.</string>
+    <string name="empty_note_post">Can\'t post an empty note.</string>
+    <string name="sort_tags_alphabetically">Sort alphabetically</string>
+    <string name="appearance">Appearance</string>
+    <string name="all_notes">All Notes</string>
 
 </resources>

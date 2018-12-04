@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -34,7 +36,8 @@ public class CreateNoteActivity extends Activity {
         if (extras.containsKey(android.content.Intent.EXTRA_TEXT)) {
             String voiceNote = extras.getString(android.content.Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(voiceNote)) {
-                new SendNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voiceNote);
+                new SendNoteTask(this)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voiceNote);
             } else {
                 showConfirmationActivityAndFinish(false);
             }
@@ -44,10 +47,17 @@ public class CreateNoteActivity extends Activity {
     }
 
 
-    private class SendNoteTask extends AsyncTask<String, Void, Boolean> {
+    private static class SendNoteTask extends AsyncTask<String, Void, Boolean> {
+        WeakReference<CreateNoteActivity> weakActivity;
+
+        SendNoteTask(CreateNoteActivity activity) {
+            weakActivity = new WeakReference<>(activity);
+        }
+
         @Override
         protected Boolean doInBackground(String... voiceNotes) {
-            if (voiceNotes.length == 0) {
+            Activity activity = weakActivity.get();
+            if (voiceNotes.length == 0 || activity == null) {
                 return false;
             }
 
@@ -55,7 +65,7 @@ public class CreateNoteActivity extends Activity {
 
             String voiceNote = voiceNotes[0];
             Task<List<Node>> rawNodes =
-                    Wearable.getNodeClient(getApplicationContext()).getConnectedNodes();
+                    Wearable.getNodeClient(activity.getApplicationContext()).getConnectedNodes();
 
             try {
                 List<Node> nodes = Tasks.await(rawNodes);
@@ -64,7 +74,8 @@ public class CreateNoteActivity extends Activity {
                 // Should be one device in most cases but we'll loop anyways.
                 for (Node node : nodes) {
                     try {
-                        Task<Integer> sendMessage = Wearable.getMessageClient(getApplicationContext()).sendMessage(
+                        Task<Integer> sendMessage = Wearable.getMessageClient(
+                                activity.getApplicationContext()).sendMessage(
                                 node.getId(), "new-note", voiceNote.getBytes());
                         Tasks.await(sendMessage);
 
@@ -83,7 +94,10 @@ public class CreateNoteActivity extends Activity {
 
         @Override
         protected void onPostExecute(Boolean isSuccess) {
-            showConfirmationActivityAndFinish(isSuccess);
+            CreateNoteActivity activity = weakActivity.get();
+            if (activity != null) {
+                activity.showConfirmationActivityAndFinish(isSuccess);
+            }
         }
     }
 

@@ -26,21 +26,21 @@ import com.simperium.client.Query;
  */
 public class TagsAdapter extends BaseAdapter {
 
-    public static final String ID_COLUMN = "_id";
-    public static final long ALL_NOTES_ID = -1L;
-    public static final long TRASH_ID = -2L;
-    public static final long UNTAGGED_NOTES_ID = -3L;
+    private static final String ID_COLUMN = "_id";
+    private static final long ALL_NOTES_ID = -1L;
+    private static final long TRASH_ID = -2L;
+    private static final long UNTAGGED_NOTES_ID = -3L;
 
     public static final int DEFAULT_ITEM_POSITION = 0;
-    protected static final int[] topItems = {R.string.notes, R.string.trash};
-    protected static final int[] bottomItems = {R.string.untagged_notes};
-    protected Cursor mCursor;
-    protected Context mContext;
-    protected LayoutInflater mInflater;
-    protected Bucket<Note> mNotesBucket;
-    protected TagMenuItem mAllNotesItem;
-    protected TagMenuItem mTrashItem;
-    protected TagMenuItem mUntaggedNotesItem;
+    private static final int[] topItems = {R.string.all_notes, R.string.trash};
+    private static final int[] bottomItems = {R.string.untagged_notes};
+    private Cursor mCursor;
+    private Context mContext;
+    private LayoutInflater mInflater;
+    private Bucket<Note> mNotesBucket;
+    private TagMenuItem mAllNotesItem;
+    private TagMenuItem mTrashItem;
+    private TagMenuItem mUntaggedNotesItem;
     private int mNameColumn;
     private int mRowIdColumn;
     private int mTextColorId;
@@ -60,11 +60,11 @@ public class TagsAdapter extends BaseAdapter {
         mHeaderCount = headerCount;
     }
 
-    public TagsAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor) {
+    private TagsAdapter(Context context, Bucket<Note> notesBucket, Cursor cursor) {
         mContext = context;
         mNotesBucket = notesBucket;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mAllNotesItem = new TagMenuItem(ALL_NOTES_ID, R.string.notes) {
+        mAllNotesItem = new TagMenuItem(ALL_NOTES_ID, R.string.all_notes) {
 
             @Override
             public Query<Note> query() {
@@ -96,7 +96,7 @@ public class TagsAdapter extends BaseAdapter {
         swapCursor(cursor);
     }
 
-    public Cursor swapCursor(Cursor cursor) {
+    private Cursor swapCursor(Cursor cursor) {
         Cursor oldCursor = mCursor;
         mCursor = cursor;
         if (mCursor != null) {

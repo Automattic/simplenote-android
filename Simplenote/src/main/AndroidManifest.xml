@@ -63,11 +63,14 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden" />
 
-        <!-- Passcode Unlock -->
+        <!-- Passcode Unlock-->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

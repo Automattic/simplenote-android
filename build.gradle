@@ -21,7 +21,7 @@ def gitHash() {
         return code.toString().trim()
     }
     catch (ignored) {
-        return "<unknown>";
+        return "<unknown>"
     }
 }
 

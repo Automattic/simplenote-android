@@ -40,7 +40,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         // No title, please.
         setTitle("");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,8 +51,8 @@ public class NoteEditorActivity extends AppCompatActivity {
 
         mNoteEditorFragmentPagerAdapter =
                 new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
-        mViewPager = (NoteEditorViewPager) findViewById(R.id.pager);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager = findViewById(R.id.pager);
+        mTabLayout = findViewById(R.id.tabs);
 
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);

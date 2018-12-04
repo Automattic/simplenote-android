@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/wp_dialog_section_fields"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ListView
+            android:id="@+id/wp_dialog_list_view"
+            android:choiceMode="singleChoice"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:listSelector="@drawable/selectable_background_simplestyle"
+            android:paddingLeft="@dimen/padding_extra_small"
+            android:paddingRight="@dimen/padding_extra_small"
+            android:paddingTop="@dimen/padding_medium" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_large" >
+
+            <CheckBox
+                android:id="@+id/wp_dialog_draft_checkbox"
+                android:layout_gravity="start|center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
+                android:text="@string/wordpress_post_draft"
+                android:textColor="?attr/noteTitleColor"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" >
+            </CheckBox>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+            </Space>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wp_dialog_section_posting"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_extra_extra_large"
+        android:paddingLeft="@dimen/padding_extra_extra_large"
+        android:paddingRight="@dimen/padding_extra_extra_large"
+        android:paddingStart="@dimen/padding_extra_extra_large"
+        android:paddingTop="@dimen/padding_large"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:indeterminate="true"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_extra_extra_large"
+            android:layout_marginRight="@dimen/padding_extra_extra_large"
+            android:layout_width="wrap_content" >
+        </ProgressBar>
+
+        <TextView
+            android:ellipsize="end"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:maxLines="1"
+            android:text="@string/uploading_post"
+            android:textColor="?attr/noteTitleColor"
+            tools:ignore="RtlSymmetry" >
+        </TextView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/wp_dialog_section_success"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/padding_large"
+        android:paddingLeft="@dimen/padding_extra_extra_large"
+        android:paddingRight="@dimen/padding_extra_extra_large"
+        android:paddingTop="@dimen/padding_large" >
+
+        <TextView
+            android:id="@+id/wp_dialog_success_summary"
+            android:autoLink="web"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:layout_width="match_parent"
+            android:text="@string/success"
+            android:textColor="?attr/noteTitleColor"
+            android:textSize="16sp" >
+        </TextView>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/wp_dialog_share"
+            android:drawablePadding="@dimen/padding_extra_small"
+            android:layout_below="@id/wp_dialog_success_summary"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/share"
+            android:theme="@style/FlatButton.Simplestyle" >
+        </android.support.v7.widget.AppCompatButton>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/wp_dialog_copy_url"
+            android:drawablePadding="@dimen/padding_extra_small"
+            android:layout_below="@id/wp_dialog_share"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/copy"
+            android:theme="@style/FlatButton.Simplestyle" >
+        </android.support.v7.widget.AppCompatButton>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wp_dialog_section_connect"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_extra_extra_large"
+        android:paddingLeft="@dimen/padding_extra_extra_large"
+        android:paddingRight="@dimen/padding_extra_extra_large"
+        android:paddingStart="@dimen/padding_extra_extra_large"
+        android:paddingTop="@dimen/padding_large" >
+
+        <TextView
+            android:id="@+id/wp_dialog_connect_summary"
+            android:gravity="start"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/wordpress_connect_summary"
+            android:textColor="?attr/noteTitleColor" >
+        </TextView>
+
+    </RelativeLayout>
+
+</LinearLayout>

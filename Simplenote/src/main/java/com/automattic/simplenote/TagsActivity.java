@@ -23,7 +23,7 @@ public class TagsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_tags);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SpannableString title = new SpannableString(getString(R.string.edit_tags));
