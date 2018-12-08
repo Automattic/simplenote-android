@@ -19,9 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -70,6 +70,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private View mFragmentsContainer;
@@ -223,11 +224,29 @@ public class NotesActivity extends AppCompatActivity implements
         if (mIsShowingMarkdown) {
             setMarkdownShowing(false);
         }
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override
     protected void onPause() {
         super.onPause();  // Always call the superclass method first
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         mTagsBucket.removeListener(mTagsMenuUpdater);
         mTagsBucket.stop();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -89,7 +91,9 @@ public class NoteEditorActivity extends AppCompatActivity {
                             if (position == 1) {
                                 final InputMethodManager imm = (InputMethodManager) getSystemService(
                                         Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                                }
                             }
                         }
 
@@ -128,11 +132,30 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
             AppLockManager.getInstance().getAppLock().setExemptActivities(null);
         }
+    }
 
-        super.onPause();
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
     }
 
     @Override
@@ -183,7 +206,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         private final ArrayList<Fragment> mFragments = new ArrayList<>();
         private final ArrayList<String> mTitles = new ArrayList<>();
 
-        public NoteEditorFragmentPagerAdapter(FragmentManager manager) {
+        NoteEditorFragmentPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -198,7 +221,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             return PagerAdapter.POSITION_NONE;
         }
 
@@ -207,7 +230,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             return mTitles.get(position);
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
             mTitles.add(title);
             notifyDataSetChanged();

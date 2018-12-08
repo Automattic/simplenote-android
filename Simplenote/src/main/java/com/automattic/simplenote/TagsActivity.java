@@ -5,9 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.WindowManager;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.TypefaceSpan;
+
+import org.wordpress.passcodelock.AppLockManager;
 
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
@@ -40,5 +43,20 @@ public class TagsActivity extends AppCompatActivity {
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 }

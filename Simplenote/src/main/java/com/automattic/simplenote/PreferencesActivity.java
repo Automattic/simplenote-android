@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 
+import org.wordpress.passcodelock.AppLockManager;
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
@@ -81,5 +83,20 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 }
