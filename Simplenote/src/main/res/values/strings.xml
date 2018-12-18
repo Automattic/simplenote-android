@@ -202,6 +202,9 @@
     <string name="location_permission_denied">Location Permission Denied</string>
     <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
 
+    <!-- Pinned Note Widget -->
+    <string name="select_a_note">Select a Note</string>
+
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>

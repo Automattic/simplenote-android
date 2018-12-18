@@ -1,13 +1,13 @@
 package com.automattic.simplenote;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +19,9 @@ import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
+import com.simperium.client.Query;
 
-public class PinnedNoteWidgetConfigureActivity extends Activity {
+public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
     private Bucket<Note> mNotesBucket;
     private NotesCursorAdapter mCursorAdapter;
@@ -88,6 +89,14 @@ public class PinnedNoteWidgetConfigureActivity extends Activity {
 
         setContentView(R.layout.pinned_note_widget_configure);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setTitle(R.string.select_a_note);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         /*mAppWidgetText = (EditText) findViewById(R.id.appwidget_text);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
@@ -111,7 +120,10 @@ public class PinnedNoteWidgetConfigureActivity extends Activity {
         if (mNotesBucket == null) {
             mNotesBucket = currentApp.getNotesBucket();
         }
-        Cursor cursor = mNotesBucket.query().execute();
+        Query<Note> query = Note.all(mNotesBucket);
+        query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        query.include(Note.PINNED_INDEX_NAME);
+        Cursor cursor = query.execute();
 
         // Debug cursor info.
         if (cursor.moveToFirst()) {
@@ -123,7 +135,7 @@ public class PinnedNoteWidgetConfigureActivity extends Activity {
                     if (idx < columnsQty - 1)
                         sb.append("; ");
                 }
-                Log.v("HOLA:", String.format("Row: %d, Values: %s", cursor.getPosition(),
+                Log.v("ConfigureActivity:", String.format("Row: %d, Values: %s", cursor.getPosition(),
                         sb.toString()));
             } while (cursor.moveToNext());
         }
