@@ -2,35 +2,67 @@ package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+
+import com.automattic.simplenote.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SimplenoteEditText extends AppCompatEditText {
 
+    private static String ChecklistRegex = "^- (\\[([ |x])\\])";
+    private static String UncheckedMarkdown = "- [ ]";
+    private Context mContext;
+
     private List<OnSelectionChangedListener> listeners;
+    private TextWatcher mTextWatcher;
 
     public SimplenoteEditText(Context context) {
         super(context);
+        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public void addOnSelectionChangedListener(OnSelectionChangedListener o) {
         listeners.add(o);
+    }
+
+    @Override
+    public void addTextChangedListener(TextWatcher watcher) {
+        super.addTextChangedListener(watcher);
+
+        mTextWatcher = watcher;
+    }
+
+    @Override
+    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+        super.onTextChanged(text, start, lengthBefore, lengthAfter);
+
+        processChecklists();
     }
 
     @Override
@@ -42,7 +74,72 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
     }
 
+    // Updates the ImageSpan drawable to the new checked state
+    public void toggleCheckbox(CheckableSpan checkableSpan) {
+        Editable contentEditable = getText();
+
+        int checkboxStart = contentEditable.getSpanStart(checkableSpan);
+        int checkboxEnd = contentEditable.getSpanEnd(checkableSpan);
+
+        ImageSpan[] imageSpans = contentEditable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
+        if (imageSpans.length > 0) {
+            // ImageSpans are static, so we need to remove the old one and replace :|
+            contentEditable.removeSpan(imageSpans[0]);
+            ImageSpan newImageSpan = new ImageSpan(getContext(), checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
+            contentEditable.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            if (mTextWatcher != null) {
+                mTextWatcher.onTextChanged(
+                        contentEditable,
+                        checkboxStart,
+                        contentEditable.length(),
+                        contentEditable.length());
+            }
+        }
+    }
+
     public interface OnSelectionChangedListener {
         void onSelectionChanged(int selStart, int selEnd);
+    }
+
+    // Replaces any CheckableSpans with their markdown counterpart (e.g. '- [ ]')
+    public String getPlainTextContent() {
+        if (getText() == null) {
+            return "";
+        }
+
+        SpannableStringBuilder content = new SpannableStringBuilder(getText());
+        CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
+
+        for(CheckableSpan span: spans) {
+            int start = content.getSpanStart(span);
+            ((Editable) content).insert(start, span.isChecked() ? "- [x]" : "- [ ]");
+        }
+
+        return content.toString();
+    }
+
+    public void processChecklists() {
+        Editable editableContent = getText();
+        if (editableContent.length() == 0 || mContext == null) {
+            return;
+        }
+
+        Pattern p = Pattern.compile(ChecklistRegex, Pattern.MULTILINE);
+        Matcher m = p.matcher(editableContent);
+
+        int positionAdjustment = 0;
+        while(m.find()) {
+            int start = m.start() - positionAdjustment;
+            int end = m.end() - positionAdjustment;
+            String match = m.group(1);
+            CheckableSpan clickableSpan = new CheckableSpan();
+            clickableSpan.setChecked(match.contains("x"));
+            editableContent.replace(start, end, "");
+            ImageSpan imageSpan = new ImageSpan(getContext(), clickableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
+            editableContent.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            editableContent.setSpan(clickableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            positionAdjustment += 6;
+        }
     }
 }

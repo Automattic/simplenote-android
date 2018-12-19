@@ -21,6 +21,8 @@ import android.text.Editable;
 import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -291,6 +293,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = mRootView.findViewById(R.id.note_content);
         mContentEditText.addOnSelectionChangedListener(this);
+        mContentEditText.setMovementMethod(LinkMovementMethod.getInstance());
         mTagView = mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
@@ -551,7 +554,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
                 mCss,
-                getNoteContentString()
+                mContentEditText.getPlainTextContent()
         );
 
         mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
@@ -593,7 +596,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Save the note so any local changes get synced
                 mNote.save();
 
-                if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd()) {
+                if (mContentEditText.hasFocus()
+                        && cursorPosition != mContentEditText.getSelectionEnd()
+                        && cursorPosition < mContentEditText.getText().length()) {
                     mContentEditText.setSelection(cursorPosition);
                 }
             }
@@ -893,7 +898,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Get markdown fragment and update content
                     mNoteMarkdownFragment =
                             editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
                 }
             } else {
                 editorActivity.hideTabs();
@@ -933,7 +938,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
-        String content = getNoteContentString();
+        String content = mContentEditText.getPlainTextContent();
         String tagString = getNoteTagsString();
         if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
             mNote.setContent(content);
@@ -1184,7 +1189,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
             return;
 
-        note.setContent(getNoteContentString());
+        note.setContent(mContentEditText.getPlainTextContent());
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
