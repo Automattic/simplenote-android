@@ -7,6 +7,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
+
 public class SimplenoteEditText extends AppCompatEditText {
 
     private static String ChecklistRegex = "^- (\\[([ |x])\\])";
@@ -24,7 +27,6 @@ public class SimplenoteEditText extends AppCompatEditText {
     private Context mContext;
 
     private List<OnSelectionChangedListener> listeners;
-    private TextWatcher mTextWatcher;
 
     public SimplenoteEditText(Context context) {
         super(context);
@@ -52,13 +54,6 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     @Override
-    public void addTextChangedListener(TextWatcher watcher) {
-        super.addTextChangedListener(watcher);
-
-        mTextWatcher = watcher;
-    }
-
-    @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
 
@@ -76,25 +71,22 @@ public class SimplenoteEditText extends AppCompatEditText {
 
     // Updates the ImageSpan drawable to the new checked state
     public void toggleCheckbox(CheckableSpan checkableSpan) {
-        Editable contentEditable = getText();
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getText());
 
-        int checkboxStart = contentEditable.getSpanStart(checkableSpan);
-        int checkboxEnd = contentEditable.getSpanEnd(checkableSpan);
+        int checkboxStart = stringBuilder.getSpanStart(checkableSpan);
+        int checkboxEnd = stringBuilder.getSpanEnd(checkableSpan);
 
-        ImageSpan[] imageSpans = contentEditable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
+        ImageSpan[] imageSpans = stringBuilder.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
             // ImageSpans are static, so we need to remove the old one and replace :|
-            contentEditable.removeSpan(imageSpans[0]);
-            ImageSpan newImageSpan = new ImageSpan(getContext(), checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
-            contentEditable.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            stringBuilder.removeSpan(imageSpans[0]);
+            ImageSpan newImageSpan = new ImageSpan(
+                    getContext(),
+                    checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked,
+                    ALIGN_BASELINE);
+            stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            if (mTextWatcher != null) {
-                mTextWatcher.onTextChanged(
-                        contentEditable,
-                        checkboxStart,
-                        contentEditable.length(),
-                        contentEditable.length());
-            }
+            setText(stringBuilder);
         }
     }
 
@@ -113,33 +105,43 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         for(CheckableSpan span: spans) {
             int start = content.getSpanStart(span);
-            ((Editable) content).insert(start, span.isChecked() ? "- [x]" : "- [ ]");
+            int end = content.getSpanEnd(span);
+            ((Editable) content).replace(start, end, span.isChecked() ? "- [x]" : "- [ ]");
         }
 
         return content.toString();
     }
 
     public void processChecklists() {
-        Editable editableContent = getText();
-        if (editableContent.length() == 0 || mContext == null) {
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getText());
+        if (stringBuilder.length() == 0 || mContext == null) {
             return;
         }
 
         Pattern p = Pattern.compile(ChecklistRegex, Pattern.MULTILINE);
-        Matcher m = p.matcher(editableContent);
+        Matcher m = p.matcher(stringBuilder);
 
         int positionAdjustment = 0;
+        int count = 0;
         while(m.find()) {
+            count++;
             int start = m.start() - positionAdjustment;
             int end = m.end() - positionAdjustment;
             String match = m.group(1);
             CheckableSpan clickableSpan = new CheckableSpan();
             clickableSpan.setChecked(match.contains("x"));
-            editableContent.replace(start, end, "");
-            ImageSpan imageSpan = new ImageSpan(getContext(), clickableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
-            editableContent.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            editableContent.setSpan(clickableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            positionAdjustment += 6;
+            stringBuilder.replace(start, end, " ");
+            ImageSpan imageSpan = new ImageSpan(
+                    getContext(),
+                    clickableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked,
+                    ALIGN_BASELINE);
+            stringBuilder.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            stringBuilder.setSpan(clickableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            positionAdjustment += end - start - 1;
+        }
+
+        if (count > 0) {
+            setText(stringBuilder);
         }
     }
 }
