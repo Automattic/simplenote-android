@@ -21,7 +21,6 @@ public class MatchOffsetHighlighter implements Runnable {
 
     static private final String CHARSET = "UTF-8";
     static private final int FIRST_MATCH_LOCATION = 2;
-    static private final int CHECKLIST_OFFSET = 4;
 
     protected static OnMatchListener sListener = new DefaultMatcher();
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
@@ -88,8 +87,8 @@ public class MatchOffsetHighlighter implements Runnable {
 
             // Adjust for amount of checklist items before the match
             CheckableSpan[] checkableSpans = content.getSpans(0, start, CheckableSpan.class);
-            start -= checkableSpans.length * CHECKLIST_OFFSET;
-            end -= checkableSpans.length * CHECKLIST_OFFSET;
+            start -= checkableSpans.length * ChecklistUtils.ChecklistOffset;
+            end -= checkableSpans.length * ChecklistUtils.ChecklistOffset;
 
             int span_start = start + getByteOffset(content, 0, start);
             int span_end = span_start + length + getByteOffset(content, start, end);

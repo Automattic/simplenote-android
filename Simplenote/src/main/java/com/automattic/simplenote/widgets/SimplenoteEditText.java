@@ -14,7 +14,7 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import java.util.ArrayList;
@@ -120,17 +120,18 @@ public class SimplenoteEditText extends AppCompatEditText {
             return;
         }
 
-        int[] attrs = {R.attr.noteEditorTextColor};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
-        int tintColor = ta.getResourceId(0, android.R.color.black);
-
-        stringBuilder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+        ChecklistUtils.ChecklistResult checklistResult = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
                 stringBuilder,
                 ChecklistUtils.ChecklistRegexLineStart,
-                tintColor);
-        if (stringBuilder != null) {
-            setText(stringBuilder);
+                ThemeUtils.getThemeTextColorId(mContext));
+        if (checklistResult.addedChecklists) {
+            int currentSelection = getSelectionStart();
+            setText(checklistResult.resultStringBuilder);
+            // Adjust the cursor position if necessary
+            if (currentSelection > ChecklistUtils.ChecklistOffset && currentSelection <= stringBuilder.length()) {
+                setSelection(currentSelection - ChecklistUtils.ChecklistOffset);
+            }
         }
     }
 }

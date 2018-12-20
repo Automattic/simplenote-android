@@ -18,8 +18,17 @@ public class ChecklistUtils {
     public static String ChecklistRegexLineStart = "^- (\\[([ |x])\\])";
     public static String CheckedMarkdown = "- [x]";
     public static String UncheckedMarkdown = "- [ ]";
+    public static final int ChecklistOffset = 4;
 
-    public static SpannableStringBuilder addChecklistSpansForRegexAndColor(
+    /***
+     * Adds CheckableSpans for matching markdown formatted checklists.
+     * @param context view content.
+     * @param spannable the spannable string to run the regex against.
+     * @param regex the regex pattern, use either ChecklistRegex or ChecklistRegexLineStart
+     * @param color the resource id of the color to tint the checklist item
+     * @return ChecklistResult - resulting spannable string and result boolean
+     */
+    public static ChecklistResult addChecklistSpansForRegexAndColor(
             Context context,
             SpannableStringBuilder spannable,
             String regex, int color) {
@@ -27,11 +36,17 @@ public class ChecklistUtils {
         Matcher m = p.matcher(spannable);
 
         int positionAdjustment = 0;
-        int count = 0;
+        boolean result = false;
         while(m.find()) {
-            count++;
+            result = true;
             int start = m.start() - positionAdjustment;
             int end = m.end() - positionAdjustment;
+
+            // Safety first!
+            if (end >= spannable.length()) {
+                continue;
+            }
+
             String match = m.group(1);
             CheckableSpan checkableSpan = new CheckableSpan();
             checkableSpan.setChecked(match.contains("x"));
@@ -43,15 +58,23 @@ public class ChecklistUtils {
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
             CenteredImageSpan imageSpan = new CenteredImageSpan(iconDrawable);
-            spannable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            spannable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            spannable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             positionAdjustment += (end - start) - 1;
         }
 
-        if (count > 0) {
-            return spannable;
-        }
+        return new ChecklistResult(spannable, result);
+    }
 
-        return null;
+    public static class ChecklistResult {
+        public SpannableStringBuilder resultStringBuilder;
+        public boolean addedChecklists;
+
+        ChecklistResult(SpannableStringBuilder stringBuilder, boolean result) {
+            resultStringBuilder = stringBuilder;
+            addedChecklists = result;
+        }
     }
 }
+
+

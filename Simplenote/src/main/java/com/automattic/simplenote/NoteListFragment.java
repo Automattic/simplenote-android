@@ -655,12 +655,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         getContext(),
                         titleChecklistString,
                         ChecklistUtils.ChecklistRegex,
-                        ThemeUtils.getThemeTextColorId(getContext()));
-                if (titleChecklistString != null) {
-                    holder.titleTextView.setText(titleChecklistString);
-                } else {
-                    holder.titleTextView.setText(title);
-                }
+                        ThemeUtils.getThemeTextColorId(getContext())).resultStringBuilder;
+                holder.titleTextView.setText(titleChecklistString);
             }
 
             holder.matchOffsets = null;
@@ -699,12 +695,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             getContext(),
                             checklistString,
                             ChecklistUtils.ChecklistRegex,
-                            R.color.simplenote_text_preview);
-                    if (checklistString != null) {
-                        holder.contentTextView.setText(checklistString);
-                    } else {
-                        holder.contentTextView.setText(contentPreview);
-                    }
+                            R.color.simplenote_text_preview).resultStringBuilder;
+                     holder.contentTextView.setText(checklistString);
                 }
             }
 
