@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -11,8 +12,10 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
@@ -37,6 +40,7 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -668,8 +672,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
-                else
+                else {
                     holder.contentTextView.setText(contentPreview);
+                    SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
+                    checklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                            getContext(),
+                            checklistString,
+                            ChecklistUtils.ChecklistRegex,
+                            R.color.simplenote_text_preview);
+                    if (checklistString != null) {
+                        holder.contentTextView.setText(checklistString);
+                    } else {
+                        holder.contentTextView.setText(contentPreview);
+                    }
+                }
             }
 
             // Add mouse right click support for showing a popup menu

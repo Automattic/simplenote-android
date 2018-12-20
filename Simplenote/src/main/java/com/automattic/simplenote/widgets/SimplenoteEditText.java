@@ -1,29 +1,27 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextWatcher;
-import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.ChecklistUtils;
+import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
 
 public class SimplenoteEditText extends AppCompatEditText {
-
-    private static String ChecklistRegex = "^- (\\[([ |x])\\])";
-    private static String UncheckedMarkdown = "- [ ]";
     private Context mContext;
 
     private List<OnSelectionChangedListener> listeners;
@@ -80,10 +78,16 @@ public class SimplenoteEditText extends AppCompatEditText {
         if (imageSpans.length > 0) {
             // ImageSpans are static, so we need to remove the old one and replace :|
             stringBuilder.removeSpan(imageSpans[0]);
-            ImageSpan newImageSpan = new ImageSpan(
-                    getContext(),
-                    checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked,
-                    ALIGN_BASELINE);
+
+            int[] attrs = {R.attr.noteEditorTextColor};
+            TypedArray ta = mContext.obtainStyledAttributes(attrs);
+            int imageTint = ta.getResourceId(0, android.R.color.black);
+
+            Drawable iconDrawable = mContext.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
+            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, imageTint);
+            int iconSize = DisplayUtils.dpToPx(mContext, PrefUtils.getFontSize(mContext));
+            iconDrawable.setBounds(0, 0, iconSize, iconSize);
+            ImageSpan newImageSpan = new ImageSpan(iconDrawable, ALIGN_BASELINE);
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);
@@ -106,7 +110,10 @@ public class SimplenoteEditText extends AppCompatEditText {
         for(CheckableSpan span: spans) {
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
-            ((Editable) content).replace(start, end, span.isChecked() ? "- [x]" : "- [ ]");
+            ((Editable) content).replace(
+                    start,
+                    end,
+                    span.isChecked() ? ChecklistUtils.CheckedMarkdown : ChecklistUtils.UncheckedMarkdown);
         }
 
         return content.toString();
@@ -118,29 +125,16 @@ public class SimplenoteEditText extends AppCompatEditText {
             return;
         }
 
-        Pattern p = Pattern.compile(ChecklistRegex, Pattern.MULTILINE);
-        Matcher m = p.matcher(stringBuilder);
+        int[] attrs = {R.attr.noteEditorTextColor};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+        int tintColor = ta.getResourceId(0, android.R.color.black);
 
-        int positionAdjustment = 0;
-        int count = 0;
-        while(m.find()) {
-            count++;
-            int start = m.start() - positionAdjustment;
-            int end = m.end() - positionAdjustment;
-            String match = m.group(1);
-            CheckableSpan clickableSpan = new CheckableSpan();
-            clickableSpan.setChecked(match.contains("x"));
-            stringBuilder.replace(start, end, " ");
-            ImageSpan imageSpan = new ImageSpan(
-                    getContext(),
-                    clickableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked,
-                    ALIGN_BASELINE);
-            stringBuilder.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            stringBuilder.setSpan(clickableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            positionAdjustment += end - start - 1;
-        }
-
-        if (count > 0) {
+        stringBuilder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                getContext(),
+                stringBuilder,
+                ChecklistUtils.ChecklistRegexLineStart,
+                tintColor);
+        if (stringBuilder != null) {
             setText(stringBuilder);
         }
     }
