@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.widgets.CenteredImageSpan;
@@ -12,8 +11,6 @@ import com.automattic.simplenote.widgets.CheckableSpan;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
 
 public class ChecklistUtils {
 
@@ -42,7 +39,7 @@ public class ChecklistUtils {
 
             Drawable iconDrawable = context.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
-            int iconSize = DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context));
+            int iconSize = DisplayUtils.getChecklistIconSize(context);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
             CenteredImageSpan imageSpan = new CenteredImageSpan(iconDrawable);

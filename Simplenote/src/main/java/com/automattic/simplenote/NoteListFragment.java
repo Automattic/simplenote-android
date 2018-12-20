@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -50,6 +51,7 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -101,6 +103,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
     private int mPreviewFontSize;
+    private int mTextColorId;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -647,7 +650,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 );
                 holder.titleTextView.setText(newNoteString);
             } else {
-                holder.titleTextView.setText(title);
+                SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
+                titleChecklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                        getContext(),
+                        titleChecklistString,
+                        ChecklistUtils.ChecklistRegex,
+                        ThemeUtils.getThemeTextColorId(getContext()));
+                if (titleChecklistString != null) {
+                    holder.titleTextView.setText(titleChecklistString);
+                } else {
+                    holder.titleTextView.setText(title);
+                }
             }
 
             holder.matchOffsets = null;
@@ -660,8 +673,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
-                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
-                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
+                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            snippet,
+                            mSnippetHighlighter,
+                            R.color.simplenote_text_preview));
+                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            title,
+                            mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
                     title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
                     holder.titleTextView.setText(title);

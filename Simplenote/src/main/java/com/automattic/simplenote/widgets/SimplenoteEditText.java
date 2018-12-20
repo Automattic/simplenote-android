@@ -15,6 +15,7 @@ import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,13 +78,9 @@ public class SimplenoteEditText extends AppCompatEditText {
             // ImageSpans are static, so we need to remove the old one and replace :|
             stringBuilder.removeSpan(imageSpans[0]);
 
-            int[] attrs = {R.attr.noteEditorTextColor};
-            TypedArray ta = mContext.obtainStyledAttributes(attrs);
-            int imageTint = ta.getResourceId(0, android.R.color.black);
-
             Drawable iconDrawable = mContext.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, imageTint);
-            int iconSize = DisplayUtils.dpToPx(mContext, PrefUtils.getFontSize(mContext));
+            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, ThemeUtils.getThemeTextColorId(mContext));
+            int iconSize = DisplayUtils.getChecklistIconSize(mContext);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
             CenteredImageSpan newImageSpan = new CenteredImageSpan(iconDrawable);
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

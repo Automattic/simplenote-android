@@ -2,9 +2,13 @@ package com.automattic.simplenote.utils;
 
 import android.os.Handler;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.widget.TextView;
+
+import com.automattic.simplenote.widgets.CheckableSpan;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ public class MatchOffsetHighlighter implements Runnable {
 
     static private final String CHARSET = "UTF-8";
     static private final int FIRST_MATCH_LOCATION = 2;
+    static private final int CHECKLIST_OFFSET = 4;
 
     protected static OnMatchListener sListener = new DefaultMatcher();
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
@@ -77,11 +82,17 @@ public class MatchOffsetHighlighter implements Runnable {
             scanner.nextInt(); // token
             int start = scanner.nextInt();
             int length = scanner.nextInt();
+            int end = start + length;
 
             if (column != columnIndex) continue;
 
+            // Adjust for amount of checklist items before the match
+            CheckableSpan[] checkableSpans = content.getSpans(0, start, CheckableSpan.class);
+            start -= checkableSpans.length * CHECKLIST_OFFSET;
+            end -= checkableSpans.length * CHECKLIST_OFFSET;
+
             int span_start = start + getByteOffset(content, 0, start);
-            int span_end = span_start + length + getByteOffset(content, start, start + length);
+            int span_end = span_start + length + getByteOffset(content, start, end);
 
             if (Thread.interrupted()) return;
 
@@ -115,7 +126,7 @@ public class MatchOffsetHighlighter implements Runnable {
     // Returns the byte offset of the source string up to the matching search result.
     // Note: We need to convert the source string to a byte[] because SQLite provides
     // indices and lengths in bytes. See: https://www.sqlite.org/fts3.html#offsets
-    protected static int getByteOffset(CharSequence text, int start, int end) {
+    protected static int getByteOffset(Spannable text, int start, int end) {
         String source = text.toString();
         byte[] sourceBytes = source.getBytes();
 

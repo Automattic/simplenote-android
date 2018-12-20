@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatDelegate;
+
+import com.automattic.simplenote.R;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class ThemeUtils {
     static public final String PREFERENCES_URI_AUTHORITY = "preferences";
     static public final String URI_SEGMENT_THEME = "theme";
     public static String THEME_CHANGED_EXTRA = "themeChanged";
+    private static int mTextColorId;
 
     public static void setTheme(Activity activity) {
 
@@ -81,5 +85,20 @@ public class ThemeUtils {
         int maxDp = (DisplayUtils.isXLarge(context) ? 400 : 320);
         int maxPx = DisplayUtils.dpToPx(context, maxDp);
         return Math.min(drawerWidth, maxPx);
+    }
+
+    public static int getThemeTextColorId(Context context) {
+        if (context == null) {
+            return 0;
+        }
+
+        if (mTextColorId == 0) {
+            int[] attrs = {R.attr.noteEditorTextColor};
+            TypedArray ta = context.obtainStyledAttributes(attrs);
+            mTextColorId = ta.getResourceId(0, android.R.color.black);
+            ta.recycle();
+        }
+
+        return mTextColorId;
     }
 }

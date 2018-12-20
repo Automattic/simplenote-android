@@ -66,5 +66,14 @@ public class DisplayUtils {
         // so return the standard ActionBar height (48dp)
         return dpToPx(context, 48);
     }
+
+    // Returns the proper size for a checklist drawable (font size + a bit)
+    public static int getChecklistIconSize(Context context) {
+        if (context == null) {
+            return 18;
+        }
+
+        return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context))+ DisplayUtils.dpToPx(context, 4);
+    }
 }
 
