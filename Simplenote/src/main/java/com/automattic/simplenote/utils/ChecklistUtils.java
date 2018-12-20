@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.widgets.CenteredImageSpan;
 import com.automattic.simplenote.widgets.CheckableSpan;
 
 import java.util.regex.Matcher;
@@ -44,7 +45,7 @@ public class ChecklistUtils {
             int iconSize = DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context));
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
-            ImageSpan imageSpan = new ImageSpan(iconDrawable, ALIGN_BASELINE);
+            CenteredImageSpan imageSpan = new CenteredImageSpan(iconDrawable);
             spannable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             spannable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             positionAdjustment += (end - start) - 1;

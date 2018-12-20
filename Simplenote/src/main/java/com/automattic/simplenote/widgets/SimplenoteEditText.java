@@ -19,8 +19,6 @@ import com.automattic.simplenote.utils.PrefUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
-
 public class SimplenoteEditText extends AppCompatEditText {
     private Context mContext;
 
@@ -87,7 +85,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, imageTint);
             int iconSize = DisplayUtils.dpToPx(mContext, PrefUtils.getFontSize(mContext));
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            ImageSpan newImageSpan = new ImageSpan(iconDrawable, ALIGN_BASELINE);
+            CenteredImageSpan newImageSpan = new CenteredImageSpan(iconDrawable);
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);
