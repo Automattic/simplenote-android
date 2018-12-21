@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
+import com.automattic.simplenote.widgets.SimplenoteEditText;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MatchOffsetHighlighter implements Runnable {
 
@@ -24,10 +27,11 @@ public class MatchOffsetHighlighter implements Runnable {
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
     private SpanFactory mFactory;
     private Thread mThread;
-    private TextView mTextView;
+    private SimplenoteEditText mTextView;
     private String mMatches;
     private int mIndex;
-    private Spannable mText;
+    private Spannable mSpannable;
+    private String mPlainText;
     private boolean mStopped = false;
     private OnMatchListener mListener = new OnMatchListener() {
 
@@ -52,19 +56,19 @@ public class MatchOffsetHighlighter implements Runnable {
 
     };
 
-    public MatchOffsetHighlighter(SpanFactory factory, TextView textView) {
+    public MatchOffsetHighlighter(SpanFactory factory, SimplenoteEditText textView) {
         mFactory = factory;
         mTextView = textView;
     }
 
-    public static void highlightMatches(Spannable content, String matches, int columnIndex,
-                                        SpanFactory factory) {
+    public static void highlightMatches(Spannable content, String matches, String plainTextContent,
+                                        int columnIndex, SpanFactory factory) {
 
-        highlightMatches(content, matches, columnIndex, factory, new DefaultMatcher());
+        highlightMatches(content, matches, plainTextContent, columnIndex, factory, new DefaultMatcher());
     }
 
-    public static void highlightMatches(Spannable content, String matches, int columnIndex,
-                                        SpanFactory factory, OnMatchListener listener) {
+    public static void highlightMatches(Spannable content, String matches, String plainTextContent,
+                                        int columnIndex, SpanFactory factory, OnMatchListener listener) {
 
         if (TextUtils.isEmpty(matches)) return;
 
@@ -84,9 +88,17 @@ public class MatchOffsetHighlighter implements Runnable {
             if (column != columnIndex) continue;
 
             // Adjust for amount of checklist items before the match
-            CheckableSpan[] checkableSpans = content.getSpans(0, start, CheckableSpan.class);
-            start -= checkableSpans.length * ChecklistUtils.ChecklistOffset;
-            end -= checkableSpans.length * ChecklistUtils.ChecklistOffset;
+            String textUpToMatch = plainTextContent.substring(0, start);
+            Pattern pattern = Pattern.compile(ChecklistUtils.ChecklistRegexLineStart, Pattern.MULTILINE);
+            Matcher matcher = pattern.matcher(textUpToMatch);
+            int matchCount = 0;
+            while (matcher.find()) {
+                matchCount++;
+            }
+            if (matchCount > 0) {
+                start -= matchCount * ChecklistUtils.ChecklistOffset;
+                end -= matchCount * ChecklistUtils.ChecklistOffset;
+            }
 
             int span_start = start + getByteOffset(content, 0, start);
             int span_end = span_start + length + getByteOffset(content, start, end);
@@ -155,7 +167,7 @@ public class MatchOffsetHighlighter implements Runnable {
 
     @Override
     public void run() {
-        highlightMatches(mText, mMatches, mIndex, mFactory, mListener);
+        highlightMatches(mSpannable, mMatches, mPlainText, mIndex, mFactory, mListener);
     }
 
     public void start() {
@@ -175,18 +187,19 @@ public class MatchOffsetHighlighter implements Runnable {
     public void highlightMatches(String matches, int columnIndex) {
         synchronized (this) {
             stop();
-            mText = mTextView.getEditableText();
+            mSpannable = mTextView.getEditableText();
             mMatches = matches;
             mIndex = columnIndex;
+            mPlainText = mTextView.getPlainTextContent();
             start();
         }
     }
 
     public synchronized void removeMatches() {
         stop();
-        if (mText != null && mMatchedSpans != null) {
+        if (mSpannable != null && mMatchedSpans != null) {
             for (Object span : mMatchedSpans) {
-                mText.removeSpan(span);
+                mSpannable.removeSpan(span);
             }
             mMatchedSpans.clear();
         }
