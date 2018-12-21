@@ -36,7 +36,7 @@ public class MatchOffsetHighlighterTest {
         String matches = "1 0 6 5 0 0 2 1 1 0 18 3";
         Spannable text = new SpannableString("Lorem ipsum dolor sit amet");
 
-        MatchOffsetHighlighter.highlightMatches(text, matches, 1, sHighlighter);
+        MatchOffsetHighlighter.highlightMatches(text, matches, text.toString(), 1, sHighlighter);
         Object[] spans = text.getSpans(0, text.length(), Object.class);
 
         assertThat(spans, arrayWithSize(2));
@@ -51,7 +51,7 @@ public class MatchOffsetHighlighterTest {
         String matches = "1 0 0 2";
         Spannable sourceText = new SpannableString("मुक्त ज्ञानकोसे");
 
-        MatchOffsetHighlighter.highlightMatches(sourceText, matches, 1, sHighlighter);
+        MatchOffsetHighlighter.highlightMatches(sourceText, matches, sourceText.toString(), 1, sHighlighter);
         sourceText.getSpans(0, sourceText.length(), Object.class);
     }
 
@@ -97,7 +97,7 @@ public class MatchOffsetHighlighterTest {
         SpannableString text = new SpannableString(new String(seq, 0, seq.length));
         String matches = "1 0 12 5 2 0 12 5";
 
-        MatchOffsetHighlighter.highlightMatches(text, matches, 2, sHighlighter);
+        MatchOffsetHighlighter.highlightMatches(text, matches, text.toString(), 2, sHighlighter);
         Object[] spans = text.getSpans(0, text.length(), Object.class);
 
         assertThat(spans, arrayWithSize(1));
@@ -108,11 +108,12 @@ public class MatchOffsetHighlighterTest {
     @Test
     public void testOutOfBoundsOffset() {
         // start plus length exceeds bounds
-        int offset = MatchOffsetHighlighter.getByteOffset("short", 3, 5);
+        SpannableString text = new SpannableString("short");
+        int offset = MatchOffsetHighlighter.getByteOffset(text, 3, 5);
         assertThat(offset, is(0));
 
         // start exceeds string bounds
-        offset = MatchOffsetHighlighter.getByteOffset("short", 10, 12);
+        offset = MatchOffsetHighlighter.getByteOffset(text, 10, 12);
         assertThat(offset, is(0));
     }
 

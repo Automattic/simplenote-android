@@ -4,9 +4,7 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.widget.TextView;
 
-import com.automattic.simplenote.widgets.CheckableSpan;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 
 import java.io.UnsupportedEncodingException;
