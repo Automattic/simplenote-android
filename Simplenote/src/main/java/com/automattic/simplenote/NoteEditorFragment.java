@@ -462,6 +462,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_view_info:
                 showInfo();
                 return true;
+            case R.id.menu_checklist:
+                insertChecklist();
+                return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
@@ -479,6 +482,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void insertChecklist() {
+        mContentEditText.insertChecklist();
     }
 
     private void deleteNote() {

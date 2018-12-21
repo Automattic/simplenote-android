@@ -20,6 +20,8 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.automattic.simplenote.utils.ChecklistUtils.ChecklistOffset;
+
 public class SimplenoteEditText extends AppCompatEditText {
     private Context mContext;
 
@@ -89,6 +91,24 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
     }
 
+    public void insertChecklist() {
+        int start = Math.max(getSelectionStart(), 0);
+        int end = Math.max(getSelectionEnd(), 0);
+
+        if (start == 0 && getText().getSpans(0, 0, CheckableSpan.class).length > 0) {
+            // We already have a Checklist item here
+            return;
+        }
+
+        String newChecklistString = ChecklistUtils.UncheckedMarkdown + " ";
+        if (start > 0) {
+            newChecklistString = "\n" + newChecklistString;
+        }
+
+        getText().replace(Math.min(start, end), Math.max(start, end),
+                newChecklistString, 0, newChecklistString.length());
+    }
+
     public interface OnSelectionChangedListener {
         void onSelectionChanged(int selStart, int selEnd);
     }
@@ -129,8 +149,8 @@ public class SimplenoteEditText extends AppCompatEditText {
             int currentSelection = getSelectionStart();
             setText(checklistResult.resultStringBuilder);
             // Adjust the cursor position if necessary
-            if (currentSelection > ChecklistUtils.ChecklistOffset && currentSelection <= stringBuilder.length()) {
-                setSelection(currentSelection - ChecklistUtils.ChecklistOffset);
+            if (currentSelection > ChecklistOffset && currentSelection <= stringBuilder.length() + ChecklistOffset) {
+                setSelection(currentSelection - ChecklistOffset);
             }
         }
     }
