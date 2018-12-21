@@ -32,6 +32,10 @@ public class ChecklistUtils {
             Context context,
             SpannableStringBuilder spannable,
             String regex, int color) {
+        if (spannable == null) {
+            return new ChecklistResult(new SpannableStringBuilder(""), false);
+        }
+
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(spannable);
 

@@ -1,7 +1,12 @@
 package com.automattic.simplenote.utils;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.text.SpannableStringBuilder;
+
+import com.automattic.simplenote.R;
+import com.automattic.simplenote.widgets.CheckableSpan;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +22,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class ChecklistsTest {
     @Test
     public void testRegexMatching() {
-        String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ]Ship it - [x] not on a newline";
+        String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ] Ship it - [x] not on a newline";
 
         Pattern p = Pattern.compile(ChecklistUtils.ChecklistRegexLineStart, Pattern.MULTILINE);
         Matcher m = p.matcher(checklistMarkdown);
@@ -38,5 +43,33 @@ public class ChecklistsTest {
         }
 
         assertThat(count, is(4));
+    }
+
+    @Test
+    public void testCheckableSpanParsing() {
+        String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ] Ship it - [x] not on a newline";
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(checklistMarkdown);
+
+        builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                InstrumentationRegistry.getTargetContext(),
+                builder,
+                ChecklistUtils.ChecklistRegexLineStart,
+                R.color.black).resultStringBuilder;
+
+        // We should have 3 CheckableSpans
+        CheckableSpan[] spans = builder.getSpans(0, builder.length(), CheckableSpan.class);
+        assertThat(spans.length, is(3));
+    }
+
+    @Test
+    public void testNullBuilderPassed() {
+        SpannableStringBuilder builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                InstrumentationRegistry.getTargetContext(),
+                null,
+                ChecklistUtils.ChecklistRegexLineStart,
+                R.color.black).resultStringBuilder;
+
+        assertThat(builder.length(), is(0));
     }
 }
