@@ -19,8 +19,7 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
             mInstance = new SimplenoteMovementMethod();
         return mInstance;
     }
-
-
+    
     @Override
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
