@@ -3,8 +3,6 @@ package com.automattic.simplenote;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -13,7 +11,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -654,7 +651,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 titleChecklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
                         getContext(),
                         titleChecklistString,
-                        ChecklistUtils.ChecklistRegex,
+                        ChecklistUtils.CHECKLIST_REGEX,
                         ThemeUtils.getThemeTextColorId(getContext())).resultStringBuilder;
                 holder.titleTextView.setText(titleChecklistString);
             }
@@ -694,7 +691,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     checklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
                             getContext(),
                             checklistString,
-                            ChecklistUtils.ChecklistRegex,
+                            ChecklistUtils.CHECKLIST_REGEX,
                             R.color.simplenote_text_preview).resultStringBuilder;
                      holder.contentTextView.setText(checklistString);
                 }

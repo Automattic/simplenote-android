@@ -75,7 +75,7 @@ public class SearchSnippetFormatter {
             builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
                     mContext,
                     builder,
-                    ChecklistUtils.ChecklistRegex,
+                    ChecklistUtils.CHECKLIST_REGEX,
                     mChecklistResId).resultStringBuilder;
         }
 

@@ -18,7 +18,7 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automattic.simplenote.utils.ChecklistUtils.ChecklistOffset;
+import static com.automattic.simplenote.utils.ChecklistUtils.CHECKLIST_OFFSET;
 
 public class SimplenoteEditText extends AppCompatEditText {
     private Context mContext;
@@ -98,7 +98,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             return;
         }
 
-        String newChecklistString = ChecklistUtils.UncheckedMarkdown + " ";
+        String newChecklistString = ChecklistUtils.UNCHECKED_MARKDOWN + " ";
         if (start > 0) {
             newChecklistString = "\n" + newChecklistString;
         }
@@ -126,7 +126,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             ((Editable) content).replace(
                     start,
                     end,
-                    span.isChecked() ? ChecklistUtils.CheckedMarkdown : ChecklistUtils.UncheckedMarkdown);
+                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN : ChecklistUtils.UNCHECKED_MARKDOWN);
         }
 
         return content.toString();
@@ -141,14 +141,14 @@ public class SimplenoteEditText extends AppCompatEditText {
         ChecklistUtils.ChecklistResult checklistResult = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
                 stringBuilder,
-                ChecklistUtils.ChecklistRegexLineStart,
+                ChecklistUtils.CHECKLIST_REGEX_LINE_START,
                 ThemeUtils.getThemeTextColorId(mContext));
         if (checklistResult.addedChecklists) {
             int currentSelection = getSelectionStart();
             setText(checklistResult.resultStringBuilder);
             // Adjust the cursor position if necessary
-            if (currentSelection > ChecklistOffset && currentSelection <= stringBuilder.length() + ChecklistOffset) {
-                setSelection(currentSelection - ChecklistOffset);
+            if (currentSelection > CHECKLIST_OFFSET && currentSelection <= stringBuilder.length() + CHECKLIST_OFFSET) {
+                setSelection(currentSelection - CHECKLIST_OFFSET);
             }
         }
     }

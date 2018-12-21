@@ -14,17 +14,17 @@ import java.util.regex.Pattern;
 
 public class ChecklistUtils {
 
-    public static String ChecklistRegex = "- (\\[([ |x])\\])";
-    public static String ChecklistRegexLineStart = "^- (\\[([ |x])\\])";
-    public static String CheckedMarkdown = "- [x]";
-    public static String UncheckedMarkdown = "- [ ]";
-    public static final int ChecklistOffset = 4;
+    public static String CHECKLIST_REGEX = "- (\\[([ |x])\\])";
+    public static String CHECKLIST_REGEX_LINE_START = "^- (\\[([ |x])\\])";
+    public static String CHECKED_MARKDOWN = "- [x]";
+    public static String UNCHECKED_MARKDOWN = "- [ ]";
+    public static final int CHECKLIST_OFFSET = 4;
 
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
      * @param context view content.
      * @param spannable the spannable string to run the regex against.
-     * @param regex the regex pattern, use either ChecklistRegex or ChecklistRegexLineStart
+     * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINE_START
      * @param color the resource id of the color to tint the checklist item
      * @return ChecklistResult - resulting spannable string and result boolean
      */
@@ -71,8 +71,8 @@ public class ChecklistUtils {
     }
 
     public static class ChecklistResult {
-        public SpannableStringBuilder resultStringBuilder;
-        public boolean addedChecklists;
+        public final SpannableStringBuilder resultStringBuilder;
+        public final boolean addedChecklists;
 
         ChecklistResult(SpannableStringBuilder stringBuilder, boolean result) {
             resultStringBuilder = stringBuilder;

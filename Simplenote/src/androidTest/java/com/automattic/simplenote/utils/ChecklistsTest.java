@@ -24,7 +24,7 @@ public class ChecklistsTest {
     public void testRegexMatching() {
         String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ] Ship it - [x] not on a newline";
 
-        Pattern p = Pattern.compile(ChecklistUtils.ChecklistRegexLineStart, Pattern.MULTILINE);
+        Pattern p = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINE_START, Pattern.MULTILINE);
         Matcher m = p.matcher(checklistMarkdown);
 
         int count = 0;
@@ -34,7 +34,7 @@ public class ChecklistsTest {
 
         assertThat(count, is(3));
 
-        p = Pattern.compile(ChecklistUtils.ChecklistRegex, Pattern.MULTILINE);
+        p = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX, Pattern.MULTILINE);
         m = p.matcher(checklistMarkdown);
 
         count = 0;
@@ -54,7 +54,7 @@ public class ChecklistsTest {
         builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 InstrumentationRegistry.getTargetContext(),
                 builder,
-                ChecklistUtils.ChecklistRegexLineStart,
+                ChecklistUtils.CHECKLIST_REGEX_LINE_START,
                 R.color.black).resultStringBuilder;
 
         // We should have 3 CheckableSpans
@@ -67,7 +67,7 @@ public class ChecklistsTest {
         SpannableStringBuilder builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 InstrumentationRegistry.getTargetContext(),
                 null,
-                ChecklistUtils.ChecklistRegexLineStart,
+                ChecklistUtils.CHECKLIST_REGEX_LINE_START,
                 R.color.black).resultStringBuilder;
 
         assertThat(builder.length(), is(0));
