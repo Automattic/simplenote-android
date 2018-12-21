@@ -1,8 +1,6 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 

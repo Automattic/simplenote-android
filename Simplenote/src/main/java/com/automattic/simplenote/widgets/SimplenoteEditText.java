@@ -1,7 +1,6 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -14,7 +13,6 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import java.util.ArrayList;
