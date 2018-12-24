@@ -6,11 +6,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
@@ -75,12 +77,34 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 infoSheetListener.onInfoCopyLinkClicked();
             }
         });
+        mCopyButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(v.getContext(), v.getContext().getString(R.string.copy), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
         mShareButton = infoView.findViewById(R.id.info_share_button);
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 infoSheetListener.onInfoShareLinkClicked();
+            }
+        });
+        mShareButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(v.getContext(), v.getContext().getString(R.string.share), Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
