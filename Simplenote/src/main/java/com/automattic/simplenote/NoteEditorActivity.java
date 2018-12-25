@@ -34,6 +34,9 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -141,21 +144,6 @@ public class NoteEditorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                    WindowManager.LayoutParams.FLAG_SECURE);
-        }
     }
 
     @Override

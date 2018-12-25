@@ -19,7 +19,9 @@ public class TagsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -43,20 +45,5 @@ public class TagsActivity extends AppCompatActivity {
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                    WindowManager.LayoutParams.FLAG_SECURE);
-        }
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 }

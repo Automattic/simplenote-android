@@ -126,9 +126,12 @@ public class NotesActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
         }
-
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_notes);
 
         mFragmentsContainer = findViewById(R.id.note_fragment_container);
@@ -228,26 +231,8 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                    WindowManager.LayoutParams.FLAG_SECURE);
-        }
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();  // Always call the superclass method first
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-
         mTagsBucket.removeListener(mTagsMenuUpdater);
         mTagsBucket.stop();
 
