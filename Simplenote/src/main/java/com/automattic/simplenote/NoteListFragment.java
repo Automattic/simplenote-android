@@ -648,11 +648,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.titleTextView.setText(newNoteString);
             } else {
                 SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
-                titleChecklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
                         getContext(),
                         titleChecklistString,
                         ChecklistUtils.CHECKLIST_REGEX,
-                        ThemeUtils.getThemeTextColorId(getContext())).resultStringBuilder;
+                        ThemeUtils.getThemeTextColorId(getContext()));
                 holder.titleTextView.setText(titleChecklistString);
             }
 
@@ -688,11 +688,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 else {
                     holder.contentTextView.setText(contentPreview);
                     SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
-                    checklistString = ChecklistUtils.addChecklistSpansForRegexAndColor(
+                    checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
                             getContext(),
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
-                            R.color.simplenote_text_preview).resultStringBuilder;
+                            R.color.simplenote_text_preview);
                      holder.contentTextView.setText(checklistString);
                 }
             }

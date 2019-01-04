@@ -2,6 +2,7 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 
@@ -23,38 +24,36 @@ public class ChecklistUtils {
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
      * @param context view content.
-     * @param spannable the spannable string to run the regex against.
+     * @param editable the spannable string to run the regex against.
      * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINE_START
      * @param color the resource id of the color to tint the checklist item
-     * @return ChecklistResult - resulting spannable string and result boolean
+     * @return Editable - resulting spannable string
      */
-    public static ChecklistResult addChecklistSpansForRegexAndColor(
+    public static Editable addChecklistSpansForRegexAndColor(
             Context context,
-            SpannableStringBuilder spannable,
+            Editable editable,
             String regex, int color) {
-        if (spannable == null) {
-            return new ChecklistResult(new SpannableStringBuilder(""), false);
+        if (editable == null) {
+            return new SpannableStringBuilder("");
         }
 
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
-        Matcher m = p.matcher(spannable);
+        Matcher m = p.matcher(editable);
 
         int positionAdjustment = 0;
-        boolean result = false;
         while(m.find()) {
-            result = true;
             int start = m.start() - positionAdjustment;
             int end = m.end() - positionAdjustment;
 
             // Safety first!
-            if (end >= spannable.length()) {
+            if (end >= editable.length()) {
                 continue;
             }
 
             String match = m.group(1);
             CheckableSpan checkableSpan = new CheckableSpan();
             checkableSpan.setChecked(match.contains("x"));
-            spannable.replace(start, end, " ");
+            editable.replace(start, end, " ");
 
             Drawable iconDrawable = context.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
@@ -62,22 +61,12 @@ public class ChecklistUtils {
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
             CenteredImageSpan imageSpan = new CenteredImageSpan(iconDrawable);
-            spannable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            editable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            editable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             positionAdjustment += (end - start) - 1;
         }
 
-        return new ChecklistResult(spannable, result);
-    }
-
-    public static class ChecklistResult {
-        public final SpannableStringBuilder resultStringBuilder;
-        public final boolean addedChecklists;
-
-        ChecklistResult(SpannableStringBuilder stringBuilder, boolean result) {
-            resultStringBuilder = stringBuilder;
-            addedChecklists = result;
-        }
+        return editable;
     }
 }
 

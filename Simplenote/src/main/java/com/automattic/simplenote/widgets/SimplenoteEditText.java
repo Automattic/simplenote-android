@@ -18,8 +18,6 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automattic.simplenote.utils.ChecklistUtils.CHECKLIST_OFFSET;
-
 public class SimplenoteEditText extends AppCompatEditText {
     private Context mContext;
 
@@ -133,23 +131,14 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     public void processChecklists() {
-        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getText());
-        if (stringBuilder.length() == 0 || mContext == null) {
+        if (getText().length() == 0 || mContext == null) {
             return;
         }
 
-        ChecklistUtils.ChecklistResult checklistResult = ChecklistUtils.addChecklistSpansForRegexAndColor(
+        ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
-                stringBuilder,
+                getText(),
                 ChecklistUtils.CHECKLIST_REGEX_LINE_START,
                 ThemeUtils.getThemeTextColorId(mContext));
-        if (checklistResult.addedChecklists) {
-            int currentSelection = getSelectionStart();
-            setText(checklistResult.resultStringBuilder);
-            // Adjust the cursor position if necessary
-            if (currentSelection > CHECKLIST_OFFSET && currentSelection <= stringBuilder.length() + CHECKLIST_OFFSET) {
-                setSelection(currentSelection - CHECKLIST_OFFSET);
-            }
-        }
     }
 }
