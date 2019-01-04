@@ -49,13 +49,6 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-        super.onTextChanged(text, start, lengthBefore, lengthAfter);
-
-        processChecklists();
-    }
-
-    @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
         if (listeners != null) {
