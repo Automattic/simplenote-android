@@ -1356,7 +1356,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 ((NoteEditorActivity) getActivity()).showTabs();
             }
             // Load markdown in the sibling NoteMarkdownFragment's WebView.
-            mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
         }
     }
 }
