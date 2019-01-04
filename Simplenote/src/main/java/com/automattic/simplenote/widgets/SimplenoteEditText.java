@@ -73,7 +73,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, ThemeUtils.getThemeTextColorId(mContext));
             int iconSize = DisplayUtils.getChecklistIconSize(mContext);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            CenteredImageSpan newImageSpan = new CenteredImageSpan(iconDrawable);
+            CenteredImageSpan newImageSpan = new CenteredImageSpan(mContext, iconDrawable);
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);

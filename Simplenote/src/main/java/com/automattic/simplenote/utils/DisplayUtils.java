@@ -73,7 +73,7 @@ public class DisplayUtils {
             return 18;
         }
 
-        return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context))+ DisplayUtils.dpToPx(context, 4);
+        return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context)) + DisplayUtils.dpToPx(context, 6);
     }
 }
 

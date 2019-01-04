@@ -60,7 +60,7 @@ public class ChecklistUtils {
             int iconSize = DisplayUtils.getChecklistIconSize(context);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
-            CenteredImageSpan imageSpan = new CenteredImageSpan(iconDrawable);
+            CenteredImageSpan imageSpan = new CenteredImageSpan(context, iconDrawable);
             editable.setSpan(imageSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             editable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             positionAdjustment += (end - start) - 1;
