@@ -59,7 +59,7 @@ public class NoteMarkdownFragment extends Fragment {
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
         setHasOptionsMenu(true);
-        mCss = ThemeUtils.isLightTheme(requireActivity())
+        mCss = ThemeUtils.isLightTheme(requireContext())
                 ? ContextUtils.readCssFile(requireContext(), "light.css")
                 : ContextUtils.readCssFile(requireContext(), "dark.css");
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);

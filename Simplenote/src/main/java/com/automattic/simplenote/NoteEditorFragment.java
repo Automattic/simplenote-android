@@ -299,7 +299,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
-            getActivity().invalidateOptionsMenu();
+            requireActivity().invalidateOptionsMenu();
             mMarkdown = mRootView.findViewById(R.id.markdown);
             mCss = ThemeUtils.isLightTheme(requireContext())
                     ? ContextUtils.readCssFile(requireContext(), "light.css")
