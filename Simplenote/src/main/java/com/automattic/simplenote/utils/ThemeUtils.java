@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -53,8 +54,9 @@ public class ThemeUtils {
     }
 
     public static boolean isLightTheme(Context context) {
-        return context == null ||
-                PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT) == THEME_LIGHT;
+        int uiMode = context.getResources().getConfiguration().uiMode &
+                        Configuration.UI_MODE_NIGHT_MASK;
+        return uiMode != Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static boolean themeWasChanged(Intent intent) {
