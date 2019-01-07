@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimplenoteEditText extends AppCompatEditText {
-    private Context mContext;
+    private final Context mContext;
 
     private List<OnSelectionChangedListener> listeners;
 
@@ -80,22 +81,32 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
     }
 
+    // Returns the line position of the text cursor
+    private int getCurrentCursorLine() {
+        int selectionStart = getSelectionStart();
+        Layout layout = getLayout();
+
+        if (!(selectionStart == -1)) {
+            return layout.getLineForOffset(selectionStart);
+        }
+
+        return 0;
+    }
+
     public void insertChecklist() {
-        int start = Math.max(getSelectionStart(), 0);
-        int end = Math.max(getSelectionEnd(), 0);
+        int line = getCurrentCursorLine();
+        int start = getLayout().getLineStart(line);
+        int end = getLayout().getLineEnd(line);
 
-        if (start == 0 && getText().getSpans(0, 0, CheckableSpan.class).length > 0) {
-            // We already have a Checklist item here
-            return;
+        SpannableStringBuilder currentLine = new SpannableStringBuilder(getText().subSequence(start, end));
+        if (currentLine.getSpans(0, 0, CheckableSpan.class).length > 0) {
+            currentLine.replace(0, 2, "");
+        } else {
+            String newChecklistString = ChecklistUtils.UNCHECKED_MARKDOWN + " ";
+            currentLine.insert(0, newChecklistString);
         }
 
-        String newChecklistString = ChecklistUtils.UNCHECKED_MARKDOWN + " ";
-        if (start > 0) {
-            newChecklistString = "\n" + newChecklistString;
-        }
-
-        getText().replace(Math.min(start, end), Math.max(start, end),
-                newChecklistString, 0, newChecklistString.length());
+        getText().replace(start, end, currentLine, 0, currentLine.length());
     }
 
     public interface OnSelectionChangedListener {
