@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -89,7 +90,9 @@ public class NoteEditorActivity extends AppCompatActivity {
                             if (position == 1) {
                                 final InputMethodManager imm = (InputMethodManager) getSystemService(
                                         Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+                                }
                             }
                         }
 
@@ -183,7 +186,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         private final ArrayList<Fragment> mFragments = new ArrayList<>();
         private final ArrayList<String> mTitles = new ArrayList<>();
 
-        public NoteEditorFragmentPagerAdapter(FragmentManager manager) {
+        NoteEditorFragmentPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -198,7 +201,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(@NonNull Object object) {
             return PagerAdapter.POSITION_NONE;
         }
 
@@ -207,7 +210,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             return mTitles.get(position);
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
             mTitles.add(title);
             notifyDataSetChanged();

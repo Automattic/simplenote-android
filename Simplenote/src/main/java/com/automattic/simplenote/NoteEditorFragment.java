@@ -56,6 +56,7 @@ import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -76,8 +77,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
     public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     private static final String STATE_NOTE_ID = "state_note_id";
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
     private static final int PUBLISH_TIMEOUT = 20000;
@@ -302,15 +301,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPlaceholderView.setVisibility(View.VISIBLE);
             getActivity().invalidateOptionsMenu();
             mMarkdown = mRootView.findViewById(R.id.markdown);
-
-            switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
-                case THEME_DARK:
-                    mCss = ContextUtils.readCssFile(getActivity(), "dark.css");
-                    break;
-                case THEME_LIGHT:
-                    mCss = ContextUtils.readCssFile(getActivity(), "light.css");
-                    break;
-            }
+            mCss = ThemeUtils.isLightTheme(requireContext())
+                    ? ContextUtils.readCssFile(requireContext(), "light.css")
+                    : ContextUtils.readCssFile(requireContext(), "dark.css");
         }
 
         mTagView.setAdapter(mAutocompleteAdapter);

@@ -15,14 +15,12 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
-import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteMarkdownFragment extends Fragment {
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
     public static final String ARG_ITEM_ID = "item_id";
     private Note mNote;
     private String mCss;
@@ -56,26 +54,16 @@ public class NoteMarkdownFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
-
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
-
         setHasOptionsMenu(true);
-
+        mCss = ThemeUtils.isLightTheme(requireActivity())
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
         mMarkdown = layout.findViewById(R.id.markdown);
-
-        switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
-            case THEME_DARK:
-                mCss = ContextUtils.readCssFile(getActivity(), "dark.css");
-                break;
-            case THEME_LIGHT:
-                mCss = ContextUtils.readCssFile(getActivity(), "light.css");
-                break;
-        }
-
         return layout;
     }
 
