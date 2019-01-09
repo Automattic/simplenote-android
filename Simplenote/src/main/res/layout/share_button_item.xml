@@ -13,6 +13,6 @@
         android:drawablePadding="@dimen/padding_small"
         android:gravity="center_horizontal"
         android:padding="@dimen/padding_large"
-        android:textColor="@color/simplenote_dark_grey"/>
+        style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
 </FrameLayout>

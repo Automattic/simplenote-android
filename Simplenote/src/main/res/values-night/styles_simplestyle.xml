@@ -54,9 +54,16 @@
         <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+
+        <item name="bottomSheetDialogTheme">@style/Theme.Design.BottomSheetDialog</item>
+        <item name="isLightTheme">false</item>
     </style>
 
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle"/>
+
+    <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
