@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/Theme.Simplestyle.BottomSheetDialogText">
+    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/linearDateWordCountInfo"

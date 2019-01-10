@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/Theme.Simplestyle">
+    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/share_custom_buttons"

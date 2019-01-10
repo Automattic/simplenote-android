@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    style="@style/Theme.Simplestyle.BottomSheetDialogText">
+    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/history_loading_view"

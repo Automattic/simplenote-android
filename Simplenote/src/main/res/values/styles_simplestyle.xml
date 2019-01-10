@@ -12,8 +12,7 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
 
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle
-        </item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
@@ -64,6 +63,13 @@
     </style>
 
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle"/>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
+        <item name="colorPrimaryDark">@color/lightgrey</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
+        <item name="android:background">?attr/mainBackgroundColor</item>
+    </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:textColor">@color/simplenote_dark_grey</item>
