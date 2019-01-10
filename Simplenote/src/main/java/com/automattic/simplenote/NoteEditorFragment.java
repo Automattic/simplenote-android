@@ -587,6 +587,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             afterTextChanged(mContentEditText.getText());
+            mContentEditText.processChecklists();
             updateTagList();
         }
     }
@@ -669,8 +670,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         attemptAutoList(editable);
         setTitleSpan(editable);
 
-        mContentEditText.processChecklists();
-
         // Prevents line heights from compacting
         // https://issuetracker.google.com/issues/37009353
         float lineSpacingExtra = mContentEditText.getLineSpacingExtra();
@@ -692,6 +691,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mMatchOffsets = null;
             mHighlighter.removeMatches();
         }
+
+        // Temporarily remove the text watcher as we process checklists to prevent callback looping
+        mContentEditText.removeTextChangedListener(this);
+        mContentEditText.processChecklists();
+        mContentEditText.addTextChangedListener(this);
     }
 
     private void setTitleSpan(Editable editable) {
