@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,7 +52,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
@@ -76,7 +77,7 @@ public class NoteMarkdownFragment extends Fragment {
                 return true;
             case android.R.id.home:
                 if (!isAdded()) return false;
-                getActivity().finish();
+                requireActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -85,7 +86,7 @@ public class NoteMarkdownFragment extends Fragment {
 
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
-        getActivity().finish();
+        requireActivity().finish();
     }
 
     @Override
