@@ -24,7 +24,7 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
 
-        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
+        if (action == MotionEvent.ACTION_UP) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
@@ -41,9 +41,7 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
             CheckableSpan[] checkableSpans = buffer.getSpans(off, off + 1, CheckableSpan.class);
 
             if (checkableSpans.length != 0) {
-                if (action == MotionEvent.ACTION_UP) {
-                    checkableSpans[0].onClick(widget);
-                }
+                checkableSpans[0].onClick(widget);
 
                 return true;
             } else {
