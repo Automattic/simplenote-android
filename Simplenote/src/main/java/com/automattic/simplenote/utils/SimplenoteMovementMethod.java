@@ -37,6 +37,12 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
             Layout layout = widget.getLayout();
             int line = layout.getLineForVertical(y);
             int off = layout.getOffsetForHorizontal(line, x);
+            int lineStart = layout.getLineStart(line);
+
+            // Also toggle the checkbox if the user tapped the space next to the checkbox
+            if (off == lineStart + 1) {
+                off = lineStart;
+            }
 
             CheckableSpan[] checkableSpans = buffer.getSpans(off, off + 1, CheckableSpan.class);
 

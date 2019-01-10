@@ -71,7 +71,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             stringBuilder.removeSpan(imageSpans[0]);
 
             Drawable iconDrawable = mContext.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, ThemeUtils.getThemeTextColorId(mContext));
+            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, R.color.simplenote_text_preview);
             int iconSize = DisplayUtils.getChecklistIconSize(mContext);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
             CenteredImageSpan newImageSpan = new CenteredImageSpan(mContext, iconDrawable);
@@ -143,6 +143,6 @@ public class SimplenoteEditText extends AppCompatEditText {
                 getContext(),
                 getText(),
                 ChecklistUtils.CHECKLIST_REGEX_LINE_START,
-                ThemeUtils.getThemeTextColorId(mContext));
+                R.color.simplenote_text_preview);
     }
 }
