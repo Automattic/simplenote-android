@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,15 +36,13 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
     private List<ShareButtonAdapter.ShareButtonItem> mShareButtons;
 
     public ShareBottomSheetDialog(@NonNull final Fragment fragment, @NonNull final ShareSheetListener shareSheetListener) {
-        super(fragment.getActivity());
-
+        super(fragment.requireActivity());
         mFragment = fragment;
-
-        View shareView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.bottom_sheet_share, null, false);
-        TextView mCollaborateButton = shareView.findViewById(R.id.share_collaborate_button);
-        mPublishButton = shareView.findViewById(R.id.share_publish_button);
-        mUnpublishButton = shareView.findViewById(R.id.share_unpublish_button);
-        mWordPressButton = shareView.findViewById(R.id.share_wp_post);
+        setContentView(R.layout.bottom_sheet_share);
+        TextView mCollaborateButton = findViewById(R.id.share_collaborate_button);
+        mPublishButton = findViewById(R.id.share_publish_button);
+        mUnpublishButton = findViewById(R.id.share_unpublish_button);
+        mWordPressButton = findViewById(R.id.share_wp_post);
 
         mCollaborateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +72,14 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        mRecyclerView = shareView.findViewById(R.id.share_button_recycler_view);
+        mRecyclerView = findViewById(R.id.share_button_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(fragment.getActivity(), SHARE_SHEET_COLUMN_COUNT));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(fragment.requireActivity(), SHARE_SHEET_COLUMN_COUNT));
 
         mShareIntent = new Intent(Intent.ACTION_SEND);
         mShareIntent.setType("text/plain");
 
-        mShareButtons = getShareButtons(fragment.getActivity(), mShareIntent);
+        mShareButtons = getShareButtons(fragment.requireActivity(), mShareIntent);
 
         setOnDismissListener(new OnDismissListener() {
             @Override
@@ -90,12 +87,9 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
                 shareSheetListener.onShareDismissed();
             }
         });
-
-        setContentView(shareView);
     }
 
     public void show(Note note) {
-
         if (mFragment.isAdded()) {
             if (note.isPublished()) {
                 mPublishButton.setVisibility(View.GONE);
@@ -111,7 +105,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
                 @Override
                 public void onItemClick(ShareButtonAdapter.ShareButtonItem item) {
                     mShareIntent.setComponent(new ComponentName(item.getPackageName(), item.getActivityName()));
-                    mFragment.getActivity().startActivity(Intent.createChooser(mShareIntent, mFragment.getString(R.string.share)));
+                    mFragment.requireActivity().startActivity(Intent.createChooser(mShareIntent, mFragment.getString(R.string.share)));
                     dismiss();
                 }
             };
@@ -124,7 +118,6 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
 
     @NonNull
     private List<ShareButtonAdapter.ShareButtonItem> getShareButtons(Activity activity, Intent intent) {
-
         List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
         final List<ResolveInfo> matches = activity.getPackageManager().queryIntentActivities(intent, 0);
         for (ResolveInfo match : matches) {
