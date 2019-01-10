@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -14,17 +15,16 @@ import java.util.List;
 public class ThemeUtils {
 
     // theme constants
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
+    private static final int THEME_LIGHT = 0;
+    private static final int THEME_DARK = 1;
     @SuppressWarnings("unused")
     public static final int THEME_AUTO = 2;
-    static public final String PREFERENCES_URI_AUTHORITY = "preferences";
-    static public final String URI_SEGMENT_THEME = "theme";
-    public static String THEME_CHANGED_EXTRA = "themeChanged";
+    private static final String PREFERENCES_URI_AUTHORITY = "preferences";
+    private static final String URI_SEGMENT_THEME = "theme";
+    private static String THEME_CHANGED_EXTRA = "themeChanged";
 
     public static void setTheme(Activity activity) {
-
-        // if we have a data uri that sets the theme let's do it here
+            // if we have a data uri that sets the theme let's do it here
         Uri data = activity.getIntent().getData();
         if (data != null) {
             if (data.getAuthority().equals(PREFERENCES_URI_AUTHORITY)) {
@@ -53,8 +53,9 @@ public class ThemeUtils {
     }
 
     public static boolean isLightTheme(Context context) {
-        return context == null ||
-                PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT) == THEME_LIGHT;
+        int uiMode = context.getResources().getConfiguration().uiMode &
+                        Configuration.UI_MODE_NIGHT_MASK;
+        return uiMode != Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static boolean themeWasChanged(Intent intent) {

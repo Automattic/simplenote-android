@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/share_custom_buttons"
@@ -23,7 +24,7 @@
             android:drawableTop="@drawable/ic_collaborate_selector"
             android:gravity="center_horizontal"
             android:text="@string/collaborate"
-            android:textColor="@color/simplenote_dark_grey"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_publish_button"
@@ -35,7 +36,7 @@
             android:drawableTop="@drawable/ic_publish_selector"
             android:gravity="center_horizontal"
             android:text="@string/publish"
-            android:textColor="@color/simplenote_dark_grey"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_unpublish_button"
@@ -47,7 +48,7 @@
             android:drawableTop="@drawable/ic_unpublish_selector"
             android:gravity="center_horizontal"
             android:text="@string/unpublish"
-            android:textColor="@color/simplenote_dark_grey"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_wp_post"
@@ -59,7 +60,7 @@
             android:drawableTop="@drawable/ic_wordpress_post_selector"
             android:gravity="center_horizontal"
             android:text="@string/wordpress_post"
-            android:textColor="@color/simplenote_dark_grey"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
     </LinearLayout>
 
     <View
@@ -73,6 +74,7 @@
         android:id="@+id/share_button_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info_divider"/>
+        android:layout_below="@id/info_divider"
+        style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
 </RelativeLayout>
