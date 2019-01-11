@@ -16,6 +16,7 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
@@ -162,12 +163,19 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             // Find fields to populate in inflated template
-            TextView tvBody = (TextView) view.findViewById(R.id.note_title);
+            TextView titleTextView = view.findViewById(R.id.note_title);
+            TextView contentTextView = view.findViewById(R.id.note_content);
+            ToggleButton toggleView = view.findViewById(R.id.pin_button);
             // Extract properties from cursor
-            String title = "Hola";
-            if(cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) title = cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            String title = "";
+            String snippet = "";
+            if(cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            if(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
             // Populate fields with extracted properties
-            tvBody.setText(title);
+            titleTextView.setText(title);
+            contentTextView.setText(snippet);
+            toggleView.setVisibility(View.GONE);
+
         }
     }
 }
