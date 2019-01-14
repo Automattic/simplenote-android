@@ -21,20 +21,20 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
     }
     
     @Override
-    public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
+    public boolean onTouchEvent(TextView textView, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
 
         if (action == MotionEvent.ACTION_UP) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            x -= widget.getTotalPaddingLeft();
-            y -= widget.getTotalPaddingTop();
+            x -= textView.getTotalPaddingLeft();
+            y -= textView.getTotalPaddingTop();
 
-            x += widget.getScrollX();
-            y += widget.getScrollY();
+            x += textView.getScrollX();
+            y += textView.getScrollY();
 
-            Layout layout = widget.getLayout();
+            Layout layout = textView.getLayout();
             int line = layout.getLineForVertical(y);
             int off = layout.getOffsetForHorizontal(line, x);
             int lineStart = layout.getLineStart(line);
@@ -47,7 +47,9 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
             CheckableSpan[] checkableSpans = buffer.getSpans(off, off + 1, CheckableSpan.class);
 
             if (checkableSpans.length != 0) {
-                checkableSpans[0].onClick(widget);
+                checkableSpans[0].onClick(textView);
+                // Clear focus so that keyboard doesn't show.
+                textView.clearFocus();
 
                 return true;
             } else {
