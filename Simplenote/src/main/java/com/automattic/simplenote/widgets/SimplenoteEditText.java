@@ -23,6 +23,7 @@ public class SimplenoteEditText extends AppCompatEditText {
     private final Context mContext;
 
     private List<OnSelectionChangedListener> listeners;
+    private final int CHECKBOX_LENGTH = 2; // One CheckableSpan + a space character
 
     public SimplenoteEditText(Context context) {
         super(context);
@@ -98,15 +99,25 @@ public class SimplenoteEditText extends AppCompatEditText {
         int start = getLayout().getLineStart(line);
         int end = getLayout().getLineEnd(line);
 
+        boolean shouldAdjustCursor = false;
         SpannableStringBuilder currentLine = new SpannableStringBuilder(getText().subSequence(start, end));
         if (currentLine.getSpans(0, 0, CheckableSpan.class).length > 0) {
-            currentLine.replace(0, 2, "");
+            currentLine.replace(0, CHECKBOX_LENGTH, "");
         } else {
+            shouldAdjustCursor = true;
             String newChecklistString = ChecklistUtils.UNCHECKED_MARKDOWN + " ";
             currentLine.insert(0, newChecklistString);
         }
 
         getText().replace(start, end, currentLine, 0, currentLine.length());
+
+        // Adjust cursor position if necessary
+        if (shouldAdjustCursor) {
+            int newSelection = getSelectionStart() + CHECKBOX_LENGTH;
+            if (getText().length() >= newSelection) {
+                setSelection(newSelection);
+            }
+        }
     }
 
     public interface OnSelectionChangedListener {
