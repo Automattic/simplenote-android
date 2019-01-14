@@ -113,7 +113,7 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         // Adjust cursor position if necessary
         if (shouldAdjustCursor) {
-            int newSelection = getSelectionStart() + CHECKBOX_LENGTH;
+            int newSelection = Math.max(getSelectionStart(), 0) + CHECKBOX_LENGTH;
             if (getText().length() >= newSelection) {
                 setSelection(newSelection);
             }
