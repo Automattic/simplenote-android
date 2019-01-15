@@ -115,6 +115,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/copy"
             android:padding="@dimen/padding_large"
+            android:tint="?iconTintColor"
             app:srcCompat="@drawable/ic_content_copy_white_24dp" />
 
         <ImageButton
@@ -127,7 +128,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/share"
             android:padding="@dimen/padding_large"
-            android:tint="@color/grey"
+            android:tint="?iconTintColor"
             app:srcCompat="@drawable/ic_share_24dp"/>
 
     </RelativeLayout>
