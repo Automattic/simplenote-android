@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +33,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoPinSwitch;
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
-    private ImageButton mShareButton;
+    private LinearLayout mShareButton;
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
-        super(fragment.getActivity());
+        super(fragment.requireActivity());
 
         mFragment = fragment;
 
@@ -119,7 +120,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     }
 
     public void show(Note note) {
-
         if (mFragment.isAdded()) {
             String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));

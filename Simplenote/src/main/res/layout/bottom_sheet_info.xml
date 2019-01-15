@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:theme="@style/Theme.Simplestyle">
+    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/linearDateWordCountInfo"
@@ -24,8 +24,7 @@
             android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:paddingTop="@dimen/padding_extra_large"
-            android:textColor="@color/grey"
-            tools:text="Modified Jan 1, 20015, 8:00AM" />
+            tools:text="Modified Jan 1, 2015, 8:00AM" />
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/info_words_text"
@@ -40,7 +39,6 @@
             android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:paddingTop="@dimen/padding_extra_large"
-            android:textColor="@color/grey"
             tools:text="101 words\n1010 characters" />
     </LinearLayout>
     <View
@@ -61,8 +59,7 @@
         android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
-        android:text="@string/pin_to_top"
-        android:textColor="@color/simplenote_dark_grey"/>
+        android:text="@string/pin_to_top" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_markdown_switch"
@@ -75,52 +72,48 @@
         android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
-        android:text="@string/enable_markdown"
-        android:textColor="@color/simplenote_dark_grey"/>
+        android:text="@string/enable_markdown" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/info_markdown_switch"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingStart="@dimen/padding_large">
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="@dimen/padding_extra_large"
-            android:paddingTop="@dimen/padding_extra_large">
+            android:paddingTop="@dimen/padding_extra_large"
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/info_public_link_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/public_link"
-                android:textColor="@color/simplenote_dark_grey"
-                />
+                style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/info_public_link_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey"
                 tools:text="http://simp.ly/publish/fsfjksjd"
-                />
+                style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/info_copy_link_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center|end"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/copy"
             android:padding="@dimen/padding_large"
-            android:tint="@color/grey"
-            app:srcCompat="@drawable/ic_content_copy_white_24dp"/>
+            app:srcCompat="@drawable/ic_content_copy_white_24dp" />
 
         <ImageButton
             android:id="@+id/info_share_button"
@@ -135,6 +128,6 @@
             android:tint="@color/grey"
             app:srcCompat="@drawable/ic_share_24dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

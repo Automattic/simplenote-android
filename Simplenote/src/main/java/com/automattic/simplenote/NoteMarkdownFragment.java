@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,14 +16,12 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
-import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 public class NoteMarkdownFragment extends Fragment {
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
     public static final String ARG_ITEM_ID = "item_id";
     private Note mNote;
     private String mCss;
@@ -53,29 +52,19 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
-
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
             new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
-
         setHasOptionsMenu(true);
-
+        mCss = ThemeUtils.isLightTheme(requireContext())
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
         mMarkdown = layout.findViewById(R.id.markdown);
-
-        switch (PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_THEME, THEME_LIGHT)) {
-            case THEME_DARK:
-                mCss = ContextUtils.readCssFile(getActivity(), "dark.css");
-                break;
-            case THEME_LIGHT:
-                mCss = ContextUtils.readCssFile(getActivity(), "light.css");
-                break;
-        }
-
         return layout;
     }
 
@@ -88,7 +77,7 @@ public class NoteMarkdownFragment extends Fragment {
                 return true;
             case android.R.id.home:
                 if (!isAdded()) return false;
-                getActivity().finish();
+                requireActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -97,7 +86,7 @@ public class NoteMarkdownFragment extends Fragment {
 
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
-        getActivity().finish();
+        requireActivity().finish();
     }
 
     @Override
