@@ -22,28 +22,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimplenoteEditText extends AppCompatEditText {
-    private final Context mContext;
-
     private List<OnSelectionChangedListener> listeners;
     private final int CHECKBOX_LENGTH = 2; // One CheckableSpan + a space character
 
     public SimplenoteEditText(Context context) {
         super(context);
-        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mContext = context;
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
     }
@@ -76,11 +71,11 @@ public class SimplenoteEditText extends AppCompatEditText {
             // ImageSpans are static, so we need to remove the old one and replace :|
             stringBuilder.removeSpan(imageSpans[0]);
 
-            Drawable iconDrawable = mContext.getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(mContext, iconDrawable, R.color.simplenote_text_preview);
-            int iconSize = DisplayUtils.getChecklistIconSize(mContext);
+            Drawable iconDrawable = getContext().getResources().getDrawable(checkableSpan.isChecked() ? R.drawable.ic_checked : R.drawable.ic_unchecked);
+            iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.simplenote_text_preview);
+            int iconSize = DisplayUtils.getChecklistIconSize(getContext());
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            CenteredImageSpan newImageSpan = new CenteredImageSpan(mContext, iconDrawable);
+            CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);
@@ -163,7 +158,7 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     public void processChecklists() {
-        if (getText().length() == 0 || mContext == null) {
+        if (getText().length() == 0 || getContext() == null) {
             return;
         }
 
