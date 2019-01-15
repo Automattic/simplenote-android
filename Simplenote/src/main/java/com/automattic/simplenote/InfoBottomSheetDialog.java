@@ -84,7 +84,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                     v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 }
 
-                Toast.makeText(v.getContext(), v.getContext().getString(R.string.copy), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.copy), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -103,7 +103,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                     v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 }
 
-                Toast.makeText(v.getContext(), v.getContext().getString(R.string.share), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.share), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
