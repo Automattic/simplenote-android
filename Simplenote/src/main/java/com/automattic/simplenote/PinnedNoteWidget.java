@@ -10,10 +10,10 @@ public class PinnedNoteWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = PinnedNoteWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
+        //CharSequence widgetText = PinnedNoteWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.pinned_note_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        views.setTextViewText(R.id.appwidget_text, "");
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -31,7 +31,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            PinnedNoteWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
+            //PinnedNoteWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
         }
     }
 

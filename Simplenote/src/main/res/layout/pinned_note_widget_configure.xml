@@ -14,23 +14,4 @@
         android:divider="?attr/listDividerDrawable"
         android:dividerHeight="1px"/>
 
-    <LinearLayout
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/empty_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/selectable_background_simplestyle"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="?attr/notePreviewColor"
-            android:textSize="20sp"/>
-
-    </LinearLayout>
-
 </LinearLayout>
