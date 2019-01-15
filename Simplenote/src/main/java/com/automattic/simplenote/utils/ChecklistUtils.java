@@ -46,7 +46,7 @@ public class ChecklistUtils {
             int end = m.end() - positionAdjustment;
 
             // Safety first!
-            if (end >= editable.length()) {
+            if (end > editable.length()) {
                 continue;
             }
 
