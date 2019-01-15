@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoPinSwitch;
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
-    private LinearLayout mShareButton;
+    private ImageButton mShareButton;
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {

@@ -74,7 +74,7 @@
         android:paddingTop="@dimen/padding_extra_large"
         android:text="@string/enable_markdown" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/info_markdown_switch"
@@ -82,9 +82,8 @@
         android:paddingEnd="@dimen/padding_large">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="@dimen/padding_extra_large"
             android:paddingTop="@dimen/padding_extra_large"
@@ -110,6 +109,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/copy"
             android:padding="@dimen/padding_large"
@@ -128,6 +130,6 @@
             android:tint="@color/grey"
             app:srcCompat="@drawable/ic_share_24dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
