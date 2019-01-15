@@ -48,8 +48,6 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
 
             if (checkableSpans.length != 0) {
                 checkableSpans[0].onClick(textView);
-                // Clear focus so that keyboard doesn't show.
-                textView.clearFocus();
 
                 return true;
             } else {

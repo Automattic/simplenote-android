@@ -2,6 +2,7 @@ package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Layout;
@@ -10,6 +11,7 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 
+import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -66,6 +68,9 @@ public class SimplenoteEditText extends AppCompatEditText {
         int checkboxStart = stringBuilder.getSpanStart(checkableSpan);
         int checkboxEnd = stringBuilder.getSpanEnd(checkableSpan);
 
+        final int selectionStart = getSelectionStart();
+        final int selectionEnd = getSelectionEnd();
+
         ImageSpan[] imageSpans = stringBuilder.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
             // ImageSpans are static, so we need to remove the old one and replace :|
@@ -79,6 +84,13 @@ public class SimplenoteEditText extends AppCompatEditText {
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);
+
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    setSelection(selectionStart, selectionEnd);
+                }
+            });
         }
     }
 
