@@ -84,13 +84,18 @@ public class SimplenoteEditText extends AppCompatEditText {
             stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             setText(stringBuilder);
-
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    setSelection(selectionStart, selectionEnd);
-                }
-            });
+            if (selectionStart < 0) {
+                // Prevents soft keyboard from showing when clicking on a checkbox
+                clearFocus();
+            } else {
+                // Restore the selection if necessary
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setSelection(selectionStart, selectionEnd);
+                    }
+                });
+            }
         }
     }
 
