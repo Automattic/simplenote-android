@@ -107,29 +107,67 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     public void insertChecklist() {
-        int line = getCurrentCursorLine();
-        int start = getLayout().getLineStart(line);
-        int end = getLayout().getLineEnd(line);
-
-        boolean shouldAdjustCursor = false;
-        SpannableStringBuilder currentLine = new SpannableStringBuilder(getText().subSequence(start, end));
-        if (currentLine.getSpans(0, 0, CheckableSpan.class).length > 0) {
-            currentLine.replace(0, CHECKBOX_LENGTH, "");
+        int start, end;
+        int lineNumber = getCurrentCursorLine();
+        start = getLayout().getLineStart(lineNumber);
+        if (getSelectionEnd() > getSelectionStart() && !selectionIsOnSameLine()) {
+            end = getSelectionEnd();
         } else {
-            shouldAdjustCursor = true;
-            String newChecklistString = ChecklistUtils.UNCHECKED_MARKDOWN + " ";
-            currentLine.insert(0, newChecklistString);
+            end = getLayout().getLineEnd(lineNumber);
         }
 
-        getText().replace(start, end, currentLine, 0, currentLine.length());
+        SpannableStringBuilder workingString = new SpannableStringBuilder(getText().subSequence(start, end));
 
-        // Adjust cursor position if necessary
-        if (shouldAdjustCursor) {
-            int newSelection = Math.max(getSelectionStart(), 0) + CHECKBOX_LENGTH;
+        int previousSelection = getSelectionStart();
+        CheckableSpan[] checkableSpans = workingString.getSpans(0, workingString.length(), CheckableSpan.class);
+        if (checkableSpans.length > 0) {
+            // Remove any checkablespans found
+            for(CheckableSpan span: checkableSpans) {
+                workingString.replace(
+                        workingString.getSpanStart(span),
+                        workingString.getSpanEnd(span) + 1,
+                        ""
+                );
+                workingString.removeSpan(span);
+            }
+
+            getText().replace(start, end, workingString);
+
+            if (checkableSpans.length == 1) {
+                int newSelection = Math.max(previousSelection, 0) - CHECKBOX_LENGTH;
+                if (getText().length() >= newSelection) {
+                    setSelection(newSelection);
+                }
+            }
+        } else {
+            // Insert a checklist for each line
+            String[] lines = workingString.toString().split("(?<=\n)");
+            StringBuilder resultString = new StringBuilder();
+
+            for (String lineString: lines) {
+                resultString.append(ChecklistUtils.UNCHECKED_MARKDOWN + " ").append(lineString);
+            }
+
+            getText().replace(start, end, resultString, 0, resultString.length());
+
+            int newSelection = Math.max(previousSelection, 0) + (lines.length * CHECKBOX_LENGTH);
             if (getText().length() >= newSelection) {
                 setSelection(newSelection);
             }
         }
+    }
+
+    // Returns true if the current editor selection is on the same line
+    private boolean selectionIsOnSameLine() {
+        int selectionStart = getSelectionStart();
+        int selectionEnd = getSelectionEnd();
+        Layout layout = getLayout();
+
+        if (selectionStart >= 0 && selectionEnd >= 0) {
+            return layout.getLineForOffset(selectionStart) == layout.getLineForOffset(selectionEnd);
+        }
+
+        return false;
     }
 
     public interface OnSelectionChangedListener {
