@@ -139,7 +139,8 @@
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:tint="?iconTintColor"
-            app:srcCompat="@drawable/ic_share_24dp"/>
+            app:srcCompat="@drawable/ic_share_24dp"
+            tools:visibility="gone"/>
 
     </RelativeLayout>
 
