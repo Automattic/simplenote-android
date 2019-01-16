@@ -25,7 +25,6 @@ public class ThemeUtils {
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
     private static String THEME_CHANGED_EXTRA = "themeChanged";
-    private static int mTextColorId;
 
     public static void setTheme(Activity activity) {
             // if we have a data uri that sets the theme let's do it here
@@ -93,13 +92,11 @@ public class ThemeUtils {
             return 0;
         }
 
-        if (mTextColorId == 0) {
-            int[] attrs = {R.attr.noteEditorTextColor};
-            TypedArray ta = context.obtainStyledAttributes(attrs);
-            mTextColorId = ta.getResourceId(0, android.R.color.black);
-            ta.recycle();
-        }
+        int[] attrs = {R.attr.noteEditorTextColor};
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        int textColorId = ta.getResourceId(0, android.R.color.black);
+        ta.recycle();
 
-        return mTextColorId;
+        return textColorId;
     }
 }
