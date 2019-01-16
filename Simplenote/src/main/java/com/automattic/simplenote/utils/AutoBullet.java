@@ -35,7 +35,7 @@ public class AutoBullet {
             if (checkableSpans.length > 0) {
                 if (prevParagraph.equals(STR_SPACE + STR_SPACE)) {
                     // Empty checklist item, insert line break
-                    editable.replace(prevParagraphStart, newCursorPosition, STR_LINE_BREAK);
+                    editable.replace(prevParagraphStart, newCursorPosition, "");
                 } else {
                     // We can add a new checkbox!
                     editable.insert(newCursorPosition, ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
@@ -54,7 +54,7 @@ public class AutoBullet {
                         metadata.numSpacesPrefixed -= 1;
                         bullet = buildBullet(metadata);
                     } else {
-                        bullet = STR_LINE_BREAK;
+                        bullet = "";
                     }
 
                     editable.replace(prevParagraphStart, newCursorPosition, bullet);
