@@ -145,7 +145,10 @@ public class SimplenoteEditText extends AppCompatEditText {
             StringBuilder resultString = new StringBuilder();
 
             for (String lineString: lines) {
-                resultString.append(ChecklistUtils.UNCHECKED_MARKDOWN + " ").append(lineString);
+                resultString
+                        .append(ChecklistUtils.UNCHECKED_MARKDOWN)
+                        .append(" ")
+                        .append(lineString);
             }
 
             getText().replace(start, end, resultString, 0, resultString.length());
