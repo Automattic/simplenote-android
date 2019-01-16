@@ -100,7 +100,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
     private int mPreviewFontSize;
-    private int mTextColorId;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -693,7 +692,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
                             R.color.simplenote_text_preview);
-                     holder.contentTextView.setText(checklistString);
+                    holder.contentTextView.setText(checklistString);
                 }
             }
 
