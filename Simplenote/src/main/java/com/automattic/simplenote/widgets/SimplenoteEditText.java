@@ -11,12 +11,10 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 
-import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +111,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         int start, end;
         int lineNumber = getCurrentCursorLine();
         start = getLayout().getLineStart(lineNumber);
+
         if (getSelectionEnd() > getSelectionStart() && !selectionIsOnSameLine()) {
             end = getSelectionEnd();
         } else {
@@ -124,7 +123,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         int previousSelection = getSelectionStart();
         CheckableSpan[] checkableSpans = workingString.getSpans(0, workingString.length(), CheckableSpan.class);
         if (checkableSpans.length > 0) {
-            // Remove any checkablespans found
+            // Remove any CheckableSpans found
             for(CheckableSpan span: checkableSpans) {
                 workingString.replace(
                         workingString.getSpanStart(span),
@@ -148,6 +147,13 @@ public class SimplenoteEditText extends AppCompatEditText {
             StringBuilder resultString = new StringBuilder();
 
             for (String lineString: lines) {
+                // Preserve the spaces before the text
+                int leadingSpaceCount = lineString.indexOf(lineString.trim());
+                if (leadingSpaceCount > 0) {
+                    resultString.append(new String(new char[leadingSpaceCount]).replace('\0', ' '));
+                    lineString = lineString.substring(leadingSpaceCount);
+                }
+
                 resultString
                         .append(ChecklistUtils.UNCHECKED_MARKDOWN)
                         .append(" ")
@@ -209,7 +215,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
                 getText(),
-                ChecklistUtils.CHECKLIST_REGEX_LINE_START,
+                ChecklistUtils.CHECKLIST_REGEX_LINES,
                 R.color.simplenote_text_preview);
     }
 }
