@@ -3,6 +3,7 @@ package com.automattic.simplenote.utils;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 
 import com.automattic.simplenote.R;
@@ -51,25 +52,25 @@ public class ChecklistsTest {
 
         SpannableStringBuilder builder = new SpannableStringBuilder(checklistMarkdown);
 
-        builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+        Editable editable = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 InstrumentationRegistry.getTargetContext(),
                 builder,
                 ChecklistUtils.CHECKLIST_REGEX_LINE_START,
-                R.color.black).resultStringBuilder;
+                R.color.black);
 
         // We should have 3 CheckableSpans
-        CheckableSpan[] spans = builder.getSpans(0, builder.length(), CheckableSpan.class);
+        CheckableSpan[] spans = editable.getSpans(0, editable.length(), CheckableSpan.class);
         assertThat(spans.length, is(3));
     }
 
     @Test
     public void testNullBuilderPassed() {
-        SpannableStringBuilder builder = ChecklistUtils.addChecklistSpansForRegexAndColor(
+        Editable editable = ChecklistUtils.addChecklistSpansForRegexAndColor(
                 InstrumentationRegistry.getTargetContext(),
                 null,
                 ChecklistUtils.CHECKLIST_REGEX_LINE_START,
-                R.color.black).resultStringBuilder;
+                R.color.black);
 
-        assertThat(builder.length(), is(0));
+        assertThat(editable.length(), is(0));
     }
 }
