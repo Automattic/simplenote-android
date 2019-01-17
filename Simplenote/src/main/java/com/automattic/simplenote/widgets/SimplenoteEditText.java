@@ -148,7 +148,15 @@ public class SimplenoteEditText extends AppCompatEditText {
 
             for (String lineString: lines) {
                 // Preserve the spaces before the text
-                int leadingSpaceCount = lineString.indexOf(lineString.trim());
+                int leadingSpaceCount;
+                if (lineString.trim().length() == 0) {
+                    // Only whitespace content, get count of spaces
+                    leadingSpaceCount = lineString.length() - lineString.replaceAll(" ", "").length();
+                } else {
+                    // Get count of spaces up to first non-whitespace character
+                    leadingSpaceCount = lineString.indexOf(lineString.trim());
+                }
+
                 if (leadingSpaceCount > 0) {
                     resultString.append(new String(new char[leadingSpaceCount]).replace('\0', ' '));
                     lineString = lineString.substring(leadingSpaceCount);
