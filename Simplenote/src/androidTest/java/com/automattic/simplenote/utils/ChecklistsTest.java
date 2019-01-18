@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class ChecklistsTest {
     @Test
     public void testRegexMatching() {
-        String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ] Ship it - [x] not on a newline";
+        String checklistMarkdown = "ToDo\n- [ ] Write code\n    - [ ] Test it\n    - [ ] Ship it - [x] not on a newline";
 
         Pattern p = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINES, Pattern.MULTILINE);
         Matcher m = p.matcher(checklistMarkdown);
