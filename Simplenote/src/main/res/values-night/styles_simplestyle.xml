@@ -27,7 +27,7 @@
         <item name="tagChipShadowColor">@color/simplenote_dark_bg</item>
         <item name="placeholderLogoColor">@color/simplenote_dark_text</item>
         <item name="dividerColor">@color/simplenote_dark_list_divider</item>
-        <item name="iconTintColor">@color/simplenote_dark_text</item>
+        <item name="iconTintColor">@color/simplenote_blue</item>
         <item name="hintTextColor">@color/simplenote_text_preview</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
         <item name="listDividerDrawable">@drawable/list_divider_dark</item>
