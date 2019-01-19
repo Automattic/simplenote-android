@@ -145,6 +145,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         // Disable screenshots if app is lock is on
         if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
     }
 

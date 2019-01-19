@@ -200,6 +200,8 @@ public class NotesActivity extends AppCompatActivity implements
         // Disable screenshots if app is lock is on
         if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
 
         mNotesBucket.start();
