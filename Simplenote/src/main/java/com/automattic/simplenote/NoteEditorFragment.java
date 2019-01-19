@@ -949,6 +949,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     // If it is a URL, show the contextual action bar
     @Override
     public void onSelectionChanged(int selStart, int selEnd) {
+        mCurrentCursorPosition = selEnd;
         if (selStart == selEnd) {
             Editable noteContent = mContentEditText.getText();
             if (noteContent == null)
