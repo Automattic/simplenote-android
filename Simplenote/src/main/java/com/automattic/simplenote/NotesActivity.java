@@ -126,9 +126,7 @@ public class NotesActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
         }
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
+
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -197,6 +195,11 @@ public class NotesActivity extends AppCompatActivity implements
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
             startLoginActivity(true);
+        }
+
+        // Disable screenshots if app is lock is on
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
 
         mNotesBucket.start();

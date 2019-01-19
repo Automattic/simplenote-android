@@ -19,9 +19,6 @@ public class TagsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -44,6 +41,16 @@ public class TagsActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Disable screenshots if app is lock is on
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
     }
 }

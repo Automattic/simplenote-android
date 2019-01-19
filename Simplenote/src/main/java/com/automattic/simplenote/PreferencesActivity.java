@@ -22,9 +22,6 @@ public class PreferencesActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -86,5 +83,15 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Disable screenshots if app is lock is on
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
     }
 }
