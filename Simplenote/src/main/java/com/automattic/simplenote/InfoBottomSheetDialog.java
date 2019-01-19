@@ -6,12 +6,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
@@ -31,7 +32,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private SwitchCompat mInfoPinSwitch;
     private SwitchCompat mInfoMarkdownSwitch;
     private ImageButton mCopyButton;
-    private LinearLayout mShareButton;
+    private ImageButton mShareButton;
     private Fragment mFragment;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
@@ -76,12 +77,34 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 infoSheetListener.onInfoCopyLinkClicked();
             }
         });
+        mCopyButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(getContext(), getContext().getString(R.string.copy), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
         mShareButton = infoView.findViewById(R.id.info_share_button);
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 infoSheetListener.onInfoShareLinkClicked();
+            }
+        });
+        mShareButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(getContext(), getContext().getString(R.string.share), Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
