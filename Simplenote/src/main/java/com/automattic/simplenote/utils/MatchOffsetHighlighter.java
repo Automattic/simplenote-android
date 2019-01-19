@@ -4,7 +4,8 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.widget.TextView;
+
+import com.automattic.simplenote.widgets.SimplenoteEditText;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MatchOffsetHighlighter implements Runnable {
 
@@ -22,10 +25,11 @@ public class MatchOffsetHighlighter implements Runnable {
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
     private SpanFactory mFactory;
     private Thread mThread;
-    private TextView mTextView;
+    private SimplenoteEditText mTextView;
     private String mMatches;
     private int mIndex;
-    private Spannable mText;
+    private Spannable mSpannable;
+    private String mPlainText;
     private boolean mStopped = false;
     private OnMatchListener mListener = new OnMatchListener() {
 
@@ -50,19 +54,19 @@ public class MatchOffsetHighlighter implements Runnable {
 
     };
 
-    public MatchOffsetHighlighter(SpanFactory factory, TextView textView) {
+    public MatchOffsetHighlighter(SpanFactory factory, SimplenoteEditText textView) {
         mFactory = factory;
         mTextView = textView;
     }
 
-    public static void highlightMatches(Spannable content, String matches, int columnIndex,
-                                        SpanFactory factory) {
+    public static void highlightMatches(Spannable content, String matches, String plainTextContent,
+                                        int columnIndex, SpanFactory factory) {
 
-        highlightMatches(content, matches, columnIndex, factory, new DefaultMatcher());
+        highlightMatches(content, matches, plainTextContent, columnIndex, factory, new DefaultMatcher());
     }
 
-    public static void highlightMatches(Spannable content, String matches, int columnIndex,
-                                        SpanFactory factory, OnMatchListener listener) {
+    public static void highlightMatches(Spannable content, String matches, String plainTextContent,
+                                        int columnIndex, SpanFactory factory, OnMatchListener listener) {
 
         if (TextUtils.isEmpty(matches)) return;
 
@@ -77,11 +81,25 @@ public class MatchOffsetHighlighter implements Runnable {
             scanner.nextInt(); // token
             int start = scanner.nextInt();
             int length = scanner.nextInt();
+            int end = start + length;
 
             if (column != columnIndex) continue;
 
+            // Adjust for amount of checklist items before the match
+            String textUpToMatch = plainTextContent.substring(0, start);
+            Pattern pattern = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINE_START, Pattern.MULTILINE);
+            Matcher matcher = pattern.matcher(textUpToMatch);
+            int matchCount = 0;
+            while (matcher.find()) {
+                matchCount++;
+            }
+            if (matchCount > 0) {
+                start -= matchCount * ChecklistUtils.CHECKLIST_OFFSET;
+                end -= matchCount * ChecklistUtils.CHECKLIST_OFFSET;
+            }
+
             int span_start = start + getByteOffset(content, 0, start);
-            int span_end = span_start + length + getByteOffset(content, start, start + length);
+            int span_end = span_start + length + getByteOffset(content, start, end);
 
             if (Thread.interrupted()) return;
 
@@ -115,7 +133,7 @@ public class MatchOffsetHighlighter implements Runnable {
     // Returns the byte offset of the source string up to the matching search result.
     // Note: We need to convert the source string to a byte[] because SQLite provides
     // indices and lengths in bytes. See: https://www.sqlite.org/fts3.html#offsets
-    protected static int getByteOffset(CharSequence text, int start, int end) {
+    protected static int getByteOffset(Spannable text, int start, int end) {
         String source = text.toString();
         byte[] sourceBytes = source.getBytes();
 
@@ -147,7 +165,7 @@ public class MatchOffsetHighlighter implements Runnable {
 
     @Override
     public void run() {
-        highlightMatches(mText, mMatches, mIndex, mFactory, mListener);
+        highlightMatches(mSpannable, mMatches, mPlainText, mIndex, mFactory, mListener);
     }
 
     public void start() {
@@ -167,18 +185,19 @@ public class MatchOffsetHighlighter implements Runnable {
     public void highlightMatches(String matches, int columnIndex) {
         synchronized (this) {
             stop();
-            mText = mTextView.getEditableText();
+            mSpannable = mTextView.getEditableText();
             mMatches = matches;
             mIndex = columnIndex;
+            mPlainText = mTextView.getPlainTextContent();
             start();
         }
     }
 
     public synchronized void removeMatches() {
         stop();
-        if (mText != null && mMatchedSpans != null) {
+        if (mSpannable != null && mMatchedSpans != null) {
             for (Object span : mMatchedSpans) {
-                mText.removeSpan(span);
+                mSpannable.removeSpan(span);
             }
             mMatchedSpans.clear();
         }
