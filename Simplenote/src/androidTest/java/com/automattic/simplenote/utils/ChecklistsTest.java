@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class ChecklistsTest {
     @Test
     public void testRegexMatching() {
-        String checklistMarkdown = "ToDo\n- [ ] Write code\n    - [ ] Test it\n    - [ ] Ship it - [x] not on a newline";
+        String checklistMarkdown = "ToDo\n- [ ] Write code\n- [ ] Test it\n- [ ] Ship it - [x] not on a newline";
 
         Pattern p = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINES, Pattern.MULTILINE);
         Matcher m = p.matcher(checklistMarkdown);
@@ -39,6 +39,21 @@ public class ChecklistsTest {
         m = p.matcher(checklistMarkdown);
 
         count = 0;
+        while(m.find()) {
+            count++;
+        }
+
+        assertThat(count, is(4));
+    }
+
+    @Test
+    public void testRegexMatchingNested() {
+        String checklistMarkdown = "ToDo\n\n- [ ] New Feature\n    - [ ] Write code\n    - [ ] Test it\n    - [ ] Ship it";
+
+        Pattern p = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINES, Pattern.MULTILINE);
+        Matcher m = p.matcher(checklistMarkdown);
+
+        int count = 0;
         while(m.find()) {
             count++;
         }
