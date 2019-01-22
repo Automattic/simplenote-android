@@ -1,26 +1,37 @@
 package com.automattic.simplenote;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
+import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 
 public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
+    int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private Bucket<Note> mNotesBucket;
-    private NotesCursorAdapter mCursorAdapter;
+    private NotesCursorAdapter mNotesAdapter;
+    private AppWidgetManager widgetManager;
+    private RemoteViews views;
 
     public PinnedNoteWidgetConfigureActivity() {
         super();
@@ -36,7 +47,20 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
         setContentView(R.layout.pinned_note_widget_configure);
 
-        // Configure toolbar.
+        // Get widget information
+        widgetManager = AppWidgetManager.getInstance(this);
+        views = new RemoteViews(this.getPackageName(), R.layout.pinned_note_widget);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish();
+            return;
+        }
+
+        // Configure toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.select_a_note);
@@ -44,20 +68,23 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Query and load notes into list.
+        // Query and load notes into list
         Simplenote currentApp = (Simplenote) getApplication();
         mNotesBucket = currentApp.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        Cursor cursor = query.execute();
-        mCursorAdapter = new NotesCursorAdapter(this, cursor);
+        ObjectCursor<Note> cursor = query.execute();
+        mNotesAdapter = new NotesCursorAdapter(this, cursor);
         ListView lv = findViewById(R.id.lista);
-        lv.setAdapter(mCursorAdapter);
+        lv.setAdapter(mNotesAdapter);
     }
 
     public class NotesCursorAdapter extends CursorAdapter {
-        public NotesCursorAdapter(Context context, Cursor cursor) {
+        private ObjectCursor<Note> mCursor;
+
+        public NotesCursorAdapter(Context context, ObjectCursor<Note> cursor) {
             super(context, cursor, 0);
+            mCursor = cursor;
         }
 
         @Override
@@ -66,7 +93,14 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         }
 
         @Override
-        public void bindView(View view, Context context, Cursor cursor) {
+        public Note getItem(int position) {
+            mCursor.moveToPosition(position);
+            return mCursor.getObject();
+        }
+
+        @Override
+        public void bindView(View view, final Context context, final Cursor cursor) {
+            view.setTag(cursor.getPosition());
             TextView titleTextView = view.findViewById(R.id.note_title);
             TextView contentTextView = view.findViewById(R.id.note_content);
             ToggleButton toggleView = view.findViewById(R.id.pin_button);
@@ -79,6 +113,33 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
             titleTextView.setText(title);
             contentTextView.setText(snippet);
             toggleView.setVisibility(View.GONE);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Get the selected note
+                    Note note = mNotesAdapter.getItem((int)view.getTag());
+
+                    // Prepare bundle for NoteEditorActivity
+                    Bundle arguments = new Bundle();
+                    arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+                    arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+
+                    // Create intent to navigate to selected note on widget click
+                    Intent intent = new Intent(context, NoteEditorActivity.class);
+                    intent.putExtras(arguments);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
+                    views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+
+                    // Update widget
+                    widgetManager.updateAppWidget(mAppWidgetId, views);
+                    // Set the result as successful
+                    Intent resultValue = new Intent();
+                    resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                    setResult(RESULT_OK, resultValue);
+                    finish();
+                }
+            });
 
         }
     }
