@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.widgets.CenteredImageSpan;
@@ -15,8 +16,8 @@ import java.util.regex.Pattern;
 
 public class ChecklistUtils {
 
-    public static String CHECKLIST_REGEX = "- (\\[([ |x])\\])";
-    public static String CHECKLIST_REGEX_LINE_START = "^- (\\[([ |x])\\])";
+    public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
+    public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
     public static final int CHECKLIST_OFFSET = 4;
@@ -25,7 +26,7 @@ public class ChecklistUtils {
      * Adds CheckableSpans for matching markdown formatted checklists.
      * @param context view content.
      * @param editable the spannable string to run the regex against.
-     * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINE_START
+     * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINES
      * @param color the resource id of the color to tint the checklist item
      * @return Editable - resulting spannable string
      */
@@ -50,9 +51,18 @@ public class ChecklistUtils {
                 continue;
             }
 
-            String match = m.group(1);
+            String leadingSpaces = m.group(1);
+            if (!TextUtils.isEmpty(leadingSpaces)) {
+                start += leadingSpaces.length();
+            }
+
+            String match = m.group(2);
+            if (match == null) {
+                continue;
+            }
+
             CheckableSpan checkableSpan = new CheckableSpan();
-            checkableSpan.setChecked(match.contains("x"));
+            checkableSpan.setChecked(match.contains("x") || match.contains("X"));
             editable.replace(start, end, " ");
 
             Drawable iconDrawable = context.getResources().getDrawable(

@@ -87,7 +87,7 @@ public class MatchOffsetHighlighter implements Runnable {
 
             // Adjust for amount of checklist items before the match
             String textUpToMatch = plainTextContent.substring(0, start);
-            Pattern pattern = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINE_START, Pattern.MULTILINE);
+            Pattern pattern = Pattern.compile(ChecklistUtils.CHECKLIST_REGEX_LINES, Pattern.MULTILINE);
             Matcher matcher = pattern.matcher(textUpToMatch);
             int matchCount = 0;
             while (matcher.find()) {
