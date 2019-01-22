@@ -189,7 +189,7 @@ public class AutoBulletTest {
     @Test
     public void testBulletBreak() {
         String source = "- Hello\n- \n";
-        String target = "- Hello\n\n";
+        String target = "- Hello\n";
         int oldPos = source.length() - 1;
         int newPos = source.length();
 
@@ -267,7 +267,7 @@ public class AutoBulletTest {
     @Test
     public void testEmptyTopLevelBullet() {
         String source = "- first\n- \n";
-        String target = "- first\n\n";
+        String target = "- first\n";
         int oldPos = source.length() - 1;
         int newPos = source.length();
 

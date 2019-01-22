@@ -52,6 +52,7 @@ import com.automattic.simplenote.utils.MatchOffsetHighlighter;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.SimplenoteMovementMethod;
 import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
@@ -291,6 +292,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = mRootView.findViewById(R.id.note_content);
         mContentEditText.addOnSelectionChangedListener(this);
+        mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mTagView = mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
         mTagView.setOnFocusChangeListener(this);
@@ -450,6 +452,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_view_info:
                 showInfo();
                 return true;
+            case R.id.menu_checklist:
+                insertChecklist();
+                return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
@@ -467,6 +472,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void insertChecklist() {
+        mContentEditText.insertChecklist();
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "toolbar_button"
+        );
     }
 
     private void deleteNote() {
@@ -528,7 +543,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
                 mCss,
-                getNoteContentString()
+                mContentEditText.getPlainTextContent()
         );
 
         mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
@@ -570,12 +585,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Save the note so any local changes get synced
                 mNote.save();
 
-                if (mContentEditText.hasFocus() && cursorPosition != mContentEditText.getSelectionEnd()) {
+                if (mContentEditText.hasFocus()
+                        && cursorPosition != mContentEditText.getSelectionEnd()
+                        && cursorPosition < mContentEditText.getText().length()) {
                     mContentEditText.setSelection(cursorPosition);
                 }
             }
 
             afterTextChanged(mContentEditText.getText());
+            mContentEditText.processChecklists();
             updateTagList();
         }
     }
@@ -679,6 +697,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mMatchOffsets = null;
             mHighlighter.removeMatches();
         }
+
+        // Temporarily remove the text watcher as we process checklists to prevent callback looping
+        mContentEditText.removeTextChangedListener(this);
+        mContentEditText.processChecklists();
+        mContentEditText.addTextChangedListener(this);
     }
 
     private void setTitleSpan(Editable editable) {
@@ -870,7 +893,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Get markdown fragment and update content
                     mNoteMarkdownFragment =
                             editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
                 }
             } else {
                 editorActivity.hideTabs();
@@ -910,7 +933,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
-        String content = getNoteContentString();
+        String content = mContentEditText.getPlainTextContent();
         String tagString = getNoteTagsString();
         if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
             mNote.setContent(content);
@@ -932,6 +955,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     // If it is a URL, show the contextual action bar
     @Override
     public void onSelectionChanged(int selStart, int selEnd) {
+        mCurrentCursorPosition = selEnd;
         if (selStart == selEnd) {
             Editable noteContent = mContentEditText.getText();
             if (noteContent == null)
@@ -1160,7 +1184,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
             return;
 
-        note.setContent(getNoteContentString());
+        note.setContent(mContentEditText.getPlainTextContent());
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
@@ -1320,7 +1344,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 ((NoteEditorActivity) requireActivity()).showTabs();
             }
             // Load markdown in the sibling NoteMarkdownFragment's WebView.
-            mNoteMarkdownFragment.updateMarkdown(getNoteContentString());
+            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
         }
     }
 }

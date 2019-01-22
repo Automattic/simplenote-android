@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
@@ -37,6 +38,7 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -46,6 +48,7 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -643,7 +646,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 );
                 holder.titleTextView.setText(newNoteString);
             } else {
-                holder.titleTextView.setText(title);
+                SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
+                titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                        getContext(),
+                        titleChecklistString,
+                        ChecklistUtils.CHECKLIST_REGEX,
+                        ThemeUtils.getThemeTextColorId(getContext()));
+                holder.titleTextView.setText(titleChecklistString);
             }
 
             holder.matchOffsets = null;
@@ -656,8 +665,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
-                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
-                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
+                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            snippet,
+                            mSnippetHighlighter,
+                            R.color.simplenote_text_preview));
+                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            title,
+                            mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
                     title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
                     holder.titleTextView.setText(title);
@@ -668,8 +684,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
-                else
+                else {
                     holder.contentTextView.setText(contentPreview);
+                    SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
+                    checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                            getContext(),
+                            checklistString,
+                            ChecklistUtils.CHECKLIST_REGEX,
+                            R.color.simplenote_text_preview);
+                    holder.contentTextView.setText(checklistString);
+                }
             }
 
             // Add mouse right click support for showing a popup menu
