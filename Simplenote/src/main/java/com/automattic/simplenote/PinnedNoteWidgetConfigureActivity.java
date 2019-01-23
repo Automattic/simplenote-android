@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +118,10 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     // Get the selected note
                     Note note = mNotesAdapter.getItem((int)view.getTag());
 
+                    // Store link between note and widget in SharesPreferences
+                    SharedPreferences prefs = getSharedPreferences("com.automattic.simplenote", Context.MODE_PRIVATE);
+                    prefs.edit().putString(Integer.toString(mAppWidgetId), note.getSimperiumKey()).apply();
+
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
@@ -130,9 +132,19 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     intent.putExtras(arguments);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
                     views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-
+                    // Set widget content.
+                    views.setTextViewText(R.id.appwidget_text, note.getTitle());
+                    views.setImageViewResource(R.id.widget_logo, R.drawable.simplenote_logo);
                     // Update widget
                     widgetManager.updateAppWidget(mAppWidgetId, views);
+
+                    /////// Update all widgets.
+                    /*Intent intentUpdate = new Intent(context, PinnedNoteWidget.class);
+                    intentUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    PendingIntent pendingUpdate = PendingIntent.getBroadcast(
+                            context, appWidgetId, intentUpdate,
+                            PendingIntent.FLAG_UPDATE_CURRENT);*/
+
                     // Set the result as successful
                     Intent resultValue = new Intent();
                     resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
