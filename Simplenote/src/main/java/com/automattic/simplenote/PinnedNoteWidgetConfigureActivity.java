@@ -118,7 +118,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     // Get the selected note
                     Note note = mNotesAdapter.getItem((int)view.getTag());
 
-                    // Store link between note and widget in SharesPreferences
+                    // Store link between note and widget in SharedPreferences
                     SharedPreferences prefs = getSharedPreferences("com.automattic.simplenote", Context.MODE_PRIVATE);
                     prefs.edit().putString(Integer.toString(mAppWidgetId), note.getSimperiumKey()).apply();
 
@@ -130,20 +130,14 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     // Create intent to navigate to selected note on widget click
                     Intent intent = new Intent(context, NoteEditorActivity.class);
                     intent.putExtras(arguments);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
-                    views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-                    // Set widget content.
-                    views.setTextViewText(R.id.appwidget_text, note.getTitle());
-                    views.setImageViewResource(R.id.widget_logo, R.drawable.simplenote_logo);
-                    // Update widget
-                    widgetManager.updateAppWidget(mAppWidgetId, views);
 
-                    /////// Update all widgets.
-                    /*Intent intentUpdate = new Intent(context, PinnedNoteWidget.class);
-                    intentUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    PendingIntent pendingUpdate = PendingIntent.getBroadcast(
-                            context, appWidgetId, intentUpdate,
-                            PendingIntent.FLAG_UPDATE_CURRENT);*/
+                    // Set widget content
+                    views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+                    views.setTextViewText(R.id.widget_text, note.getTitle());
+                    views.setImageViewResource(R.id.widget_logo, R.drawable.simplenote_logo);
+                    widgetManager.updateAppWidget(mAppWidgetId, views);
 
                     // Set the result as successful
                     Intent resultValue = new Intent();

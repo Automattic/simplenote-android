@@ -5,6 +5,6 @@
     android:initialLayout="@layout/pinned_note_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:previewImage="@drawable/example_appwidget_preview"
-    android:updatePeriodMillis="10800000"
+    android:previewImage="@drawable/pinned_note_preview"
+    android:updatePeriodMillis="21600000"
     android:widgetCategory="home_screen"></appwidget-provider>
