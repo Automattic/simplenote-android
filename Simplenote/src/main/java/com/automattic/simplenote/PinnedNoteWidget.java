@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.models.Note;
@@ -37,7 +35,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         // Get widget views
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.pinned_note_widget);
         // Get note id from SharedPreferences

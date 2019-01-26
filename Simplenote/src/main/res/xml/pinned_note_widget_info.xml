@@ -7,4 +7,4 @@
     android:minWidth="40dp"
     android:previewImage="@drawable/pinned_note_preview"
     android:updatePeriodMillis="21600000"
-    android:widgetCategory="home_screen"></appwidget-provider>
+    android:widgetCategory="home_screen"/>

@@ -204,6 +204,8 @@
 
     <!-- Pinned Note Widget -->
     <string name="select_a_note">Select a Note</string>
+    <string name="add_widget">Add widget</string>
+    <string name="configure">Configure</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
@@ -214,9 +216,6 @@
     <string name="error_history">Couldn\'t retrieve history.</string>
     <string name="or">or</string>
     <string name="sign_in_with_wordpress_com">Sign in with WordPress.com</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="configure">Configure</string>
     <string name="wordpress_post">WordPress Post</string>
     <string name="send_post">Post</string>
     <string name="wordpress_post_draft">Set status to draft</string>

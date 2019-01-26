@@ -14,8 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
+        android:text="@string/app_name"
         android:textColor="@color/simplenote_blue"
         android:textSize="12sp"
         android:textStyle="bold|italic" />

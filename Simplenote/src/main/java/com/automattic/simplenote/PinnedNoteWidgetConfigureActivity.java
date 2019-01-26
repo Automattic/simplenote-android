@@ -25,8 +25,7 @@ import com.simperium.client.Query;
 
 public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
-    int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    private Bucket<Note> mNotesBucket;
+    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private NotesCursorAdapter mNotesAdapter;
     private AppWidgetManager widgetManager;
     private RemoteViews views;
@@ -68,19 +67,19 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
         // Query and load notes into list
         Simplenote currentApp = (Simplenote) getApplication();
-        mNotesBucket = currentApp.getNotesBucket();
+        Bucket<Note> mNotesBucket = currentApp.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         ObjectCursor<Note> cursor = query.execute();
         mNotesAdapter = new NotesCursorAdapter(this, cursor);
-        ListView lv = findViewById(R.id.lista);
+        ListView lv = findViewById(R.id.list);
         lv.setAdapter(mNotesAdapter);
     }
 
-    public class NotesCursorAdapter extends CursorAdapter {
-        private ObjectCursor<Note> mCursor;
+    private class NotesCursorAdapter extends CursorAdapter {
+        private final ObjectCursor<Note> mCursor;
 
-        public NotesCursorAdapter(Context context, ObjectCursor<Note> cursor) {
+        private NotesCursorAdapter(Context context, ObjectCursor<Note> cursor) {
             super(context, cursor, 0);
             mCursor = cursor;
         }
