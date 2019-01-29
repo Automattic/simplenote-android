@@ -15,20 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:text="@string/app_name"
-        android:textColor="@color/simplenote_blue"
-        android:textSize="12sp"
-        android:textStyle="bold|italic" />
-
-    <ImageView
-        android:id="@+id/widget_logo"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/logo"
-        app:srcCompat="@drawable/simplenote_logo" />
+        android:textColor="@color/simplenote_dark_grey"
+        android:textSize="12sp"         />
 
 </RelativeLayout>

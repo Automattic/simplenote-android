@@ -135,7 +135,6 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, note.getTitle());
-                    views.setImageViewResource(R.id.widget_logo, R.drawable.simplenote_logo);
                     widgetManager.updateAppWidget(mAppWidgetId, views);
 
                     // Set the result as successful

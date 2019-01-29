@@ -64,7 +64,6 @@ public class PinnedNoteWidget extends AppWidgetProvider {
                 // Set widget content
                 views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                 views.setTextViewText(R.id.widget_text, updatedNote.getTitle());
-                views.setImageViewResource(R.id.widget_logo, R.drawable.simplenote_logo);
                 appWidgetManager.updateAppWidget(appWidgetId, views);
 
             } catch (BucketObjectMissingException e) {
