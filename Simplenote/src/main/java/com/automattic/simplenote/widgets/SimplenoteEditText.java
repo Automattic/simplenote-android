@@ -55,20 +55,18 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     // Updates the ImageSpan drawable to the new checked state
-    public void toggleCheckbox(CheckableSpan checkableSpan) {
-        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(getText());
+    public void toggleCheckbox(final CheckableSpan checkableSpan) {
+        final Editable editable = getText();
 
-        int checkboxStart = stringBuilder.getSpanStart(checkableSpan);
-        int checkboxEnd = stringBuilder.getSpanEnd(checkableSpan);
+        final int checkboxStart = editable.getSpanStart(checkableSpan);
+        final int checkboxEnd = editable.getSpanEnd(checkableSpan);
 
         final int selectionStart = getSelectionStart();
         final int selectionEnd = getSelectionEnd();
 
-        ImageSpan[] imageSpans = stringBuilder.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
+        final ImageSpan[] imageSpans = editable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
             // ImageSpans are static, so we need to remove the old one and replace :|
-            stringBuilder.removeSpan(imageSpans[0]);
-
             Drawable iconDrawable = getContext().getResources().getDrawable(
                     checkableSpan.isChecked()
                             ? R.drawable.ic_check_box_24px
@@ -76,22 +74,20 @@ public class SimplenoteEditText extends AppCompatEditText {
             iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.simplenote_text_preview);
             int iconSize = DisplayUtils.getChecklistIconSize(getContext());
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
-            stringBuilder.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            final CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    editable.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    editable.removeSpan(imageSpans[0]);
+                    fixLineSpacing();
 
-            setText(stringBuilder);
-            if (selectionStart < 0) {
-                // Prevents soft keyboard from showing when clicking on a checkbox
-                clearFocus();
-            } else {
-                // Restore the selection if necessary
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
+                    // Restore the selection
+                    if (selectionStart <= editable.length() && selectionEnd <= editable.length()) {
                         setSelection(selectionStart, selectionEnd);
                     }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -188,6 +184,15 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
 
         return false;
+    }
+
+    public void fixLineSpacing() {
+        // Prevents line heights from compacting
+        // https://issuetracker.google.com/issues/37009353
+        float lineSpacingExtra = getLineSpacingExtra();
+        float lineSpacingMultiplier = getLineSpacingMultiplier();
+        setLineSpacing(0.0f, 1.0f);
+        setLineSpacing(lineSpacingExtra, lineSpacingMultiplier);
     }
 
     public interface OnSelectionChangedListener {

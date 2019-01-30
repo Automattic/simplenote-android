@@ -3,14 +3,14 @@ package com.automattic.simplenote.utils;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
+import android.text.method.ArrowKeyMovementMethod;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 
 // Only allows onClick events for CheckableSpans
-public class SimplenoteMovementMethod extends LinkMovementMethod {
+public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
 
     private static SimplenoteMovementMethod mInstance;
 
@@ -19,7 +19,7 @@ public class SimplenoteMovementMethod extends LinkMovementMethod {
             mInstance = new SimplenoteMovementMethod();
         return mInstance;
     }
-    
+
     @Override
     public boolean onTouchEvent(TextView textView, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
