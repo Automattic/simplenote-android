@@ -119,12 +119,16 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
 
         SpannableStringBuilder workingString = new SpannableStringBuilder(getText().subSequence(start, end));
+        Editable editable = getText();
+        if (editable.length() < start || editable.length() < end) {
+            return;
+        }
 
         int previousSelection = getSelectionStart();
         CheckableSpan[] checkableSpans = workingString.getSpans(0, workingString.length(), CheckableSpan.class);
         if (checkableSpans.length > 0) {
             // Remove any CheckableSpans found
-            for(CheckableSpan span: checkableSpans) {
+            for (CheckableSpan span: checkableSpans) {
                 workingString.replace(
                         workingString.getSpanStart(span),
                         workingString.getSpanEnd(span) + 1,
@@ -133,11 +137,11 @@ public class SimplenoteEditText extends AppCompatEditText {
                 workingString.removeSpan(span);
             }
 
-            getText().replace(start, end, workingString);
+            editable.replace(start, end, workingString);
 
             if (checkableSpans.length == 1) {
                 int newSelection = Math.max(previousSelection, 0) - CHECKBOX_LENGTH;
-                if (getText().length() >= newSelection) {
+                if (editable.length() >= newSelection) {
                     setSelection(newSelection);
                 }
             }
@@ -168,10 +172,10 @@ public class SimplenoteEditText extends AppCompatEditText {
                         .append(lineString);
             }
 
-            getText().replace(start, end, resultString, 0, resultString.length());
+            editable.replace(start, end, resultString);
 
             int newSelection = Math.max(previousSelection, 0) + (lines.length * CHECKBOX_LENGTH);
-            if (getText().length() >= newSelection) {
+            if (editable.length() >= newSelection) {
                 setSelection(newSelection);
             }
         }
