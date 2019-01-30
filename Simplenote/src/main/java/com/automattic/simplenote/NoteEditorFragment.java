@@ -672,7 +672,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void afterTextChanged(final Editable editable) {
+    public void afterTextChanged(Editable editable) {
         attemptAutoList(editable);
         setTitleSpan(editable);
         mContentEditText.fixLineSpacing();
