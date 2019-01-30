@@ -17,9 +17,17 @@ import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
+import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.options.MutableDataSet;
+
+import java.util.Arrays;
 
 public class NoteMarkdownFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
@@ -110,14 +118,22 @@ public class NoteMarkdownFragment extends Fragment {
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
                 cssContent + "</head><body>";
 
-        String parsedMarkdown = new AndDown().markdownToHtml(
-                sourceContent,
-                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE |
-                        AndDown.HOEDOWN_EXT_QUOTE | AndDown.HOEDOWN_EXT_TABLES,
-                AndDown.HOEDOWN_HTML_ESCAPE
-        );
+        MutableDataSet options = new MutableDataSet();
+        options.set(Parser.EXTENSIONS, Arrays.asList(
+                StrikethroughExtension.create(),
+                TablesExtension.create(),
+                TaskListExtension.create()
+        ));
 
-        return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).escapeHtml(true).build();
+
+        Node document = parser.parse(sourceContent);
+        String parsedMarkdown = renderer.render(document);
+
+        return header +
+                "<div class=\"note-detail-markdown\">" +
+                parsedMarkdown +
                 "</div></body></html>";
     }
 
