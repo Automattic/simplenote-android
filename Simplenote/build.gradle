@@ -112,6 +112,8 @@ android {
 
 	lintOptions {
 	    checkReleaseBuilds false
+        // Flexmark library includes some Java packages that aren't in Android
+        disable 'InvalidPackage'
 	}
 
     useLibrary 'org.apache.http.legacy'
