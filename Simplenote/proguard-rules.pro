@@ -32,3 +32,8 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# Flexmark related classes
+-dontwarn java.awt.**
+-dontwarn javax.swing.**
+-dontwarn javax.imageio.**
