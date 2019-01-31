@@ -72,7 +72,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        SimplenoteEditText.OnCheckboxToggledListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -292,6 +293,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = mRootView.findViewById(R.id.note_content);
         mContentEditText.addOnSelectionChangedListener(this);
+        mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mTagView = mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
@@ -482,6 +484,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 AnalyticsTracker.CATEGORY_NOTE,
                 "toolbar_button"
         );
+    }
+
+    @Override
+    public void onCheckboxToggled() {
+        // Save note (using delay) after toggling a checkbox
+        if (mAutoSaveHandler != null) {
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+            mAutoSaveHandler.postDelayed(mAutoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
+        }
     }
 
     private void deleteNote() {

@@ -23,7 +23,12 @@ import java.util.List;
 
 public class SimplenoteEditText extends AppCompatEditText {
     private List<OnSelectionChangedListener> listeners;
+    private OnCheckboxToggledListener mOnCheckboxToggledListener;
     private final int CHECKBOX_LENGTH = 2; // One CheckableSpan + a space character
+
+    public interface OnCheckboxToggledListener {
+        void onCheckboxToggled();
+    }
 
     public SimplenoteEditText(Context context) {
         super(context);
@@ -96,6 +101,10 @@ public class SimplenoteEditText extends AppCompatEditText {
                     } else if (selectionStart <= editable.length() && selectionEnd <= editable.length()) {
                         // Restore the selection
                         setSelection(selectionStart, selectionEnd);
+                    }
+
+                    if (mOnCheckboxToggledListener != null) {
+                        mOnCheckboxToggledListener.onCheckboxToggled();
                     }
                 }
             });
@@ -241,5 +250,9 @@ public class SimplenoteEditText extends AppCompatEditText {
                 getText(),
                 ChecklistUtils.CHECKLIST_REGEX_LINES,
                 R.color.simplenote_text_preview);
+    }
+
+    public void setOnCheckboxToggledListener(OnCheckboxToggledListener listener) {
+        mOnCheckboxToggledListener = listener;
     }
 }
