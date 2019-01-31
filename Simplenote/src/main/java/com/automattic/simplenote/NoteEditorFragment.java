@@ -616,6 +616,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // 4. Text was removed before the cursor ==> location retreats
         // 5. Text was added/removed on both sides of the cursor ==> not handled
 
+        cursorLocation = Math.max(cursorLocation, 0);
+
         int newCursorLocation = cursorLocation;
 
         int deltaLength = newText.length() - oldText.length();
