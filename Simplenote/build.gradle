@@ -52,7 +52,11 @@ dependencies {
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.takisoft.fix:preference-v7:27.1.1.1'
-    implementation 'com.vladsch.flexmark:flexmark-all:0.40.16'
+    implementation 'com.vladsch.flexmark:flexmark:0.40.16'
+    implementation 'com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:0.40.16'
+    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.40.16'
+    implementation 'com.vladsch.flexmark:flexmark-ext-gfm-tasklist:0.40.16'
+
     implementation 'net.openid:appauth:0.7.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true
