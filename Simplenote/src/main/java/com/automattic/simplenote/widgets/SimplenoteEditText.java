@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widgets;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -56,11 +58,13 @@ public class SimplenoteEditText extends AppCompatEditText {
 
     // Updates the ImageSpan drawable to the new checked state
     public void toggleCheckbox(final CheckableSpan checkableSpan) {
-        final Editable editable = getText();
+        if (getContext() == null) {
+            return;
+        }
 
+        final Editable editable = getText();
         final int checkboxStart = editable.getSpanStart(checkableSpan);
         final int checkboxEnd = editable.getSpanEnd(checkableSpan);
-
         final int selectionStart = getSelectionStart();
         final int selectionEnd = getSelectionEnd();
 
@@ -82,8 +86,15 @@ public class SimplenoteEditText extends AppCompatEditText {
                     editable.removeSpan(imageSpans[0]);
                     fixLineSpacing();
 
-                    // Restore the selection
-                    if (selectionStart <= editable.length() && selectionEnd <= editable.length()) {
+                    if (selectionStart < 0) {
+                        // Dismiss keyboard and focus if user tapped on checkbox before keyboard was shown.
+                        clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(getWindowToken(), 0);
+                        }
+                    } else if (selectionStart <= editable.length() && selectionEnd <= editable.length()) {
+                        // Restore the selection
                         setSelection(selectionStart, selectionEnd);
                     }
                 }
