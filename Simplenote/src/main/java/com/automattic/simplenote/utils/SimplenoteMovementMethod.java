@@ -1,29 +1,23 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Layout;
-import android.text.NoCopySpan;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.ArrowKeyMovementMethod;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 
 // Only allows onClick events for CheckableSpans
 public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
+
     private static SimplenoteMovementMethod mInstance;
 
     public static SimplenoteMovementMethod getInstance() {
         if (mInstance == null)
             mInstance = new SimplenoteMovementMethod();
         return mInstance;
-    }
-
-    @Override
-    public boolean canSelectArbitrarily() {
-        return true;
     }
 
     @Override
@@ -63,22 +57,4 @@ public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
 
         return false;
     }
-
-    // Borrowed from LinkMovementMethod
-    @Override
-    public void initialize(TextView widget, Spannable text) {
-        Selection.removeSelection(text);
-        text.removeSpan(FROM_BELOW);
-    }
-    @Override
-    public void onTakeFocus(TextView view, Spannable text, int dir) {
-        Selection.removeSelection(text);
-        if ((dir & View.FOCUS_BACKWARD) != 0) {
-            text.setSpan(FROM_BELOW, 0, 0, Spannable.SPAN_POINT_POINT);
-        } else {
-            text.removeSpan(FROM_BELOW);
-        }
-    }
-
-    private static Object FROM_BELOW = new NoCopySpan.Concrete();
 }
