@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/widget_layout"
     android:layout_width="match_parent"
@@ -14,8 +13,10 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
+        android:ellipsize="end"
         android:text="@string/app_name"
         android:textColor="@color/simplenote_dark_grey"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:maxLines="5"/>
 
 </RelativeLayout>
