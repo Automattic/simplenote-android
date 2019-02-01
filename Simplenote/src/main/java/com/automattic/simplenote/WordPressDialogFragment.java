@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -345,7 +346,8 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                 dismiss();
                 return;
             } else if (mConnectSection.getVisibility() == View.VISIBLE) {
-                if (getActivity() == null) {
+                Activity activity = getActivity();
+                if (activity == null) {
                     return;
                 }
 
@@ -355,7 +357,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                 authBuilder.setState(mAuthState);
 
                 AuthorizationRequest request = authBuilder.build();
-                AuthorizationService authService = new AuthorizationService(getActivity());
+                AuthorizationService authService = new AuthorizationService(activity);
                 Intent authIntent = authService.getAuthorizationRequestIntent(request);
                 startActivityForResult(authIntent, WordPressUtils.OAUTH_ACTIVITY_CODE);
                 return;
