@@ -230,6 +230,6 @@
     <string name="sort_tags_alphabetically">Sort alphabetically</string>
     <string name="appearance">Appearance</string>
     <string name="all_notes">All Notes</string>
-    <string name="insert_checklist">Insert checklist</string>
+    <string name="toggle_checklist">Toggle checklist</string>
 
 </resources>
