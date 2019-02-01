@@ -20,7 +20,9 @@ public class CheckableSpan extends ClickableSpan {
     public void onClick(@NonNull View view) {
         setChecked(!isChecked);
         if (view instanceof SimplenoteEditText) {
-            ((SimplenoteEditText)view).toggleCheckbox(this);
+            SimplenoteEditText editText = (SimplenoteEditText)view;
+            editText.toggleCheckbox(this);
+            editText.clearFocus();
         }
     }
 }
