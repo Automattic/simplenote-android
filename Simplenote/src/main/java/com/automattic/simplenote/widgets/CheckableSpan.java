@@ -22,7 +22,9 @@ public class CheckableSpan extends ClickableSpan {
         if (view instanceof SimplenoteEditText) {
             SimplenoteEditText editText = (SimplenoteEditText)view;
             editText.toggleCheckbox(this);
-            editText.clearFocus();
+            if (!editText.hasFocus()) {
+                editText.clearFocus();
+            }
         }
     }
 }
