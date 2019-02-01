@@ -140,7 +140,7 @@ public class SimplenoteEditText extends AppCompatEditText {
             editable.replace(start, end, workingString);
 
             if (checkableSpans.length == 1) {
-                int newSelection = Math.max(previousSelection, 0) - CHECKBOX_LENGTH;
+                int newSelection = Math.max(previousSelection - CHECKBOX_LENGTH, 0);
                 if (editable.length() >= newSelection) {
                     setSelection(newSelection);
                 }
