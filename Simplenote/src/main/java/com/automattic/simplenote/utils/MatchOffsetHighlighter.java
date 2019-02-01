@@ -83,7 +83,13 @@ public class MatchOffsetHighlighter implements Runnable {
             int length = scanner.nextInt();
             int end = start + length;
 
-            if (column != columnIndex) continue;
+            if (column != columnIndex) {
+                continue;
+            }
+
+            if (plainTextContent.length() < start) {
+                continue;
+            }
 
             // Adjust for amount of checklist items before the match
             String textUpToMatch = plainTextContent.substring(0, start);
