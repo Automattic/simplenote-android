@@ -72,7 +72,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener {
+        InfoBottomSheetDialog.InfoSheetListener,
+        SimplenoteEditText.OnCheckboxToggledListener {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
@@ -292,6 +293,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = mRootView.findViewById(R.id.note_content);
         mContentEditText.addOnSelectionChangedListener(this);
+        mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mTagView = mRootView.findViewById(R.id.tag_view);
         mTagView.setTokenizer(new SpaceTokenizer());
@@ -484,6 +486,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         );
     }
 
+    @Override
+    public void onCheckboxToggled() {
+        // Save note (using delay) after toggling a checkbox
+        if (mAutoSaveHandler != null) {
+            mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+            mAutoSaveHandler.postDelayed(mAutoSaveRunnable, AUTOSAVE_DELAY_MILLIS);
+        }
+    }
+
     private void deleteNote() {
         NoteUtils.deleteNote(mNote, getActivity());
         requireActivity().finish();
@@ -616,6 +627,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // 4. Text was removed before the cursor ==> location retreats
         // 5. Text was added/removed on both sides of the cursor ==> not handled
 
+        cursorLocation = Math.max(cursorLocation, 0);
+
         int newCursorLocation = cursorLocation;
 
         int deltaLength = newText.length() - oldText.length();
@@ -675,13 +688,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void afterTextChanged(Editable editable) {
         attemptAutoList(editable);
         setTitleSpan(editable);
-
-        // Prevents line heights from compacting
-        // https://issuetracker.google.com/issues/37009353
-        float lineSpacingExtra = mContentEditText.getLineSpacingExtra();
-        float lineSpacingMultiplier = mContentEditText.getLineSpacingMultiplier();
-        mContentEditText.setLineSpacing(0.0f, 1.0f);
-        mContentEditText.setLineSpacing(lineSpacingExtra, lineSpacingMultiplier);
+        mContentEditText.fixLineSpacing();
     }
 
     @Override
