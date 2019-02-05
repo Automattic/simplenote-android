@@ -477,7 +477,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void insertChecklist() {
-        mContentEditText.insertChecklist();
+        try {
+            mContentEditText.insertChecklist();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED,

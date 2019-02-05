@@ -238,11 +238,15 @@ public class SimplenoteEditText extends AppCompatEditText {
             return;
         }
 
-        ChecklistUtils.addChecklistSpansForRegexAndColor(
-                getContext(),
-                getText(),
-                ChecklistUtils.CHECKLIST_REGEX_LINES,
-                R.color.simplenote_text_preview);
+        try {
+            ChecklistUtils.addChecklistSpansForRegexAndColor(
+                    getContext(),
+                    getText(),
+                    ChecklistUtils.CHECKLIST_REGEX_LINES,
+                    R.color.simplenote_text_preview);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setOnCheckboxToggledListener(OnCheckboxToggledListener listener) {
