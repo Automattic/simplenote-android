@@ -18,7 +18,6 @@ import com.simperium.client.User;
 public class PinnedNoteWidget extends AppWidgetProvider {
 
     // TODO: Add caption to configure activity about widget update. "The widget will update periodically"
-    // TODO: mNotesBucket > notesBucket
 
     public static final String WIDGET_IDS_KEY ="pinned_note_widget_keys";
 
@@ -67,10 +66,10 @@ public class PinnedNoteWidget extends AppWidgetProvider {
             if (!key.isEmpty()) {
                 // Get notes bucket
                 Simplenote currentApp = (Simplenote) context.getApplicationContext();
-                Bucket<Note> mNotesBucket = currentApp.getNotesBucket();
+                Bucket<Note> notesBucket = currentApp.getNotesBucket();
                 try {
                     // Update note
-                    Note updatedNote = mNotesBucket.get(key);
+                    Note updatedNote = notesBucket.get(key);
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
