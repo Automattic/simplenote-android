@@ -58,6 +58,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         }
 
         // Configure toolbar
+        // TODO: Enable back functionality
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.select_a_note);

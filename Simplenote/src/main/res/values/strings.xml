@@ -206,6 +206,7 @@
     <string name="select_a_note">Select a Note</string>
     <string name="add_widget">Add widget</string>
     <string name="configure">Configure</string>
+    <string name="widget_update_message">The widget will update periodically</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
