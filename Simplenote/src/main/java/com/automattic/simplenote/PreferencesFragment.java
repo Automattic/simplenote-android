@@ -305,7 +305,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         // Update homescreen widgets
         WidgetUtils.updatePinnedNoteWidgets(getActivity());
-        // TODO: Restore widgets on sign in
 
         getActivity().finish();
     }
