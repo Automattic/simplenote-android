@@ -52,7 +52,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         // Get widget views
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.pinned_note_widget);
 
-        // Verify user authenticaton.
+        // Verify user authentication.
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();

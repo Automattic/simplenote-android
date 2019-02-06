@@ -17,13 +17,16 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
+import com.simperium.client.User;
 
 public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
@@ -45,6 +48,15 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.pinned_note_widget_configure);
+
+        // Verify user authentication.
+        Simplenote currentApp = (Simplenote) this.getApplicationContext();
+        Simperium simperium = currentApp.getSimperium();
+        User user = simperium.getUser();
+        if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
+            Toast.makeText(this, R.string.widget_login_required, Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         // Get widget information
         widgetManager = AppWidgetManager.getInstance(this);
@@ -68,7 +80,6 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         }
 
         // Query and load notes into list
-        Simplenote currentApp = (Simplenote) getApplication();
         Bucket<Note> mNotesBucket = currentApp.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
