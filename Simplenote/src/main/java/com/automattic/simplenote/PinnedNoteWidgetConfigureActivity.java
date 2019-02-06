@@ -60,7 +60,6 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         }
 
         // Configure toolbar
-        // TODO: Enable back functionality
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.select_a_note);
@@ -77,6 +76,12 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         mNotesAdapter = new NotesCursorAdapter(this, cursor);
         ListView lv = findViewById(R.id.list);
         lv.setAdapter(mNotesAdapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private class NotesCursorAdapter extends CursorAdapter {
