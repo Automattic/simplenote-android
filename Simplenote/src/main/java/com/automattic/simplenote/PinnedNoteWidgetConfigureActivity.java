@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -119,8 +121,8 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     Note note = mNotesAdapter.getItem((int)view.getTag());
 
                     // Store link between note and widget in SharedPreferences
-                    SharedPreferences prefs = getSharedPreferences("com.automattic.simplenote", Context.MODE_PRIVATE);
-                    prefs.edit().putString(Integer.toString(mAppWidgetId), note.getSimperiumKey()).apply();
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    preferences.edit().putString(PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + mAppWidgetId, note.getSimperiumKey()).apply();
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();

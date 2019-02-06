@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -57,9 +58,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         }
         else {
             // Get note id from SharedPreferences
-            // TODO: Refactor.
-            SharedPreferences prefs = context.getSharedPreferences("com.automattic.simplenote", Context.MODE_PRIVATE);
-            String key = prefs.getString(Integer.toString(appWidgetId), "");
+            String key =  PrefUtils.getStringPref(context, PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + appWidgetId);
 
             if (!key.isEmpty()) {
                 // Get notes bucket
