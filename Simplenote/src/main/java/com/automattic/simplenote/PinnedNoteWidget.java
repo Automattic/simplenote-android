@@ -57,7 +57,8 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
         if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            views.setTextViewText(R.id.widget_text, "Signed Out");
+            views.setOnClickPendingIntent(R.id.widget_layout, null);
+            views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_signed_out));
         }
         else {
             // Get note id from SharedPreferences
@@ -87,10 +88,12 @@ public class PinnedNoteWidget extends AppWidgetProvider {
 
                 } catch (BucketObjectMissingException e) {
                     // Note missing.
-                    views.setTextViewText(R.id.widget_text, "Note Not Found");
+                    views.setOnClickPendingIntent(R.id.widget_layout, null);
+                    views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_note_not_found));
                 }
             } else {
-                views.setTextViewText(R.id.widget_text, "Note Not Found");
+                views.setOnClickPendingIntent(R.id.widget_layout, null);
+                views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_note_not_found));
             }
         }
 
