@@ -53,7 +53,10 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.pinned_note_widget);
 
         // Verify user authenticaton.
-        if(userAuthenticationIsInvalid(context)) {
+        Simplenote currentApp = (Simplenote) context.getApplicationContext();
+        Simperium simperium = currentApp.getSimperium();
+        User user = simperium.getUser();
+        if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
             views.setTextViewText(R.id.widget_text, "Signed Out");
         }
         else {
@@ -62,7 +65,6 @@ public class PinnedNoteWidget extends AppWidgetProvider {
 
             if (!key.isEmpty()) {
                 // Get notes bucket
-                Simplenote currentApp = (Simplenote) context.getApplicationContext();
                 Bucket<Note> notesBucket = currentApp.getNotesBucket();
                 try {
                     // Update note
@@ -93,16 +95,6 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
-
-    // TODO: Refactor
-    private boolean userAuthenticationIsInvalid(Context context) {
-        Simplenote currentApp = (Simplenote) context.getApplicationContext();
-        Simperium simperium = currentApp.getSimperium();
-        User user = simperium.getUser();
-        boolean isNotAuthorized = user.getStatus().equals(User.Status.NOT_AUTHORIZED);
-        return isNotAuthorized;
     }
 }
 
