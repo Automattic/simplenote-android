@@ -25,6 +25,7 @@ import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
@@ -303,14 +304,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         editor.apply();
 
         // Update homescreen widgets
-        // TODO: Refactor
+        WidgetUtils.updatePinnedNoteWidgets(getActivity());
         // TODO: Restore widgets on sign in
-        AppWidgetManager man = AppWidgetManager.getInstance(getActivity());
-        int[] ids = man.getAppWidgetIds(new ComponentName(getActivity(), PinnedNoteWidget.class));
-        Intent updateIntent = new Intent();
-        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateIntent.putExtra(PinnedNoteWidget.WIDGET_IDS_KEY, ids);
-        getActivity().sendBroadcast(updateIntent);
 
         getActivity().finish();
     }
@@ -396,4 +391,5 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         }
     }
+
 }
