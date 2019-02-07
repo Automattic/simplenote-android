@@ -58,8 +58,6 @@ public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
             }
 
             return true;
-        } else {
-            Selection.removeSelection(buffer);
         }
 
         return false;
