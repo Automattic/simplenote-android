@@ -88,7 +88,9 @@ public class SimplenoteEditText extends AppCompatEditText {
                     fixLineSpacing();
 
                     // Restore the selection
-                    if (selectionStart <= editable.length() && selectionEnd <= editable.length()) {
+                    if (selectionStart >= 0
+                            && selectionStart <= editable.length()
+                            && selectionEnd <= editable.length()) {
                         setSelection(selectionStart, selectionEnd);
                     }
 
