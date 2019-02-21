@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -57,6 +58,14 @@ public class SimplenoteEditText extends AppCompatEditText {
             for (OnSelectionChangedListener l : listeners)
                 l.onSelectionChanged(selStart, selEnd);
         }
+    }
+
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            clearFocus();
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     // Updates the ImageSpan drawable to the new checked state
