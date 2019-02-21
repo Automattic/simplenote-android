@@ -61,6 +61,8 @@ public class SimplenoteEditText extends AppCompatEditText {
 
     // Updates the ImageSpan drawable to the new checked state
     public void toggleCheckbox(final CheckableSpan checkableSpan) {
+        setCursorVisible(false);
+
         final Editable editable = getText();
 
         final int checkboxStart = editable.getSpanStart(checkableSpan);
@@ -92,6 +94,7 @@ public class SimplenoteEditText extends AppCompatEditText {
                             && selectionStart <= editable.length()
                             && selectionEnd <= editable.length()) {
                         setSelection(selectionStart, selectionEnd);
+                        setCursorVisible(true);
                     }
 
                     if (mOnCheckboxToggledListener != null) {
