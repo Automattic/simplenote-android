@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -276,6 +277,19 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
+
+        // Request status bar height and add padding to DrawerView accordingly
+        LinearLayout drawerView = findViewById(R.id.drawer_view);
+        int statusBarHeight = (int) getResources().getDimension(R.dimen.nav_drawer_navigation_padding_top);
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+        drawerView.setPadding(
+                drawerView.getPaddingLeft(),
+                statusBarHeight,
+                drawerView.getPaddingRight(),
+                drawerView.getPaddingBottom());
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {

@@ -39,8 +39,7 @@
             android:id="@+id/drawer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/nav_drawer_navigation_padding_top">
+            android:orientation="vertical">
 
             <ListView
                 android:id="@+id/drawer_list"
