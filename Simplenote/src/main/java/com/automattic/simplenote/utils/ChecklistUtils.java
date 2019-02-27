@@ -63,7 +63,7 @@ public class ChecklistUtils {
 
             CheckableSpan checkableSpan = new CheckableSpan();
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
-            editable.replace(start, end, " ");
+            editable.replace(start, end, "\u00A0");
 
             Drawable iconDrawable = context.getResources().getDrawable(
                     checkableSpan.isChecked()
