@@ -17,9 +17,18 @@ import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
+
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoteMarkdownFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
@@ -110,12 +119,13 @@ public class NoteMarkdownFragment extends Fragment {
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
                 cssContent + "</head><body>";
 
-        String parsedMarkdown = new AndDown().markdownToHtml(
-                sourceContent,
-                AndDown.HOEDOWN_EXT_STRIKETHROUGH | AndDown.HOEDOWN_EXT_FENCED_CODE |
-                        AndDown.HOEDOWN_EXT_QUOTE | AndDown.HOEDOWN_EXT_TABLES,
-                AndDown.HOEDOWN_HTML_ESCAPE
-        );
+        List<Extension> extensions = new ArrayList<>();
+        extensions.add(TablesExtension.create());
+        extensions.add(StrikethroughExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
+        Node document = parser.parse(sourceContent);
+        HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).escapeHtml(true).build();
+        String parsedMarkdown = renderer.render(document);
 
         return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
