@@ -35,6 +35,9 @@ public class PrefUtils {
     // boolean, determines linkifying content in the editor
     public static final String PREF_DETECT_LINKS = "pref_key_detect_links";
 
+    // boolean, determines if preview mode is showed first in markdown notes
+    public static final String PREF_PREVIEW_FIRST = "pref_key_preview_first";
+
     // boolean, set on first launch
     public static final String PREF_FIRST_LAUNCH = "pref_key_first_launch";
 

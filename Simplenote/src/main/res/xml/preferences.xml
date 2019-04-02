@@ -53,6 +53,10 @@
             android:defaultValue="true"
             android:key="pref_key_detect_links"
             android:title="@string/detect_links"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_key_preview_first"
+            android:title="@string/preview_first"/>
     </PreferenceCategory>
 
     <PreferenceCategory

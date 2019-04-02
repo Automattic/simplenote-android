@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 
@@ -125,6 +126,9 @@ public class NoteEditorActivity extends AppCompatActivity {
 
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
+            if(PrefUtils.getBoolPref(this, PrefUtils.PREF_PREVIEW_FIRST, false)) {
+                mViewPager.setCurrentItem(2);
+            }
             showTabs();
         }
     }
