@@ -1,4 +1,5 @@
 # Simplenote for Android
+[![Build Status](https://travis-ci.org/Automattic/simplenote-android.svg?branch=develop)](https://travis-ci.org/Automattic/simplenote-android)
 
 A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
 
