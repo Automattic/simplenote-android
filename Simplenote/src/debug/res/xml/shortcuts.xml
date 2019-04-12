@@ -5,7 +5,7 @@
     <shortcut
         android:shortcutId="shortcut_new_note"
         android:enabled="true"
-        android:icon="@drawable/ic_shortcut_create_24dp"
+        android:icon="@drawable/ic_shortcut_create_48dp"
         android:shortcutShortLabel="@string/new_note">
         <intent
             android:action="com.automattic.simplenote.NEW_NOTE"
