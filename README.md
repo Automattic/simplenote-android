@@ -10,6 +10,10 @@ A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com]
 git clone https://github.com/Automattic/simplenote-android.git
 cd simplenote-android
 ```
+* Copy `gradle.properties-example` to `gradle.properties`.
+```shell
+cp Simplenote/gradle.properties-example Simplenote/gradle.properties
+```
 
 * Import into Android Studio using the "Gradle" build option. You may need to create a `local.properties` file with the absolute path to the Android SDK:
 Sample `local.properties`
