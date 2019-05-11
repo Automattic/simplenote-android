@@ -39,7 +39,7 @@ dependencies {
     }
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.7.1'
-    implementation 'com.automattic:tracks:1.1.4'
+    implementation 'com.automattic:tracks:1.1.6'
     implementation 'org.wordpress:passcodelock:1.5.1'
     // Google Support
     implementation "com.android.support:appcompat-v7:$googleVersion"
@@ -62,7 +62,7 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.6.6"
+version "1.7.0"
 
 android {
     testOptions {
@@ -75,7 +75,7 @@ android {
     defaultConfig {
         applicationId "com.automattic.simplenote"
         versionName project.version
-        versionCode 69
+        versionCode 74
         minSdkVersion 16
         targetSdkVersion 27
 

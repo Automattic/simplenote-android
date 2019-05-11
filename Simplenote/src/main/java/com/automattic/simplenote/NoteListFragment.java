@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
@@ -37,6 +38,7 @@ import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -46,6 +48,8 @@ import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -125,7 +129,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setItemChecked(position, true);
         if (mActionMode == null)
-            getActivity().startActionMode(this);
+            requireActivity().startActionMode(this);
         return true;
     }
 
@@ -187,7 +191,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mNotesAdapter = new NotesCursorAdapter(getActivity().getBaseContext(), null, 0);
+        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
     }
 
@@ -204,10 +208,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        NotesActivity notesActivity = (NotesActivity) getActivity();
+        NotesActivity notesActivity = (NotesActivity) requireActivity();
 
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
@@ -315,7 +319,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mActivatedPosition != ListView.INVALID_POSITION) {
             // Serialize and persist the activated item position.
@@ -376,6 +380,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mRefreshListTask = new refreshListTask();
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
+
+        // Update homescreen widgets
+        WidgetUtils.updatePinnedNoteWidgets(getActivity());
     }
 
     public void refreshListFromNavSelect() {
@@ -385,7 +392,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public ObjectCursor<Note> queryNotes() {
         if (!isAdded()) return null;
 
-        NotesActivity notesActivity = (NotesActivity) getActivity();
+        NotesActivity notesActivity = (NotesActivity) requireActivity();
         Query<Note> query = notesActivity.getSelectedTag().query();
 
         String searchString = mSearchString;
@@ -421,12 +428,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void addNote() {
 
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
-        NotesActivity notesActivity = (NotesActivity) getActivity();
+        NotesActivity notesActivity = (NotesActivity) requireActivity();
         if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
             notesActivity.stopListeningToNotesBucket();
 
         // Create & save new note
-        Simplenote simplenote = (Simplenote) getActivity().getApplication();
+        Simplenote simplenote = (Simplenote) requireActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
         final Note note = notesBucket.newObject();
         note.setCreationDate(Calendar.getInstance());
@@ -458,7 +465,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
-            getActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
+            requireActivity().startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         }
     }
 
@@ -559,7 +566,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public class NotesCursorAdapter extends CursorAdapter {
         private ObjectCursor<Note> mCursor;
 
-        private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new TextHighlighter(getActivity(),
+        private SearchSnippetFormatter.SpanFactory mSnippetHighlighter = new TextHighlighter(requireActivity(),
                 R.attr.listSearchHighlightForegroundColor, R.attr.listSearchHighlightBackgroundColor);
 
         public NotesCursorAdapter(Context context, ObjectCursor<Note> c, int flags) {
@@ -586,7 +593,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             final NoteViewHolder holder;
             if (view == null) {
-                view = View.inflate(getActivity().getBaseContext(), R.layout.note_list_row, null);
+                view = View.inflate(requireActivity().getBaseContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
                 holder.titleTextView = view.findViewById(R.id.note_title);
                 holder.contentTextView = view.findViewById(R.id.note_content);
@@ -643,7 +650,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 );
                 holder.titleTextView.setText(newNoteString);
             } else {
-                holder.titleTextView.setText(title);
+                SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
+                titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                        getContext(),
+                        titleChecklistString,
+                        ChecklistUtils.CHECKLIST_REGEX,
+                        ThemeUtils.getThemeTextColorId(getContext()));
+                holder.titleTextView.setText(titleChecklistString);
             }
 
             holder.matchOffsets = null;
@@ -656,8 +669,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
-                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(snippet, mSnippetHighlighter));
-                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(title, mSnippetHighlighter));
+                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            snippet,
+                            mSnippetHighlighter,
+                            R.color.simplenote_text_preview));
+                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(
+                            getContext(),
+                            title,
+                            mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
                     title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
                     holder.titleTextView.setText(title);
@@ -668,8 +688,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
-                else
+                else {
                     holder.contentTextView.setText(contentPreview);
+                    SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
+                    checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                            getContext(),
+                            checklistString,
+                            ChecklistUtils.CHECKLIST_REGEX,
+                            R.color.simplenote_text_preview);
+                    holder.contentTextView.setText(checklistString);
+                }
             }
 
             // Add mouse right click support for showing a popup menu

@@ -1,5 +1,6 @@
 package com.automattic.simplenote.utils;
 
+import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 
@@ -13,15 +14,19 @@ public class SearchSnippetFormatter {
     static public final int CLOSE_MATCH_LENGTH = CLOSE_MATCH.length();
     private String mSnippet;
     private SpanFactory mFactory;
+    private Context mContext;
+    private int mChecklistResId;
 
 
-    public SearchSnippetFormatter(SpanFactory factory, String text) {
+    public SearchSnippetFormatter(Context context, SpanFactory factory, String text, int checklistResId) {
+        mContext = context;
         mSnippet = text;
         mFactory = factory;
+        mChecklistResId = checklistResId;
     }
 
-    public static Spannable formatString(String snippet, SpanFactory factory) {
-        return (new SearchSnippetFormatter(factory, snippet)).toSpannableString();
+    public static Spannable formatString(Context context, String snippet, SpanFactory factory, int checkListResId) {
+        return (new SearchSnippetFormatter(context, factory, snippet, checkListResId)).toSpannableString();
     }
 
     private Spannable parseSnippet() {
@@ -63,6 +68,16 @@ public class SearchSnippetFormatter {
                 position = open + OPEN_MATCH_LENGTH;
             }
         } while (position > -1);
+
+
+        // Apply checklist spans if necessary
+        if (mContext != null) {
+            builder = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                    mContext,
+                    builder,
+                    ChecklistUtils.CHECKLIST_REGEX,
+                    mChecklistResId);
+        }
 
         return builder;
     }

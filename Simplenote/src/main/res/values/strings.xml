@@ -203,6 +203,15 @@
     <string name="location_permission_denied">Location Permission Denied</string>
     <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
 
+    <!-- Pinned Note Widget -->
+    <string name="select_a_note">Select a Note</string>
+    <string name="add_widget">Add widget</string>
+    <string name="configure">Configure</string>
+    <string name="widget_update_message">The widget will update periodically</string>
+    <string name="widget_login_required">You must login to add this widget.</string>
+    <string name="widget_signed_out">Signed Out</string>
+    <string name="widget_note_not_found">Note Not Found</string>
+
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
@@ -231,5 +240,6 @@
     <string name="sort_tags_alphabetically">Sort alphabetically</string>
     <string name="appearance">Appearance</string>
     <string name="all_notes">All Notes</string>
+    <string name="toggle_checklist">Toggle checklist</string>
 
 </resources>

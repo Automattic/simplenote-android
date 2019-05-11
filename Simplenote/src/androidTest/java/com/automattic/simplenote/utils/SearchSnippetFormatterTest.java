@@ -1,5 +1,6 @@
 package com.automattic.simplenote.utils;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.text.Spannable;
@@ -20,12 +21,12 @@ public class SearchSnippetFormatterTest {
     @Test
     public void testFormatSnippet() {
         String snippet = "\u2026 This is just <match>an example</match> of a\n<match>snippet</match> \u2026";
-        Spannable formatted = SearchSnippetFormatter.formatString(snippet, new SpanFactory() {
+        Spannable formatted = SearchSnippetFormatter.formatString(InstrumentationRegistry.getTargetContext(), snippet, new SpanFactory() {
             @Override
             public Object[] buildSpans(String content) {
                 return new Object[]{new Object()};
             }
-        });
+        }, 0);
 
         assertThat(formatted.toString(), is("\u2026 This is just an example of a snippet \u2026"));
 

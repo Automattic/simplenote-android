@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
+    <item
+        android:id="@+id/menu_checklist"
+        android:icon="@drawable/ic_checklist"
+        android:title="@string/toggle_checklist"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_history"
         android:icon="@drawable/ic_history_24dp"
         android:title="@string/history"
-        app:showAsAction="always"/>
-
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/share"
-        app:showAsAction="always"/>
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_view_info"
         android:icon="@drawable/ic_info_24dp"
         android:title="@string/note_info"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_trash_24dp"
         android:title="@string/delete"
-        app:showAsAction="always"/>
-
+        app:showAsAction="always" />
 </menu>

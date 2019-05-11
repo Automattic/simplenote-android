@@ -70,10 +70,16 @@ public class DisplayUtils {
         return dpToPx(context, 48);
     }
 
-    /**
-     * Disable screenshots if app is lock is on
-     */
-    public static void disableScreenshotsIfLocked(Activity activity) {
+    // Returns the proper size for a checklist drawable (font size + a bit)
+    public static int getChecklistIconSize(Context context) {
+        if (context == null) {
+            return 18;
+        }
+        return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context)) + DisplayUtils.dpToPx(context, 6);
+    }
+
+  // Disable screenshots if app is lock is on
+  public static void disableScreenshotsIfLocked(Activity activity) {
         if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         } else {
@@ -81,4 +87,3 @@ public class DisplayUtils {
         }
     }
 }
-
