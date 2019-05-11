@@ -14,7 +14,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -24,6 +23,8 @@ import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
+
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
@@ -141,13 +142,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Disable screenshots if app is lock is on
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
+        disableScreenshotsIfLocked(this);
     }
 
     @Override

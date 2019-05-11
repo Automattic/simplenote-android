@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.view.WindowManager;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 
-import org.wordpress.passcodelock.AppLockManager;
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
@@ -47,12 +46,6 @@ public class TagsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Disable screenshots if app is lock is on
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
+        disableScreenshotsIfLocked(this);
     }
 }

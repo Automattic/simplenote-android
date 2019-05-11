@@ -1,11 +1,14 @@
 package com.automattic.simplenote.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
+
+import org.wordpress.passcodelock.AppLockManager;
 
 public class DisplayUtils {
     private DisplayUtils() {
@@ -65,6 +68,17 @@ public class DisplayUtils {
         // if we get this far, it's because the device doesn't support an ActionBar,
         // so return the standard ActionBar height (48dp)
         return dpToPx(context, 48);
+    }
+
+    /**
+     * Disable screenshots if app is lock is on
+     */
+    public static void disableScreenshotsIfLocked(Activity activity) {
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
     }
 }
 

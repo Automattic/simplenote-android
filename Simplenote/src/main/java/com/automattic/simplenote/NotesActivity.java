@@ -59,6 +59,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 public class NotesActivity extends AppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
@@ -197,12 +199,7 @@ public class NotesActivity extends AppCompatActivity implements
             startLoginActivity(true);
         }
 
-        // Disable screenshots if app is lock is on
-        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
+        disableScreenshotsIfLocked(this);
 
         mNotesBucket.start();
         mTagsBucket.start();

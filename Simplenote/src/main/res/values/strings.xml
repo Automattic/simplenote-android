@@ -147,7 +147,7 @@
     <string name="passcode_preference_title">PIN Lock</string>
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
-    <string name="passcode_summary">App screenshots will be disabled while this option is on.</string>
+    <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
