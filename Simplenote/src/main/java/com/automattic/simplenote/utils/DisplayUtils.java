@@ -1,11 +1,14 @@
 package com.automattic.simplenote.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
+
+import org.wordpress.passcodelock.AppLockManager;
 
 public class DisplayUtils {
     private DisplayUtils() {
@@ -72,8 +75,15 @@ public class DisplayUtils {
         if (context == null) {
             return 18;
         }
-
         return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context)) + DisplayUtils.dpToPx(context, 6);
     }
-}
 
+  // Disable screenshots if app PIN lock is on
+  public static void disableScreenshotsIfLocked(Activity activity) {
+        if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+}

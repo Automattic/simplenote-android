@@ -9,6 +9,8 @@ import android.text.SpannableString;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.TypefaceSpan;
 
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 /**
  * Created by Dan Roundhill on 6/26/13. (In Greece!)
  */
@@ -16,7 +18,6 @@ public class TagsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         ThemeUtils.setTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -40,5 +41,11 @@ public class TagsActivity extends AppCompatActivity {
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        disableScreenshotsIfLocked(this);
     }
 }
