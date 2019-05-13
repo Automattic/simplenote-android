@@ -379,7 +379,14 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void updateNavigationDrawerItems() {
-        Bucket.ObjectCursor<Tag> tagCursor = Tag.allWithCount(mTagsBucket).execute();
+        boolean isAlphaSort = PrefUtils.getBoolPref(this, PrefUtils.PREF_SORT_TAGS_ALPHA);
+        Bucket.ObjectCursor<Tag> tagCursor;
+        if (isAlphaSort) {
+            tagCursor = Tag.allSortedAlphabetically(mTagsBucket).execute();
+        } else {
+            tagCursor = Tag.allWithName(mTagsBucket).execute();
+        }
+
         mTagsAdapter.changeCursor(tagCursor);
     }
 
@@ -557,12 +564,14 @@ public class NotesActivity extends AppCompatActivity implements
             if (mCurrentNote != null) {
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_view_info).setVisible(true);
+                menu.findItem(R.id.menu_checklist).setVisible(true);
                 menu.findItem(R.id.menu_history).setVisible(true);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
                 menu.findItem(R.id.menu_view_info).setVisible(false);
+                menu.findItem(R.id.menu_checklist).setVisible(false);
                 menu.findItem(R.id.menu_history).setVisible(false);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(false);
                 trashItem.setVisible(false);
@@ -572,6 +581,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_checklist).setVisible(false);
             menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
             trashItem.setVisible(false);
@@ -588,6 +598,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_history).setVisible(false);
+            menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);

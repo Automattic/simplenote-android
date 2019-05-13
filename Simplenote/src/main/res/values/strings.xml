@@ -40,7 +40,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="search">Search notes</string>
-    <string name="notes">All Notes</string>
+    <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
@@ -202,6 +202,15 @@
     <string name="location_permission_denied">Location Permission Denied</string>
     <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
 
+    <!-- Pinned Note Widget -->
+    <string name="select_a_note">Select a Note</string>
+    <string name="add_widget">Add widget</string>
+    <string name="configure">Configure</string>
+    <string name="widget_update_message">The widget will update periodically</string>
+    <string name="widget_login_required">You must login to add this widget.</string>
+    <string name="widget_signed_out">Signed Out</string>
+    <string name="widget_note_not_found">Note Not Found</string>
+
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
     <string name="noted">Noted</string>
@@ -215,8 +224,7 @@
     <string name="send_post">Post</string>
     <string name="wordpress_post_draft">Set status to draft</string>
     <string name="uploading_post">Uploading post</string>
-    <string name="copy_url">Copy URL</string>
-    <string name="success">Successfully posted to</string>
+    <string name="success">Successfully posted note to: %1$s</string>
     <string name="done">Done</string>
     <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
     <string name="connect_with_wordpress">Connect</string>
@@ -228,5 +236,9 @@
     <string name="wordpress_post_link">Share WordPress Post</string>
     <string name="could_not_access_site_data">Could not access site data.</string>
     <string name="empty_note_post">Can\'t post an empty note.</string>
+    <string name="sort_tags_alphabetically">Sort alphabetically</string>
+    <string name="appearance">Appearance</string>
+    <string name="all_notes">All Notes</string>
+    <string name="toggle_checklist">Toggle checklist</string>
 
 </resources>

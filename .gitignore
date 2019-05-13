@@ -28,8 +28,9 @@ config.properties
 *.iws
 .idea/
 
-.idea/
+# Gradle
 .gradle/
+Simplenote/gradle.properties
 
 *.keystore
 

@@ -3,6 +3,12 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_checklist"
+        android:enabled="false"
+        android:icon="@drawable/ic_checklist"
+        android:title="@string/toggle_checklist"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_history"
