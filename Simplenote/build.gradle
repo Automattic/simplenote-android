@@ -123,6 +123,16 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
 
+task copyGradlePropertiesExampleFile(type: Copy) {
+    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
+    if (!inputFile.exists()) {
+        from("${rootDir}/Simplenote")
+        into("${rootDir}/Simplenote")
+        include('gradle.properties-example')
+        rename('gradle.properties-example', 'gradle.properties')
+    }
+}
+
 task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
     def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
@@ -158,6 +168,7 @@ static String toSnakeCase( String text ) {
 }
 
 android.applicationVariants.all { variant ->
+    tasks.copyGradlePropertiesExampleFile.execute()
     variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     def properties = loadPropertiesFromFile(inputFile)
