@@ -137,8 +137,7 @@ task generateCrashlyticsConfig(group: "generate", description: "Generate Crashly
     def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     if (!inputFile.exists()) {
-        throw new StopActionException("Build configuration file:" + inputFile
-                + " doesn't exist, follow README instructions")
+        throw new StopActionException("Build configuration file " + inputFile + " doesn't exist")
     }
     outputs.file outputFile
     inputs.file inputFile
