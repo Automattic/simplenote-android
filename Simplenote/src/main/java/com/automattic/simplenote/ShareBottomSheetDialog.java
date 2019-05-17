@@ -121,8 +121,8 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
     private List<ShareButtonAdapter.ShareButtonItem> getShareButtons(Activity activity, Intent intent) {
         List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
         final List<ResolveInfo> matches = activity.getPackageManager().queryIntentActivities(intent, 0);
+        IconResizer iconResizer = new IconResizer(getContext());
         for (ResolveInfo match : matches) {
-            IconResizer iconResizer = new IconResizer(getContext());
             final Drawable icon = iconResizer.createIconThumbnail(match.loadIcon(activity.getPackageManager()));
             final CharSequence label = match.loadLabel(activity.getPackageManager());
             shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
