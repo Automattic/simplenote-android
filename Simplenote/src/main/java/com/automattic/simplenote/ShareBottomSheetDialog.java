@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.IconResizer;
 import com.automattic.simplenote.utils.ShareButtonAdapter;
 
 import java.util.ArrayList;
@@ -120,8 +121,9 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
     private List<ShareButtonAdapter.ShareButtonItem> getShareButtons(Activity activity, Intent intent) {
         List<ShareButtonAdapter.ShareButtonItem> shareButtons = new ArrayList<>();
         final List<ResolveInfo> matches = activity.getPackageManager().queryIntentActivities(intent, 0);
+        IconResizer iconResizer = new IconResizer(getContext());
         for (ResolveInfo match : matches) {
-            final Drawable icon = match.loadIcon(activity.getPackageManager());
+            final Drawable icon = iconResizer.createIconThumbnail(match.loadIcon(activity.getPackageManager()));
             final CharSequence label = match.loadLabel(activity.getPackageManager());
             shareButtons.add(new ShareButtonAdapter.ShareButtonItem(icon, label,
                     match.activityInfo.packageName, match.activityInfo.name));
