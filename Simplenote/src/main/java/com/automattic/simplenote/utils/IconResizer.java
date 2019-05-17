@@ -12,6 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 
+import com.automattic.simplenote.R;
+
 /**
  * Utility class to resize icons to match default icon size.
  */
@@ -30,8 +32,7 @@ public class IconResizer {
                 Paint.FILTER_BITMAP_FLAG));
 
         final Resources resources = context.getResources();
-        mIconWidth = mIconHeight = (int) resources.getDimension(
-                android.R.dimen.app_icon_size);
+        mIconWidth = mIconHeight = (int) resources.getDimension(R.dimen.share_icon_size);
     }
 
     /**
