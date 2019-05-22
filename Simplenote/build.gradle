@@ -137,7 +137,7 @@ task generateCrashlyticsConfig(group: "generate", description: "Generate Crashly
     def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     if (!inputFile.exists()) {
-        throw new StopActionException("Build configuration file " + inputFile + " doesn't exist")
+        tasks.copyGradlePropertiesExampleFile.execute()
     }
     outputs.file outputFile
     inputs.file inputFile
@@ -167,7 +167,6 @@ static String toSnakeCase( String text ) {
 }
 
 android.applicationVariants.all { variant ->
-    tasks.copyGradlePropertiesExampleFile.execute()
     variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     def properties = loadPropertiesFromFile(inputFile)
