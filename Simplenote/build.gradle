@@ -82,13 +82,6 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-
-        buildConfigField "String", "SIMPERIUM_APP_ID", "\"${project.simperiumAppId}\""
-        buildConfigField "String", "SIMPERIUM_APP_KEY", "\"${project.simperiumAppKey}\""
-        buildConfigField "String", "GOOGLE_ANALYTICS_ID", "\"${project.googleAnalyticsId}\""
-        buildConfigField "String", "WPCOM_CLIENT_ID", "\"${project.wpcomClientId}\""
-        buildConfigField "String", "BUILD", "\"${gitDescribe()}\""
-        buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\""
      }
 
     buildTypes {
@@ -130,12 +123,21 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
 
+task copyGradlePropertiesExampleFile(type: Copy) {
+    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
+    if (!inputFile.exists()) {
+        from("${rootDir}/Simplenote")
+        into("${rootDir}/Simplenote")
+        include('gradle.properties-example')
+        rename('gradle.properties-example', 'gradle.properties')
+    }
+}
+
 task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
     def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     if (!inputFile.exists()) {
-        throw new StopActionException("Build configuration file:" + inputFile
-                + " doesn't exist, follow README instructions")
+        tasks.copyGradlePropertiesExampleFile.execute()
     }
     outputs.file outputFile
     inputs.file inputFile
@@ -152,7 +154,31 @@ apiKey=${crashlyticsApiKey}""")
     }
 }
 
-// Add generateCrashlyticsConfig to all generateBuildConfig tasks (all variants)
+static def loadPropertiesFromFile(inputFile) {
+    def properties = new Properties()
+    inputFile.withInputStream { stream ->
+        properties.load(stream)
+    }
+    return properties
+}
+
+static String toSnakeCase( String text ) {
+    text.replaceAll( /([A-Z])/, /_$1/ ).replaceAll( /^_/, '' )
+}
+
 android.applicationVariants.all { variant ->
     variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
+    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
+    def properties = loadPropertiesFromFile(inputFile)
+    properties.any { property ->
+        def key = toSnakeCase(property.key).toUpperCase()
+        if (key == "SIMPERIUM_APP_ID" ||
+            key == "SIMPERIUM_APP_KEY" ||
+            key == "GOOGLE_ANALYTICS_ID" ||
+            key == "WPCOM_CLIENT_ID") {
+            buildConfigField "String", key, "\"${property.value}\""
+        }
+    }
+    buildConfigField "String", "BUILD", "\"${gitDescribe()}\""
+    buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\""
 }
