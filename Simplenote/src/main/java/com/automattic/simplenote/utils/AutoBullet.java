@@ -98,9 +98,9 @@ public class AutoBullet {
     }
 
     private static class BulletMetadata {
-        public boolean isBullet = false;
-        public int numSpacesPrefixed;
-        public String bulletChar;
-        public boolean isEmptyBullet = false;
+        boolean isBullet = false;
+        int numSpacesPrefixed;
+        String bulletChar;
+        boolean isEmptyBullet = false;
     }
 }
