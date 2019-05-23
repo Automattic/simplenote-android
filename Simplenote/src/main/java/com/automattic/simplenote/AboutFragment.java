@@ -89,7 +89,7 @@ public class AboutFragment extends Fragment {
         playStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(PLAY_STORE_URI + getActivity().getPackageName());
+                Uri uri = Uri.parse(PLAY_STORE_URI + requireActivity().getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                         Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET |
@@ -98,7 +98,7 @@ public class AboutFragment extends Fragment {
                     startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(PLAY_STORE_URL + getActivity().getPackageName())));
+                            Uri.parse(PLAY_STORE_URL + requireActivity().getPackageName())));
                 }
             }
         });
