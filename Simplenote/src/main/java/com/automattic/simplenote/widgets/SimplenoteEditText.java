@@ -1,6 +1,7 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatEditText;
@@ -68,6 +69,15 @@ public class SimplenoteEditText extends AppCompatEditText {
         return super.dispatchKeyEvent(event);
     }
 
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        if (focused) {
+            setCursorVisible(true);
+        }
+
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+    }
+
     // Updates the ImageSpan drawable to the new checked state
     public void toggleCheckbox(final CheckableSpan checkableSpan) {
         setCursorVisible(false);
@@ -101,7 +111,7 @@ public class SimplenoteEditText extends AppCompatEditText {
                     // Restore the selection
                     if (selectionStart >= 0
                             && selectionStart <= editable.length()
-                            && selectionEnd <= editable.length()) {
+                            && selectionEnd <= editable.length() && hasFocus()) {
                         setSelection(selectionStart, selectionEnd);
                         setCursorVisible(true);
                     }
