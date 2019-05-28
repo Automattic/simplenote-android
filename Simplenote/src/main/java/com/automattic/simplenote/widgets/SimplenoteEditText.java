@@ -1,6 +1,7 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatEditText;
@@ -10,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -59,8 +61,27 @@ public class SimplenoteEditText extends AppCompatEditText {
         }
     }
 
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            clearFocus();
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        if (focused) {
+            setCursorVisible(true);
+        }
+
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+    }
+
     // Updates the ImageSpan drawable to the new checked state
     public void toggleCheckbox(final CheckableSpan checkableSpan) {
+        setCursorVisible(false);
+
         final Editable editable = getText();
 
         final int checkboxStart = editable.getSpanStart(checkableSpan);
@@ -90,8 +111,9 @@ public class SimplenoteEditText extends AppCompatEditText {
                     // Restore the selection
                     if (selectionStart >= 0
                             && selectionStart <= editable.length()
-                            && selectionEnd <= editable.length()) {
+                            && selectionEnd <= editable.length() && hasFocus()) {
                         setSelection(selectionStart, selectionEnd);
+                        setCursorVisible(true);
                     }
 
                     if (mOnCheckboxToggledListener != null) {
