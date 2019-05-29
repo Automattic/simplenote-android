@@ -57,7 +57,12 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            views.setOnClickPendingIntent(R.id.widget_layout, null);
+            // Create intent to navigate to notes activity which redirects to signin on widget click
+            Intent intent = new Intent(context, NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+
+            views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
             views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
         } else {
