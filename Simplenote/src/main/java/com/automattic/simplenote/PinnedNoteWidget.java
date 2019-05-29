@@ -55,17 +55,19 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
-        if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
+
+        if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
             views.setOnClickPendingIntent(R.id.widget_layout, null);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
-        }
-        else {
+            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
+        } else {
             // Get note id from SharedPreferences
             String key =  PrefUtils.getStringPref(context, PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + appWidgetId);
 
             if (!key.isEmpty()) {
                 // Get notes bucket
                 Bucket<Note> notesBucket = currentApp.getNotesBucket();
+
                 try {
                     // Update note
                     Note updatedNote = notesBucket.get(key);
@@ -84,7 +86,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, updatedNote.getTitle());
-
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_dark_grey));
                 } catch (BucketObjectMissingException e) {
                     // Note missing.
                     views.setOnClickPendingIntent(R.id.widget_layout, null);
