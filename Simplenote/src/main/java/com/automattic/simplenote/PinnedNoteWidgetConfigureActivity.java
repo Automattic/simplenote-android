@@ -54,7 +54,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
         if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(this, R.string.widget_login_required, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
