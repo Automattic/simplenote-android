@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_small"
         android:layout_width="wrap_content"
-        android:maxLines="5"
+        android:maxLines="4"
         android:text="@string/loading_note"
         android:textColor="@color/simplenote_dark_grey"
         android:textSize="@dimen/text_widget">
