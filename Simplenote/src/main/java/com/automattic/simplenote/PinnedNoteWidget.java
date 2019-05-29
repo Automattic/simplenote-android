@@ -29,7 +29,6 @@ public class PinnedNoteWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // Update all widgets.
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
@@ -93,8 +92,13 @@ public class PinnedNoteWidget extends AppWidgetProvider {
                     views.setTextViewText(R.id.widget_text, updatedNote.getTitle());
                     views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_dark_grey));
                 } catch (BucketObjectMissingException e) {
-                    // Note missing.
-                    views.setOnClickPendingIntent(R.id.widget_layout, null);
+                    // Create intent to navigate to widget configure activity on widget click
+                    Intent intent = new Intent(context, PinnedNoteWidgetConfigureActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
                     views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
                 }
@@ -108,4 +112,3 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 }
-

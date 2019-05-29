@@ -121,7 +121,9 @@
                 android:resource="@xml/pinned_note_widget_info" />
         </receiver>
 
-        <activity android:name=".PinnedNoteWidgetConfigureActivity">
+        <activity
+            android:name=".PinnedNoteWidgetConfigureActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
