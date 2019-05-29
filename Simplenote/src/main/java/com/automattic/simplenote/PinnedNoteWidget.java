@@ -16,15 +16,16 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.User;
 
 public class PinnedNoteWidget extends AppWidgetProvider {
-
-    public static final String WIDGET_IDS_KEY ="pinned_note_widget_keys";
+    public static final String WIDGET_IDS_KEY = "pinned_note_widget_keys";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.hasExtra(WIDGET_IDS_KEY)) {
-            int[] ids = intent.getExtras().getIntArray(WIDGET_IDS_KEY);
+            int[] ids = intent.getExtras() != null ? intent.getExtras().getIntArray(WIDGET_IDS_KEY) : null;
             this.onUpdate(context, AppWidgetManager.getInstance(context), ids);
-        } else super.onReceive(context, intent);
+        } else {
+            super.onReceive(context, intent);
+        }
     }
 
     @Override
