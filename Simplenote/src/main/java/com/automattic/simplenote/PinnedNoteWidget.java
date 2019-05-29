@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
@@ -58,7 +57,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
         User user = simperium.getUser();
         if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
             views.setOnClickPendingIntent(R.id.widget_layout, null);
-            views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_signed_out));
+            views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
         }
         else {
             // Get note id from SharedPreferences
