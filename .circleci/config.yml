@@ -1,0 +1,38 @@
+orbs:
+  android: wordpress-mobile/android@0.0.25
+
+version: 2.1
+jobs:
+  Test:
+    executor: 
+      name: android/default
+      api-version: "27"
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - run:
+          name: Build
+          command: ./gradlew --stacktrace assembleDebug assembleRelease
+      - run:
+          name: Test
+          command: ./gradlew --stacktrace testRelease
+      - android/save-gradle-cache
+      - android/save-test-results
+  Lint:
+    executor: 
+      name: android/default
+      api-version: "27"
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - run:
+          name: Lint
+          command: ./gradlew --stacktrace lintRelease
+      - android/save-gradle-cache
+      - android/save-lint-results
+
+workflows:
+  simplenote-android:
+    jobs:
+      - Test
+      - Lint
