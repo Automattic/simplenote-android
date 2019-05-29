@@ -13,12 +13,12 @@
         android:ellipsize="end"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/padding_small"
         android:layout_width="wrap_content"
         android:maxLines="5"
         android:text="@string/loading_note"
         android:textColor="@color/simplenote_dark_grey"
-        android:textSize="12sp">
+        android:textSize="@dimen/text_widget">
     </TextView>
 
 </RelativeLayout>

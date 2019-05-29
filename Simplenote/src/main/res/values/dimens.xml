@@ -39,5 +39,6 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
 
     <!-- SIZE -->
     <dimen name="card_radius">2dp</dimen>
+    <dimen name="text_widget">12sp</dimen>
 
 </resources>
