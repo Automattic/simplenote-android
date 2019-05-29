@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:maxLines="4"
         android:text="@string/loading_note"
-        android:textColor="@color/simplenote_dark_grey"
+        android:textColor="@color/simplenote_light_grey"
         android:textSize="@dimen/text_widget">
     </TextView>
 
