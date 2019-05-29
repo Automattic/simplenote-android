@@ -11,8 +11,7 @@
     <TextView
         android:id="@+id/widget_text"
         android:ellipsize="end"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_width="wrap_content"
