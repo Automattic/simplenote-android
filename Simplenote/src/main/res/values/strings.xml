@@ -209,9 +209,9 @@
     <string name="configure">Configure</string>
     <string name="loading_note">Loading note&#8230;</string>
     <string name="widget_update_message">The widget will update periodically</string>
+    <string name="note_not_found">Note not found</string>
     <string name="sign_in_add_widget">Sign in to add this widget</string>
     <string name="sign_in_use_widget">Sign in to use widget</string>
-    <string name="widget_note_not_found">Note Not Found</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->

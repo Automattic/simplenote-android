@@ -95,11 +95,13 @@ public class PinnedNoteWidget extends AppWidgetProvider {
                 } catch (BucketObjectMissingException e) {
                     // Note missing.
                     views.setOnClickPendingIntent(R.id.widget_layout, null);
-                    views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_note_not_found));
+                    views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
                 }
             } else {
                 views.setOnClickPendingIntent(R.id.widget_layout, null);
-                views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.widget_note_not_found));
+                views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
+                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
             }
         }
 
