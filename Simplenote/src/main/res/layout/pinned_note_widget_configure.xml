@@ -15,7 +15,7 @@
         android:background="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="1px"
+        android:dividerHeight="@dimen/divider_height"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:scrollbarStyle="outsideOverlay">
