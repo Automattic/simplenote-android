@@ -205,10 +205,7 @@
 
     <!-- Pinned Note Widget -->
     <string name="select_a_note">Select a Note</string>
-    <string name="add_widget">Add widget</string>
-    <string name="configure">Configure</string>
     <string name="loading_note">Loading note&#8230;</string>
-    <string name="widget_update_message">The widget will update periodically</string>
     <string name="note_not_found">Note not found</string>
     <string name="sign_in_add_widget">Sign in to add this widget</string>
     <string name="sign_in_use_widget">Sign in to use widget</string>
