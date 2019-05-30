@@ -29,11 +29,10 @@ import com.simperium.client.Query;
 import com.simperium.client.User;
 
 public class NoteWidgetConfigureActivity extends AppCompatActivity {
-
-    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private AppWidgetManager mWidgetManager;
     private NotesCursorAdapter mNotesAdapter;
-    private AppWidgetManager widgetManager;
-    private RemoteViews views;
+    private RemoteViews mRemoteViews;
+    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     public NoteWidgetConfigureActivity() {
         super();
@@ -53,19 +52,22 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Simplenote currentApp = (Simplenote) this.getApplicationContext();
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
-        if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
+
+        if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
             Toast.makeText(this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
         // Get widget information
-        widgetManager = AppWidgetManager.getInstance(this);
-        views = new RemoteViews(this.getPackageName(), R.layout.note_widget);
+        mWidgetManager = AppWidgetManager.getInstance(this);
+        mRemoteViews = new RemoteViews(this.getPackageName(), R.layout.note_widget);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
+
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
             return;
@@ -75,6 +77,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.select_note);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -120,11 +123,17 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
             TextView titleTextView = view.findViewById(R.id.note_title);
             TextView contentTextView = view.findViewById(R.id.note_content);
             ToggleButton toggleView = view.findViewById(R.id.pin_button);
-            // Extract properties from cursor
             String title = "";
             String snippet = "";
-            if(cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
-            if(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+
+            if (cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) {
+                title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            }
+
+            if (cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) {
+                snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+            }
+
             // Populate fields with extracted properties
             titleTextView.setText(title);
             contentTextView.setText(snippet);
@@ -152,9 +161,9 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
                     // Set widget content
-                    views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
-                    views.setTextViewText(R.id.widget_text, note.getTitle());
-                    widgetManager.updateAppWidget(mAppWidgetId, views);
+                    mRemoteViews.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+                    mRemoteViews.setTextViewText(R.id.widget_text, note.getTitle());
+                    mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful
                     Intent resultValue = new Intent();
@@ -163,8 +172,6 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
         }
     }
 }
-
