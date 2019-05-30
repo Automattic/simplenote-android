@@ -28,14 +28,14 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
+public class NoteWidgetConfigureActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private NotesCursorAdapter mNotesAdapter;
     private AppWidgetManager widgetManager;
     private RemoteViews views;
 
-    public PinnedNoteWidgetConfigureActivity() {
+    public NoteWidgetConfigureActivity() {
         super();
     }
 
@@ -47,7 +47,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
 
-        setContentView(R.layout.pinned_note_widget_configure);
+        setContentView(R.layout.note_widget_configure);
 
         // Verify user authentication.
         Simplenote currentApp = (Simplenote) this.getApplicationContext();
@@ -60,7 +60,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
         // Get widget information
         widgetManager = AppWidgetManager.getInstance(this);
-        views = new RemoteViews(this.getPackageName(), R.layout.pinned_note_widget);
+        views = new RemoteViews(this.getPackageName(), R.layout.note_widget);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
@@ -138,7 +138,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
                     // Store link between note and widget in SharedPreferences
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    preferences.edit().putString(PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + mAppWidgetId, note.getSimperiumKey()).apply();
+                    preferences.edit().putString(PrefUtils.PREF_NOTE_WIDGET_NOTE + mAppWidgetId, note.getSimperiumKey()).apply();
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();

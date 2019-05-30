@@ -111,17 +111,17 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".PinnedNoteWidget">
+        <receiver android:name=".NoteWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/pinned_note_widget_info" />
+                android:resource="@xml/note_widget_info" />
         </receiver>
 
-        <activity android:name=".PinnedNoteWidgetConfigureActivity">
+        <activity android:name=".NoteWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

@@ -288,8 +288,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         };
 
-        // Update homescreen widgets
-        WidgetUtils.updatePinnedNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(getActivity());
     }
 
     @Override

@@ -15,8 +15,8 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.User;
 
-public class PinnedNoteWidget extends AppWidgetProvider {
-    public static final String WIDGET_IDS_KEY = "pinned_note_widget_keys";
+public class NoteWidget extends AppWidgetProvider {
+    public static final String WIDGET_IDS_KEY = "note_widget_keys";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,7 +49,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
 
     private void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         // Get widget views
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.pinned_note_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget);
 
         // Verify user authentication.
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
@@ -67,7 +67,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
             views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
         } else {
             // Get note id from SharedPreferences
-            String key =  PrefUtils.getStringPref(context, PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + appWidgetId);
+            String key =  PrefUtils.getStringPref(context, PrefUtils.PREF_NOTE_WIDGET_NOTE + appWidgetId);
 
             if (!key.isEmpty()) {
                 // Get notes bucket
@@ -94,7 +94,7 @@ public class PinnedNoteWidget extends AppWidgetProvider {
                     views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_dark_grey));
                 } catch (BucketObjectMissingException e) {
                     // Create intent to navigate to widget configure activity on widget click
-                    Intent intent = new Intent(context, PinnedNoteWidgetConfigureActivity.class);
+                    Intent intent = new Intent(context, NoteWidgetConfigureActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);

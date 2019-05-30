@@ -300,8 +300,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
-        // Update homescreen widgets
-        WidgetUtils.updatePinnedNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(getActivity());
 
         getActivity().finish();
     }
