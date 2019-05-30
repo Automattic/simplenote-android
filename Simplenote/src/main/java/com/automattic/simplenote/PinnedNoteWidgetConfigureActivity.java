@@ -74,7 +74,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
         // Configure toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle(R.string.select_a_note);
+        setTitle(R.string.select_note);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
