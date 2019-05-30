@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
@@ -27,6 +28,10 @@ import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
+
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
 
 public class NoteWidgetConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
@@ -90,6 +95,15 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         mNotesAdapter = new NotesCursorAdapter(this, cursor);
         ListView lv = findViewById(R.id.list);
         lv.setAdapter(mNotesAdapter);
+
+        if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+            intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED) {
+            AnalyticsTracker.track(
+                NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED,
+                CATEGORY_WIDGET,
+                "note_widget_note_not_found_tapped"
+            );
+        }
     }
 
     @Override

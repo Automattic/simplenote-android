@@ -9,11 +9,11 @@ import com.automattic.simplenote.NoteWidget;
 
 public class WidgetUtils {
     public static void updateNoteWidgets(Context context) {
-        AppWidgetManager man = AppWidgetManager.getInstance(context);
-        int[] ids = man.getAppWidgetIds(new ComponentName(context, NoteWidget.class));
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, NoteWidget.class));
         Intent updateIntent = new Intent();
         updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateIntent.putExtra(NoteWidget.WIDGET_IDS_KEY, ids);
+        updateIntent.putExtra(NoteWidget.KEY_WIDGET_IDS, ids);
         context.sendBroadcast(updateIntent);
     }
 }

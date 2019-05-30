@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
@@ -24,6 +25,9 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -128,6 +132,15 @@ public class NoteEditorActivity extends AppCompatActivity {
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
             showTabs();
+        }
+
+        if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+            intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_NOTE_TAPPED) {
+            AnalyticsTracker.track(
+                NOTE_WIDGET_NOTE_TAPPED,
+                CATEGORY_WIDGET,
+                "note_widget_note_tapped"
+            );
         }
     }
 
