@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_layout"
+    android:background="@drawable/pinned_note_widget_background"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/widget_text"
+        android:ellipsize="end"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_small"
+        android:layout_width="wrap_content"
+        android:maxLines="4"
+        android:text="@string/loading_note"
+        android:textColor="@color/simplenote_light_grey"
+        android:textSize="@dimen/text_widget">
+    </TextView>
+
+</RelativeLayout>
