@@ -59,6 +59,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -286,6 +287,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return query.execute();
             }
         };
+
+        // Update homescreen widgets
+        WidgetUtils.updatePinnedNoteWidgets(getActivity());
     }
 
     @Override
