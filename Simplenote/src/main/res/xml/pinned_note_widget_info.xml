@@ -3,7 +3,6 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:configure="com.automattic.simplenote.PinnedNoteWidgetConfigureActivity"
-    android:initialKeyguardLayout="@layout/pinned_note_widget"
     android:initialLayout="@layout/pinned_note_widget"
     android:minHeight="@dimen/cell_widget"
     android:minWidth="@dimen/cell_widget"
