@@ -2,11 +2,13 @@
 
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:configure="com.automattic.simplenote.PinnedNoteWidgetConfigureActivity"
     android:initialLayout="@layout/pinned_note_widget"
     android:minHeight="@dimen/cell_widget"
     android:minWidth="@dimen/cell_widget"
     android:previewImage="@drawable/pinned_note_preview"
     android:updatePeriodMillis="21600000"
-    android:widgetCategory="home_screen">
+    android:widgetCategory="home_screen"
+    tools:targetApi="jelly_bean_mr1">
 </appwidget-provider>
