@@ -111,7 +111,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NoteWidget">
+        <receiver
+            android:name=".NoteWidget"
+            android:label="@string/label_note">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
