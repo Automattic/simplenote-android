@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<View
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical">
-
-    <include
-        layout="@layout/toolbar">
-    </include>
-
-    <ListView
-        android:id="@+id/list"
-        android:background="@android:color/transparent"
-        android:clipToPadding="false"
-        android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="@dimen/divider_height"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:scrollbarStyle="outsideOverlay">
-    </ListView>
-
-</LinearLayout>
+    android:layout_width="match_parent">
+</View>

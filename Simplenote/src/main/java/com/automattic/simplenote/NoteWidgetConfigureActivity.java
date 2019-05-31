@@ -1,15 +1,18 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
     private NotesCursorAdapter mNotesAdapter;
     private RemoteViews mRemoteViews;
+    private Simplenote mApplication;
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     public NoteWidgetConfigureActivity() {
@@ -44,8 +48,8 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
@@ -54,18 +58,18 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         setContentView(R.layout.note_widget_configure);
 
         // Verify user authentication.
-        Simplenote currentApp = (Simplenote) this.getApplicationContext();
-        Simperium simperium = currentApp.getSimperium();
+        mApplication = (Simplenote) getApplicationContext();
+        Simperium simperium = mApplication.getSimperium();
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
+            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
         // Get widget information
-        mWidgetManager = AppWidgetManager.getInstance(this);
-        mRemoteViews = new RemoteViews(this.getPackageName(), R.layout.note_widget);
+        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetConfigureActivity.this);
+        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -78,23 +82,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
             return;
         }
 
-        // Configure toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.select_note);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        // Query and load notes into list
-        Bucket<Note> mNotesBucket = currentApp.getNotesBucket();
-        Query<Note> query = Note.all(mNotesBucket);
-        query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        ObjectCursor<Note> cursor = query.execute();
-        mNotesAdapter = new NotesCursorAdapter(this, cursor);
-        ListView lv = findViewById(R.id.list);
-        lv.setAdapter(mNotesAdapter);
+        showDialog();
 
         if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
             intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED) {
@@ -106,10 +94,39 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
+    private void showDialog() {
+        Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
+        Query<Note> query = Note.all(mNotesBucket);
+        query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        ObjectCursor<Note> cursor = query.execute();
+
+        Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        @SuppressLint("InflateParams")
+        final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
+        final ListView list = layout.findViewById(R.id.list);
+        mNotesAdapter = new NotesCursorAdapter(NoteWidgetConfigureActivity.this, cursor);
+        list.setAdapter(mNotesAdapter);
+
+        builder.setView(layout)
+            .setTitle(R.string.select_note)
+            .setOnDismissListener(
+                new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                }
+            )
+            .setNegativeButton(android.R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }
+            )
+            .show();
     }
 
     private class NotesCursorAdapter extends CursorAdapter {

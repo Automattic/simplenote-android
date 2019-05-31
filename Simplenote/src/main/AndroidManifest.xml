@@ -123,7 +123,9 @@
                 android:resource="@xml/note_widget_info" />
         </receiver>
 
-        <activity android:name=".NoteWidgetConfigureActivity">
+        <activity
+            android:name=".NoteWidgetConfigureActivity"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
