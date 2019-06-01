@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:background="?attr/mainBackgroundColor"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/padding_small">
 
     <View
-        android:layout_width="match_parent"
+        android:background="?attr/dividerColor"
         android:layout_height="1px"
         android:layout_marginBottom="@dimen/padding_small"
-        android:background="?attr/dividerColor"/>
+        android:layout_width="match_parent">
+    </View>
 
     <LinearLayout
         android:id="@+id/nav_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
         android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/list_padding_left"
-        android:paddingRight="@dimen/list_padding_left">
+        android:paddingEnd="@dimen/list_padding_left"
+        android:paddingStart="@dimen/list_padding_left">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:contentDescription="@string/settings"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
-            android:layout_marginRight="@dimen/nav_drawer_item_image_margin"
-            android:contentDescription="@string/settings"
+            android:layout_width="wrap_content"
             android:scaleType="center"
             android:tint="?attr/noteTitleColor"
-            app:srcCompat="@drawable/ic_settings_24dp"/>
+            app:srcCompat="@drawable/ic_settings_24dp">
+        </ImageView>
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:minHeight="@dimen/nav_row_height"
             android:text="@string/settings"
             android:textColor="?attr/noteTitleColor"
-            android:textSize="@dimen/nav_drawer_item_text_size"/>
+            android:textSize="@dimen/nav_drawer_item_text_size">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
     </LinearLayout>
-</LinearLayout>
 
+</LinearLayout>

@@ -49,8 +49,6 @@
             android:layout_width="match_parent"
             android:paddingBottom="@dimen/padding_extra_large"
             android:paddingEnd="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:paddingTop="@dimen/padding_extra_large"
             android:textSize="14sp"
@@ -68,8 +66,6 @@
             android:id="@+id/seek_bar"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_extra_small"
-            android:layout_marginLeft="@dimen/padding_extra_small"
-            android:layout_marginRight="@dimen/padding_extra_small"
             android:layout_marginStart="@dimen/padding_extra_small"
             android:layout_width="match_parent"
             android:paddingBottom="@dimen/padding_small"
@@ -84,8 +80,6 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_small"
             android:paddingEnd="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large">
 
             <com.automattic.simplenote.widgets.RobotoMediumTextView

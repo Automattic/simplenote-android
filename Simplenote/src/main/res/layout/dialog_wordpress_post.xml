@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/wp_dialog_section_fields"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ListView
             android:id="@+id/wp_dialog_list_view"
@@ -23,34 +23,33 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:listSelector="@drawable/selectable_background_simplestyle"
-            android:paddingLeft="@dimen/padding_extra_small"
-            android:paddingRight="@dimen/padding_extra_small"
-            android:paddingTop="@dimen/padding_medium" >
+            android:paddingEnd="@dimen/padding_extra_small"
+            android:paddingStart="@dimen/padding_extra_small"
+            android:paddingTop="@dimen/padding_medium">
         </ListView>
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:padding="@dimen/padding_large" >
+            android:padding="@dimen/padding_large">
 
             <CheckBox
                 android:id="@+id/wp_dialog_draft_checkbox"
                 android:layout_gravity="start|center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:paddingLeft="@dimen/padding_medium"
                 android:paddingStart="@dimen/padding_medium"
                 android:text="@string/wordpress_post_draft"
                 android:textColor="?attr/noteTitleColor"
                 android:textSize="16sp"
-                tools:ignore="RtlSymmetry" >
+                tools:ignore="RtlSymmetry">
             </CheckBox>
 
             <Space
-                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:layout_width="0dp">
             </Space>
 
         </LinearLayout>
@@ -65,18 +64,15 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_extra_extra_large"
-        android:paddingLeft="@dimen/padding_extra_extra_large"
-        android:paddingRight="@dimen/padding_extra_extra_large"
         android:paddingStart="@dimen/padding_extra_extra_large"
         android:paddingTop="@dimen/padding_large"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ProgressBar
             android:indeterminate="true"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_extra_extra_large"
-            android:layout_marginRight="@dimen/padding_extra_extra_large"
-            android:layout_width="wrap_content" >
+            android:layout_width="wrap_content">
         </ProgressBar>
 
         <TextView
@@ -87,7 +83,7 @@
             android:maxLines="1"
             android:text="@string/uploading_post"
             android:textColor="?attr/noteTitleColor"
-            tools:ignore="RtlSymmetry" >
+            tools:ignore="RtlSymmetry">
         </TextView>
 
     </LinearLayout>
@@ -98,9 +94,9 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_extra_extra_large"
-        android:paddingRight="@dimen/padding_extra_extra_large"
-        android:paddingTop="@dimen/padding_large" >
+        android:paddingEnd="@dimen/padding_extra_extra_large"
+        android:paddingStart="@dimen/padding_extra_extra_large"
+        android:paddingTop="@dimen/padding_large">
 
         <TextView
             android:id="@+id/wp_dialog_success_summary"
@@ -110,7 +106,7 @@
             android:layout_width="match_parent"
             android:text="@string/success"
             android:textColor="?attr/noteTitleColor"
-            android:textSize="16sp" >
+            android:textSize="16sp">
         </TextView>
 
         <android.support.v7.widget.AppCompatButton
@@ -120,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/share"
-            android:theme="@style/FlatButton.Simplestyle" >
+            android:theme="@style/FlatButton.Simplestyle">
         </android.support.v7.widget.AppCompatButton>
 
         <android.support.v7.widget.AppCompatButton
@@ -130,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/copy"
-            android:theme="@style/FlatButton.Simplestyle" >
+            android:theme="@style/FlatButton.Simplestyle">
         </android.support.v7.widget.AppCompatButton>
 
     </RelativeLayout>
@@ -141,10 +137,8 @@
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_extra_extra_large"
-        android:paddingLeft="@dimen/padding_extra_extra_large"
-        android:paddingRight="@dimen/padding_extra_extra_large"
         android:paddingStart="@dimen/padding_extra_extra_large"
-        android:paddingTop="@dimen/padding_large" >
+        android:paddingTop="@dimen/padding_large">
 
         <TextView
             android:id="@+id/wp_dialog_connect_summary"
@@ -152,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/wordpress_connect_summary"
-            android:textColor="?attr/noteTitleColor" >
+            android:textColor="?attr/noteTitleColor">
         </TextView>
 
     </RelativeLayout>
