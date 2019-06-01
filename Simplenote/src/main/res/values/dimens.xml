@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <!--
         nbradbury - dimensions for mdpi/hdpi displays
@@ -18,7 +20,7 @@
 
     <dimen name="nav_drawer_item_image_margin">32dp</dimen>
     <dimen name="nav_drawer_item_text_size">14sp</dimen>
-    <dimen name="nav_drawer_navigation_padding_top">0dp</dimen>
+    <dimen name="nav_drawer_navigation_padding_top">24dp</dimen>
 
     <dimen name="note_list_item_padding_right">52dp</dimen>
     <dimen name="note_list_item_padding_bottom">@dimen/padding_small</dimen>
@@ -31,9 +33,4 @@
     <!-- https://support.google.com/accessibility/android/answer/7101858 -->
     <dimen name="share_icon_size">48dp</dimen>
 
-    <!--
-Refer to App Widget Documentation for margin information
-http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
-    -->
-    <dimen name="widget_margin">8dp</dimen>
 </resources>
