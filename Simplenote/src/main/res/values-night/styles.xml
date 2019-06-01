@@ -54,7 +54,7 @@
         <item name="spinBars">true</item>
     </style>
 
-    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
     </style>
 
