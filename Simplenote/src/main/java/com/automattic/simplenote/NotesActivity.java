@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -123,11 +122,8 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // On lollipop, configure the translucent status bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
 
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
@@ -263,12 +259,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void setTitleWithCustomFont(CharSequence title) {
-        if (getSupportActionBar() == null) return;
-
-        // LG devices running 4.1 can't handle a custom font in the action bar title
-        if ((!TextUtils.isEmpty(Build.BRAND) && Build.BRAND.toLowerCase().contains("lge"))
-                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-            getSupportActionBar().setTitle(title);
+        if (getSupportActionBar() == null) {
             return;
         }
 
