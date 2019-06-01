@@ -20,6 +20,7 @@
         android:id="@+id/nav_settings"
         android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
