@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -278,18 +279,21 @@ public class NotesActivity extends AppCompatActivity implements
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
 
-        // Request status bar height and add padding to DrawerView accordingly
-        LinearLayout drawerView = findViewById(R.id.drawer_view);
-        int statusBarHeight = (int) getResources().getDimension(R.dimen.nav_drawer_navigation_padding_top);
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    LinearLayout drawerView = findViewById(R.id.drawer_view);
+                    drawerView.setPadding(
+                            drawerView.getPaddingLeft(),
+                            windowInsets.getSystemWindowInsetTop(),
+                            drawerView.getPaddingRight(),
+                            drawerView.getPaddingBottom());
+
+                    return windowInsets.consumeSystemWindowInsets();
+                }
+            });
         }
-        drawerView.setPadding(
-                drawerView.getPaddingLeft(),
-                statusBarHeight,
-                drawerView.getPaddingRight(),
-                drawerView.getPaddingBottom());
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
