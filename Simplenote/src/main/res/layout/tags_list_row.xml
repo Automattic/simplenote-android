@@ -9,15 +9,22 @@
     android:layout_width="match_parent"
     android:orientation="horizontal">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/tag_name"
-        android:drawablePadding="32dp"
-        android:drawableStart="@drawable/ic_tags_selector"
-        android:drawableTint="?attr/noteTitleColor"
+    <ImageView
+        android:importantForAccessibility="no"
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/padding_extra_extra_extra_large"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_tags_24dp"
+        android:tint="?attr/noteTitleColor">
+    </ImageView>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/tag_name"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:textColor="?attr/noteTitleColor"
