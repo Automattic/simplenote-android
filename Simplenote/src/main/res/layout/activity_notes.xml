@@ -33,14 +33,15 @@
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/white_70">
+        android:layout_gravity="start">
 
         <LinearLayout
             android:id="@+id/drawer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <ListView
                 android:id="@+id/drawer_list"
