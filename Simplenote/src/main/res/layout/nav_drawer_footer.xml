@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/mainBackgroundColor"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
@@ -34,8 +33,8 @@
             android:layout_marginEnd="@dimen/nav_drawer_item_image_margin"
             android:layout_width="wrap_content"
             android:scaleType="center"
-            android:tint="?attr/noteTitleColor"
-            app:srcCompat="@drawable/ic_settings_24dp">
+            android:src="@drawable/ic_settings_24dp"
+            android:tint="?attr/noteTitleColor">
         </ImageView>
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
