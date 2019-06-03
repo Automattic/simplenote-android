@@ -128,7 +128,7 @@ public class NotesActivity extends AppCompatActivity implements
         // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.translucent_grey_medium_light));
         }
 
         ThemeUtils.setTheme(this);
