@@ -6,55 +6,58 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="com.automattic.simplenote.Simplenote"
+        android:name=".Simplenote"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Simplestyle">
         <activity
-            android:name="com.automattic.simplenote.NotesActivity"
+            android:name=".NotesActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
-            android:resizeableActivity="true"
             android:label="@string/app_launcher_name"
+            android:resizeableActivity="true"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-        <intent-filter>
-            <action android:name="android.intent.action.SEND" />
-            <action android:name="com.google.android.gm.action.AUTO_SEND" />
-            <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
-            <action android:name="com.automattic.simplenote.NEW_NOTE"/>
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="com.google.android.voicesearch.SELF_NOTE" />
-            <data android:mimeType="text/*" />
-        </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="com.google.android.gm.action.AUTO_SEND" />
+                <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
+                <action android:name="com.automattic.simplenote.NEW_NOTE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.google.android.voicesearch.SELF_NOTE" />
+
+                <data android:mimeType="text/*" />
+            </intent-filter>
         </activity>
         <activity
-            android:name="com.automattic.simplenote.NoteEditorActivity"
+            android:name=".NoteEditorActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.automattic.simplenote.PreferencesActivity"
-            android:label="Preferences"
-            android:configChanges="orientation|keyboardHidden|screenSize">
-        </activity>
+            android:name=".PreferencesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Preferences" />
         <activity
             android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/Theme.Simplestyle.About"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Simplestyle.About" />
         <activity
             android:name=".SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -71,13 +74,16 @@
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
 
         <!-- Samsung Multi-Window Support -->
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false" />
 
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
 
         <!-- Android Wear -->
         <service android:name=".utils.SimplenoteWearListenerService">
@@ -87,17 +93,37 @@
         </service>
 
         <!-- Google Play Services -->
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <!-- OAUTH -->
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             tools:node="replace">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="simplenote"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="simplenote" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".PinnedNoteWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/pinned_note_widget_info" />
+        </receiver>
+
+        <activity android:name=".PinnedNoteWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
     </application>

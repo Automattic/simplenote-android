@@ -19,9 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -61,6 +61,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 public class NotesActivity extends AppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
@@ -72,6 +74,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
     private View mFragmentsContainer;
@@ -130,6 +133,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_notes);
 
         mFragmentsContainer = findViewById(R.id.note_fragment_container);
@@ -197,6 +201,8 @@ public class NotesActivity extends AppCompatActivity implements
             startLoginActivity(true);
         }
 
+        disableScreenshotsIfLocked(this);
+
         mNotesBucket.start();
         mTagsBucket.start();
 
@@ -225,12 +231,12 @@ public class NotesActivity extends AppCompatActivity implements
         if (mIsShowingMarkdown) {
             setMarkdownShowing(false);
         }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();  // Always call the superclass method first
-
         mTagsBucket.removeListener(mTagsMenuUpdater);
         mTagsBucket.stop();
 

@@ -62,7 +62,8 @@
         <Preference
             android:key="@string/pref_key_passcode_toggle"
             android:persistent="false"
-            android:title="@string/passcode_turn_on"/>
+            android:title="@string/passcode_turn_on"
+            android:summary="@string/passcode_summary"/>
 
         <Preference
             android:key="@string/pref_key_change_passcode"

@@ -24,6 +24,8 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
@@ -131,11 +133,16 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
             AppLockManager.getInstance().getAppLock().setExemptActivities(null);
         }
+    }
 
-        super.onPause();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        disableScreenshotsIfLocked(this);
     }
 
     @Override

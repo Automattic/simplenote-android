@@ -377,6 +377,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mContentEditText != null) {
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(getActivity()));
+
+            if (mContentEditText.hasFocus()) {
+                showSoftKeyboard();
+            }
+        }
+    }
+
+    private void showSoftKeyboard() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() == null) {
+                    return;
+                }
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null) {
+                    inputMethodManager.showSoftInput(mContentEditText, 0);
+                }
+            }
+        }, 100);
+    }
+
+    private void hideSoftKeyboard() {
+        if (getActivity() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
+            }
         }
     }
 
@@ -388,12 +417,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.stop();
 
         // Hide soft keyboard if it is showing...
-        if (getActivity() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputMethodManager != null) {
-                inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
-            }
-        }
+        hideSoftKeyboard();
 
         mTagView.setOnTagAddedListener(null);
 
@@ -1273,6 +1297,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (fragment.mNote != null && fragment.mNote.getContent().isEmpty()) {
                 // Show soft keyboard
                 fragment.mContentEditText.requestFocus();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1280,13 +1305,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             return;
                         }
 
-                        InputMethodManager inputMethodManager = (InputMethodManager) fragment
-                                .getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager inputMethodManager = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         if (inputMethodManager != null) {
                             inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
                         }
                     }
                 }, 100);
+
             } else if (fragment.mNote != null) {
                 // If we have a valid note, hide the placeholder
                 fragment.setPlaceholderVisible(false);

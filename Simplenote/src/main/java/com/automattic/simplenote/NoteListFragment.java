@@ -49,6 +49,7 @@ import com.automattic.simplenote.utils.SearchTokenizer;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
@@ -379,6 +380,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mRefreshListTask = new refreshListTask();
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
+
+        // Update homescreen widgets
+        WidgetUtils.updatePinnedNoteWidgets(getActivity());
     }
 
     public void refreshListFromNavSelect() {

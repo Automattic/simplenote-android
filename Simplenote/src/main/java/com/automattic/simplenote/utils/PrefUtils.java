@@ -62,6 +62,9 @@ public class PrefUtils {
     // string. json array of sites used to publish to WordPress
     public static final String PREF_WORDPRESS_SITES = "pref_key_wordpress_sites";
 
+    // string. Store notes linked to PinnedNoteWidget instances.
+    public static final String PREF_PINNED_NOTE_WIDGET_NOTE = "pref_key_pinned_note_widget_";
+
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

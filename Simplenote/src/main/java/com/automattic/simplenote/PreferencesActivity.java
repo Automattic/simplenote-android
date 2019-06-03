@@ -12,12 +12,13 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 public class PreferencesActivity extends AppCompatActivity {
 
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
@@ -81,5 +82,11 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        disableScreenshotsIfLocked(this);
     }
 }

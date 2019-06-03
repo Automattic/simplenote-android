@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class AutoBullet {
 
-    private static final String PATTERN_BULLET = "^([\\s]*)(-|\\*|\\+)[\\s]+(.*)$";
+    private static final String PATTERN_BULLET = "^([\\s]*)[-*+][\\s]+(.*)$";
     private static final String STR_LINE_BREAK = System.getProperty("line.separator");
     private static final String STR_SPACE = " ";
 
@@ -98,9 +98,9 @@ public class AutoBullet {
     }
 
     private static class BulletMetadata {
-        public boolean isBullet = false;
-        public int numSpacesPrefixed;
-        public String bulletChar;
-        public boolean isEmptyBullet = false;
+        boolean isBullet = false;
+        int numSpacesPrefixed;
+        String bulletChar;
+        boolean isEmptyBullet = false;
     }
 }
