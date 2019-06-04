@@ -79,8 +79,7 @@
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo_login"
+                android:src="@drawable/ic_simplenote_empty_white_24dp"
                 android:contentDescription="@string/logo"
                 android:tint="?attr/placeholderLogoColor"/>
         </LinearLayout>
