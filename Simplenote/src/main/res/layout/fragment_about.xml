@@ -72,7 +72,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/white"/>
+            android:background="@android:color/white"/>
 
         <LinearLayout
             android:id="@+id/about_twitter"
@@ -110,7 +110,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/white"/>
+            android:background="@android:color/white"/>
 
         <LinearLayout
             android:id="@+id/about_simperium"
@@ -148,7 +148,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/white"/>
+            android:background="@android:color/white"/>
 
         <LinearLayout
             android:id="@+id/about_play_store"
@@ -186,7 +186,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/white"/>
+            android:background="@android:color/white"/>
 
         <LinearLayout
             android:id="@+id/about_hiring"
@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginBottom="@dimen/padding_extra_large"
-            android:background="@color/white"/>
+            android:background="@android:color/white"/>
 
         <com.automattic.simplenote.widgets.RobotoLightTextView
             android:id="@+id/about_copyright"

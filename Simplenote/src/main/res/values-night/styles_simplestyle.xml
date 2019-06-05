@@ -19,10 +19,10 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/simplenote_dark_bg</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="notePinColor">@color/white</item>
-        <item name="noteTitleColor">@color/white</item>
+        <item name="notePinColor">@android:color/white</item>
+        <item name="noteTitleColor">@android:color/white</item>
         <item name="notePreviewColor">@color/simplenote_text_preview</item>
-        <item name="noteEditorTextColor">@color/white</item>
+        <item name="noteEditorTextColor">@android:color/white</item>
         <item name="mainBackgroundColor">@color/simplenote_dark_bg</item>
         <item name="tagChipShadowColor">@color/simplenote_dark_bg</item>
         <item name="placeholderLogoColor">@color/simplenote_dark_text</item>
@@ -42,7 +42,7 @@
         <item name="toolbarColor">@color/simplenote_dark_bg</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
-        <item name="settingsTextColor">@color/white</item>
+        <item name="settingsTextColor">@android:color/white</item>
 
         <item name="fabColor">@color/simplenote_dark_selected_row</item>
         <item name="fabIconColor">@color/simplenote_blue</item>
@@ -68,7 +68,7 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

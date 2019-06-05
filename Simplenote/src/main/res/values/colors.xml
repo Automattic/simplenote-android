@@ -40,7 +40,6 @@
     <color name="passcodelock_button_text_color">@color/white</color>
 
     <!-- percentages of white -->
-    <color name="white">#ffffff</color>
     <color name="white_95">#f2f2f2</color>    <!-- 95% white -->
     <color name="white_90">#e6e6e6</color>    <!-- 90% white -->
     <color name="white_85">#d8d8d8</color>    <!-- 85% white -->
