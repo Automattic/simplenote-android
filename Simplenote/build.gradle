@@ -167,7 +167,9 @@ static String toSnakeCase( String text ) {
 }
 
 android.applicationVariants.all { variant ->
-    variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
+    variant.generateBuildConfigProvider.configure {
+        dependsOn(generateCrashlyticsConfig)
+    }
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     def properties = loadPropertiesFromFile(inputFile)
     properties.any { property ->
