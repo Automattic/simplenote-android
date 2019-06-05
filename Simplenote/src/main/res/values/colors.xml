@@ -32,7 +32,6 @@
     <color name="welcome_button_blue">#3772a6</color>
 
     <color name="translucent">#80000000</color>
-    <color name="transparent">#00000000</color>
 
     <!-- PIN Lock colors -->
     <color name="passcodelock_background">@color/simplenote_blue</color>
