@@ -4,34 +4,34 @@
 
     <!-- APPLICATION -->
     <color name="simplenote_blue">#4895d9</color>
-    <color name="simplenote_blue_light">#eef3f8</color>
     <color name="simplenote_blue_accent">#2291db</color>
-    <color name="simplenote_blue_dark">#1b74af</color>
     <color name="simplenote_blue_accent_60">#991b74af</color> <!-- 60% opacity -->
+    <color name="simplenote_blue_dark">#1b74af</color>
     <color name="simplenote_blue_disabled">#441b74af</color> <!-- 60% opacity -->
+    <color name="simplenote_blue_light">#eef3f8</color>
 
     <!-- LIBRARY -->
     <color name="passcodelock_background">@color/simplenote_blue</color>
-    <color name="passcodelock_prompt_text_color">@android:color/white</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
+    <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
+    <color name="background_dark">#2d3034</color>
     <color name="divider">@color/gray_e5</color>
-    <color name="simplenote_dark_bg">#2D3034</color>
-    <color name="simplenote_dark_list_divider">#4B5157</color>
-    <color name="simplenote_dark_selected_row">#4B5157</color>
-    <color name="simplenote_dark_tag_text_color">#A4ABB1</color>
-    <color name="simplenote_dark_text">#71889f</color>
-    <color name="simplenote_dark_grey">#2d3034</color>
-    <color name="simplenote_light_grey">#777777</color>
-    <color name="simplenote_light_list_divider">#dbdee0</color>
-    <color name="simplenote_light_selected_row">#dbdee0</color>
-    <color name="simplenote_negative_red">#D94F4F</color>
-    <color name="simplenote_positive_green">#4AB866</color>
-    <color name="simplenote_tag_chip_text_color">#596067</color>
-    <color name="simplenote_text_preview">#899199</color>
-    <color name="simplenote_toolbar_light">@android:color/white</color>
-    <color name="simplenote_toolbar_dark">@color/simplenote_dark_bg</color>
+    <color name="divider_list_dark">#4b5157</color>
+    <color name="divider_list_light">#dbdee0</color>
+    <color name="gray_dark">#2d3034</color>
+    <color name="gray_light">#777777</color>
+    <color name="row_selected_dark">#4b5157</color>
+    <color name="row_selected_light">#dbdee0</color>
+    <color name="status_negative">#d94f4f</color>
+    <color name="status_positive">#4ab866</color>
+    <color name="text_dark">#71889f</color>
+    <color name="text_preview">#899199</color>
+    <color name="text_tag_chip">#596067</color>
+    <color name="text_tag_dark">#a4abb1</color>
+    <color name="toolbar_dark">@color/background_dark</color>
+    <color name="toolbar_light">@android:color/white</color>
     <color name="welcome_button_blue">#3772a6</color>
 
     <!-- STANDARD -->

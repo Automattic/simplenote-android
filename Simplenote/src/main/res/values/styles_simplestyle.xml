@@ -3,7 +3,7 @@
 
     <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Material theme -->
-        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
+        <item name="colorPrimary">@color/toolbar_light</item>
         <item name="colorPrimaryDark">@color/gray_c</item>
         <item name="colorAccent">@color/simplenote_blue</item>
 
@@ -21,20 +21,20 @@
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowContentOverlay">@null</item>
 
-        <item name="notePinColor">@color/simplenote_dark_grey</item>
-        <item name="noteTitleColor">@color/simplenote_dark_grey</item>
-        <item name="notePreviewColor">@color/simplenote_text_preview</item>
-        <item name="noteEditorTextColor">@color/simplenote_dark_grey</item>
+        <item name="notePinColor">@color/gray_dark</item>
+        <item name="noteTitleColor">@color/gray_dark</item>
+        <item name="notePreviewColor">@color/text_preview</item>
+        <item name="noteEditorTextColor">@color/gray_dark</item>
         <item name="mainBackgroundColor">@android:color/white</item>
-        <item name="dividerColor">@color/simplenote_light_list_divider</item>
-        <item name="iconTintColor">@color/simplenote_light_grey</item>
+        <item name="dividerColor">@color/divider_list_light</item>
+        <item name="iconTintColor">@color/gray_light</item>
         <item name="hintTextColor">@color/gray_7a</item>
         <item name="tagChipShadowColor">@android:color/white</item>
         <item name="placeholderLogoColor">@color/gray_e</item>
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
-        <item name="tagChipTextColor">@color/simplenote_tag_chip_text_color</item>
+        <item name="tagChipTextColor">@color/text_tag_chip</item>
         <item name="pinIconSelector">@drawable/pin_bg_selector</item>
 
         <item name="actionBarTextColor">@color/simplenote_blue</item>
@@ -65,14 +65,14 @@
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle"/>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
+        <item name="colorPrimary">@color/toolbar_light</item>
         <item name="colorPrimaryDark">@color/gray_c</item>
         <item name="colorAccent">@color/simplenote_blue</item>
         <item name="android:background">?attr/mainBackgroundColor</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="android:textColor">@color/simplenote_dark_grey</item>
+        <item name="android:textColor">@color/gray_dark</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
