@@ -56,7 +56,7 @@
             android:id="@+id/info_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider_grey" />
+            android:background="@color/divider" />
 
         <SeekBar
             android:id="@+id/seek_bar"

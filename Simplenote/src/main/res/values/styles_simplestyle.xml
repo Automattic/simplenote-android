@@ -4,7 +4,7 @@
     <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/simplenote_toolbar_light</item>
-        <item name="colorPrimaryDark">@color/lightgrey</item>
+        <item name="colorPrimaryDark">@color/gray_c</item>
         <item name="colorAccent">@color/simplenote_blue</item>
 
         <item name="windowActionModeOverlay">true</item>
@@ -28,9 +28,9 @@
         <item name="mainBackgroundColor">@android:color/white</item>
         <item name="dividerColor">@color/simplenote_light_list_divider</item>
         <item name="iconTintColor">@color/simplenote_light_grey</item>
-        <item name="hintTextColor">@color/mediumgrey</item>
+        <item name="hintTextColor">@color/gray_7a</item>
         <item name="tagChipShadowColor">@android:color/white</item>
-        <item name="placeholderLogoColor">@color/verylightgrey</item>
+        <item name="placeholderLogoColor">@color/gray_e</item>
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
@@ -66,7 +66,7 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="colorPrimary">@color/simplenote_toolbar_light</item>
-        <item name="colorPrimaryDark">@color/lightgrey</item>
+        <item name="colorPrimaryDark">@color/gray_c</item>
         <item name="colorAccent">@color/simplenote_blue</item>
         <item name="android:background">?attr/mainBackgroundColor</item>
     </style>

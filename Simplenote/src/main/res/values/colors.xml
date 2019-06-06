@@ -16,6 +16,7 @@
     <color name="passcodelock_button_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
+    <color name="divider">@color/gray_e5</color>
     <color name="simplenote_dark_bg">#2D3034</color>
     <color name="simplenote_dark_list_divider">#4B5157</color>
     <color name="simplenote_dark_selected_row">#4B5157</color>
@@ -34,10 +35,10 @@
     <color name="welcome_button_blue">#3772a6</color>
 
     <!-- STANDARD -->
-    <color name="mediumgrey">#7a7a7a</color>
-    <color name="lightgrey">#cccccc</color>
-    <color name="divider_grey">#e5e5e5</color>
-    <color name="verylightgrey">#eeeeee</color>
-    <color name="white_25">#404040</color> <!-- 25% white -->
+    <color name="gray_40">#404040</color> <!-- 25% white -->
+    <color name="gray_7a">#7a7a7a</color>
+    <color name="gray_c">#cccccc</color>
+    <color name="gray_e5">#e5e5e5</color>
+    <color name="gray_e">#eeeeee</color>
 
 </resources>
