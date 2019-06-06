@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-	nbradbury - basic color values
- -->
+
 <resources>
 
+    <!-- APPLICATION -->
     <color name="simplenote_blue">#4895d9</color>
-    <color name="simplenote_blue_light">#EEF3F8</color>
-    <color name="simplenote_blue_accent">#2291DB</color>
-    <color name="simplenote_blue_dark">#1B74AF</color>
-    <color name="simplenote_blue_accent_60">#991B74AF</color>    <!-- 60% opacity -->
-    <color name="simplenote_blue_disabled">#441B74AF</color>    <!-- 60% opacity -->
+    <color name="simplenote_blue_light">#eef3f8</color>
+    <color name="simplenote_blue_accent">#2291db</color>
+    <color name="simplenote_blue_dark">#1b74af</color>
+    <color name="simplenote_blue_accent_60">#991b74af</color> <!-- 60% opacity -->
+    <color name="simplenote_blue_disabled">#441b74af</color> <!-- 60% opacity -->
 
-    <color name="simplenote_dark_grey">#2D3034</color>
-    <color name="simplenote_light_grey">#777777</color>
-
-    <color name="simplenote_light_list_divider">#DBDEE0</color>
-    <color name="simplenote_light_selected_row">#DBDEE0</color>
-    <color name="simplenote_tag_chip_text_color">#596067</color>
-
-    <color name="simplenote_dark_bg">#2D3034</color>
-    <color name="simplenote_dark_text">#71889f</color>
-    <color name="simplenote_text_preview">#899199</color>
-    <color name="simplenote_dark_list_divider">#4B5157</color>
-    <color name="simplenote_dark_selected_row">#4B5157</color>
-    <color name="simplenote_dark_tag_text_color">#A4ABB1</color>
-
-    <color name="simplenote_positive_green">#4AB866</color>
-    <color name="simplenote_negative_red">#D94F4F</color>
-
-    <color name="welcome_button_blue">#3772a6</color>
-
-    <!-- PIN Lock colors -->
+    <!-- LIBRARY -->
     <color name="passcodelock_background">@color/simplenote_blue</color>
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
 
-    <color name="white_25">#404040</color>    <!-- 25% white -->
-
-    <color name="mediumgrey">#7a7a7a</color>
-    <color name="lightgrey">#cccccc</color>
-    <color name="verylightgrey">#eeeeee</color>
-    <color name="divider_grey">#e5e5e5</color>
-
+    <!-- SEMANTIC -->
+    <color name="simplenote_dark_bg">#2D3034</color>
+    <color name="simplenote_dark_list_divider">#4B5157</color>
+    <color name="simplenote_dark_selected_row">#4B5157</color>
+    <color name="simplenote_dark_tag_text_color">#A4ABB1</color>
+    <color name="simplenote_dark_text">#71889f</color>
+    <color name="simplenote_dark_grey">#2d3034</color>
+    <color name="simplenote_light_grey">#777777</color>
+    <color name="simplenote_light_list_divider">#dbdee0</color>
+    <color name="simplenote_light_selected_row">#dbdee0</color>
+    <color name="simplenote_negative_red">#D94F4F</color>
+    <color name="simplenote_positive_green">#4AB866</color>
+    <color name="simplenote_tag_chip_text_color">#596067</color>
+    <color name="simplenote_text_preview">#899199</color>
     <color name="simplenote_toolbar_light">@android:color/white</color>
     <color name="simplenote_toolbar_dark">@color/simplenote_dark_bg</color>
+    <color name="welcome_button_blue">#3772a6</color>
+
+    <!-- STANDARD -->
+    <color name="mediumgrey">#7a7a7a</color>
+    <color name="lightgrey">#cccccc</color>
+    <color name="divider_grey">#e5e5e5</color>
+    <color name="verylightgrey">#eeeeee</color>
+    <color name="white_25">#404040</color> <!-- 25% white -->
 
 </resources>
