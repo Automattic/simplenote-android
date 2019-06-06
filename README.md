@@ -5,7 +5,7 @@
 
 [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
 
-A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
+Simplenote for Android. Learn more at [Simplenote.com](https://simplenote.com).
 
 ## How to Configure
 
