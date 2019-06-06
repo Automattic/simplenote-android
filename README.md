@@ -1,4 +1,6 @@
 # Simplenote for Android
+[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/1.7.0)
+
 [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android)
 
 [![Build Status](https://travis-ci.org/Automattic/simplenote-android.svg?branch=develop)](https://travis-ci.org/Automattic/simplenote-android)
