@@ -1,4 +1,6 @@
 # Simplenote for Android
+[![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android)
+
 [![Build Status](https://travis-ci.org/Automattic/simplenote-android.svg?branch=develop)](https://travis-ci.org/Automattic/simplenote-android)
 
 A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
