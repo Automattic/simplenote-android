@@ -32,7 +32,6 @@
     <color name="text_tag_dark">#a4abb1</color>
     <color name="toolbar_dark">@color/background_dark</color>
     <color name="toolbar_light">@android:color/white</color>
-    <color name="welcome_button_blue">#3772a6</color>
 
     <!-- STANDARD -->
     <color name="gray_40">#404040</color> <!-- 25% white -->
