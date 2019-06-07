@@ -1,7 +1,7 @@
 # Simplenote for Android
-[![Build Status](https://travis-ci.org/Automattic/simplenote-android.svg?branch=develop)](https://travis-ci.org/Automattic/simplenote-android)
+[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/1.7.0) [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android) [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
 
-A Simplenote client for Android. Learn more about Simplenote at [Simplenote.com](https://simplenote.com).
+Simplenote for Android. Learn more at [Simplenote.com](https://simplenote.com).
 
 ## How to Configure
 
