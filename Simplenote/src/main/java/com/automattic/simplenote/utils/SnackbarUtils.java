@@ -7,8 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.automattic.simplenote.R;
-
 /**
  * Created by onko on 31/03/2016.
  */
@@ -26,7 +24,7 @@ public class SnackbarUtils {
         Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, duration);
         snackbar.setAction(action, onClick);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(activity, color));
-        snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.white));
+        snackbar.setActionTextColor(ContextCompat.getColor(activity, android.R.color.white));
         snackbar.show();
         return snackbar;
     }

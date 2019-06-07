@@ -129,7 +129,7 @@ public class NotesActivity extends AppCompatActivity implements
         // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.translucent_grey_medium_light));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
         }
 
         ThemeUtils.setTheme(this);
@@ -508,8 +508,8 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             // Workaround for setting the search placeholder text color
             String hintHexColor = (ThemeUtils.isLightTheme(this) ?
-                    getString(R.color.simplenote_light_grey) :
-                    getString(R.color.simplenote_text_preview)).replace("ff", "");
+                    getString(R.color.gray_light) :
+                    getString(R.color.text_preview)).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));

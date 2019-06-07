@@ -31,5 +31,5 @@
         android:singleLine="true"
         android:textAlignment="gravity"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/mediumgrey"/>
+        android:textColor="@color/gray_7a"/>
 </LinearLayout>
