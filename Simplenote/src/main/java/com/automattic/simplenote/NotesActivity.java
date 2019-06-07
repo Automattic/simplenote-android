@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -288,6 +289,7 @@ public class NotesActivity extends AppCompatActivity implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
                 @Override
+                @SuppressLint("NewApi")
                 public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                     LinearLayout drawerView = findViewById(R.id.drawer_view);
                     drawerView.setPadding(
