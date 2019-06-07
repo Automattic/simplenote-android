@@ -90,7 +90,7 @@ public class NoteWidget extends AppWidgetProvider {
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
-            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
+            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light));
         } else {
             // Get note id from SharedPreferences
             String key =  PrefUtils.getStringPref(context, PrefUtils.PREF_NOTE_WIDGET_NOTE + appWidgetId);
@@ -118,7 +118,7 @@ public class NoteWidget extends AppWidgetProvider {
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, updatedNote.getTitle());
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_dark_grey));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_dark));
                 } catch (BucketObjectMissingException e) {
                     // Create intent to navigate to widget configure activity on widget click
                     Intent intent = new Intent(context, NoteWidgetConfigureActivity.class);
@@ -129,12 +129,12 @@ public class NoteWidget extends AppWidgetProvider {
 
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light));
                 }
             } else {
                 views.setOnClickPendingIntent(R.id.widget_layout, null);
                 views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.simplenote_light_grey));
+                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light));
             }
         }
 
