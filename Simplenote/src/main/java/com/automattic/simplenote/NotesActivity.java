@@ -29,8 +29,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -282,6 +284,22 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    LinearLayout drawerView = findViewById(R.id.drawer_view);
+                    drawerView.setPadding(
+                            drawerView.getPaddingLeft(),
+                            windowInsets.getSystemWindowInsetTop(),
+                            drawerView.getPaddingRight(),
+                            drawerView.getPaddingBottom());
+
+                    return windowInsets.consumeSystemWindowInsets();
+                }
+            });
+        }
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
