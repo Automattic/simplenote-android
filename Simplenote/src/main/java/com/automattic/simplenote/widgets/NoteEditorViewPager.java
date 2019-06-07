@@ -1,5 +1,6 @@
 package com.automattic.simplenote.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -18,6 +19,7 @@ public class NoteEditorViewPager extends ViewPager {
         return this.mIsEnabled && super.onInterceptTouchEvent(event);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return this.mIsEnabled && super.onTouchEvent(event);
