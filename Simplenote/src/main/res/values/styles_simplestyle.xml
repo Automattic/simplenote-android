@@ -165,4 +165,7 @@
         <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
     </style>
 
+    <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+
 </resources>
