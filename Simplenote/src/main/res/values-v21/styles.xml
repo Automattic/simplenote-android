@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle"/>
+
+    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
+        <item name="android:statusBarColor">@color/status_bar_light</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Theme.Simplestyle.About">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:windowBackground">@color/simplenote_blue_accent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="actionBarTextColor">@color/white</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
+        <item name="toolbarColor">@color/simplenote_blue_accent</item>
+    </style>
+
 </resources>
