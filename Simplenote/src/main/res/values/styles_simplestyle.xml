@@ -4,7 +4,7 @@
     <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Material theme -->
         <item name="colorPrimary">@color/toolbar_light</item>
-        <item name="colorPrimaryDark">@color/gray_c</item>
+        <item name="colorPrimaryDark">@color/toolbar_light</item>
         <item name="colorAccent">@color/simplenote_blue</item>
 
         <item name="windowActionModeOverlay">true</item>

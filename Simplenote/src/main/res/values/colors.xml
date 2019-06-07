@@ -9,6 +9,10 @@
     <color name="simplenote_blue_dark">#1b74af</color>
     <color name="simplenote_blue_disabled">#441b74af</color> <!-- 60% opacity -->
     <color name="simplenote_blue_light">#eef3f8</color>
+    <color name="status_bar_dark">#66000000</color>
+    <color name="status_bar_light">#80999999</color>
+    <color name="toolbar_dark">@color/background_dark</color>
+    <color name="toolbar_light">@android:color/white</color>
 
     <!-- LIBRARY -->
     <color name="passcodelock_background">@color/simplenote_blue</color>
@@ -30,8 +34,6 @@
     <color name="text_preview">#899199</color>
     <color name="text_tag_chip">#596067</color>
     <color name="text_tag_dark">#a4abb1</color>
-    <color name="toolbar_dark">@color/background_dark</color>
-    <color name="toolbar_light">@android:color/white</color>
     <color name="welcome_button_blue">#3772a6</color>
 
     <!-- STANDARD -->
