@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginBottom="@dimen/padding_small"
-        android:background="?attr/dividerColor"/>
+        android:background="?attr/dividerColor" />
 
     <LinearLayout
         android:id="@+id/nav_settings"
@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/list_padding_left"
@@ -32,7 +33,7 @@
             android:contentDescription="@string/settings"
             android:scaleType="center"
             android:tint="?attr/noteTitleColor"
-            app:srcCompat="@drawable/ic_settings_24dp"/>
+            app:srcCompat="@drawable/ic_settings_24dp" />
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:layout_width="match_parent"
@@ -41,7 +42,7 @@
             android:minHeight="@dimen/nav_row_height"
             android:text="@string/settings"
             android:textColor="?attr/noteTitleColor"
-            android:textSize="@dimen/nav_drawer_item_text_size"/>
+            android:textSize="@dimen/nav_drawer_item_text_size" />
 
     </LinearLayout>
 </LinearLayout>
