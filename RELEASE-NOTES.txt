@@ -1,0 +1,10 @@
+1.8.0
+-----
+* Added a widget to view a note and open it in the app from the home screen
+* Added hiding app content in the recent apps view when PIN lock is on
+* Added an adaptive app icon for Android 8.0 Marshmallow or later
+* Updated the navigation drawer to work for all status bar sizes
+* Updated app icons shown when sharing to be the same size
+* Updated checkboxes to not show the keyboard when tapped
+* Updated the new note shortcut icon
+* Fixed multiple cursor bugs for notes with checklists
