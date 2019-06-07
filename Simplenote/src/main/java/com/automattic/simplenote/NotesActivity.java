@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,8 +30,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -129,7 +132,7 @@ public class NotesActivity extends AppCompatActivity implements
         // On lollipop, configure the translucent status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
         }
 
         ThemeUtils.setTheme(this);
@@ -295,6 +298,23 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                @SuppressLint("NewApi")
+                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    LinearLayout drawerView = findViewById(R.id.drawer_view);
+                    drawerView.setPadding(
+                            drawerView.getPaddingLeft(),
+                            windowInsets.getSystemWindowInsetTop(),
+                            drawerView.getPaddingRight(),
+                            drawerView.getPaddingBottom());
+
+                    return windowInsets.consumeSystemWindowInsets();
+                }
+            });
+        }
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -501,8 +521,8 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             // Workaround for setting the search placeholder text color
             String hintHexColor = (ThemeUtils.isLightTheme(this) ?
-                    getString(R.color.simplenote_light_grey) :
-                    getString(R.color.simplenote_text_preview)).replace("ff", "");
+                    getString(R.color.gray_light) :
+                    getString(R.color.text_preview)).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));

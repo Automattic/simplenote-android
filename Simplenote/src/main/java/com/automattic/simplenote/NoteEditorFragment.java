@@ -1079,11 +1079,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.simplenote_positive_green,
+                            R.color.status_positive,
                             Snackbar.LENGTH_LONG);
                 } else {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.simplenote_positive_green,
+                            R.color.status_positive,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1096,11 +1096,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else {
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.simplenote_negative_red,
+                            R.color.status_negative,
                             Snackbar.LENGTH_LONG);
                 } else {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.simplenote_negative_red,
+                            R.color.status_negative,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1113,10 +1113,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else {
             if (mNote.isPublished()) {
                 SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_error,
-                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                        R.color.status_negative, Snackbar.LENGTH_LONG);
             } else {
                 SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_error,
-                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                        R.color.status_negative, Snackbar.LENGTH_LONG);
             }
         }
 
