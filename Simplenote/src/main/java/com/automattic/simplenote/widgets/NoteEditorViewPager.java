@@ -32,7 +32,7 @@ public class NoteEditorViewPager extends ViewPager {
 
     @Override
     public boolean performClick() {
-        return super.performClick();
+        return this.mIsEnabled && super.performClick();
     }
 
     public void setPagingEnabled(boolean enabled) {
