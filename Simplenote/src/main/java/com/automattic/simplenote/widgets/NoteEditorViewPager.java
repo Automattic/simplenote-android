@@ -19,10 +19,20 @@ public class NoteEditorViewPager extends ViewPager {
         return this.mIsEnabled && super.onInterceptTouchEvent(event);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return this.mIsEnabled && super.onTouchEvent(event);
+        if(mIsEnabled) {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                performClick();
+            }
+            return super.onTouchEvent(event);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     public void setPagingEnabled(boolean enabled) {
