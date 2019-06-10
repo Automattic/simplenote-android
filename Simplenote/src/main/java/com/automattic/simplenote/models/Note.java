@@ -133,7 +133,7 @@ public class Note extends BucketObject {
         Calendar date = Calendar.getInstance();
         if (time != null) {
             // Flick Note uses millisecond resolution timestamps Simplenote expects seconds
-            // since we only deal with create and modify timestamps, they should all have occured
+            // since we only deal with create and modify timestamps, they should all have occurred
             // at the present time or in the past.
             float now = (float) date.getTimeInMillis() / 1000;
             float magnitude = time.floatValue() / now;
