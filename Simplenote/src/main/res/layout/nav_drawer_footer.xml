@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selectable_background_simplestyle"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/list_padding_left"

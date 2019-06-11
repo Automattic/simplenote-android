@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:focusable="true"
             android:padding="@dimen/padding_extra_small"
             android:text="@string/edit"
             android:textAllCaps="true"
