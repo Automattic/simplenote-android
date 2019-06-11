@@ -1,15 +1,18 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
@@ -28,71 +32,101 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
 
-    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+public class NoteWidgetConfigureActivity extends AppCompatActivity {
+    private AppWidgetManager mWidgetManager;
     private NotesCursorAdapter mNotesAdapter;
-    private AppWidgetManager widgetManager;
-    private RemoteViews views;
+    private RemoteViews mRemoteViews;
+    private Simplenote mApplication;
+    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-    public PinnedNoteWidgetConfigureActivity() {
+    public NoteWidgetConfigureActivity() {
         super();
     }
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
 
-        setContentView(R.layout.pinned_note_widget_configure);
+        setContentView(R.layout.note_widget_configure);
 
         // Verify user authentication.
-        Simplenote currentApp = (Simplenote) this.getApplicationContext();
-        Simperium simperium = currentApp.getSimperium();
+        mApplication = (Simplenote) getApplicationContext();
+        Simperium simperium = mApplication.getSimperium();
         User user = simperium.getUser();
-        if(user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(this, R.string.widget_login_required, Toast.LENGTH_LONG).show();
+
+        if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
+            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
         // Get widget information
-        widgetManager = AppWidgetManager.getInstance(this);
-        views = new RemoteViews(this.getPackageName(), R.layout.pinned_note_widget);
+        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetConfigureActivity.this);
+        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
+
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
             return;
         }
 
-        // Configure toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.select_a_note);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        showDialog();
 
-        // Query and load notes into list
-        Bucket<Note> mNotesBucket = currentApp.getNotesBucket();
+        if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+            intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED) {
+            AnalyticsTracker.track(
+                NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED,
+                CATEGORY_WIDGET,
+                "note_widget_note_not_found_tapped"
+            );
+        }
+    }
+
+    private void showDialog() {
+        Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         ObjectCursor<Note> cursor = query.execute();
-        mNotesAdapter = new NotesCursorAdapter(this, cursor);
-        ListView lv = findViewById(R.id.list);
-        lv.setAdapter(mNotesAdapter);
-    }
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
+        Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        @SuppressLint("InflateParams")
+        final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
+        final ListView list = layout.findViewById(R.id.list);
+        mNotesAdapter = new NotesCursorAdapter(NoteWidgetConfigureActivity.this, cursor);
+        list.setAdapter(mNotesAdapter);
+
+        builder.setView(layout)
+            .setTitle(R.string.select_note)
+            .setOnDismissListener(
+                new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                }
+            )
+            .setNegativeButton(android.R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }
+            )
+            .show();
     }
 
     private class NotesCursorAdapter extends CursorAdapter {
@@ -120,11 +154,17 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
             TextView titleTextView = view.findViewById(R.id.note_title);
             TextView contentTextView = view.findViewById(R.id.note_content);
             ToggleButton toggleView = view.findViewById(R.id.pin_button);
-            // Extract properties from cursor
             String title = "";
             String snippet = "";
-            if(cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
-            if(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+
+            if (cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) {
+                title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            }
+
+            if (cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) {
+                snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+            }
+
             // Populate fields with extracted properties
             titleTextView.setText(title);
             contentTextView.setText(snippet);
@@ -138,7 +178,7 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
 
                     // Store link between note and widget in SharedPreferences
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    preferences.edit().putString(PrefUtils.PREF_PINNED_NOTE_WIDGET_NOTE + mAppWidgetId, note.getSimperiumKey()).apply();
+                    preferences.edit().putString(PrefUtils.PREF_NOTE_WIDGET_NOTE + mAppWidgetId, note.getSimperiumKey()).apply();
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
@@ -152,9 +192,10 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
                     // Set widget content
-                    views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
-                    views.setTextViewText(R.id.widget_text, note.getTitle());
-                    widgetManager.updateAppWidget(mAppWidgetId, views);
+                    mRemoteViews.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+                    mRemoteViews.setTextViewText(R.id.widget_text, note.getTitle());
+                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark));
+                    mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful
                     Intent resultValue = new Intent();
@@ -163,8 +204,6 @@ public class PinnedNoteWidgetConfigureActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
         }
     }
 }
-
