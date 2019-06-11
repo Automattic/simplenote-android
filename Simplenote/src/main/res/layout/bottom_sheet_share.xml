@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_collaborate_selector"
+            android:drawableTop="@drawable/ic_collaborate_48dp"
             android:gravity="center_horizontal"
             android:text="@string/collaborate"
             style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
