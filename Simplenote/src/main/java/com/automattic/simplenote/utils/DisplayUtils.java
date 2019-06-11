@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -84,6 +87,22 @@ public class DisplayUtils {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         } else {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
+    /**
+     * Hides the keyboard for the given {@link View}.  Since no {@link InputMethodManager} flag is
+     * used, the keyboard is forcibly hidden regardless of the circumstances.
+     */
+    public static void hideKeyboard(@Nullable final View view) {
+        if (view == null) {
+            return;
+        }
+
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
