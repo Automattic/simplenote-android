@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_wordpress_post_selector"
+            android:drawableTop="@drawable/ic_wordpress_post_48dp"
             android:gravity="center_horizontal"
             android:text="@string/wordpress_post"
             style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
