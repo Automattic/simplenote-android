@@ -168,4 +168,13 @@
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.AppCompat.Light.NoActionBar">
     </style>
 
+    <style name="Theme.Transparent" parent="Theme.Simplestyle">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+    </style>
+
 </resources>

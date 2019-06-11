@@ -158,5 +158,5 @@
     <string name="share">Compartir</string>
     <string name="settings">Ajustes</string>
     <string name="tag_hint">Añadir una etiqueta...</string>
-    <string name="select_a_note">Selecciona una Nota</string>
+    <string name="select_note">Selecciona Nota</string>
 </resources>

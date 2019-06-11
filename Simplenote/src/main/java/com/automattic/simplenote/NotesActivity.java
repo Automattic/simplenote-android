@@ -60,6 +60,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class NotesActivity extends AppCompatActivity implements
@@ -192,6 +195,16 @@ public class NotesActivity extends AppCompatActivity implements
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
             startLoginActivity(true);
+            Intent intent = getIntent();
+
+            if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_widget_sign_in_tapped"
+                );
+            }
         }
 
         disableScreenshotsIfLocked(this);

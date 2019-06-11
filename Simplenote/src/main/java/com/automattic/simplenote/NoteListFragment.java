@@ -21,6 +21,7 @@ import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -245,6 +247,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 createNewNote("action_bar_button");
             }
         });
+        mFloatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(getContext(), requireContext().getString(R.string.new_note), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -381,8 +394,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mRefreshListTask = new refreshListTask();
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
-        // Update homescreen widgets
-        WidgetUtils.updatePinnedNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(getActivity());
     }
 
     public void refreshListFromNavSelect() {
