@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_publish_selector"
+            android:drawableTop="@drawable/ic_publish_48dp"
             android:gravity="center_horizontal"
             android:text="@string/publish"
             style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
