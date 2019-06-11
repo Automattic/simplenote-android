@@ -24,7 +24,7 @@ public class NoteEditorViewPager extends ViewPager {
             return false;
         }
 
-        if(event.getAction() == MotionEvent.ACTION_UP) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             performClick();
         }
 
