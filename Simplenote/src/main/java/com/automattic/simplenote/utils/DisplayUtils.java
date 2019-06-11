@@ -81,8 +81,8 @@ public class DisplayUtils {
         return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context)) + DisplayUtils.dpToPx(context, 6);
     }
 
-  // Disable screenshots if app PIN lock is on
-  public static void disableScreenshotsIfLocked(Activity activity) {
+    // Disable screenshots if app PIN lock is on
+    public static void disableScreenshotsIfLocked(Activity activity) {
         if (AppLockManager.getInstance().getAppLock().isPasswordLocked()) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         } else {
