@@ -34,8 +34,6 @@
     <color name="text_preview">#899199</color>
     <color name="text_tag_chip">#596067</color>
     <color name="text_tag_dark">#a4abb1</color>
-    <color name="toolbar_dark">@color/background_dark</color>
-    <color name="toolbar_light">@android:color/white</color>
 
     <!-- STANDARD -->
     <color name="gray_40">#404040</color> <!-- 25% white -->
