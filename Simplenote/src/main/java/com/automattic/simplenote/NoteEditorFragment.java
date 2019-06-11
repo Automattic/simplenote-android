@@ -403,15 +403,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }, 100);
     }
 
-    private void hideSoftKeyboard() {
-        if (getActivity() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputMethodManager != null) {
-                inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
-            }
-        }
-    }
-
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
@@ -420,7 +411,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.stop();
 
         // Hide soft keyboard if it is showing...
-        hideSoftKeyboard();
+        DisplayUtils.hideKeyboard(mContentEditText);
 
         mTagView.setOnTagAddedListener(null);
 
