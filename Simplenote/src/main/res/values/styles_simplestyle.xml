@@ -13,7 +13,6 @@
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
 
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -100,10 +99,6 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
 
-    <style name="DropDownListView.Simplestyle" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_simplestyle</item>
-    </style>
-
     <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
     </style>
@@ -135,7 +130,6 @@
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Simplestyle.Widget" parent="@android:style/Theme.Holo">
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
     </style>
 
     <style name="SpinnerItem.Simplestyle" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
