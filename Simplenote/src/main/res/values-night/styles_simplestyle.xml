@@ -75,6 +75,11 @@
         <item name="color">@color/simplenote_blue</item>
     </style>
 
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+    </style>
+
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
     </style>
