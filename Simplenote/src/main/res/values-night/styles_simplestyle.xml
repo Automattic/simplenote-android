@@ -11,9 +11,7 @@
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -74,6 +72,11 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/simplenote_blue</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Holo.ListPopupWindow">

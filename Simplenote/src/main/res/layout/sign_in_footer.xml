@@ -13,7 +13,7 @@
         android:id="@+id/wpcom_signin_button"
         android:clickable="true"
         android:focusable="true"
-        android:background="@drawable/selectable_background_simplestyle"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_small"
