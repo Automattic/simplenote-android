@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -94,11 +92,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                         @Override
                         public void onPageSelected(int position) {
                             if (position == 1) {
-                                final InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-                                }
+                                DisplayUtils.hideKeyboard(mViewPager);
                             }
                         }
 
