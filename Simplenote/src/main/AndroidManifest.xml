@@ -67,13 +67,13 @@
         <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/Theme.Simplestyle.Passcode"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/Theme.Simplestyle.Passcode"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- Samsung Multi-Window Support -->
@@ -111,17 +111,21 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".PinnedNoteWidget">
+        <receiver
+            android:name=".NoteWidget"
+            android:label="@string/label_note">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/pinned_note_widget_info" />
+                android:resource="@xml/note_widget_info" />
         </receiver>
 
-        <activity android:name=".PinnedNoteWidgetConfigureActivity">
+        <activity
+            android:name=".NoteWidgetConfigureActivity"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

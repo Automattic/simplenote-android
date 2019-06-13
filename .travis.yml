@@ -8,7 +8,7 @@ android:
     - extra-android-support
     - platform-tools
     - tools
-    - build-tools-27.0.3
+    - build-tools-28.0.3
     - android-27
 
 env:
@@ -20,9 +20,6 @@ env:
 before_install:
   # TODO: Remove the following line when Travis' platform-tools are updated to v25+
   - echo yes | android update sdk -a --filter platform-tools --no-ui --force
-
-install:
-  - cp Simplenote/gradle.properties-example Simplenote/gradle.properties
 
 script:
   - ./gradlew assembleDebug assembleRelease

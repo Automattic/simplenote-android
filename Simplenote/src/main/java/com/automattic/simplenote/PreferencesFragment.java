@@ -3,9 +3,6 @@ package com.automattic.simplenote;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -303,8 +300,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
-        // Update homescreen widgets
-        WidgetUtils.updatePinnedNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(getActivity());
 
         getActivity().finish();
     }
@@ -390,5 +386,4 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         }
     }
-
 }

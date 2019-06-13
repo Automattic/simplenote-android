@@ -71,7 +71,7 @@
         </LinearLayout>
 
         <View
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:layout_height="1px"
             android:layout_width="match_parent">
         </View>
@@ -108,7 +108,7 @@
         </LinearLayout>
 
         <View
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:layout_height="1px"
             android:layout_width="match_parent">
         </View>
@@ -145,7 +145,7 @@
         </LinearLayout>
 
         <View
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:layout_height="1px"
             android:layout_width="match_parent">
         </View>
@@ -182,7 +182,7 @@
         </LinearLayout>
 
         <View
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:layout_height="1px"
             android:layout_width="match_parent">
         </View>
@@ -211,7 +211,7 @@
         </LinearLayout>
 
         <View
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:layout_height="1px"
             android:layout_marginBottom="@dimen/padding_extra_large"
             android:layout_width="match_parent">

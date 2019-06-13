@@ -13,13 +13,11 @@
     </style>
 
     <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_simplestyle</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionModeCopyDrawable">@drawable/ic_content_copy_white_24dp</item>
         <item name="android:actionModeCutDrawable">@drawable/ic_content_cut_white_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -31,32 +29,32 @@
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/white</item>
         <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
-        <item name="colorPrimaryDark">@color/lightgrey</item>
-        <item name="dividerColor">@color/simplenote_light_list_divider</item>
+        <item name="colorPrimary">@color/toolbar_light</item>
+        <item name="colorPrimaryDark">@color/gray_light</item>
+        <item name="dividerColor">@color/divider_list_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="editorSearchHighlightBackgroundColor">#FF4F91CC</item>
         <item name="editorSearchHighlightForegroundColor">#FFEEF3F8</item>
         <item name="fabColor">@color/simplenote_blue</item>
         <item name="fabIconColor">@color/white</item>
-        <item name="hintTextColor">@color/mediumgrey</item>
-        <item name="iconTintColor">@color/simplenote_light_grey</item>
+        <item name="hintTextColor">@color/gray_7a</item>
+        <item name="iconTintColor">@color/gray_light</item>
         <item name="listBackgroundSelector">@drawable/list_background_simplestyle</item>
         <item name="listDividerDrawable">@drawable/list_divider</item>
         <item name="listSearchHighlightBackgroundColor">#FFEEF3F8</item>
         <item name="listSearchHighlightForegroundColor">#FF4F91CC</item>
         <item name="mainBackgroundColor">@color/white</item>
-        <item name="noteEditorTextColor">@color/simplenote_dark_grey</item>
-        <item name="notePinColor">@color/simplenote_dark_grey</item>
-        <item name="notePreviewColor">@color/simplenote_text_preview</item>
-        <item name="noteTitleColor">@color/simplenote_dark_grey</item>
+        <item name="noteEditorTextColor">@color/gray_dark</item>
+        <item name="notePinColor">@color/gray_dark</item>
+        <item name="notePreviewColor">@color/text_preview</item>
+        <item name="noteTitleColor">@color/gray_dark</item>
         <item name="pinIconSelector">@drawable/pin_bg_selector</item>
-        <item name="placeholderLogoColor">@color/verylightgrey</item>
+        <item name="placeholderLogoColor">@color/gray_e</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
         <item name="tagChipBackgroundDrawable">@drawable/tag_bg</item>
         <item name="tagChipShadowColor">@color/white</item>
-        <item name="tagChipTextColor">@color/simplenote_tag_chip_text_color</item>
+        <item name="tagChipTextColor">@color/text_tag_chip</item>
         <item name="toolbarColor">@color/white</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="windowActionModeOverlay">true</item>
@@ -65,10 +63,6 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/simplenote_blue</item>
         <item name="spinBars">true</item>
-    </style>
-
-    <style name="DropDownListView.Simplestyle" parent="@android:style/Widget.Material.Light.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_simplestyle</item>
     </style>
 
     <style name="DropDownTextAppearance" parent="@android:style/TextAppearance">
@@ -91,17 +85,19 @@
     </style>
 
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
+        <item name="android:statusBarColor">@color/status_bar_light</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/simplenote_toolbar_light</item>
-        <item name="colorPrimaryDark">@color/lightgrey</item>
+        <item name="colorPrimary">@color/toolbar_light</item>
+        <item name="colorPrimaryDark">@color/gray_light</item>
         <item name="colorAccent">@color/simplenote_blue</item>
         <item name="android:background">?attr/mainBackgroundColor</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="android:textColor">@color/simplenote_dark_grey</item>
+        <item name="android:textColor">@color/gray_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Material.Light.NoActionBar">
@@ -143,17 +139,32 @@
     </style>
 
     <style name="Theme.Simplestyle.About">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:windowBackground">@color/simplenote_blue_accent</item>
-        <item name="actionBarTextColor">@color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:windowBackground">@color/simplenote_blue</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="actionBarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
-        <item name="toolbarColor">@color/simplenote_blue_accent</item>
+        <item name="toolbarColor">@color/simplenote_blue</item>
+    </style>
+
+    <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/passcodelock_background</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Simplestyle.Widget" parent="@android:style/Theme.Material">
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme.Simplestyle">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 
     <style name="UntitledNoteAppearance" parent="@android:style/TextAppearance">

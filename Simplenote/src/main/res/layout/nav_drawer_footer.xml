@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:id="@+id/nav_settings"
-        android:background="@drawable/selectable_background_simplestyle"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"

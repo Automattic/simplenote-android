@@ -28,7 +28,7 @@ public class AboutActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(DrawableUtils.tintDrawableWithResource(this,
-                    R.drawable.ic_action_remove_24dp, R.color.white));
+                    R.drawable.ic_action_remove_24dp, android.R.color.white));
         }
     }
 

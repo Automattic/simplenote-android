@@ -22,7 +22,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:listSelector="@drawable/selectable_background_simplestyle"
+            android:listSelector="?attr/selectableItemBackground"
             android:paddingEnd="@dimen/padding_extra_small"
             android:paddingStart="@dimen/padding_extra_small"
             android:paddingTop="@dimen/padding_medium">

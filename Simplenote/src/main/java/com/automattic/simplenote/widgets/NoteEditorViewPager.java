@@ -20,7 +20,20 @@ public class NoteEditorViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return this.mIsEnabled && super.onTouchEvent(event);
+        if (!mIsEnabled) {
+            return false;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            performClick();
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean performClick() {
+        return this.mIsEnabled && super.performClick();
     }
 
     public void setPagingEnabled(boolean enabled) {

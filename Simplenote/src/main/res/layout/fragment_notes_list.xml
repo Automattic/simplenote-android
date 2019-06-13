@@ -14,7 +14,7 @@
         android:background="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="1px"
+        android:dividerHeight="@dimen/divider_height"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:paddingBottom="88dp"
@@ -29,7 +29,7 @@
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/empty_message"
-            android:background="@drawable/selectable_background_simplestyle"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_height="wrap_content"

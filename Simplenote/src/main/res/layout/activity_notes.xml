@@ -45,7 +45,8 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:paddingTop="@dimen/nav_drawer_navigation_padding_top">
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <ListView
                 android:id="@+id/drawer_list"
