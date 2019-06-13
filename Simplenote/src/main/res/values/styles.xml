@@ -9,4 +9,13 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="PasscodeKeyboardButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:textColor">@color/passcodelock_button_text_color</item>
+        <item name="android:textSize">@dimen/passcodelock_button_text_size</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
 </resources>
