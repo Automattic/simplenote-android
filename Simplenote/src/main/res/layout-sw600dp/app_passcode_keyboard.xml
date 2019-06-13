@@ -42,7 +42,7 @@
 
         <EditText
             android:id="@+id/pin_field"
-            android:background="@color/white"
+            android:background="@android:color/white"
             android:clickable="false"
             android:focusable="false"
             android:gravity="center"

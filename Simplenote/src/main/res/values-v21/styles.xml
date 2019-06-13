@@ -12,7 +12,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:windowBackground">@color/simplenote_blue_accent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="actionBarTextColor">@color/white</item>
+        <item name="actionBarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
         <item name="toolbarColor">@color/simplenote_blue_accent</item>
     </style>
