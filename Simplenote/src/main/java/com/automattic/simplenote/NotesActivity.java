@@ -198,11 +198,11 @@ public class NotesActivity extends AppCompatActivity implements
             Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
-                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                    intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
                 AnalyticsTracker.track(
-                    NOTE_WIDGET_SIGN_IN_TAPPED,
-                    CATEGORY_WIDGET,
-                    "note_widget_sign_in_tapped"
+                        NOTE_WIDGET_SIGN_IN_TAPPED,
+                        CATEGORY_WIDGET,
+                        "note_widget_sign_in_tapped"
                 );
             }
         }
@@ -598,6 +598,7 @@ public class NotesActivity extends AppCompatActivity implements
                 menu.findItem(R.id.menu_checklist).setVisible(true);
                 menu.findItem(R.id.menu_history).setVisible(true);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
+                menu.findItem(R.id.menu_sidebar).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
@@ -643,6 +644,20 @@ public class NotesActivity extends AppCompatActivity implements
             return true;
         }
         switch (item.getItemId()) {
+            case R.id.menu_sidebar:
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (mNoteListFragment.isHidden()) {
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.show(mNoteListFragment);
+                } else {
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.hide(mNoteListFragment);
+                }
+                ft.commit();
+                fm.executePendingTransactions();
+                invalidateOptionsMenu();
+                return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
                     item.setIcon(R.drawable.ic_preview_24dp);
@@ -997,6 +1012,14 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.getListView().clearChoices();
                 }
                 invalidateOptionsMenu();
+            } else {
+                if (mNoteListFragment.isHidden()) {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.show(mNoteListFragment);
+                    ft.commitAllowingStateLoss();
+                    fm.executePendingTransactions();
+                }
             }
         }
 
@@ -1128,7 +1151,15 @@ public class NotesActivity extends AppCompatActivity implements
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mNavigationView);
             updateNavigationDrawerItems();
-
+            // In case the notes pane in landscape tablets is hidden (won't be hidden otherwise ever)
+            if (mNoteListFragment.isHidden()) {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.show(mNoteListFragment);
+                ft.commitAllowingStateLoss();
+                fm.executePendingTransactions();
+            }
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);
