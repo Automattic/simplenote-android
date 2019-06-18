@@ -8,7 +8,7 @@
         android:left="4dp"
         android:right="4dp"/>
 
-    <solid android:color="@color/simplenote_light_selected_row"/>
+    <solid android:color="@color/row_selected_light"/>
 
     <corners android:radius="3dp"/>
 

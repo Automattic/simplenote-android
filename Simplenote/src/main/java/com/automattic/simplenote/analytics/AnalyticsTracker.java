@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public final class AnalyticsTracker {
-
     private static final List<Tracker> TRACKERS = new ArrayList<>();
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
+    public static String CATEGORY_WIDGET = "widget";
 
     private AnalyticsTracker() {
     }
@@ -141,7 +141,13 @@ public final class AnalyticsTracker {
         WPCC_BUTTON_PRESSED,
         WPCC_LOGIN_SUCCEEDED,
         WPCC_LOGIN_FAILED,
-        NOTE_SHARED_TO_WORDPRESS
+        NOTE_SHARED_TO_WORDPRESS,
+        NOTE_WIDGET_DELETED,
+        NOTE_WIDGET_FIRST_ADDED,
+        NOTE_WIDGET_LAST_DELETED,
+        NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED,
+        NOTE_WIDGET_NOTE_TAPPED,
+        NOTE_WIDGET_SIGN_IN_TAPPED
     }
 
     public interface Tracker {
@@ -154,5 +160,3 @@ public final class AnalyticsTracker {
         void flush();
     }
 }
-
-

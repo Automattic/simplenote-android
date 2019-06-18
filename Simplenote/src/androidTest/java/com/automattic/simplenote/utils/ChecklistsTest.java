@@ -6,7 +6,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 
-import com.automattic.simplenote.R;
 import com.automattic.simplenote.widgets.CheckableSpan;
 
 import org.junit.Test;
@@ -71,7 +70,7 @@ public class ChecklistsTest {
                 InstrumentationRegistry.getTargetContext(),
                 builder,
                 ChecklistUtils.CHECKLIST_REGEX_LINES,
-                R.color.black);
+                android.R.color.black);
 
         // We should have 3 CheckableSpans
         CheckableSpan[] spans = editable.getSpans(0, editable.length(), CheckableSpan.class);
@@ -84,7 +83,7 @@ public class ChecklistsTest {
                 InstrumentationRegistry.getTargetContext(),
                 null,
                 ChecklistUtils.CHECKLIST_REGEX_LINES,
-                R.color.black);
+                android.R.color.black);
 
         assertThat(editable.length(), is(0));
     }

@@ -59,6 +59,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -286,6 +287,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return query.execute();
             }
         };
+
+        WidgetUtils.updateNoteWidgets(getActivity());
     }
 
     @Override
@@ -400,15 +403,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }, 100);
     }
 
-    private void hideSoftKeyboard() {
-        if (getActivity() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputMethodManager != null) {
-                inputMethodManager.hideSoftInputFromWindow(mContentEditText.getWindowToken(), 0);
-            }
-        }
-    }
-
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
@@ -417,7 +411,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.stop();
 
         // Hide soft keyboard if it is showing...
-        hideSoftKeyboard();
+        DisplayUtils.hideKeyboard(mContentEditText);
 
         mTagView.setOnTagAddedListener(null);
 
@@ -1076,11 +1070,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.simplenote_positive_green,
+                            R.color.status_positive,
                             Snackbar.LENGTH_LONG);
                 } else {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.simplenote_positive_green,
+                            R.color.status_positive,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1093,11 +1087,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else {
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.simplenote_negative_red,
+                            R.color.status_negative,
                             Snackbar.LENGTH_LONG);
                 } else {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.simplenote_negative_red,
+                            R.color.status_negative,
                             Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1110,10 +1104,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else {
             if (mNote.isPublished()) {
                 SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_error,
-                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                        R.color.status_negative, Snackbar.LENGTH_LONG);
             } else {
                 SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_error,
-                        R.color.simplenote_negative_red, Snackbar.LENGTH_LONG);
+                        R.color.status_negative, Snackbar.LENGTH_LONG);
             }
         }
 

@@ -8,8 +8,8 @@
         <shape android:shape="oval">
             <stroke
                 android:width="2dp"
-                android:color="@color/white"/>
-            <solid android:color="@color/transparent"/>
+                android:color="@android:color/white"/>
+            <solid android:color="@android:color/transparent"/>
         </shape>
     </item>
 </layer-list>

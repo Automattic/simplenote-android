@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,8 +13,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
@@ -24,6 +23,9 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -90,11 +92,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                         @Override
                         public void onPageSelected(int position) {
                             if (position == 1) {
-                                final InputMethodManager imm = (InputMethodManager) getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-                                }
+                                DisplayUtils.hideKeyboard(mViewPager);
                             }
                         }
 
@@ -128,6 +126,15 @@ public class NoteEditorActivity extends AppCompatActivity {
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
             showTabs();
+        }
+
+        if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+            intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_NOTE_TAPPED) {
+            AnalyticsTracker.track(
+                NOTE_WIDGET_NOTE_TAPPED,
+                CATEGORY_WIDGET,
+                "note_widget_note_tapped"
+            );
         }
     }
 

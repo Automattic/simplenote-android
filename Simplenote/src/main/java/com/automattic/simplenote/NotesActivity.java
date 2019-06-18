@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -62,6 +60,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class NotesActivity extends AppCompatActivity implements
@@ -126,11 +127,8 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // On lollipop, configure the translucent status bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.translucent_grey_medium_light));
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
 
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
@@ -200,6 +198,16 @@ public class NotesActivity extends AppCompatActivity implements
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
             startLoginActivity(true);
+            Intent intent = getIntent();
+
+            if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
+                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_widget_sign_in_tapped"
+                );
+            }
         }
 
         disableScreenshotsIfLocked(this);
@@ -266,12 +274,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void setTitleWithCustomFont(CharSequence title) {
-        if (getSupportActionBar() == null) return;
-
-        // LG devices running 4.1 can't handle a custom font in the action bar title
-        if ((!TextUtils.isEmpty(Build.BRAND) && Build.BRAND.toLowerCase().contains("lge"))
-                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-            getSupportActionBar().setTitle(title);
+        if (getSupportActionBar() == null) {
             return;
         }
 
@@ -286,22 +289,19 @@ public class NotesActivity extends AppCompatActivity implements
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                @SuppressLint("NewApi")
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    LinearLayout drawerView = findViewById(R.id.drawer_view);
-                    drawerView.setPadding(
-                            drawerView.getPaddingLeft(),
-                            windowInsets.getSystemWindowInsetTop(),
-                            drawerView.getPaddingRight(),
-                            drawerView.getPaddingBottom());
+        mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                LinearLayout drawerView = findViewById(R.id.drawer_view);
+                drawerView.setPadding(
+                        drawerView.getPaddingLeft(),
+                        windowInsets.getSystemWindowInsetTop(),
+                        drawerView.getPaddingRight(),
+                        drawerView.getPaddingBottom());
 
-                    return windowInsets.consumeSystemWindowInsets();
-                }
-            });
-        }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -508,8 +508,8 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             // Workaround for setting the search placeholder text color
             String hintHexColor = (ThemeUtils.isLightTheme(this) ?
-                    getString(R.color.simplenote_light_grey) :
-                    getString(R.color.simplenote_text_preview)).replace("ff", "");
+                    getString(R.color.gray_light) :
+                    getString(R.color.text_preview)).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));

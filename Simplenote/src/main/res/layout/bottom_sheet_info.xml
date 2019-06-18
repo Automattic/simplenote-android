@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/linearDateWordCountInfo"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal">
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/info_modified_date_text"
-            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
             android:paddingBottom="@dimen/padding_extra_large"
             android:paddingEnd="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:paddingTop="@dimen/padding_extra_large"
-            tools:text="Modified Jan 1, 2015, 8:00AM" />
+            tools:text="Modified Jan 1, 2015, 8:00AM">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/info_words_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="1"
             android:gravity="end"
+            android:layout_gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:paddingBottom="@dimen/padding_extra_large"
             android:paddingEnd="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:paddingTop="@dimen/padding_extra_large"
-            tools:text="101 words\n1010 characters" />
+            tools:text="101 words\n1010 characters">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
     </LinearLayout>
+
     <View
         android:id="@+id/info_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:background="@color/divider"
         android:layout_below="@id/linearDateWordCountInfo"
-        android:background="@color/divider_grey"/>
+        android:layout_height="1dp"
+        android:layout_width="match_parent">
+    </View>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_pin_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/info_divider"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
-        android:text="@string/pin_to_top" />
+        android:text="@string/pin_to_top">
+    </android.support.v7.widget.SwitchCompat>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/info_markdown_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/info_pin_switch"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
-        android:text="@string/enable_markdown" />
+        android:text="@string/enable_markdown">
+    </android.support.v7.widget.SwitchCompat>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/info_markdown_switch"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_extra_large"
         android:paddingEnd="@dimen/padding_large"
         android:paddingStart="@dimen/padding_large"
@@ -85,62 +85,57 @@
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/info_public_link_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/info_public_link_url"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/info_public_link_url"
-            android:layout_toLeftOf="@id/info_share_button"
+            android:layout_height="wrap_content"
             android:layout_toStartOf="@id/info_share_button"
+            android:layout_width="wrap_content"
             android:text="@string/public_link"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/info_public_link_url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/info_public_link_title"
-            android:layout_toLeftOf="@id/info_copy_link_button"
+            android:layout_height="wrap_content"
             android:layout_toStartOf="@id/info_copy_link_button"
+            android:layout_width="wrap_content"
             tools:text="http://simp.ly/publish/fsfjksjd"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <ImageButton
             android:id="@+id/info_copy_link_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginStart="@dimen/padding_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/copy"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center|end"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_large"
+            android:layout_width="wrap_content"
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
-            android:tint="?iconTintColor"
-            app:srcCompat="@drawable/ic_content_copy_white_24dp" />
+            android:src="@drawable/ic_content_copy_white_24dp"
+            android:tint="?iconTintColor">
+        </ImageButton>
 
         <ImageButton
             android:id="@+id/info_share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginStart="@dimen/padding_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/share"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_large"
+            android:layout_width="wrap_content"
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
+            android:src="@drawable/ic_share_24dp"
             android:tint="?iconTintColor"
-            app:srcCompat="@drawable/ic_share_24dp"
-            tools:visibility="gone"/>
+            tools:visibility="gone">
+        </ImageButton>
 
     </RelativeLayout>
 

@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
         setTitle("");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && toolbar != null) {
+        if (toolbar != null) {
             toolbar.setElevation(0);
         }
 
@@ -29,7 +28,7 @@ public class AboutActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(DrawableUtils.tintDrawableWithResource(this,
-                    R.drawable.ic_action_remove_24dp, R.color.white));
+                    R.drawable.ic_action_remove_24dp, android.R.color.white));
         }
     }
 
