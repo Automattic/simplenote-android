@@ -1,62 +1,68 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_root"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="7"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:clipToPadding="false"
         android:divider="?attr/listDividerDrawable"
         android:dividerHeight="@dimen/divider_height"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:paddingBottom="88dp"
-        android:clipToPadding="false"
-        android:scrollbarStyle="outsideOverlay"/>
+        android:scrollbarStyle="outsideOverlay">
+    </ListView>
 
     <LinearLayout
         android:id="@android:id/empty"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:gravity="center">
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/empty_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:padding="8dp"
             android:textColor="?attr/notePreviewColor"
-            android:textSize="20sp"/>
+            android:textSize="20sp">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/divider_shadow"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
         android:background="@drawable/right_shadow"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone">
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_large"
         android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_create_24dp"
         android:tint="?attr/fabIconColor"
         app:backgroundTint="?attr/fabColor"
         app:borderWidth="0dp"
         app:elevation="8dp"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_create_24dp"/>
+        app:pressedTranslationZ="12dp">
+    </android.support.design.widget.FloatingActionButton>
 
 </android.support.design.widget.CoordinatorLayout>
