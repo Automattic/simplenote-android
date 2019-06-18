@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,12 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -30,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -127,6 +127,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
+
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -271,12 +274,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void setTitleWithCustomFont(CharSequence title) {
-        if (getSupportActionBar() == null) return;
-
-        // LG devices running 4.1 can't handle a custom font in the action bar title
-        if ((!TextUtils.isEmpty(Build.BRAND) && Build.BRAND.toLowerCase().contains("lge"))
-                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-            getSupportActionBar().setTitle(title);
+        if (getSupportActionBar() == null) {
             return;
         }
 
@@ -291,22 +289,19 @@ public class NotesActivity extends AppCompatActivity implements
         mNavigationView = findViewById(R.id.navigation_view);
         mDrawerList = findViewById(R.id.drawer_list);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                @SuppressLint("NewApi")
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    LinearLayout drawerView = findViewById(R.id.drawer_view);
-                    drawerView.setPadding(
-                            drawerView.getPaddingLeft(),
-                            windowInsets.getSystemWindowInsetTop(),
-                            drawerView.getPaddingRight(),
-                            drawerView.getPaddingBottom());
+        mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                LinearLayout drawerView = findViewById(R.id.drawer_view);
+                drawerView.setPadding(
+                        drawerView.getPaddingLeft(),
+                        windowInsets.getSystemWindowInsetTop(),
+                        drawerView.getPaddingRight(),
+                        drawerView.getPaddingBottom());
 
-                    return windowInsets.consumeSystemWindowInsets();
-                }
-            });
-        }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
 
         View settingsButton = findViewById(R.id.nav_settings);
         settingsButton.setOnClickListener(new View.OnClickListener() {

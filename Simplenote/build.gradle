@@ -76,10 +76,8 @@ android {
         applicationId "com.automattic.simplenote"
         versionName project.version
         versionCode 74
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 27
-
-        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
      }

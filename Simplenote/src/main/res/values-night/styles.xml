@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
+        <item name="bottomSheetDialogTheme">@style/Theme.Design.BottomSheetDialog</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
+        <item name="colorPrimary">@color/toolbar_dark</item>
+        <item name="colorPrimaryDark">@color/toolbar_dark</item>
+        <item name="dividerColor">@color/divider_list_dark</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
+        <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
+        <item name="fabColor">@color/row_selected_dark</item>
+        <item name="fabIconColor">@color/simplenote_blue</item>
+        <item name="hintTextColor">@color/text_preview</item>
+        <item name="iconTintColor">@color/simplenote_blue</item>
+        <item name="isLightTheme">false</item>
+        <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
+        <item name="listDividerDrawable">@drawable/list_divider_dark</item>
+        <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
+        <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
+        <item name="noteEditorTextColor">@android:color/white</item>
+        <item name="notePinColor">@android:color/white</item>
+        <item name="notePreviewColor">@color/text_preview</item>
+        <item name="noteTitleColor">@android:color/white</item>
+        <item name="mainBackgroundColor">@color/background_dark</item>
+        <item name="tagChipShadowColor">@color/background_dark</item>
+        <item name="pinIconSelector">@drawable/pin_bg_selector_dark</item>
+        <item name="placeholderLogoColor">@color/text_dark</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="settingsTextColor">@android:color/white</item>
+        <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
+        <item name="tagChipTextColor">@color/text_tag_dark</item>
+        <item name="toolbarColor">@color/background_dark</item>
+        <item name="actionBarTextColor">@color/simplenote_blue</item>
+        <item name="actionModeTextColor">@color/simplenote_blue</item>
+        <item name="actionModeBackgroundColor">@color/row_selected_dark</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/simplenote_blue</item>
+        <item name="spinBars">true</item>
+    </style>
+
+    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
+    </style>
+
+    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
+        <item name="android:statusBarColor">@color/status_bar_dark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">?attr/mainBackgroundColor</item>
+        <item name="colorAccent">@color/simplenote_blue</item>
+        <item name="colorPrimary">@color/toolbar_dark</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+    </style>
+
+</resources>
