@@ -1010,6 +1010,9 @@ public class NotesActivity extends AppCompatActivity implements
                 invalidateOptionsMenu();
             } else {
                 if (mNoteListFragment.isHidden()) {
+                    // Go to NoteEditorActivity if the note editing was fullscreen and orientation was switched to portrait
+                    if (mCurrentNote != null)
+                        onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.show(mNoteListFragment);
                     ft.commitNowAllowingStateLoss();
