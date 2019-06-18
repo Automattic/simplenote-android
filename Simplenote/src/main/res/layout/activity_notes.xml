@@ -24,6 +24,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:showDividers="middle"
+                android:animateLayoutChanges="true"
                 android:weightSum="10"/>
 
         </FrameLayout>

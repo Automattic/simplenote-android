@@ -606,6 +606,7 @@ public class NotesActivity extends AppCompatActivity implements
                 menu.findItem(R.id.menu_checklist).setVisible(false);
                 menu.findItem(R.id.menu_history).setVisible(false);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+                menu.findItem(R.id.menu_sidebar).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -645,18 +646,13 @@ public class NotesActivity extends AppCompatActivity implements
         }
         switch (item.getItemId()) {
             case R.id.menu_sidebar:
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 if (mNoteListFragment.isHidden()) {
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.show(mNoteListFragment);
                 } else {
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.hide(mNoteListFragment);
                 }
-                ft.commit();
-                fm.executePendingTransactions();
-                invalidateOptionsMenu();
+                ft.commitNowAllowingStateLoss();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
@@ -1014,11 +1010,9 @@ public class NotesActivity extends AppCompatActivity implements
                 invalidateOptionsMenu();
             } else {
                 if (mNoteListFragment.isHidden()) {
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.show(mNoteListFragment);
-                    ft.commitAllowingStateLoss();
-                    fm.executePendingTransactions();
+                    ft.commitNowAllowingStateLoss();
                 }
             }
         }
@@ -1151,14 +1145,12 @@ public class NotesActivity extends AppCompatActivity implements
             setSelectedTagActive();
             mDrawerLayout.closeDrawer(mNavigationView);
             updateNavigationDrawerItems();
+
             // In case the notes pane in landscape tablets is hidden (won't be hidden otherwise ever)
             if (mNoteListFragment.isHidden()) {
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.show(mNoteListFragment);
-                ft.commitAllowingStateLoss();
-                fm.executePendingTransactions();
+                ft.commitNowAllowingStateLoss();
             }
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
