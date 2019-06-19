@@ -612,6 +612,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_checklist).setVisible(false);
             menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+            menu.findItem(R.id.menu_sidebar).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -1006,8 +1007,9 @@ public class NotesActivity extends AppCompatActivity implements
             } else {
                 if (mNoteListFragment.isHidden()) {
                     // Go to NoteEditorActivity if the note editing was fullscreen and orientation was switched to portrait
-                    if (mCurrentNote != null)
+                    if (mCurrentNote != null) {
                         onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+                    }
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.show(mNoteListFragment);
                     ft.commitNowAllowingStateLoss();
