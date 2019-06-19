@@ -83,7 +83,6 @@
                 android:contentDescription="@string/logo"
                 android:layout_height="110dp"
                 android:layout_width="110dp"
-                android:scaleType="centerInside"
                 android:src="@drawable/logo_login"
                 android:tint="?attr/placeholderLogoColor">
             </ImageView>
