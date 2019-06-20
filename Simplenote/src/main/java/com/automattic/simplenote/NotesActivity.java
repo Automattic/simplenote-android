@@ -798,8 +798,9 @@ public class NotesActivity extends AppCompatActivity implements
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
 
-            if (matchOffsets != null)
+            if (matchOffsets != null) {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
+            }
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
@@ -1012,9 +1013,9 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.setDividerVisible(true);
                 }
                 // Select the current note on a tablet
-                if (mCurrentNote != null)
+                if (mCurrentNote != null) {
                     onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
-                else {
+                } else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
                 }
