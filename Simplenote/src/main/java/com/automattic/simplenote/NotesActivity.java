@@ -76,6 +76,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+    private boolean mIsTabetFullscreen;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -158,6 +159,7 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
+        mIsTabetFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
@@ -241,6 +243,18 @@ public class NotesActivity extends AppCompatActivity implements
             setMarkdownShowing(false);
         }
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if(DisplayUtils.isLargeScreenLandscape(this)) {
+            if (mIsTabetFullscreen) {
+                ft.hide(mNoteListFragment);
+            } else {
+                ft.show(mNoteListFragment);
+            }
+        } else {
+            ft.show(mNoteListFragment);
+            mIsTabetFullscreen = false;
+        }
+        ft.commitNow();
     }
 
     @Override
@@ -649,6 +663,7 @@ public class NotesActivity extends AppCompatActivity implements
                     ft.hide(mNoteListFragment);
                 }
                 ft.commitNowAllowingStateLoss();
+                mIsTabetFullscreen = mNoteListFragment.isHidden();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
@@ -1010,9 +1025,6 @@ public class NotesActivity extends AppCompatActivity implements
                     if (mCurrentNote != null) {
                         onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
                     }
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.show(mNoteListFragment);
-                    ft.commitNowAllowingStateLoss();
                 }
             }
         }
