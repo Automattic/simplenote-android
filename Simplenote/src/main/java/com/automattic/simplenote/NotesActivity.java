@@ -803,6 +803,9 @@ public class NotesActivity extends AppCompatActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+            if (mNoteListFragment.isHidden()) {
+                editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            }
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
