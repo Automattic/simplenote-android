@@ -252,7 +252,6 @@ public class NotesActivity extends AppCompatActivity implements
             }
         } else {
             ft.show(mNoteListFragment);
-            mIsTabetFullscreen = false;
         }
         ft.commitNow();
     }
