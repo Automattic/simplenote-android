@@ -162,13 +162,11 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.menu_delete:
-                actionMode.finish(); // Action picked, so close the CAB
-                return true;
-            default:
-                return false;
+        if (menuItem.getItemId() == R.id.menu_delete) {
+            actionMode.finish(); // Action picked, so close the CAB
+            return true;
         }
+        return false;
     }
 
     @Override
