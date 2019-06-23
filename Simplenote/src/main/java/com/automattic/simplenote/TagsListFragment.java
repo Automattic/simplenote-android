@@ -291,7 +291,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             TextView tagTitle = convertView.findViewById(R.id.tag_name);
             TextView tagCountTextView = convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
             if (tagCount > 0) {
                 tagCountTextView.setText(String.valueOf(tagCount));
             } else {
