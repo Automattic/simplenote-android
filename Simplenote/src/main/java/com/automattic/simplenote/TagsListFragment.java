@@ -262,12 +262,12 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
         private Bucket.ObjectCursor<Tag> mCursor;
 
-        public TagsAdapter(Context context, Bucket.ObjectCursor<Tag> c, int flags) {
+        TagsAdapter(Context context, Bucket.ObjectCursor<Tag> c, int flags) {
             super(context, c, flags);
             mCursor = c;
         }
 
-        public void changeCursor(Bucket.ObjectCursor<Tag> cursor) {
+        void changeCursor(Bucket.ObjectCursor<Tag> cursor) {
             super.changeCursor(cursor);
             mCursor = cursor;
         }
