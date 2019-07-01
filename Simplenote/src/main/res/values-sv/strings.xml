@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-05-28 15:54:03+0000
+Plural-Forms: nplurals=2; plural=n != 1;
+Generator: GlotPress/2.4.0-alpha
+Language: sv_SE
+-->
 <resources>
+    <string name="insert_checklist">Infoga checklista</string>
+    <string name="all_notes">Alla anteckningar</string>
+    <string name="appearance">Utseende</string>
+    <string name="sort_tags_alphabetically">Sortera alfabetiskt</string>
+    <string name="empty_note_post">Det går inte att lägga in en tom anteckning.</string>
+    <string name="could_not_access_site_data">Kunde inte komma åt webbplatsdata.</string>
+    <string name="wordpress_post_link">Dela WordPress-inlägg</string>
+    <string name="reconnect_to_wordpress">Anslut till WordPress.com igen.</string>
+    <string name="network_error_message">Ett nätverksfel uppstod. Var vänlig försök igen.</string>
+    <string name="select_site">Välj en webbplats att publicera på.</string>
+    <string name="post_to_wordpress">Publicera på WordPress</string>
+    <string name="untitled_site">Webbplats utan titel</string>
+    <string name="connect_with_wordpress">Anslut</string>
+    <string name="wordpress_connect_summary">För att publicera en anteckning direkt till en WordPress-webbplats, anslut ditt WordPress.com-konto.</string>
+    <string name="done">Klart</string>
+    <string name="success">Anteckningen har publicerats på: %1$s</string>
+    <string name="uploading_post">Laddar upp inlägg</string>
+    <string name="wordpress_post_draft">Ställ in status som utkast</string>
+    <string name="send_post">Publicera</string>
+    <string name="wordpress_post">WordPress-inlägg</string>
+    <string name="location_permission_explanation">Simplenote behöver veta din ungefärliga plats för att exakt bestämma tider för solnedgång och soluppgång. Annars antas natten vara från 22.00 till 6.00.</string>
+    <string name="location_permission_denied">Platstillstånd nekat</string>
+    <string name="theme_auto">Mörk på natten bara</string>
+    <string name="notes">Anteckningar</string>
+    <string name="simperium_summary">Lägg till datasynkronisering i din app</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Hjälp oss att förbättra Simplenote genom att dela användningsdata med vårt analysverktyg. %1$sLäs mer%2$s</string>
+    <string name="share_analytics">Dela analys</string>
+    <string name="editor">Redigerare</string>
+    <string name="general">Allmänt</string>
+    <string name="logo">Logotyp</string>
+    <string name="unpin_from_top">Ta bort från topp</string>
+    <string name="untagged_notes">Omärkta anteckningar</string>
+    <string name="sign_in_with_wordpress_com">Logga in med WordPress.com</string>
+    <string name="delete_notes">Radera anteckningar</string>
+    <string name="visit_web_app">Besök webbapp</string>
+    <string name="unsynced_notes_message">Utloggning kommer att radera alla osynkroniserade anteckningar. Du kan verifiera dina synkroniserade anteckningar genom att logga in på webbappen.</string>
+    <string name="unsynced_notes">Osynkroniserade anteckningar upptäckta</string>
+    <string name="wpcom_sign_in_error_unverified">Aktivera ditt WordPress.com-konto via e-post och försök igen.</string>
+    <string name="wpcom_sign_in_error_generic">Kunde inte logga in med WordPress.com. Var vänlig försök igen.</string>
     <string name="note_not_published">Anteckningen kunde inte publiceras</string>
     <string name="collaborate_message">Lägg till en e-post i etikettfältet för att samarbeta med andra användare.</string>
     <string name="collaborate">Samarbeta</string>
-    <string name="unpublishing">Tar bort offentlig länk...</string>
-    <string name="publishing">Publicerar länk...</string>
+    <string name="unpublishing">Tar bort offentlig länk…</string>
+    <string name="publishing">Publicerar länk…</string>
     <string name="unpublish_successful">Offentlig länk borttagen.</string>
-    <string name="publish_successful">Klart! Länk kopierad till urklipp...</string>
-    <string name="unpublish_error">Kunde inte ta bort länk...</string>
-    <string name="publish_error">Kunde inte skapa länk...</string>
+    <string name="publish_successful">Klart! Länken har kopierats till urklipp…</string>
+    <string name="unpublish_error">Det gick inte att ta bort länken…</string>
+    <string name="publish_error">Det gick inte att skapa länken…</string>
     <string name="unpublish">Ta bort offentlig länk</string>
     <string name="public_link">Offentlig länk</string>
-    <string name="no_browser_available">"Kunde inte öppna webbplats. Ingen webbläsare tillgänglig."</string>
-    <string name="simplenote_for_android">Simplenote for Android</string>
+    <string name="no_browser_available">\"Kunde inte öppna webbplats. Ingen webbläsare tillgänglig.\"</string>
     <string name="blog">Blogg</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Betygsätt oss</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
@@ -68,14 +112,15 @@
     <string name="app_description">Det pris-vinnande Simplenote finns nu för Android. Simplenote är ett enkelt sätt att spara anteckningar, listor, idéer och annat. Dina anteckningar synkroniseras med alla dina enheter gratis.\n\nSimplenote handlar helt om snabbhet och effektivitet. Öppna appen, skriv ner dina tankar och du är klar. När din samling av anteckningar växer kan du söka igenom allt i realtid och organisera med etiketter samt genom att nåla fast viktiga texter.\n\nDet bästa sättet att lära sig om Simplenote är att testa det. När du är igång och har koll, gå till simplenote.com för att ladda ner appen för andra enheter och få tillgång till dina antecknar överallt.</string>
     <string name="have_account">Har du redan ett konto?</string>
     <string name="no_account">Har du inget konto än?</string>
+    <string name="or">eller</string>
     <string name="ok">Ok</string>
     <string name="error">Fel</string>
     <string name="forgot_password">Glömt ditt lösenord?</string>
     <string name="create_account">Skapa nytt konto</string>
     <string name="login_failed_message">Det gick inte att logga in med e-postadressen och lösenordet du uppgav.</string>
     <string name="agree_terms_of_service">Genom att skapa ett konto samtycker du med vår Terms of Service.</string>
-    <string name="signing_in">Loggar in...</string>
-    <string name="signing_up">Skapar konto...</string>
+    <string name="signing_in">Loggar in…</string>
+    <string name="signing_up">Skapar konto…</string>
     <string name="account_setup">Skapa konto</string>
     <string name="no_network_message">Det finns inget nätverk tillgängligt. Vänligen anslut till ett nätverk och försök igen.</string>
     <string name="no_network_title">Inget nätverk tillgängligt</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Senast skapad</string>
     <string name="sort_oldest_modified">Tidigast ändrad</string>
     <string name="sort_newest_modified">Senast ändrad</string>
-    <string name="use_simplenote_account">Använd ett Simplenote-konto</string>
-    <string name="welcome_want_more">Vill du ha mer?</string>
-    <string name="just_try_app">testa appen</string>
-    <string name="maybe_later">Kanske senare</string>
-    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna för instruktioner.\n\nTryck på pennknappen för att skapa en ny anteckning.\n\nTryck på sökknappen i åtgärdsfältet och skriv en text för att söka bland dina anteckningar. Simplenote visar dina resultat i realtid.\n\nHar du en mycket viktig anteckning? Tryck på "nåla fast"-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra Android-appar genom att trycka på dela-knappen i verktygsfältet.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
+    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna för instruktioner.\n\nTryck på den blå knappen \"Lägg till\" om du vill skapa en ny anteckning.\n\nTryck på sökknappen i åtgärdsfältet och skriv en text för att söka bland dina anteckningar. Simplenote visar dina resultat i realtid.\n\nHar du en mycket viktig anteckning? Tryck på \"nåla fast\"-knappen när du har en anteckning öppen för att nåla fast den överst på listan.\n\nAnvänd etiketter för att organisera dina anteckningar. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela dina anteckningar med andra Android-appar genom att trycka på dela-knappen i verktygsfältet.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="no_notes_found">Inga anteckningar hittades.</string>
     <string name="trash_is_empty">Papperskorgen är tom.</string>
     <string name="why_not_create_one">Varför inte %1$sskapa en%2$s?</string>
@@ -119,12 +160,9 @@
     <string name="condensed_note_list">Enkel lista</string>
     <string name="note_pinned">Anteckning fastnålad.</string>
     <string name="rename_tag">Döp om etikett</string>
-    <string name="new_note_list">Ny anteckning...</string>
-    <string name="backup_notes">Ta backup på dina anteckningar, redigera på nätet och synkronisera mellan enheter.</string>
+    <string name="new_note_list">Ny anteckning…</string>
     <string name="confirm_delete_tag">Är du säker på att du vill ta bort etiketten?</string>
-    <string name="welcome_signup_prompt">Börja synkronisera anteckningar nu.</string>
     <string name="edit_tags">Redigera etiketter</string>
-    <string name="sign_up">Skapa konto</string>
     <string name="sign_in">Logga in</string>
     <string name="new_note">Ny anteckning</string>
     <string name="delete">Kasta bort</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">I går</string>
     <string name="today">I dag</string>
     <string name="trash">Papperskorg</string>
-    <string name="notes">Alla anteckningar</string>
     <string name="sort_order">Sortering</string>
     <string name="more_info">Mer information</string>
     <string name="website">Besök simplenote.com</string>
     <string name="no_tags_found">Inga anteckningar funna.</string>
     <string name="word">ord</string>
+    <string name="character">bokstav</string>
     <string name="no">Nej</string>
     <string name="yes">Ja</string>
     <string name="confirm_empty_trash">Är du säker på att du vill tömma papperskorgen?</string>
@@ -148,14 +186,16 @@
     <string name="delete_tag">Ta bort etikett</string>
     <string name="tag_name">Etikett</string>
     <string name="edit_tag">Ändra etikett</string>
+    <string name="characters">bokstäver</string>
     <string name="words">ord</string>
     <string name="share_note">Dela anteckning</string>
     <string name="preview_lines">Förhandsgranska linjer</string>
     <string name="font_size">Textstorlek</string>
+    <string name="detect_links">Detektera länkar</string>
     <string name="sign_out">Logga ut</string>
     <string name="account">Konto</string>
     <string name="undelete">Återställ anteckning</string>
     <string name="share">Dela</string>
     <string name="settings">Inställningar</string>
-    <string name="tag_hint">Lägg till etikett...</string>
+    <string name="tag_hint">Lägg till etikett…</string>
 </resources>

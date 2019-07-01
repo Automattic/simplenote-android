@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-29 08:54:03+0000
+Plural-Forms: nplurals=1; plural=0;
+Generator: GlotPress/2.4.0-alpha
+Language: zh_TW
+-->
 <resources>
+    <string name="insert_checklist">插入檢查清單</string>
+    <string name="all_notes">所有筆記</string>
+    <string name="appearance">外觀</string>
+    <string name="sort_tags_alphabetically">依英文字母排序</string>
+    <string name="empty_note_post">無法張貼空白的筆記。</string>
+    <string name="could_not_access_site_data">無法存取網站資料。</string>
+    <string name="wordpress_post_link">分享 WordPress 文章</string>
+    <string name="reconnect_to_wordpress">請重新連線至 WordPress.com。</string>
+    <string name="network_error_message">網路出現錯誤。請再試一次。</string>
+    <string name="select_site">選取網站以張貼文章。</string>
+    <string name="post_to_wordpress">張貼到 WordPress</string>
+    <string name="untitled_site">未命名網站</string>
+    <string name="connect_with_wordpress">連結</string>
+    <string name="wordpress_connect_summary">若要將筆記直接張貼到 WordPress 網站，請連結你的 WordPress.com 帳號。</string>
+    <string name="done">完成</string>
+    <string name="success">已成功將筆記張貼到：%1$s</string>
+    <string name="uploading_post">正在上傳文章</string>
+    <string name="wordpress_post_draft">將狀態設為草稿</string>
+    <string name="send_post">張貼</string>
+    <string name="wordpress_post">WordPress 文章</string>
+    <string name="location_permission_explanation">Simplenote 需要取得你的大略位置，以精確判斷日落和日出時間。否則，夜晚時間將假設為晚上 10:00 到早上 6:00。</string>
+    <string name="location_permission_denied">位置權限遭拒</string>
+    <string name="theme_auto">僅在夜間使用深色背景</string>
+    <string name="notes">筆記</string>
+    <string name="simperium_summary">新增資料以同步到你的應用程式</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">請透過我們的分析工具分享使用情形資料，協助我們改善 Simplenote。%1$s瞭解更多%2$s</string>
+    <string name="share_analytics">分享分析資料</string>
+    <string name="editor">編輯者</string>
+    <string name="general">一般</string>
+    <string name="logo">標誌</string>
+    <string name="unpin_from_top">取消熱門釘選</string>
+    <string name="untagged_notes">取消標籤備註</string>
+    <string name="sign_in_with_wordpress_com">透過 WordPress.com 登入</string>
+    <string name="delete_notes">刪除備註</string>
+    <string name="visit_web_app">前往網頁應用程式</string>
+    <string name="unsynced_notes_message">登出將會刪除任何尚未同步的備註。登入網頁應用程式即可驗證已同步的備註。</string>
+    <string name="unsynced_notes">偵測到尚未同步的備註</string>
+    <string name="wpcom_sign_in_error_unverified">透過電子郵件啟用你的 WordPress.com 帳號並再試一次。</string>
+    <string name="wpcom_sign_in_error_generic">無法透過 WordPress.com 登入。請再試一次。</string>
     <string name="note_not_published">筆記未發表</string>
     <string name="collaborate_message">在標籤欄位中新增電子郵件，以和其他使用者協作。</string>
     <string name="collaborate">協作</string>
@@ -12,9 +58,7 @@
     <string name="unpublish">移除公開連結</string>
     <string name="public_link">公開連結</string>
     <string name="no_browser_available">「無法開啟網站，沒有可用的瀏覽器。」</string>
-    <string name="simplenote_for_android">Android 版 Simplenote</string>
     <string name="blog">網誌</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">幫我們評分</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play 商店</string>
@@ -68,6 +112,7 @@
     <string name="app_description">獲獎肯定的 Simplenote 現已提供 Android 版。Simplenote 可讓你輕鬆作筆記，記下備忘、各式清單、想法等。你的筆記內容會同步至你所有的裝置，而且免費。\n\nSimplenote 給你快速有效率的使用體驗。開啟程式、寫下想法，大功告成。當你的筆記越來越多時，可以利用搜尋功能立即找出筆記，更可使用標籤和釘選功能妥善整理。\n\n要瞭解 Simplenote 的最好方式就是親身體驗。熟悉使用方法後，請造訪 simplenote.com 將此應用程式下載至其他裝置，即可隨時隨地存取你的筆記。</string>
     <string name="have_account">已經有帳號了？</string>
     <string name="no_account">還沒有帳號？</string>
+    <string name="or">或</string>
     <string name="ok">確定</string>
     <string name="error">錯誤</string>
     <string name="forgot_password">忘了密碼？</string>
@@ -105,10 +150,6 @@
     <string name="sort_newest_created">最新建立日期</string>
     <string name="sort_oldest_modified">最舊修改日期</string>
     <string name="sort_newest_modified">最新修改日期</string>
-    <string name="use_simplenote_account">使用 Simplenote 帳號</string>
-    <string name="welcome_want_more">想要更多功能？</string>
-    <string name="just_try_app">試用看看</string>
-    <string name="maybe_later">稍後</string>
     <string name="welcome_note">歡迎使用 Simplenote Android！\n開啟以查看說明。\n\n若要建立新筆記，請點選加號按鈕。\n\n若要搜尋筆記，請點選「動作列」中的搜尋按鈕然後輸入文字。Simplenote 便會立即顯示符合的搜尋結果。\n\n有很重要的筆記？查看筆記時按下釘選按鈕即可將它釘選到清單最上方。\n\n使用標籤可協助你整理筆記。你也可以加上電子郵件地址作為標籤，以便與某人分享筆記。\n\n點選選單中的「分享」即可將筆記輕鬆分享至其他 Android 應用程式。\n\n刪除的筆記會移至垃圾桶。若有需要，你可以還原筆記；也可以清空垃圾桶，永遠刪除它們。\n\n你可以在網路和其他裝置上存取你的筆記。只需前往 http://simplenote.com 即可開始使用。\n\n希望你喜歡 Simplenote！</string>
     <string name="no_notes_found">找不到筆記。</string>
     <string name="trash_is_empty">垃圾桶是空的。</string>
@@ -120,11 +161,8 @@
     <string name="note_pinned">已釘選筆記。</string>
     <string name="rename_tag">重新命名標籤</string>
     <string name="new_note_list">新增筆記…</string>
-    <string name="backup_notes">備份你的筆記、在網路上使用它們，並且與其他裝置同步。</string>
     <string name="confirm_delete_tag">你確定要刪除這個標籤嗎？</string>
-    <string name="welcome_signup_prompt">立即開始同步筆記。</string>
     <string name="edit_tags">編輯標籤</string>
-    <string name="sign_up">註冊</string>
     <string name="sign_in">登入</string>
     <string name="new_note">新增筆記</string>
     <string name="delete">移至垃圾桶</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">昨天</string>
     <string name="today">今天</string>
     <string name="trash">垃圾桶</string>
-    <string name="notes">所有筆記</string>
     <string name="sort_order">排序</string>
     <string name="more_info">更多資訊</string>
     <string name="website">造訪 simplenote.com</string>
     <string name="no_tags_found">找不到標籤。</string>
     <string name="word">字</string>
+    <string name="character">字元</string>
     <string name="no">否</string>
     <string name="yes">是</string>
     <string name="confirm_empty_trash">你確定要清空垃圾桶？</string>
@@ -148,10 +186,12 @@
     <string name="delete_tag">刪除標籤</string>
     <string name="tag_name">標籤名稱</string>
     <string name="edit_tag">編輯標籤</string>
+    <string name="characters">字元</string>
     <string name="words">字</string>
     <string name="share_note">分享筆記</string>
     <string name="preview_lines">預覽文字行</string>
     <string name="font_size">字體大小</string>
+    <string name="detect_links">偵測連結</string>
     <string name="sign_out">登出</string>
     <string name="account">帳號</string>
     <string name="undelete">還原筆記</string>

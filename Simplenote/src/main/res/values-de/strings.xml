@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-02-12 15:54:01+0000
+Plural-Forms: nplurals=2; plural=n != 1;
+Generator: GlotPress/2.4.0-alpha
+Language: de
+-->
 <resources>
-    <string name="note_not_published">Hinweis nicht veröffentlicht</string>
+    <string name="insert_checklist">Checkliste einfügen</string>
+    <string name="all_notes">Alle Notizen</string>
+    <string name="appearance">Design</string>
+    <string name="sort_tags_alphabetically">Alphabetisch sortieren</string>
+    <string name="empty_note_post">Du kannst keine leere Notiz veröffentlichen.</string>
+    <string name="could_not_access_site_data">Websitedaten konnten nicht abgerufen werden.</string>
+    <string name="wordpress_post_link">WordPress-Beitrag teilen</string>
+    <string name="reconnect_to_wordpress">Bitte verbinde dich wieder mit WordPress.com.</string>
+    <string name="network_error_message">Ein Netzwerkfehler ist aufgetreten. Bitte versuche es erneut.</string>
+    <string name="select_site">Wähle eine Website für die Veröffentlichung aus.</string>
+    <string name="post_to_wordpress">Auf WordPress veröffentlichen</string>
+    <string name="untitled_site">Unbenannte Website</string>
+    <string name="connect_with_wordpress">Verbinden</string>
+    <string name="wordpress_connect_summary">Um eine Notiz direkt auf einer WordPress-Website zu veröffentlichen, verbinde dein WordPress.com-Konto.</string>
+    <string name="done">Fertig</string>
+    <string name="success">Notiz erfolgreich veröffentlicht auf: %1$s</string>
+    <string name="uploading_post">Beitrag wird hochgeladen</string>
+    <string name="wordpress_post_draft">Status auf Entwurf setzen</string>
+    <string name="send_post">Beitrag</string>
+    <string name="wordpress_post">WordPress-Beitrag</string>
+    <string name="location_permission_explanation">Simplenote muss deinen ungefähren Standort kennen, um die Sonnenuntergangs- und Sonnenaufgangszeiten genau zu bestimmen. Andernfalls wird von einer Nachtzeit von 22:00 bis 6:00 Uhr ausgegangen.</string>
+    <string name="location_permission_denied">Standortberechtigung verweigert</string>
+    <string name="theme_auto">Nur nachts dunkel</string>
+    <string name="notes">Notizen</string>
+    <string name="simperium_summary">Füge deiner App die Datensynchronisierung hinzu</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Hilf uns, Simplenote zu verbessern, indem du Nutzungsdaten für unser Analysetool bereitstellst. %1$sWeitere Informationen%2$s</string>
+    <string name="share_analytics">Analysen teilen</string>
+    <string name="editor">Editor</string>
+    <string name="general">Allgemein</string>
+    <string name="logo">Logo</string>
+    <string name="unpin_from_top">Von oben lösen</string>
+    <string name="untagged_notes">Nicht markierte Notizen</string>
+    <string name="sign_in_with_wordpress_com">Anmelden mit WordPress.com</string>
+    <string name="delete_notes">Notizen löschen</string>
+    <string name="visit_web_app">Web-App aufrufen</string>
+    <string name="unsynced_notes_message">Bei der Abmeldung werden alle nicht synchronisierten Notizen gelöscht. Du kannst überprüfen, ob deine Notizen synchronisiert wurden, indem du dich in der Web-App anmeldest.</string>
+    <string name="unsynced_notes">Nicht synchronisierte Notizen entdeckt</string>
+    <string name="wpcom_sign_in_error_unverified">Aktiviere dein WordPress.com-Konto per E-Mail und versuche es erneut.</string>
+    <string name="wpcom_sign_in_error_generic">Anmeldung mit WordPress.com fehlgeschlagen. Bitte versuche es erneut.</string>
+    <string name="note_not_published">Notiz nicht veröffentlicht</string>
     <string name="collaborate_message">Füge im Feld „Schlagwort“ eine E-Mail-Adresse für die Zusammenarbeit mit anderen Benutzern hinzu.</string>
     <string name="collaborate">Zusammenarbeiten</string>
-    <string name="unpublishing">Öffentlicher Link wird entfernt ...</string>
-    <string name="publishing">Link wird veröffentlicht ...</string>
+    <string name="unpublishing">Öffentlicher Link wird entfernt …</string>
+    <string name="publishing">Link wird veröffentlicht …</string>
     <string name="unpublish_successful">Öffentlicher Link wurde entfernt.</string>
-    <string name="publish_successful">Erledigt! Link in Zwischenablage kopiert ...</string>
-    <string name="unpublish_error">Link konnte nicht entfernt werden ...</string>
-    <string name="publish_error">Link konnte nicht erstellt werden ...</string>
+    <string name="publish_successful">Erledigt! Link in Zwischenablage kopiert …</string>
+    <string name="unpublish_error">Link konnte nicht entfernt werden …</string>
+    <string name="publish_error">Link konnte nicht erstellt werden …</string>
     <string name="unpublish">Öffentlichen Link entfernen</string>
     <string name="public_link">Öffentlicher Link</string>
     <string name="no_browser_available">„Öffnen der Website nicht möglich. Kein Browser verfügbar.“</string>
-    <string name="simplenote_for_android">Simplenote für Android</string>
     <string name="blog">Blog</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Bewerte uns</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
@@ -25,7 +69,7 @@
     <string name="markdown">Markdown</string>
     <string name="tab_preview">Vorschau</string>
     <string name="tab_edit">Bearbeiten</string>
-    <string name="modified_time">Geändert um %s</string>
+    <string name="modified_time">Geändert %s</string>
     <string name="pin_to_top">An Anfang heften</string>
     <string name="markdown_summary">Markdown-Umschaltung in deinen Hinweiseinstellungen aktivieren</string>
     <string name="enable_markdown">Markdown aktivieren</string>
@@ -68,13 +112,14 @@
     <string name="app_description">Das preisgekrönte Simplenote ist jetzt auch für Android verfügbar. Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden. Deine Notizen werden auf allen deinen Geräten kostenlos synchronisiert.\n\n        Bei Simplenote werden Schnelligkeit und Effizienz großgeschrieben. Einfach aufrufen, Gedanken notieren – fertig. Wenn die Zahl der Notizen ansteigt, kannst du sie im Handumdrehen durchsuchen, mit Schlagwörtern versehen und anheften.\n\n        Simplenote lernt man am besten durch Ausprobieren kennen. Wenn du erst einmal damit vertraut bist, kannst du es von simplenote.com auf andere Geräte herunterladen und hast überall Zugriff auf deine Notizen.</string>
     <string name="have_account">Du hast bereits ein Konto?</string>
     <string name="no_account">Du hast noch kein Konto?</string>
+    <string name="or">oder</string>
     <string name="ok">OK</string>
     <string name="error">Fehler</string>
     <string name="forgot_password">Passwort vergessen?</string>
     <string name="create_account">Neues Konto erstellen</string>
     <string name="login_failed_message">Anmeldung mit der angegebenen E-Mail-Adresse und dem Passwort nicht möglich.</string>
     <string name="agree_terms_of_service">Durch das Registrieren stimmst du unseren Geschäftsbedingungen zu.</string>
-    <string name="signing_in">Anmeldung läuft...</string>
+    <string name="signing_in">Anmeldung läuft…</string>
     <string name="signing_up">Registrierung läuft …</string>
     <string name="account_setup">Kontoeinrichtung</string>
     <string name="no_network_message">Es steht kein Netzwerk zur Verfügung. Stelle bitte eine Verbindung mit einem Netzwerk her und versuche es erneut.</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Neuestes Erstellungsdatum</string>
     <string name="sort_oldest_modified">Ältestes Änderungsdatum</string>
     <string name="sort_newest_modified">Neuestes Änderungsdatum</string>
-    <string name="use_simplenote_account">Simplenote-Konto verwenden</string>
-    <string name="welcome_want_more">Weitere Funktionen?</string>
-    <string name="just_try_app">App ausprobieren</string>
-    <string name="maybe_later">Vielleicht später</string>
-    <string name="welcome_note">Willkommen bei Simplenote Android!\nHier findest du Anweisungen.\n\nZum Erstellen einer neuen Notiz tippe auf die Plus-Schaltfläche.\n\nWenn du deine Notizen durchsuchen willst, tippe auf die Suchschaltfläche in der Aktionsleiste und gib Text ein. Simplenote zeigt umgehend die entsprechenden Ergebnisse an.\n\nHast du eine äußerst wichtige Notiz? Drücke die Anheften-Schaltfläche, während eine Notiz angezeigt wird, um diese an den Anfang der Liste zu heften.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nNotizen lassen sich mühelos an andere Android-Apps weitergeben, indem du im Menü auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
+    <string name="welcome_note">Willkommen bei Simplenote Android!\nHier findest du Anweisungen.\n\nTippe zum Erstellen einer neuen Notiz auf den Button zum Hinzufügen einer Notiz.\n\nWenn du deine Notizen durchsuchen willst, tippe auf die Suchschaltfläche in der Aktionsleiste und gib Text ein. Simplenote zeigt umgehend die entsprechenden Ergebnisse an.\n\nHast du eine äußerst wichtige Notiz? Drücke die Anheften-Schaltfläche, während eine Notiz angezeigt wird, um diese an den Anfang der Liste zu heften.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nNotizen lassen sich mühelos an andere Android-Apps weitergeben, indem du in der Toolbar auf den Button „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
     <string name="no_notes_found">Keine Notizen gefunden.</string>
     <string name="trash_is_empty">Der Papierkorb ist leer.</string>
     <string name="why_not_create_one">Warum nicht %1$seine erstellen%2$s?</string>
@@ -120,11 +161,8 @@
     <string name="note_pinned">Notiz angeheftet.</string>
     <string name="rename_tag">Schlagwort umbenennen</string>
     <string name="new_note_list">Neue Notiz…</string>
-    <string name="backup_notes">Du kannst eine Sicherungskopie deiner Notizen erstellen, sie im Web nutzen und mit anderen Geräten synchronisieren.</string>
     <string name="confirm_delete_tag">Soll dieses Schlagwort wirklich gelöscht werden?</string>
-    <string name="welcome_signup_prompt">Das Synchronisieren der Notizen wird nun gestartet.</string>
     <string name="edit_tags">Schlagwörter bearbeiten</string>
-    <string name="sign_up">Registrieren</string>
     <string name="sign_in">Anmelden</string>
     <string name="new_note">Neue Notiz</string>
     <string name="delete">In Papierkorb verschieben</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Gestern</string>
     <string name="today">Heute</string>
     <string name="trash">Papierkorb</string>
-    <string name="notes">Alle Notizen</string>
     <string name="sort_order">Sortierung</string>
     <string name="more_info">Weitere Informationen</string>
     <string name="website">Gehe zu simplenote.com</string>
     <string name="no_tags_found">Keine Schlagwörter gefunden.</string>
     <string name="word">Wort</string>
+    <string name="character">Zeichen</string>
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="confirm_empty_trash">Soll der Papierkorb wirklich geleert werden?</string>
@@ -148,10 +186,12 @@
     <string name="delete_tag">Schlagwort löschen</string>
     <string name="tag_name">Schlagwortname</string>
     <string name="edit_tag">Schlagwort bearbeiten</string>
+    <string name="characters">Zeichen</string>
     <string name="words">Wörter</string>
     <string name="share_note">Notiz teilen</string>
     <string name="preview_lines">Zeilenvorschau</string>
     <string name="font_size">Schriftgröße</string>
+    <string name="detect_links">Links entdecken</string>
     <string name="sign_out">Abmelden</string>
     <string name="account">Konto</string>
     <string name="undelete">Notiz wiederherstellen</string>
