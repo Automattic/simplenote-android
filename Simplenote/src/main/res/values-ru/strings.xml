@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-30 13:54:02+0000
+Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
+Generator: GlotPress/2.4.0-alpha
+Language: ru
+-->
 <resources>
+    <string name="insert_checklist">Вставить список проверки</string>
+    <string name="all_notes">Все примечания</string>
+    <string name="appearance">Внешний вид</string>
+    <string name="sort_tags_alphabetically">Сортировать по алфавиту</string>
+    <string name="empty_note_post">Невозможно опубликовать пустую заметку.</string>
+    <string name="could_not_access_site_data">Не удалось получить доступ к данным сайта.</string>
+    <string name="wordpress_post_link">Отправить запись WordPress</string>
+    <string name="reconnect_to_wordpress">Подключитесь к WordPress.com заново.</string>
+    <string name="network_error_message">Ошибка сети. Повторите попытку.</string>
+    <string name="select_site">Выберите сайт для публикации.</string>
+    <string name="post_to_wordpress">Опубликовать на WordPress</string>
+    <string name="untitled_site">Сайт без названия</string>
+    <string name="connect_with_wordpress">Подключить</string>
+    <string name="wordpress_connect_summary">Чтобы опубликовать заметку напрямую на сайте WordPress, подключите учетную запись WordPress.com.</string>
+    <string name="done">Готово</string>
+    <string name="success">Заметка опубликована на %1$s</string>
+    <string name="uploading_post">Идет загрузка записи</string>
+    <string name="wordpress_post_draft">Изменить статус на «Черновик»</string>
+    <string name="send_post">Опубликовать</string>
+    <string name="wordpress_post">Запись WordPress</string>
+    <string name="location_permission_explanation">Simplenote требуется знать ваше приблизительное местоположение, чтобы определить время восхода и заката. Без этих данных по умолчанию ночью будет считаться время с 22:00 до 06:00.</string>
+    <string name="location_permission_denied">Доступ к местоположению запрещен</string>
+    <string name="theme_auto">Темная только ночью</string>
+    <string name="notes">Заметки</string>
+    <string name="simperium_summary">Добавить синхронизацию данных в приложение</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Помогите нам улучшить приложение Simplenote — предоставьте данные о его использовании в нашем средстве аналитики. %1$sПодробнее%2$s</string>
+    <string name="share_analytics">Поделиться аналитическими данными</string>
+    <string name="editor">Редактор</string>
+    <string name="general">Общие</string>
+    <string name="logo">Логотип</string>
+    <string name="unpin_from_top">Открепить сверху</string>
+    <string name="untagged_notes">Заметки без меток</string>
+    <string name="sign_in_with_wordpress_com">Войти с помощью WordPress.com</string>
+    <string name="delete_notes">Удалить записи</string>
+    <string name="visit_web_app">Зайти в веб-приложение</string>
+    <string name="unsynced_notes_message">При выходе из учётной записи все несинхронизированные заметки будут удалены. Чтобы убедиться, что заметки синхронизированы, войдите в веб-приложение.</string>
+    <string name="unsynced_notes">Обнаружены несинхронизированные заметки</string>
+    <string name="wpcom_sign_in_error_unverified">Активируйте учётную запись WordPress.com по электронной почте и повторите попытку.</string>
+    <string name="wpcom_sign_in_error_generic">Не удалось войти через учётную запись WordPress.com. Повторите попытку.</string>
     <string name="note_not_published">Заметка не опубликована</string>
     <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>
     <string name="collaborate">Совместная работа</string>
-    <string name="unpublishing">Удаление общедоступной ссылки...</string>
-    <string name="publishing">Публикация ссылки...</string>
+    <string name="unpublishing">Удаление опубликованной ссылки…</string>
+    <string name="publishing">Публикация ссылки</string>
     <string name="unpublish_successful">Общедоступная ссылка удалена.</string>
-    <string name="publish_successful">Готово! Ссылка скопирована в буфер обмена...</string>
-    <string name="unpublish_error">Не удалось удалить ссылку...</string>
-    <string name="publish_error">Не удалось создать ссылку...</string>
+    <string name="publish_successful">Готово! Ссылка скопирована в буфер обмена…</string>
+    <string name="unpublish_error">Не удалось удалить ссылку…</string>
+    <string name="publish_error">Не удалось создать ссылку…</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
     <string name="public_link">Общедоступная ссылка</string>
-    <string name="no_browser_available">"Не удалось открыть веб-сайт. Браузер недоступен".</string>
-    <string name="simplenote_for_android">Приложение Simplenote для Android</string>
+    <string name="no_browser_available">\"Не удалось открыть веб-сайт. Браузер недоступен\".</string>
     <string name="blog">Блог</string>
-    <string name="automattic_copyright">© Automattic, Inc., 2016</string>
     <string name="rate_us">Оцените нас</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Магазин Google Play</string>
@@ -68,14 +112,15 @@
     <string name="app_description">Обладатель наград в своем классе - приложение Simplenote теперь доступно и на Android. Simplenote - это простой способ сохранить свои заметки, планы, идеи и многое другое. Ваши записи синхронизируются на всех подключенных устройствах абсолютно бесплатно.\n\nКлючевой особенностью Simplenote является исключительная скорость и эффективность работы. Откройте приложение, запишите несколько мыслей и готово. Поскольку коллекция ваших заметок будет увеличиваться, мы обеспечили возможность мгновенно найти нужные, а также упорядочить их, закрепив вверху списка или отметив метками.\n\nЛучший способ изучить Simplenote - попробовать. Это действительно очень просто, посетите simplenote.com чтобы скачать Simplenote для других устройств и ваши заметки станут доступны вам в любом месте.</string>
     <string name="have_account">Уже есть учетная запись?</string>
     <string name="no_account">У вас еще нет учетной записи?</string>
+    <string name="or">или</string>
     <string name="ok">OK</string>
     <string name="error">Ошибка</string>
     <string name="forgot_password">Забыли ваш пароль?</string>
     <string name="create_account">Создать новую учетную запись</string>
     <string name="login_failed_message">Невозможно войти с указанными email и паролем.</string>
     <string name="agree_terms_of_service">Зарегистрировавшись, вы принимаете условия Terms of Service.</string>
-    <string name="signing_in">Вход...</string>
-    <string name="signing_up">Регистрация...</string>
+    <string name="signing_in">Вход…</string>
+    <string name="signing_up">Регистрация…</string>
     <string name="account_setup">Настройка учетной записи</string>
     <string name="no_network_message">Нет доступных сетей. Пожалуйста, подключитесь к сети и попробуйте снова.</string>
     <string name="no_network_title">Сеть недоступна</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Дата создания (новые сверху)</string>
     <string name="sort_oldest_modified">Дата изменения (новые снизу)</string>
     <string name="sort_newest_modified">Дата изменения (новые сверху)</string>
-    <string name="use_simplenote_account">Используйте ваш аккаунт</string>
-    <string name="welcome_want_more">Хотите больше?</string>
-    <string name="just_try_app">пока посмотрю приложение</string>
-    <string name="maybe_later">Возможно позже</string>
-    <string name="welcome_note">Добро пожаловать в Simplenote для Android!\nОткройте эту заметку для получения инструкций.\n\nДля того чтобы создать новую заметку, коснитесь кнопки со знаком плюс.\n\nДля поиска среди ваших заметок коснитесь кнопки поиска в панели управления и затем введите любой текст. Simplenote покажет результаты поиска мгновенно.\n\nУ вас есть действительно важная заметка? В режиме просмотра коснитесь иконки справа от поля меток и закрепите текущую заметку вверху списка.\n\nИспользуйте метки для того чтобы упорядочить ваши заметки. Также вы можете добавить адрес электронной почты как метку и поделиться заметкой с кем угодно.\n\nЕще проще поделиться заметкой можно используя другие установленные приложения через кнопку "Поделиться" в меню.\n\nУдаленные заметки перемещаются в корзину. Если вы захотите, вы всегда сможете восстановить их или же удалить навсегда, очистив корзину.\n\nТакже вы можете получить доступ к вашим заметкам через браузер и другие устройства. Перейдите по адресу http://simplenote.com чтобы попробовать.\n\nМы надеемся, что использование Simlenote вам понравится!</string>
+    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте и следуйте инструкциям.\n\nЧтобы создать новую заметку, нажмите синюю кнопку \"Добавить заметку\".\n\nЧтобы выполнить поиск в заметках, нажмите кнопку поиска на панели действий и введите текст. Simplenote сразу выдаст совпадающие результаты.\n\nПоявилась заметка особой важности? Чтобы зафиксировать заметку вверху списка, нажмите кнопку закрепления при просмотре заметки.\n\nУпорядочьте заметки с помощью меток. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать кнопку \"Поделиться\" на панели инструментов.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
     <string name="no_notes_found">Заметок не найдено.</string>
     <string name="trash_is_empty">Корзина пуста.</string>
     <string name="why_not_create_one">Почему бы не %1$sсоздать первую%2$s?</string>
@@ -119,12 +160,9 @@
     <string name="condensed_note_list">Компактный вид</string>
     <string name="note_pinned">Заметка прикреплена.</string>
     <string name="rename_tag">Переименовать метку</string>
-    <string name="new_note_list">Новая заметка...</string>
-    <string name="backup_notes">Сохраняйте ваши заметки, работайте с ними через браузер и синхронизируйте их с другими устройствами.</string>
+    <string name="new_note_list">Новая заметка…</string>
     <string name="confirm_delete_tag">Вы действительно хотите удалить эту метку?</string>
-    <string name="welcome_signup_prompt">Началась синхронизация заметок.</string>
     <string name="edit_tags">Редактировать метки</string>
-    <string name="sign_up">Регистрация</string>
     <string name="sign_in">Войти</string>
     <string name="new_note">Новая заметка</string>
     <string name="delete">Переместить в корзину</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Вчера</string>
     <string name="today">Сегодня</string>
     <string name="trash">Корзина</string>
-    <string name="notes">Все заметки</string>
     <string name="sort_order">Порядок сортировки</string>
     <string name="more_info">Больше информации</string>
     <string name="website">Посетить simplenote.com</string>
     <string name="no_tags_found">Метки не найдены.</string>
     <string name="word">Слово</string>
+    <string name="character">Символ</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
     <string name="confirm_empty_trash">Вы действительно хотите навсегда удалить все заметки из корзины?</string>
@@ -148,14 +186,16 @@
     <string name="delete_tag">Удалить метку</string>
     <string name="tag_name">Название метки</string>
     <string name="edit_tag">Изменить метку</string>
+    <string name="characters">Символы</string>
     <string name="words">Слова</string>
     <string name="share_note">Поделиться заметкой</string>
     <string name="preview_lines">Предпросмотр строк</string>
     <string name="font_size">Размер шрифта</string>
+    <string name="detect_links">Найти ссылки</string>
     <string name="sign_out">Выйти</string>
     <string name="account">Учетная запись</string>
     <string name="undelete">Восстановить заметку</string>
     <string name="share">Поделиться</string>
     <string name="settings">Настройки</string>
-    <string name="tag_hint">Добавить метку...</string>
+    <string name="tag_hint">Добавить метку…</string>
 </resources>

@@ -1,24 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-29 15:54:02+0000
+Plural-Forms: nplurals=2; plural=(n > 1);
+Generator: GlotPress/2.4.0-alpha
+Language: tr
+-->
 <resources>
+    <string name="insert_checklist">Kontrol listesi ekle</string>
+    <string name="all_notes">Tüm Notlar</string>
+    <string name="appearance">Görünüm</string>
+    <string name="sort_tags_alphabetically">Alfabetik olarak sırala</string>
+    <string name="empty_note_post">Boş bir not gönderilemez.</string>
+    <string name="could_not_access_site_data">Site verilerine erişilemiyor.</string>
+    <string name="wordpress_post_link">WordPress Yazısı Paylaş</string>
+    <string name="reconnect_to_wordpress">Lütfen WordPress.com adresine tekrar bağlanın.</string>
+    <string name="network_error_message">Bir ağ hatasıyla karşılaşıldı. Lütfen yeniden deneyin.</string>
+    <string name="select_site">Yazının gönderileceği bir site seçin.</string>
+    <string name="post_to_wordpress">WordPress’e Gönder</string>
+    <string name="untitled_site">Adsız site</string>
+    <string name="connect_with_wordpress">Bağlan</string>
+    <string name="wordpress_connect_summary">Doğrudan bir WordPress sitesine not göndermek için WordPress.com hesabınıza bağlanın.</string>
+    <string name="done">Bitti</string>
+    <string name="success">Notunuz şuraya başarıyla gönderildi: %1$s</string>
+    <string name="uploading_post">Yazı yükleniyor</string>
+    <string name="wordpress_post_draft">Durumu taslak olarak ayarla</string>
+    <string name="send_post">Gönder</string>
+    <string name="wordpress_post">WordPress Yazısı</string>
+    <string name="location_permission_explanation">Gün doğumu ve gün batımı zamanlarını doğru şekilde belirleyebilmesi için Simplenote’un yaklaşık konumunuzu bilmesi gerekir. Aksi halde gece vakti 22:00 - 06:00 aralığı olarak ayarlanacaktır.</string>
+    <string name="location_permission_denied">Konum İzni Reddedildi</string>
+    <string name="theme_auto">Sadece gece vakti karanlık</string>
+    <string name="notes">Notlar</string>
+    <string name="simperium_summary">Uygulamanıza veri senkronizasyonu işlevini ekleyin</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Analiz aracımızla kullanım verilerini paylaşarak Simplenote\'u iyileştirmemize yardımcı olun. %1$sDaha fazlasını öğrenin%2$s</string>
+    <string name="share_analytics">Analizleri paylaş</string>
+    <string name="editor">Düzenleyici</string>
+    <string name="general">Genel</string>
+    <string name="logo">Logo</string>
+    <string name="unpin_from_top">Üste sabitlemeyi kaldır</string>
+    <string name="untagged_notes">Etiketsiz Notlar</string>
+    <string name="sign_in_with_wordpress_com">WordPress.com ile Giriş Yap</string>
+    <string name="delete_notes">Notları sil</string>
+    <string name="visit_web_app">Web uygulamasını ziyaret et</string>
+    <string name="unsynced_notes_message">Oturumu kapattığınızda, senkronize edilmemiş tüm notlar silinir. Senkronize edilmiş notlarınızı Web Uygulamasına giriş yaparak doğrulayabilirsiniz.</string>
+    <string name="unsynced_notes">Senkronize edilmemiş notlar tespit edildi</string>
+    <string name="wpcom_sign_in_error_unverified">WordPress.com hesabınızı e-posta aracılığıyla etkinleştirin ve tekrar deneyin.</string>
+    <string name="wpcom_sign_in_error_generic">WordPress.com ile giriş yapılamadı. Lütfen yeniden deneyin.</string>
     <string name="note_not_published">Not yayınlanmadı</string>
     <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
-    <string name="unpublishing">Herkese açık bağlantı kaldırılıyor...</string>
-    <string name="publishing">Bağlantı yayımlanıyor...</string>
+    <string name="unpublishing">Herkese açık bağlantı kaldırılıyor…</string>
+    <string name="publishing">Bağlantı yayımlanıyor…</string>
     <string name="unpublish_successful">Herkese açık bağlantı kaldırıldı.</string>
-    <string name="publish_successful">Başarılı! Bağlantı, panoya kopyalandı...</string>
-    <string name="unpublish_error">Bağlantı kaldırılamadı...</string>
-    <string name="publish_error">Bağlantı oluşturulamadı...</string>
+    <string name="publish_successful">Başarılı! Bağlantı panoya kopyalandı…</string>
+    <string name="unpublish_error">Bağlantı kaldırılamadı…</string>
+    <string name="publish_error">Bağlantı oluşturulamadı…</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
     <string name="public_link">Herkese açık bağlantı</string>
-    <string name="no_browser_available">"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok."</string>
-    <string name="simplenote_for_android">Android için Simplenote</string>
+    <string name="no_browser_available">\"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok.\"</string>
     <string name="blog">Blog</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Bizi Değerlendirin</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_hiring">Simplenote, Automaticc’teki kişiler tarafından sevgiyle yapılmıştır. Bir geliştirici misiniz? İşe alıyoruz.</string>
+    <string name="about_hiring">Simplenote, Automatticc’teki kişiler tarafından sevgiyle yapılmıştır. Bir geliştirici misiniz? İşe alıyoruz.</string>
     <string name="about">Simplenote Hakkında</string>
     <string name="markdown_show">Markdown’ı Göster</string>
     <string name="markdown_hide">Markdown’ı Gizle</string>
@@ -68,13 +112,14 @@
     <string name="app_description">Ödüllü Simplenote artık Android\'te de kullanılabiliyor. Simplenote uygulaması not tutmak, listeler oluşturmak, fikirlerinizi ve daha fazlasını kaydetmek için kolay bir yoldur. Notlarınız ücretsiz olarak tüm cihazlarınızda eşitlenir.\n\n        Simplenote deneyimi hız ve verimlilik demektir. Açıp düşüncelerinizi yazmanız yeterlidir. Biriken notlarınızda anında arama yapabilir, etiketler ve iğnelerle notlarınızın düzenli olmasını sağlayabilirsiniz.\n\n        Simplenote hakkında bilgi edinmenin en iyi yolu kullanmayı denemektir. Kullanmayı öğrendikten sonra, diğer cihazlarınıza indirmek için simplenote.com sitesine gidin ve notlarınıza her yerden erişmeye başlayın.</string>
     <string name="have_account">Hesabınız zaten var mı?</string>
     <string name="no_account">Henüz hesabınız yok mu?</string>
+    <string name="or">veya</string>
     <string name="ok">Tamam</string>
     <string name="error">Hata</string>
     <string name="forgot_password">Parolanızı mı unuttunuz?</string>
     <string name="create_account">Yeni Hesap Oluştur</string>
     <string name="login_failed_message">Verilen e-posta adresi ve parolayla oturum açılamadı.</string>
     <string name="agree_terms_of_service">Kaydolmakla Hizmet Koşulları\'nı kabul etmiş olursunuz.</string>
-    <string name="signing_in">Giriş yapılıyor...</string>
+    <string name="signing_in">Giriş yapılıyor…</string>
     <string name="signing_up">Kaydınız yapılıyor…</string>
     <string name="account_setup">Hesap Kurulumu</string>
     <string name="no_network_message">Kullanılabilir ağ yok. Lütfen bir ağa bağlanıp tekrar deneyin.</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">En son oluşturma tarihi</string>
     <string name="sort_oldest_modified">En eski değiştirme tarihi</string>
     <string name="sort_newest_modified">En son değiştirme tarihi</string>
-    <string name="use_simplenote_account">Simplenote hesabı kullanın</string>
-    <string name="welcome_want_more">Daha fazla şey yapmak mı istiyorsunuz?</string>
-    <string name="just_try_app">Sadece uygulamayı deneyin</string>
-    <string name="maybe_later">Belki daha sonra</string>
-    <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bunu açın.\n\nYeni not oluşturmak için artı düğmesine dokunun.\n\nNotlarınızı aramak için Eylem Çubuğu\'ndaki arama düğmesine dokunup metin girin. Simplenote eşleşen sonuçları size anında gösterir.\n\nGerçekten önemli bir notunuz mu var? Listenin üst kısmına iğnelemek için notu görüntülerken iğne düğmesine basın.\n\nNotlarınızı organize etmeye yardımcı olması için etiketleri kullanın. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e-posta adresi de ekleyebilirsiniz.\n\nMenüde \'Paylaş\' seçeneğine dokunarak diğer Android uygulamalarıyla kolayca not paylaşabilirsiniz.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
+    <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bunu açın.\n\nYeni not oluşturmak için mavi \"Not Ekle\" düğmesine dokunun.\n\nNotlarınızı aramak için Eylem Çubuğu\'ndaki arama düğmesine dokunup metin girin. Simplenote eşleşen sonuçları size anında gösterir.\n\nGerçekten önemli bir notunuz mu var? Listenin üst kısmına iğnelemek için notu görüntülerken iğne düğmesine basın.\n\nNotlarınızı organize etmek için etiketleri kullanın. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e-posta adresi de ekleyebilirsiniz.\n\nAraç çubuğundaki paylaş düğmesine dokunarak diğer Android uygulamalarıyla kolayca not paylaşabilirsiniz.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
     <string name="no_notes_found">Not bulunamadı.</string>
     <string name="trash_is_empty">Çöp kutusu boş.</string>
     <string name="why_not_create_one">Neden %1$sbir not%2$s oluşturmuyorsunuz?</string>
@@ -120,11 +161,8 @@
     <string name="note_pinned">Not iğnelendi.</string>
     <string name="rename_tag">Etiketi yeniden adlandır</string>
     <string name="new_note_list">Yeni not…</string>
-    <string name="backup_notes">Notlarınızı yedekleyin, web\'de kullanın ve diğer cihazlarla eşitleyin.</string>
     <string name="confirm_delete_tag">Bu etiketi silmek istediğinizden emin misiniz?</string>
-    <string name="welcome_signup_prompt">Hemen notları eşitlemeye başlayın.</string>
     <string name="edit_tags">Etiketleri düzenle</string>
-    <string name="sign_up">Kaydol</string>
     <string name="sign_in">Giriş yap</string>
     <string name="new_note">Yeni not</string>
     <string name="delete">Çöp kutusuna taşı</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Dün</string>
     <string name="today">Bugün</string>
     <string name="trash">Çöp Kutusu</string>
-    <string name="notes">Tüm Notlar</string>
     <string name="sort_order">Sıralama</string>
     <string name="more_info">Daha Fazla Bilgi</string>
     <string name="website">simplenote.com sitesine gidin</string>
     <string name="no_tags_found">Etiket bulunamadı.</string>
     <string name="word">Sözcük</string>
+    <string name="character">Karakter</string>
     <string name="no">Hayır</string>
     <string name="yes">Evet</string>
     <string name="confirm_empty_trash">Çöp kutusunu boşaltmak istediğinizden emin misiniz?</string>
@@ -148,10 +186,12 @@
     <string name="delete_tag">Etiketi sil</string>
     <string name="tag_name">Etiket adı</string>
     <string name="edit_tag">Etiketi Düzenle</string>
+    <string name="characters">Karakter</string>
     <string name="words">Sözcük</string>
     <string name="share_note">Notu Paylaş</string>
     <string name="preview_lines">Önizleme satırları</string>
     <string name="font_size">Yazı tipi boyutu</string>
+    <string name="detect_links">Bağlantıları tespit et</string>
     <string name="sign_out">Çıkış yap</string>
     <string name="account">Hesap</string>
     <string name="undelete">Notu geri yükle</string>

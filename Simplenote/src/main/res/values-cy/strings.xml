@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-24 20:36:10+0000
+Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;
+Generator: GlotPress/2.4.0-alpha
+Language: cy_GB
+-->
 <resources>
+    <string name="notes">Nodiadau</string>
+    <string name="sign_in_with_wordpress_com">Mewngofnodi gyda WordPress.com</string>
+    <string name="delete_notes">Dileu nodiadau</string>
+    <string name="visit_web_app">Ewch i ap gwe</string>
+    <string name="unsynced_notes_message">Bydd allgofnodi yn dileu unrhyw nodiadau heb eu cydweddu. Gallwch wirio&amp;#39;ch nodiadau wedi eu cydweddu trwy fewngofnodi i&amp;#39;r App Gwe.</string>
+    <string name="unsynced_notes">Nodiadau heb eu cydweddu wedi&amp;#39;u canfod</string>
+    <string name="wpcom_sign_in_error_unverified">Gweithredwch eich cyfrif WordPress.com trwy e-bost a cheisiwch eto.</string>
+    <string name="wpcom_sign_in_error_generic">Methu mewngofnodi gyda WordPress.com. Ceisiwch eto, os gwelwch yn dda.</string>
+    <string name="note_not_published">Nodyn heb ei gyhoeddi</string>
+    <string name="collaborate_message">Ychwanegwch e-bost yn y maes tag i gydweithio â defnyddwyr eraill.</string>
+    <string name="collaborate">Cydweithio</string>
+    <string name="unpublishing">Dileu cyswllt cyhoeddus …</string>
+    <string name="publishing">Dolen gyhoeddi …</string>
+    <string name="unpublish_successful">Dileu dolen gyhoeddus.</string>
+    <string name="publish_successful">Llwyddiant! Dolen wedi&amp;#39;i gopïo i&amp;#39;r clipfwrdd …</string>
+    <string name="unpublish_error">Methu dileu\'r ddolen …</string>
+    <string name="publish_error">Methu creu dolen…</string>
+    <string name="unpublish">Dileu dolen gyhoeddus</string>
+    <string name="public_link">Dolen gyhoeddus</string>
+    <string name="no_browser_available">&amp;quot;Methu agor gwefan. Dim porwr ar gael.&amp;quot;</string>
+    <string name="blog">Blog</string>
+    <string name="rate_us">Cyfraddwch ni</string>
+    <string name="twitter">Twitter</string>
+    <string name="about_play_store">Google Play Store</string>
+    <string name="about_hiring">Simplenote yn cael ei wneud gyda chariad gan y bobl yn Automattic. Ydych chi&amp;#39;n ddatblygwr? Rydym wrthi\'n cyflogi.</string>
+    <string name="about">Ynghylch Simplenote</string>
+    <string name="markdown_show">Dangos Markdown</string>
+    <string name="markdown_hide">Cuddio Markdown</string>
+    <string name="markdown">Markdown</string>
+    <string name="tab_preview">Rhagolwg</string>
+    <string name="tab_edit">Golygu</string>
+    <string name="modified_time">Newidwyd: %s</string>
+    <string name="pin_to_top">Pin i&amp;#39;r brig</string>
+    <string name="markdown_summary">Galluogi&amp;#39;r Markdown toggle yn eich gosodiadau nodyn</string>
+    <string name="enable_markdown">Galluogi markdown</string>
+    <string name="restore">Adfer</string>
+    <string name="history">Hanes</string>
+    <string name="error_history">Methu estyn yr hanes</string>
+    <string name="search">Chwilio drwy\'r nodiadau</string>
     <string name="dismiss">Cau</string>
     <string name="note_added">Ychwanegwyd nodyn</string>
     <string name="font_size_extra_small">Bach iawn</string>
@@ -15,8 +60,6 @@
     <string name="version">Fersiwn</string>
     <string name="publish">Cyhoeddi</string>
     <string name="published">Cyhoeddwyd</string>
-    <string name="publish_error">Methu cyhoeddi nodyn</string>
-    <string name="unpublish_error">Methu dad-gyhoeddi\'r nodyn</string>
     <string name="note_selected">%d nodyn wedi eu dewis</string>
     <string name="notes_selected">%d nodyn wedi eu dewis</string>
     <string name="notes_trashed">Dilëwyd nodau.</string>
@@ -37,11 +80,6 @@
     <string name="why_not_create_one">Beth am %1$sgreu un%2$s?</string>
     <string name="trash_is_empty">Mae\'r sbwriel yn wag.</string>
     <string name="no_notes_found">Heb ganfod nodiadau.</string>
-    <string name="welcome_note">Croeso i Simplenote Android!\nAgorwch hwn am gyfarwyddiadau.\n\nI greu nodyn newydd , tapiwch y botwm pensil.\n\nI chwilio drwy eich nodiadau, tapiwch y botwm chwilio yn y Bar Gweithredu a chyflwyno testun. Bydd Simplenote yn dangos unrhyw ganlyniad yn syth.\n\nNodyn pwysig? Pwyswch y botwm pin wrth ddarllen nodyn i\'w binio i frig eich rhestr.\n\nDefnyddiwch dagiau i\'ch helpu i roi trefn ar eich nodiadau. Gallwch hefyd ychwanegu cyfeiriad e-bost fel tag i rannu nodyn gyda rhywun arall .\n\nRhannwch nodiadau yn hawdd gydag apiau Android eraill drwy dapio\'r botwm rhannu yn y bar offer.\n\nMae nodiadau sydd wedi eu dileu\'n mynd i\'r sbwriel. Gallwch eu hadfer neu wagio\'r sbwriel i\'w dileu\'n llwyr.\n\nGallwch gael mynediad at eich nodiadau ar y we ac ar eich dyfeisiau eraill. I gychwyn ewch i http://simplenote.com.\n\nMwynhewch ddefnyddio Simplenote!</string>
-    <string name="maybe_later">Hwyrach efallai</string>
-    <string name="just_try_app">rhowch gynnig ar y app</string>
-    <string name="welcome_want_more">Eisiau rhagor?</string>
-    <string name="use_simplenote_account">Defnyddiwch gyfrif Simplenote</string>
     <string name="sort_newest_modified">Dyddiad newidiwyd y diweddaraf</string>
     <string name="sort_oldest_modified">Dyddiad newidiwyd yr hynaf</string>
     <string name="sort_newest_created">Dyddiad crëwyd y diweddaraf</string>
@@ -83,6 +121,8 @@
     <string name="have_account">Eisoes â chyfrif?</string>
     <string name="app_description">Mae Simplenote nawr ar gael ar Android. Mae Simplenote yn ffordd hawdd o gadw nodiadau, rhestrau, syniadau a mwy. Mae eich nodiadau\'n cael eu cydweddu gyda\'ch holl ddyfeisiau am ddim.\n\n         Byddwch yn profi cyflymder ac effeithiolrwydd drwy Simplenote. Agorwch yr ap, ysgrifennwch ryw syniadau, a dyna chi. Wrth i\'ch casgliad o nodiadau dyfu, gallwch chwilio trwyddynt ar unwaith a\'u cadw mewn trefn gyda thagiau a phinnau.\n\n        Y ffordd orau i ddysgu am Simplenote yw rhoi cynnig arno. Unwaith rydych ar waith, ewch i simplenote.com i\'w lwytho i lawr i ddyfeisiau eraill a chael mynediad at eich nodiadau ymhob man.</string>
     <string name="app_description_short">Mae Simplenote yn ffordd hawdd o gadw nodiadau, rhestrau, syniadau a mwy.</string>
+    <string name="welcome_note">Croeso i Simplenote Android!\nAgorwch hwn am gyfarwyddiadau.\n\nI greu nodyn newydd , tapiwch y botwm glas \"Ychwanegu Nodyn\".\n\nI chwilio drwy eich nodiadau, tapiwch y botwm chwilio yn y Bar Gweithredu a chyflwyno testun. Bydd Simplenote yn dangos unrhyw ganlyniad yn syth.\n\nNodyn pwysig? Pwyswch y botwm pin wrth ddarllen nodyn i\'w binio i frig eich rhestr.\n\nDefnyddiwch dagiau i\'ch helpu i roi trefn ar eich nodiadau. Gallwch hefyd ychwanegu cyfeiriad e-bost fel tag i rannu nodyn gyda rhywun arall .\n\nRhannwch nodiadau yn hawdd gydag apiau Android eraill drwy dapio\'r botwm rhannu yn y bar offer.\n\nMae nodiadau sydd wedi eu dileu\'n mynd i\'r sbwriel. Gallwch eu hadfer neu wagio\'r sbwriel i\'w dileu\'n llwyr.\n\nGallwch gael mynediad at eich nodiadau ar y we ac ar eich dyfeisiau eraill. I gychwyn ewch i http://simplenote.com.\n\nMwynhewch ddefnyddio Simplenote!</string>
+    <string name="or">neu</string>
     <string name="rename_tag">Ailenwi tag</string>
     <string name="note_pinned">Nodyn wedi\'i binio.</string>
     <string name="condensed_note_list">Rhestr gryno o nodiadau</string>
@@ -91,11 +131,8 @@
     <string name="delete">Symud i\'r sbwriel</string>
     <string name="new_note">Nodyn newydd</string>
     <string name="sign_in">Mewngofnodi</string>
-    <string name="sign_up">Cofrestru</string>
     <string name="edit_tags">Golygu tagiau</string>
-    <string name="welcome_signup_prompt">Cychwyn cydweddu nodiadau nawr.</string>
     <string name="confirm_delete_tag">Ydych chi\'n siŵr eich bod am ddileu\'r tag hwn?</string>
-    <string name="backup_notes">Cadw eich nodiadau wrth gefn, defnyddio nhw ar y we, a\'u cydamseru gyda dyfeisiau eraill.</string>
     <string name="new_note_list">Nodyn newydd…</string>
     <string name="tag_hint">Ychwanegu tag…</string>
     <string name="settings">Gosodiadau</string>
@@ -121,8 +158,6 @@
     <string name="website">Mynd i simplenote.com</string>
     <string name="more_info">Rhagor o Wybodaeth</string>
     <string name="sort_order">Trefn didoli</string>
-    <string name="search">Chwilio</string>
-    <string name="notes">Pob Nodyn</string>
     <string name="trash">Sbwriel</string>
     <string name="today">Heddiw</string>
     <string name="yesterday">Ddoe</string>

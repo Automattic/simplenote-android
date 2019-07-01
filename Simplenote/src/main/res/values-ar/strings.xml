@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-29 13:54:03+0000
+Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
+Generator: GlotPress/2.4.0-alpha
+Language: ar
+-->
 <resources>
+    <string name="insert_checklist">إدراج قائمة التدقيق</string>
+    <string name="all_notes">كل الملاحظات</string>
+    <string name="appearance">المظهر</string>
+    <string name="sort_tags_alphabetically">الفرز أبجديًّا</string>
+    <string name="empty_note_post">يتعذر نشر ملاحظة فارغة.</string>
+    <string name="could_not_access_site_data">تعذّر الوصول إلى بيانات الموقع.</string>
+    <string name="wordpress_post_link">مشاركة مقالة وردبرس</string>
+    <string name="reconnect_to_wordpress">يُرجى الاتصال بوردبرس.كوم مجددًا.</string>
+    <string name="network_error_message">تبين وجود خطأ في الشبكة. يُرجى المحاولة مرة أخرى.</string>
+    <string name="select_site">حدّد موقعًا لتنشر عليه.</string>
+    <string name="post_to_wordpress">نشر على وردبرس</string>
+    <string name="untitled_site">‏‏موقع من دون عنوان</string>
+    <string name="connect_with_wordpress">الاتصال</string>
+    <string name="wordpress_connect_summary">لنشر ملاحظة مباشرةً على موقع وردبرس، اتصل بحساب وردبرس.كوم الخاص بك.</string>
+    <string name="done">تم</string>
+    <string name="success">تم نشر الملاحظة بنجاح على: %1$s</string>
+    <string name="uploading_post">جارٍ رفع المقالة</string>
+    <string name="wordpress_post_draft">تعيين حالة للمسودة</string>
+    <string name="send_post">المقالة</string>
+    <string name="wordpress_post">مقالة وردبرس</string>
+    <string name="location_permission_explanation">تحتاج Simplenote إلى معرفة موقعك التقريبي لتحديد وقتي الشروق والغروب بدقة. وإلا، فسيتم افتراض حلول المساء من الساعة 10:00 مساءً وحتى الساعة 6:00 صباحًا.</string>
+    <string name="location_permission_denied">تم رفض الإذن الخاص بالموقع</string>
+    <string name="theme_auto">مظلم في الليل فقط</string>
+    <string name="notes">ملاحظات</string>
+    <string name="simperium_summary">إضافة مزامنة البيانات إلى تطبيقك</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">ساعدنا على تحسين Simplenote عن طريق مشاركة بيانات الاستخدام مع أداة التحليلات الخاصة بنا. %1$sتعرّف على المزيد%2$s</string>
+    <string name="share_analytics">مشاركة التحليلات</string>
+    <string name="editor">المحرر</string>
+    <string name="general">عام</string>
+    <string name="logo">الشعار</string>
+    <string name="unpin_from_top">إلغاء التثبيت من الأعلى</string>
+    <string name="untagged_notes">ملحوظات غير مميزة</string>
+    <string name="sign_in_with_wordpress_com">تسجيل الدخول باستخدام وردبرس.كوم</string>
+    <string name="delete_notes">حذف الملاحظات</string>
+    <string name="visit_web_app">زيارة تطبيق الويب</string>
+    <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملاحظات غير متزامنة. يمكنك التحقق من الملاحظات المتزامنة عن طريق تسجيل الدخول إلى تطبيق الويب.</string>
+    <string name="unsynced_notes">تم الكشف عن ملاحظات غير متزامنة</string>
+    <string name="wpcom_sign_in_error_unverified">يمكنك تنشيط حساب وردبرس.كوم الخاص بك عبر البريد الإلكتروني والمحاولة مجددًا.</string>
+    <string name="wpcom_sign_in_error_generic">يتعذر تسجيل الدخول باستخدام وردبرس.كوم. يُرجى المحاولة مرة أخرى.</string>
     <string name="note_not_published">لم يتم نشر الملاحظة</string>
     <string name="collaborate_message">إضافة بريد إلكتروني في حقل العلامة للتعاون مع مستخدمين آخرين.</string>
     <string name="collaborate">تعاون</string>
-    <string name="unpublishing">جارٍ إزالة الرابط العام...</string>
-    <string name="publishing">جارٍ نشر الرابط...</string>
+    <string name="unpublishing">جارٍ إزالة الرابط العام…</string>
+    <string name="publishing">جارٍ نشر الرابط…</string>
     <string name="unpublish_successful">تمت إزالة الرابط العام.</string>
-    <string name="publish_successful">نجاح! تم نسخ الرابط إلى الحافظة...</string>
-    <string name="unpublish_error">تعذرت إزالة الرابط...</string>
-    <string name="publish_error">تعذر إنشاء الرابط...</string>
+    <string name="publish_successful">نجاح! تم نسخ الرابط إلى الحافظة…</string>
+    <string name="unpublish_error">تعذر إزالة رابط…</string>
+    <string name="publish_error">تعذر إنشاء رابط…</string>
     <string name="unpublish">إزالة الرابط العام</string>
     <string name="public_link">الرابط العام</string>
-    <string name="no_browser_available">"يتعذر فتح موقع الويب. لا يتوفر متصفح."</string>
-    <string name="simplenote_for_android">Simplenote for Android</string>
+    <string name="no_browser_available">\"يتعذر فتح موقع الويب. لا يتوفر متصفح.\"</string>
     <string name="blog">المدونة</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">صنّفنا</string>
     <string name="twitter">تويتر</string>
     <string name="about_play_store">متجر Google Play</string>
@@ -68,14 +112,15 @@
     <string name="app_description">يتوفر Simplenote الحائز على جوائز لنظام Android الآن. يُعد Simplenote طريقة سهلة للاحتفاظ بالملاحظات والقوائم والأفكار، وغير ذلك المزيد. تظل ملاحظاتك متزامنة مع كل أجهزتك مجانًا.\n\n        تتمثل تجربة Simplenote في السرعة والكفاءة. افتحه، واكتب بعض الأفكار، وهذا كل شيء. عندما يزداد حجم مجموعة الملاحظات لديك، يمكنك البحث بداخلها على الفور والاحتفاظ بها منظمة باستخدام الوسوم والدبابيس.\n\n        إن أفضل طريقة للتعرف على Simplenote هي تجربته. بمجرد تثبيت التطبيق وتشغيله، تفضل بزيارة simplenote.com لتنزيله على الأجهزة الأخرى وبدء الوصول إلى ملاحظاتك من أي مكان.</string>
     <string name="have_account">ألديك حساب بالفعل؟</string>
     <string name="no_account">أليس لديك حساب بعد؟</string>
+    <string name="or">أو</string>
     <string name="ok">موافق</string>
     <string name="error">خطأ</string>
     <string name="forgot_password">هل نسيت كلمة المرور؟</string>
     <string name="create_account">إنشاء حساب جديد</string>
     <string name="login_failed_message">تعذر تسجيل الدخول باستخدام عنوان البريد الإلكتروني وكلمة المرور المقدمين.</string>
     <string name="agree_terms_of_service">يعني الاشتراك موافقتك على شروط الخدمة.</string>
-    <string name="signing_in">جارٍ تسجيل الدخول...</string>
-    <string name="signing_up">جارٍ الاشتراك...</string>
+    <string name="signing_in">جارٍ تسجيل الدخول…</string>
+    <string name="signing_up">جارٍ الاشتراك…</string>
     <string name="account_setup">إعداد الحساب</string>
     <string name="no_network_message">لا توجد شبكة متاحة. يُرجى الاتصال بشبكة ثم المحاولة مرة أخرى.</string>
     <string name="no_network_title">لا تتوفر شبكة</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">تاريخ أحدث إنشاء</string>
     <string name="sort_oldest_modified">تاريخ أقدم تعديل</string>
     <string name="sort_newest_modified">تاريخ أحدث تعديل</string>
-    <string name="use_simplenote_account">استخدام حساب Simplenote</string>
-    <string name="welcome_want_more">هل تريد المزيد؟</string>
-    <string name="just_try_app">تجربة التطبيق فحسب</string>
-    <string name="maybe_later">ربما لاحقًا</string>
-    <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذا للاطلاع على الإرشادات.\n\nلإنشاء ملاحظة جديدة، اضغط على زر علامة زائد.\n\nللبحث عن ملاحظاتك، اضغط على زر البحث في شريط الإجراءات، ثم أدخل أي نص. سيقوم Simplenote بإظهار النتائج المطابقة في الحال.\n\nهل حصلت على ملاحظة مهمة بالفعل؟ اضغط على زر علامة الدبوس أثناء عرض الملاحظة لتثبيتها أعلى القائمة.\n\nاستخدم الوسوم للمساعدة على تنظيم ملاحظاتك. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملاحظة مع شخص ما.\n\nيمكنك مشاركة الملاحظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على "مشاركة" في هذه القائمة.\n\nتظهر الملاحظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملاحظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنتمنى أن تستمتع باستخدام Simplenote!</string>
+    <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذا للاطّلاع على الإرشادات.\n\nلإنشاء ملحوظة جديدة، اضغط على زر \"إضافة ملحوظة\" الأزرق.\n\nللبحث عن ملحوظاتك، اضغط على زر البحث في شريط الإجراءات وأدخل أي نص. سيقوم Simplenote بإظهار النتائج المطابقة في الحال.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ اضغط على زر علامة الدبوس أثناء عرض ملحوظة لتثبيتها أعلى القائمة.\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على زر المشاركة الموجود في شريط الأدوات.\n\nتظهر الملاحظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًّا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
     <string name="no_notes_found">لم يتم العثور على ملاحظات.</string>
     <string name="trash_is_empty">سلة المهملات فارغة.</string>
     <string name="why_not_create_one">لماذا لا يقوم %1$sبإنشاء واحدة%2$s؟</string>
@@ -119,12 +160,9 @@
     <string name="condensed_note_list">قائمة الملاحظات الموجزة</string>
     <string name="note_pinned">تم تثبيت الملاحظة.</string>
     <string name="rename_tag">إعادة تسمية الوسم</string>
-    <string name="new_note_list">ملاحظة جديدة...</string>
-    <string name="backup_notes">انسخ ملاحظاتك احتياطيًا واستخدمها على الويب وقم بمزامنتها مع الأجهزة الأخرى.</string>
+    <string name="new_note_list">ملاحظة جديدة…</string>
     <string name="confirm_delete_tag">هل أنت متأكد من رغبتك في حذف هذا الوسم؟</string>
-    <string name="welcome_signup_prompt">بدء مزامنة الملاحظات الآن.</string>
     <string name="edit_tags">تحرير الوسوم</string>
-    <string name="sign_up">الاشتراك</string>
     <string name="sign_in">تسجيل الدخول</string>
     <string name="new_note">ملاحظة جديدة</string>
     <string name="delete">نقل إلى سلة المهملات</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">أمس</string>
     <string name="today">اليوم</string>
     <string name="trash">سلة المهملات</string>
-    <string name="notes">كل الملاحظات</string>
     <string name="sort_order">ترتيب الفرز</string>
     <string name="more_info">المزيد من المعلومات</string>
     <string name="website">تفضل بزيارة simplenote.com</string>
     <string name="no_tags_found">لا توجد وسوم.</string>
     <string name="word">الكلمة</string>
+    <string name="character">حرف</string>
     <string name="no">لا</string>
     <string name="yes">نعم</string>
     <string name="confirm_empty_trash">هل أنت متأكد من رغبتك في إفراغ سلة المهملات؟</string>
@@ -148,10 +186,12 @@
     <string name="delete_tag">حذف الوسم</string>
     <string name="tag_name">اسم الوسم</string>
     <string name="edit_tag">تحرير الوسم</string>
+    <string name="characters">أحرف</string>
     <string name="words">الكلمات</string>
     <string name="share_note">مشاركة الملاحظة</string>
     <string name="preview_lines">معاينة الأسطر</string>
     <string name="font_size">حجم الخط</string>
+    <string name="detect_links">الكشف عن الروابط</string>
     <string name="sign_out">تسجيل الخروج</string>
     <string name="account">الحساب</string>
     <string name="undelete">استعادة الوسم</string>
