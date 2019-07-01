@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-30 10:54:02+0000
+Plural-Forms: nplurals=1; plural=0;
+Generator: GlotPress/2.4.0-alpha
+Language: ja_JP
+-->
 <resources>
+    <string name="insert_checklist">チェックリストを挿入</string>
+    <string name="all_notes">すべてのノート</string>
+    <string name="appearance">外観</string>
+    <string name="sort_tags_alphabetically">アルファベット順に並び替え</string>
+    <string name="empty_note_post">空のノートは投稿できません。</string>
+    <string name="could_not_access_site_data">サイトデータにアクセスできませんでした。</string>
+    <string name="wordpress_post_link">WordPress 投稿を共有</string>
+    <string name="reconnect_to_wordpress">WordPress.com に再接続してください。</string>
+    <string name="network_error_message">ネットワークエラーが発生しました。もう一度お試しください。</string>
+    <string name="select_site">投稿先のサイトを選択してください。</string>
+    <string name="post_to_wordpress">WordPress に投稿</string>
+    <string name="untitled_site">無題のサイト</string>
+    <string name="connect_with_wordpress">接続</string>
+    <string name="wordpress_connect_summary">WordPress サイトに直接ノートを投稿するには、WordPress.com アカウントに接続してください。</string>
+    <string name="done">終了</string>
+    <string name="success">ノートを次の場所に投稿しました。%1$s</string>
+    <string name="uploading_post">投稿をアップロード中</string>
+    <string name="wordpress_post_draft">ステータスを下書きに設定</string>
+    <string name="send_post">投稿</string>
+    <string name="wordpress_post">WordPress 投稿</string>
+    <string name="location_permission_explanation">Simplenote では、日の出と日の入りの時刻を正確に特定するために、おおまかな位置情報が必要です。位置情報がない場合は、午後10時から午前6時を夜の時間帯と見なします。</string>
+    <string name="location_permission_denied">位置情報に関する権限の拒否</string>
+    <string name="theme_auto">夜のみ「Dark」</string>
+    <string name="notes">メモ</string>
+    <string name="simperium_summary">アプリへデータ同期を追加</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">弊社の分析ツールで使用データを共有し、Simplenote の向上のご協力ください。%1$sさらに詳しく%2$s</string>
+    <string name="share_analytics">分析を共有</string>
+    <string name="editor">編集者</string>
+    <string name="general">一般</string>
+    <string name="logo">ロゴ</string>
+    <string name="unpin_from_top">上部への固定解除</string>
+    <string name="untagged_notes">タグがつけられていないメモ</string>
+    <string name="sign_in_with_wordpress_com">WordPress.com アカウントでログイン</string>
+    <string name="delete_notes">メモを削除</string>
+    <string name="visit_web_app">Web アプリにアクセス</string>
+    <string name="unsynced_notes_message">ログアウトすると、同期されていないメモはすべて削除されます。同期したメモを確認するには、Web アプリにログインします。</string>
+    <string name="unsynced_notes">同期されていないメモが検出されました</string>
+    <string name="wpcom_sign_in_error_unverified">メールから WordPress.com アカウントを有効にしてから、もう一度試してください。</string>
+    <string name="wpcom_sign_in_error_generic">WordPress.com にログインできませんでした。もう一度やり直してください。</string>
     <string name="note_not_published">非公開ノート</string>
     <string name="collaborate_message">メールアドレスをタグフィールドに追加すると、他のユーザーと共同作業できます。</string>
     <string name="collaborate">共同編集</string>
     <string name="unpublishing">公開リンクを削除中…</string>
-    <string name="publishing">リンクを公開中...</string>
+    <string name="publishing">リンクを公開中…</string>
     <string name="unpublish_successful">公開リンクを削除しました。</string>
-    <string name="publish_successful">成功しました。リンクをクリップボードにコピーしました...</string>
-    <string name="unpublish_error">リンクを削除できませんでした...</string>
-    <string name="publish_error">リンクを作成できませんでした...</string>
+    <string name="publish_successful">成功しました。リンクをクリップボードにコピーしました…</string>
+    <string name="unpublish_error">リンクを削除できませんでした…</string>
+    <string name="publish_error">リンクを作成できませんでした…</string>
     <string name="unpublish">公開リンクを削除</string>
     <string name="public_link">公開リンク</string>
     <string name="no_browser_available">「サイトを開けません。使用可能なブラウザーがありません。」</string>
-    <string name="simplenote_for_android">Simplenote for Android</string>
     <string name="blog">ブログ</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">評価してください</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play ストア</string>
@@ -68,6 +112,7 @@
     <string name="app_description">人気の Simplenote アプリが Android でもお使いいただけるようになりました。Simplenote は簡単にメモやリスト、アイディアなどを書き留められるツールです。無料で、お持ちのデバイスすべてのノートを同期できます。\n\nSimplenote ではスピードと効率を最も重視しています。アプリを開き、書き込むだけ。ノートがたくさん集まってきたら、検索したりタグやピン留めで整理したりもできます。\n\nSimplenote のことを知る一番の方法は試してみることです。使い方が分かったら simplenote.com で他のアプリもダウンロードしてみてください。ノートにどこからでもアクセスできるようになります。</string>
     <string name="have_account">すでにアカウントを持っている場合</string>
     <string name="no_account">まだアカウントを持っていない場合</string>
+    <string name="or">または</string>
     <string name="ok">OK</string>
     <string name="error">エラー</string>
     <string name="forgot_password">パスワードをお忘れですか ?</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">作成日が新しい順</string>
     <string name="sort_oldest_modified">編集日が古い順</string>
     <string name="sort_newest_modified">編集日が新しい順</string>
-    <string name="use_simplenote_account">Simplenote アカウントを使う</string>
-    <string name="welcome_want_more">More?</string>
-    <string name="just_try_app">すぐにアプリを使う</string>
-    <string name="maybe_later">後で</string>
-    <string name="welcome_note">Simplenote Android へようこそ !\n使い方についてはこちらを開いてください。\n\nノートを新規作成するには鉛筆のボタンをタップしてください。\n\nノートを検索するには、アクションバーの検索ボタンをタップしてテキストを入力してください。一致した項目がすぐに表示されます。\n\n重要なノートがある場合は、表示中にピンボタンを押して一覧の上部に固定できます。\n\nノートの整理にタグを使いましょう。他の Simplenote ユーザーのメールアドレスを追加すれば、その人とノートを共有できます。\n\nツールバーの「共有」ボタンをタップして、他のアンドロイドアプリでノートをシェアできます。\n\n削除したノートはゴミ箱に移動されます。復元したり、ゴミ箱を空にして永久に削除したりできます。\n\nWeb から、またはほかのデバイスやパソコンからノートにアクセスできます。http://simplenote.com から詳細をご覧ください。\n\nそれでは、Simplenote をお楽しみください !</string>
+    <string name="welcome_note">Simplenote Android へようこそ !\n手順については、ここを開いてください。\n\n新しいメモを作成するには、青色の「メモを追加」ボタンをタップします。\n\nメモを検索するには、アクションバーにある検索ボタンをタップして、任意のテキストを入力します。一致する結果がすぐに Simplenote に表示されます。\n\nとても重要なメモですか ?メモを表示した状態でピンボタンを押すと、そのメモがリストの先頭に固定されます。\n\nメモを整理するにはタグを利用します。メモを他の人と共有するために、メールアドレスをタグとして追加することもできます。\n\nツールバーにある共有ボタンをタップするだけで、簡単にメモを他の Android アプリと共有できます。\n\n削除されたメモはゴミ箱に入れられます。必要に応じて、ゴミ箱からメモを復元できます。完全にメモを削除するには、ゴミ箱を空にします。\n\nWeb 上や他のデバイスからメモにアクセスできます。開始するには、http://simplenote.com に移動します。\n\nSimplenote をお楽しみください !</string>
     <string name="no_notes_found">ノートが見つかりません</string>
     <string name="trash_is_empty">ゴミ箱は空です。</string>
     <string name="why_not_create_one">%1$s作成%2$s しますか ?</string>
@@ -120,11 +161,8 @@
     <string name="note_pinned">ノートを上部に固定しました。</string>
     <string name="rename_tag">タグ名を変更</string>
     <string name="new_note_list">新規ノート…</string>
-    <string name="backup_notes">ノートをバックアップし、Web 上で使い、他のデバイスと同期しましょう。</string>
     <string name="confirm_delete_tag">本当にこのタグを削除しますか ?</string>
-    <string name="welcome_signup_prompt">いますぐノートの同期を始めましょう。</string>
     <string name="edit_tags">タグを編集</string>
-    <string name="sign_up">登録</string>
     <string name="sign_in">ログイン</string>
     <string name="new_note">新規ノート</string>
     <string name="delete">ゴミ箱へ移動</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">昨日</string>
     <string name="today">今日</string>
     <string name="trash">ゴミ箱</string>
-    <string name="notes">ノート一覧</string>
     <string name="sort_order">ソート順</string>
     <string name="more_info">詳細</string>
     <string name="website">simplenote.com サイトへ</string>
     <string name="no_tags_found">タグが見つかりませんでした。</string>
     <string name="word">単語</string>
+    <string name="character">文字</string>
     <string name="no">いいえ</string>
     <string name="yes">はい</string>
     <string name="confirm_empty_trash">本当にゴミ箱を空にしますか ?</string>
@@ -148,16 +186,16 @@
     <string name="delete_tag">タグを削除</string>
     <string name="tag_name">タグ名</string>
     <string name="edit_tag">タグの編集</string>
+    <string name="characters">文字</string>
     <string name="words">単語</string>
     <string name="share_note">ノートを共有</string>
     <string name="preview_lines">プレビュー行数</string>
     <string name="font_size">フォントサイズ</string>
+    <string name="detect_links">リンクを検出</string>
     <string name="sign_out">ログアウト</string>
     <string name="account">アカウント</string>
     <string name="undelete">ノートを復元</string>
     <string name="share">共有</string>
     <string name="settings">設定</string>
     <string name="tag_hint">タグを追加…</string>
-    <string name="simplenote_blog_url">simplenote.com/blog</string>
-    <string name="content_description_copy_button">コピーボタン</string>
 </resources>

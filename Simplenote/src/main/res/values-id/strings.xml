@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-29 11:54:11+0000
+Plural-Forms: nplurals=2; plural=n > 1;
+Generator: GlotPress/2.4.0-alpha
+Language: id
+-->
 <resources>
+    <string name="insert_checklist">Masukkan daftar periksa</string>
+    <string name="all_notes">Semua Catatan</string>
+    <string name="appearance">Tampilan</string>
+    <string name="sort_tags_alphabetically">Urutkan berdasarkan huruf</string>
+    <string name="empty_note_post">Tidak dapat membuat pos kosong.</string>
+    <string name="could_not_access_site_data">Tidak dapat mengakses data situs.</string>
+    <string name="wordpress_post_link">Bagikan Pos WordPress</string>
+    <string name="reconnect_to_wordpress">Harap sambungkan kembali ke WordPress.com.</string>
+    <string name="network_error_message">Terjadi error pada jaringan. Coba lagi.</string>
+    <string name="select_site">Pilih situs untuk membuat pos.</string>
+    <string name="post_to_wordpress">Buat pos ke WordPress</string>
+    <string name="untitled_site">Situs tidak memiliki judul</string>
+    <string name="connect_with_wordpress">Hubungkan</string>
+    <string name="wordpress_connect_summary">Untuk membuat pos catatan langsung ke situs WordPress, hubungkan akun WordPress.com Anda.</string>
+    <string name="done">Selesai</string>
+    <string name="success">Catatan berhasil dipos ke: %1$s</string>
+    <string name="uploading_post">Mengunggah pos</string>
+    <string name="wordpress_post_draft">Atur status menjadi konsep</string>
+    <string name="send_post">Pos</string>
+    <string name="wordpress_post">Pos WordPress</string>
+    <string name="location_permission_explanation">Simplenote perlu mengetahui lokasi Anda secara umum untuk menentukan waktu matahari terbenam dan tenggelam secara akurat. Jika tidak, waktu malam hari akan diasumsikan mulai dari jam 22.00 sampai 06.00.</string>
+    <string name="location_permission_denied">Izin Lokasi Ditolak</string>
+    <string name="theme_auto">Gelap pada malam hari saja</string>
+    <string name="notes">Catatan</string>
+    <string name="simperium_summary">Menambahkan sinkronisasi data ke aplikasi Anda</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Bantu kami menyempurnakan Simplenote dengan berbagi data penggunaan dengan alat analitik kami. %1$sPelajari selengkapnya%2$s</string>
+    <string name="share_analytics">Berbagi analitik</string>
+    <string name="editor">Penyunting</string>
+    <string name="general">Umum</string>
+    <string name="logo">Logo</string>
+    <string name="unpin_from_top">Lepas sematan dari atas</string>
+    <string name="untagged_notes">Catatan Tanpa Tag</string>
+    <string name="sign_in_with_wordpress_com">Masuk dengan WordPress.com</string>
+    <string name="delete_notes">Hapus catatan</string>
+    <string name="visit_web_app">Kunjungi aplikasi web</string>
+    <string name="unsynced_notes_message">Catatan yang tidak disinkronkan akan dihapus saat Anda keluar. Anda dapat memverifikasi catatan Anda yang disinkronkan dengan masuk ke Aplikasi Web.</string>
+    <string name="unsynced_notes">Catatan yang belum disinkronkan terdeteksi</string>
+    <string name="wpcom_sign_in_error_unverified">Aktifkan akun WordPress.com melalui email dan coba lagi.</string>
+    <string name="wpcom_sign_in_error_generic">Tidak dapat masuk dengan WordPress.com. Coba lagi.</string>
     <string name="note_not_published">Catatan tidak diterbitkan</string>
     <string name="collaborate_message">Tambahkan email di bidang tag untuk berkolaborasi dengan pengguna lain.</string>
     <string name="collaborate">Kolaborasi</string>
-    <string name="unpublishing">Menghapus tautan publik...</string>
-    <string name="publishing">Memublikasikan tautan...</string>
+    <string name="unpublishing">Menghapus tautan publik…</string>
+    <string name="publishing">Memublikasikan tautan…</string>
     <string name="unpublish_successful">Tautan publik dihapus.</string>
-    <string name="publish_successful">Berhasil! Tautan disalin ke clipboard...</string>
-    <string name="unpublish_error">Tidak dapat menghapus tautan...</string>
-    <string name="publish_error">Tidak dapat membuat tautan...</string>
+    <string name="publish_successful">Berhasil! Tautan disalin ke clipboard…</string>
+    <string name="unpublish_error">Tidak dapat menghapus tautan…</string>
+    <string name="publish_error">Tidak dapat membuat tautan…</string>
     <string name="unpublish">Hapus tautan publik</string>
     <string name="public_link">Tautan publik</string>
-    <string name="no_browser_available">"Tidak dapat membuka situs web. Browser tidak tersedia."</string>
-    <string name="simplenote_for_android">Simplenote untuk Android</string>
+    <string name="no_browser_available">\"Tidak dapat membuka situs web. Browser tidak tersedia.\"</string>
     <string name="blog">Blog</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Beri Rating</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
@@ -68,6 +112,7 @@
     <string name="app_description">Simplenote, aplikasi yang meraih penghargaan, sekarang tersedia untuk Android. Simplenote merupakan cara yang mudah untuk menyimpan catatan, daftar, ide dan lain-lain. Catatan Anda tetap sinkron dengan semua perangkat Anda secara gratis.\n\n        Pengalaman Simplenote adalah tentang kecepatan dan efisiensi. Buka, tulis beberapa ide, dan Anda telah selesai. Meskipun catatan Anda semakin banyak, namun Anda dapat mencarinya secara cepat dan menjaganya tetap tertata dengan label dan sematan.\n\n        Cara terbaik mempelajari Simplenote adalah dengan mencobanya. Setelah Anda memasang dan menjalankan, kunjungi simplenote.com untuk mengunduhnya di perangkat lain dan mulai mengakses catatan Anda di mana saja.</string>
     <string name="have_account">Sudah memiliki akun?</string>
     <string name="no_account">Belum memiliki akun?</string>
+    <string name="or">atau</string>
     <string name="ok">OK</string>
     <string name="error">Kesalahan</string>
     <string name="forgot_password">Lupa kata sandi Anda?</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Tanggal dibuat terbaru</string>
     <string name="sort_oldest_modified">Tanggal modifikasi terlama</string>
     <string name="sort_newest_modified">Tanggal modifikasi terbaru</string>
-    <string name="use_simplenote_account">Gunakan akun Simplenote</string>
-    <string name="welcome_want_more">Ingin lebih lengkap?</string>
-    <string name="just_try_app">coba aplikasi</string>
-    <string name="maybe_later">Mungkin nanti</string>
-    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka ini untuk membaca petunjuk.\n\nUntuk membuat catatan baru, ketuk tombol plus.\n\nUntuk mencari catatan Anda, ketuk tombol pencarian di Bilah Tindakan dan masukkan teks. Simplenote akan memperlihatkan hasil yang cocok kepada Anda dengan cepat.\n\nAnda mendapatkan pesan sangat penting? Tekan tombol sematkan ketika menampilkan catatan untuk menyematkannya ke bagian atas daftar.\n\nGunakan label untuk membantu menata catatan. Anda juga bisa menambahkan alamat email sebagai label untuk membagikan catatan dengan seseorang .\n\nBagikan catatan secara mudah dengan aplikasi Android lain dengan mengetuk \'Bagikan\' di menu.\n\nCatatan yang dihapus masuk ke sampah. Anda bisa memulihkannya jika ingin, atau mengosongkan sampah untuk membuang selamanya.\n\nAnda bisa mengakses catatan Anda di web dan perangkat lain. Buka http://simplenote.com untuk memulai.\n\nKami harap Anda menikmati menggunakan Simplenote!</string>
+    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka untuk melihat petunjuk.\n\nUntuk membuat catatan baru, ketuk tombol \"Tambah Catatan\" berwarna biru.\n\nUntuk mencari di catatan Anda, ketuk tombol pencarian di Bilah Tindakan dan masukkan teks. Simplenote akan menampilkan hasil yang cocok dalam sekejap.\n\nAda catatan yang sangat penting? Tekan tombol pin saat membuka catatan untuk menyematkannya di posisi teratas dalam daftar.\n\nGunakan tag untuk membantu menata catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan email dengan mudah menggunakan aplikasi Android lainnya dengan mengetuk tombol bagikan di bilah peralatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="no_notes_found">Catatan tidak ditemukan.</string>
     <string name="trash_is_empty">Sampah kosong.</string>
     <string name="why_not_create_one">Mengapa tidak %1$smembuat satu%2$s?</string>
@@ -120,11 +161,8 @@
     <string name="note_pinned">Catatan disematkan.</string>
     <string name="rename_tag">Ganti nama label</string>
     <string name="new_note_list">Catatan baru…</string>
-    <string name="backup_notes">Cadangkan catatan Anda, gunakan di web, dan sinkronkan dengan perangkat lain.</string>
     <string name="confirm_delete_tag">Anda yakin ingin menghapus label ini?</string>
-    <string name="welcome_signup_prompt">Mulai menyinkronkan catatan sekarang.</string>
     <string name="edit_tags">Sunting label</string>
-    <string name="sign_up">Mendaftar</string>
     <string name="sign_in">Masuk</string>
     <string name="new_note">Catatan baru</string>
     <string name="delete">Pindahkan ke sampah</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Kemarin</string>
     <string name="today">Hari ini</string>
     <string name="trash">Sampah</string>
-    <string name="notes">Semua Catatan</string>
     <string name="sort_order">Urutkan</string>
     <string name="more_info">Informasi Selengkapnya</string>
     <string name="website">Kunjungi simplenote.com</string>
     <string name="no_tags_found">Label tidak ditemukan.</string>
     <string name="word">Kata</string>
+    <string name="character">Karakter</string>
     <string name="no">Tidak</string>
     <string name="yes">Ya</string>
     <string name="confirm_empty_trash">Anda yakin ingin mengosongkan sampah?</string>
@@ -148,10 +186,12 @@
     <string name="delete_tag">Hapus label</string>
     <string name="tag_name">Nama label</string>
     <string name="edit_tag">Sunting Label</string>
+    <string name="characters">Karakter</string>
     <string name="words">Kata</string>
     <string name="share_note">Bagikan Catatan</string>
     <string name="preview_lines">Pratinjau baris</string>
     <string name="font_size">Ukuran font</string>
+    <string name="detect_links">Mendeteksi tautan</string>
     <string name="sign_out">Keluar</string>
     <string name="account">Akun</string>
     <string name="undelete">Pulihkan catatan</string>

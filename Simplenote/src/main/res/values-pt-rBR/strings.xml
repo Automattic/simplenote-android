@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-29 14:54:02+0000
+Plural-Forms: nplurals=2; plural=(n > 1);
+Generator: GlotPress/2.4.0-alpha
+Language: pt_BR
+-->
 <resources>
+    <string name="insert_checklist">Inserir lista de verificação</string>
+    <string name="all_notes">Todas as anotações</string>
+    <string name="appearance">Aparência</string>
+    <string name="sort_tags_alphabetically">Classificar em ordem alfabética</string>
+    <string name="empty_note_post">Não é possível publicar uma observação em branco.</string>
+    <string name="could_not_access_site_data">Não foi possível acessar os dados do site.</string>
+    <string name="wordpress_post_link">Compartilhar o post do WordPress</string>
+    <string name="reconnect_to_wordpress">Reconecte-se ao WordPress.com.</string>
+    <string name="network_error_message">Ocorreu um erro na rede. Tente novamente.</string>
+    <string name="select_site">Selecione o site no qual deseja publicar.</string>
+    <string name="post_to_wordpress">Publicar no WordPress</string>
+    <string name="untitled_site">Site sem título</string>
+    <string name="connect_with_wordpress">Conectar</string>
+    <string name="wordpress_connect_summary">Para publicar uma observação diretamente em um site do WordPress, conecte-se à sua conta do WordPress.com.</string>
+    <string name="done">Concluído</string>
+    <string name="success">Observação publicada com sucesso em: %1$s</string>
+    <string name="uploading_post">Fazendo upload do post</string>
+    <string name="wordpress_post_draft">Definir status como rascunho</string>
+    <string name="send_post">Publicar</string>
+    <string name="wordpress_post">Post do WordPress</string>
+    <string name="location_permission_explanation">O Simplenote precisa saber sua localização aproximada para determinar com precisão os horários do nascer e pôr do sol. Caso contrário, presume-se que o período noturno seja de 22h às 6h.</string>
+    <string name="location_permission_denied">Permissão de localização negada</string>
+    <string name="theme_auto">Escuro apenas à noite</string>
+    <string name="notes">Anotações</string>
+    <string name="simperium_summary">Adicione a sincronização de dados ao seu aplicativo</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Ajude-nos a aprimorar o Simplenote compartilhando o uso de dados com nossa ferramenta de dados analíticos. %1$sSaiba mais%2$s</string>
+    <string name="share_analytics">Compartilhar dados analíticos</string>
+    <string name="editor">Editor</string>
+    <string name="general">Geral</string>
+    <string name="logo">Logotipo</string>
+    <string name="unpin_from_top">Desafixar do topo</string>
+    <string name="untagged_notes">Anotações sem tags</string>
+    <string name="sign_in_with_wordpress_com">Entrar usando o WordPress.com</string>
+    <string name="delete_notes">Excluir anotações</string>
+    <string name="visit_web_app">Acessar o aplicativo para Web</string>
+    <string name="unsynced_notes_message">Sair resultará na exclusão de quaisquer anotações não sincronizadas. Você pode verificar suas anotações sincronizadas entrando no Aplicativo para Web.</string>
+    <string name="unsynced_notes">Anotações não sincronizadas detectadas</string>
+    <string name="wpcom_sign_in_error_unverified">Ative sua conta do WordPress.com por e-mail e tente novamente.</string>
+    <string name="wpcom_sign_in_error_generic">Não foi possível entrar usando o WordPress.com. Tente novamente.</string>
     <string name="note_not_published">Anotação não publicada</string>
     <string name="collaborate_message">Adicione um email ao campo da tag para colaborar com outros usuários.</string>
     <string name="collaborate">Colaborar</string>
-    <string name="unpublishing">Removendo link público...</string>
-    <string name="publishing">Publicando link...</string>
+    <string name="unpublishing">Removendo link público…</string>
+    <string name="publishing">Publicando o link…</string>
     <string name="unpublish_successful">Link público removido.</string>
-    <string name="publish_successful">Sucesso! Link copiado para a área de transferência...</string>
-    <string name="unpublish_error">Não foi possível remover o link...</string>
-    <string name="publish_error">Não foi possível criar o link...</string>
+    <string name="publish_successful">Sucesso! Link copiado para a área de transferência…</string>
+    <string name="unpublish_error">Não foi possível remover o link…</string>
+    <string name="publish_error">Não foi possível criar o link…</string>
     <string name="unpublish">Remover link público</string>
     <string name="public_link">Link público</string>
-    <string name="no_browser_available">"Não foi possível abrir o site. Nenhum navegador disponível."</string>
-    <string name="simplenote_for_android">Simplenote para Android</string>
+    <string name="no_browser_available">\"Não foi possível abrir o site. Nenhum navegador disponível.\"</string>
     <string name="blog">Blog</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Classifique-nos</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
@@ -68,13 +112,14 @@
     <string name="app_description">O premiado Simplenote agora está disponível para Android. O Simplenote é uma maneira fácil de guardar anotações, listas, ideias e muito mais. Suas anotações ficam em sincronia com todos os seus dispositivos gratuitamente.\n\n        A experiência do Simplenote se resume à velocidade e eficiência. Abra-o, escreva o que desejar e pronto. Conforme o conjunto de suas anotações aumentar, você poderá pesquisá-las instantaneamente e mantê-las organizadas com tags e pins.\n\n        A melhor forma de conhecer o Simplenote é experimentando. Quando estiver pronto, visite simplenote.com para baixá-lo em outros dispositivos e acessar suas anotações em qualquer lugar.</string>
     <string name="have_account">Já tem uma conta?</string>
     <string name="no_account">Não tem uma conta ainda?</string>
+    <string name="or">ou</string>
     <string name="ok">OK</string>
     <string name="error">Erro</string>
     <string name="forgot_password">Esqueceu sua senha?</string>
     <string name="create_account">Criar nova conta</string>
     <string name="login_failed_message">Não foi possível fazer login com o endereço de email e senha fornecidos.</string>
     <string name="agree_terms_of_service">Ao se registrar, você concorda com os Termos de Serviço.</string>
-    <string name="signing_in">Entrando...</string>
+    <string name="signing_in">Entrando…</string>
     <string name="signing_up">Registrando-se…</string>
     <string name="account_setup">Configuração de Conta</string>
     <string name="no_network_message">Não há redes disponíveis. Conecte-se a uma rede e tente novamente.</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Data criada mais recente</string>
     <string name="sort_oldest_modified">Data modificada mais antiga</string>
     <string name="sort_newest_modified">Data modificada mais recente</string>
-    <string name="use_simplenote_account">Usar uma conta Simplenote</string>
-    <string name="welcome_want_more">Quer mais?</string>
-    <string name="just_try_app">experimente o aplicativo</string>
-    <string name="maybe_later">Talvez depois</string>
-    <string name="welcome_note">Bem-vindo ao Simplenote para Android!\nAbra para ver instruções.\n\nPara criar uma nova anotação, toque no botão com o lápis..\n\nPara pesquisar em suas anotações, toque no botão de pesquisa na barra de ações e insira algum texto. O Simplenote mostrará os resultados correspondentes instantaneamente.\n\nFez uma anotação muito importante? Pressione o botão de fixar ao visualizar uma anotação para fixá-la no topo da lista.\n\nUse tags para organizar suas anotações. Você também pode adicionar um endereço de email como tag para compartilhar uma anotação com alguém.\n\nCompartilhe anotações facilmente com outros aplicativos Android tocando em no botão Compartilhar na barra de ferramentas.\n\nAnotações excluídas vão para a lixeira. Você pode restaurá-las, se desejar, ou esvaziar a lixeira para eliminá-las permanentemente.\n\nVocê pode acessar suas anotações na web e em outros dispositivos. Acesse http://simplenote.com para começar.\n\nEsperamos que você goste de usar o Simplenote!</string>
+    <string name="welcome_note">Bem-vindo ao Simplenote para Android!\nAbra para ver as instruções.\n\nPara criar uma nova anotação, toque no botão azul “Adicionar anotação”.\n\nPara pesquisar suas anotações, toque no botão de pesquisa na barra Ações e insira algum texto. O Simplenote mostrará os resultados correspondentes instantaneamente.\n\nRecebeu uma anotação muito importante? Pressione o botão de alfinete ao visualizar uma anotação para fixá-la no topo da lista.\n\nUse tags para ajudar a organizar suas anotações. Você também pode adicionar um endereço de e-mail como tag para compartilhar uma anotação com alguém.\n\nCompartilhe anotações facilmente com outros aplicativos Android tocando no botão Compartilhar, na barra de ferramentas.\n\nAs anotações excluídas vão para a lixeira. Você pode restaurá-las, se desejar, ou esvaziar a lixeira para eliminá-las permanentemente.\n\nVocê pode acessar suas anotações na web e em outros dispositivos. Acesse http://simplenote.com para começar.\n\nEsperamos que você goste de usar o Simplenote!</string>
     <string name="no_notes_found">Nenhuma anotação encontrada.</string>
     <string name="trash_is_empty">A lixeira está vazia.</string>
     <string name="why_not_create_one">Por que não %1$scriar uma%2$s?</string>
@@ -119,12 +160,9 @@
     <string name="condensed_note_list">Lista de anotações condensada</string>
     <string name="note_pinned">Anotação fixada.</string>
     <string name="rename_tag">Renomear tag</string>
-    <string name="new_note_list">Nova anotação...</string>
-    <string name="backup_notes">Faça backup de suas anotações, com acesso pela web e sincronização com outros dispositivos.</string>
+    <string name="new_note_list">Nova anotação…</string>
     <string name="confirm_delete_tag">Tem certeza que deseja excluir esta tag?</string>
-    <string name="welcome_signup_prompt">Comece a sincronizar anotações agora.</string>
     <string name="edit_tags">Editar tags</string>
-    <string name="sign_up">Registrar-se</string>
     <string name="sign_in">Fazer login</string>
     <string name="new_note">Nova anotação</string>
     <string name="delete">Mover para a lixeira</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Ontem</string>
     <string name="today">Hoje</string>
     <string name="trash">Lixeira</string>
-    <string name="notes">Todas as Anotações</string>
     <string name="sort_order">Organizar</string>
     <string name="more_info">Mais Informações</string>
     <string name="website">Acesse simplenote.com</string>
     <string name="no_tags_found">Nenhuma tag encontrada.</string>
     <string name="word">Palavras</string>
+    <string name="character">Caractere</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
     <string name="confirm_empty_trash">Tem certeza que deseja esvaziar a lixeira?</string>
@@ -148,15 +186,16 @@
     <string name="delete_tag">Excluir tag</string>
     <string name="tag_name">Nome da tag</string>
     <string name="edit_tag">Editar tag</string>
+    <string name="characters">Caracteres</string>
     <string name="words">Palavras</string>
     <string name="share_note">Compartilhar Anotação</string>
     <string name="preview_lines">Visualizar linhas</string>
     <string name="font_size">Tamanho da fonte</string>
+    <string name="detect_links">Detectar links</string>
     <string name="sign_out">Sair</string>
     <string name="account">Conta</string>
     <string name="undelete">Restaurar anotação</string>
     <string name="share">Compartilhar</string>
     <string name="settings">Configurações</string>
-    <string name="tag_hint">Adicionar tag...</string>
-    <string name="content_description_copy_button">Botão Copiar</string>
+    <string name="tag_hint">Adicionar tag…</string>
 </resources>

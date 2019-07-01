@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Translation-Revision-Date: 2019-01-30 15:54:02+0000
+Plural-Forms: nplurals=2; plural=n != 1;
+Generator: GlotPress/2.4.0-alpha
+Language: es
+-->
 <resources>
+    <string name="insert_checklist">Insertar lista de verificación</string>
+    <string name="all_notes">Todas las notas</string>
+    <string name="appearance">Apariencia</string>
+    <string name="sort_tags_alphabetically">Ordenar alfabéticamente</string>
+    <string name="empty_note_post">No puedes publicar una nota en blanco.</string>
+    <string name="could_not_access_site_data">No se ha podido acceder a los datos del sitio.</string>
+    <string name="wordpress_post_link">Compartir entrada de WordPress</string>
+    <string name="reconnect_to_wordpress">Conecta de nuevo con WordPress.com.</string>
+    <string name="network_error_message">Se ha producido un error de red. Inténtalo de nuevo.</string>
+    <string name="select_site">Elige un sitio y comienza a publicar.</string>
+    <string name="post_to_wordpress">Publicar en WordPress</string>
+    <string name="untitled_site">Sitio sin título</string>
+    <string name="connect_with_wordpress">Conectar</string>
+    <string name="wordpress_connect_summary">Para publicar una nota directamente en un sitio de WordPress, conecta tu cuenta de WordPress.com.</string>
+    <string name="done">Listo</string>
+    <string name="success">Nota publicada correctamente en: %1$s</string>
+    <string name="uploading_post">Subiendo entrada</string>
+    <string name="wordpress_post_draft">Definir estado en borrador</string>
+    <string name="send_post">Entrada</string>
+    <string name="wordpress_post">Entrada de WordPress</string>
+    <string name="location_permission_explanation">Simplenote debe conocer tu ubicación aproximada para determinar las horas en que se pone y sale el sol. De lo contrario, se determinará que la noche es de 22:00 a 06:00.</string>
+    <string name="location_permission_denied">Permiso de ubicación denegado</string>
+    <string name="theme_auto">Oscuro solo de noche</string>
+    <string name="notes">Notas</string>
+    <string name="simperium_summary">Añadir sincronización de datos a la aplicación</string>
+    <string name="simperium">Simperium</string>
+    <string name="share_analytics_summary">Ayúdanos a mejorar Simplenote compartiendo los datos de uso con nuestra herramienta de análisis. %1$sMás información%2$s</string>
+    <string name="share_analytics">Compartir análisis</string>
+    <string name="editor">Editor</string>
+    <string name="general">General</string>
+    <string name="logo">Logotipo</string>
+    <string name="unpin_from_top">Quitar de la parte superior</string>
+    <string name="untagged_notes">Notas sin etiquetar</string>
+    <string name="sign_in_with_wordpress_com">Inicia sesión con WordPress.com</string>
+    <string name="delete_notes">Eliminar notas</string>
+    <string name="visit_web_app">Visitar aplicación web</string>
+    <string name="unsynced_notes_message">Si cierras sesión se eliminarán las notas no sincronizadas. Puedes iniciar sesión en la aplicación web para verificar tus notas sincronizadas.</string>
+    <string name="unsynced_notes">Se han detectado notas sin sincronizar</string>
+    <string name="wpcom_sign_in_error_unverified">Activa tu cuenta de WordPress.com mediante correo electrónico e inténtalo de nuevo.</string>
+    <string name="wpcom_sign_in_error_generic">No se ha podido iniciar sesión con WordPress.com. Inténtalo de nuevo.</string>
     <string name="note_not_published">La nota no se ha publicado</string>
     <string name="collaborate_message">Añade una dirección de correo electrónico en el campo de la etiqueta para colaborar con otros usuarios</string>
     <string name="collaborate">Colaborar</string>
     <string name="unpublishing">Eliminando el enlace público…</string>
     <string name="publishing">Publicando el enlace…</string>
     <string name="unpublish_successful">El enlace público se ha eliminado.</string>
-    <string name="publish_successful">¡Operación realizada correctamente! El enlace se ha copiado al portapapeles…</string>
+    <string name="publish_successful">¡Bien! El enlace se ha copiado al portapapeles…</string>
     <string name="unpublish_error">No se ha podido eliminar el enlace…</string>
     <string name="publish_error">No se ha podido crear el enlace…</string>
     <string name="unpublish">Eliminar el enlace público</string>
     <string name="public_link">Enlace público</string>
-    <string name="no_browser_available">"No se puede abrir el sitio web. No hay ningún navegador disponible."</string>
-    <string name="simplenote_for_android">Simplenote para Android</string>
+    <string name="no_browser_available">\"No se puede abrir el sitio web. No hay ningún navegador disponible.\"</string>
     <string name="blog">Blog</string>
-    <string name="automattic_copyright">©2016 Automattic, Inc.</string>
     <string name="rate_us">Puntúanos</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
@@ -68,6 +112,7 @@
     <string name="app_description">La galardonada Simplenote ya está disponible para Android. Simplenote es una forma fácil de guardar notas, listas, ideas, y más. Tus notas se sincronizan gratis en todos tus dispositivos.\n\n        La experiencia Simplenote es acerca de rapidez y eficiencia. Ábrela, escribe algunas ideas, y listo. Según crece tu colección de notas, puedes hacer búsquedas instantáneas y organizarlas con etiquetas y destacadas.\n\n        La mejor forma de aprender sobre Simplenote es probarla. Una vez en marcha, visita simplenote.com para descargarla en otros dispositivos y disponer de tus notas desde cualquier lugar.</string>
     <string name="have_account">¿Ya tienes una cuenta?</string>
     <string name="no_account">¿Aún no tienes cuenta?</string>
+    <string name="or">o</string>
     <string name="ok">Aceptar</string>
     <string name="error">Error</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
@@ -105,11 +150,7 @@
     <string name="sort_newest_created">Creación más reciente</string>
     <string name="sort_oldest_modified">Modificación más antigua</string>
     <string name="sort_newest_modified">Modificación más reciente</string>
-    <string name="use_simplenote_account">Usar una cuenta de Simplenote</string>
-    <string name="welcome_want_more">¿Quieres más?</string>
-    <string name="just_try_app">prueba la aplicación</string>
-    <string name="maybe_later">Quizá más tarde</string>
-    <string name="welcome_note">¡Bienvenido a Simplenote Android!\nAbre esta nota para instrucciones.\n\nPara crear una nueva nota, pulsa el lápiz.\n\nPara buscar tus notas, pulsa el botón the búsqueda en la barra de navegación e introduce algún texto. Simplenote te mostrará los resultados al instante.\n\n¿Tienes una nota importante? Pulsa el boton redondo para destacar la nota y fijarla al principio de la lista.\n\nUsa etiquetas para organizar tus notas. También puedes añadir una dirección de correo como etiqueta para compartir una nota con alguien.\n\nComparte notas fácilmente con otras aplicaciones pulsando \'Compartir\' en el menu.\n\nLas notas borradas van a la papelera. Puedes restaurarlas si quieres, o vaciar la papelera para borrarlas definitivamente.\n\nPuedes acceder a tus notas en la web y otros dispositivos. Visita http://simplenote.com para empezar.\n\nEsperamos que disfrutes de Simplenote.</string>
+    <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre este documento para leer las instrucciones.\n\nPara crear una nota nueva, toca el botón azul \"Añadir nota\".\n\nPara buscar en tus notas, toca el botón de buscar que hay en la barra de acciones y especifica el texto que quieras. Simplenote te mostrará los resultados encontrados al instante.\n\n¿Tienes una nota muy importante? Toca el botón de fijar mientras la visualizas para fijarla en la parte superior de lista.\n\nUsa las etiquetas para organizar las notas fácilmente. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nComparte las notas con otras aplicaciones para Android solo con tocar el botón de compartir de la barra de herramientas.\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
     <string name="no_notes_found">No se encontraron notas.</string>
     <string name="trash_is_empty">La papelera está vacia.</string>
     <string name="why_not_create_one">¿Por qué no %1$screar una%2$s?</string>
@@ -119,12 +160,9 @@
     <string name="condensed_note_list">Lista de notas condensada</string>
     <string name="note_pinned">Nota destacada.</string>
     <string name="rename_tag">Renombrar etiqueta</string>
-    <string name="new_note_list">Nueva nota...</string>
-    <string name="backup_notes">Conserva una copia de tus notas, úsalas en la web, y sincroniza con otros dispositivos.</string>
+    <string name="new_note_list">Nueva nota…</string>
     <string name="confirm_delete_tag">¿Estás seguro de borrar esta etiqueta?</string>
-    <string name="welcome_signup_prompt">Comenzar a sincronizar notas.</string>
     <string name="edit_tags">Editar etiquetas</string>
-    <string name="sign_up">Registro</string>
     <string name="sign_in">Acceder</string>
     <string name="new_note">Nueva nota</string>
     <string name="delete">Mover a la papelera</string>
@@ -133,12 +171,12 @@
     <string name="yesterday">Ayer</string>
     <string name="today">Hoy</string>
     <string name="trash">Papelera</string>
-    <string name="notes">Todas las notas</string>
     <string name="sort_order">Criterio de ordenación</string>
     <string name="more_info">Más información</string>
     <string name="website">Visita simplenote.com</string>
     <string name="no_tags_found">No se han encontrado etiquetas.</string>
     <string name="word">Palabra</string>
+    <string name="character">Carácter</string>
     <string name="no">No</string>
     <string name="yes">Sí</string>
     <string name="confirm_empty_trash">¿Estás seguro de vaciar la papelera?</string>
@@ -148,15 +186,16 @@
     <string name="delete_tag">Borrar etiqueta</string>
     <string name="tag_name">Nombre de etiqueta</string>
     <string name="edit_tag">Editar etiqueta</string>
+    <string name="characters">Caracteres</string>
     <string name="words">Palabras</string>
     <string name="share_note">Compartir nota</string>
     <string name="preview_lines">Previsualizar líneas</string>
     <string name="font_size">Tamaño de la fuente</string>
+    <string name="detect_links">Detectar enlaces</string>
     <string name="sign_out">Cerrar sesión</string>
     <string name="account">Cuenta</string>
     <string name="undelete">Restaurar nota</string>
     <string name="share">Compartir</string>
     <string name="settings">Ajustes</string>
-    <string name="tag_hint">Añadir una etiqueta...</string>
-    <string name="select_note">Selecciona Nota</string>
+    <string name="tag_hint">Añadir una etiqueta…</string>
 </resources>
