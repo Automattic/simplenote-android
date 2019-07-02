@@ -127,12 +127,6 @@
     <string name="ok">OK</string>
     <string name="no_account">Don\'t have an account yet?</string>
     <string name="have_account">Already have an account?</string>
-    <string name="app_description">The award-winning Simplenote is now available for Android. Simplenote is an easy way to keep notes, lists, ideas and more. Your notes stay in sync with all of your devices for free.
-
-        The Simplenote experience is all about speed and efficiency. Open it, write some thoughts, and you\'re done. As your collection of notes grows, you can search them instantly and keep them organized with tags and pins.
-
-        The best way to learn about Simplenote is to try it. Once you\'re up and running, visit simplenote.com to download it on other devices and start accessing your notes everywhere.</string>
-    <string name="app_description_short">Simplenote is an easy way to keep notes, lists, ideas and more.</string>
     <string name="wpcom_sign_in_error_generic">Couldn\'t sign in with WordPress.com. Please try again.</string>
     <string name="wpcom_sign_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 

@@ -1,0 +1,42 @@
+# Translation of Release Notes & Play Store Descriptions in English (US)
+# This file is distributed under the same license as the Release Notes & Play Store Descriptions package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-06-19 11:49:24+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: VsCode\n"
+"Project-Id-Version: Release Notes & Play Store Descriptions\n"
+
+#. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_018"
+msgid ""
+"1.8:\n"
+"* Added a widget to view a note and open it in the app from the home screen.\n"
+"* Added hiding app content in the recent apps view when PIN lock is on.\n"
+"* Updated checkboxes to not show the keyboard when tapped.\n"
+"* Fixed multiple cursor bugs for notes with checklists.\n"
+msgstr ""
+
+#. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
+msgctxt "play_store_promo"
+msgid "Simplenote is an easy way to keep notes, lists, ideas and more."
+msgstr ""
+
+#. translators: Multi-paragraph text used to display in the Play Store.
+msgctxt "play_store_desc"
+msgid ""
+"Simplenote is an easy way to keep notes, lists, ideas and more. Your notes stay in sync with all of your devices for free.\n"
+"\n"
+"The Simplenote experience is all about speed and efficiency. Open it, write some thoughts, and you're done. As your collection of notes grows, you can search them instantly and keep them organized with tags and pins\n"
+"\n"
+"The best way to learn about Simplenote is to try it. Once you're up and running, visit simplenote.com to download it on other devices and start accessing your notes everywhere.\n"
+msgstr ""
+
+#. translators: Title to be displayed in the Play Store. Limit to 50 characters including spaces and commas!
+msgctxt "play_store_app_title"
+msgid "Simplenote"
+msgstr ""
+
