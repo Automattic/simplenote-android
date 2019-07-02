@@ -30,6 +30,7 @@ config.properties
 
 # Gradle
 .gradle/
+gradle.properties
 Simplenote/gradle.properties
 
 *.keystore
@@ -39,3 +40,14 @@ Simperium
 
 # Crashlytics API Key
 Simplenote/crashlytics.properties
+
+# Fastlane
+fastlane/README.md
+fastlane/report.xml
+fastlane/.env
+
+# Ruby Dependencies
+/vendor
+
+# Eclypse
+.settings/

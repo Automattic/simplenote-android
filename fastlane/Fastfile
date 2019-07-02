@@ -1,0 +1,23 @@
+default_platform(:android)
+fastlane_require 'dotenv'
+
+platform :android do
+########################################################################
+# Environment
+########################################################################
+Dotenv.load('~/.simplenoteandroid-env.default')
+ENV[GHHELPER_REPO="automattic/simplenote-android"]
+ENV["PROJECT_ROOT_FOLDER"]="./"
+
+########################################################################
+# Release Lanes
+########################################################################  
+
+########################################################################
+# Helper Lanes
+########################################################################  
+  desc "Get a list of pull request from `start_tag` to the current state"
+  lane :get_pullrequests_list do | options |
+    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{options[:start_tag]}", report_path:"#{File.expand_path('~')}/simplenote-android_prs_list.txt")
+  end
+end
