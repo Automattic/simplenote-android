@@ -42,7 +42,8 @@
             android:textColor="@color/simplenote_blue"
             android:textSize="@dimen/nav_drawer_item_text_size"
             android:textStyle="bold"
-            tools:text="Edit"/>
+            tools:ignore="KeyboardInaccessibleWidget"
+            tools:text="Edit" />
 
     </LinearLayout>
 
