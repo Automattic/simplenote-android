@@ -1,6 +1,6 @@
 package com.automattic.simplenote;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,18 +30,22 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.widgets.RobotoRegularTextView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
-public class TagsListFragment extends ListFragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag> {
+public class TagsListFragment extends Fragment implements AdapterView.OnItemClickListener, ActionMode.Callback, AbsListView.MultiChoiceModeListener, AdapterView.OnItemLongClickListener, Bucket.Listener<Tag> {
 
     private ActionMode mActionMode;
     private Bucket<Tag> mTagsBucket;
     private Bucket<Note> mNotesBucket;
-    private TagsAdapter mTagsAdapter;
+    //private TagsAdapter mTagsAdapter;
+    private NewTagsAdapter mNewTagsAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -61,9 +67,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListView listView = getListView();
-        listView.setMultiChoiceModeListener(this);
-        listView.setOnItemClickListener(this);
+        //ListView listView = getListView();
+        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.tagRecyclerView);
+        //listView.setMultiChoiceModeListener(this);
+        //listView.setOnItemClickListener(this);
         // Disabling long press CAB action for now since bulk deleting is incomplete
         // listView.setOnItemLongClickListener(this);
         setHasOptionsMenu(true);
@@ -72,8 +79,10 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        mTagsAdapter = new TagsAdapter(getActivity().getBaseContext(), null, 0);
-        setListAdapter(mTagsAdapter);
+        mNewTagsAdapter = new NewTagsAdapter(null);
+        recyclerView.setAdapter(mNewTagsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         refreshTags();
     }
 
@@ -104,7 +113,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
     protected void refreshTags() {
         Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-        mTagsAdapter.changeCursor(cursor);
+        mNewTagsAdapter.swapCursor(cursor);
     }
 
     @Override
@@ -114,7 +123,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         LinearLayout alertView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
 
-        final Tag tag = mTagsAdapter.getItem(row);
+        /*final Tag tag = mTagsAdapter.getItem(row);
 
         final EditText tagNameEditText = alertView.findViewById(R.id.tag_name_edit);
         tagNameEditText.setText(tag.getName());
@@ -142,7 +151,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
                 // Do nothing
             }
         });
-        alert.show();
+        alert.show();*/
 
     }
 
@@ -178,7 +187,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
-        final int checkedCount = getListView().getCheckedItemCount();
+        /*final int checkedCount = getListView().getCheckedItemCount();
         switch (checkedCount) {
             case 0:
                 actionMode.setSubtitle(null);
@@ -189,17 +198,17 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             default:
                 actionMode.setSubtitle("" + checkedCount + " items selected");
                 break;
-        }
+        }*/
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        /*getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setItemChecked(position, true);
         if (isAdded() && mActionMode == null) {
             getActivity().startActionMode(this);
         }
-        //isCABDestroyed = false;
+        //isCABDestroyed = false;*/
         return false; // so this action does not consume the event!!!
     }
 
@@ -366,6 +375,75 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
                 notesCursor.close();
             }
             return null;
+        }
+    }
+
+    private class NewTagsAdapter extends RecyclerView.Adapter<NewTagsAdapter.ViewHolder> {
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public TextView tagTitle;
+            public TextView tagCountTextView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                tagTitle = itemView.findViewById(R.id.tag_name);
+                tagCountTextView = itemView.findViewById(R.id.tag_count);
+            }
+        }
+
+        private Bucket.ObjectCursor<Tag> mCursor;
+
+        public NewTagsAdapter(Bucket.ObjectCursor<Tag> cursor) {
+            mCursor = cursor;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            Context context = parent.getContext();
+            LayoutInflater inflater = LayoutInflater.from(context);
+
+            View contactView = inflater.inflate(R.layout.tags_list_row, parent, false);
+
+            ViewHolder viewHolder = new ViewHolder(contactView);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            mCursor.moveToPosition(position);
+            Tag tag = mCursor.getObject();
+
+            holder.tagTitle.setText(tag.getName());
+            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            if (tagCount > 0) {
+                holder.tagCountTextView.setText(String.valueOf(tagCount));
+            } else {
+                holder.tagCountTextView.setText("");
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if(mCursor == null) return 0;
+            return mCursor.getCount();
+        }
+
+        public void swapCursor(Bucket.ObjectCursor<Tag> newCursor) {
+            if (newCursor == mCursor) {
+                return;
+            }
+
+            if (newCursor != null) {
+                mCursor = newCursor;
+                // notify the observers about the new cursor
+                notifyDataSetChanged();
+            } else {
+                notifyItemRangeRemoved(0, getItemCount());
+                mCursor = null;
+            }
         }
     }
 }
