@@ -380,16 +380,59 @@ public class TagsListFragment extends Fragment implements AdapterView.OnItemClic
 
     private class NewTagsAdapter extends RecyclerView.Adapter<NewTagsAdapter.ViewHolder> {
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView tagTitle;
             public TextView tagCountTextView;
+            public ImageButton deleteButton;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
                 tagTitle = itemView.findViewById(R.id.tag_name);
                 tagCountTextView = itemView.findViewById(R.id.tag_count);
+                deleteButton = itemView.findViewById(R.id.tag_trash);
+
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+                if (!isAdded()) return;
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                LinearLayout alertView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
+
+                mCursor.moveToPosition(getAdapterPosition());
+                final Tag tag = mCursor.getObject();
+
+                final EditText tagNameEditText = alertView.findViewById(R.id.tag_name_edit);
+                tagNameEditText.setText(tag.getName());
+                tagNameEditText.setSelection(tagNameEditText.length());
+                alert.setView(alertView);
+                alert.setTitle(R.string.rename_tag);
+                alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = tagNameEditText.getText().toString().trim();
+                        try {
+                            tag.renameTo(value, mNotesBucket);
+                            AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
+                                    AnalyticsTracker.CATEGORY_TAG,
+                                    "tag_alert_edit_box"
+                            );
+                        } catch (BucketObjectNameInvalid e) {
+                            android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
+                            // TODO: show user a message that new tag name is not ok
+                        }
+                    }
+                });
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing
+                    }
+                });
+                alert.show();
             }
         }
 
