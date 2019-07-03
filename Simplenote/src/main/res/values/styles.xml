@@ -30,7 +30,7 @@
         <item name="actionModeTextColor">@color/white</item>
         <item name="colorAccent">@color/simplenote_blue</item>
         <item name="colorPrimary">@color/toolbar_light</item>
-        <item name="colorPrimaryDark">@color/gray_light</item>
+        <item name="colorPrimaryDark">@color/toolbar_light</item>
         <item name="dividerColor">@color/divider_list_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="editorSearchHighlightBackgroundColor">#FF4F91CC</item>
