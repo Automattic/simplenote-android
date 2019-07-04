@@ -9,6 +9,7 @@
     android:layout_width="fill_parent" >
 
     <LinearLayout
+        android:id="@+id/AppUnlockLinearLayout1"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
