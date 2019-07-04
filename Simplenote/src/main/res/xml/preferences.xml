@@ -76,8 +76,7 @@
         android:key="pref_key_account_preferences"
         android:title="@string/account">
         <Preference
-            android:key="pref_key_authenticate"
-            android:layout="@layout/auth_preference"/>
+            android:key="pref_key_authenticate"/>
     </PreferenceCategory>
 
     <PreferenceCategory
