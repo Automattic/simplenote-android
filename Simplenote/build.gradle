@@ -20,7 +20,7 @@ repositories {
 }
 
 ext {
-    googleVersion = '27.1.1'
+    googleVersion = '28.0.0'
 }
 
 dependencies {
@@ -47,7 +47,11 @@ dependencies {
     implementation "com.android.support:preference-v7:$googleVersion"
     implementation "com.android.support:preference-v14:$googleVersion"
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
+    implementation ('com.google.android.gms:play-services-wearable:16.0.1') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'support-media-compat'
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.takisoft.fix:preference-v7:27.1.1.1'
@@ -68,7 +72,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
@@ -76,7 +80,7 @@ android {
         versionName project.version
         versionCode 76
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
      }
@@ -96,8 +100,6 @@ android {
 	lintOptions {
 	    checkReleaseBuilds false
 	}
-
-    useLibrary 'org.apache.http.legacy'
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
