@@ -17,9 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -69,7 +66,8 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.tagRecyclerView);
+        RecyclerView recyclerView = getActivity().findViewById(R.id.tagList
+        );
         mTagsAdapter = new TagsAdapter();
         recyclerView.setAdapter(mTagsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -220,7 +218,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
             private TextView tagCountTextView;
             private ImageButton deleteButton;
 
-            public ViewHolder(View itemView) {
+            private ViewHolder(View itemView) {
                 super(itemView);
 
                 tagTitle = itemView.findViewById(R.id.tag_name);
@@ -235,14 +233,14 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                         final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
                         final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
                         if (tagCount == 0) {
-                            deleteTag(tag, getAdapterPosition());
+                            deleteTag(tag);
                         } else if (tagCount > 0) {
                             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                             alert.setTitle(R.string.delete_tag);
                             alert.setMessage(getString(R.string.confirm_delete_tag));
                             alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    deleteTag(tag, getAdapterPosition());
+                                    deleteTag(tag);
                                 }
                             });
                             alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -296,9 +294,8 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                 alert.show();
             }
 
-            private void deleteTag(Tag tag, int position) {
+            private void deleteTag(Tag tag) {
                 tag.delete();
-                //notifyItemRemoved(position);
                 new removeTagFromNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.TAG_MENU_DELETED,
@@ -308,7 +305,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
             }
         }
 
-        public TagsAdapter() {
+        private TagsAdapter() {
             super(null);
         }
 
@@ -320,8 +317,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
             View contactView = inflater.inflate(R.layout.tags_list_row, parent, false);
 
-            ViewHolder viewHolder = new ViewHolder(contactView);
-            return viewHolder;
+            return new ViewHolder(contactView);
         }
 
         @Override
