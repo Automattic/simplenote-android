@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -66,11 +67,11 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.tagList
-        );
+        RecyclerView recyclerView = getActivity().findViewById(R.id.tagList);
         mTagsAdapter = new TagsAdapter();
         recyclerView.setAdapter(mTagsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         refreshTags();
     }
