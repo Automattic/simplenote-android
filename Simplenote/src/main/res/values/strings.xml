@@ -142,6 +142,7 @@
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
     <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
+    <string name="description_fingerprint_supported">Fingerprint Supported</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
