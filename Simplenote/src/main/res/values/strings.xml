@@ -46,6 +46,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="note_info">Info</string>
+    <string name="toggle_sidebar">Toggle sidebar</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="enable_markdown">Enable markdown</string>
