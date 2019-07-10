@@ -1,21 +1,20 @@
 buildscript {
     repositories {
         google()
-        maven { url 'https://maven.fabric.io/public' }
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.16'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: "io.fabric"
+apply plugin: 'io.sentry.android.gradle'
 
 repositories {
     maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
-    maven { url 'https://maven.fabric.io/public' }
     maven { url "https://maven.google.com" }
+    maven { url "https://jitpack.io" }
     jcenter()
 }
 
@@ -39,8 +38,9 @@ dependencies {
     }
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.7.1'
-    implementation 'com.automattic:tracks:1.1.6'
+    implementation 'com.github.Automattic:Automattic-Tracks-Android:52d3e23406'
     implementation 'org.wordpress:passcodelock:1.6.0'
+
     // Google Support
     implementation "com.android.support:appcompat-v7:$googleVersion"
     implementation "com.android.support:design:$googleVersion"
@@ -112,7 +112,7 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
               keyPassword = project.keyPassword
           }
           debug {
-              storeFile = file(project.storeFile)
+              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
@@ -171,6 +171,7 @@ android.applicationVariants.all { variant ->
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||
             key == "GOOGLE_ANALYTICS_ID" ||
+            key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID") {
             buildConfigField "String", key, "\"${property.value}\""
         }

@@ -12,6 +12,7 @@
 bin/
 gen/
 build/
+vendor/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -31,6 +32,7 @@ config.properties
 # Gradle
 .gradle/
 gradle.properties
+sentry.properties
 Simplenote/gradle.properties
 
 *.keystore
@@ -46,8 +48,5 @@ fastlane/README.md
 fastlane/report.xml
 fastlane/.env
 
-# Ruby Dependencies
-/vendor
-
-# Eclypse
+# Eclipse
 .settings/

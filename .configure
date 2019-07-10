@@ -1,6 +1,6 @@
 {
   "branch": "master",
-  "pinned_hash": "7900133aac3761caf323024ca63f0104b22fbc5e",
+  "pinned_hash": "438df3c6206e9d31adc712ecef5825cab64bdeb0",
   "files_to_copy": [
     {
       "file": "android/simplenote/gradle.properties",
@@ -9,6 +9,10 @@
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
       "destination": "Simplenote/gradle.properties"
+    },
+    {
+      "file": "android/simplenote/sentry.properties",
+      "destination": "sentry.properties"
     }
   ],
   "file_dependencies": [

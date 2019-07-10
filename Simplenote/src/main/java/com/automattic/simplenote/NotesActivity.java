@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -910,6 +911,7 @@ public class NotesActivity extends AppCompatActivity implements
 
                 Simplenote app = (Simplenote) getApplication();
                 AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+                CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.USER_SIGNED_IN,

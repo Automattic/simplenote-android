@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -291,6 +292,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         // Resets analytics user back to 'anon' type
         AnalyticsTracker.refreshMetadata(null);
+        CrashUtils.clearCurrentUser();
 
         // Remove wp.com token
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
@@ -318,6 +320,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
             Simplenote app = (Simplenote) getActivity().getApplication();
             AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+            CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.USER_SIGNED_IN,
