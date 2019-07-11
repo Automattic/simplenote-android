@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <string name="app_name" translatable="false">Simplenote</string>
     <string name="app_launcher_name" translatable="false">@string/app_name</string>
@@ -36,8 +36,8 @@
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     <string name="note_pinned">Note pinned.</string>
-    <string name="note_selected" tools:ignore="PluralsCandidate">%d note selected</string>
-    <string name="notes_selected" tools:ignore="PluralsCandidate">%d notes selected</string>
+    <string name="note_selected">%d note selected</string>
+    <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="search">Search notes</string>
     <string name="notes">Notes</string>
@@ -142,7 +142,6 @@
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
     <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
-    <string name="description_fingerprint_supported">Fingerprint Supported</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
@@ -161,6 +160,8 @@
     <string name="blog">Blog</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="simperium">Simperium</string>
+    <string name="simperium_summary">Add data sync to your app</string>
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
