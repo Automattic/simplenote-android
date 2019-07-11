@@ -14,7 +14,6 @@ apply plugin: 'io.sentry.android.gradle'
 repositories {
     maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
     maven { url "https://maven.google.com" }
-    maven { url "https://jitpack.io" }
     jcenter()
 }
 
@@ -38,7 +37,7 @@ dependencies {
     }
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.7.1'
-    implementation 'com.github.Automattic:Automattic-Tracks-Android:52d3e23406'
+    implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:1.6.0'
 
     // Google Support
