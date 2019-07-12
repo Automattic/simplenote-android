@@ -37,7 +37,7 @@ ENV["PROJECT_NAME"]="Simplenote"
     setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
     
     android_tag_build()
-    get_prs_list(repository:GHHELPER_REPO, start_tag:"release/#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
+    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
   end
 ########################################################################
 # Helper Lanes
