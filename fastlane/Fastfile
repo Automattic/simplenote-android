@@ -156,7 +156,6 @@ SUPPORTED_LOCALES = [
     removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
     setfrozentag(repository:GHHELPER_REPO, milestone: version["name"], freeze: false)
     close_milestone(repository:GHHELPER_REPO, milestone: version["name"])
-    create_new_milestone(repository:GHHELPER_REPO)
   end
   
 ########################################################################
