@@ -9,6 +9,7 @@ Dotenv.load('~/.simplenoteandroid-env.default')
 ENV[GHHELPER_REPO="automattic/simplenote-android"]
 ENV["PROJECT_ROOT_FOLDER"]="./"
 ENV["PROJECT_NAME"]="Simplenote"
+ENV["validate_translations"]="buildRelease"
 
 ########################################################################
 # Release Lanes
@@ -145,5 +146,61 @@ ENV["PROJECT_NAME"]="Simplenote"
   desc "Get a list of pull request from `start_tag` to the current state"
   lane :get_pullrequests_list do | options |
     get_prs_list(repository:GHHELPER_REPO, start_tag:"#{options[:start_tag]}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list.txt")
+  end
+
+  #####################################################################################
+  # download_metadata_string 
+  # -----------------------------------------------------------------------------------
+  # This lane downloads the translated metadata (release notes,
+  # app store strings, title, etc.) from GlotPress and updates the local files
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # fastlane download_metadata_string build_number:<build_number> version:<version>
+  #
+  # Example:
+  # fastlane download_metadata_string build_number:573 version:10.3
+  #####################################################################################
+  desc "Downloads translated metadata from GlotPress"
+  lane :download_metadata_strings do |options| 
+    values = options[:version].split('.')
+    files = {
+      "release_note_#{values[0].to_s.rjust(2, "0")}#{values[1]}" => {desc: "changelogs/#{options[:build_number]}.txt", max_size: 0},
+      play_store_promo: {desc:"short_description.txt", max_size: 80},
+      play_store_desc: {desc:"full_description.txt", max_size: 0},
+      play_store_app_title: {desc:"title.txt", max_size: 50}
+    }
+
+    delete_old_changelogs(build: options[:build_number])
+    download_path=Dir.pwd + "/metadata/android"
+    gp_downloadmetadata(project_url: "https://translate.wordpress.com/projects/simplenote/android/release-notes/", 
+      target_files: files, 
+      locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]},
+      source_locale: "en-US",
+      download_path: download_path)
+    
+    android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
+    add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
+    sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
+  end 
+
+  #####################################################################################
+  # Private lanes
+  #####################################################################################
+  private_lane :delete_old_changelogs do | options |
+    Dir.glob("./metadata/android/*/").each do | folder |
+      Dir["#{folder}changelogs/*"].each do | file |
+        File.delete(file) if Integer(File.basename(file, ".*")) < Integer(options[:build]) rescue puts "Cannot delete file #{file}"
+      end
+    end
+  end
+
+  private_lane :add_us_release_notes do | options |
+    en_release_notes_path  = Dir.pwd + "/.." + "/Simplenote/metadata/release_notes.txt"
+    File.open(options[:relese_notes_path], "a") { |f| 
+      f.puts("<en-US>")
+      f.puts("#{options[:version_name]}:")
+      f.puts(File.open(en_release_notes_path).read)
+      f.puts("/<en-US>")
+    }
   end
 end
