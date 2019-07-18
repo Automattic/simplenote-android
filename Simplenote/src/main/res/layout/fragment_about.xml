@@ -114,43 +114,6 @@
         </View>
 
         <LinearLayout
-            android:id="@+id/about_simperium"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
-
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
-                android:text="@string/simperium"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
-
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
-                android:text="@string/simperium_summary"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
-
-        </LinearLayout>
-
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
-
-        <LinearLayout
             android:id="@+id/about_play_store"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"

@@ -46,6 +46,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="note_info">Info</string>
+    <string name="toggle_sidebar">Toggle sidebar</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="enable_markdown">Enable markdown</string>
@@ -142,6 +143,7 @@
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
     <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
+    <string name="description_fingerprint_supported">Fingerprint Supported</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
@@ -160,8 +162,6 @@
     <string name="blog">Blog</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
-    <string name="simperium">Simperium</string>
-    <string name="simperium_summary">Add data sync to your app</string>
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>

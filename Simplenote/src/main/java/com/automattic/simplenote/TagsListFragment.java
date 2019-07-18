@@ -122,13 +122,11 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.menu_delete:
-                actionMode.finish(); // Action picked, so close the CAB
-                return true;
-            default:
-                return false;
+        if (menuItem.getItemId() == R.id.menu_delete) {
+            actionMode.finish(); // Action picked, so close the CAB
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -232,7 +230,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                         if (!isAdded()) return;
 
                         final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
-                        final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+                        final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
                             deleteTag(tag);
                         } else if (tagCount > 0) {
@@ -326,7 +324,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
             Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
 
             holder.tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
             if (tagCount > 0) {
                 holder.tagCountTextView.setText(String.valueOf(tagCount));
             } else {

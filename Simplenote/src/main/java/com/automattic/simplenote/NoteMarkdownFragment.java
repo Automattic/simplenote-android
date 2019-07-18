@@ -39,13 +39,16 @@ public class NoteMarkdownFragment extends Fragment {
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-            DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.actionBarTextColor);
 
             if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
+                trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
             } else {
                 trashItem.setTitle(R.string.delete);
+                trashItem.setIcon(R.drawable.ic_trash_24dp);
             }
+
+            DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.actionBarTextColor);
         }
 
         super.onCreateOptionsMenu(menu, inflater);

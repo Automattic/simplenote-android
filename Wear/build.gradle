@@ -12,13 +12,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
         minSdkVersion 20
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -35,7 +35,7 @@ dependencies {
     compileOnly 'com.google.android.wearable:wearable:2.3.0'
 
     implementation 'com.google.android.support:wearable:2.3.0'
-    implementation ('com.google.android.gms:play-services-wearable:15.0.1'){
+    implementation ('com.google.android.gms:play-services-wearable:16.0.1'){
         exclude group: 'com.android.support', module: 'support-v4'
     }
 }
@@ -44,13 +44,13 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android {
         signingConfigs {
             release {
-                storeFile = file(project.storeFile)
+                storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
                 storePassword = project.storePassword
                 keyAlias = project.keyAlias
                 keyPassword = project.keyPassword
             }
             debug {
-                storeFile = file(project.storeFile)
+                storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
                 storePassword = project.storePassword
                 keyAlias = project.keyAlias
                 keyPassword = project.keyPassword

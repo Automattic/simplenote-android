@@ -665,7 +665,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         try {
             beforeCursorMatches = oldText.substring(0, cursorLocation).equals(newText.substring(0, cursorLocation));
-            afterCursorMatches = oldText.substring(cursorLocation, oldText.length()).equals(newText.substring(cursorLocation + deltaLength, newText.length()));
+            afterCursorMatches = oldText.substring(cursorLocation).equals(newText.substring(cursorLocation + deltaLength));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -737,7 +737,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void setTitleSpan(Editable editable) {
         // Set the note title to be a larger size
         // Remove any existing size spans
-        RelativeSizeSpan spans[] = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
+        RelativeSizeSpan[] spans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
         for (RelativeSizeSpan span : spans) {
             editable.removeSpan(span);
         }

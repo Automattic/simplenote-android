@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -29,7 +28,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +36,7 @@ import android.widget.ProgressBar;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -76,6 +75,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+    private boolean mIsTabetFullscreen;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -127,9 +127,6 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
-
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -158,6 +155,7 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
+        mIsTabetFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
@@ -201,11 +199,11 @@ public class NotesActivity extends AppCompatActivity implements
             Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
-                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                    intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
                 AnalyticsTracker.track(
-                    NOTE_WIDGET_SIGN_IN_TAPPED,
-                    CATEGORY_WIDGET,
-                    "note_widget_sign_in_tapped"
+                        NOTE_WIDGET_SIGN_IN_TAPPED,
+                        CATEGORY_WIDGET,
+                        "note_widget_sign_in_tapped"
                 );
             }
         }
@@ -241,6 +239,17 @@ public class NotesActivity extends AppCompatActivity implements
             setMarkdownShowing(false);
         }
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if(DisplayUtils.isLargeScreenLandscape(this)) {
+            if (mIsTabetFullscreen) {
+                ft.hide(mNoteListFragment);
+            } else {
+                ft.show(mNoteListFragment);
+            }
+        } else {
+            ft.show(mNoteListFragment);
+        }
+        ft.commitNow();
     }
 
     @Override
@@ -593,6 +602,7 @@ public class NotesActivity extends AppCompatActivity implements
                 menu.findItem(R.id.menu_checklist).setVisible(true);
                 menu.findItem(R.id.menu_history).setVisible(true);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
+                menu.findItem(R.id.menu_sidebar).setVisible(true);
                 trashItem.setVisible(true);
             } else {
                 menu.findItem(R.id.menu_share).setVisible(false);
@@ -600,6 +610,7 @@ public class NotesActivity extends AppCompatActivity implements
                 menu.findItem(R.id.menu_checklist).setVisible(false);
                 menu.findItem(R.id.menu_history).setVisible(false);
                 menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+                menu.findItem(R.id.menu_sidebar).setVisible(false);
                 trashItem.setVisible(false);
             }
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
@@ -610,6 +621,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_checklist).setVisible(false);
             menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+            menu.findItem(R.id.menu_sidebar).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
@@ -638,6 +650,16 @@ public class NotesActivity extends AppCompatActivity implements
             return true;
         }
         switch (item.getItemId()) {
+            case R.id.menu_sidebar:
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                if (mNoteListFragment.isHidden()) {
+                    ft.show(mNoteListFragment);
+                } else {
+                    ft.hide(mNoteListFragment);
+                }
+                ft.commitNowAllowingStateLoss();
+                mIsTabetFullscreen = mNoteListFragment.isHidden();
+                return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
                     item.setIcon(R.drawable.ic_preview_24dp);
@@ -771,11 +793,15 @@ public class NotesActivity extends AppCompatActivity implements
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
 
-            if (matchOffsets != null)
+            if (matchOffsets != null) {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
+            }
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+            if (mNoteListFragment.isHidden()) {
+                editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            }
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
@@ -915,6 +941,7 @@ public class NotesActivity extends AppCompatActivity implements
 
                 Simplenote app = (Simplenote) getApplication();
                 AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+                CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.USER_SIGNED_IN,
@@ -985,13 +1012,20 @@ public class NotesActivity extends AppCompatActivity implements
                     mNoteListFragment.setDividerVisible(true);
                 }
                 // Select the current note on a tablet
-                if (mCurrentNote != null)
+                if (mCurrentNote != null) {
                     onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
-                else {
+                } else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
                 }
                 invalidateOptionsMenu();
+            } else {
+                if (mNoteListFragment.isHidden()) {
+                    // Go to NoteEditorActivity if the note editing was fullscreen and orientation was switched to portrait
+                    if (mCurrentNote != null) {
+                        onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+                    }
+                }
             }
         }
 
@@ -1124,6 +1158,12 @@ public class NotesActivity extends AppCompatActivity implements
             mDrawerLayout.closeDrawer(mNavigationView);
             updateNavigationDrawerItems();
 
+            // In case the notes pane in landscape tablets is hidden (won't be hidden otherwise ever)
+            if (mNoteListFragment.isHidden()) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.show(mNoteListFragment);
+                ft.commitNowAllowingStateLoss();
+            }
             // Disable long press on notes if we're viewing the trash
             if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
                 getNoteListFragment().getListView().setLongClickable(false);

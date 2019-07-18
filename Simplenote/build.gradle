@@ -1,26 +1,24 @@
 buildscript {
     repositories {
         google()
-        maven { url 'https://maven.fabric.io/public' }
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.16'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: "io.fabric"
+apply plugin: 'io.sentry.android.gradle'
 
 repositories {
     maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
-    maven { url 'https://maven.fabric.io/public' }
     maven { url "https://maven.google.com" }
     jcenter()
 }
 
 ext {
-    googleVersion = '27.1.1'
+    googleVersion = '28.0.0'
 }
 
 dependencies {
@@ -39,15 +37,20 @@ dependencies {
     }
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.7.1'
-    implementation 'com.automattic:tracks:1.1.6'
-    implementation 'org.wordpress:passcodelock:1.5.1'
+    implementation 'com.automattic:tracks:1.2'
+    implementation 'org.wordpress:passcodelock:1.6.0'
+
     // Google Support
     implementation "com.android.support:appcompat-v7:$googleVersion"
     implementation "com.android.support:design:$googleVersion"
     implementation "com.android.support:preference-v7:$googleVersion"
     implementation "com.android.support:preference-v14:$googleVersion"
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
+    implementation ('com.google.android.gms:play-services-wearable:16.0.1') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'support-media-compat'
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.takisoft.fix:preference-v7:27.1.1.1'
@@ -61,22 +64,20 @@ dependencies {
     wearApp project(':Wear')
 }
 
-version "1.8.0"
-
 android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
 
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
-        versionName project.version
-        versionCode 76
+        versionName "1.8.2"
+        versionCode 78
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
      }
@@ -96,21 +97,19 @@ android {
 	lintOptions {
 	    checkReleaseBuilds false
 	}
-
-    useLibrary 'org.apache.http.legacy'
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
     android {
       signingConfigs {
           release {
-              storeFile = file(project.storeFile)
+              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
           }
           debug {
-              storeFile = file(project.storeFile)
+              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
@@ -169,6 +168,7 @@ android.applicationVariants.all { variant ->
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||
             key == "GOOGLE_ANALYTICS_ID" ||
+            key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID") {
             buildConfigField "String", key, "\"${property.value}\""
         }
