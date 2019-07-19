@@ -66,7 +66,8 @@ public class SimplenoteEditText extends AppCompatEditText {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             clearFocus();
         }
-        return super.dispatchKeyEvent(event);
+
+        return super.onKeyPreIme(keyCode, event);
     }
 
     @Override
