@@ -162,13 +162,11 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.menu_delete:
-                actionMode.finish(); // Action picked, so close the CAB
-                return true;
-            default:
-                return false;
+        if (menuItem.getItemId() == R.id.menu_delete) {
+            actionMode.finish(); // Action picked, so close the CAB
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -262,12 +260,12 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
 
         private Bucket.ObjectCursor<Tag> mCursor;
 
-        public TagsAdapter(Context context, Bucket.ObjectCursor<Tag> c, int flags) {
+        TagsAdapter(Context context, Bucket.ObjectCursor<Tag> c, int flags) {
             super(context, c, flags);
             mCursor = c;
         }
 
-        public void changeCursor(Bucket.ObjectCursor<Tag> cursor) {
+        void changeCursor(Bucket.ObjectCursor<Tag> cursor) {
             super.changeCursor(cursor);
             mCursor = cursor;
         }
@@ -291,7 +289,7 @@ public class TagsListFragment extends ListFragment implements AdapterView.OnItem
             TextView tagTitle = convertView.findViewById(R.id.tag_name);
             TextView tagCountTextView = convertView.findViewById(R.id.tag_count);
             tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getSimperiumKey()).count();
+            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
             if (tagCount > 0) {
                 tagCountTextView.setText(String.valueOf(tagCount));
             } else {
