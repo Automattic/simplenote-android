@@ -48,5 +48,8 @@ fastlane/README.md
 fastlane/report.xml
 fastlane/.env
 
+# Configure
+*.bak
+
 # Eclipse
 .settings/
