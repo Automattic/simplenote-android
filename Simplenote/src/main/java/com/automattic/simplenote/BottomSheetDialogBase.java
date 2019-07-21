@@ -1,11 +1,12 @@
 package com.automattic.simplenote;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 /**
  * Created by Ondrej Ruttkay on 27/03/2016.

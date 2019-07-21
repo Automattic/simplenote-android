@@ -50,7 +50,7 @@
         android:layout_width="match_parent">
     </View>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/info_pin_switch"
         android:layout_below="@+id/info_divider"
         android:layout_height="wrap_content"
@@ -60,9 +60,9 @@
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
         android:text="@string/pin_to_top">
-    </android.support.v7.widget.SwitchCompat>
+    </androidx.appcompat.widget.SwitchCompat>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/info_markdown_switch"
         android:layout_below="@+id/info_pin_switch"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         android:paddingStart="@dimen/padding_large"
         android:paddingTop="@dimen/padding_extra_large"
         android:text="@string/enable_markdown">
-    </android.support.v7.widget.SwitchCompat>
+    </androidx.appcompat.widget.SwitchCompat>
 
     <RelativeLayout
         android:layout_below="@id/info_markdown_switch"

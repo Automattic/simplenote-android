@@ -103,7 +103,7 @@
             android:textSize="16sp">
         </TextView>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/wp_dialog_share"
             android:drawablePadding="@dimen/padding_extra_small"
             android:drawableStart="@drawable/ic_share_24dp"
@@ -113,9 +113,9 @@
             android:layout_width="wrap_content"
             android:text="@string/share"
             android:theme="@style/FlatButton.Simplestyle">
-        </android.support.v7.widget.AppCompatButton>
+        </androidx.appcompat.widget.AppCompatButton>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/wp_dialog_copy_url"
             android:drawablePadding="@dimen/padding_extra_small"
             android:drawableStart="@drawable/ic_content_copy_white_24dp"
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:text="@string/copy"
             android:theme="@style/FlatButton.Simplestyle">
-        </android.support.v7.widget.AppCompatButton>
+        </androidx.appcompat.widget.AppCompatButton>
 
     </RelativeLayout>
 

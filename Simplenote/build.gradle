@@ -1,38 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.sentry.android.gradle'
+
+android {
+    buildToolsVersion '28.0.3'
+    compileSdkVersion 28
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.automattic.simplenote"
+        versionName "1.8.2"
+        versionCode 78
+        minSdkVersion 23
+        targetSdkVersion 28
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
 buildscript {
+    dependencies {
+        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.16'
+    }
+
     repositories {
         google()
         jcenter()
     }
-    dependencies {
-        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.16'
-    }
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'io.sentry.android.gradle'
-
-repositories {
-    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
-    maven { url "https://maven.google.com" }
-    jcenter()
-}
-
-ext {
-    googleVersion = '28.0.0'
 }
 
 dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.8.47'
-    androidTestImplementation "com.android.support:support-annotations:$googleVersion"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0') {
         // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'androidx', module: 'appcompat'
+        exclude group: 'androidx', module: 'support-v4'
+        exclude group: 'androidx', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
     // Automattic and WordPress dependencies
@@ -41,10 +68,11 @@ dependencies {
     implementation 'org.wordpress:passcodelock:1.6.0'
 
     // Google Support
-    implementation "com.android.support:appcompat-v7:$googleVersion"
-    implementation "com.android.support:design:$googleVersion"
-    implementation "com.android.support:preference-v7:$googleVersion"
-    implementation "com.android.support:preference-v14:$googleVersion"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     // Google Play Services
     implementation ('com.google.android.gms:play-services-wearable:16.0.1') {
         // Necessary to avoid version conflicts
@@ -59,44 +87,15 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true
     }
-    implementation "com.android.support:customtabs:$googleVersion"
+    implementation 'androidx.browser:browser:1.0.0'
     implementation 'com.karumi:dexter:5.0.0'
     wearApp project(':Wear')
 }
 
-android {
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
-
-    defaultConfig {
-        applicationId "com.automattic.simplenote"
-        versionName "1.8.2"
-        versionCode 78
-        minSdkVersion 23
-        targetSdkVersion 28
-
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-     }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        debug {
-            applicationIdSuffix '.debug'
-        }
-    }
-
-	lintOptions {
-	    checkReleaseBuilds false
-	}
+repositories {
+    jcenter()
+    maven { url "https://maven.google.com" }
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){

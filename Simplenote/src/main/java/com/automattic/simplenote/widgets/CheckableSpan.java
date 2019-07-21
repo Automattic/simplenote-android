@@ -1,8 +1,9 @@
 package com.automattic.simplenote.widgets;
 
-import android.support.annotation.NonNull;
 import android.text.style.ClickableSpan;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 public class CheckableSpan extends ClickableSpan {
 
