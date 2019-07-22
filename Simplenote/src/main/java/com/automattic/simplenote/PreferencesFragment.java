@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
@@ -36,7 +37,6 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import java.lang.ref.WeakReference;
 
@@ -58,7 +58,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
     }
 
