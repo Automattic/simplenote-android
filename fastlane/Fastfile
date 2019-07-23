@@ -158,6 +158,31 @@ SUPPORTED_LOCALES = [
     close_milestone(repository:GHHELPER_REPO, milestone: version["name"])
   end
   
+  #####################################################################################
+  # build_release
+  # -----------------------------------------------------------------------------------
+  # This lane builds the final release of the app and uploads it 
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_release [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane build_release 
+  # bundle exec fastlane build_release skip_confirm:true 
+  #####################################################################################
+  desc "Builds and updates for distribution"
+  lane :build_release do | options |
+    android_build_prechecks(skip_confirm: options[:skip_confirm], 
+      alpha: false,
+      beta: false,
+      final: true)
+    android_build_preflight()
+    
+    # Create the file names
+    version=android_get_release_version()
+    build_apk(version: version, flavor:"Vanilla")
+  end
+
 ########################################################################
 # Helper Lanes
 ########################################################################  
@@ -202,6 +227,40 @@ SUPPORTED_LOCALES = [
   end 
 
   #####################################################################################
+  # build_bundle
+  # -----------------------------------------------------------------------------------
+  # This lane builds an app bundle
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_bundle [skip_confirm:<skip confirm>]
+  #####################################################################################
+  desc "Builds an app bundle"
+  lane :build_apk do | options |
+    # Create the file names
+    version=options[:version]
+    apk_name="simplenote-#{version["name"]}.apk"
+    orign_file="Simplenote-release.apk"
+    output_dir="Simplenote/build/outputs/apk/release/"
+    build_dir="build/"
+
+    # Build
+    Dir.chdir(".") do
+      UI.message("Cleaning branch...")
+      gradle(task: "clean")
+      UI.message("Running lint...")
+      gradle(task: "lint", build_type: "Release")
+      UI.message("Building #{version["name"]} / #{version["code"]} - #{apk_name}...")
+      gradle(task: "assemble", build_type: "Release")
+    end
+
+    Dir.chdir("..") do
+      sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
+      UI.message("Apk ready: #{apk_name}")
+    end
+    "#{build_dir}#{apk_name}"
+  end
+
+  #####################################################################################
   # Private lanes
   #####################################################################################
   private_lane :delete_old_changelogs do | options |
@@ -221,4 +280,5 @@ SUPPORTED_LOCALES = [
       f.puts("/<en-US>")
     }
   end
+
 end
