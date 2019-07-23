@@ -70,10 +70,8 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="FlatButton.Simplestyle" parent="Theme.AppCompat.Light">
-        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
-        <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorControlHighlight">@color/simplenote_blue_accent</item>
+    <style name="Button.Flat" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/simplenote_blue</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">
@@ -91,6 +89,9 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:background">?attr/mainBackgroundColor</item>
+        <item name="colorAccent">@color/simplenote_blue_accent</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.MaterialComponents.Light.BottomSheetDialog">

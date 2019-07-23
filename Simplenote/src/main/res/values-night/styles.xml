@@ -63,9 +63,9 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:background">?attr/mainBackgroundColor</item>
-        <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/toolbar_dark</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/simplenote_blue_accent</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
