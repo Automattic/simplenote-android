@@ -39,6 +39,34 @@ ENV["PROJECT_NAME"]="Simplenote"
     android_tag_build()
     get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
   end
+
+  #####################################################################################
+  # update_appstore_strings 
+  # -----------------------------------------------------------------------------------
+  # This lane gets the data from the txt files in the Simplenote/metadata/ folder
+  # and updates the .po file that is then picked by GlotPress for translations.
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # fastlane update_appstore_strings version:<version>
+  #
+  # Example:
+  # fastlane update_appstore_strings version:10.3
+  #####################################################################################
+  desc "Updates the PlayStoreStrings.po file"
+  lane :update_appstore_strings do |options| 
+    prj_folder = Dir.pwd + "/.."
+
+    files = {
+      release_note: prj_folder + "/Simplenote/metadata/release_notes.txt",
+      play_store_promo: prj_folder + "/Simplenote/metadata/short_description.txt",
+      play_store_desc: prj_folder + "/Simplenote/metadata/full_description.txt",
+      play_store_app_title: prj_folder + "/Simplenote/metadata/title.txt"
+    }
+
+    an_update_metadata_source(po_file_path: prj_folder + "/Simplenote/metadata/PlayStoreStrings.pot", 
+      source_files: files, 
+      release_version: options[:version])
+  end 
 ########################################################################
 # Helper Lanes
 ########################################################################  
