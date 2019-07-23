@@ -74,6 +74,11 @@
         <item name="android:textColor">@color/simplenote_blue</item>
     </style>
 
+    <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:textColor">@color/simplenote_blue</item>
+        <item name="iconTint">@color/simplenote_blue</item>
+    </style>
+
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
