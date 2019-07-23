@@ -29,7 +29,7 @@
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/white</item>
         <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/toolbar_light</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/toolbar_light</item>
         <item name="dividerColor">@color/divider_list_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>

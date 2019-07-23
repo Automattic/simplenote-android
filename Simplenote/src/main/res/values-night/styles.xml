@@ -12,7 +12,7 @@
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
         <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/toolbar_dark</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/toolbar_dark</item>
         <item name="dividerColor">@color/divider_list_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
