@@ -232,7 +232,7 @@ public class NotesActivity extends AppCompatActivity implements
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             mShouldSelectNewNote = false;
         }
 
@@ -787,12 +787,13 @@ public class NotesActivity extends AppCompatActivity implements
      * the item with the given ID was selected. Used for tablets only.
      */
     @Override
-    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
+    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         if (!DisplayUtils.isLargeScreenLandscape(this)) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
+            arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
 
             if (matchOffsets != null) {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
@@ -1008,25 +1009,24 @@ public class NotesActivity extends AppCompatActivity implements
                 } else if (DisplayUtils.isLandscape(this)) {
                     addEditorFragment();
                 }
+
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
                     mNoteListFragment.setDividerVisible(true);
                 }
+
                 // Select the current note on a tablet
                 if (mCurrentNote != null) {
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
                 } else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
                 }
+
                 invalidateOptionsMenu();
-            } else {
-                if (mNoteListFragment.isHidden()) {
-                    // Go to NoteEditorActivity if the note editing was fullscreen and orientation was switched to portrait
-                    if (mCurrentNote != null) {
-                        onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
-                    }
-                }
+            // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
+            } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
+                onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
         }
 

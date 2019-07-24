@@ -89,7 +89,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     private static Callbacks sCallbacks = new Callbacks() {
         @Override
-        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
+        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
@@ -315,8 +315,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         NoteViewHolder holder = (NoteViewHolder) view.getTag();
         String noteID = holder.getNoteId();
+
         if (noteID != null) {
-            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
+            Note note = mNotesAdapter.getItem(position);
+            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
         }
 
         mActivatedPosition = position;
@@ -328,7 +330,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled());
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled(), selectedNote.isPreviewEnabled());
         }
     }
 
@@ -467,7 +469,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled());
+                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled(), note.isPreviewEnabled());
                 }
             }, 50);
         } else {
@@ -475,6 +477,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+            arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
@@ -556,7 +559,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /**
          * Callback for when a note has been selected.
          */
-        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled);
+        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled);
     }
 
     // view holder for NotesCursorAdapter
