@@ -60,8 +60,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!mFragment.isAdded()) return;
+                if (!mFragment.isAdded()){
+                    return;
+                }
 
+                mInfoPreviewSwitch.setEnabled(isChecked);
                 infoSheetListener.onInfoMarkdownSwitchChanged(isChecked);
 
                 // Set preference so that next new note will have markdown enabled
