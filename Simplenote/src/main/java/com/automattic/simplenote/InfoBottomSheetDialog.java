@@ -32,6 +32,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private TextView mInfoLinkTitle;
     private SwitchCompat mInfoPinSwitch;
     private SwitchCompat mInfoMarkdownSwitch;
+    private SwitchCompat mInfoPreviewSwitch;
     private ImageButton mCopyButton;
     private ImageButton mShareButton;
     private Fragment mFragment;
@@ -68,6 +69,18 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
                 editor.apply();
+            }
+        });
+
+        mInfoPreviewSwitch = infoView.findViewById(R.id.info_preview_switch);
+        mInfoPreviewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!mFragment.isAdded()) {
+                    return;
+                }
+
+                infoSheetListener.onInfoPreviewSwitchChanged(isChecked);
             }
         });
 
@@ -125,6 +138,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());
+            mInfoPreviewSwitch.setChecked(note.isPreviewEnabled());
             mInfoWords.setText(getCombinedCount(note.getContent()));
             if (note.isPublished()) {
                 mInfoLinkTitle.setText(mFragment.getString(R.string.public_link));
@@ -168,6 +182,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         void onInfoPinSwitchChanged(boolean isSwitchedOn);
 
         void onInfoMarkdownSwitchChanged(boolean isSwitchedOn);
+
+        void onInfoPreviewSwitchChanged(boolean isSwitchedOn);
 
         void onInfoCopyLinkClicked();
 

@@ -74,8 +74,23 @@
         android:text="@string/enable_markdown">
     </androidx.appcompat.widget.SwitchCompat>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/info_preview_switch"
+        android:enabled="false"
+        android:layout_below="@+id/info_markdown_switch"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/padding_extra_large"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_extra_large"
+        android:text="@string/open_preview">
+    </androidx.appcompat.widget.SwitchCompat>
+
     <RelativeLayout
-        android:layout_below="@id/info_markdown_switch"
+        android:layout_below="@id/info_preview_switch"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/padding_extra_large"
