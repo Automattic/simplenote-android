@@ -446,7 +446,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
             return;
@@ -472,7 +472,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_view_info:
                 showInfo();
