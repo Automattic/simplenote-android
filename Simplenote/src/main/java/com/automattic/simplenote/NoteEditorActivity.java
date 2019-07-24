@@ -34,6 +34,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
     private boolean isMarkdownEnabled;
+    private boolean isPreviewEnabled;
     private String mNoteId;
 
     @Override
@@ -108,6 +109,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
 
             isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+            isPreviewEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
         } else {
             mNoteEditorFragmentPagerAdapter.addFragment(
                     getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_edit)),
@@ -119,6 +121,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
 
             isMarkdownEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED);
+            isPreviewEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED);
         }
 
         mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
@@ -127,6 +130,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
             showTabs();
+
+            if (isPreviewEnabled) {
+                mViewPager.setCurrentItem(mNoteEditorFragmentPagerAdapter.getCount() - 1);
+            }
         }
 
         if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
@@ -164,6 +171,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                     .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
         }
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
+        outState.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
         super.onSaveInstanceState(outState);
     }
 
