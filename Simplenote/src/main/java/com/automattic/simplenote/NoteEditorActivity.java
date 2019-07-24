@@ -161,7 +161,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(0).isAdded()) {
             getSupportFragmentManager()
                     .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
@@ -176,7 +176,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // If changing to large screen landscape, we finish the activity to go back to
@@ -218,6 +218,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             return mFragments.size();
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragments.get(position);
