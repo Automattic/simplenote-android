@@ -276,7 +276,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onAttach(Context activity) {
+    public void onAttach(@NonNull Context activity) {
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
@@ -309,7 +309,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
+    public void onListItemClick(@NonNull ListView listView, @NonNull View view, int position, long id) {
         if (!isAdded()) return;
         super.onListItemClick(listView, view, position, id);
 
