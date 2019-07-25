@@ -8,7 +8,9 @@
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:padding="@dimen/widget_margin">
+    android:paddingEnd="@dimen/widget_margin"
+    android:paddingStart="@dimen/widget_margin"
+    android:paddingTop="@dimen/widget_margin">
 
     <TextView
         android:id="@+id/widget_text"
