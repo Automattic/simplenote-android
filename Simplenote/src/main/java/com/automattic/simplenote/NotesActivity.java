@@ -76,6 +76,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+    private boolean mIsSettingsClicked;
     private boolean mIsTabetFullscreen;
 
     private String mTabletSearchQuery;
@@ -317,8 +318,8 @@ public class NotesActivity extends AppCompatActivity implements
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
-                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+                mIsSettingsClicked = true;
+                mDrawerLayout.closeDrawer(mNavigationView);
             }
         });
 
@@ -335,6 +336,12 @@ public class NotesActivity extends AppCompatActivity implements
                 R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
+
+                if (mIsSettingsClicked) {
+                    Intent intent = new Intent(NotesActivity.this, PreferencesActivity.class);
+                    startActivityForResult(intent, Simplenote.INTENT_PREFERENCES);
+                    mIsSettingsClicked = false;
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
