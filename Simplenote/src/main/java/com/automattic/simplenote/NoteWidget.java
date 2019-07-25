@@ -43,7 +43,7 @@ public class NoteWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             Bundle appWidgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
-            updateAppWidget(context, appWidgetManager, appWidgetId, appWidgetOptions);
+            updateWidget(context, appWidgetManager, appWidgetId, appWidgetOptions);
         }
     }
 
@@ -94,7 +94,7 @@ public class NoteWidget extends AppWidgetProvider {
         }
     }
 
-    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
+    private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         // Get widget views
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget);
         resizeWidget(appWidgetOptions, views);
