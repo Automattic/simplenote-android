@@ -1,10 +1,12 @@
 package com.automattic.simplenote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
@@ -16,9 +18,20 @@ import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class PreferencesActivity extends AppCompatActivity {
+    private static final String EXTRA_THEME_CHANGED = "themeChanged";
 
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
+    private boolean mIsThemeChanged;
+
+    @Override
+    public void onBackPressed() {
+        if (mIsThemeChanged) {
+            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +72,10 @@ public class PreferencesActivity extends AppCompatActivity {
             mPreferencesFragment = (PreferencesFragment) fragmentManager.findFragmentByTag(preferencesTag);
             mPasscodePreferenceFragment = (PasscodePreferenceFragmentCompat) fragmentManager.findFragmentByTag(passcodeTag);
         }
+
+        if (getIntent().getExtras() != null && getIntent().hasExtra(EXTRA_THEME_CHANGED)) {
+            mIsThemeChanged = getIntent().getExtras().getBoolean(EXTRA_THEME_CHANGED, false);
+        }
     }
 
     @Override
@@ -78,16 +95,31 @@ public class PreferencesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
+            if (mIsThemeChanged) {
+                NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
+            } else {
+                finish();
+            }
 
-        return super.onOptionsItemSelected(item);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
+    }
+
+    @Override
+    public void recreate() {
+        Intent intent = new Intent(PreferencesActivity.this, PreferencesActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_THEME_CHANGED, true);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
     }
 }
