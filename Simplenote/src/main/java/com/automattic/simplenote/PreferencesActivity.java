@@ -38,11 +38,6 @@ public class PreferencesActivity extends AppCompatActivity {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        // if a new theme was picked, activity is recreated with theme changed intent
-        // set result to notify the calling activity once this activity is complete
-        if (ThemeUtils.themeWasChanged(getIntent()))
-            setResult(RESULT_OK, getIntent());
-
         setContentView(R.layout.activity_preferences);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

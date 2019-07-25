@@ -911,11 +911,6 @@ public class NotesActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Simplenote.INTENT_PREFERENCES:
-                if (ThemeUtils.themeWasChanged(data)) {
-                    // Restart this activity to apply the new theme
-                    recreate();
-                    break;
-                }
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
                 invalidateOptionsMenu();
                 NoteListFragment fragment = getNoteListFragment();
