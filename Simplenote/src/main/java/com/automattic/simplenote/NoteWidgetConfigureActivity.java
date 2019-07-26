@@ -36,6 +36,7 @@ import com.simperium.client.User;
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
+import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
 
 public class NoteWidgetConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
@@ -99,6 +100,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        sortNoteQuery(query, NoteWidgetConfigureActivity.this);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
@@ -128,6 +130,32 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                 }
             )
             .show();
+    }
+
+    public static void sortNoteQuery(Query<Note> query, Context context) {
+        query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
+        int sortOrder = PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER);
+
+        switch (sortOrder) {
+            case 0:
+                query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.DESCENDING);
+                break;
+            case 1:
+                query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.ASCENDING);
+                break;
+            case 2:
+                query.order(Note.CREATED_INDEX_NAME, Query.SortType.DESCENDING);
+                break;
+            case 3:
+                query.order(Note.CREATED_INDEX_NAME, Query.SortType.ASCENDING);
+                break;
+            case 4:
+                query.order(Note.CONTENT_PROPERTY, Query.SortType.ASCENDING);
+                break;
+            case 5:
+                query.order(Note.CONTENT_PROPERTY, Query.SortType.DESCENDING);
+                break;
+        }
     }
 
     private class NotesCursorAdapter extends CursorAdapter {
