@@ -74,11 +74,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     // Google Play Services
-    implementation ('com.google.android.gms:play-services-wearable:16.0.1') {
-        // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'support-media-compat'
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+    implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.commonsware.cwac:anddown:0.4.0'
