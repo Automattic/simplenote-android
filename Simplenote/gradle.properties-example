@@ -1,6 +1,3 @@
-android.enableJetifier = true
-android.useAndroidX = true
-
 crashlyticsApiKey = 0
 googleAnalyticsId =
 sentryDsn=https://00000000000000000000000000000000@sentry.io/00000000
