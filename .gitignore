@@ -31,7 +31,6 @@ config.properties
 
 # Gradle
 .gradle/
-gradle.properties
 sentry.properties
 Simplenote/gradle.properties
 
