@@ -15,10 +15,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.google.android.material.tabs.TabLayout;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -31,6 +34,7 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
+    private Note mNote;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
     private boolean isMarkdownEnabled;
@@ -64,6 +68,14 @@ public class NoteEditorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
 
+        try {
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            mNote = notesBucket.get(mNoteId);
+        } catch (BucketObjectMissingException exception) {
+            exception.printStackTrace();
+        }
+
         if (savedInstanceState == null) {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
@@ -93,8 +105,13 @@ public class NoteEditorActivity extends AppCompatActivity {
                     new NoteEditorViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageSelected(int position) {
-                            if (position == 1) {
+                            if (position == 1) {  // Preview is position 1
                                 DisplayUtils.hideKeyboard(mViewPager);
+                            }
+
+                            if (mNote != null) {
+                                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                                mNote.save();
                             }
                         }
 
