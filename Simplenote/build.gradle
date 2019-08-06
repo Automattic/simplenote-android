@@ -65,7 +65,7 @@ dependencies {
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.7.1'
     implementation 'com.automattic:tracks:1.2'
-    implementation 'org.wordpress:passcodelock:1.6.0'
+    implementation 'org.wordpress:passcodelock:1.7.0'
 
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -74,11 +74,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     // Google Play Services
-    implementation ('com.google.android.gms:play-services-wearable:16.0.1') {
-        // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'support-media-compat'
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+    implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.commonsware.cwac:anddown:0.4.0'

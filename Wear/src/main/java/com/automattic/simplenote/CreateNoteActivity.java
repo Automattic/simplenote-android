@@ -1,13 +1,13 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.wearable.activity.ConfirmationActivity;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.wear.activity.ConfirmationActivity;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
