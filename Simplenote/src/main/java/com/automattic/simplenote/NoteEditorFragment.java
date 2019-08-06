@@ -942,12 +942,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onInfoPreviewSwitchChanged(boolean isSwitchedOn) {
-        mIsPreviewEnabled = isSwitchedOn;
-        saveNote();
-    }
-
-    @Override
     public void onInfoCopyLinkClicked() {
         copyToClipboard(mNote.getPublishedUrl());
         Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
