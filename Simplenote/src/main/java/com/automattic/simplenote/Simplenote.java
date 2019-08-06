@@ -6,7 +6,8 @@ import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
@@ -23,7 +24,6 @@ import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
-
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 

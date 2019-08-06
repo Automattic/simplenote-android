@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.automattic.simplenote.R;
 

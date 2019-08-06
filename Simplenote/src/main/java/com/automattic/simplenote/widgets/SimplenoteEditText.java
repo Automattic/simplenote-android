@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
@@ -12,6 +11,8 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
