@@ -11,6 +11,10 @@ import android.preference.PreferenceManager;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.models.Note;
+import com.simperium.client.Query;
+
+import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
 
 @SuppressWarnings("unused")
 public class PrefUtils {
@@ -128,4 +132,29 @@ public class PrefUtils {
         return getIntPref(context, PREF_FONT_SIZE, defaultFontSize);
     }
 
+    public static void sortNoteQuery(Query<Note> query, Context context) {
+        query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
+        int sortOrder = PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER);
+
+        switch (sortOrder) {
+            case 0:
+                query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.DESCENDING);
+                break;
+            case 1:
+                query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.ASCENDING);
+                break;
+            case 2:
+                query.order(Note.CREATED_INDEX_NAME, Query.SortType.DESCENDING);
+                break;
+            case 3:
+                query.order(Note.CREATED_INDEX_NAME, Query.SortType.ASCENDING);
+                break;
+            case 4:
+                query.order(Note.CONTENT_PROPERTY, Query.SortType.ASCENDING);
+                break;
+            case 5:
+                query.order(Note.CONTENT_PROPERTY, Query.SortType.DESCENDING);
+                break;
+        }
+    }
 }
