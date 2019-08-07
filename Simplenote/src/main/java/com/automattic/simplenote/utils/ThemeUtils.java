@@ -21,8 +21,8 @@ public class ThemeUtils {
     // theme constants
     private static final int THEME_LIGHT = 0;
     private static final int THEME_DARK = 1;
-    @SuppressWarnings("unused")
     public static final int THEME_AUTO = 2;
+    private static final int THEME_SYSTEM = 3;
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
     private static String THEME_CHANGED_EXTRA = "themeChanged";
@@ -47,13 +47,20 @@ public class ThemeUtils {
             }
         }
 
-        int theme = PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT);
-        if (theme == THEME_LIGHT)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        else if (theme == THEME_DARK)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_SYSTEM)) {
+            case THEME_AUTO:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
+            case THEME_DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case THEME_LIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case THEME_SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
     }
 
     public static boolean isLightTheme(Context context) {

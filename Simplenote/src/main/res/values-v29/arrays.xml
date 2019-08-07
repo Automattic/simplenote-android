@@ -25,12 +25,14 @@
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
         <item>@string/theme_auto</item>
+        <item>@string/theme_system</item>
     </string-array>
 
     <string-array name="array_theme_values" translatable="false" tools:ignore="InconsistentArrays">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="array_font_size">
