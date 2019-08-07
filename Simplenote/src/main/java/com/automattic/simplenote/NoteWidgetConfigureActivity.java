@@ -99,6 +99,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
