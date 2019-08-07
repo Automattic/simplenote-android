@@ -59,7 +59,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mInfoMarkdownSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!mFragment.isAdded()) return;
+                if (!mFragment.isAdded()){
+                    return;
+                }
 
                 infoSheetListener.onInfoMarkdownSwitchChanged(isChecked);
 

@@ -26,6 +26,7 @@ public class Note extends BucketObject {
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
+    public static final String PREVIEW_TAG = "preview";
     public static final String PUBLISHED_TAG = "published";
     public static final String NEW_LINE = "\n";
     public static final String CONTENT_PROPERTY = "content";
@@ -367,6 +368,18 @@ public class Note extends BucketObject {
         }
     }
 
+    public boolean isPreviewEnabled() {
+        return hasSystemTag(PREVIEW_TAG);
+    }
+
+    public void setPreviewEnabled(boolean isPreviewEnabled) {
+        if (isPreviewEnabled) {
+            addSystemTag(PREVIEW_TAG);
+        } else {
+            removeSystemTag(PREVIEW_TAG);
+        }
+    }
+
     public boolean isPublished() {
         return hasSystemTag(PUBLISHED_TAG) && !TextUtils.isEmpty(getPublishedUrl());
     }
@@ -433,13 +446,15 @@ public class Note extends BucketObject {
      * @param tagString         space separated tags
      * @param isPinned          note is pinned
      * @param isMarkdownEnabled note has markdown enabled
+     * @param isPreviewEnabled  note has preview enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled) {
+    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         return !content.equals(this.getContent())
                 || !tagString.equals(this.getTagString().toString())
                 || this.isPinned() != isPinned
-                || this.isMarkdownEnabled() != isMarkdownEnabled;
+                || this.isMarkdownEnabled() != isMarkdownEnabled
+                || this.isPreviewEnabled() != isPreviewEnabled;
     }
 
     public static class Schema extends BucketSchema<Note> {

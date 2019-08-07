@@ -107,6 +107,7 @@ public class NoteWidget extends AppWidgetProvider {
                     Bundle arguments = new Bundle();
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, updatedNote.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, updatedNote.isMarkdownEnabled());
+                    arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, updatedNote.isPreviewEnabled());
 
                     // Create intent to navigate to selected note on widget click
                     Intent intent = new Intent(context, NoteEditorActivity.class);
