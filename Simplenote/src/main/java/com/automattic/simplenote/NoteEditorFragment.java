@@ -81,6 +81,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_NEW_NOTE = "new_note";
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
     public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
+    public static final String ARG_PREVIEW_ENABLED = "preview_enabled";
     private static final String STATE_NOTE_ID = "state_note_id";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
@@ -102,7 +103,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
     private CursorAdapter mAutocompleteAdapter;
-    private boolean mIsLoadingNote, mIsMarkdownEnabled, mShouldScrollToSearchMatch;
+    private boolean mIsLoadingNote;
+    private boolean mIsMarkdownEnabled;
+    private boolean mIsPreviewEnabled;
+    private boolean mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -442,7 +446,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
             return;
@@ -468,7 +472,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_view_info:
                 showInfo();
@@ -966,12 +970,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         String content = mContentEditText.getPlainTextContent();
         String tagString = getNoteTagsString();
-        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled)) {
+
+        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
             mNote.setContent(content);
             mNote.setTagString(tagString);
             mNote.setModificationDate(Calendar.getInstance());
             mNote.setMarkdownEnabled(mIsMarkdownEnabled);
-            // Send pinned event to google analytics if changed
+            mNote.setPreviewEnabled(mIsPreviewEnabled);
             mNote.save();
 
             AnalyticsTracker.track(
@@ -1244,6 +1249,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             String noteID = args[0];
             Simplenote application = (Simplenote) fragment.getActivity().getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
+
             try {
                 fragment.mNote = notesBucket.get(noteID);
                 // Set the current note in NotesActivity when on a tablet
@@ -1251,9 +1257,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     ((NotesActivity) fragment.getActivity()).setCurrentNote(fragment.mNote);
                 }
 
-                // Set markdown flag for current note
+                // Set markdown and preview flags for current note
                 if (fragment.mNote != null) {
                     fragment.mIsMarkdownEnabled = fragment.mNote.isMarkdownEnabled();
+                    fragment.mIsPreviewEnabled = fragment.mNote.isPreviewEnabled();
                 }
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store
