@@ -82,35 +82,21 @@
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large">
 
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_history_button"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/padding_small"
                 android:text="@string/cancel"
-                android:textAllCaps="true"
-                android:textColor="@color/simplenote_blue"
-                android:textSize="14sp"
-                android:textStyle="bold">
-            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+                style="@style/Button.Flat">
+            </com.google.android.material.button.MaterialButton>
 
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/restore_history_button"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/padding_small"
                 android:text="@string/restore"
-                android:textAllCaps="true"
-                android:textColor="@color/simplenote_blue"
-                android:textSize="14sp"
-                android:textStyle="bold">
-            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+                style="@style/Button.Flat">
+            </com.google.android.material.button.MaterialButton>
 
         </LinearLayout>
 
