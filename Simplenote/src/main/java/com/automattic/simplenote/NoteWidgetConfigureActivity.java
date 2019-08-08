@@ -193,10 +193,19 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
+                    // Remove title from content
+                    String title = note.getTitle();
+                    String contentWithoutTitle = note.getContent().replace(title, "");
+                    int indexOfNewline = contentWithoutTitle.indexOf("\n") + 1;
+                    String content = contentWithoutTitle.substring(indexOfNewline < contentWithoutTitle.length() ? indexOfNewline : 0);
+
                     // Set widget content
                     mRemoteViews.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
-                    mRemoteViews.setTextViewText(R.id.widget_text, note.getTitle());
-                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark));
+                    mRemoteViews.setTextViewText(R.id.widget_text, title);
+                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextViewText(R.id.widget_text_title, title);
+                    mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextViewText(R.id.widget_text_content, content);
                     mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful
