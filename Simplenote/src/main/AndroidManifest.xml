@@ -50,7 +50,8 @@
         <activity
             android:name=".PreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Preferences" />
+            android:label="Preferences"
+            android:parentActivityName=".NotesActivity" />
         <activity
             android:name=".TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />

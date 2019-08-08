@@ -2,7 +2,6 @@ package com.automattic.simplenote.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -25,7 +24,6 @@ public class ThemeUtils {
     private static final int THEME_SYSTEM = 3;
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
-    private static String THEME_CHANGED_EXTRA = "themeChanged";
 
     public static void setTheme(Activity activity) {
             // if we have a data uri that sets the theme let's do it here
@@ -67,16 +65,6 @@ public class ThemeUtils {
         int uiMode = context.getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
         return uiMode != Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    public static boolean themeWasChanged(Intent intent) {
-        return intent != null && intent.getBooleanExtra(THEME_CHANGED_EXTRA, false);
-    }
-
-    public static Intent makeThemeChangeIntent() {
-        Intent intent = new Intent();
-        intent.putExtra(THEME_CHANGED_EXTRA, true);
-        return intent;
     }
 
     /*

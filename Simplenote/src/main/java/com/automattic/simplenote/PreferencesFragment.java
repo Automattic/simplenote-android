@@ -170,9 +170,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         "theme_preference"
                 );
 
-                // update intent to indicate the theme setting was changed
-                activity.setIntent(ThemeUtils.makeThemeChangeIntent());
-
                 // recreate the activity so new theme is applied
                 activity.recreate();
             }
