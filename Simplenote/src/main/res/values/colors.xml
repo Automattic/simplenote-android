@@ -35,11 +35,31 @@
     <color name="text_tag_chip">#596067</color>
     <color name="text_tag_dark">#a4abb1</color>
 
+    <!-- SIMPERIUM -->
+    <color name="background_button_disabled">@color/gray_20</color>
+    <color name="background_button_primary">@color/blue_50</color>
+    <color name="background_button_secondary">@color/wordpress_blue_50</color>
+    <color name="text_button_disabled">@color/gray_20</color>
+    <color name="text_button_primary">@android:color/white</color>
+    <color name="text_button_secondary">@android:color/white</color>
+    <color name="text_button_tertiary">@color/blue_60</color>
+    <color name="text_link">@color/blue_50</color>
+    <color name="text_footer">@color/gray_60</color>
+    <color name="text_subtitle">@color/gray_100</color>
+    <color name="text_title">@color/gray_100</color>
+
     <!-- STANDARD -->
-    <color name="gray_40">#404040</color> <!-- 25% white -->
     <color name="gray_7a">#7a7a7a</color>
     <color name="gray_c">#cccccc</color>
     <color name="gray_e5">#e5e5e5</color>
     <color name="gray_e">#eeeeee</color>
+
+    <!-- STUDIO v2.0.0 -->
+    <color name="blue_50">#2271b1</color>
+    <color name="blue_60">#135e96</color>
+    <color name="gray_20">#b4b1b8</color>
+    <color name="gray_60">#51565f</color>
+    <color name="gray_100">#101517</color>
+    <color name="wordpress_blue_50">#006088</color>
 
 </resources>
