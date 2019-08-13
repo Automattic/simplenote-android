@@ -890,11 +890,8 @@ public class NotesActivity extends AppCompatActivity implements
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
-        Intent loginIntent = new Intent(this, SignInActivity.class);
-        if (signInFirst) {
-            loginIntent.putExtra(SignInActivity.EXTRA_SIGN_IN_FIRST, true);
-        }
-        startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
+        Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
+        startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
 
     @Override

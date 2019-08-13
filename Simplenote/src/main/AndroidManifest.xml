@@ -60,9 +60,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.Simplestyle.About" />
         <activity
-            android:name=".SignInActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden" />
+            android:name=".SimplenoteAuthenticationActivity" />
+        <activity
+            android:name=".SimplenoteCredentialsActivity" />
 
         <!-- Passcode Unlock-->
         <!--suppress AndroidDomInspection -->

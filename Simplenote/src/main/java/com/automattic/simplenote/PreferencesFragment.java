@@ -32,7 +32,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.single.BasePermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
-import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -90,8 +89,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
                 Simplenote currentApp = (Simplenote) getActivity().getApplication();
                 if (currentApp.getSimperium().needsAuthorization()) {
-                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                    loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+                    Intent loginIntent = new Intent(getActivity(), SimplenoteAuthenticationActivity.class);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
                     new SignOutAsyncTask(PreferencesFragment.this).execute();
