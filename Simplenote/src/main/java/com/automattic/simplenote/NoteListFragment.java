@@ -141,6 +141,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
+        int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
+        requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));
         return true;
     }
 
@@ -168,16 +170,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    NotesActivity notesActivity = (NotesActivity) getActivity();
-                    setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
-                    notesActivity.showDetailPlaceholder();
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() != null) {
+                        NotesActivity notesActivity = (NotesActivity) getActivity();
+                        setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
+                        notesActivity.showDetailPlaceholder();
+                    }
+
+                    requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
                 }
-            }
-        });
+            },
+            requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+        );
     }
 
     @Override

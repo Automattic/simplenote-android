@@ -154,6 +154,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
             }
+
+            int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
+            requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));
             return true;
         }
 
@@ -203,6 +206,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
+                    }
+                },
+                requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+            );
         }
     };
     private Snackbar mPublishingSnackbar;
