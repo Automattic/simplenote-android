@@ -285,6 +285,14 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onActionModeCreated() {
+    }
+
+    @Override
+    public void onActionModeDestroyed() {
+    }
+
     private void setTitleWithCustomFont(CharSequence title) {
         if (getSupportActionBar() == null) {
             return;

@@ -88,6 +88,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     private static Callbacks sCallbacks = new Callbacks() {
         @Override
+        public void onActionModeCreated() {
+        }
+
+        @Override
+        public void onActionModeDestroyed() {
+        }
+
+        @Override
         public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         }
     };
@@ -137,6 +145,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        mCallbacks.onActionModeCreated();
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
@@ -167,6 +176,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        mCallbacks.onActionModeDestroyed();
         mActionMode = null;
         new Handler().post(new Runnable() {
             @Override
@@ -528,6 +538,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * selections.
      */
     public interface Callbacks {
+        /**
+         * Callback for when action mode is created.
+         */
+        void onActionModeCreated();
+        /**
+         * Callback for when action mode is destroyed.
+         */
+        void onActionModeDestroyed();
         /**
          * Callback for when a note has been selected.
          */
