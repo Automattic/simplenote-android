@@ -44,7 +44,7 @@
 
     <View
         android:id="@+id/info_divider"
-        android:background="@color/divider"
+        android:background="?attr/dividerColor"
         android:layout_below="@id/linearDateWordCountInfo"
         android:layout_height="1dp"
         android:layout_width="match_parent">

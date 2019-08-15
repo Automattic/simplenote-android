@@ -20,11 +20,11 @@
         android:layout_width="wrap_content"
         android:maxLines="4"
         android:text="@string/loading_note"
-        android:textColor="@color/gray_light"
+        android:textColor="@color/text_title_light"
         android:textSize="@dimen/text_widget"
         android:visibility="visible"
         tools:text="To-Do List"
-        tools:textColor="@color/gray_dark"
+        tools:textColor="@color/text_title_light"
         tools:visibility="gone">
     </TextView>
 
@@ -34,11 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/loading_note"
-        android:textColor="@color/gray_light"
+        android:textColor="@color/text_title_light"
         android:textSize="@dimen/text_widget_title"
         android:visibility="gone"
         tools:text="To-Do List"
-        tools:textColor="@color/gray_dark"
+        tools:textColor="@color/text_title_light"
         tools:visibility="visible">
     </TextView>
 
@@ -48,7 +48,7 @@
         android:layout_below="@id/widget_text_title"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textColor="@color/text_preview"
+        android:textColor="@color/text_body_light"
         android:textSize="@dimen/text_widget_content"
         android:visibility="gone"
         tools:text="- Create note widget\n- Update layout design\n- Add resizable attributes\n- Add note content"

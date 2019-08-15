@@ -1124,7 +1124,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isAdded()) {
             mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.publishing,
-                    R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
         }
         setPublishedNote(true);
     }
@@ -1133,7 +1133,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isAdded()) {
             mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublishing,
-                    R.color.simplenote_blue, Snackbar.LENGTH_INDEFINITE);
+                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
         }
         setPublishedNote(false);
     }

@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:padding="@dimen/padding_large"
         android:src="@drawable/ic_trash_24dp"
-        android:tint="@color/simplenote_blue">
+        android:tint="?attr/iconTintColor">
     </ImageButton>
 
 </LinearLayout>

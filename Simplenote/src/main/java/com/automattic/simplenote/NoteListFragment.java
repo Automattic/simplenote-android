@@ -661,7 +661,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             getContext(),
                             snippet,
                             mSnippetHighlighter,
-                            R.color.text_preview));
+                            R.color.text_title_disabled));
                     holder.titleTextView.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             title,
@@ -683,7 +683,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             getContext(),
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
-                            R.color.text_preview);
+                            R.color.text_title_disabled);
                     holder.contentTextView.setText(checklistString);
                 }
             }

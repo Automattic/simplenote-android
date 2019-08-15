@@ -525,9 +525,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSearchMenuItem.expandActionView();
         } else {
             // Workaround for setting the search placeholder text color
-            String hintHexColor = (ThemeUtils.isLightTheme(this) ?
-                    getString(R.color.gray_light) :
-                    getString(R.color.text_preview)).replace("ff", "");
+            String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
                     getString(R.string.search))));

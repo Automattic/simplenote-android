@@ -161,7 +161,7 @@ public class TagsAdapter extends BaseAdapter {
 
         @ColorInt int color = ContextCompat.getColor(mContext, mTextColorId);
         if (position == selectedPosition) {
-            color = ContextCompat.getColor(mContext, R.color.simplenote_blue);
+            color = DrawableUtils.getColor(mContext, R.attr.iconTintColor);
         }
 
         View dividerView = view.findViewById(R.id.section_divider);
