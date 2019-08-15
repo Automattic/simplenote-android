@@ -33,7 +33,18 @@ public class NoteMarkdownFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
 
-        DrawableUtils.tintMenuWithResource(getActivity(), menu, R.color.simplenote_blue_disabled);
+        DrawableUtils.tintMenuWithResource(
+            requireContext(),
+            menu,
+            ThemeUtils.isLightTheme(requireContext()) ?
+                R.color.text_title_light :
+                R.color.text_title_dark
+        );
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            DrawableUtils.setMenuItemAlpha(item, 0.3);  // 0.3 is 30% opacity.
+        }
 
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
