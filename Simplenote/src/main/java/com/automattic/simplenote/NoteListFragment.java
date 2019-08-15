@@ -8,10 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ListFragment;
-import android.support.v7.widget.PopupMenu;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -38,6 +34,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.ListFragment;
+
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -52,10 +52,10 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
-import com.simperium.client.Query.SortType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,7 +88,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     private static Callbacks sCallbacks = new Callbacks() {
         @Override
-        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
+        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
@@ -275,7 +275,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onAttach(Context activity) {
+    public void onAttach(@NonNull Context activity) {
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
@@ -308,14 +308,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
+    public void onListItemClick(@NonNull ListView listView, @NonNull View view, int position, long id) {
         if (!isAdded()) return;
         super.onListItemClick(listView, view, position, id);
 
         NoteViewHolder holder = (NoteViewHolder) view.getTag();
         String noteID = holder.getNoteId();
+
         if (noteID != null) {
-            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, mNotesAdapter.getItem(position).isMarkdownEnabled());
+            Note note = mNotesAdapter.getItem(position);
+            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
         }
 
         mActivatedPosition = position;
@@ -327,7 +329,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
             Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled());
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled(), selectedNote.isPreviewEnabled());
         }
     }
 
@@ -422,9 +424,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
-
-        sortNoteQuery(query);
-
+        PrefUtils.sortNoteQuery(query, requireContext());
         return query.execute();
     }
 
@@ -466,7 +466,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled());
+                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled(), note.isPreviewEnabled());
                 }
             }, 50);
         } else {
@@ -474,6 +474,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, true);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+            arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
             Intent editNoteIntent = new Intent(getActivity(), NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
@@ -521,31 +522,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return mSearchString != null && !mSearchString.equals("");
     }
 
-    public void sortNoteQuery(Query<Note> noteQuery) {
-        noteQuery.order("pinned", SortType.DESCENDING);
-        int sortPref = PrefUtils.getIntPref(getActivity(), PrefUtils.PREF_SORT_ORDER);
-        switch (sortPref) {
-            case 0:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 1:
-                noteQuery.order(Note.MODIFIED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 2:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.DESCENDING);
-                break;
-            case 3:
-                noteQuery.order(Note.CREATED_INDEX_NAME, SortType.ASCENDING);
-                break;
-            case 4:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.ASCENDING);
-                break;
-            case 5:
-                noteQuery.order(Note.CONTENT_PROPERTY, SortType.DESCENDING);
-                break;
-        }
-    }
-
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -555,7 +531,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /**
          * Callback for when a note has been selected.
          */
-        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled);
+        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled);
     }
 
     // view holder for NotesCursorAdapter

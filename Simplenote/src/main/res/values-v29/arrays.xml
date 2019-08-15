@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="array_sort_order">
+        <item>@string/sort_newest_modified</item>
+        <item>@string/sort_oldest_modified</item>
+        <item>@string/sort_newest_created</item>
+        <item>@string/sort_oldest_created</item>
+        <item>@string/sort_alphabetical</item>
+        <item>@string/sort_alphabetical_reverse</item>
+    </string-array>
+
+    <string-array name="array_sort_order_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="array_theme_names" tools:ignore="InconsistentArrays">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_auto</item>
+        <item>@string/theme_system</item>
+    </string-array>
+
+    <string-array name="array_theme_values" translatable="false" tools:ignore="InconsistentArrays">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="array_font_size">
+        <item>@string/font_size_extra_small</item>
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_normal</item>
+        <item>@string/font_size_large</item>
+        <item>@string/font_size_extra_large</item>
+    </string-array>
+
+    <string-array name="array_font_size_values" translatable="false">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>22</item>
+    </string-array>
+
+</resources>

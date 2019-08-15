@@ -1,8 +1,9 @@
 package com.automattic.simplenote.utils;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class BaseCursorAdapter<V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> {
     private Cursor mCursor;

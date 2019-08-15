@@ -16,10 +16,10 @@
 
 package com.automattic.simplenote.utils;
 
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.automattic.simplenote.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 

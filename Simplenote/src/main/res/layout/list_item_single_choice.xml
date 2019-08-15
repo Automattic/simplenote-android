@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.AppCompatCheckedTextView
+<androidx.appcompat.widget.AppCompatCheckedTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/text1"
@@ -17,4 +17,4 @@
     android:textColor="?attr/noteTitleColor"
     android:textSize="18sp"
     tools:text="Example Item" >
-</android.support.v7.widget.AppCompatCheckedTextView>
+</androidx.appcompat.widget.AppCompatCheckedTextView>

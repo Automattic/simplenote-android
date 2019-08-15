@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
@@ -103,29 +104,25 @@
             android:textSize="16sp">
         </TextView>
 
-        <android.support.v7.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/wp_dialog_share"
-            android:drawablePadding="@dimen/padding_extra_small"
-            android:drawableStart="@drawable/ic_share_24dp"
-            android:drawableTint="@color/simplenote_blue"
             android:layout_below="@id/wp_dialog_success_summary"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/share"
-            android:theme="@style/FlatButton.Simplestyle">
-        </android.support.v7.widget.AppCompatButton>
+            app:icon="@drawable/ic_share_24dp"
+            style="@style/Button.Flat.Icon">
+        </com.google.android.material.button.MaterialButton>
 
-        <android.support.v7.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/wp_dialog_copy_url"
-            android:drawablePadding="@dimen/padding_extra_small"
-            android:drawableStart="@drawable/ic_content_copy_white_24dp"
-            android:drawableTint="@color/simplenote_blue"
             android:layout_below="@id/wp_dialog_share"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/copy"
-            android:theme="@style/FlatButton.Simplestyle">
-        </android.support.v7.widget.AppCompatButton>
+            app:icon="@drawable/ic_content_copy_white_24dp"
+            style="@style/Button.Flat.Icon">
+        </com.google.android.material.button.MaterialButton>
 
     </RelativeLayout>
 

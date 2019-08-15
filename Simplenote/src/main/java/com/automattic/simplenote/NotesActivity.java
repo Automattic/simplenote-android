@@ -1,7 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,17 +8,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -32,6 +20,19 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -46,6 +47,7 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.widgets.TypefaceSpan;
+import com.google.android.material.navigation.NavigationView;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -75,6 +77,7 @@ public class NotesActivity extends AppCompatActivity implements
     private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
+    private boolean mIsSettingsClicked;
     private boolean mIsTabetFullscreen;
 
     private String mTabletSearchQuery;
@@ -231,7 +234,7 @@ public class NotesActivity extends AppCompatActivity implements
         setSelectedTagActive();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             mShouldSelectNewNote = false;
         }
 
@@ -316,8 +319,8 @@ public class NotesActivity extends AppCompatActivity implements
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(NotesActivity.this, PreferencesActivity.class);
-                startActivityForResult(i, Simplenote.INTENT_PREFERENCES);
+                mIsSettingsClicked = true;
+                mDrawerLayout.closeDrawer(mNavigationView);
             }
         });
 
@@ -334,6 +337,12 @@ public class NotesActivity extends AppCompatActivity implements
                 R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
+
+                if (mIsSettingsClicked) {
+                    Intent intent = new Intent(NotesActivity.this, PreferencesActivity.class);
+                    startActivityForResult(intent, Simplenote.INTENT_PREFERENCES);
+                    mIsSettingsClicked = false;
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -786,12 +795,13 @@ public class NotesActivity extends AppCompatActivity implements
      * the item with the given ID was selected. Used for tablets only.
      */
     @Override
-    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled) {
+    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         if (!DisplayUtils.isLargeScreenLandscape(this)) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, noteID);
             arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
+            arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
 
             if (matchOffsets != null) {
                 arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS, matchOffsets);
@@ -903,11 +913,6 @@ public class NotesActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Simplenote.INTENT_PREFERENCES:
-                if (ThemeUtils.themeWasChanged(data)) {
-                    // Restart this activity to apply the new theme
-                    recreate();
-                    break;
-                }
                 // nbradbury - refresh note list when user returns from preferences (in case they changed anything)
                 invalidateOptionsMenu();
                 NoteListFragment fragment = getNoteListFragment();
@@ -992,7 +997,7 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         mDrawerToggle.onConfigurationChanged(newConfig);
@@ -1007,25 +1012,24 @@ public class NotesActivity extends AppCompatActivity implements
                 } else if (DisplayUtils.isLandscape(this)) {
                     addEditorFragment();
                 }
+
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setActivateOnItemClick(true);
                     mNoteListFragment.setDividerVisible(true);
                 }
+
                 // Select the current note on a tablet
                 if (mCurrentNote != null) {
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
                 } else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
                 }
+
                 invalidateOptionsMenu();
-            } else {
-                if (mNoteListFragment.isHidden()) {
-                    // Go to NoteEditorActivity if the note editing was fullscreen and orientation was switched to portrait
-                    if (mCurrentNote != null) {
-                        onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled());
-                    }
-                }
+            // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
+            } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
+                onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
         }
 

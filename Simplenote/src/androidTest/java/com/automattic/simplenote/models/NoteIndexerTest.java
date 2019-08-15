@@ -1,7 +1,7 @@
 package com.automattic.simplenote.models;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.simperium.client.BucketSchema.Index;
 
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.fail;
 

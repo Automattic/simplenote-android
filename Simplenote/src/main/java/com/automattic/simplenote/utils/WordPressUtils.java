@@ -4,8 +4,9 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
+
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.Simplenote;

@@ -9,12 +9,14 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.SwitchPreferenceCompat;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -35,7 +37,6 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import java.lang.ref.WeakReference;
 
@@ -57,7 +58,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
     }
 
@@ -168,9 +169,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         AnalyticsTracker.CATEGORY_USER,
                         "theme_preference"
                 );
-
-                // update intent to indicate the theme setting was changed
-                activity.setIntent(ThemeUtils.makeThemeChangeIntent());
 
                 // recreate the activity so new theme is applied
                 activity.recreate();

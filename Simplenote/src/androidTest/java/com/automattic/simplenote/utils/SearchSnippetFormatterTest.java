@@ -1,16 +1,17 @@
 package com.automattic.simplenote.utils;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.text.Spannable;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.automattic.simplenote.utils.SearchSnippetFormatter.SpanFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.arrayWithSize;
 

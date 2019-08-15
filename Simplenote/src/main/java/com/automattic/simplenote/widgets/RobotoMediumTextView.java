@@ -1,8 +1,9 @@
 package com.automattic.simplenote.widgets;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * custom TextView used in layouts - enables keeping custom typeface handling in one place (so we

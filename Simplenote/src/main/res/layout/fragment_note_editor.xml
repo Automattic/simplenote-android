@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
@@ -21,7 +21,7 @@
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large">
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:fillViewport="true"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -48,7 +48,7 @@
                     tools:context=".NoteEditorFragment">
                 </com.automattic.simplenote.widgets.SimplenoteEditText>
 
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"
@@ -91,4 +91,4 @@
 
     </FrameLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

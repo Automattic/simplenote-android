@@ -24,7 +24,7 @@
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large">
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:fillViewport="true"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -49,7 +49,7 @@
                     tools:context=".NoteEditorFragment">
                 </com.automattic.simplenote.widgets.SimplenoteEditText>
 
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                 android:id="@+id/tag_view"

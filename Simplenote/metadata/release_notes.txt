@@ -1,0 +1,4 @@
+* Added a widget to view a note and open it in the app from the home screen.
+* Added hiding app content in the recent apps view when PIN lock is on.
+* Updated checkboxes to not show the keyboard when tapped.
+* Fixed multiple cursor bugs for notes with checklists.

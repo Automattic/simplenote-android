@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +19,10 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -98,6 +99,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
@@ -191,10 +193,19 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
+                    // Remove title from content
+                    String title = note.getTitle();
+                    String contentWithoutTitle = note.getContent().replace(title, "");
+                    int indexOfNewline = contentWithoutTitle.indexOf("\n") + 1;
+                    String content = contentWithoutTitle.substring(indexOfNewline < contentWithoutTitle.length() ? indexOfNewline : 0);
+
                     // Set widget content
                     mRemoteViews.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
-                    mRemoteViews.setTextViewText(R.id.widget_text, note.getTitle());
-                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark));
+                    mRemoteViews.setTextViewText(R.id.widget_text, title);
+                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextViewText(R.id.widget_text_title, title);
+                    mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextViewText(R.id.widget_text_content, content);
                     mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful

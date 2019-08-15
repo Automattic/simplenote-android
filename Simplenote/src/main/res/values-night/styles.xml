@@ -2,7 +2,7 @@
 
 <resources>
 
-    <style name="Base.Theme.Simplestyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
@@ -10,9 +10,9 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="bottomSheetDialogTheme">@style/Theme.Design.BottomSheetDialog</item>
+        <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
         <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/toolbar_dark</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
         <item name="colorPrimaryDark">@color/toolbar_dark</item>
         <item name="dividerColor">@color/divider_list_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
@@ -43,7 +43,7 @@
         <item name="actionBarTextColor">@color/simplenote_blue</item>
         <item name="actionModeTextColor">@color/simplenote_blue</item>
         <item name="actionModeBackgroundColor">@color/row_selected_dark</item>
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 
@@ -61,18 +61,18 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+    <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:background">?attr/mainBackgroundColor</item>
-        <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/toolbar_dark</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/simplenote_blue_accent</item>
+        <item name="colorPrimary">@color/simplenote_blue</item>
+        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat">
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
         <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
     </style>

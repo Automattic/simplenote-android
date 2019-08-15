@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.TagsActivity;

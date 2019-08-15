@@ -1,13 +1,14 @@
 package com.automattic.simplenote.utils;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.text.Editable;
+
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(AndroidJUnit4.class)
