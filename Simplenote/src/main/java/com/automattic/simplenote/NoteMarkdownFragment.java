@@ -30,7 +30,7 @@ public class NoteMarkdownFragment extends Fragment {
     private boolean mIsLoadingNote;
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
 
         DrawableUtils.tintMenuWithResource(
@@ -84,7 +84,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
                 if (!isAdded()) return false;
@@ -105,7 +105,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
         // Disable share and delete actions until note is loaded.
         if (mIsLoadingNote) {
             menu.findItem(R.id.menu_delete).setEnabled(false);
