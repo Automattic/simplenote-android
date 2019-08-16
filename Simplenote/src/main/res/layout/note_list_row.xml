@@ -19,6 +19,7 @@
         android:layout_below="@id/note_title"
         android:layout_height="@dimen/icon_published"
         android:layout_marginEnd="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/padding_extra_small"
         android:layout_width="@dimen/icon_published"
         android:src="@drawable/ic_feed_24dp"
         android:tint="?attr/notePreviewColor"
