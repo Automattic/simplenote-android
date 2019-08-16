@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/list_padding_left"
+        android:layout_marginTop="@dimen/padding_extra_extra_small"
         android:layout_toStartOf="@id/note_published"
         android:layout_width="match_parent"
         android:lineSpacingExtra="@dimen/line_spacing"

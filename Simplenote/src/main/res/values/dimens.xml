@@ -4,6 +4,7 @@
 
     <!-- MARGIN/PADDING -->
     <dimen name="margin_passcode_pin">40dp</dimen>
+    <dimen name="padding_extra_extra_small">2dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
