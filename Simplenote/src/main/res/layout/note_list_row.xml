@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:maxLines="1"
         android:textColor="?attr/notePreviewColor"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_content"
         android:visibility="gone"
         tools:text="Aug 15"
         tools:visibility="visible">
@@ -38,7 +38,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="?attr/noteTitleColor"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_title"
         tools:text="Three-line item">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
@@ -53,7 +53,7 @@
         android:lineSpacingExtra="4dp"
         android:maxLines="2"
         android:textColor="?attr/notePreviewColor"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_content"
         tools:text="The first few times he tried to climb up on\nthe smooth chest of drawers.">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
