@@ -34,7 +34,7 @@
         <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="noteEditorTextColor">@android:color/white</item>
         <item name="notePinColor">@android:color/white</item>
-        <item name="notePreviewColor">@color/text_title_disabled</item>
+        <item name="notePreviewColor">@color/text_content_dark</item>
         <item name="noteTitleColor">@android:color/white</item>
         <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="tagChipShadowColor">@color/background_dark</item>

@@ -23,7 +23,7 @@
         android:src="@drawable/ic_feed_24dp"
         android:tint="?attr/notePreviewColor"
         android:visibility="gone"
-        tools:tint="@color/text_title_disabled"
+        tools:tint="@color/text_content_light"
         tools:visibility="visible">
     </ImageView>
 

@@ -47,7 +47,7 @@
         <item name="mainBackgroundColor">@color/background_light</item>
         <item name="noteEditorTextColor">@color/text_title_light</item>
         <item name="notePinColor">@color/text_title_light</item>
-        <item name="notePreviewColor">@color/text_title_disabled</item>
+        <item name="notePreviewColor">@color/text_content_light</item>
         <item name="noteTitleColor">@color/text_title_light</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
         <item name="placeholderLogoColor">@color/gray_5</item>

@@ -32,6 +32,8 @@
     <color name="text_blue_light">@color/blue_60</color>
     <color name="text_body_dark">@color/gray_10</color>
     <color name="text_body_light">@color/gray_50</color>
+    <color name="text_content_dark">@color/gray_20</color>
+    <color name="text_content_light">@color/gray_50</color>
     <color name="text_title_dark">@android:color/white</color>
     <color name="text_title_disabled">@color/gray_30</color>
     <color name="text_title_light">@color/gray_80</color>
