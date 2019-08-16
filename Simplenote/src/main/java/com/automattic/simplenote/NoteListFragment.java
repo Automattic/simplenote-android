@@ -40,6 +40,7 @@ import androidx.fragment.app.ListFragment;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
+import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -544,6 +545,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         public String matchOffsets;
         TextView titleTextView;
         TextView contentTextView;
+        TextView mDate;
         private String mNoteId;
 
         public String getNoteId() {
@@ -582,13 +584,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
          */
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-
             final NoteViewHolder holder;
+
             if (view == null) {
                 view = View.inflate(requireActivity().getBaseContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
                 holder.titleTextView = view.findViewById(R.id.note_title);
                 holder.contentTextView = view.findViewById(R.id.note_content);
+                holder.mDate = view.findViewById(R.id.note_date);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
@@ -597,6 +600,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             if (holder.titleTextView.getTextSize() != mTitleFontSize) {
                 holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
                 holder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+                holder.mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
             }
 
             if (position == getListView().getCheckedItemPosition())
@@ -609,6 +613,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+            Calendar date = mCursor.getObject().getModificationDate();
+            holder.mDate.setText(DateTimeUtils.getDateTextShort(date));
+            holder.mDate.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
@@ -635,12 +642,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             holder.matchOffsets = null;
-
             int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
+
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
                 title = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_TITLE_INDEX_NAME));
                 String snippet = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_CONTENT_INDEX_NAME));
-
                 holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
@@ -661,6 +667,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 }
             } else if (!mIsCondensedNoteList) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
                     holder.contentTextView.setVisibility(View.GONE);
                 else {
@@ -699,9 +706,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-
         }
-
     }
 
     private void showPopupMenuAtPosition(View view, int position) {

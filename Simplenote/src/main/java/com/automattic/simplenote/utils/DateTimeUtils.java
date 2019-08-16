@@ -2,7 +2,9 @@ package com.automattic.simplenote.utils;
 
 import android.app.Activity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by onko on 27/03/2016.
@@ -23,5 +25,10 @@ public class DateTimeUtils {
         );
 
         return dateText.toString();
+    }
+
+    public static String getDateTextShort(Calendar date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d", Locale.getDefault());
+        return formatter.format(date.getTime());
     }
 }

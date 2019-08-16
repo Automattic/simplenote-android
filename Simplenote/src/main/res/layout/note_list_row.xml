@@ -17,12 +17,14 @@
         android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginStart="@dimen/list_padding_left"
+        android:layout_marginStart="@dimen/padding_small"
         android:layout_width="wrap_content"
         android:maxLines="1"
         android:textColor="?attr/notePreviewColor"
         android:textSize="16sp"
-        tools:text="Aug 15">
+        android:visibility="gone"
+        tools:text="Aug 15"
+        tools:visibility="visible">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
