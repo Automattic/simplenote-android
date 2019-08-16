@@ -3,6 +3,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_root"
     android:layout_height="match_parent"
     android:layout_weight="7"
@@ -13,12 +14,12 @@
         android:id="@android:id/list"
         android:background="@android:color/transparent"
         android:clipToPadding="false"
-        android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="@dimen/divider_height"
+        android:divider="@null"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:paddingBottom="88dp"
-        android:scrollbarStyle="outsideOverlay">
+        android:scrollbarStyle="outsideOverlay"
+        tools:listitem="@layout/note_list_row">
     </ListView>
 
     <LinearLayout
