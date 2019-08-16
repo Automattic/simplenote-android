@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="1px"/>
+        android:dividerHeight="@dimen/divider_height"/>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@android:id/empty"
