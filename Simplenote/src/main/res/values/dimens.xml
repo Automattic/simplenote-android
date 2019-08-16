@@ -41,6 +41,7 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_fingerprint">4dp</dimen>
+    <dimen name="icon_published">16dp</dimen>
     <dimen name="line_spacing">4dp</dimen>
     <dimen name="passcode_logo">96dp</dimen>
     <dimen name="passcode_width">480dp</dimen>
