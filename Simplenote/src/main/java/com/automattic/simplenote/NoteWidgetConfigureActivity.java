@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -155,7 +154,6 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
             view.setTag(cursor.getPosition());
             TextView titleTextView = view.findViewById(R.id.note_title);
             TextView contentTextView = view.findViewById(R.id.note_content);
-            ToggleButton toggleView = view.findViewById(R.id.pin_button);
             String title = "";
             String snippet = "";
 
@@ -170,7 +168,6 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
             // Populate fields with extracted properties
             titleTextView.setText(title);
             contentTextView.setText(snippet);
-            toggleView.setVisibility(View.GONE);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

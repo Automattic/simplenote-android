@@ -32,7 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -44,7 +43,6 @@ import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -546,7 +544,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         public String matchOffsets;
         TextView titleTextView;
         TextView contentTextView;
-        ToggleButton toggleView;
         private String mNoteId;
 
         public String getNoteId() {
@@ -592,7 +589,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder = new NoteViewHolder();
                 holder.titleTextView = view.findViewById(R.id.note_title);
                 holder.contentTextView = view.findViewById(R.id.note_content);
-                holder.toggleView = view.findViewById(R.id.pin_button);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
@@ -613,22 +609,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
-            int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
-
-            if (pinned == 1) {
-                holder.toggleView.setChecked(true);
-                holder.toggleView.setVisibility(View.VISIBLE);
-            } else {
-                holder.toggleView.setVisibility(View.GONE);
-            }
-            holder.toggleView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Note note = mNotesAdapter.getItem(position);
-                    NoteUtils.setNotePin(note, holder.toggleView.isChecked());
-                }
-            });
-
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
