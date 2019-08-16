@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -543,6 +544,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     // view holder for NotesCursorAdapter
     private static class NoteViewHolder {
         public String matchOffsets;
+        ImageView mPublished;
         TextView titleTextView;
         TextView contentTextView;
         TextView mDate;
@@ -592,6 +594,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.titleTextView = view.findViewById(R.id.note_title);
                 holder.contentTextView = view.findViewById(R.id.note_content);
                 holder.mDate = view.findViewById(R.id.note_date);
+                holder.mPublished = view.findViewById(R.id.note_published);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
@@ -616,6 +619,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             Calendar date = mCursor.getObject().getModificationDate();
             holder.mDate.setText(DateTimeUtils.getDateTextShort(date));
             holder.mDate.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
+            boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
+            holder.mPublished.setVisibility(mIsCondensedNoteList || !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
