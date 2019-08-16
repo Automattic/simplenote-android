@@ -164,7 +164,7 @@
             <com.automattic.simplenote.widgets.RobotoLightTextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:lineSpacingExtra="4dp"
+                android:lineSpacingExtra="@dimen/line_spacing"
                 android:paddingEnd="@dimen/padding_large"
                 android:paddingStart="@dimen/padding_large"
                 android:text="@string/about_hiring"
