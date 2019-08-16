@@ -27,7 +27,7 @@
         tools:visibility="visible">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
+    <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/note_title"
         android:ellipsize="end"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:textColor="?attr/noteTitleColor"
         android:textSize="@dimen/text_title"
         tools:text="Three-line item">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+    </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_content"
