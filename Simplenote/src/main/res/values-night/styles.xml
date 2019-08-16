@@ -24,7 +24,7 @@
         <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="fabColor">@color/item_blue_dark</item>
-        <item name="fabIconColor">@android:color/white</item>
+        <item name="fabIconColor">@color/gray_100</item>
         <item name="hintTextColor">@color/text_title_disabled</item>
         <item name="iconTintColor">@color/item_blue_dark</item>
         <item name="isLightTheme">false</item>
