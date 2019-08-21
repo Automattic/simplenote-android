@@ -285,6 +285,16 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onActionModeCreated() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void onActionModeDestroyed() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
     private void setTitleWithCustomFont(CharSequence title) {
         if (getSupportActionBar() == null) {
             return;
