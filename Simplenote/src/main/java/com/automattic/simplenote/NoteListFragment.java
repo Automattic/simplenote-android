@@ -150,6 +150,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
+        int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
+        requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));
         return true;
     }
 
@@ -178,16 +180,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onDestroyActionMode(ActionMode mode) {
         mCallbacks.onActionModeDestroyed();
         mActionMode = null;
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    NotesActivity notesActivity = (NotesActivity) getActivity();
-                    setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
-                    notesActivity.showDetailPlaceholder();
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() != null) {
+                        NotesActivity notesActivity = (NotesActivity) getActivity();
+                        setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
+                        notesActivity.showDetailPlaceholder();
+                    }
+
+                    requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
                 }
-            }
-        });
+            },
+            requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+        );
     }
 
     @Override
@@ -679,7 +686,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             getContext(),
                             snippet,
                             mSnippetHighlighter,
-                            R.color.text_preview));
+                            R.color.text_title_disabled));
                     holder.titleTextView.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             title,
@@ -701,7 +708,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             getContext(),
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
-                            R.color.text_preview);
+                            R.color.text_title_disabled);
                     holder.contentTextView.setText(checklistString);
                 }
             }

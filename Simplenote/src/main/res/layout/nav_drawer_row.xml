@@ -40,7 +40,7 @@
             android:padding="@dimen/padding_extra_small"
             android:text="@string/edit"
             android:textAllCaps="true"
-            android:textColor="@color/simplenote_blue"
+            android:textColor="?attr/iconTintColor"
             android:textSize="@dimen/nav_drawer_item_text_size"
             android:textStyle="bold"
             tools:ignore="KeyboardInaccessibleWidget"

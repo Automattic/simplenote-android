@@ -202,9 +202,9 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     // Set widget content
                     mRemoteViews.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     mRemoteViews.setTextViewText(R.id.widget_text, title);
-                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.text_title_light, context.getTheme()));
                     mRemoteViews.setTextViewText(R.id.widget_text_title, title);
-                    mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     mRemoteViews.setTextViewText(R.id.widget_text_content, content);
                     mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 

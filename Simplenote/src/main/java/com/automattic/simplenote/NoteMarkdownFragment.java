@@ -30,10 +30,21 @@ public class NoteMarkdownFragment extends Fragment {
     private boolean mIsLoadingNote;
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
 
-        DrawableUtils.tintMenuWithResource(getActivity(), menu, R.color.simplenote_blue_disabled);
+        DrawableUtils.tintMenuWithResource(
+            requireContext(),
+            menu,
+            ThemeUtils.isLightTheme(requireContext()) ?
+                R.color.text_title_light :
+                R.color.text_title_dark
+        );
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            DrawableUtils.setMenuItemAlpha(item, 0.3);  // 0.3 is 30% opacity.
+        }
 
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
@@ -73,7 +84,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
                 if (!isAdded()) return false;
@@ -94,7 +105,7 @@ public class NoteMarkdownFragment extends Fragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
         // Disable share and delete actions until note is loaded.
         if (mIsLoadingNote) {
             menu.findItem(R.id.menu_delete).setEnabled(false);

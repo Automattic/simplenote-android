@@ -43,7 +43,7 @@
                     android:paddingTop="@dimen/padding_small"
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
-                    android:textColorLink="@color/simplenote_blue"
+                    android:textColorLink="?attr/colorAccent"
                     android:textSize="16sp"
                     tools:context=".NoteEditorFragment">
                 </com.automattic.simplenote.widgets.SimplenoteEditText>

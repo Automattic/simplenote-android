@@ -113,9 +113,9 @@ public class NoteWidget extends AppWidgetProvider {
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
-            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
             views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.sign_in_use_widget));
-            views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+            views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
             views.setViewVisibility(R.id.widget_text_content, View.GONE);
         } else {
             // Get note id from SharedPreferences
@@ -151,9 +151,9 @@ public class NoteWidget extends AppWidgetProvider {
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, title);
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_title, title);
-                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_dark, context.getTheme()));
+                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_content, content);
                 } catch (BucketObjectMissingException e) {
                     // Create intent to navigate to widget configure activity on widget click
@@ -165,17 +165,17 @@ public class NoteWidget extends AppWidgetProvider {
 
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.note_not_found));
-                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     views.setViewVisibility(R.id.widget_text_content, View.GONE);
                 }
             } else {
                 views.setOnClickPendingIntent(R.id.widget_layout, null);
                 views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                 views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.note_not_found));
-                views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.gray_light, context.getTheme()));
+                views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                 views.setViewVisibility(R.id.widget_text_content, View.GONE);
             }
         }

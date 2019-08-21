@@ -9,46 +9,52 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="actionBarTextColor">@color/text_title_dark</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_highlight</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
+        <item name="actionModeTextColor">@color/text_title_dark</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
-        <item name="colorAccent">@color/simplenote_blue</item>
-        <item name="colorPrimary">@color/simplenote_blue</item>
-        <item name="colorPrimaryDark">@color/toolbar_dark</item>
-        <item name="dividerColor">@color/divider_list_dark</item>
+        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/background_dark</item>
+        <item name="dividerColor">@color/divider_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="editorSearchHighlightBackgroundColor">#FFB9C5CE</item>
-        <item name="editorSearchHighlightForegroundColor">#FF39536A</item>
-        <item name="fabColor">@color/row_selected_dark</item>
-        <item name="fabIconColor">@color/simplenote_blue</item>
-        <item name="hintTextColor">@color/text_preview</item>
-        <item name="iconTintColor">@color/simplenote_blue</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="fabColor">@color/item_blue_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="hintTextColor">@color/text_title_disabled</item>
+        <item name="iconTintColor">@color/item_blue_dark</item>
         <item name="isLightTheme">false</item>
-        <item name="listBackgroundSelector">@drawable/list_background_simplestyle_dark</item>
-        <item name="listDividerDrawable">@drawable/list_divider_dark</item>
-        <item name="listSearchHighlightBackgroundColor">#FF39536A</item>
-        <item name="listSearchHighlightForegroundColor">#FFB9C5CE</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_dark</item>
+        <item name="listDividerDrawable">@drawable/divider_dark</item>
+        <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="noteEditorTextColor">@android:color/white</item>
         <item name="notePinColor">@android:color/white</item>
-        <item name="notePreviewColor">@color/text_preview</item>
+        <item name="notePreviewColor">@color/text_title_disabled</item>
         <item name="noteTitleColor">@android:color/white</item>
         <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="tagChipShadowColor">@color/background_dark</item>
-        <item name="pinIconSelector">@drawable/pin_bg_selector_dark</item>
-        <item name="placeholderLogoColor">@color/text_dark</item>
+        <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
+        <item name="placeholderLogoColor">@color/empty</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
-        <item name="tagChipBackgroundDrawable">@drawable/tag_bg_dark</item>
-        <item name="tagChipTextColor">@color/text_tag_dark</item>
+        <item name="tagChipBackgroundDrawable">@drawable/bg_tag_dark</item>
+        <item name="tagChipTextColor">@color/text_body_dark</item>
         <item name="toolbarColor">@color/background_dark</item>
-        <item name="actionBarTextColor">@color/simplenote_blue</item>
-        <item name="actionModeTextColor">@color/simplenote_blue</item>
-        <item name="actionModeBackgroundColor">@color/row_selected_dark</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 
+    <style name="CloseButtonStyle" parent="Widget.AppCompat.ActionButton.CloseMode">
+        <item name="tint">@color/text_title_dark</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/simplenote_blue</item>
+        <item name="color">@color/text_title_dark</item>
         <item name="spinBars">true</item>
     </style>
 
@@ -57,15 +63,16 @@
     </style>
 
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
-        <item name="android:statusBarColor">@color/status_bar_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:background">?attr/mainBackgroundColor</item>
-        <item name="colorAccent">@color/simplenote_blue_accent</item>
-        <item name="colorPrimary">@color/simplenote_blue</item>
-        <item name="colorPrimaryDark">@color/simplenote_blue_dark</item>
+        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
