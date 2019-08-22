@@ -324,7 +324,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         if (noteID != null) {
             Note note = mNotesAdapter.getItem(position);
-            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
+            mCallbacks.onNoteSelected(noteID, position, holder.mMatchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
         }
 
         mActivatedPosition = position;
@@ -543,11 +543,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     // view holder for NotesCursorAdapter
     private static class NoteViewHolder {
-        public String matchOffsets;
-        ImageView mPublished;
-        TextView titleTextView;
-        TextView contentTextView;
-        TextView mDate;
+        private ImageView mPublished;
+        private TextView mContent;
+        private TextView mDate;
+        private TextView mTitle;
+        private String mMatchOffsets;
         private String mNoteId;
 
         public String getNoteId() {
@@ -591,8 +591,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             if (view == null) {
                 view = View.inflate(requireActivity().getBaseContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
-                holder.titleTextView = view.findViewById(R.id.note_title);
-                holder.contentTextView = view.findViewById(R.id.note_content);
+                holder.mTitle = view.findViewById(R.id.note_title);
+                holder.mContent = view.findViewById(R.id.note_content);
                 holder.mDate = view.findViewById(R.id.note_date);
                 holder.mPublished = view.findViewById(R.id.note_published);
                 view.setTag(holder);
@@ -600,9 +600,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder = (NoteViewHolder) view.getTag();
             }
 
-            if (holder.titleTextView.getTextSize() != mTitleFontSize) {
-                holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
-                holder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+            if (holder.mTitle.getTextSize() != mTitleFontSize) {
+                holder.mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
+                holder.mContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
                 holder.mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
             }
 
@@ -613,7 +613,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // for performance reasons we are going to get indexed values
             // from the cursor instead of instantiating the entire bucket object
-            holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
+            holder.mContent.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             Calendar date = getDateByPreference(mCursor.getObject());
@@ -635,7 +635,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         newNoteString.length(),
                         SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
-                holder.titleTextView.setText(newNoteString);
+                holder.mTitle.setText(newNoteString);
             } else {
                 SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
                 titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
@@ -643,47 +643,47 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         titleChecklistString,
                         ChecklistUtils.CHECKLIST_REGEX,
                         ThemeUtils.getThemeTextColorId(getContext()));
-                holder.titleTextView.setText(titleChecklistString);
+                holder.mTitle.setText(titleChecklistString);
             }
 
-            holder.matchOffsets = null;
+            holder.mMatchOffsets = null;
             int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
 
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
                 title = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_TITLE_INDEX_NAME));
                 String snippet = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_CONTENT_INDEX_NAME));
-                holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
+                holder.mMatchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
-                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(
+                    holder.mContent.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             snippet,
                             mSnippetHighlighter,
                             R.color.text_title_disabled));
-                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(
+                    holder.mTitle.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             title,
                             mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
                     title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
-                    holder.titleTextView.setText(title);
+                    holder.mTitle.setText(title);
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
-                    holder.contentTextView.setText(matchedContentPreview);
+                    holder.mContent.setText(matchedContentPreview);
                 }
             } else if (!mIsCondensedNoteList) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
 
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
-                    holder.contentTextView.setVisibility(View.GONE);
+                    holder.mContent.setVisibility(View.GONE);
                 else {
-                    holder.contentTextView.setText(contentPreview);
+                    holder.mContent.setText(contentPreview);
                     SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
                     checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
                             getContext(),
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
                             R.color.text_title_disabled);
-                    holder.contentTextView.setText(checklistString);
+                    holder.mContent.setText(checklistString);
                 }
             }
 
