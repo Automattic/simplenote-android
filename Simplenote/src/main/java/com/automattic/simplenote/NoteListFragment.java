@@ -616,7 +616,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
-            Calendar date = mCursor.getObject().getModificationDate();
+            Calendar date = getDateByPreference(mCursor.getObject());
             holder.mDate.setText(DateTimeUtils.getDateTextShort(date));
             holder.mDate.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
@@ -711,6 +711,29 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
+        }
+    }
+
+    private Calendar getDateByPreference(Note note) {
+        int sortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+
+        /* Use modified date for modified sort order preferences and created date otherwise.
+         * Sort order constants are as follows:
+         *   0: Modified date descending
+         *   1: Modified date ascending
+         *   2: Created date descending
+         *   3: Created date ascending
+         *   4: Content ascending
+         *   5: Content descending
+        */
+        switch (sortOrder) {
+            case 0:
+            case 1:
+                return note.getModificationDate();
+            case 2:
+            case 3:
+            default:
+                return note.getCreationDate();
         }
     }
 
