@@ -15,11 +15,11 @@
         android:contentDescription="@string/published"
         android:clickable="false"
         android:focusable="false"
+        android:layout_alignBottom="@id/note_title"
         android:layout_alignParentEnd="true"
-        android:layout_below="@id/note_title"
+        android:layout_alignParentTop="true"
         android:layout_height="@dimen/icon_published"
         android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_extra_small"
         android:layout_width="@dimen/icon_published"
         android:src="@drawable/ic_feed_24dp"
         android:tint="?attr/notePreviewColor"
@@ -28,30 +28,13 @@
         tools:visibility="visible">
     </ImageView>
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@+id/note_date"
-        android:layout_alignBaseline="@id/note_title"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginStart="@dimen/padding_small"
-        android:layout_width="wrap_content"
-        android:maxLines="1"
-        android:textColor="?attr/notePreviewColor"
-        android:textSize="@dimen/text_content"
-        android:visibility="gone"
-        tools:text="Aug 15"
-        tools:visibility="visible">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
     <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/note_title"
         android:ellipsize="end"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_toStartOf="@id/note_date"
+        android:layout_toStartOf="@id/note_published"
         android:layout_width="match_parent"
         android:lines="1"
         android:singleLine="true"
@@ -68,7 +51,6 @@
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/list_padding_left"
         android:layout_marginTop="@dimen/padding_extra_extra_small"
-        android:layout_toStartOf="@id/note_published"
         android:layout_width="match_parent"
         android:lineSpacingExtra="@dimen/line_spacing"
         android:maxLines="2"
