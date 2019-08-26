@@ -2,3 +2,4 @@
 * There is a new redesigned interface for login and signup.
 * The last viewed tab is now shown when opening a note.
 * Interface colors have been updated for better accessibility.
+* Added resizing the note widget to display title and content.

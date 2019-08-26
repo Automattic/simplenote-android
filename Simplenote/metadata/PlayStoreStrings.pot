@@ -18,6 +18,7 @@ msgid ""
 "* There is a new redesigned interface for login and signup.\n"
 "* The last viewed tab is now shown when opening a note.\n"
 "* Interface colors have been updated for better accessibility.\n"
+"* Added resizing the note widget to display title and content.\n"
 msgstr ""
 
 msgctxt "release_note_018"
