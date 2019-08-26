@@ -1,3 +1,6 @@
+2.1
+-----
+ 
 2.0.0
 -----
 * Added an option to the Theme setting to follow the system day/night mode
