@@ -637,7 +637,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             boolean isPinned = mCursor.getObject().isPinned();
             holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
-            holder.mPublished.setVisibility(mIsCondensedNoteList || !isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
             holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
