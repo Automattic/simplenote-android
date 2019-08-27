@@ -560,11 +560,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     // view holder for NotesCursorAdapter
     private static class NoteViewHolder {
+        private ImageView mPinned;
         private ImageView mPublished;
         private TextView mContent;
         private TextView mTitle;
         private String mMatchOffsets;
         private String mNoteId;
+        private View mStatus;
 
         public String getNoteId() {
             return mNoteId;
@@ -609,7 +611,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder = new NoteViewHolder();
                 holder.mTitle = view.findViewById(R.id.note_title);
                 holder.mContent = view.findViewById(R.id.note_content);
+                holder.mPinned = view.findViewById(R.id.note_pinned);
                 holder.mPublished = view.findViewById(R.id.note_published);
+                holder.mStatus = view.findViewById(R.id.note_status);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
@@ -630,8 +634,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.mContent.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+            boolean isPinned = mCursor.getObject().isPinned();
+            holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
             holder.mPublished.setVisibility(mIsCondensedNoteList || !isPublished ? View.GONE : View.VISIBLE);
+            holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {

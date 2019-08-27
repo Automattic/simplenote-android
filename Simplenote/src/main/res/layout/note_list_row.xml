@@ -10,23 +10,47 @@
     android:paddingBottom="@dimen/note_list_item_padding_bottom"
     android:paddingTop="@dimen/note_list_item_padding_top">
 
-    <ImageView
-        android:id="@+id/note_published"
-        android:contentDescription="@string/published"
-        android:clickable="false"
-        android:focusable="false"
-        android:layout_alignBottom="@id/note_title"
+    <LinearLayout
+        android:id="@+id/note_status"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_height="@dimen/icon_published"
+        android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_width="@dimen/icon_published"
-        android:src="@drawable/ic_feed_24dp"
-        android:tint="?attr/notePreviewColor"
+        android:orientation="vertical"
         android:visibility="gone"
-        tools:tint="@color/text_content_light"
         tools:visibility="visible">
-    </ImageView>
+
+        <ImageView
+            android:id="@+id/note_pinned"
+            android:contentDescription="@string/published"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_published"
+            android:layout_marginBottom="@dimen/padding_extra_small"
+            android:layout_width="@dimen/icon_published"
+            android:src="@drawable/ic_radio_button_checked_white_24dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light"
+            tools:visibility="visible">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/note_published"
+            android:contentDescription="@string/published"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_published"
+            android:layout_width="@dimen/icon_published"
+            android:src="@drawable/ic_feed_24dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light"
+            tools:visibility="visible">
+        </ImageView>
+
+    </LinearLayout>
 
     <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/note_title"
@@ -34,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_toStartOf="@id/note_published"
+        android:layout_toStartOf="@id/note_status"
         android:layout_width="match_parent"
         android:lines="1"
         android:singleLine="true"
@@ -51,6 +75,7 @@
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/list_padding_left"
         android:layout_marginTop="@dimen/padding_extra_extra_small"
+        android:layout_toStartOf="@id/note_status"
         android:layout_width="match_parent"
         android:lineSpacingExtra="@dimen/line_spacing"
         android:maxLines="2"
