@@ -5,19 +5,20 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
+
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.TagsActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.widgets.TintedTextView;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
@@ -153,14 +154,14 @@ public class TagsAdapter extends BaseAdapter {
         }
         TagMenuItem tagMenuItem = getItem(position);
 
-        TintedTextView drawerItemText = view.findViewById(R.id.drawer_item_name);
+        AppCompatTextView drawerItemText = view.findViewById(R.id.drawer_item_name);
         drawerItemText.setText(tagMenuItem.name);
 
         int selectedPosition = ((ListView) viewGroup).getCheckedItemPosition() - mHeaderCount;
 
         @ColorInt int color = ContextCompat.getColor(mContext, mTextColorId);
         if (position == selectedPosition) {
-            color = ContextCompat.getColor(mContext, R.color.simplenote_blue);
+            color = DrawableUtils.getColor(mContext, R.attr.iconTintColor);
         }
 
         View dividerView = view.findViewById(R.id.section_divider);
@@ -181,7 +182,11 @@ public class TagsAdapter extends BaseAdapter {
             dividerView.setVisibility(View.GONE);
         }
 
-        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null, color);
+        if (icon != null) {
+            icon.setTint(color);
+        }
+
+        drawerItemText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
         drawerItemText.setTextColor(color);
 
         View tagsHeader = view.findViewById(R.id.tags_header);

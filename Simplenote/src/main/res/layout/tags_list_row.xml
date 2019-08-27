@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:background="?attr/listBackgroundSelector"
     android:descendantFocusability="blocksDescendants"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:orientation="horizontal">
 
-    <!-- For tinting to work on API < 19, only drawableLeft (not drawableStart) must be declared -->
+    <ImageView
+        android:importantForAccessibility="no"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_extra_extra_extra_large"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_tags_24dp"
+        android:tint="?attr/noteTitleColor">
+    </ImageView>
+
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_name"
-        style="?android:attr/textAppearanceMedium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/ic_tags_selector"
-        android:drawablePadding="32dp"
+        android:layout_width="0dp"
         android:textColor="?attr/noteTitleColor"
-        app:tint="?attr/noteTitleColor"
-        tools:text="Test"/>
+        tools:text="Test"
+        style="?android:attr/textAppearanceMedium">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
-        style="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:gravity="end"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
         android:textColor="?attr/notePreviewColor"
-        tools:text="24"/>
+        tools:text="24"
+        style="?android:attr/textAppearanceMedium">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     <View
         android:id="@+id/imageView"
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
+        android:background="?attr/dividerColor"
         android:layout_gravity="center_vertical"
+        android:layout_height="fill_parent"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="@dimen/padding_extra_small"
-        android:layout_marginRight="@dimen/padding_extra_small"
+        android:layout_marginEnd="@dimen/padding_extra_small"
+        android:layout_marginStart="@dimen/padding_extra_small"
         android:layout_marginTop="8dp"
-        android:background="?attr/dividerColor"/>
+        android:layout_width="1dp">
+    </View>
 
     <ImageButton
         android:id="@+id/tag_trash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/delete_tag"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/padding_large"
-        android:tint="@color/simplenote_blue"
-        app:srcCompat="@drawable/ic_trash_24dp"
-        tools:src="@drawable/ic_trash_24dp"/>
+        android:src="@drawable/ic_trash_24dp"
+        android:tint="?attr/iconTintColor">
+    </ImageButton>
 
 </LinearLayout>

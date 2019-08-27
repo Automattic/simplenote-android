@@ -6,7 +6,8 @@ import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
@@ -15,16 +16,14 @@ import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.crashlytics.android.Crashlytics;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
-
-import io.fabric.sdk.android.Fabric;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
@@ -49,9 +48,7 @@ public class Simplenote extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (!BuildConfig.DEBUG) {
-            Fabric.with(this, new Crashlytics());
-        }
+        CrashUtils.initWithContext(this);
 
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
@@ -85,6 +82,7 @@ public class Simplenote extends Application {
 
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
+        CrashUtils.setCurrentUser(mSimperium.getUser());
     }
 
     @SuppressWarnings("unused")

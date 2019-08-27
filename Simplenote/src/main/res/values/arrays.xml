@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
 
     <string-array name="array_sort_order">
         <item>@string/sort_newest_modified</item>
@@ -19,13 +21,13 @@
         <item>5</item>
     </string-array>
 
-    <string-array name="array_theme_names">
+    <string-array name="array_theme_names" tools:ignore="InconsistentArrays">
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
         <item>@string/theme_auto</item>
     </string-array>
 
-    <string-array name="array_theme_values" translatable="false">
+    <string-array name="array_theme_values" translatable="false" tools:ignore="InconsistentArrays">
         <item>0</item>
         <item>1</item>
         <item>2</item>

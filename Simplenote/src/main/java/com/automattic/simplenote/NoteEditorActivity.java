@@ -4,20 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
+import com.google.android.material.tabs.TabLayout;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -30,9 +34,11 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 
 public class NoteEditorActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
+    private Note mNote;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
     private NoteEditorViewPager mViewPager;
     private boolean isMarkdownEnabled;
+    private boolean isPreviewEnabled;
     private String mNoteId;
 
     @Override
@@ -61,6 +67,14 @@ public class NoteEditorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
+
+        try {
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            mNote = notesBucket.get(mNoteId);
+        } catch (BucketObjectMissingException exception) {
+            exception.printStackTrace();
+        }
 
         if (savedInstanceState == null) {
             // Create the note editor fragment
@@ -91,8 +105,13 @@ public class NoteEditorActivity extends AppCompatActivity {
                     new NoteEditorViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageSelected(int position) {
-                            if (position == 1) {
+                            if (position == 1) {  // Preview is position 1
                                 DisplayUtils.hideKeyboard(mViewPager);
+                            }
+
+                            if (mNote != null) {
+                                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                                mNote.save();
                             }
                         }
 
@@ -107,6 +126,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
 
             isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+            isPreviewEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
         } else {
             mNoteEditorFragmentPagerAdapter.addFragment(
                     getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_edit)),
@@ -118,6 +138,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             );
 
             isMarkdownEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED);
+            isPreviewEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED);
         }
 
         mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
@@ -126,6 +147,10 @@ public class NoteEditorActivity extends AppCompatActivity {
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
             showTabs();
+
+            if (isPreviewEnabled) {
+                mViewPager.setCurrentItem(mNoteEditorFragmentPagerAdapter.getCount() - 1);
+            }
         }
 
         if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
@@ -153,7 +178,7 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(0).isAdded()) {
             getSupportFragmentManager()
                     .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
@@ -163,11 +188,12 @@ public class NoteEditorActivity extends AppCompatActivity {
                     .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
         }
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
+        outState.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // If changing to large screen landscape, we finish the activity to go back to
@@ -209,6 +235,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             return mFragments.size();
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragments.get(position);

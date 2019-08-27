@@ -2,13 +2,17 @@
 
 <resources>
 
-    <!-- PADDING/MARGIN -->
+    <!-- MARGIN/PADDING -->
+    <dimen name="margin_passcode_pin">40dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_extra_large">20dp</dimen>
     <dimen name="padding_extra_extra_large">24dp</dimen>
+    <dimen name="padding_extra_extra_extra_large">32dp</dimen>
+    <dimen name="padding_passcode_fingerprint">30dp</dimen>
+    <dimen name="padding_passcode_keypad">30dp</dimen>
 
     <!-- http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing -->
     <dimen name="nav_row_height">48dp</dimen>
@@ -36,6 +40,12 @@
     <dimen name="card_radius">2dp</dimen>
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+    <dimen name="elevation_fingerprint">4dp</dimen>
+    <dimen name="passcode_logo">96dp</dimen>
+    <dimen name="passcode_width">480dp</dimen>
+    <dimen name="text_passcode">18sp</dimen>
     <dimen name="text_widget">12sp</dimen>
+    <dimen name="text_widget_content">16sp</dimen>
+    <dimen name="text_widget_title">18sp</dimen>
 
 </resources>

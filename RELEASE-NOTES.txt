@@ -1,5 +1,13 @@
-1.9.0
+2.1
 -----
+ 
+2.0.0
+-----
+* Added an option to the Theme setting to follow the system day/night mode
+* Added resizing the note widget to display title and content
+* Added showing the last viewed tab when opening a note
+* Updated interface colors for better accessibility
+* Updated login and signup interface
 
 1.8.0
 -----

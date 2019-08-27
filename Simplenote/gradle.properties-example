@@ -1,5 +1,6 @@
-simperiumAppId = history-analyst-dad
-simperiumAppKey = dccacc59bbef4982a15abaeafaf7bc8a
 crashlyticsApiKey = 0
 googleAnalyticsId =
+sentryDsn=https://00000000000000000000000000000000@sentry.io/00000000
+simperiumAppId = history-analyst-dad
+simperiumAppKey = dccacc59bbef4982a15abaeafaf7bc8a
 wpcomClientId =

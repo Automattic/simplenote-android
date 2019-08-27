@@ -1,0 +1,284 @@
+default_platform(:android)
+fastlane_require 'dotenv'
+
+platform :android do
+########################################################################
+# Environment
+########################################################################
+Dotenv.load('~/.simplenoteandroid-env.default')
+ENV[GHHELPER_REPO="automattic/simplenote-android"]
+ENV["PROJECT_ROOT_FOLDER"]="./"
+ENV["PROJECT_NAME"]="Simplenote"
+ENV["validate_translations"]="buildRelease"
+
+SUPPORTED_LOCALES = [
+  { glotpress: "ar", google_play: "ar",  promo_config: {}},
+  { glotpress: "de", google_play: "de-DE",  promo_config: {} },
+  { glotpress: "es", google_play: "es-ES",  promo_config: {} },
+  { glotpress: "fr", google_play: "fr-FR",  promo_config: {} },
+  { glotpress: "he", google_play: "iw-IL",  promo_config: {} },
+  { glotpress: "id", google_play: "id",  promo_config: {} },
+  { glotpress: "it", google_play: "it-IT",  promo_config: {} },
+  { glotpress: "ja", google_play: "ja-JP",  promo_config: {} },
+  { glotpress: "ko", google_play: "ko-KR",  promo_config: {} },
+  { glotpress: "nl", google_play: "nl-NL",  promo_config: {} },
+  { glotpress: "pt-br", google_play: "pt-BR",  promo_config: {} },
+  { glotpress: "ru", google_play: "ru-RU",  promo_config: {} },
+  { glotpress: "sv", google_play: "sv-SE",  promo_config: {} },
+  { glotpress: "tr", google_play: "tr-TR",  promo_config: {} },
+  { glotpress: "zh-cn", google_play: "zh-CN",  promo_config: {} },
+  { glotpress: "zh-tw", google_play: "zh-TW",  promo_config: {} },
+].freeze
+
+########################################################################
+# Release Lanes
+########################################################################  
+  #####################################################################################
+  # code_freeze
+  # -----------------------------------------------------------------------------------
+  # This lane executes the steps planned on code freeze
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane code_freeze [update_release_branch_version:<update flag>] [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane code_freeze 
+  # bundle exec fastlane code_freeze update_release_branch_version:false
+  # bundle exec fastlane code_freeze skip_confirm:true
+  #####################################################################################
+  desc "Creates a new release branch from the current develop"
+  lane :code_freeze do | options |
+    old_version = android_codefreeze_prechecks(options)
+   
+    android_bump_version_release()
+    new_version = android_get_app_version()
+    android_update_release_notes(new_version: new_version)
+    setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
+    setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
+    
+    android_tag_build()
+    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
+  end
+
+  #####################################################################################
+  # update_appstore_strings 
+  # -----------------------------------------------------------------------------------
+  # This lane gets the data from the txt files in the Simplenote/metadata/ folder
+  # and updates the .po file that is then picked by GlotPress for translations.
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # fastlane update_appstore_strings version:<version>
+  #
+  # Example:
+  # fastlane update_appstore_strings version:10.3
+  #####################################################################################
+  desc "Updates the PlayStoreStrings.po file"
+  lane :update_appstore_strings do |options| 
+    prj_folder = Dir.pwd + "/.."
+
+    files = {
+      release_note: prj_folder + "/Simplenote/metadata/release_notes.txt",
+      play_store_promo: prj_folder + "/Simplenote/metadata/short_description.txt",
+      play_store_desc: prj_folder + "/Simplenote/metadata/full_description.txt",
+      play_store_app_title: prj_folder + "/Simplenote/metadata/title.txt"
+    }
+
+    an_update_metadata_source(po_file_path: prj_folder + "/Simplenote/metadata/PlayStoreStrings.pot", 
+      source_files: files, 
+      release_version: options[:version])
+  end 
+
+  #####################################################################################
+  # new_beta_release
+  # -----------------------------------------------------------------------------------
+  # This lane updates the release branch for a new beta release. It will update the
+  # current release branch by default. If you want to update a different branch
+  # (i.e. hotfix branch) pass the related version with the 'base_version' param
+  # (example: base_version:10.6.1 will work on the 10.6.1 branch)
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane new_beta_release [skip_confirm:<skip confirm>] [base_version:<version>]
+  #
+  # Example:
+  # bundle exec fastlane new_beta_release
+  # bundle exec fastlane new_beta_release skip_confirm:true
+  # bundle exec fastlane new_beta_release base_version:10.6.1
+  #####################################################################################
+  desc "Updates a release branch for a new beta release"
+  lane :new_beta_release do | options |
+    android_betabuild_prechecks(options)
+    android_bump_version_beta()
+    android_tag_build()
+  end
+
+  #####################################################################################
+  # new_hotfix_release
+  # -----------------------------------------------------------------------------------
+  # This lane updates the release branch for a new hotix release. 
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version:<version>]
+  #
+  # Example:
+  # bundle exec fastlane new_hotfix_release version:10.6.1
+  # bundle exec fastlane new_hotfix_release skip_confirm:true version:10.6.1
+  #####################################################################################
+  desc "Creates a new hotfix branch from the given tag"
+  lane :new_hotfix_release do | options |
+    prev_ver = android_hotfix_prechecks(version_name: options[:version_name], skip_confirm: options[:skip_confirm])
+    android_bump_version_hotfix(previous_version_name: prev_ver, version_name: options[:version_name], version_code: options[:version_code])
+    android_tag_build(tag_alpha: false)
+  end
+
+  #####################################################################################
+  # finalize_release
+  # -----------------------------------------------------------------------------------
+  # This lane finalize a release: updates store metadata and runs the release checks
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane finalize_release [skip_confirm:<skip confirm>] 
+  #
+  # Example:
+  # bundle exec fastlane finalize_release 
+  # bundle exec fastlane finalize_release skip_confirm:true 
+  #####################################################################################
+  desc "Updates store metadata and runs the release checks"
+  lane :finalize_release do | options |
+    android_finalize_prechecks(options)
+    hotfix = android_current_branch_is_hotfix
+    android_update_metadata(options) unless hotfix
+    android_bump_version_final_release() unless hotfix
+    version = android_get_release_version() unless hotfix
+    download_metadata_strings(version: version["name"], build_number: version["code"]) unless hotfix
+    android_tag_build(tag_alpha: false)
+
+    # Wrap up
+    removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
+    setfrozentag(repository:GHHELPER_REPO, milestone: version["name"], freeze: false)
+    close_milestone(repository:GHHELPER_REPO, milestone: version["name"])
+  end
+  
+  #####################################################################################
+  # build_release
+  # -----------------------------------------------------------------------------------
+  # This lane builds the final release of the app and uploads it 
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_release [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane build_release 
+  # bundle exec fastlane build_release skip_confirm:true 
+  #####################################################################################
+  desc "Builds and updates for distribution"
+  lane :build_release do | options |
+    android_build_prechecks(skip_confirm: options[:skip_confirm], 
+      alpha: false,
+      beta: false,
+      final: true)
+    android_build_preflight()
+    
+    # Create the file names
+    version=android_get_release_version()
+    build_apk(version: version, flavor:"Vanilla")
+  end
+
+########################################################################
+# Helper Lanes
+########################################################################  
+  desc "Get a list of pull request from `start_tag` to the current state"
+  lane :get_pullrequests_list do | options |
+    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{options[:start_tag]}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list.txt")
+  end
+
+  #####################################################################################
+  # download_metadata_string 
+  # -----------------------------------------------------------------------------------
+  # This lane downloads the translated metadata (release notes,
+  # app store strings, title, etc.) from GlotPress and updates the local files
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # fastlane download_metadata_string build_number:<build_number> version:<version>
+  #
+  # Example:
+  # fastlane download_metadata_string build_number:573 version:10.3
+  #####################################################################################
+  desc "Downloads translated metadata from GlotPress"
+  lane :download_metadata_strings do |options| 
+    values = options[:version].split('.')
+    files = {
+      "release_note_#{values[0].to_s.rjust(2, "0")}#{values[1]}" => {desc: "changelogs/#{options[:build_number]}.txt", max_size: 0},
+      play_store_promo: {desc:"short_description.txt", max_size: 80},
+      play_store_desc: {desc:"full_description.txt", max_size: 0},
+      play_store_app_title: {desc:"title.txt", max_size: 50}
+    }
+
+    delete_old_changelogs(build: options[:build_number])
+    download_path=Dir.pwd + "/metadata/android"
+    gp_downloadmetadata(project_url: "https://translate.wordpress.com/projects/simplenote/android/release-notes/", 
+      target_files: files, 
+      locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]},
+      source_locale: "en-US",
+      download_path: download_path)
+    
+    android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
+    add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
+    sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
+  end 
+
+  #####################################################################################
+  # build_bundle
+  # -----------------------------------------------------------------------------------
+  # This lane builds an app bundle
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_bundle [skip_confirm:<skip confirm>]
+  #####################################################################################
+  desc "Builds an app bundle"
+  lane :build_apk do | options |
+    # Create the file names
+    version=options[:version]
+    apk_name="simplenote-#{version["name"]}.apk"
+    orign_file="Simplenote-release.apk"
+    output_dir="Simplenote/build/outputs/apk/release/"
+    build_dir="build/"
+
+    # Build
+    Dir.chdir(".") do
+      UI.message("Cleaning branch...")
+      gradle(task: "clean")
+      UI.message("Running lint...")
+      gradle(task: "lint", build_type: "Release")
+      UI.message("Building #{version["name"]} / #{version["code"]} - #{apk_name}...")
+      gradle(task: "assemble", build_type: "Release")
+    end
+
+    Dir.chdir("..") do
+      sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
+      UI.message("Apk ready: #{apk_name}")
+    end
+    "#{build_dir}#{apk_name}"
+  end
+
+  #####################################################################################
+  # Private lanes
+  #####################################################################################
+  private_lane :delete_old_changelogs do | options |
+    Dir.glob("./metadata/android/*/").each do | folder |
+      Dir["#{folder}changelogs/*"].each do | file |
+        File.delete(file) if Integer(File.basename(file, ".*")) < Integer(options[:build]) rescue puts "Cannot delete file #{file}"
+      end
+    end
+  end
+
+  private_lane :add_us_release_notes do | options |
+    en_release_notes_path  = Dir.pwd + "/.." + "/Simplenote/metadata/release_notes.txt"
+    File.open(options[:relese_notes_path], "a") { |f| 
+      f.puts("<en-US>")
+      f.puts("#{options[:version_name]}:")
+      f.puts(File.open(en_release_notes_path).read)
+      f.puts("/<en-US>")
+    }
+  end
+
+end

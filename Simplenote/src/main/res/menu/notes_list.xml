@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_sidebar"
+        android:icon="@drawable/ic_sidebar_24dp"
+        android:title="@string/toggle_sidebar"
+        android:visible="false"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/menu_markdown_preview"
         android:icon="@drawable/ic_preview_24dp"
         android:title="@string/markdown_show"
@@ -13,7 +20,7 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_24dp"
         android:title="@string/search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView"/>
 
     <item

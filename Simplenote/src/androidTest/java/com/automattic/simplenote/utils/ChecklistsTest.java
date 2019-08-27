@@ -1,10 +1,11 @@
 package com.automattic.simplenote.utils;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 
@@ -14,7 +15,7 @@ import org.junit.runner.RunWith;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(AndroidJUnit4.class)

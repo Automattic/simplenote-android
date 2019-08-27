@@ -1,95 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/tags_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_small"
         android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/list_padding_left"
-        android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/list_padding_left"
         android:paddingTop="@dimen/padding_small"
         android:visibility="gone"
         tools:visibility="visible">
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_width="0dp"
             android:paddingBottom="@dimen/padding_extra_small"
             android:paddingTop="@dimen/padding_extra_small"
             android:text="@string/tags"
             android:textColor="?attr/notePreviewColor"
-            android:textSize="@dimen/nav_drawer_item_text_size"/>
+            android:textSize="@dimen/nav_drawer_item_text_size">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:id="@+id/edit_tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:padding="@dimen/padding_extra_small"
             android:text="@string/edit"
             android:textAllCaps="true"
-            android:textColor="@color/simplenote_blue"
+            android:textColor="?attr/iconTintColor"
             android:textSize="@dimen/nav_drawer_item_text_size"
             android:textStyle="bold"
             tools:ignore="KeyboardInaccessibleWidget"
-            tools:text="Edit" />
+            tools:text="Edit">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
     </LinearLayout>
 
     <View
         android:id="@+id/top_section_divider"
-        android:layout_width="match_parent"
+        android:background="?attr/dividerColor"
         android:layout_height="1px"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:background="?attr/dividerColor"
-        android:visibility="gone"/>
+        android:layout_width="match_parent"
+        android:visibility="gone">
+    </View>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="?attr/listBackgroundSelector"
         android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:minHeight="@dimen/nav_row_height"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
-        android:paddingLeft="@dimen/list_padding_left"
-        android:paddingRight="@dimen/padding_large"
         android:paddingStart="@dimen/list_padding_left"
         android:paddingTop="@dimen/padding_large">
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:id="@+id/drawer_item_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:drawablePadding="@dimen/nav_drawer_item_image_margin"
             android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:textColor="?attr/noteTitleColor"
             android:textSize="@dimen/nav_drawer_item_text_size"
-            tools:text="Item 1"/>
+            tools:text="Item 1">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
     </LinearLayout>
 
     <View
         android:id="@+id/section_divider"
-        android:layout_width="match_parent"
+        android:background="?attr/dividerColor"
         android:layout_height="1px"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:background="?attr/dividerColor"
-        android:visibility="gone"/>
+        android:layout_width="match_parent"
+        android:visibility="gone">
+    </View>
 
 </LinearLayout>

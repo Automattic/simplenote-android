@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
     <LinearLayout
         android:id="@+id/share_custom_buttons"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_extra_large"
-        android:layout_marginLeft="@dimen/padding_extra_large"
-        android:layout_marginRight="@dimen/padding_extra_large"
         android:layout_marginStart="@dimen/padding_extra_large"
+        android:layout_width="match_parent"
         android:padding="@dimen/padding_extra_large">
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_collaborate_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_collaborate_selector"
+            android:drawableTop="@drawable/ic_collaborate_48dp"
             android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:text="@string/collaborate"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_publish_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_publish_selector"
+            android:drawableTop="@drawable/ic_publish_48dp"
             android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:text="@string/publish"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_unpublish_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_unpublish_selector"
+            android:drawableTop="@drawable/ic_unpublish_48dp"
             android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:text="@string/unpublish"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/share_wp_post"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_wordpress_post_selector"
+            android:drawableTop="@drawable/ic_wordpress_post_48dp"
             android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:text="@string/wordpress_post"
-            style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+            style="@style/Theme.Simplestyle.BottomSheetDialogText">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
     </LinearLayout>
 
     <View
         android:id="@+id/info_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:background="?attr/dividerColor"
         android:layout_below="@id/share_custom_buttons"
-        android:background="@color/divider"/>
+        android:layout_height="1dp"
+        android:layout_width="match_parent">
+    </View>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/share_button_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/info_divider"
-        style="@style/Theme.Simplestyle.BottomSheetDialogText"/>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        style="@style/Theme.Simplestyle.BottomSheetDialogText">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

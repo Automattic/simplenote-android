@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- SIMPERIUM -->
+    <drawable name="ic_simperium_login_24dp">@drawable/ic_simplenote_full_blue_24dp</drawable>
+
+</resources>

@@ -12,6 +12,7 @@
 bin/
 gen/
 build/
+vendor/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -30,6 +31,7 @@ config.properties
 
 # Gradle
 .gradle/
+sentry.properties
 Simplenote/gradle.properties
 
 *.keystore
@@ -39,3 +41,14 @@ Simperium
 
 # Crashlytics API Key
 Simplenote/crashlytics.properties
+
+# Fastlane
+fastlane/README.md
+fastlane/report.xml
+fastlane/.env
+
+# Configure
+*.bak
+
+# Eclipse
+.settings/

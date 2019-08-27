@@ -3,21 +3,29 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * Created by Ondrej Ruttkay on 18/03/2016.
  */
 @SuppressWarnings("unused")
 public class DrawableUtils {
+    public static Drawable setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {
+        Drawable drawable = menuItem.getIcon();
+        drawable = DrawableCompat.wrap(drawable).mutate();
+        drawable.setAlpha((int) (alpha * 255));  // 255 is 100% opacity.
+        return drawable;
+    }
 
     public static Drawable tintDrawableWithResource(Context context, @DrawableRes int drawableRes, @ColorRes int colorRes) {
         return tintDrawableWithResource(context, ContextCompat.getDrawable(context, drawableRes), colorRes);
@@ -46,7 +54,7 @@ public class DrawableUtils {
         return tintDrawable(context, drawableRes, color);
     }
 
-    private static int getColor(Context context, @AttrRes int tintColorAttribute) {
+    public static int getColor(Context context, @AttrRes int tintColorAttribute) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(tintColorAttribute, typedValue, true);

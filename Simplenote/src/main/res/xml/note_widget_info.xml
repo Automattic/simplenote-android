@@ -8,6 +8,7 @@
     android:minHeight="@dimen/cell_widget"
     android:minWidth="@dimen/cell_widget"
     android:previewImage="@drawable/note_widget_preview"
+    android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="21600000"
     android:widgetCategory="home_screen"
     tools:targetApi="jelly_bean_mr1">

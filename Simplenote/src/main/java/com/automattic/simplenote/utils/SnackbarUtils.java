@@ -1,11 +1,13 @@
 package com.automattic.simplenote.utils;
 
 import android.app.Activity;
-import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by onko on 31/03/2016.

@@ -9,16 +9,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.SwitchPreferenceCompat;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -29,12 +32,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.single.BasePermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
-import com.simperium.android.LoginActivity;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import java.lang.ref.WeakReference;
 
@@ -56,7 +57,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     @Override
-    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
     }
 
@@ -88,8 +89,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
                 Simplenote currentApp = (Simplenote) getActivity().getApplication();
                 if (currentApp.getSimperium().needsAuthorization()) {
-                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                    loginIntent.putExtra(LoginActivity.EXTRA_SIGN_IN_FIRST, true);
+                    Intent loginIntent = new Intent(getActivity(), SimplenoteAuthenticationActivity.class);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
                     new SignOutAsyncTask(PreferencesFragment.this).execute();
@@ -167,9 +167,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         AnalyticsTracker.CATEGORY_USER,
                         "theme_preference"
                 );
-
-                // update intent to indicate the theme setting was changed
-                activity.setIntent(ThemeUtils.makeThemeChangeIntent());
 
                 // recreate the activity so new theme is applied
                 activity.recreate();
@@ -291,6 +288,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         // Resets analytics user back to 'anon' type
         AnalyticsTracker.refreshMetadata(null);
+        CrashUtils.clearCurrentUser();
 
         // Remove wp.com token
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
@@ -318,6 +316,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
             Simplenote app = (Simplenote) getActivity().getApplication();
             AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
+            CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.USER_SIGNED_IN,

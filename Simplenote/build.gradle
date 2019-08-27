@@ -1,119 +1,109 @@
-buildscript {
-    repositories {
-        google()
-        maven { url 'https://maven.fabric.io/public' }
-        jcenter()
-    }
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
-apply plugin: "io.fabric"
-
-repositories {
-    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
-    maven { url 'https://maven.fabric.io/public' }
-    maven { url "https://maven.google.com" }
-    jcenter()
-}
-
-ext {
-    googleVersion = '27.1.1'
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.8.47'
-    androidTestImplementation "com.android.support:support-annotations:$googleVersion"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
-        // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
-    }
-    // Automattic and WordPress dependencies
-    implementation 'com.simperium.android:simperium:0.7.1'
-    implementation 'com.automattic:tracks:1.1.6'
-    implementation 'org.wordpress:passcodelock:1.5.1'
-    // Google Support
-    implementation "com.android.support:appcompat-v7:$googleVersion"
-    implementation "com.android.support:design:$googleVersion"
-    implementation "com.android.support:support-vector-drawable:$googleVersion"
-    implementation "com.android.support:preference-v7:$googleVersion"
-    implementation "com.android.support:preference-v14:$googleVersion"
-    // Google Play Services
-    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
-    // Third Party
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation 'com.takisoft.fix:preference-v7:27.1.1.1'
-    implementation 'com.commonsware.cwac:anddown:0.4.0'
-    implementation 'net.openid:appauth:0.7.0'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true
-    }
-    implementation "com.android.support:customtabs:$googleVersion"
-    implementation 'com.karumi:dexter:5.0.0'
-    wearApp project(':Wear')
-}
-
-version "1.8.2"
+apply plugin: 'io.sentry.android.gradle'
 
 android {
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
-    compileSdkVersion 27
     buildToolsVersion '28.0.3'
-
-    defaultConfig {
-        applicationId "com.automattic.simplenote"
-        versionName project.version
-        versionCode 78
-        minSdkVersion 16
-        targetSdkVersion 27
-
-        vectorDrawables.useSupportLibrary = true
-
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-     }
+    compileSdkVersion 28
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
+
         release {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
-        debug {
-            applicationIdSuffix '.debug'
-        }
     }
 
-	lintOptions {
-	    checkReleaseBuilds false
-	}
+    defaultConfig {
+        applicationId "com.automattic.simplenote"
+        versionName "2.0-rc-1"
+        versionCode 79
+        minSdkVersion 23
+        targetSdkVersion 28
 
-    useLibrary 'org.apache.http.legacy'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+buildscript {
+    dependencies {
+        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.16'
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0') {
+        // Necessary to avoid version conflicts
+        exclude group: 'androidx', module: 'appcompat'
+        exclude group: 'androidx', module: 'support-v4'
+        exclude group: 'androidx', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+    // Automattic and WordPress dependencies
+    implementation 'com.simperium.android:simperium:0.9.0'
+    implementation 'com.automattic:tracks:1.2'
+    implementation 'org.wordpress:passcodelock:1.7.0'
+
+    // Google Support
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    // Google Play Services
+    implementation 'com.google.android.gms:play-services-wearable:17.0.0'
+    // Third Party
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.commonsware.cwac:anddown:0.4.0'
+    implementation 'net.openid:appauth:0.7.0'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+        transitive = true
+    }
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.karumi:dexter:5.0.0'
+    wearApp project(':Wear')
+}
+
+repositories {
+    jcenter()
+    maven { url "https://maven.google.com" }
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
     android {
       signingConfigs {
           release {
-              storeFile = file(project.storeFile)
+              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
           }
           debug {
-              storeFile = file(project.storeFile)
+              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
@@ -172,6 +162,7 @@ android.applicationVariants.all { variant ->
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||
             key == "GOOGLE_ANALYTICS_ID" ||
+            key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID") {
             buildConfigField "String", key, "\"${property.value}\""
         }
