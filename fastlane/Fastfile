@@ -159,6 +159,50 @@ SUPPORTED_LOCALES = [
   end
   
   #####################################################################################
+  # build_pre_releases
+  # -----------------------------------------------------------------------------------
+  # This lane builds the app it for both internal and external distribution 
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_pre_releases [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane build_pre_releases 
+  # bundle exec fastlane build_pre_releases skip_confirm:true 
+  #####################################################################################
+  desc "Builds and updates for distribution"
+  lane :build_pre_releases do | options |
+    android_build_prechecks(skip_confirm: options[:skip_confirm], 
+      alpha: false,
+      beta: true,
+      final: false)
+    android_build_preflight()
+    build_beta(skip_prechecks: true, skip_confirm: options[:skip_confirm])
+  end
+
+  #####################################################################################
+  # build_beta
+  # -----------------------------------------------------------------------------------
+  # This lane builds the app it for internal testing  
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_beta [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane build_beta 
+  # bundle exec fastlane build_beta skip_confirm:true 
+  #####################################################################################
+  desc "Builds and updates for distribution"
+  lane :build_beta do | options |
+    android_build_prechecks(skip_confirm: options[:skip_confirm], beta: true) unless (options[:skip_prechecks])
+    android_build_preflight() unless (options[:skip_prechecks])
+
+    # Create the file names
+    version=android_get_release_version()
+    build_apk(version: version, flavor:"Vanilla")
+  end
+
+  #####################################################################################
   # build_release
   # -----------------------------------------------------------------------------------
   # This lane builds the final release of the app and uploads it 
