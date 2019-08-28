@@ -121,31 +121,31 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!isAdded()) return;
+            if (!isAdded()) {
+                return;
+            }
 
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                    if (mHistoryBottomSheet.isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
+                    if (mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
                         mHistoryBottomSheet.dismiss();
                         Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
         }
     };
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
     // Contextual action bar for dealing with links
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
         // Called when the action mode is created; startActionMode() was called
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
+
             if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
@@ -973,10 +973,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void saveNote() {
-        if (mNote == null ||
-                mContentEditText == null ||
-                mIsLoadingNote ||
-                (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
+        if (mNote == null || mContentEditText == null || mIsLoadingNote ||
+            (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
             return;
         }
 
@@ -1161,15 +1159,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShareSheet() {
         if (isAdded()) {
-            mShareBottomSheet.show(mNote);
+            mShareBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showInfoSheet() {
         if (isAdded()) {
-            mInfoBottomSheet.show(mNote);
+            mInfoBottomSheet.show(requireFragmentManager(), mNote);
         }
-
     }
 
     private void showHistorySheet() {
@@ -1178,7 +1175,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
             saveNote();
 
-            mHistoryBottomSheet.show(mNote);
+            mHistoryBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
