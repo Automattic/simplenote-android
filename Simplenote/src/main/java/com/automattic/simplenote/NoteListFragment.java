@@ -562,6 +562,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private static class NoteViewHolder {
         private ImageView mPinned;
         private ImageView mPublished;
+        private ImageView mPublishedCondensed;
         private TextView mContent;
         private TextView mTitle;
         private String mMatchOffsets;
@@ -613,6 +614,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.mContent = view.findViewById(R.id.note_content);
                 holder.mPinned = view.findViewById(R.id.note_pinned);
                 holder.mPublished = view.findViewById(R.id.note_published);
+                holder.mPublishedCondensed = view.findViewById(R.id.note_published_condensed);
                 holder.mStatus = view.findViewById(R.id.note_status);
                 view.setTag(holder);
             } else {
@@ -637,7 +639,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             boolean isPinned = mCursor.getObject().isPinned();
             holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
-            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublished.setVisibility(mIsCondensedNoteList || !isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublishedCondensed.setVisibility(!mIsCondensedNoteList || !isPublished ? View.GONE : View.VISIBLE);
             holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 

@@ -10,14 +10,13 @@
     android:paddingBottom="@dimen/note_list_item_padding_bottom"
     android:paddingTop="@dimen/note_list_item_padding_top">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/note_status"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_width="@dimen/icon_status"
-        android:orientation="vertical"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_width="wrap_content"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -28,6 +27,8 @@
             android:focusable="false"
             android:layout_height="@dimen/icon_status"
             android:layout_marginBottom="@dimen/padding_extra_small"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_toEndOf="@id/note_published_condensed"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_radio_button_checked_white_24dp"
             android:tint="?attr/notePreviewColor"
@@ -41,7 +42,10 @@
             android:contentDescription="@string/published"
             android:clickable="false"
             android:focusable="false"
+            android:layout_alignEnd="@id/note_pinned"
+            android:layout_below="@id/note_pinned"
             android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_feed_24dp"
             android:tint="?attr/notePreviewColor"
@@ -50,7 +54,21 @@
             tools:visibility="visible">
         </ImageView>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/note_published_condensed"
+            android:contentDescription="@string/published"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_width="@dimen/icon_status"
+            android:src="@drawable/ic_feed_24dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light">
+        </ImageView>
+
+    </RelativeLayout>
 
     <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/note_title"
