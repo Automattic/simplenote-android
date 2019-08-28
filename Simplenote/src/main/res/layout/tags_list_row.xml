@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/listBackgroundSelector"
+    android:background="?android:attr/selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
