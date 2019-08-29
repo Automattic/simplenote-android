@@ -8,9 +8,6 @@ import androidx.annotation.NonNull;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-/**
- * Created by Ondrej Ruttkay on 27/03/2016.
- */
 public class BottomSheetDialogBase extends BottomSheetDialog {
 
     public BottomSheetDialogBase(@NonNull Context context) {

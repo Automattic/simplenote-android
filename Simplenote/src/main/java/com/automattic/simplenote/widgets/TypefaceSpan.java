@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 /**
  * A custom span for setting the action bar title font.
- * Created by dan on 8/13/13.
  */
 public class TypefaceSpan extends MetricAffectingSpan {
 

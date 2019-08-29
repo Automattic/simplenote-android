@@ -8,9 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.DrawableUtils;
 
-/**
- * Created by Ondrej Ruttkay on 24/03/2016.
- */
 public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

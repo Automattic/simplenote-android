@@ -21,9 +21,6 @@ import com.automattic.simplenote.utils.PrefUtils;
 
 import java.text.NumberFormat;
 
-/**
- * Created by onko on 27/03/2016.
- */
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     private TextView mInfoModifiedDate;
