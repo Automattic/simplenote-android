@@ -12,9 +12,6 @@ import com.automattic.simplenote.widgets.TypefaceSpan;
 
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
-/**
- * Created by Dan Roundhill on 6/26/13. (In Greece!)
- */
 public class TagsActivity extends AppCompatActivity {
 
     @Override

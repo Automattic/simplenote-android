@@ -22,9 +22,6 @@ import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
-/**
- * Created by beaucollins on 7/26/13.
- */
 public class TagsAdapter extends BaseAdapter {
 
     private static final String ID_COLUMN = "_id";

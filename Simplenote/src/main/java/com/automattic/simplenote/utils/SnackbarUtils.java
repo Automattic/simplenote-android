@@ -9,9 +9,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
-/**
- * Created by onko on 31/03/2016.
- */
 public class SnackbarUtils {
 
     public static Snackbar showSnackbar(Activity activity, @StringRes int message, @ColorRes int color, int duration) {

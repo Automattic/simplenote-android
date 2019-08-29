@@ -9,9 +9,6 @@ import com.automattic.simplenote.models.Note;
 
 import java.util.Calendar;
 
-/**
- * Created by Ondrej Ruttkay on 28/03/2016.
- */
 public class NoteUtils {
 
     public static void setNotePin(Note note, boolean isPinned) {

@@ -7,9 +7,6 @@ import android.widget.TextView;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by dan on 9/6/13.
- */
 public class SimplenoteLinkify {
 
     static public final String SIMPLENOTE_SCHEME = "simplenote";
