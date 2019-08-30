@@ -216,8 +216,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     // nbradbury - load values from preferences
     protected void getPrefs() {
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
-        mPreviewFontSize = PrefUtils.getFontSize(getActivity());
-        mTitleFontSize = mPreviewFontSize + 2;
+        mTitleFontSize = PrefUtils.getFontSize(getActivity());
+        mPreviewFontSize = mTitleFontSize - 2;
     }
 
     @Override
