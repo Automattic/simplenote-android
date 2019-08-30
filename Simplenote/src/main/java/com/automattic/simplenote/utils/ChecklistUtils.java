@@ -67,8 +67,8 @@ public class ChecklistUtils {
 
             Drawable iconDrawable = context.getResources().getDrawable(
                     checkableSpan.isChecked()
-                            ? R.drawable.ic_check_box_24px
-                            : R.drawable.ic_check_box_outline_blank_24px);
+                            ? R.drawable.ic_checkbox_24px
+                            : R.drawable.ic_checkbox_outline_24px);
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
             int iconSize = DisplayUtils.getChecklistIconSize(context);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
