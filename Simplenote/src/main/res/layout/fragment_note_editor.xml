@@ -34,7 +34,7 @@
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="@dimen/line_spacing"
                     android:lineSpacingMultiplier="1.0"
                     android:maxLength="999999999"
                     android:nextFocusDown="@id/tag_view"

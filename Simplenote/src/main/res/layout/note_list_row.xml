@@ -4,54 +4,87 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/listBackgroundSelector"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/note_list_item_padding_bottom"
+    android:paddingEnd="@dimen/padding_small"
+    android:paddingStart="@dimen/padding_small"
     android:paddingTop="@dimen/note_list_item_padding_top">
 
-    <ToggleButton
-        android:id="@+id/pin_button"
-        android:background="?attr/pinIconSelector"
-        android:focusable="false"
+    <RelativeLayout
+        android:id="@+id/note_status"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_height="24dp"
-        android:layout_marginEnd="@dimen/padding_medium"
-        android:layout_width="24dp"
-        android:textOff=""
-        android:textOn="">
-    </ToggleButton>
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        <ImageView
+            android:id="@+id/note_pinned"
+            android:contentDescription="@string/published"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_toEndOf="@id/note_published"
+            android:layout_width="@dimen/icon_status"
+            android:src="@drawable/ic_radio_button_checked_white_24dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light"
+            tools:visibility="visible">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/note_published"
+            android:contentDescription="@string/published"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_width="@dimen/icon_status"
+            android:src="@drawable/ic_feed_24dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light"
+            tools:visibility="visible">
+        </ImageView>
+
+    </RelativeLayout>
+
+    <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/note_title"
         android:ellipsize="end"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_toStartOf="@id/pin_button"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_toStartOf="@id/note_status"
         android:layout_width="match_parent"
         android:lines="1"
         android:singleLine="true"
         android:textColor="?attr/noteTitleColor"
-        android:textSize="18sp"
-        tools:text="Three-line item">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+        android:textSize="@dimen/text_title"
+        tools:text="Welcome to Simplenote Android!">
+    </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/note_content"
         android:ellipsize="end"
-        android:layout_height="wrap_content"
         android:layout_below="@id/note_title"
-        android:layout_marginEnd="@dimen/padding_large"
-        android:layout_marginStart="@dimen/list_padding_left"
-        android:layout_toStartOf="@id/pin_button"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_extra_extra_small"
+        android:layout_toStartOf="@id/note_status"
         android:layout_width="match_parent"
-        android:lineSpacingExtra="4dp"
+        android:lineSpacingExtra="@dimen/line_spacing"
         android:maxLines="2"
         android:textColor="?attr/notePreviewColor"
-        android:textSize="16sp"
-        tools:text="The first few times he tried to climb up on\nthe smooth chest of drawers.">
+        android:textSize="@dimen/text_content"
+        tools:text="Open this for instructions.  To create a new note, tap the blue Add Note button.  To search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.  Got a really important note?  Press the pin button while viewing a note to pin it to the top of the list.  Use tags to help organize your notes.  You can also add an email address as a tag to share a note with someone.  Easily share notes with other Android apps by tapping the share button in the toolbar.  Deleted notes go in the trash.  You can restore them if you want, or empty the trash to get rid of them forever.  You can access your notes on the web and your other devices.  Go to http://simplenote.com to get started.  We hope you enjoy using Simplenote!">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
 </RelativeLayout>

@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:text="@string/loading_note"
         android:textColor="@color/text_title_light"
-        android:textSize="@dimen/text_widget_title"
+        android:textSize="@dimen/text_title"
         android:visibility="gone"
         tools:text="To-Do List"
         tools:textColor="@color/text_title_light"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textColor="@color/text_body_light"
-        android:textSize="@dimen/text_widget_content"
+        android:textSize="@dimen/text_content"
         android:visibility="gone"
         tools:text="- Create note widget\n- Update layout design\n- Add resizable attributes\n- Add note content"
         tools:visibility="visible">

@@ -28,11 +28,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -44,7 +44,6 @@ import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -217,8 +216,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     // nbradbury - load values from preferences
     protected void getPrefs() {
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
-        mPreviewFontSize = PrefUtils.getFontSize(getActivity());
-        mTitleFontSize = mPreviewFontSize + 2;
+        mTitleFontSize = PrefUtils.getFontSize(getActivity());
+        mPreviewFontSize = mTitleFontSize - 2;
     }
 
     @Override
@@ -334,7 +333,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         if (noteID != null) {
             Note note = mNotesAdapter.getItem(position);
-            mCallbacks.onNoteSelected(noteID, position, holder.matchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
+            mCallbacks.onNoteSelected(noteID, position, holder.mMatchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
         }
 
         mActivatedPosition = position;
@@ -561,11 +560,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     // view holder for NotesCursorAdapter
     private static class NoteViewHolder {
-        public String matchOffsets;
-        TextView titleTextView;
-        TextView contentTextView;
-        ToggleButton toggleView;
+        private ImageView mPinned;
+        private ImageView mPublished;
+        private TextView mContent;
+        private TextView mTitle;
+        private String mMatchOffsets;
         private String mNoteId;
+        private View mStatus;
 
         public String getNoteId() {
             return mNoteId;
@@ -603,22 +604,24 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
          */
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-
             final NoteViewHolder holder;
+
             if (view == null) {
                 view = View.inflate(requireActivity().getBaseContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
-                holder.titleTextView = view.findViewById(R.id.note_title);
-                holder.contentTextView = view.findViewById(R.id.note_content);
-                holder.toggleView = view.findViewById(R.id.pin_button);
+                holder.mTitle = view.findViewById(R.id.note_title);
+                holder.mContent = view.findViewById(R.id.note_content);
+                holder.mPinned = view.findViewById(R.id.note_pinned);
+                holder.mPublished = view.findViewById(R.id.note_published);
+                holder.mStatus = view.findViewById(R.id.note_status);
                 view.setTag(holder);
             } else {
                 holder = (NoteViewHolder) view.getTag();
             }
 
-            if (holder.titleTextView.getTextSize() != mTitleFontSize) {
-                holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
-                holder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+            if (holder.mTitle.getTextSize() != mTitleFontSize) {
+                holder.mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
+                holder.mContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
             }
 
             if (position == getListView().getCheckedItemPosition())
@@ -628,25 +631,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             // for performance reasons we are going to get indexed values
             // from the cursor instead of instantiating the entire bucket object
-            holder.contentTextView.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
+            holder.mContent.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
-            int pinned = mCursor.getInt(mCursor.getColumnIndex(Note.PINNED_INDEX_NAME));
-
-            if (pinned == 1) {
-                holder.toggleView.setChecked(true);
-                holder.toggleView.setVisibility(View.VISIBLE);
-            } else {
-                holder.toggleView.setVisibility(View.GONE);
-            }
-            holder.toggleView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Note note = mNotesAdapter.getItem(position);
-                    NoteUtils.setNotePin(note, holder.toggleView.isChecked());
-                }
-            });
-
+            boolean isPinned = mCursor.getObject().isPinned();
+            holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
+            boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
+            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
+            holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
@@ -661,7 +653,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         newNoteString.length(),
                         SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
-                holder.titleTextView.setText(newNoteString);
+                holder.mTitle.setText(newNoteString);
             } else {
                 SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
                 titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
@@ -669,47 +661,47 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         titleChecklistString,
                         ChecklistUtils.CHECKLIST_REGEX,
                         ThemeUtils.getThemeTextColorId(getContext()));
-                holder.titleTextView.setText(titleChecklistString);
+                holder.mTitle.setText(titleChecklistString);
             }
 
-            holder.matchOffsets = null;
-
+            holder.mMatchOffsets = null;
             int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
+
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
                 title = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_TITLE_INDEX_NAME));
                 String snippet = mCursor.getString(mCursor.getColumnIndex(Note.MATCHED_CONTENT_INDEX_NAME));
-
-                holder.matchOffsets = mCursor.getString(matchOffsetsIndex);
+                holder.mMatchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
-                    holder.contentTextView.setText(SearchSnippetFormatter.formatString(
+                    holder.mContent.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             snippet,
                             mSnippetHighlighter,
                             R.color.text_title_disabled));
-                    holder.titleTextView.setText(SearchSnippetFormatter.formatString(
+                    holder.mTitle.setText(SearchSnippetFormatter.formatString(
                             getContext(),
                             title,
                             mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
                     title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME)));
-                    holder.titleTextView.setText(title);
+                    holder.mTitle.setText(title);
                     String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME)));
-                    holder.contentTextView.setText(matchedContentPreview);
+                    holder.mContent.setText(matchedContentPreview);
                 }
             } else if (!mIsCondensedNoteList) {
                 String contentPreview = mCursor.getString(mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list)))
-                    holder.contentTextView.setVisibility(View.GONE);
+                    holder.mContent.setVisibility(View.GONE);
                 else {
-                    holder.contentTextView.setText(contentPreview);
+                    holder.mContent.setText(contentPreview);
                     SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
                     checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
                             getContext(),
                             checklistString,
                             ChecklistUtils.CHECKLIST_REGEX,
                             R.color.text_title_disabled);
-                    holder.contentTextView.setText(checklistString);
+                    holder.mContent.setText(checklistString);
                 }
             }
 
@@ -737,9 +729,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-
         }
-
     }
 
     private void showPopupMenuAtPosition(View view, int position) {
