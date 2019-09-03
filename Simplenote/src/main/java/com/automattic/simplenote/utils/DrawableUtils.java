@@ -15,9 +15,6 @@ import androidx.annotation.FloatRange;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-/**
- * Created by Ondrej Ruttkay on 18/03/2016.
- */
 @SuppressWarnings("unused")
 public class DrawableUtils {
     public static Drawable setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {

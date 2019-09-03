@@ -97,8 +97,8 @@ public class SimplenoteEditText extends AppCompatEditText {
             // ImageSpans are static, so we need to remove the old one and replace :|
             Drawable iconDrawable = getContext().getResources().getDrawable(
                     checkableSpan.isChecked()
-                            ? R.drawable.ic_check_box_24px
-                            : R.drawable.ic_check_box_outline_blank_24px);
+                            ? R.drawable.ic_checkbox_checked_24px
+                            : R.drawable.ic_checkbox_unchecked_24px);
             iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.text_title_disabled);
             int iconSize = DisplayUtils.getChecklistIconSize(getContext());
             iconDrawable.setBounds(0, 0, iconSize, iconSize);

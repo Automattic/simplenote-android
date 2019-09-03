@@ -68,14 +68,6 @@ public class NoteEditorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
 
-        try {
-            Simplenote application = (Simplenote) getApplication();
-            Bucket<Note> notesBucket = application.getNotesBucket();
-            mNote = notesBucket.get(mNoteId);
-        } catch (BucketObjectMissingException exception) {
-            exception.printStackTrace();
-        }
-
         if (savedInstanceState == null) {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
@@ -109,9 +101,17 @@ public class NoteEditorActivity extends AppCompatActivity {
                                 DisplayUtils.hideKeyboard(mViewPager);
                             }
 
-                            if (mNote != null) {
-                                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
-                                mNote.save();
+                            try {
+                                Simplenote application = (Simplenote) getApplication();
+                                Bucket<Note> notesBucket = application.getNotesBucket();
+                                mNote = notesBucket.get(mNoteId);
+
+                                if (mNote != null) {
+                                    mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                                    mNote.save();
+                                }
+                            } catch (BucketObjectMissingException exception) {
+                                exception.printStackTrace();
                             }
                         }
 

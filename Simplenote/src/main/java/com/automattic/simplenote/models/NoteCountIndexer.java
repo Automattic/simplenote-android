@@ -7,9 +7,6 @@ import com.simperium.client.BucketSchema.Indexer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by beaucollins on 7/26/13.
- */
 public class NoteCountIndexer implements Indexer<Tag> {
 
     private Bucket<Note> mNotesBucket;

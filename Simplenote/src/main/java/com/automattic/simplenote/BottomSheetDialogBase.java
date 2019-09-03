@@ -9,9 +9,6 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-/**
- * Created by Ondrej Ruttkay on 27/03/2016.
- */
 public class BottomSheetDialogBase extends BottomSheetDialogFragment {
     @Override
     public int getTheme() {

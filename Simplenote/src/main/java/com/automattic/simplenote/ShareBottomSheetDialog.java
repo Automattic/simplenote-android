@@ -26,9 +26,6 @@ import com.automattic.simplenote.utils.ShareButtonAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ondrej Ruttkay on 26/03/2016.
- */
 public class ShareBottomSheetDialog extends BottomSheetDialogBase {
     private static final String TAG = ShareBottomSheetDialog.class.getSimpleName();
     private static final int SHARE_SHEET_COLUMN_COUNT = 3;

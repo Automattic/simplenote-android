@@ -28,9 +28,8 @@
             android:clickable="false"
             android:focusable="false"
             android:layout_height="@dimen/icon_status"
-            android:layout_marginBottom="@dimen/padding_extra_small"
             android:layout_marginStart="@dimen/padding_small"
-            android:layout_toEndOf="@id/note_published_condensed"
+            android:layout_toEndOf="@id/note_published"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_radio_button_checked_white_24dp"
             android:tint="?attr/notePreviewColor"
@@ -44,8 +43,6 @@
             android:contentDescription="@string/published"
             android:clickable="false"
             android:focusable="false"
-            android:layout_alignEnd="@id/note_pinned"
-            android:layout_below="@id/note_pinned"
             android:layout_height="@dimen/icon_status"
             android:layout_marginStart="@dimen/padding_small"
             android:layout_width="@dimen/icon_status"
@@ -54,20 +51,6 @@
             android:visibility="gone"
             tools:tint="@color/text_content_light"
             tools:visibility="visible">
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/note_published_condensed"
-            android:contentDescription="@string/published"
-            android:clickable="false"
-            android:focusable="false"
-            android:layout_height="@dimen/icon_status"
-            android:layout_marginStart="@dimen/padding_small"
-            android:layout_width="@dimen/icon_status"
-            android:src="@drawable/ic_feed_24dp"
-            android:tint="?attr/notePreviewColor"
-            android:visibility="gone"
-            tools:tint="@color/text_content_light">
         </ImageView>
 
     </RelativeLayout>
