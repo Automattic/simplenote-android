@@ -40,7 +40,7 @@
         <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="tagChipShadowColor">@color/background_dark</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
-        <item name="placeholderLogoColor">@color/empty</item>
+        <item name="placeholderLogoColor">@color/empty_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
         <item name="tagChipBackgroundDrawable">@drawable/bg_tag_dark</item>

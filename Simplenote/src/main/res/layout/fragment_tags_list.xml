@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_weight="6.5"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tagList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.automattic.simplenote.widgets.EmptyViewRecyclerView
+        android:id="@+id/list"
         android:background="@android:color/transparent"
         android:divider="?attr/listDividerDrawable"
-        android:dividerHeight="@dimen/divider_height"/>
+        android:dividerHeight="@dimen/divider_height"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </com.automattic.simplenote.widgets.EmptyViewRecyclerView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/empty"
         android:gravity="center"
-        android:padding="16dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="@dimen/padding_large"
+        android:text="@string/no_tags_found"
         android:textColor="?attr/placeholderLogoColor"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/text_empty">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-</LinearLayout>
+</RelativeLayout>

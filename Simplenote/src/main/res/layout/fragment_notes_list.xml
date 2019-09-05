@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:padding="8dp"
             android:textColor="?attr/notePreviewColor"
-            android:textSize="20sp">
+            android:textSize="@dimen/text_empty">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     </LinearLayout>
