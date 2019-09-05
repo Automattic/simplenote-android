@@ -1,37 +1,42 @@
 package com.automattic.simplenote;
 
-import android.content.Context;
+import android.app.Dialog;
+import android.os.Bundle;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
-import com.automattic.simplenote.utils.DisplayUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class BottomSheetDialogBase extends BottomSheetDialog {
+public class BottomSheetDialogBase extends BottomSheetDialogFragment {
+    @Override
+    public int getTheme() {
+        return R.style.Theme_Simplestyle_BottomSheetDialog;
+    }
 
-    public BottomSheetDialogBase(@NonNull Context context) {
-        super(context);
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        setRetainInstance(true);
+        return new BottomSheetDialog(requireContext(), getTheme());
     }
 
     @Override
-    public void show() {
-        super.show();
+    public void onResume() {
+        super.onResume();
 
-        // limit the width of the bottom sheet on wide screens
-        // non-zero width defined only for sw600dp
-        int dp = (int) getContext().getResources().getDimension(R.dimen.bottom_sheet_dialog_width);
-        if (dp > 0) {
+        if (getDialog() != null) {
+            // Limit width of bottom sheet on wide screens; non-zero width defined only for large qualifier.
+            int dp = (int) getDialog().getContext().getResources().getDimension(R.dimen.width_layout);
 
-            // convert dp to px
-            int px = DisplayUtils.dpToPx(getContext(), dp);
-
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(getWindow().getAttributes());
-            lp.width = px;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-            getWindow().setAttributes(lp);
+            if (dp > 0) {
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(getDialog().getWindow() != null ? getDialog().getWindow().getAttributes() : null);
+                layoutParams.width = dp;
+                layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+                getDialog().getWindow().setAttributes(layoutParams);
+            }
         }
     }
 }
