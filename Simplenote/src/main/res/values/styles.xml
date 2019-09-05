@@ -50,7 +50,7 @@
         <item name="notePreviewColor">@color/text_content_light</item>
         <item name="noteTitleColor">@color/text_title_light</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
-        <item name="placeholderLogoColor">@color/gray_5</item>
+        <item name="placeholderLogoColor">@color/empty_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
         <item name="tagChipBackgroundDrawable">@drawable/bg_tag_light</item>
