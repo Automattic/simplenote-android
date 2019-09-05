@@ -824,6 +824,7 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
+            setMarkdownShowing(isPreviewEnabled);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
