@@ -973,14 +973,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     protected void saveNote() {
         try {
-            Simplenote application = (Simplenote) requireActivity().getApplication();
-            Bucket<Note> notesBucket = application.getNotesBucket();
-            mNote = notesBucket.get(mNote.getSimperiumKey());
-
             if (mNote == null || mContentEditText == null || mIsLoadingNote ||
                     (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
                 return;
             } else {
+                Simplenote application = (Simplenote) requireActivity().getApplication();
+                Bucket<Note> notesBucket = application.getNotesBucket();
+                mNote = notesBucket.get(mNote.getSimperiumKey());
                 mIsPreviewEnabled = mNote.isPreviewEnabled();
             }
 
