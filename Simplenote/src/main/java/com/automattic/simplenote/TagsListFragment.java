@@ -29,6 +29,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
@@ -51,11 +52,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
-
-        TextView emptyTextView = view.findViewById(android.R.id.empty);
-        emptyTextView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
-        return view;
+        return inflater.inflate(R.layout.fragment_tags_list, container, false);
     }
 
     @Override
@@ -68,11 +65,14 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.tagList);
+        EmptyViewRecyclerView recyclerView = getActivity().findViewById(R.id.list);
         mTagsAdapter = new TagsAdapter();
         recyclerView.setAdapter(mTagsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        TextView emptyView = getActivity().findViewById(R.id.empty);
+        emptyView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
+        recyclerView.setEmptyView(emptyView);
 
         refreshTags();
     }

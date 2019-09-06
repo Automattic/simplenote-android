@@ -50,7 +50,7 @@
         <item name="notePreviewColor">@color/text_content_light</item>
         <item name="noteTitleColor">@color/text_title_light</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
-        <item name="placeholderLogoColor">@color/gray_5</item>
+        <item name="placeholderLogoColor">@color/empty_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
         <item name="tagChipBackgroundDrawable">@drawable/bg_tag_light</item>
@@ -99,7 +99,10 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:background">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
         <item name="colorAccent">@color/item_blue_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
@@ -148,6 +151,7 @@
     </style>
 
     <style name="Theme.Simplestyle.About" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:navigationBarColor">@color/blue</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:windowBackground">@color/blue</item>
@@ -157,6 +161,7 @@
     </style>
 
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
