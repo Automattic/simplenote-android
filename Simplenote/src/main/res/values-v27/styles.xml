@@ -16,6 +16,7 @@
         <item name="android:windowBackground">@color/blue</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="actionBarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="toolbarColor">@color/blue</item>
