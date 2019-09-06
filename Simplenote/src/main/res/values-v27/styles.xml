@@ -9,7 +9,8 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
-    <style name="Theme.Simplestyle.About">
+
+    <style name="Theme.Simplestyle.About" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:navigationBarColor">@color/blue</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
