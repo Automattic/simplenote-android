@@ -682,12 +682,15 @@ public class NotesActivity extends AppCompatActivity implements
                     item.setIcon(R.drawable.ic_preview_24dp);
                     item.setTitle(getString(R.string.markdown_show));
                     setMarkdownShowing(false);
+                    mCurrentNote.setPreviewEnabled(false);
                 } else {
                     item.setIcon(R.drawable.ic_preview_stop_24dp);
                     item.setTitle(getString(R.string.markdown_hide));
                     setMarkdownShowing(true);
+                    mCurrentNote.setPreviewEnabled(true);
                 }
 
+                mCurrentNote.save();
                 DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.actionBarTextColor);
 
                 return true;
@@ -824,6 +827,7 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
+            setMarkdownShowing(isPreviewEnabled);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
