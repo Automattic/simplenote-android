@@ -47,10 +47,13 @@
     <dimen name="line_spacing">4dp</dimen>
     <dimen name="passcode_logo">96dp</dimen>
     <dimen name="passcode_width">480dp</dimen>
+    <dimen name="tag_input_height">56dp</dimen>
+    <dimen name="tag_popup_width">360dp</dimen>
     <dimen name="text_empty">20sp</dimen>
     <dimen name="text_passcode">18sp</dimen>
     <dimen name="text_widget">12sp</dimen>
     <dimen name="text_content">14sp</dimen>
+    <dimen name="text_tag">14sp</dimen>
     <dimen name="text_title">16sp</dimen>
 
 </resources>
