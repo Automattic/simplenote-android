@@ -82,7 +82,7 @@
                         android:id="@+id/tag_input"
                         android:background="?attr/mainBackgroundColor"
                         android:completionThreshold="1"
-                        android:dropDownWidth="@dimen/tag_popup_width"
+                        android:dropDownAnchor="@id/horizontal_scroll_view"
                         android:hint="@string/tag_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textNoSuggestions"
