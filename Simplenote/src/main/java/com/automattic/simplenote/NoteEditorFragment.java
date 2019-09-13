@@ -768,7 +768,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
-        editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        editable.setSpan(new RelativeSizeSpan(1.3f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
     private void attemptAutoList(Editable editable) {
