@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 11:54:11+0000
+Translation-Revision-Date: 2019-09-04 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
-    <string name="insert_checklist">Masukkan daftar periksa</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">Cara paling mudah menyimpan catatan.</string>
+    <string name="simperium_hint_password">Kata Sandi</string>
+    <string name="simperium_hint_email">Email</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Dengan membuat akun, Anda menyetujui %1$s%2$s%3$sSyarat dan Ketentuan%4$s kami</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sLupa kata sandi?%4$s</string>
+    <string name="simperium_error_password">Kata sandi tidak valid</string>
+    <string name="simperium_error_email">Email tidak valid</string>
+    <string name="simperium_dialog_title_error">Error</string>
+    <string name="simperium_dialog_progress_signing_up">Mendaftar…</string>
+    <string name="simperium_dialog_progress_logging_in">Login…</string>
+    <string name="simperium_dialog_message_signup_existing">Alamat email yang Anda masukkan telah dikaitkan dengan akun Simplenote.</string>
+    <string name="simperium_dialog_message_signup">Tidak dapat mendaftar dengan alamat email dan kata sandi yang diberikan.</string>
+    <string name="simperium_dialog_message_password">Kata sandi minimal harus %1$d karakter, tidak termasuk baris baru, spasi, dan tab.</string>
+    <string name="simperium_dialog_message_network">Tidak ada jaringan yang tersedia. Harap hubungkan ke jaringan dan coba lagi.</string>
+    <string name="simperium_dialog_message_login">Tidak dapat login dengan alamat email dan kata sandi yang diberikan.</string>
+    <string name="simperium_button_signup">Mendaftar</string>
+    <string name="simperium_button_login_other">Login dengan WordPress.com</string>
+    <string name="simperium_button_login_email">Login dengan Email</string>
+    <string name="simperium_button_login">Login</string>
+    <string name="theme_system">Pengaturan asal sistem</string>
+    <string name="description_fingerprint_supported">Fingerprint Didukung</string>
+    <string name="toggle_sidebar">Bilah sisi tombol</string>
+    <string name="toggle_checklist">Alihkan daftar periksa</string>
+    <string name="sign_in_use_widget">Login untuk menggunakan widget</string>
+    <string name="sign_in_add_widget">Login untuk menambahkan widget ini</string>
+    <string name="select_note">Pilih Catatan</string>
+    <string name="note_not_found">Catatan tidak ditemukan</string>
+    <string name="loading_note">Memuat catatan…</string>
+    <string name="label_note">Catatan</string>
+    <string name="passcode_summary">Tangkapan layar dinonaktifkan saat kunci PIN aktif</string>
     <string name="all_notes">Semua Catatan</string>
     <string name="appearance">Tampilan</string>
     <string name="sort_tags_alphabetically">Urutkan berdasarkan huruf</string>
@@ -30,8 +62,6 @@ Language: id
     <string name="location_permission_denied">Izin Lokasi Ditolak</string>
     <string name="theme_auto">Gelap pada malam hari saja</string>
     <string name="notes">Catatan</string>
-    <string name="simperium_summary">Menambahkan sinkronisasi data ke aplikasi Anda</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Bantu kami menyempurnakan Simplenote dengan berbagi data penggunaan dengan alat analitik kami. %1$sPelajari selengkapnya%2$s</string>
     <string name="share_analytics">Berbagi analitik</string>
     <string name="editor">Penyunting</string>
@@ -39,7 +69,6 @@ Language: id
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Lepas sematan dari atas</string>
     <string name="untagged_notes">Catatan Tanpa Tag</string>
-    <string name="sign_in_with_wordpress_com">Masuk dengan WordPress.com</string>
     <string name="delete_notes">Hapus catatan</string>
     <string name="visit_web_app">Kunjungi aplikasi web</string>
     <string name="unsynced_notes_message">Catatan yang tidak disinkronkan akan dihapus saat Anda keluar. Anda dapat memverifikasi catatan Anda yang disinkronkan dengan masuk ke Aplikasi Web.</string>
@@ -108,11 +137,8 @@ Language: id
     <string name="passcode_enter_old_passcode">Masukkan PIN lama Anda</string>
     <string name="passcode_enter_passcode">Masukkan PIN Anda</string>
     <string name="passcode_manage">Kelola kunci PIN</string>
-    <string name="app_description_short">Simplenote merupakan cara yang mudah untuk menyimpan catatan, daftar, ide dan lain-lain.</string>
-    <string name="app_description">Simplenote, aplikasi yang meraih penghargaan, sekarang tersedia untuk Android. Simplenote merupakan cara yang mudah untuk menyimpan catatan, daftar, ide dan lain-lain. Catatan Anda tetap sinkron dengan semua perangkat Anda secara gratis.\n\n        Pengalaman Simplenote adalah tentang kecepatan dan efisiensi. Buka, tulis beberapa ide, dan Anda telah selesai. Meskipun catatan Anda semakin banyak, namun Anda dapat mencarinya secara cepat dan menjaganya tetap tertata dengan label dan sematan.\n\n        Cara terbaik mempelajari Simplenote adalah dengan mencobanya. Setelah Anda memasang dan menjalankan, kunjungi simplenote.com untuk mengunduhnya di perangkat lain dan mulai mengakses catatan Anda di mana saja.</string>
     <string name="have_account">Sudah memiliki akun?</string>
     <string name="no_account">Belum memiliki akun?</string>
-    <string name="or">atau</string>
     <string name="ok">OK</string>
     <string name="error">Kesalahan</string>
     <string name="forgot_password">Lupa kata sandi Anda?</string>

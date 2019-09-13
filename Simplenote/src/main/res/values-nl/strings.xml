@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 13:54:10+0000
+Translation-Revision-Date: 2019-09-04 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
-    <string name="insert_checklist">Checklist invoegen</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">De eenvoudigste manier om notities bij te houden.</string>
+    <string name="simperium_hint_password">Wachtwoord</string>
+    <string name="simperium_hint_email">E-mail</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Door een account aan te maken, ga je akkoord met onze %1$s%2$s%3$sAlgemene voorwaarden%4$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sWachtwoord vergeten?%4$s</string>
+    <string name="simperium_error_password">Ongeldig wachtwoord</string>
+    <string name="simperium_error_email">Ongeldig e-mailadres</string>
+    <string name="simperium_dialog_title_error">Fout</string>
+    <string name="simperium_dialog_progress_signing_up">Registreren …</string>
+    <string name="simperium_dialog_progress_logging_in">Inloggen …</string>
+    <string name="simperium_dialog_message_signup_existing">Het e-mailadres dat je hebt ingevoerd, is al gekoppeld aan een Simplenote-account.</string>
+    <string name="simperium_dialog_message_signup">Kan niet aanmelden met het opgegeven e-mailadres en wachtwoord.</string>
+    <string name="simperium_dialog_message_password">Wachtwoorden moeten minimaal %1$d tekens lang zijn en mogen geen nieuwe regels, spaties en tabs bevatten.</string>
+    <string name="simperium_dialog_message_network">Er is geen netwerk beschikbaar. Maak verbinding met een netwerk en probeer het nogmaals.</string>
+    <string name="simperium_dialog_message_login">Kan niet inloggen met het opgegeven e-mailadres en wachtwoord.</string>
+    <string name="simperium_button_signup">Registreren</string>
+    <string name="simperium_button_login_other">Inloggen met WordPress.com</string>
+    <string name="simperium_button_login_email">Inloggen met e-mail</string>
+    <string name="simperium_button_login">Inloggen</string>
+    <string name="theme_system">Systeemstandaard</string>
+    <string name="description_fingerprint_supported">Vingerafdruk ondersteund</string>
+    <string name="toggle_sidebar">Sidebar tonen/verbergen</string>
+    <string name="toggle_checklist">Checklist in-/uitschakelen</string>
+    <string name="sign_in_use_widget">Meld je aan om de widget te gebruiken</string>
+    <string name="sign_in_add_widget">Meld je aan om deze widget toe te voegen</string>
+    <string name="select_note">Selecteer notitie</string>
+    <string name="note_not_found">Notitie niet gevonden</string>
+    <string name="loading_note">Notitie wordt geladen …</string>
+    <string name="label_note">Notitie</string>
+    <string name="passcode_summary">Screenshots zijn uitgeschakeld terwijl pin-vergrendeling actief is</string>
     <string name="all_notes">Alle notities</string>
     <string name="appearance">Weergave</string>
     <string name="sort_tags_alphabetically">Alfabetische volgorde</string>
@@ -30,8 +62,6 @@ Language: nl
     <string name="location_permission_denied">Locatietoestemming geweigerd</string>
     <string name="theme_auto">Alleen \'s nachts donker</string>
     <string name="notes">Notities</string>
-    <string name="simperium_summary">Synchroniseren van gegevens toegevoegd aan je app</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Help ons Simplenote te verbeteren door gebruiksgegevens te delen met onze analysetool. %1$sMeer informatie%2$s</string>
     <string name="share_analytics">Analyses delen</string>
     <string name="editor">Editor</string>
@@ -39,7 +69,6 @@ Language: nl
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Losmaken van bovenzijde</string>
     <string name="untagged_notes">Niet-getagde notities</string>
-    <string name="sign_in_with_wordpress_com">Aanmelden via WordPress.com</string>
     <string name="delete_notes">Notities verwijderen</string>
     <string name="visit_web_app">Web-app bezoeken</string>
     <string name="unsynced_notes_message">Door je af te melden worden gesynchroniseerde notities verwijderd. Je kunt je gesynchroniseerde notities verifiëren door je aan te melden via de web-app.</string>
@@ -108,11 +137,8 @@ Language: nl
     <string name="passcode_enter_old_passcode">Voer je vorige PIN in</string>
     <string name="passcode_enter_passcode">Voer je PIN in</string>
     <string name="passcode_manage">PIN-vergrendeling beheren</string>
-    <string name="app_description_short">Simplenote is een eenvoudige manier om notities, lijstjes, ideeën en andere zaken bij te houden.</string>
-    <string name="app_description">Het bekroonde Simplenote is nu beschikbaar voor Android. Simplenote is een eenvoudige manier om notities, lijstjes, ideeën en andere zaken bij te houden. Je notities blijven gratis gesynchroniseerd op al je apparaten.\n\n        De Simplenote-ervaring draait om snelheid en efficiency. Open Simplenote, schrijf je gedachten op en je bent klaar. Naarmate je collectie met notities groeit, kun je er snel in zoeken en ze geordend houden met tags en pins.\n\n        De beste manier om Simplenote te leren kennen, is het te proberen. Als je het eenmaal hebt, kun je het via simplenote.com ook downloaden op andere apparaten en je notities overal openen.</string>
     <string name="have_account">Heb je al een account?</string>
     <string name="no_account">Heb je nog geen account?</string>
-    <string name="or">of</string>
     <string name="ok">OK</string>
     <string name="error">Fout</string>
     <string name="forgot_password">Wachtwoord vergeten?</string>

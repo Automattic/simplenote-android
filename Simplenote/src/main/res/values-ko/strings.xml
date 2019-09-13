@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 08:54:03+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
-    <string name="insert_checklist">체크리스트 삽입</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">메모를 보관하는 가장 간단한 방법입니다.</string>
+    <string name="simperium_hint_password">비밀번호</string>
+    <string name="simperium_hint_email">이메일</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">계정을 만들면 %1$s%2$s%3$s이용 약관%4$s에 동의하게 됩니다.</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$s암호를 잊었나요?%4$s</string>
+    <string name="simperium_error_password">잘못된 비밀번호</string>
+    <string name="simperium_error_email">잘못된 이메일</string>
+    <string name="simperium_dialog_title_error">오류</string>
+    <string name="simperium_dialog_progress_signing_up">가입 중…</string>
+    <string name="simperium_dialog_progress_logging_in">로그인 중…</string>
+    <string name="simperium_dialog_message_signup_existing">입력한 이메일 주소가 이미 Simplenote 계정과 연결되어 있습니다.</string>
+    <string name="simperium_dialog_message_signup">입력한 이메일 주소와 비밀번호로 가입할 수 없습니다.</string>
+    <string name="simperium_dialog_message_password">비밀번호는 줄바꿈, 공백, 탭을 제외하고 최소 %1$d자여야 합니다.</string>
+    <string name="simperium_dialog_message_network">지원되는 네트워크가 없습니다. 네트워크에 연결한 후 다시 시도해 주세요.</string>
+    <string name="simperium_dialog_message_login">입력하신 이메일 주소와 비밀번호로 로그인할 수 없습니다.</string>
+    <string name="simperium_button_signup">가입</string>
+    <string name="simperium_button_login_other">워드프레스닷컴으로 로그인</string>
+    <string name="simperium_button_login_email">이메일로 로그인</string>
+    <string name="simperium_button_login">로그인</string>
+    <string name="theme_system">시스템 기본값</string>
+    <string name="description_fingerprint_supported">지문 지원됨</string>
+    <string name="toggle_sidebar">사이드바 전환</string>
+    <string name="toggle_checklist">체크리스트 전환</string>
+    <string name="sign_in_use_widget">위젯을 사용하려면 로그인</string>
+    <string name="sign_in_add_widget">이 위젯을 추가하려면 로그인</string>
+    <string name="select_note">참고 선택</string>
+    <string name="note_not_found">찾을 수 없음</string>
+    <string name="loading_note">메모 로드 중…</string>
+    <string name="label_note">참고</string>
+    <string name="passcode_summary">PIN 잠금이 켜져 있는 동안 스크린샷이 비활성화됩니다.</string>
     <string name="all_notes">모든 메모</string>
     <string name="appearance">모양</string>
     <string name="sort_tags_alphabetically">알파벳 순으로 정렬</string>
@@ -30,8 +62,6 @@ Language: ko_KR
     <string name="location_permission_denied">위치 사용 권한이 거부됨</string>
     <string name="theme_auto">한밤중에만</string>
     <string name="notes">메모</string>
-    <string name="simperium_summary">앱에 데이터 동기화 추가</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">사용 데이터를 분석 도구와 공유하여 Simplenote를 개선하도록 도와주세요. %1$s더 알아보기%2$s</string>
     <string name="share_analytics">분석 공유</string>
     <string name="editor">편집자</string>
@@ -39,7 +69,6 @@ Language: ko_KR
     <string name="logo">로고</string>
     <string name="unpin_from_top">위에서 고정 취소</string>
     <string name="untagged_notes">태그 없는 메모</string>
-    <string name="sign_in_with_wordpress_com">워드프레스닷컴으로 로그인</string>
     <string name="delete_notes">메모 삭제</string>
     <string name="visit_web_app">웹 앱 방문</string>
     <string name="unsynced_notes_message">로그아웃하면 동기화되지 않은 모든 메모가 삭제됩니다. 웹 앱에 로그인하여 동기화된 메모를 확인할 수 있습니다.</string>
@@ -108,11 +137,8 @@ Language: ko_KR
     <string name="passcode_enter_old_passcode">기존의 PIN 입력</string>
     <string name="passcode_enter_passcode">PIN 입력</string>
     <string name="passcode_manage">PIN 잠금 관리</string>
-    <string name="app_description_short">Simplenote로 메모, 목록, 아이디어 등을 손쉽게 보관할 수 있습니다.</string>
-    <string name="app_description">수상 경력이 있는 Simplenote를 이제 Android에서 사용할 수 있습니다. Simplenote로 메모, 목록, 아이디어 등을 손쉽게 보관할 수 있습니다. 메모가 모든 장치에서 무료로 동기화됩니다.\n\n Simplenote는 최고의 속도와 효율성을 자랑합니다. 메모를 열고 아이디어를 작성하면 끝입니다. 메모 개수가 많아지면 태그와 핀을 사용하여 정리해 두고 바로바로 검색할 수 있습니다.\n\n Simplenote를 익히는 최고의 방법은 직접 사용해보는 것입니다. 인터넷만 연결되어 있으면 simplenote.com을 방문하여 다른 장치에 다운로드한 후 어디서든 본인의 메모를 확인할 수 있습니다.</string>
     <string name="have_account">이미 계정이 있으세요?</string>
     <string name="no_account">아직 계정이 없으세요?</string>
-    <string name="or">또는</string>
     <string name="ok">확인</string>
     <string name="error">오류</string>
     <string name="forgot_password">비밀번호를 잊으셨나요?</string>
