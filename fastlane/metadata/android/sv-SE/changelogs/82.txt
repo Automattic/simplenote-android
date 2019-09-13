@@ -1,0 +1,6 @@
+2.0:
+* Alternativet att låta temainställningen följa systemets dag-/nattläge har lagts till.
+* Det finns ett nytt omdesignat gränssnitt för att logga in och skapa konto.
+* Den senast visade fliken visas nu när en anteckning öppnas.
+* Gränssnittets färger har uppdaterats för att förbättra tillgängligheten.
+* Anteckningswidgeten kan storleksanpassas för att visa rubriken och innehållet.

@@ -1,0 +1,6 @@
+2.0:
+* Optie aan de thema-instellingen toegevoegd om de dag/nacht-modus van het systeem te volgen.
+* Er is een nieuwe interface voor inloggen en aanmelden.
+* Het laatstbekeken tabblad wordt nu getoond wanneer en notitie wordt geopend.
+* Interfacekleuren zijn bijgewerkt voor verbeterde toegankelijkheid.
+* Mogelijkheid toegevoegd om de afmetingen van notitie-widget aan te passen om de titel en content weer te geven.
