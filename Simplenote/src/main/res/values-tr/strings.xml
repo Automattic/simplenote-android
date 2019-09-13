@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 15:54:02+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
-    <string name="insert_checklist">Kontrol listesi ekle</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">Not tutmanın en basit yolu.</string>
+    <string name="simperium_hint_password">Parola</string>
+    <string name="simperium_hint_email">E-posta</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Hesap oluşturarak %1$s%2$s%3$sHüküm ve Koşullarımızı%4$s kabul etmiş olursunuz</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sParolanızı mı unuttunuz?%4$s</string>
+    <string name="simperium_error_password">Geçersiz parola</string>
+    <string name="simperium_error_email">Geçersiz e-posta</string>
+    <string name="simperium_dialog_title_error">Hata</string>
+    <string name="simperium_dialog_progress_signing_up">Kaydınız yapılıyor…</string>
+    <string name="simperium_dialog_progress_logging_in">Oturum açılıyor…</string>
+    <string name="simperium_dialog_message_signup_existing">Girdiğiniz e-posta adresi bir Simplenote hesabıyla zaten ilişkilendirilmiş.</string>
+    <string name="simperium_dialog_message_signup">Verilen e-posta adresi ve parolayla kaydolunamadı.</string>
+    <string name="simperium_dialog_message_password">Parolalar; satır başı, boşluk ve sekme hariç minimum %1$d karakter uzunluğunda olmalıdır.</string>
+    <string name="simperium_dialog_message_network">Kullanılabilir ağ yok. Lütfen bir ağa bağlanıp tekrar deneyin.</string>
+    <string name="simperium_dialog_message_login">Verilen e-posta adresi ve parolayla oturum açılamadı.</string>
+    <string name="simperium_button_signup">Kaydol</string>
+    <string name="simperium_button_login_other">WordPress.com\'la Oturum Aç</string>
+    <string name="simperium_button_login_email">E-postayla Oturum Aç</string>
+    <string name="simperium_button_login">Oturum Aç</string>
+    <string name="theme_system">Sistem varsayılanı</string>
+    <string name="description_fingerprint_supported">Parmak İzi Destekli</string>
+    <string name="toggle_sidebar">Kenar çubuğunu aç/kapat</string>
+    <string name="toggle_checklist">Kontrol listesine geç</string>
+    <string name="sign_in_use_widget">Bieşen kullanmak için oturum açın</string>
+    <string name="sign_in_add_widget">Bu bileşeni eklemek için oturum açın</string>
+    <string name="select_note">Not Seç</string>
+    <string name="note_not_found">Not bulunamadı</string>
+    <string name="loading_note">Not yükleniyor…</string>
+    <string name="label_note">Not</string>
+    <string name="passcode_summary">PIN kilidi açıkken ekran görüntüleri devre dışıdır</string>
     <string name="all_notes">Tüm Notlar</string>
     <string name="appearance">Görünüm</string>
     <string name="sort_tags_alphabetically">Alfabetik olarak sırala</string>
@@ -30,8 +62,6 @@ Language: tr
     <string name="location_permission_denied">Konum İzni Reddedildi</string>
     <string name="theme_auto">Sadece gece vakti karanlık</string>
     <string name="notes">Notlar</string>
-    <string name="simperium_summary">Uygulamanıza veri senkronizasyonu işlevini ekleyin</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Analiz aracımızla kullanım verilerini paylaşarak Simplenote\'u iyileştirmemize yardımcı olun. %1$sDaha fazlasını öğrenin%2$s</string>
     <string name="share_analytics">Analizleri paylaş</string>
     <string name="editor">Düzenleyici</string>
@@ -39,7 +69,6 @@ Language: tr
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Üste sabitlemeyi kaldır</string>
     <string name="untagged_notes">Etiketsiz Notlar</string>
-    <string name="sign_in_with_wordpress_com">WordPress.com ile Giriş Yap</string>
     <string name="delete_notes">Notları sil</string>
     <string name="visit_web_app">Web uygulamasını ziyaret et</string>
     <string name="unsynced_notes_message">Oturumu kapattığınızda, senkronize edilmemiş tüm notlar silinir. Senkronize edilmiş notlarınızı Web Uygulamasına giriş yaparak doğrulayabilirsiniz.</string>
@@ -108,11 +137,8 @@ Language: tr
     <string name="passcode_enter_old_passcode">Eski PIN kodunuzu girin</string>
     <string name="passcode_enter_passcode">PIN kodunuzu girin</string>
     <string name="passcode_manage">PIN kilidini yönet</string>
-    <string name="app_description_short">Simplenote uygulaması not tutmak, listeler oluşturmak, fikirlerinizi ve daha fazlasını kaydetmek için kolay bir yoldur.</string>
-    <string name="app_description">Ödüllü Simplenote artık Android\'te de kullanılabiliyor. Simplenote uygulaması not tutmak, listeler oluşturmak, fikirlerinizi ve daha fazlasını kaydetmek için kolay bir yoldur. Notlarınız ücretsiz olarak tüm cihazlarınızda eşitlenir.\n\n        Simplenote deneyimi hız ve verimlilik demektir. Açıp düşüncelerinizi yazmanız yeterlidir. Biriken notlarınızda anında arama yapabilir, etiketler ve iğnelerle notlarınızın düzenli olmasını sağlayabilirsiniz.\n\n        Simplenote hakkında bilgi edinmenin en iyi yolu kullanmayı denemektir. Kullanmayı öğrendikten sonra, diğer cihazlarınıza indirmek için simplenote.com sitesine gidin ve notlarınıza her yerden erişmeye başlayın.</string>
     <string name="have_account">Hesabınız zaten var mı?</string>
     <string name="no_account">Henüz hesabınız yok mu?</string>
-    <string name="or">veya</string>
     <string name="ok">Tamam</string>
     <string name="error">Hata</string>
     <string name="forgot_password">Parolanızı mı unuttunuz?</string>

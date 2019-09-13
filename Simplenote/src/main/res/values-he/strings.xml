@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 14:54:02+0000
+Translation-Revision-Date: 2019-09-04 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
-    <string name="insert_checklist">הוספה של רשימת משימות</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">הדרך הפשוטה ביותר לרשום פתקים.</string>
+    <string name="simperium_hint_password">סיסמה</string>
+    <string name="simperium_hint_email">אימייל</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">יצירת חשבון מהווה את הסכמתך %1$s%2$s%3$sלתנאים ולהתניות%4$s שלנו</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sשכחת את הסיסמה?%4$s</string>
+    <string name="simperium_error_password">סיסמה לא תקפה</string>
+    <string name="simperium_error_email">אימייל לא תקף</string>
+    <string name="simperium_dialog_title_error">שגיאה</string>
+    <string name="simperium_dialog_progress_signing_up">נרשם למערכת…</string>
+    <string name="simperium_dialog_progress_logging_in">נכנס…</string>
+    <string name="simperium_dialog_message_signup_existing">כתובת האימייל שהזנת כבר משויכת לחשבון Simplenote.</string>
+    <string name="simperium_dialog_message_signup">לא ניתן ליצור חשבון באמצעות כתובת האימייל והסיסמה שסופקו.</string>
+    <string name="simperium_dialog_message_password">הסיסמה חייבת להיות מורכבת מ-%1$d תווים לפחות וללא מעברי שורה, רווחים או תווי טאב.</string>
+    <string name="simperium_dialog_message_network">אין רשת זמינה. יש להתחבר לרשת ולנסות שנית.</string>
+    <string name="simperium_dialog_message_login">לא ניתן להיכנס באמצעות כתובת האימייל והסיסמה שסופקו.</string>
+    <string name="simperium_button_signup">הרשמה</string>
+    <string name="simperium_button_login_other">התחברות באמצעות WordPress.com</string>
+    <string name="simperium_button_login_email">התחברות באמצעות אימייל</string>
+    <string name="simperium_button_login">התחברות</string>
+    <string name="theme_system">ברירת המחדל לפי המערכת</string>
+    <string name="description_fingerprint_supported">תמיכה בטביעות אצבעות</string>
+    <string name="toggle_sidebar">שינוי הסרגל הצדי</string>
+    <string name="toggle_checklist">לשנות את רשימת המשימות</string>
+    <string name="sign_in_use_widget">יש להתחבר כדי להשתמש בווידג\'ט</string>
+    <string name="sign_in_add_widget">יש להתחבר כדי להוסיף וידג\'ט</string>
+    <string name="select_note">יש לבחור פתק</string>
+    <string name="note_not_found">פתק לא נמצא</string>
+    <string name="loading_note">טוען את הפתק…</string>
+    <string name="label_note">פתק</string>
+    <string name="passcode_summary">צילומי המסך מושבתים כאשר נעילת קוד PIN מופעלת</string>
     <string name="all_notes">כל הפתקים</string>
     <string name="appearance">מראה</string>
     <string name="sort_tags_alphabetically">מיון לפי סדר אלפביתי</string>
@@ -30,8 +62,6 @@ Language: he_IL
     <string name="location_permission_denied">לא ניתנה הרשאה למיקום</string>
     <string name="theme_auto">צבעים כהים במהלך הלילה בלבד</string>
     <string name="notes">פתקים</string>
-    <string name="simperium_summary">הוספה של סנכרון נתונים לאפליקציה שלך</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">שיתוף נתוני השימוש שלך בכלי הניתוח שלנו יעזור לנו לשפר את Simplenote. %1$sלמידע נוסף%2$s</string>
     <string name="share_analytics">שיתוף הניתוח</string>
     <string name="editor">עורך</string>
@@ -39,7 +69,6 @@ Language: he_IL
     <string name="logo">לוגו</string>
     <string name="unpin_from_top">הסרת הנעץ מהראש הדף</string>
     <string name="untagged_notes">הסרת התגיות מהערות</string>
-    <string name="sign_in_with_wordpress_com">התחברות באמצעות WordPress.com</string>
     <string name="delete_notes">מחיקת הפתקים</string>
     <string name="visit_web_app">מעבר לאפליקציית הרשת</string>
     <string name="unsynced_notes_message">לאחר ההתנתקות, כל הפתקים שלא סוכרנו יימחקו. אפשר לאמת אילו פתקים סונכרנו באמצעות התחברות לאפליקציית הרשת.</string>
@@ -108,11 +137,8 @@ Language: he_IL
     <string name="passcode_enter_old_passcode">הקוד הישן שלך</string>
     <string name="passcode_enter_passcode">הקוד שלך</string>
     <string name="passcode_manage">ניהול חסימה בקוד</string>
-    <string name="app_description_short">Simplenote היא אפליקציה שמאפשרת לשמור פתקים, רשימות, רעיונות, ועוד בקלות רבה.</string>
-    <string name="app_description">האפליקצייה עתורת הפרסים Simplenote זמינה כעת גם לאנדרויד. Simplenote היא דרך קלה ופשוטה לשמור פתקים, רשימות, רעיונות, ועוד. הפתקים מסונכרנים בין כל המכשירים שלך, ללא תשלום.\n\n        ב-Simplenote, הכל סובב סביב מהירות ויעילות. פותחים את האפלקיציה, כותבים מה שרוצים, וזוה. כשרשימת הפתקים גדלה, ניתן לחפש בה באופן מיידי ופשוט, ולסדר את הרשימה באמצעות תיעדוף ותגיות.\n\n        הדרך הטובה ביותר ללמוד אודות Simplenote היא לנסות את האפלקיציה. כשתהיו מוכנים, בקר גם ב-simplenote.com כדי ללמוד איך לסנכן בין מכשירים ולגשת לפתקים שלכם מכל מקום.</string>
     <string name="have_account">יש לך כבר חשבון?</string>
     <string name="no_account">אין לך חשבון עדיין?</string>
-    <string name="or">או</string>
     <string name="ok">OK</string>
     <string name="error">שגיאה</string>
     <string name="forgot_password">שכחת סיסמה?</string>
