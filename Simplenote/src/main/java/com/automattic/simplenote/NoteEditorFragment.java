@@ -714,12 +714,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 AnalyticsTracker.CATEGORY_NOTE,
                 "tag_added_to_note"
             );
-        } else {
-            AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "tag_removed_from_note"
-            );
         }
 
         mNote.setTagString(mNote.getTagString() + String.valueOf(SPACE) + tag);
@@ -1454,6 +1448,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 public void onClick(View view) {
                     mTagChips.removeView(view);
                     updateTags();
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "tag_removed_from_note"
+                    );
                 }
             });
             mTagChips.addView(chip);
