@@ -45,7 +45,6 @@
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="?attr/colorAccent"
-                    android:textSize="14sp"
                     tools:context=".NoteEditorFragment">
                 </com.automattic.simplenote.widgets.SimplenoteEditText>
 
