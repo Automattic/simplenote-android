@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingEnd="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large">
+            android:paddingEnd="@dimen/padding_extra_large"
+            android:paddingStart="@dimen/padding_extra_large">
 
             <androidx.core.widget.NestedScrollView
                 android:fillViewport="true"
