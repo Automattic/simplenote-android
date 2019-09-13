@@ -969,33 +969,39 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onInfoDismissed() {
-
     }
 
     protected void saveNote() {
-        if (mNote == null ||
-                mContentEditText == null ||
-                mIsLoadingNote ||
-                (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
-            return;
-        }
+        try {
+            if (mNote == null || mContentEditText == null || mIsLoadingNote ||
+                    (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
+                return;
+            } else {
+                Simplenote application = (Simplenote) requireActivity().getApplication();
+                Bucket<Note> notesBucket = application.getNotesBucket();
+                mNote = notesBucket.get(mNote.getSimperiumKey());
+                mIsPreviewEnabled = mNote.isPreviewEnabled();
+            }
 
-        String content = mContentEditText.getPlainTextContent();
-        String tagString = getNoteTagsString();
+            String content = mContentEditText.getPlainTextContent();
+            String tagString = getNoteTagsString();
 
-        if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
-            mNote.setContent(content);
-            mNote.setTagString(tagString);
-            mNote.setModificationDate(Calendar.getInstance());
-            mNote.setMarkdownEnabled(mIsMarkdownEnabled);
-            mNote.setPreviewEnabled(mIsPreviewEnabled);
-            mNote.save();
+            if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
+                mNote.setContent(content);
+                mNote.setTagString(tagString);
+                mNote.setModificationDate(Calendar.getInstance());
+                mNote.setMarkdownEnabled(mIsMarkdownEnabled);
+                mNote.setPreviewEnabled(mIsPreviewEnabled);
+                mNote.save();
 
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "editor_save"
-            );
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "editor_save"
+                );
+            }
+        } catch (BucketObjectMissingException exception) {
+            exception.printStackTrace();
         }
     }
 

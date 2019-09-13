@@ -1,0 +1,136 @@
+<ar>
+2.0:
+* أضيف خيار إلى إعداد القالب لمتابعة الوضع النهاري/الليلي للنظام.
+* توجد واجهة جديدة مُعاد تصميمها لتسجيل الدخول والتسجيل.
+* تظهر الآن علامة التبويب الأخيرة التي تم عرضها عند فتح إحدى الملحوظات.
+* تم تحديث ألوان الواجهة للوصول إليها بصورة أفضل.
+* أضيف تغيير حجم المربع الجانبي للملحوظات لعرض العنوان والمحتوى.
+</ar>
+<de-DE>
+2.0:
+* Option zur Theme-Einstellung hinzugefügt, um dem Tag-/Nachtmodus des Systems zu folgen.
+* Für Anmelden und Registrieren gibt es eine neue überarbeitete Benutzeroberfläche.
+* Der zuletzt angezeigte Tab wird jetzt eingeblendet, wenn eine Notiz geöffnet wird.
+* Farben der Benutzeroberfläche wurden für bessere Zugänglichkeit aktualisiert.
+* Ändern der Größe zum Notizen-Widget hinzugefügt, um Titel und Inhalt anzuzeigen.
+</de-DE>
+<es-ES>
+2.0:
+* Se ha añadido una opción al ajuste Tema para seguir el modo día/noche del sistema.
+* Hay una nueva interfaz rediseñada para acceder y registrarse.
+* La última pestaña visualizada no se muestra al abrir una nota.
+* Los colores de la interfaz se han actualizado para mejorar la accesibilidad.
+* Se ha cambiado el tamaño del widget de notas para mostrar el título y el contenido.
+</es-ES>
+<fr-FR>
+2.0 :
+* Ajout d'une option au paramètre du thème pour appliquer le mode diurne/nocturne du thème.
+* L'interface de connexion et d'inscription a été repensée.
+* La dernière étiquette visualisée apparaît désormais à l'ouverture d'une note.
+* Les couleurs de l'interface ont été mises à jour pour améliorer l'accessibilité.
+* Ajout du redimensionnement du widget de note pour afficher le titre et le contenu.
+</fr-FR>
+<iw-IL>
+2.0:
+* הוספנו אפשרות להגדרות של ערכות העיצוב לפעול לפי תצוגת יום / תצוגת לילה שקבועה במערכת.
+* עיצבנו מחדש את ממשק הכניסה וההרשמה.
+* הלשונית לפריטים שנצפו לאחרונה מוצגת בפתיחה של פתק.
+* צבעי הממשק עודכנו לנגישות טובה יותר.
+* הוספנו אפשרות לשינוי הגודל של וידג'ט הפתקים כדי לאפשר תצוגה של הכותרת והתוכן.
+</iw-IL>
+<id>
+2.0:
+* Menambahkan pilihan ke pengaturan Tema untuk mengikuti mode siang/malam sistem.
+* Terdapat antarmuka baru yang didesain ulang untuk login dan pendaftaran.
+* Tab terakhir dilihat kini ditampilkan ketika membuka sebuah catatan.
+* Warna antarmuka telah diperbarui untuk aksesibilitas yang lebih baik.
+* Menambahkan pengaturan ukuran widget catatan untuk menampilkan judul dan konten.
+</id>
+<it-IT>
+2.0:
+* Aggiunta un'opzione alle impostazioni dei temi per seguire la modalità giorno/notte di sistema.
+* L'accesso e l'iscrizione hanno una nuova interfaccia riprogettata.
+* L'ultima scheda visualizzata ora viene mostrata all'apertura di una nota.
+* I colori di interfaccia sono stati aggiornati per una migliore accessibilità.
+* Aggiunto widget per il ridimensionamento delle note per visualizzare titolo e contenuti.
+</it-IT>
+<ja-JP>
+2.0:
+* システムの昼/夜モードをフォローするオプションを「テーマ」設定に追加しました。
+* ログインと登録のインターフェイスを一新しました。
+* メモを開くと、直前に表示したタブが表示されます。
+* アクセシビリティ向上のため、インターフェイスの色を変更しました。
+* タイトルとコンテンツを表示するメモのウィジェットのサイズ変更機能を追加しました。
+</ja-JP>
+<ko-KR>
+2.0:
+* 시스템 주간/야간 모드를 따르기 위해 테마 설정에 옵션이 추가되었습니다.
+* 로그인 및 가입을 위한 인터페이스가 새롭게 디자인되었습니다.
+* 메모를 열 때 마지막으로 본 탭이 표시됩니다.
+* 더 나은 접근성을 위해 인터페이스 색상이 업데이트되었습니다.
+* 제목과 내용을 표시하기 위해 메모 위젯 크기 조정을 추가했습니다.
+</ko-KR>
+<nl-NL>
+2.0:
+* Optie aan de thema-instellingen toegevoegd om de dag/nacht-modus van het systeem te volgen.
+* Er is een nieuwe interface voor inloggen en aanmelden.
+* Het laatstbekeken tabblad wordt nu getoond wanneer en notitie wordt geopend.
+* Interfacekleuren zijn bijgewerkt voor verbeterde toegankelijkheid.
+* Mogelijkheid toegevoegd om de afmetingen van notitie-widget aan te passen om de titel en content weer te geven.
+</nl-NL>
+<pt-BR>
+2.0:
+* Adicionamos uma opção à configuração do Tema para seguir o modo dia/noite do sistema.
+* Uma nova interface redesenhada para login e inscrição.
+* A última guia visualizada agora é exibida ao abrir uma nota.
+* Atualização das cores da interface para melhor acessibilidade.
+* Adicionado redimensionamento do widget de anotações para exibir o título e o conteúdo.
+</pt-BR>
+<ru-RU>
+2.0:
+* В настройки темы добавлена опция переключения вслед за дневным/ночным режимом системы.
+* Новый интерфейс для входа и регистрации.
+* Когда вы открываете заметку, теперь отображается последняя просмотренная вкладка.
+* Цвета интерфейса изменены, чтобы облегчить чтение текста.
+* Добавлен виджет обрезки заметки для отображения заголовка и содержимого.
+</ru-RU>
+<sv-SE>
+2.0:
+* Alternativet att låta temainställningen följa systemets dag-/nattläge har lagts till.
+* Det finns ett nytt omdesignat gränssnitt för att logga in och skapa konto.
+* Den senast visade fliken visas nu när en anteckning öppnas.
+* Gränssnittets färger har uppdaterats för att förbättra tillgängligheten.
+* Anteckningswidgeten kan storleksanpassas för att visa rubriken och innehållet.
+</sv-SE>
+<tr-TR>
+2.0:
+* Sistemin gündüz/gece modunu takip etmesi için Tema ayarına bir seçenek eklendi.
+* Oturum açma ve kaydolma için yeniden tasarlanan yeni bir arayüz var.
+* Bir notu açarken son görüntülenen sekme gösterilmiyor.
+* Daha iyi erişilebilirlik için arayüz renkleri güncellendi.
+* Başlık ve içeriği görüntülemek için not bileşenini yeniden boyutlandırma eklendi.
+</tr-TR>
+<zh-CN>
+2.0：
+* 添加了一个主题设置选项，以遵循系统的昼/夜模式。
+* 重新设计了新的登录和注册界面。
+* 现在，上一次查看的选项卡可以在打开笔记时显示。
+* 已更新界面颜色，可提供更好的辅助功能。
+* 添加了调整笔记的小工具以显示标题和内容。
+</zh-CN>
+<zh-TW>
+2.0：
+* 為佈景主題設定新增了一個選項，以配合系統的日間/夜間模式。
+* 登入和註冊介面全新大改版。
+* 現在開啟附註時會顯示上次查看的頁籤。
+* 介面顏色已更新，提供更方便的使用。
+* 新增可調整附註大小的小工具，以顯示標題和內容。
+</zh-TW>
+<en-US>
+2.0:
+* Added an option to the Theme setting to follow the system day/night mode.
+* There is a new redesigned interface for login and signup.
+* The last viewed tab is now shown when opening a note.
+* Interface colors have been updated for better accessibility.
+* Added resizing the note widget to display title and content.
+/<en-US>

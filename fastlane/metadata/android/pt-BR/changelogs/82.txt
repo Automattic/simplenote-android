@@ -1,0 +1,6 @@
+2.0:
+* Adicionamos uma opção à configuração do Tema para seguir o modo dia/noite do sistema.
+* Uma nova interface redesenhada para login e inscrição.
+* A última guia visualizada agora é exibida ao abrir uma nota.
+* Atualização das cores da interface para melhor acessibilidade.
+* Adicionado redimensionamento do widget de anotações para exibir o título e o conteúdo.

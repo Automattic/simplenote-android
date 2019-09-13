@@ -1,0 +1,6 @@
+2.0 :
+* Ajout d'une option au paramètre du thème pour appliquer le mode diurne/nocturne du thème.
+* L'interface de connexion et d'inscription a été repensée.
+* La dernière étiquette visualisée apparaît désormais à l'ouverture d'une note.
+* Les couleurs de l'interface ont été mises à jour pour améliorer l'accessibilité.
+* Ajout du redimensionnement du widget de note pour afficher le titre et le contenu.

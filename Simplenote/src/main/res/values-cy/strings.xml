@@ -7,7 +7,6 @@ Language: cy_GB
 -->
 <resources>
     <string name="notes">Nodiadau</string>
-    <string name="sign_in_with_wordpress_com">Mewngofnodi gyda WordPress.com</string>
     <string name="delete_notes">Dileu nodiadau</string>
     <string name="visit_web_app">Ewch i ap gwe</string>
     <string name="unsynced_notes_message">Bydd allgofnodi yn dileu unrhyw nodiadau heb eu cydweddu. Gallwch wirio&amp;#39;ch nodiadau wedi eu cydweddu trwy fewngofnodi i&amp;#39;r App Gwe.</string>
@@ -119,10 +118,7 @@ Language: cy_GB
     <string name="ok">Iawn</string>
     <string name="no_account">Dim cyfrif eto?</string>
     <string name="have_account">Eisoes â chyfrif?</string>
-    <string name="app_description">Mae Simplenote nawr ar gael ar Android. Mae Simplenote yn ffordd hawdd o gadw nodiadau, rhestrau, syniadau a mwy. Mae eich nodiadau\'n cael eu cydweddu gyda\'ch holl ddyfeisiau am ddim.\n\n         Byddwch yn profi cyflymder ac effeithiolrwydd drwy Simplenote. Agorwch yr ap, ysgrifennwch ryw syniadau, a dyna chi. Wrth i\'ch casgliad o nodiadau dyfu, gallwch chwilio trwyddynt ar unwaith a\'u cadw mewn trefn gyda thagiau a phinnau.\n\n        Y ffordd orau i ddysgu am Simplenote yw rhoi cynnig arno. Unwaith rydych ar waith, ewch i simplenote.com i\'w lwytho i lawr i ddyfeisiau eraill a chael mynediad at eich nodiadau ymhob man.</string>
-    <string name="app_description_short">Mae Simplenote yn ffordd hawdd o gadw nodiadau, rhestrau, syniadau a mwy.</string>
     <string name="welcome_note">Croeso i Simplenote Android!\nAgorwch hwn am gyfarwyddiadau.\n\nI greu nodyn newydd , tapiwch y botwm glas \"Ychwanegu Nodyn\".\n\nI chwilio drwy eich nodiadau, tapiwch y botwm chwilio yn y Bar Gweithredu a chyflwyno testun. Bydd Simplenote yn dangos unrhyw ganlyniad yn syth.\n\nNodyn pwysig? Pwyswch y botwm pin wrth ddarllen nodyn i\'w binio i frig eich rhestr.\n\nDefnyddiwch dagiau i\'ch helpu i roi trefn ar eich nodiadau. Gallwch hefyd ychwanegu cyfeiriad e-bost fel tag i rannu nodyn gyda rhywun arall .\n\nRhannwch nodiadau yn hawdd gydag apiau Android eraill drwy dapio\'r botwm rhannu yn y bar offer.\n\nMae nodiadau sydd wedi eu dileu\'n mynd i\'r sbwriel. Gallwch eu hadfer neu wagio\'r sbwriel i\'w dileu\'n llwyr.\n\nGallwch gael mynediad at eich nodiadau ar y we ac ar eich dyfeisiau eraill. I gychwyn ewch i http://simplenote.com.\n\nMwynhewch ddefnyddio Simplenote!</string>
-    <string name="or">neu</string>
     <string name="rename_tag">Ailenwi tag</string>
     <string name="note_pinned">Nodyn wedi\'i binio.</string>
     <string name="condensed_note_list">Rhestr gryno o nodiadau</string>

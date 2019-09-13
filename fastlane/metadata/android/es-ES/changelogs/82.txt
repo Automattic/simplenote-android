@@ -1,0 +1,6 @@
+2.0:
+* Se ha añadido una opción al ajuste Tema para seguir el modo día/noche del sistema.
+* Hay una nueva interfaz rediseñada para acceder y registrarse.
+* La última pestaña visualizada no se muestra al abrir una nota.
+* Los colores de la interfaz se han actualizado para mejorar la accesibilidad.
+* Se ha cambiado el tamaño del widget de notas para mostrar el título y el contenido.

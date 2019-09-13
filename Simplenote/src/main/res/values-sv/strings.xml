@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-05-28 15:54:03+0000
+Translation-Revision-Date: 2019-09-04 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
-    <string name="insert_checklist">Infoga checklista</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">Det enklaste sättet att anteckna på.</string>
+    <string name="simperium_hint_password">Lösenord</string>
+    <string name="simperium_hint_email">E-post</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Genom att skapa ett konto samtycker du till våra %1$s%2$s%3$sAnvändarvillkor%4$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sForgot password?%4$s</string>
+    <string name="simperium_error_password">Ogiltigt lösenord</string>
+    <string name="simperium_error_email">Ogiltig e-post</string>
+    <string name="simperium_dialog_title_error">Fel</string>
+    <string name="simperium_dialog_progress_signing_up">Skapar konto…</string>
+    <string name="simperium_dialog_progress_logging_in">Loggar in…</string>
+    <string name="simperium_dialog_message_signup_existing">Den angivna e-postadressen är redan associerad med ett Simplenote-konto.</string>
+    <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
+    <string name="simperium_dialog_message_password">Lösenord måste ha minst %1$d tecken, exklusive radbrytningar, blanksteg och tabbar.</string>
+    <string name="simperium_dialog_message_network">Det finns inget tillgängligt nätverk. Anslut till ett nätverk och försök igen.</string>
+    <string name="simperium_dialog_message_login">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
+    <string name="simperium_button_signup">Skapa konto</string>
+    <string name="simperium_button_login_other">Logga in med WordPress.com</string>
+    <string name="simperium_button_login_email">Logga in med e-post</string>
+    <string name="simperium_button_login">Logga in</string>
+    <string name="theme_system">Systemstandard</string>
+    <string name="description_fingerprint_supported">Fingeravtryck stöds</string>
+    <string name="toggle_sidebar">Växla sidofält</string>
+    <string name="toggle_checklist">Växla checklista</string>
+    <string name="sign_in_use_widget">Logga in för att använda widgeten</string>
+    <string name="sign_in_add_widget">Logga in för att lägga till denna widget</string>
+    <string name="select_note">Välj anteckning</string>
+    <string name="note_not_found">Anteckningen hittades inte</string>
+    <string name="loading_note">Laddar anteckning…</string>
+    <string name="label_note">Anteckning</string>
+    <string name="passcode_summary">Skärmbilder är inaktiverade medan PIN-låset är på</string>
     <string name="all_notes">Alla anteckningar</string>
     <string name="appearance">Utseende</string>
     <string name="sort_tags_alphabetically">Sortera alfabetiskt</string>
@@ -30,8 +62,6 @@ Language: sv_SE
     <string name="location_permission_denied">Platstillstånd nekat</string>
     <string name="theme_auto">Mörk på natten bara</string>
     <string name="notes">Anteckningar</string>
-    <string name="simperium_summary">Lägg till datasynkronisering i din app</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Hjälp oss att förbättra Simplenote genom att dela användningsdata med vårt analysverktyg. %1$sLäs mer%2$s</string>
     <string name="share_analytics">Dela analys</string>
     <string name="editor">Redigerare</string>
@@ -39,7 +69,6 @@ Language: sv_SE
     <string name="logo">Logotyp</string>
     <string name="unpin_from_top">Ta bort från topp</string>
     <string name="untagged_notes">Omärkta anteckningar</string>
-    <string name="sign_in_with_wordpress_com">Logga in med WordPress.com</string>
     <string name="delete_notes">Radera anteckningar</string>
     <string name="visit_web_app">Besök webbapp</string>
     <string name="unsynced_notes_message">Utloggning kommer att radera alla osynkroniserade anteckningar. Du kan verifiera dina synkroniserade anteckningar genom att logga in på webbappen.</string>
@@ -108,11 +137,8 @@ Language: sv_SE
     <string name="passcode_enter_old_passcode">Ange din gamla lösenkod</string>
     <string name="passcode_enter_passcode">Ange lösenkod</string>
     <string name="passcode_manage">Hantera lösenkodslås</string>
-    <string name="app_description_short">Simplenote är ett lätt sätt att spara anteckningar, listor, idéer och annat.</string>
-    <string name="app_description">Det pris-vinnande Simplenote finns nu för Android. Simplenote är ett enkelt sätt att spara anteckningar, listor, idéer och annat. Dina anteckningar synkroniseras med alla dina enheter gratis.\n\nSimplenote handlar helt om snabbhet och effektivitet. Öppna appen, skriv ner dina tankar och du är klar. När din samling av anteckningar växer kan du söka igenom allt i realtid och organisera med etiketter samt genom att nåla fast viktiga texter.\n\nDet bästa sättet att lära sig om Simplenote är att testa det. När du är igång och har koll, gå till simplenote.com för att ladda ner appen för andra enheter och få tillgång till dina antecknar överallt.</string>
     <string name="have_account">Har du redan ett konto?</string>
     <string name="no_account">Har du inget konto än?</string>
-    <string name="or">eller</string>
     <string name="ok">Ok</string>
     <string name="error">Fel</string>
     <string name="forgot_password">Glömt ditt lösenord?</string>
