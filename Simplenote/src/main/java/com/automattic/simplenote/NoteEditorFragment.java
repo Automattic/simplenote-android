@@ -1437,6 +1437,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             chip.setCheckedIcon(null);
             chip.setChipBackgroundColor(getChipBackgroundColor());
             chip.setTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.chipTextColor));
+            chip.setStateListAnimator(null);
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
