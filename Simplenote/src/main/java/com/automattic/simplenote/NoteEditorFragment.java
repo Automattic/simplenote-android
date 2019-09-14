@@ -1426,6 +1426,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void setChips(CharSequence text) {
         mTagChips.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
+        mTagChips.setSingleSelection(true);
         mTagChips.removeAllViews();
         SimpleStringSplitter tags = new SimpleStringSplitter(SPACE);
         tags.setString(text.toString());
