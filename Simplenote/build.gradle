@@ -19,7 +19,12 @@ android {
 
     defaultConfig {
         applicationId "com.automattic.simplenote"
-        versionName "2.0"
+        // Allow versionName to be overridden with property. e.g. -PversionName=1234
+        if (project.hasProperty("versionName")) {
+            versionName project.property("versionName")
+        } else {
+            versionName "2.0"
+        }
         versionCode 82
         minSdkVersion 23
         targetSdkVersion 28
@@ -97,13 +102,13 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android {
       signingConfigs {
           release {
-              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
+              storeFile = rootProject.file(project.storeFile)
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
           }
           debug {
-              storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
+              storeFile = rootProject.file(project.storeFile)
               storePassword = project.storePassword
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
