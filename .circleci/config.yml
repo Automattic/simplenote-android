@@ -53,13 +53,13 @@ jobs:
             fi
             VERSION_NAME="${PREFIX}-build-${CIRCLE_BUILD_NUM}"
             echo "export VERSION_NAME=$VERSION_NAME" >> $BASH_ENV
-            ./gradlew --stacktrace assembleRelease -PversionName="$VERSION_NAME"
+            ./gradlew --stacktrace assembleDebug -PversionName="$VERSION_NAME"
       - android/save-gradle-cache
       - run:
           name: Prepare APK
           command: |
             mkdir -p Artifacts
-            mv Simplenote/build/outputs/apk/release/Simplenote-release.apk "Artifacts/Simplenote-${VERSION_NAME}.apk"
+            mv Simplenote/build/outputs/apk/debug/Simplenote-debug.apk "Artifacts/Simplenote-${VERSION_NAME}.apk"
       - store_artifacts:
           path: Artifacts
           destination: Artifacts
