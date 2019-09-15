@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
@@ -17,6 +18,11 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
+            if (s.length() > 0) {
+                setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            } else {
+                setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            }
         }
 
         @Override
