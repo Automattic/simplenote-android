@@ -800,7 +800,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (!hasFocus) {
             String tags = getNoteTagsString().trim();
 
-            if (tags.length() > 0) {
+            if (mTagInput.getText().toString().trim().length() > 0) {
+                onTagAdded(mTagInput.getText().toString());
+            } else if (tags.length() > 0) {
                 setChips(tags);
             }
         }
