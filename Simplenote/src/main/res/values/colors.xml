@@ -53,7 +53,7 @@
     <color name="text_title">@color/gray_100</color>
 
     <!-- STUDIO 2.1.0 -->
-    <color name="blue_0">#eff3f7</color>
+    <color name="blue_0">#e9eff5</color>
     <color name="blue_5">#c6def6</color>
     <color name="blue_10">#9ac6f0</color>
     <color name="blue_20">#72aee6</color>
