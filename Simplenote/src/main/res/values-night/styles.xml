@@ -22,6 +22,7 @@
         <item name="colorPrimaryDark">@color/background_dark</item>
         <item name="dividerColor">@color/divider_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="fabColor">@color/item_blue_dark</item>

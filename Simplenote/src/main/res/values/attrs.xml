@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+
+    <attr name="drawerBackgroundSelector" format="reference"/>
     <attr name="notePinColor" format="reference|color"/>
     <attr name="noteTitleColor" format="reference|color"/>
     <attr name="notePreviewColor" format="reference|color"/>
