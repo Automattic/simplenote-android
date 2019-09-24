@@ -343,6 +343,12 @@ public class NotesActivity extends AppCompatActivity implements
                     mDrawerLayout.closeDrawer(GravityCompat.START);
 
                     if (item.getItemId() == SETTINGS_ID) {
+                        AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                                AnalyticsTracker.CATEGORY_TAG,
+                                "selected_tag_in_navigation_drawer",
+                                new HashMap<String, String>(1){{put("tag", "settings");}}
+                        );
                         mIsSettingsClicked = true;
                         return false;
                     } else {
