@@ -498,19 +498,22 @@ public class NotesActivity extends AppCompatActivity implements
 
         mTagsAdapter.changeCursor(tagCursor);
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
-        mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
-        mNavigationMenu.add(GROUP_SECONDARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
 
-        for (int i = 0; i < mTagsAdapter.getCount(); i++) {
-            String name = mTagsAdapter.getItem(i).name;
-            int id = (int) mTagsAdapter.getItem(i).id;
+        if (mTagsAdapter.getCountCustom() > 0) {
+            mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+            mNavigationMenu.add(GROUP_SECONDARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
 
-            if (id >= 0) { // Custom tags have a positive ID.
-                mNavigationMenu.add(GROUP_SECONDARY, id, Menu.NONE, name).setIcon(R.drawable.ic_tag_24dp).setCheckable(true);
+            for (int i = 0; i < mTagsAdapter.getCount(); i++) {
+                String name = mTagsAdapter.getItem(i).name;
+                int id = (int) mTagsAdapter.getItem(i).id;
+
+                if (id >= 0) { // Custom tags have a positive ID.
+                    mNavigationMenu.add(GROUP_SECONDARY, id, Menu.NONE, name).setIcon(R.drawable.ic_tag_24dp).setCheckable(true);
+                }
             }
-        }
 
-        setSelectedTagActive();
+            setSelectedTagActive();
+        }
     }
 
     public void launchEditTags(View view) {

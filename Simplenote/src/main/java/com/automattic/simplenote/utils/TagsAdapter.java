@@ -88,6 +88,10 @@ public class TagsAdapter extends BaseAdapter {
         }
     }
 
+    public int getCountCustom() {
+        return mCursor != null ? mCursor.getCount() : 0;
+    }
+
     public TagMenuItem getDefaultItem() {
         return getItem(DEFAULT_ITEM_POSITION);
     }
