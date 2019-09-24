@@ -96,6 +96,7 @@ public class NotesActivity extends AppCompatActivity implements
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
     private static final int GROUP_SECONDARY = 101;
+    private static final int GROUP_TERTIARY = 102;
     private DrawerLayout mDrawerLayout;
     private Menu mNavigationMenu;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -498,10 +499,10 @@ public class NotesActivity extends AppCompatActivity implements
 
         mTagsAdapter.changeCursor(tagCursor);
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
+        mNavigationMenu.removeGroup(GROUP_TERTIARY);
 
         if (mTagsAdapter.getCountCustom() > 0) {
             mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
-            mNavigationMenu.add(GROUP_SECONDARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
 
             for (int i = 0; i < mTagsAdapter.getCount(); i++) {
                 String name = mTagsAdapter.getItem(i).name;
@@ -512,6 +513,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
             }
 
+            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
             setSelectedTagActive();
         }
     }
