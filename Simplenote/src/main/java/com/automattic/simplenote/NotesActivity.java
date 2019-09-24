@@ -509,7 +509,7 @@ public class NotesActivity extends AppCompatActivity implements
                 int id = (int) mTagsAdapter.getItem(i).id;
 
                 if (id >= 0) { // Custom tags have a positive ID.
-                    mNavigationMenu.add(GROUP_SECONDARY, id, Menu.NONE, name).setIcon(R.drawable.ic_tag_24dp).setCheckable(true);
+                    mNavigationMenu.add(GROUP_SECONDARY, id, Menu.NONE, name).setCheckable(true);
                 }
             }
 
