@@ -57,7 +57,9 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
@@ -412,14 +414,29 @@ public class NotesActivity extends AppCompatActivity implements
 
         getNoteListFragment().refreshListFromNavSelect();
 
-        if (mSelectedTag.id != ALL_NOTES_ID &&
-            mSelectedTag.id != TRASH_ID) {
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                    AnalyticsTracker.CATEGORY_TAG,
-                    "selected_tag_in_navigation_drawer"
-            );
+        Map<String, String> properties = new HashMap<>(1);
+
+        switch ((int) mSelectedTag.id) {
+            case ALL_NOTES_ID:
+                properties.put("tag", "all_notes");
+                break;
+            case TRASH_ID:
+                properties.put("tag", "trash");
+                break;
+            case UNTAGGED_NOTES_ID:
+                properties.put("tag", "untagged_notes");
+                break;
+            default:
+                properties = null;
+                break;
         }
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                AnalyticsTracker.CATEGORY_TAG,
+                "selected_tag_in_navigation_drawer",
+                properties
+        );
 
         setSelectedTagActive();
     }
