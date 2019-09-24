@@ -19,8 +19,9 @@
     <attr name="editorSearchHighlightForegroundColor" format="reference|color"/>
     <attr name="editorSearchHighlightBackgroundColor" format="reference|color"/>
     <attr name="placeholderLogoColor" format="reference|color"/>
-    <attr name="tagChipBackgroundDrawable" format="reference"/>
-    <attr name="tagChipTextColor" format="reference"/>
+    <attr name="chipCheckedOffBackgroundColor" format="reference"/>
+    <attr name="chipCheckedOnBackgroundColor" format="reference"/>
+    <attr name="chipTextColor" format="reference"/>
     <attr name="pinIconSelector" format="reference"/>
 
     <attr name="toolbarColor" format="reference|color"/>

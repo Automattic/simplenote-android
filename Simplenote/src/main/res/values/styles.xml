@@ -29,6 +29,9 @@
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/text_title_light</item>
+        <item name="chipCheckedOnBackgroundColor">@color/gray_10</item>
+        <item name="chipCheckedOffBackgroundColor">@color/gray_5</item>
+        <item name="chipTextColor">@color/text_chip_light</item>
         <item name="colorAccent">@color/item_blue_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/background_light</item>
@@ -54,9 +57,6 @@
         <item name="placeholderLogoColor">@color/empty_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
-        <item name="tagChipBackgroundDrawable">@drawable/bg_tag_light</item>
-        <item name="tagChipShadowColor">@color/background_light</item>
-        <item name="tagChipTextColor">@color/text_body_light</item>
         <item name="toolbarColor">@color/background_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="windowActionModeOverlay">true</item>
