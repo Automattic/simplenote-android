@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ActionMode;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -248,6 +250,17 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                             });
                             alert.show();
                         }
+                    }
+                });
+                deleteButton.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (v.isHapticFeedbackEnabled()) {
+                            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                        }
+
+                        Toast.makeText(getContext(), getContext().getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
+                        return true;
                     }
                 });
 
