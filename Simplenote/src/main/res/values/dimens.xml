@@ -45,6 +45,7 @@
     <dimen name="elevation_fingerprint">4dp</dimen>
     <dimen name="icon_status">16dp</dimen>
     <dimen name="line_spacing">4dp</dimen>
+    <dimen name="minimum_target">48dp</dimen>
     <dimen name="passcode_logo">96dp</dimen>
     <dimen name="passcode_width">480dp</dimen>
     <dimen name="tag_input_height">56dp</dimen>

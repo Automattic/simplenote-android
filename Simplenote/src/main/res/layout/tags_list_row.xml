@@ -56,13 +56,15 @@
 
     <ImageButton
         android:id="@+id/tag_trash"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/delete_tag"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding_large"
+        android:minHeight="@dimen/minimum_target"
+        android:minWidth="@dimen/minimum_target"
+        android:padding="@dimen/padding_medium"
         android:src="@drawable/ic_trash_24dp"
         android:tint="?attr/iconTintColor">
     </ImageButton>
