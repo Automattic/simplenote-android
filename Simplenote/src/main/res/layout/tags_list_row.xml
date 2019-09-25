@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?attr/listPreferredItemHeight"
@@ -12,7 +13,6 @@
 
     <ImageView
         android:importantForAccessibility="no"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_extra_extra_extra_large"
         android:layout_marginStart="@dimen/padding_large"
@@ -23,7 +23,6 @@
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_name"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="1"
@@ -36,7 +35,6 @@
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
         android:gravity="end"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_width="wrap_content"
@@ -48,7 +46,6 @@
     <View
         android:id="@+id/imageView"
         android:background="?attr/dividerColor"
-        android:layout_gravity="center_vertical"
         android:layout_height="fill_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="@dimen/padding_extra_small"
