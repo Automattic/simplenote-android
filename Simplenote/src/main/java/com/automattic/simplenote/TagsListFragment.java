@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,7 +68,6 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         mTagsAdapter = new TagsAdapter();
         recyclerView.setAdapter(mTagsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         TextView emptyView = getActivity().findViewById(R.id.empty);
         emptyView.setText(HtmlCompat.fromHtml("<strong>" + getString(R.string.no_tags_found) + "</strong>"));
         recyclerView.setEmptyView(emptyView);
