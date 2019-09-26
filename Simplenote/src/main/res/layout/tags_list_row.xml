@@ -36,7 +36,7 @@
         android:id="@+id/tag_count"
         android:gravity="end"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_large"
+        android:layout_marginEnd="@dimen/padding_small"
         android:layout_width="wrap_content"
         android:textColor="?attr/notePreviewColor"
         tools:text="24"
