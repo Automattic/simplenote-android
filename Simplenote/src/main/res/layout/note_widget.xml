@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:text="@string/loading_note"
         android:textColor="@color/text_title_light"
-        android:textSize="@dimen/text_title"
+        android:textSize="@dimen/text_content_title"
         android:visibility="gone"
         tools:text="To-Do List"
         tools:textColor="@color/text_title_light"
