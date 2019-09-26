@@ -8,7 +8,7 @@
     android:gravity="center_vertical"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:minHeight="?attr/listPreferredItemHeight"
+    android:minHeight="@dimen/minimum_target"
     android:orientation="horizontal">
 
     <ImageView
