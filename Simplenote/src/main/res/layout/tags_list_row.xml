@@ -51,7 +51,7 @@
 
     <ImageButton
         android:id="@+id/tag_trash"
-        android:background="?attr/selectableItemBackground"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/delete_tag"
         android:focusable="false"
         android:focusableInTouchMode="false"
