@@ -43,12 +43,6 @@
         style="?android:attr/textAppearanceMedium">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-    <View
-        android:background="?attr/dividerColor"
-        android:layout_height="@dimen/minimum_target"
-        android:layout_width="@dimen/divider_height">
-    </View>
-
     <ImageButton
         android:id="@+id/tag_trash"
         android:background="?attr/selectableItemBackgroundBorderless"
