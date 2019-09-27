@@ -1,5 +1,6 @@
 2.1.0
 -----
+* Updated navigation drawer interface for better organization and compatibility
 * Updated note list interface for better performance and readability
 
 2.0.0

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,9 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowInsets;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -59,12 +57,20 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
+import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
 
 public class NotesActivity extends AppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
@@ -74,7 +80,6 @@ public class NotesActivity extends AppCompatActivity implements
     public static String TAG_NOTE_EDITOR = "noteEditor";
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
-    private int TRASH_SELECTED_ID = 1;
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private boolean mIsSettingsClicked;
@@ -91,9 +96,11 @@ public class NotesActivity extends AppCompatActivity implements
     private MenuItem mEmptyTrashMenuItem;
 
     // Menu drawer
+    private static final int GROUP_PRIMARY = 100;
+    private static final int GROUP_SECONDARY = 101;
+    private static final int GROUP_TERTIARY = 102;
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private NavigationView mNavigationView;
+    private Menu mNavigationMenu;
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
@@ -225,13 +232,13 @@ public class NotesActivity extends AppCompatActivity implements
 
         // if the user is not authenticated and the tag doesn't exist revert to default drawer selection
         if (userIsUnauthorized()) {
-            if (-1 == mTagsAdapter.getPosition(mSelectedTag)) {
+            if (mTagsAdapter.getPosition(mSelectedTag) == -1) {
                 mSelectedTag = null;
-                mDrawerList.setSelection(TagsAdapter.DEFAULT_ITEM_POSITION);
+                mNavigationMenu.getItem(DEFAULT_ITEM_POSITION).setChecked(true);
             }
         }
 
-        setSelectedTagActive();
+        filterListBySelectedTag();
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
@@ -305,40 +312,59 @@ public class NotesActivity extends AppCompatActivity implements
         getSupportActionBar().setTitle(s);
     }
 
+    private ColorStateList getItemSelector() {
+        int[][] states = new int[][] {
+            new int[] {-android.R.attr.state_enabled}, // disabled
+            new int[] { android.R.attr.state_checked}, // checked
+            new int[] {-android.R.attr.state_checked}  // unchecked
+        };
+
+        int[] colors = new int[] {
+            getResources().getColor(R.color.text_title_disabled, getTheme()),
+            ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.colorAccent),
+            ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.noteTitleColor)
+        };
+
+        return new ColorStateList(states, colors);
+    }
+
     private void configureNavigationDrawer(Toolbar toolbar) {
+        ColorStateList drawerSelector = getItemSelector();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mNavigationView = findViewById(R.id.navigation_view);
-        mDrawerList = findViewById(R.id.drawer_list);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
+        navigationView.setItemIconTintList(drawerSelector);
+        navigationView.setItemTextColor(drawerSelector);
+        navigationView.setNavigationItemSelectedListener(
+            new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
 
-        mNavigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                LinearLayout drawerView = findViewById(R.id.drawer_view);
-                drawerView.setPadding(
-                        drawerView.getPaddingLeft(),
-                        windowInsets.getSystemWindowInsetTop(),
-                        drawerView.getPaddingRight(),
-                        drawerView.getPaddingBottom());
-
-                return windowInsets.consumeSystemWindowInsets();
+                    if (item.getItemId() == SETTINGS_ID) {
+                        AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                                AnalyticsTracker.CATEGORY_TAG,
+                                "selected_tag_in_navigation_drawer",
+                                new HashMap<String, String>(1){{put("tag", "settings");}}
+                        );
+                        mIsSettingsClicked = true;
+                        return false;
+                    } else {
+                        mSelectedTag = mTagsAdapter.getTagFromItem(item);
+                        filterListBySelectedTag();
+                        return true;
+                    }
+                }
             }
-        });
+        );
 
-        View settingsButton = findViewById(R.id.nav_settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mIsSettingsClicked = true;
-                mDrawerLayout.closeDrawer(mNavigationView);
-            }
-        });
-
-        mNavigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
-        mTagsAdapter = new TagsAdapter(this, mNotesBucket, mDrawerList.getHeaderViewsCount());
-        mDrawerList.setAdapter(mTagsAdapter);
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mNavigationMenu = navigationView.getMenu();
+        mNavigationMenu.add(GROUP_PRIMARY, ALL_NOTES_ID, Menu.NONE, getString(R.string.all_notes)).setIcon(R.drawable.ic_notes_24dp).setCheckable(true);
+        mNavigationMenu.add(GROUP_PRIMARY, TRASH_ID, Menu.NONE, getString(R.string.trash)).setIcon(R.drawable.ic_trash_24dp).setCheckable(true);
+        mNavigationMenu.add(GROUP_PRIMARY, SETTINGS_ID, Menu.NONE, getString(R.string.settings)).setIcon(R.drawable.ic_settings_24dp).setCheckable(false);
+        mTagsAdapter = new TagsAdapter(this, mNotesBucket);
 
         if (mSelectedTag == null)
             mSelectedTag = mTagsAdapter.getDefaultItem();
@@ -366,6 +392,59 @@ public class NotesActivity extends AppCompatActivity implements
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    private void filterListBySelectedTag() {
+        MenuItem selectedMenuItem = mNavigationMenu.findItem((int) mSelectedTag.id);
+
+        if (selectedMenuItem != null) {
+            mSelectedTag = mTagsAdapter.getTagFromItem(selectedMenuItem);
+        } else {
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
+
+        checkEmptyListText(false);
+
+        if (mNoteListFragment.isHidden()) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(mNoteListFragment);
+            fragmentTransaction.commitNowAllowingStateLoss();
+        }
+
+        // Disable long press on notes when viewing Trash.
+        if (mSelectedTag.id == TRASH_ID) {
+            getNoteListFragment().getListView().setLongClickable(false);
+        } else {
+            getNoteListFragment().getListView().setLongClickable(true);
+        }
+
+        getNoteListFragment().refreshListFromNavSelect();
+
+        Map<String, String> properties = new HashMap<>(1);
+
+        switch ((int) mSelectedTag.id) {
+            case ALL_NOTES_ID:
+                properties.put("tag", "all_notes");
+                break;
+            case TRASH_ID:
+                properties.put("tag", "trash");
+                break;
+            case UNTAGGED_NOTES_ID:
+                properties.put("tag", "untagged_notes");
+                break;
+            default:
+                properties = null;
+                break;
+        }
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
+                AnalyticsTracker.CATEGORY_TAG,
+                "selected_tag_in_navigation_drawer",
+                properties
+        );
+
+        setSelectedTagActive();
     }
 
     private void checkForFirstLaunch() {
@@ -442,14 +521,44 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         mTagsAdapter.changeCursor(tagCursor);
+        mNavigationMenu.removeGroup(GROUP_SECONDARY);
+        mNavigationMenu.removeGroup(GROUP_TERTIARY);
+
+        if (mTagsAdapter.getCountCustom() > 0) {
+            mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+
+            for (int i = 0; i < mTagsAdapter.getCount(); i++) {
+                String name = mTagsAdapter.getItem(i).name;
+                int id = (int) mTagsAdapter.getItem(i).id;
+
+                if (id >= 0) { // Custom tags have a positive ID.
+                    mNavigationMenu.add(GROUP_SECONDARY, id, Menu.NONE, name).setCheckable(true);
+                }
+            }
+
+            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
+            setSelectedTagActive();
+        }
+    }
+
+    public void launchEditTags(View view) {
+        startActivity(new Intent(NotesActivity.this, TagsActivity.class));
     }
 
     private void setSelectedTagActive() {
-        if (mSelectedTag == null)
+        if (mSelectedTag == null) {
             mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
+
+        MenuItem selectedMenuItem = mNavigationMenu.findItem((int) mSelectedTag.id);
+
+        if (selectedMenuItem != null) {
+            selectedMenuItem.setChecked(true);
+        } else {
+            mNavigationMenu.findItem(ALL_NOTES_ID).setChecked(true);
+        }
 
         setTitle(mSelectedTag.name);
-        mDrawerList.setItemChecked(mTagsAdapter.getPosition(mSelectedTag) + mDrawerList.getHeaderViewsCount(), true);
     }
 
     public TagsAdapter.TagMenuItem getSelectedTag() {
@@ -643,8 +752,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
         }
 
-        // Are we looking at the trash? Adjust menu accordingly.
-        if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+        if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
 
@@ -1065,7 +1173,7 @@ public class NotesActivity extends AppCompatActivity implements
         if (isSearch) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
             getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
+        } else if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
             getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
@@ -1155,44 +1263,6 @@ public class NotesActivity extends AppCompatActivity implements
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
         // noop, NoteEditorFragment will handle this
-    }
-
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Adjust for header view
-            position -= mDrawerList.getHeaderViewsCount();
-            mSelectedTag = mTagsAdapter.getItem(position);
-            checkEmptyListText(false);
-            // Update checked item in navigation drawer and close it
-            setSelectedTagActive();
-            mDrawerLayout.closeDrawer(mNavigationView);
-            updateNavigationDrawerItems();
-
-            // In case the notes pane in landscape tablets is hidden (won't be hidden otherwise ever)
-            if (mNoteListFragment.isHidden()) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.show(mNoteListFragment);
-                ft.commitNowAllowingStateLoss();
-            }
-            // Disable long press on notes if we're viewing the trash
-            if (mDrawerList.getCheckedItemPosition() == TRASH_SELECTED_ID) {
-                getNoteListFragment().getListView().setLongClickable(false);
-            } else {
-                getNoteListFragment().getListView().setLongClickable(true);
-            }
-
-            getNoteListFragment().refreshListFromNavSelect();
-            if (position > 1) {
-                AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                        AnalyticsTracker.CATEGORY_TAG,
-                        "selected_tag_in_navigation_drawer"
-                );
-            }
-        }
     }
 
     private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
