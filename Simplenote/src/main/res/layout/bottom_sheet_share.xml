@@ -31,7 +31,7 @@
             android:id="@+id/share_publish_button"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/padding_small"
-            android:drawableTop="@drawable/ic_publish_48dp"
+            android:drawableTop="@drawable/ic_share_publish_48dp"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_weight="1"
