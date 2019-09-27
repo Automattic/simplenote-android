@@ -17,7 +17,7 @@
         <item name="android:actionModeCopyDrawable">@drawable/ic_copy_24dp</item>
         <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
-        <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
+        <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_24dp</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
