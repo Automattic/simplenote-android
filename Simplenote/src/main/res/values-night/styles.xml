@@ -58,7 +58,7 @@
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/text_title_dark</item>
+        <item name="color">?attr/toolbarIconColor</item>
         <item name="spinBars">true</item>
     </style>
 
