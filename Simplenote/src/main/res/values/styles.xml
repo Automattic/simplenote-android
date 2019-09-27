@@ -25,7 +25,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_light</item>
         <item name="actionModeBackgroundColor">@color/background_light_highlight</item>
-        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/text_title_light</item>
