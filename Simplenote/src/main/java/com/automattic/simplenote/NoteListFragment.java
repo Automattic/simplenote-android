@@ -147,7 +147,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mCallbacks.onActionModeCreated();
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.bulk_edit, menu);
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
         mActionMode = actionMode;
         int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
         requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));

@@ -58,6 +58,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
         <item name="toolbarColor">@color/background_light</item>
+        <item name="toolbarIconColor">@color/gray_50</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="windowActionModeOverlay">true</item>
     </style>

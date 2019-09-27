@@ -48,6 +48,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
         <item name="toolbarColor">@color/background_dark</item>
+        <item name="toolbarIconColor">@color/gray_20</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>

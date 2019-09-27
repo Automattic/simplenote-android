@@ -764,7 +764,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
-        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
 
         return true;
     }

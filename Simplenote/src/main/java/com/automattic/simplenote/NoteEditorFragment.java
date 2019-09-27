@@ -162,7 +162,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mode.setTitle(getString(R.string.link));
                 mode.setTitleOptionalHint(false);
 
-                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
+                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
             }
 
             int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
@@ -490,7 +490,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setIcon(R.drawable.ic_trash_24dp);
             }
         }
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
     }
 
     @Override

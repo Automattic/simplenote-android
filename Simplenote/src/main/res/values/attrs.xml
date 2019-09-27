@@ -25,6 +25,7 @@
     <attr name="pinIconSelector" format="reference"/>
 
     <attr name="toolbarColor" format="reference|color"/>
+    <attr name="toolbarIconColor" format="reference|color"/>
     <attr name="toolbarPopupTheme" format="reference"/>
 
     <attr name="actionBarTextColor" format="reference|color"/>
