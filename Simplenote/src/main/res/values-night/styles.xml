@@ -89,7 +89,7 @@
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
     </style>
 
 </resources>

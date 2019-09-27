@@ -120,7 +120,7 @@
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents.Light">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Material.Light.ProgressBar">
