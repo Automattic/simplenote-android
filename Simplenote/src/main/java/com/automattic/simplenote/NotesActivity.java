@@ -792,7 +792,7 @@ public class NotesActivity extends AppCompatActivity implements
                     setMarkdownShowing(false);
                     mCurrentNote.setPreviewEnabled(false);
                 } else {
-                    item.setIcon(R.drawable.ic_preview_stop_24dp);
+                    item.setIcon(R.drawable.ic_visibility_off_24dp);
                     item.setTitle(getString(R.string.markdown_hide));
                     setMarkdownShowing(true);
                     mCurrentNote.setPreviewEnabled(true);
@@ -848,7 +848,7 @@ public class NotesActivity extends AppCompatActivity implements
         MenuItem markdownItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            markdownItem.setIcon(R.drawable.ic_preview_stop_24dp);
+            markdownItem.setIcon(R.drawable.ic_visibility_off_24dp);
             markdownItem.setTitle(getString(R.string.markdown_hide));
         } else {
             markdownItem.setIcon(R.drawable.ic_preview_24dp);
