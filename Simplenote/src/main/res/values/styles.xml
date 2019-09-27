@@ -15,7 +15,7 @@
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionModeCopyDrawable">@drawable/ic_copy_24dp</item>
-        <item name="android:actionModeCutDrawable">@drawable/ic_content_cut_white_24dp</item>
+        <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
