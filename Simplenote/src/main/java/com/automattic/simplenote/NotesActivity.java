@@ -536,7 +536,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
             }
 
-            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
+            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_untagged_24dp).setCheckable(true);
             setSelectedTagActive();
         }
     }
