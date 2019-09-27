@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/menu_markdown_preview"
-        android:icon="@drawable/ic_preview_24dp"
+        android:icon="@drawable/ic_visibility_on_24dp"
         android:title="@string/markdown_show"
         android:visible="false"
         app:showAsAction="always"/>

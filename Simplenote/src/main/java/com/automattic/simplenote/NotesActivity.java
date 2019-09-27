@@ -787,7 +787,7 @@ public class NotesActivity extends AppCompatActivity implements
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
-                    item.setIcon(R.drawable.ic_preview_24dp);
+                    item.setIcon(R.drawable.ic_visibility_on_24dp);
                     item.setTitle(getString(R.string.markdown_show));
                     setMarkdownShowing(false);
                     mCurrentNote.setPreviewEnabled(false);
@@ -851,7 +851,7 @@ public class NotesActivity extends AppCompatActivity implements
             markdownItem.setIcon(R.drawable.ic_visibility_off_24dp);
             markdownItem.setTitle(getString(R.string.markdown_hide));
         } else {
-            markdownItem.setIcon(R.drawable.ic_preview_24dp);
+            markdownItem.setIcon(R.drawable.ic_visibility_on_24dp);
             markdownItem.setTitle(getString(R.string.markdown_show));
         }
 
