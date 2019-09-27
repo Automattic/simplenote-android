@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_sidebar"
-        android:icon="@drawable/ic_sidebar_24dp"
+        android:icon="@drawable/ic_tags_close_24dp"
         android:title="@string/toggle_sidebar"
         android:visible="false"
         app:showAsAction="always"/>
