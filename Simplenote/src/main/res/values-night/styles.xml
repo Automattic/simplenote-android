@@ -38,11 +38,11 @@
         <item name="listDividerDrawable">@drawable/divider_dark</item>
         <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="noteEditorTextColor">@android:color/white</item>
         <item name="notePinColor">@android:color/white</item>
         <item name="notePreviewColor">@color/text_content_dark</item>
         <item name="noteTitleColor">@android:color/white</item>
-        <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="tagChipShadowColor">@color/background_dark</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
         <item name="placeholderLogoColor">@color/empty_dark</item>
