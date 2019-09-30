@@ -48,7 +48,7 @@
         <item name="placeholderLogoColor">@color/empty_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
-        <item name="toolbarColor">@color/background_dark</item>
+        <item name="toolbarColor">@color/background_dark_4</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
