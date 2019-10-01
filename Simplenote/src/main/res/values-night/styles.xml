@@ -73,8 +73,8 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
-        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">@color/background_dark_16</item>
+        <item name="android:navigationBarColor">@color/background_dark_16</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
