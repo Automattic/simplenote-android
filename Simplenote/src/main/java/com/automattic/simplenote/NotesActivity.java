@@ -9,8 +9,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +42,6 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
-import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.google.android.material.navigation.NavigationView;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -276,11 +273,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        if (title == null) {
-            title = "";
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
-
-        setTitleWithCustomFont(title);
     }
 
     @Override
@@ -300,16 +295,6 @@ public class NotesActivity extends AppCompatActivity implements
     @Override
     public void onActionModeDestroyed() {
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-    }
-
-    private void setTitleWithCustomFont(CharSequence title) {
-        if (getSupportActionBar() == null) {
-            return;
-        }
-
-        SpannableString s = new SpannableString(title);
-        s.setSpan(new TypefaceSpan(this), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        getSupportActionBar().setTitle(s);
     }
 
     private ColorStateList getItemSelector() {
