@@ -312,7 +312,21 @@ public class NotesActivity extends AppCompatActivity implements
         getSupportActionBar().setTitle(s);
     }
 
-    private ColorStateList getItemSelector() {
+    private ColorStateList getIconSelector() {
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_checked}, // checked
+                new int[] {-android.R.attr.state_checked}  // unchecked
+        };
+
+        int[] colors = new int[] {
+                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.colorAccent),
+                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.toolbarIconColor)
+        };
+
+        return new ColorStateList(states, colors);
+    }
+
+    private ColorStateList getTextSelector() {
         int[][] states = new int[][] {
             new int[] {-android.R.attr.state_enabled}, // disabled
             new int[] { android.R.attr.state_checked}, // checked
@@ -329,13 +343,14 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void configureNavigationDrawer(Toolbar toolbar) {
-        ColorStateList drawerSelector = getItemSelector();
+        ColorStateList iconSelector = getIconSelector();
+        ColorStateList textSelector = getTextSelector();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
-        navigationView.setItemIconTintList(drawerSelector);
-        navigationView.setItemTextColor(drawerSelector);
+        navigationView.setItemIconTintList(iconSelector);
+        navigationView.setItemTextColor(textSelector);
         navigationView.setNavigationItemSelectedListener(
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
