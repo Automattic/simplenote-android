@@ -47,7 +47,7 @@ public class ThemeUtils {
             }
         }
 
-        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_SYSTEM)) {
+        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
