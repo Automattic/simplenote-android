@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -135,7 +136,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         }
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse response) {
-                            new AlertDialog.Builder(activity)
+                            new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Dialog))
                                     .setTitle(R.string.location_permission_denied)
                                     .setMessage(R.string.location_permission_explanation)
                                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -373,7 +374,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
             // Safety first! Check if any notes are unsynced and warn the user if so.
             if (hasUnsyncedNotes) {
-                new AlertDialog.Builder(fragment.getContext())
+                new AlertDialog.Builder(new ContextThemeWrapper(fragment.requireContext(), R.style.Dialog))
                         .setTitle(R.string.unsynced_notes)
                         .setMessage(R.string.unsynced_notes_message)
                         .setPositiveButton(R.string.delete_notes, fragment.signOutClickListener)
