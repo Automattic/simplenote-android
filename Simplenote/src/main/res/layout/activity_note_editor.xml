@@ -29,7 +29,9 @@
             android:layout_height="wrap_content"
             android:background="?attr/toolbarColor"
             android:visibility="gone"
-            app:tabGravity="fill">
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabSelectedTextColor="?attr/colorAccent">
         </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
