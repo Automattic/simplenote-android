@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/note_list_item_padding_bottom_button"
-        android:paddingTop="@dimen/note_list_item_padding_top"
         android:scrollbarStyle="outsideOverlay"
         tools:listitem="@layout/note_list_row">
     </ListView>
@@ -38,7 +37,7 @@
             android:layout_width="wrap_content"
             android:padding="8dp"
             android:textColor="?attr/notePreviewColor"
-            android:textSize="20sp">
+            android:textSize="@dimen/text_empty">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     </LinearLayout>

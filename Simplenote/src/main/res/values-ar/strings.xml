@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 13:54:03+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
-    <string name="insert_checklist">إدراج قائمة التدقيق</string>
+    <string name="simperium_title">‎@string/app_name</string>
+    <string name="simperium_subtitle">الطريقة الأسهل للاحتفاظ بالملحوظات.</string>
+    <string name="simperium_hint_password">كلمة المرور</string>
+    <string name="simperium_hint_email">البريد الإلكتروني</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/‎</string>
+    <string name="simperium_footer_signup">يعني إنشاء حساب أنَّك توافق على %1$s%2$s%3$sشروط الخدمة%4$s التي نُقرّها.</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=‎%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sهل نسيت كلمة المرور؟%4$s</string>
+    <string name="simperium_error_password">كلمة المرور غير صالحة</string>
+    <string name="simperium_error_email">البريد الإلكتروني غير صالح</string>
+    <string name="simperium_dialog_title_error">خطأ</string>
+    <string name="simperium_dialog_progress_signing_up">جارٍ التسجيل…</string>
+    <string name="simperium_dialog_progress_logging_in">جارٍ تسجيل الدخول…</string>
+    <string name="simperium_dialog_message_signup_existing">عنوان البريد الإلكتروني الذي أدخلته مرتبط بالفعل بحساب Simplenote.</string>
+    <string name="simperium_dialog_message_signup">يتعذر التسجيل باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
+    <string name="simperium_dialog_message_password">يجب ألا تقل كلمات المرور عن %1$d من الأحرف بحد أدنى باستثناء الأسطر والمسافات وعلامات التبويب الجديدة.</string>
+    <string name="simperium_dialog_message_network">لا توجد شبكة متاحة. يرجى الاتصال بإحدى الشبكات والمحاولة مجددًا.</string>
+    <string name="simperium_dialog_message_login">يتعذر تسجيل الدخول باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
+    <string name="simperium_button_signup">التسجيل</string>
+    <string name="simperium_button_login_other">تسجيل الدخول باستخدام وردبرس.كوم</string>
+    <string name="simperium_button_login_email">تسجيل الدخول باستخدام البريد الإلكتروني</string>
+    <string name="simperium_button_login">تسجيل الدخول</string>
+    <string name="theme_system">الإعداد الافتراضي للنظام</string>
+    <string name="description_fingerprint_supported">بصمة الإصبع مدعومة</string>
+    <string name="toggle_sidebar">تبديل الشريط الجانبي</string>
+    <string name="toggle_checklist">تبديل قائمة الاختيار</string>
+    <string name="sign_in_use_widget">تسجيل الدخول لاستخدام المربع الجانبي</string>
+    <string name="sign_in_add_widget">تسجيل الدخول لاستخدام هذا المربع الجانبي</string>
+    <string name="select_note">تحديد ملحوظة</string>
+    <string name="note_not_found">الملحوظة غير موجودة</string>
+    <string name="loading_note">جارٍ تحميل الملحوظة…</string>
+    <string name="label_note">ملحوظة</string>
+    <string name="passcode_summary">تُعرض لقطات الشاشة عندما يكون قفل PIN قيد التشغيل</string>
     <string name="all_notes">كل الملاحظات</string>
     <string name="appearance">المظهر</string>
     <string name="sort_tags_alphabetically">الفرز أبجديًّا</string>
@@ -30,8 +62,6 @@ Language: ar
     <string name="location_permission_denied">تم رفض الإذن الخاص بالموقع</string>
     <string name="theme_auto">مظلم في الليل فقط</string>
     <string name="notes">ملاحظات</string>
-    <string name="simperium_summary">إضافة مزامنة البيانات إلى تطبيقك</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">ساعدنا على تحسين Simplenote عن طريق مشاركة بيانات الاستخدام مع أداة التحليلات الخاصة بنا. %1$sتعرّف على المزيد%2$s</string>
     <string name="share_analytics">مشاركة التحليلات</string>
     <string name="editor">المحرر</string>
@@ -39,7 +69,6 @@ Language: ar
     <string name="logo">الشعار</string>
     <string name="unpin_from_top">إلغاء التثبيت من الأعلى</string>
     <string name="untagged_notes">ملحوظات غير مميزة</string>
-    <string name="sign_in_with_wordpress_com">تسجيل الدخول باستخدام وردبرس.كوم</string>
     <string name="delete_notes">حذف الملاحظات</string>
     <string name="visit_web_app">زيارة تطبيق الويب</string>
     <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملاحظات غير متزامنة. يمكنك التحقق من الملاحظات المتزامنة عن طريق تسجيل الدخول إلى تطبيق الويب.</string>
@@ -108,11 +137,8 @@ Language: ar
     <string name="passcode_enter_old_passcode">أدخل مفتاح الـ PIN القديم</string>
     <string name="passcode_enter_passcode">أدخل مفتاح الـ PIN</string>
     <string name="passcode_manage">إدارة قفل الـ PIN</string>
-    <string name="app_description_short">يُعد Simplenote طريقة سهلة للاحتفاظ بالملاحظات والقوائم والأفكار، وغير ذلك المزيد.</string>
-    <string name="app_description">يتوفر Simplenote الحائز على جوائز لنظام Android الآن. يُعد Simplenote طريقة سهلة للاحتفاظ بالملاحظات والقوائم والأفكار، وغير ذلك المزيد. تظل ملاحظاتك متزامنة مع كل أجهزتك مجانًا.\n\n        تتمثل تجربة Simplenote في السرعة والكفاءة. افتحه، واكتب بعض الأفكار، وهذا كل شيء. عندما يزداد حجم مجموعة الملاحظات لديك، يمكنك البحث بداخلها على الفور والاحتفاظ بها منظمة باستخدام الوسوم والدبابيس.\n\n        إن أفضل طريقة للتعرف على Simplenote هي تجربته. بمجرد تثبيت التطبيق وتشغيله، تفضل بزيارة simplenote.com لتنزيله على الأجهزة الأخرى وبدء الوصول إلى ملاحظاتك من أي مكان.</string>
     <string name="have_account">ألديك حساب بالفعل؟</string>
     <string name="no_account">أليس لديك حساب بعد؟</string>
-    <string name="or">أو</string>
     <string name="ok">موافق</string>
     <string name="error">خطأ</string>
     <string name="forgot_password">هل نسيت كلمة المرور؟</string>

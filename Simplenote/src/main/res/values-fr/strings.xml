@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 15:54:02+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
-    <string name="insert_checklist">Insérer la liste de contrôle</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">La manière la plus simple de conserver des notes.</string>
+    <string name="simperium_hint_password">Mot de passe</string>
+    <string name="simperium_hint_email">E-mail</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">En créant un compte, vous acceptez nos %1$s%2$s%3$sconditions générales%4$s.</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sMot de passe oublié ?%4$s</string>
+    <string name="simperium_error_password">Mot de passe invalide</string>
+    <string name="simperium_error_email">E-mail non valide</string>
+    <string name="simperium_dialog_title_error">Erreur</string>
+    <string name="simperium_dialog_progress_signing_up">Inscription en cours…</string>
+    <string name="simperium_dialog_progress_logging_in">Connexion en cours…</string>
+    <string name="simperium_dialog_message_signup_existing">L\'adresse e-mail saisie est déjà associée à un compte Simplenote.</string>
+    <string name="simperium_dialog_message_signup">Impossible de s\'inscrire avec l\'adresse e-mail et le mot de passe fournis.</string>
+    <string name="simperium_dialog_message_password">Les mots de passe doivent comprendre au moins %1$d caractères hormis les retours à la ligne, espaces et tabulations.</string>
+    <string name="simperium_dialog_message_network">Aucun réseau disponible. Connectez-vous à un réseau et essayez de nouveau.</string>
+    <string name="simperium_dialog_message_login">Impossible de se connecter avec l\'adresse e-mail et le mot de passe fournis.</string>
+    <string name="simperium_button_signup">S\'inscrire</string>
+    <string name="simperium_button_login_other">Se connecter avec WordPress.com</string>
+    <string name="simperium_button_login_email">Se connecter avec l\'adresse e-mail</string>
+    <string name="simperium_button_login">Connexion</string>
+    <string name="theme_system">Paramètres par défaut du système</string>
+    <string name="description_fingerprint_supported">Empreinte digitale prise en charge</string>
+    <string name="toggle_sidebar">Basculer la colonne latérale</string>
+    <string name="toggle_checklist">Basculer sur la liste de contrôle</string>
+    <string name="sign_in_use_widget">Se connecter pour utiliser le widget</string>
+    <string name="sign_in_add_widget">Se connecter pour ajouter ce widget</string>
+    <string name="select_note">Sélectionner la remarque</string>
+    <string name="note_not_found">Remarque introuvable</string>
+    <string name="loading_note">Chargement de la remarque en cours…</string>
+    <string name="label_note">Remarque</string>
+    <string name="passcode_summary">Les captures d\'écran sont désactivées lorsque le code PIN est activé</string>
     <string name="all_notes">Toutes les notes</string>
     <string name="appearance">Apparence</string>
     <string name="sort_tags_alphabetically">Trier par ordre alphabétique</string>
@@ -30,8 +62,6 @@ Language: fr
     <string name="location_permission_denied">Autorisation de localisation refusée</string>
     <string name="theme_auto">Sombre la nuit uniquement</string>
     <string name="notes">Notes</string>
-    <string name="simperium_summary">Ajouter la synchronisation des données à votre application</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Aidez-nous à améliorer Simplenote en partageant les données d\'utilisation avec notre outil d\'analyse. %1$sEn savoir plus%2$s</string>
     <string name="share_analytics">Partager des analyses</string>
     <string name="editor">Éditeur</string>
@@ -39,7 +69,6 @@ Language: fr
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Désépingler du haut</string>
     <string name="untagged_notes">Notes non étiquetées</string>
-    <string name="sign_in_with_wordpress_com">Se connecter avec WordPress.com</string>
     <string name="delete_notes">Supprimer les notes</string>
     <string name="visit_web_app">Aller sur l\'application Web</string>
     <string name="unsynced_notes_message">Se déconnecter supprimera tous les notes non synchronisées. Vous pouvez voir vos notes synchronisées en vous connectant à l\'application Web.</string>
@@ -108,11 +137,8 @@ Language: fr
     <string name="passcode_enter_old_passcode">Entrer ancien code PIN</string>
     <string name="passcode_enter_passcode">Entrer code PIN</string>
     <string name="passcode_manage">Gérer le code PIN</string>
-    <string name="app_description_short">Simplenote est une façon simple de conserver vos notes, listes, idées et bien plus.</string>
-    <string name="app_description">Simplenote, maintes fois primé, est maintenant disponible pour Android. Simplenote permet de garder des notes, des listes, des idées et bien plus. Vos notes se synchronisent sur tous vos appareils gratuitement.\n\n        Essayer Simplenote, vous l\'adopterez pour sa vitesse et son efficacité. Ouvrer l\'application, notez vos pensées, et c\'est tout, rien de superflu! Au fur et à mesure que votre collection de notes grossit vous pouvez les retrouver instantanément grâce à la fonction de recherche ou grâce aux fonctions de tags et de favoris.\n\n        La meilleure façon d\'apprendre a utiliser Simplenote, c\'est de l\'essayer. Prêt pour l\'aventure? Aller sur simplenote.com pour télécharger les applications sur vos autres appareils et accéder à vos notes depuis n\'importe où!</string>
     <string name="have_account">Déjà un compte ?</string>
     <string name="no_account">Vous n\'avez pas encore de compte ?</string>
-    <string name="or">ou</string>
     <string name="ok">Valider</string>
     <string name="error">Erreur</string>
     <string name="forgot_password">Mot de passe oublié ?</string>

@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-02-12 15:54:01+0000
+Translation-Revision-Date: 2019-09-05 00:54:15+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
-    <string name="insert_checklist">Checkliste einfügen</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">Die einfachste Art, sich Notizen zu machen.</string>
+    <string name="simperium_hint_password">Passwort</string>
+    <string name="simperium_hint_email">E-Mail</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Mit der Erstellung eines Kontos stimmst du unseren %1$s%2$s%3$sGeschäftsbedingungen%4$s zu.</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sPasswort vergessen?%4$s</string>
+    <string name="simperium_error_password">Ungültiges Passwort</string>
+    <string name="simperium_error_email">Ungültige E-Mail-Adresse</string>
+    <string name="simperium_dialog_title_error">Fehler</string>
+    <string name="simperium_dialog_progress_signing_up">Registrierung läuft …</string>
+    <string name="simperium_dialog_progress_logging_in">Anmelden …</string>
+    <string name="simperium_dialog_message_signup_existing">Die eingegebene E-Mail-Adresse ist mit einem Simplenote-Konto verknüpft.</string>
+    <string name="simperium_dialog_message_signup">Registrierung mit der angegebenen E-Mail-Adresse und dem Passwort nicht möglich.</string>
+    <string name="simperium_dialog_message_password">Passwörter müssen mindestens %1$d Zeichen enthalten, ausschließlich neuer Zeilen, Leerzeichen und Tabulatoren.</string>
+    <string name="simperium_dialog_message_network">Es steht kein Netzwerk zur Verfügung. Stelle bitte eine Verbindung mit einem Netzwerk her und versuche es erneut.</string>
+    <string name="simperium_dialog_message_login">Anmeldung mit der angegebenen E-Mail-Adresse und dem Passwort nicht möglich.</string>
+    <string name="simperium_button_signup">Registrieren</string>
+    <string name="simperium_button_login_other">Mit WordPress.com anmelden</string>
+    <string name="simperium_button_login_email">Mit E-Mail-Adresse anmelden</string>
+    <string name="simperium_button_login">Anmelden</string>
+    <string name="theme_system">Systemstandard</string>
+    <string name="description_fingerprint_supported">Fingerabdruck unterstützt</string>
+    <string name="toggle_sidebar">Seitenleiste umschalten</string>
+    <string name="toggle_checklist">Checkliste wechseln</string>
+    <string name="sign_in_use_widget">Anmelden, um Widget zu verwenden</string>
+    <string name="sign_in_add_widget">Anmelden, um dieses Widget hinzuzufügen</string>
+    <string name="select_note">Notiz auswählen</string>
+    <string name="note_not_found">Notiz nicht gefunden</string>
+    <string name="loading_note">Notiz wird geladen…</string>
+    <string name="label_note">Notiz</string>
+    <string name="passcode_summary">Wenn die PIN-Sperre aktiv ist, sind Screenshots deaktiviert</string>
     <string name="all_notes">Alle Notizen</string>
     <string name="appearance">Design</string>
     <string name="sort_tags_alphabetically">Alphabetisch sortieren</string>
@@ -30,8 +62,6 @@ Language: de
     <string name="location_permission_denied">Standortberechtigung verweigert</string>
     <string name="theme_auto">Nur nachts dunkel</string>
     <string name="notes">Notizen</string>
-    <string name="simperium_summary">Füge deiner App die Datensynchronisierung hinzu</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Hilf uns, Simplenote zu verbessern, indem du Nutzungsdaten für unser Analysetool bereitstellst. %1$sWeitere Informationen%2$s</string>
     <string name="share_analytics">Analysen teilen</string>
     <string name="editor">Editor</string>
@@ -39,7 +69,6 @@ Language: de
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Von oben lösen</string>
     <string name="untagged_notes">Nicht markierte Notizen</string>
-    <string name="sign_in_with_wordpress_com">Anmelden mit WordPress.com</string>
     <string name="delete_notes">Notizen löschen</string>
     <string name="visit_web_app">Web-App aufrufen</string>
     <string name="unsynced_notes_message">Bei der Abmeldung werden alle nicht synchronisierten Notizen gelöscht. Du kannst überprüfen, ob deine Notizen synchronisiert wurden, indem du dich in der Web-App anmeldest.</string>
@@ -108,11 +137,8 @@ Language: de
     <string name="passcode_enter_old_passcode">Alte PIN eingeben</string>
     <string name="passcode_enter_passcode">PIN eingeben</string>
     <string name="passcode_manage">PIN-Sperre verwalten</string>
-    <string name="app_description_short">Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden.</string>
-    <string name="app_description">Das preisgekrönte Simplenote ist jetzt auch für Android verfügbar. Mit Simplenote können Notizen, Listen, Ideen und mehr kinderleicht notiert werden. Deine Notizen werden auf allen deinen Geräten kostenlos synchronisiert.\n\n        Bei Simplenote werden Schnelligkeit und Effizienz großgeschrieben. Einfach aufrufen, Gedanken notieren – fertig. Wenn die Zahl der Notizen ansteigt, kannst du sie im Handumdrehen durchsuchen, mit Schlagwörtern versehen und anheften.\n\n        Simplenote lernt man am besten durch Ausprobieren kennen. Wenn du erst einmal damit vertraut bist, kannst du es von simplenote.com auf andere Geräte herunterladen und hast überall Zugriff auf deine Notizen.</string>
     <string name="have_account">Du hast bereits ein Konto?</string>
     <string name="no_account">Du hast noch kein Konto?</string>
-    <string name="or">oder</string>
     <string name="ok">OK</string>
     <string name="error">Fehler</string>
     <string name="forgot_password">Passwort vergessen?</string>

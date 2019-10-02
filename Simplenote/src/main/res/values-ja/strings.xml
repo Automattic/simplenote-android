@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-30 10:54:02+0000
+Translation-Revision-Date: 2019-09-09 00:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
-    <string name="insert_checklist">チェックリストを挿入</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">最も手軽にメモを残せる方法です。</string>
+    <string name="simperium_hint_password">パスワード</string>
+    <string name="simperium_hint_email">メール</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">アカウントを作成すると、WordPress.com の%1$s%2$s%3$s利用規約%4$sに同意したものと見なされます</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sパスワードを忘れた場合 : %4$s</string>
+    <string name="simperium_error_password">パスワードが無効です</string>
+    <string name="simperium_error_email">メールアドレスが無効です</string>
+    <string name="simperium_dialog_title_error">エラー</string>
+    <string name="simperium_dialog_progress_signing_up">登録中…</string>
+    <string name="simperium_dialog_progress_logging_in">ログイン中…</string>
+    <string name="simperium_dialog_message_signup_existing">このメールアドレスは、すでにほかの Simplenote アカウントで使用しています。</string>
+    <string name="simperium_dialog_message_signup">入力したメールアドレスとパスワードでは登録できませんでした。</string>
+    <string name="simperium_dialog_message_password">パスワードには %1$d 文字以上が必要です。また改行、スペース、タブは使用しないでください。</string>
+    <string name="simperium_dialog_message_network">利用可能なネットワークがありません。ネットワークに接続して、もう一度お試しください。</string>
+    <string name="simperium_dialog_message_login">入力したメールアドレスとパスワードではログインできませんでした。</string>
+    <string name="simperium_button_signup">登録</string>
+    <string name="simperium_button_login_other">WordPress.com アカウントでログイン</string>
+    <string name="simperium_button_login_email">メールアドレスでログイン</string>
+    <string name="simperium_button_login">ログイン</string>
+    <string name="theme_system">システムの初期設定</string>
+    <string name="description_fingerprint_supported">指紋認証に対応</string>
+    <string name="toggle_sidebar">サイドバーを切り替える</string>
+    <string name="toggle_checklist">チェックリストをトグル表示</string>
+    <string name="sign_in_use_widget">サインインしてウィジェットを使用</string>
+    <string name="sign_in_add_widget">サインインしてこのウィジェットを追加</string>
+    <string name="select_note">メモを選択</string>
+    <string name="note_not_found">メモが見つかりませんでした</string>
+    <string name="loading_note">メモを読み込み中…</string>
+    <string name="label_note">メモ</string>
+    <string name="passcode_summary">PIN ロックが有効な間はスクリーンショットが無効になります</string>
     <string name="all_notes">すべてのノート</string>
     <string name="appearance">外観</string>
     <string name="sort_tags_alphabetically">アルファベット順に並び替え</string>
@@ -30,8 +62,6 @@ Language: ja_JP
     <string name="location_permission_denied">位置情報に関する権限の拒否</string>
     <string name="theme_auto">夜のみ「Dark」</string>
     <string name="notes">メモ</string>
-    <string name="simperium_summary">アプリへデータ同期を追加</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">弊社の分析ツールで使用データを共有し、Simplenote の向上のご協力ください。%1$sさらに詳しく%2$s</string>
     <string name="share_analytics">分析を共有</string>
     <string name="editor">編集者</string>
@@ -39,7 +69,6 @@ Language: ja_JP
     <string name="logo">ロゴ</string>
     <string name="unpin_from_top">上部への固定解除</string>
     <string name="untagged_notes">タグがつけられていないメモ</string>
-    <string name="sign_in_with_wordpress_com">WordPress.com アカウントでログイン</string>
     <string name="delete_notes">メモを削除</string>
     <string name="visit_web_app">Web アプリにアクセス</string>
     <string name="unsynced_notes_message">ログアウトすると、同期されていないメモはすべて削除されます。同期したメモを確認するには、Web アプリにログインします。</string>
@@ -108,11 +137,8 @@ Language: ja_JP
     <string name="passcode_enter_old_passcode">旧 PIN コードを入力</string>
     <string name="passcode_enter_passcode">PIN コードを入力</string>
     <string name="passcode_manage">PIN ロックの管理</string>
-    <string name="app_description_short">Simplenote は簡単にメモやリスト、アイディアなどを書き留められるツールです。</string>
-    <string name="app_description">人気の Simplenote アプリが Android でもお使いいただけるようになりました。Simplenote は簡単にメモやリスト、アイディアなどを書き留められるツールです。無料で、お持ちのデバイスすべてのノートを同期できます。\n\nSimplenote ではスピードと効率を最も重視しています。アプリを開き、書き込むだけ。ノートがたくさん集まってきたら、検索したりタグやピン留めで整理したりもできます。\n\nSimplenote のことを知る一番の方法は試してみることです。使い方が分かったら simplenote.com で他のアプリもダウンロードしてみてください。ノートにどこからでもアクセスできるようになります。</string>
     <string name="have_account">すでにアカウントを持っている場合</string>
     <string name="no_account">まだアカウントを持っていない場合</string>
-    <string name="or">または</string>
     <string name="ok">OK</string>
     <string name="error">エラー</string>
     <string name="forgot_password">パスワードをお忘れですか ?</string>

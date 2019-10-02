@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-29 08:54:03+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
-    <string name="insert_checklist">插入檢查清單</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">輕鬆作筆記的最佳方式。</string>
+    <string name="simperium_hint_password">密碼</string>
+    <string name="simperium_hint_email">電子郵件</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">建立帳號即表示你同意我們的 %1$s%2$s%3$s條款與條件%4$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$s忘記密碼？%4$s</string>
+    <string name="simperium_error_password">密碼無效</string>
+    <string name="simperium_error_email">電子郵件無效</string>
+    <string name="simperium_dialog_title_error">錯誤</string>
+    <string name="simperium_dialog_progress_signing_up">正在註冊…</string>
+    <string name="simperium_dialog_progress_logging_in">正在登入…</string>
+    <string name="simperium_dialog_message_signup_existing">你輸入的電子郵件地址已與 Simplenote 帳戶建立關聯。</string>
+    <string name="simperium_dialog_message_signup">無法使用提供的電子郵件地址和密碼註冊。</string>
+    <string name="simperium_dialog_message_password">密碼必須至少為 %1$d 個字元，且不得包括新行、空格和定位點。</string>
+    <string name="simperium_dialog_message_network">沒有可用的網路。請連線至網路後再試一次。</string>
+    <string name="simperium_dialog_message_login">無法使用提供的電子郵件地址和密碼登入。</string>
+    <string name="simperium_button_signup">註冊</string>
+    <string name="simperium_button_login_other">透過 WordPress.com 登入</string>
+    <string name="simperium_button_login_email">透過電子郵件登入</string>
+    <string name="simperium_button_login">登入</string>
+    <string name="theme_system">系統預設</string>
+    <string name="description_fingerprint_supported">支援指紋</string>
+    <string name="toggle_sidebar">切換側選單</string>
+    <string name="toggle_checklist">切換檢查清單</string>
+    <string name="sign_in_use_widget">登入以使用小工具</string>
+    <string name="sign_in_add_widget">登入以新增這個小工具</string>
+    <string name="select_note">選取筆記</string>
+    <string name="note_not_found">找不到筆記</string>
+    <string name="loading_note">正在載入筆記…</string>
+    <string name="label_note">筆記</string>
+    <string name="passcode_summary">開啟 PIN 鎖定時會停用螢幕截圖</string>
     <string name="all_notes">所有筆記</string>
     <string name="appearance">外觀</string>
     <string name="sort_tags_alphabetically">依英文字母排序</string>
@@ -30,8 +62,6 @@ Language: zh_TW
     <string name="location_permission_denied">位置權限遭拒</string>
     <string name="theme_auto">僅在夜間使用深色背景</string>
     <string name="notes">筆記</string>
-    <string name="simperium_summary">新增資料以同步到你的應用程式</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">請透過我們的分析工具分享使用情形資料，協助我們改善 Simplenote。%1$s瞭解更多%2$s</string>
     <string name="share_analytics">分享分析資料</string>
     <string name="editor">編輯者</string>
@@ -39,7 +69,6 @@ Language: zh_TW
     <string name="logo">標誌</string>
     <string name="unpin_from_top">取消熱門釘選</string>
     <string name="untagged_notes">取消標籤備註</string>
-    <string name="sign_in_with_wordpress_com">透過 WordPress.com 登入</string>
     <string name="delete_notes">刪除備註</string>
     <string name="visit_web_app">前往網頁應用程式</string>
     <string name="unsynced_notes_message">登出將會刪除任何尚未同步的備註。登入網頁應用程式即可驗證已同步的備註。</string>
@@ -108,11 +137,8 @@ Language: zh_TW
     <string name="passcode_enter_old_passcode">輸入你的舊 PIN</string>
     <string name="passcode_enter_passcode">輸入你的 PIN</string>
     <string name="passcode_manage">管理 PIN 鎖定</string>
-    <string name="app_description_short">Simplenote 可讓你輕鬆作筆記，記下備忘、各式清單、想法等。</string>
-    <string name="app_description">獲獎肯定的 Simplenote 現已提供 Android 版。Simplenote 可讓你輕鬆作筆記，記下備忘、各式清單、想法等。你的筆記內容會同步至你所有的裝置，而且免費。\n\nSimplenote 給你快速有效率的使用體驗。開啟程式、寫下想法，大功告成。當你的筆記越來越多時，可以利用搜尋功能立即找出筆記，更可使用標籤和釘選功能妥善整理。\n\n要瞭解 Simplenote 的最好方式就是親身體驗。熟悉使用方法後，請造訪 simplenote.com 將此應用程式下載至其他裝置，即可隨時隨地存取你的筆記。</string>
     <string name="have_account">已經有帳號了？</string>
     <string name="no_account">還沒有帳號？</string>
-    <string name="or">或</string>
     <string name="ok">確定</string>
     <string name="error">錯誤</string>
     <string name="forgot_password">忘了密碼？</string>

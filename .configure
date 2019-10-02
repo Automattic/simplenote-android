@@ -1,14 +1,22 @@
 {
+  "project_name": "simplenote-android",
   "branch": "master",
-  "pinned_hash": "c75c5662f92befdc912bde8f02e782f4e6b1bfa3",
+  "pinned_hash": "efb23d84ed6b885dbe6da567baa1795d8612b4fc",
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
-      "destination": "Simplenote/gradle.properties"
+      "destination": "Simplenote/gradle.properties",
+      "encrypt": true
     },
     {
       "file": "android/simplenote/sentry.properties",
-      "destination": "sentry.properties"
+      "destination": "sentry.properties",
+      "encrypt": true
+    },
+    {
+      "file": "android/automattic.jks",
+      "destination": "Simplenote/release.jks",
+      "encrypt": true
     }
   ],
   "file_dependencies": [

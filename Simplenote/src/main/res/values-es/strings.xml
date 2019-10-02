@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-01-30 15:54:02+0000
+Translation-Revision-Date: 2019-09-05 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
-    <string name="insert_checklist">Insertar lista de verificación</string>
+    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_subtitle">Lo más fácil para tener notas.</string>
+    <string name="simperium_hint_password">Contraseña</string>
+    <string name="simperium_hint_email">Correo electrónico</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_footer_signup">Al crear una cuenta, aceptas nuestros %1$s%2$s%3$sTérminos y condiciones%4$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$s¿Olvidaste tu contraseña?%4$s</string>
+    <string name="simperium_error_password">Contraseña no válida</string>
+    <string name="simperium_error_email">Correo electrónico no válido</string>
+    <string name="simperium_dialog_title_error">Error</string>
+    <string name="simperium_dialog_progress_signing_up">Procesando el registro…</string>
+    <string name="simperium_dialog_progress_logging_in">Accediendo…</string>
+    <string name="simperium_dialog_message_signup_existing">La dirección de correo electrónico que has introducido ya está asociada a una cuenta de Simplenote.</string>
+    <string name="simperium_dialog_message_signup">No se ha podido llevar a cabo el registro con la dirección de correo electrónico y la contraseña facilitadas.</string>
+    <string name="simperium_dialog_message_password">Las contraseñas deben tener un mínimo de %1$d caracteres, sin contar líneas nuevas, espacios ni tabulaciones.</string>
+    <string name="simperium_dialog_message_network">No hay ninguna red disponible. Conéctate a una red e inténtalo de nuevo.</string>
+    <string name="simperium_dialog_message_login">No se ha podido acceder con la dirección de correo electrónico y la contraseña facilitadas.</string>
+    <string name="simperium_button_signup">Registrarse</string>
+    <string name="simperium_button_login_other">Acceder con WordPress.com</string>
+    <string name="simperium_button_login_email">Acceder con el correo electrónico</string>
+    <string name="simperium_button_login">Acceder</string>
+    <string name="theme_system">Valores predeterminados del sistema</string>
+    <string name="description_fingerprint_supported">Huella digital admitida</string>
+    <string name="toggle_sidebar">Activar/desactivar barra lateral</string>
+    <string name="toggle_checklist">Activar/desactivar lista de verificación</string>
+    <string name="sign_in_use_widget">Accede para usar el widget</string>
+    <string name="sign_in_add_widget">Accede para usar este widget</string>
+    <string name="select_note">Elegir nota</string>
+    <string name="note_not_found">No se ha encontrado la nota</string>
+    <string name="loading_note">Cargando nota…</string>
+    <string name="label_note">Nota</string>
+    <string name="passcode_summary">Las capturas de pantalla están desactivadas mientras el bloqueo con PIN está activado</string>
     <string name="all_notes">Todas las notas</string>
     <string name="appearance">Apariencia</string>
     <string name="sort_tags_alphabetically">Ordenar alfabéticamente</string>
@@ -30,8 +62,6 @@ Language: es
     <string name="location_permission_denied">Permiso de ubicación denegado</string>
     <string name="theme_auto">Oscuro solo de noche</string>
     <string name="notes">Notas</string>
-    <string name="simperium_summary">Añadir sincronización de datos a la aplicación</string>
-    <string name="simperium">Simperium</string>
     <string name="share_analytics_summary">Ayúdanos a mejorar Simplenote compartiendo los datos de uso con nuestra herramienta de análisis. %1$sMás información%2$s</string>
     <string name="share_analytics">Compartir análisis</string>
     <string name="editor">Editor</string>
@@ -39,7 +69,6 @@ Language: es
     <string name="logo">Logotipo</string>
     <string name="unpin_from_top">Quitar de la parte superior</string>
     <string name="untagged_notes">Notas sin etiquetar</string>
-    <string name="sign_in_with_wordpress_com">Inicia sesión con WordPress.com</string>
     <string name="delete_notes">Eliminar notas</string>
     <string name="visit_web_app">Visitar aplicación web</string>
     <string name="unsynced_notes_message">Si cierras sesión se eliminarán las notas no sincronizadas. Puedes iniciar sesión en la aplicación web para verificar tus notas sincronizadas.</string>
@@ -108,11 +137,8 @@ Language: es
     <string name="passcode_enter_old_passcode">Introduce tu PIN anterior</string>
     <string name="passcode_enter_passcode">Introduce tu PIN</string>
     <string name="passcode_manage">Gestionar bloqueo PIN</string>
-    <string name="app_description_short">Simplenote es una forma fácil de guardar notas, listas, ideas, y más.</string>
-    <string name="app_description">La galardonada Simplenote ya está disponible para Android. Simplenote es una forma fácil de guardar notas, listas, ideas, y más. Tus notas se sincronizan gratis en todos tus dispositivos.\n\n        La experiencia Simplenote es acerca de rapidez y eficiencia. Ábrela, escribe algunas ideas, y listo. Según crece tu colección de notas, puedes hacer búsquedas instantáneas y organizarlas con etiquetas y destacadas.\n\n        La mejor forma de aprender sobre Simplenote es probarla. Una vez en marcha, visita simplenote.com para descargarla en otros dispositivos y disponer de tus notas desde cualquier lugar.</string>
     <string name="have_account">¿Ya tienes una cuenta?</string>
     <string name="no_account">¿Aún no tienes cuenta?</string>
-    <string name="or">o</string>
     <string name="ok">Aceptar</string>
     <string name="error">Error</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
