@@ -11,16 +11,27 @@
     <color name="red">@color/red_50</color>
     <color name="yellow">@color/yellow_20</color>
 
+    <!-- ELEVATION -->
+    <color name="background_dark_1">#1c2022</color>
+    <color name="background_dark_2">#202527</color>
+    <color name="background_dark_3">#222729</color>
+    <color name="background_dark_4">#252a2b</color>
+    <color name="background_dark_6">#2a2e30</color>
+    <color name="background_dark_8">#2d3133</color>
+    <color name="background_dark_12">#313637</color>
+    <color name="background_dark_16">#333739</color>
+    <color name="background_dark_24">#363a3c</color>
+
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
-    <color name="background_dark">@color/gray_70</color>
+    <color name="background_dark">@color/gray_100</color>
     <color name="background_dark_highlight">@color/gray_60</color>
     <color name="background_light">@android:color/white</color>
-    <color name="background_light_highlight">@color/blue_0</color>
+    <color name="background_light_highlight">@color/blue_5</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_40</color>

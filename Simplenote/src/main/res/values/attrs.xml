@@ -37,4 +37,6 @@
     <attr name="fabColor" format="reference"/>
     <attr name="fabIconColor" format="reference"/>
 
+    <attr name="drawerBackgroundColor" format="reference|color"/>
+
 </resources>
