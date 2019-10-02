@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatCheckedTextView;
 import androidx.preference.PreferenceManager;
 
@@ -125,7 +126,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
         });
 
         if (getActivity() != null) {
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
                     .setView(view)
                     .setTitle(R.string.post_to_wordpress)
                     .setPositiveButton(R.string.send_post, null)
