@@ -25,7 +25,7 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:colorBackground">?attr/mainBackgroundColor</item>
-        <item name="android:navigationBarColor">@color/background_light</item>
+        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowLightNavigationBar">true</item>

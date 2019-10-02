@@ -25,6 +25,7 @@
         <item name="colorPrimaryDark">@color/background_dark</item>
         <item name="dividerColor">@color/divider_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="drawerBackgroundColor">@color/background_dark_16</item>
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
@@ -37,17 +38,17 @@
         <item name="listDividerDrawable">@drawable/divider_dark</item>
         <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="noteEditorTextColor">@android:color/white</item>
         <item name="notePinColor">@android:color/white</item>
         <item name="notePreviewColor">@color/text_content_dark</item>
         <item name="noteTitleColor">@android:color/white</item>
-        <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="tagChipShadowColor">@color/background_dark</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
         <item name="placeholderLogoColor">@color/empty_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
-        <item name="toolbarColor">@color/background_dark</item>
+        <item name="toolbarColor">@color/background_dark_4</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
@@ -72,8 +73,8 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
-        <item name="android:navigationBarColor">@color/background_dark</item>
+        <item name="android:colorBackground">@color/background_dark_16</item>
+        <item name="android:navigationBarColor">@color/background_dark_16</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>

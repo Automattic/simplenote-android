@@ -37,6 +37,7 @@
         <item name="colorPrimaryDark">@color/background_light</item>
         <item name="dividerColor">@color/divider_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="drawerBackgroundColor">@color/background_light</item>
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_5</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_60</item>
@@ -77,12 +78,12 @@
     </style>
 
     <style name="Button.Flat" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="android:textColor">@color/blue</item>
-        <item name="iconTint">@color/blue</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="iconTint">?attr/colorAccent</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">

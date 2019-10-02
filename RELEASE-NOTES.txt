@@ -1,5 +1,6 @@
 2.1.0
 -----
+* Updated dark theme with darker colors for less eye fatigue and better battery life
 * Updated navigation drawer interface for better organization and compatibility
 * Updated note list interface for better performance and readability
 
