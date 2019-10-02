@@ -1,14 +1,12 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
-import android.text.Spannable;
 import android.text.SpannableString;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.widgets.TypefaceSpan;
 
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
@@ -26,8 +24,7 @@ public class TagsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SpannableString title = new SpannableString(getString(R.string.edit_tags));
-        title.setSpan(new TypefaceSpan(this), 0, title.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
