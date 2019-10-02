@@ -24,11 +24,11 @@
         <item name="android:windowBackground">@color/background_light</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_light</item>
-        <item name="actionModeBackgroundColor">@color/background_light_highlight</item>
+        <item name="actionModeBackgroundColor">@color/background_light</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="actionModeTextColor">@color/text_title_light</item>
+        <item name="actionModeTextColor">@color/item_blue_light</item>
         <item name="chipCheckedOnBackgroundColor">@color/gray_10</item>
         <item name="chipCheckedOffBackgroundColor">@color/gray_5</item>
         <item name="chipTextColor">@color/text_chip_light</item>
@@ -63,7 +63,7 @@
     </style>
 
     <style name="CloseButtonStyle" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
-        <item name="tint">@color/text_title_light</item>
+        <item name="tint">@color/item_blue_light</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
