@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
-            android:src="@drawable/ic_content_copy_white_24dp"
+            android:src="@drawable/ic_copy_24dp"
             android:tint="?iconTintColor">
         </ImageButton>
 

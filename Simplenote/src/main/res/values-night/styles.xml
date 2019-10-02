@@ -12,8 +12,8 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_dark</item>
         <item name="actionModeBackgroundColor">@color/background_dark</item>
-        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/item_blue_dark</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
@@ -49,6 +49,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
         <item name="toolbarColor">@color/background_dark_4</item>
+        <item name="toolbarIconColor">@color/gray_20</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
@@ -58,7 +59,7 @@
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/text_title_dark</item>
+        <item name="color">?attr/toolbarIconColor</item>
         <item name="spinBars">true</item>
     </style>
 
@@ -89,7 +90,7 @@
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
     </style>
 
 </resources>

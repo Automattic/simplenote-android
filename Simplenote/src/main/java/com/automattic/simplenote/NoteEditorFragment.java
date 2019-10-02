@@ -162,7 +162,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mode.setTitle(getString(R.string.link));
                 mode.setTitleOptionalHint(false);
 
-                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
+                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
             }
 
             int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
@@ -269,9 +269,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket = currentApp.getNotesBucket();
 
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
-        mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_white_24dp, R.attr.actionModeTextColor);
-        mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_white_24dp, R.attr.actionModeTextColor);
-        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_white_24dp, R.attr.actionModeTextColor);
+        mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
+        mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
+        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_24dp, R.attr.actionModeTextColor);
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
@@ -490,7 +490,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setIcon(R.drawable.ic_trash_24dp);
             }
         }
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
     }
 
     @Override
