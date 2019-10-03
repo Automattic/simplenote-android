@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -24,13 +23,7 @@ import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.single.BasePermissionListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -120,41 +113,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                final Activity activity = getActivity();
-                final int index = Integer.parseInt(newValue.toString());
-                if (index == ThemeUtils.THEME_AUTO) {
-
-                    PermissionListener permissionListener = new BasePermissionListener() {
-                        @Override
-                        public void onPermissionGranted(PermissionGrantedResponse response) {
-                            updateTheme(activity, index);
-                        }
-                        @Override
-                        public void onPermissionDenied(PermissionDeniedResponse response) {
-                            new AlertDialog.Builder(activity)
-                                    .setTitle(R.string.location_permission_denied)
-                                    .setMessage(R.string.location_permission_explanation)
-                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .show();
-                        }
-                    };
-                    Dexter.withActivity(activity)
-                            .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                            .withListener(permissionListener)
-                            .check();
-                    updateTheme(activity, index);
-                } else {
-                    updateTheme(activity, index);
-                }
-
+                updateTheme(requireActivity(), Integer.parseInt(newValue.toString()));
                 return true;
             }
 
@@ -175,7 +136,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 int index = Integer.parseInt(newValue.toString());
