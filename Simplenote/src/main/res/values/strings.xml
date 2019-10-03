@@ -194,10 +194,6 @@
     <string name="font_size_large">Large</string>
     <string name="font_size_extra_large">Extra large</string>
 
-    <!--Permissions-->
-    <string name="location_permission_denied">Location Permission Denied</string>
-    <string name="location_permission_explanation">Simplenote needs to know your approximate location to accurately determine sunset and sunrise times. Otherwise, night time is assumed to be from 10:00 PM to 6:00 AM.</string>
-
     <!-- Pinned Note Widget -->
     <string name="label_note">Note</string>
     <string name="loading_note">Loading note&#8230;</string>
