@@ -9,8 +9,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +42,6 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
-import com.automattic.simplenote.widgets.TypefaceSpan;
 import com.google.android.material.navigation.NavigationView;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -276,11 +273,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        if (title == null) {
-            title = "";
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
-
-        setTitleWithCustomFont(title);
     }
 
     @Override
@@ -302,17 +297,21 @@ public class NotesActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    private void setTitleWithCustomFont(CharSequence title) {
-        if (getSupportActionBar() == null) {
-            return;
-        }
+    private ColorStateList getIconSelector() {
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_checked}, // checked
+                new int[] {-android.R.attr.state_checked}  // unchecked
+        };
 
-        SpannableString s = new SpannableString(title);
-        s.setSpan(new TypefaceSpan(this), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        getSupportActionBar().setTitle(s);
+        int[] colors = new int[] {
+                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.colorAccent),
+                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.toolbarIconColor)
+        };
+
+        return new ColorStateList(states, colors);
     }
 
-    private ColorStateList getItemSelector() {
+    private ColorStateList getTextSelector() {
         int[][] states = new int[][] {
             new int[] {-android.R.attr.state_enabled}, // disabled
             new int[] { android.R.attr.state_checked}, // checked
@@ -329,13 +328,14 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     private void configureNavigationDrawer(Toolbar toolbar) {
-        ColorStateList drawerSelector = getItemSelector();
+        ColorStateList iconSelector = getIconSelector();
+        ColorStateList textSelector = getTextSelector();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
-        navigationView.setItemIconTintList(drawerSelector);
-        navigationView.setItemTextColor(drawerSelector);
+        navigationView.setItemIconTintList(iconSelector);
+        navigationView.setItemTextColor(textSelector);
         navigationView.setNavigationItemSelectedListener(
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -536,7 +536,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
             }
 
-            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_tag_off_24dp).setCheckable(true);
+            mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_untagged_24dp).setCheckable(true);
             setSelectedTagActive();
         }
     }
@@ -764,7 +764,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
-        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.actionBarTextColor);
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
 
         return true;
     }
@@ -787,12 +787,12 @@ public class NotesActivity extends AppCompatActivity implements
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
-                    item.setIcon(R.drawable.ic_preview_24dp);
+                    item.setIcon(R.drawable.ic_visibility_on_24dp);
                     item.setTitle(getString(R.string.markdown_show));
                     setMarkdownShowing(false);
                     mCurrentNote.setPreviewEnabled(false);
                 } else {
-                    item.setIcon(R.drawable.ic_preview_stop_24dp);
+                    item.setIcon(R.drawable.ic_visibility_off_24dp);
                     item.setTitle(getString(R.string.markdown_hide));
                     setMarkdownShowing(true);
                     mCurrentNote.setPreviewEnabled(true);
@@ -848,10 +848,10 @@ public class NotesActivity extends AppCompatActivity implements
         MenuItem markdownItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            markdownItem.setIcon(R.drawable.ic_preview_stop_24dp);
+            markdownItem.setIcon(R.drawable.ic_visibility_off_24dp);
             markdownItem.setTitle(getString(R.string.markdown_hide));
         } else {
-            markdownItem.setIcon(R.drawable.ic_preview_24dp);
+            markdownItem.setIcon(R.drawable.ic_visibility_on_24dp);
             markdownItem.setTitle(getString(R.string.markdown_show));
         }
 

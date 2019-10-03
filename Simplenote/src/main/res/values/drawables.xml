@@ -3,6 +3,6 @@
 <resources>
 
     <!-- SIMPERIUM -->
-    <drawable name="ic_simperium_login_24dp">@drawable/ic_simplenote_full_blue_24dp</drawable>
+    <drawable name="ic_simperium_login_24dp">@drawable/ic_simplenote_blue_24dp</drawable>
 
 </resources>

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_pin"
-        android:icon="@drawable/ic_radio_button_checked_white_24dp"
+        android:icon="@drawable/ic_pinned_24dp"
         android:title="@string/pin_to_top"
         app:showAsAction="always"/>
 

@@ -117,7 +117,7 @@
                 android:contentDescription="@string/logo"
                 android:layout_height="110dp"
                 android:layout_width="110dp"
-                android:src="@drawable/ic_simplenote_empty_white_24dp"
+                android:src="@drawable/ic_simplenote_24dp"
                 android:tint="?attr/placeholderLogoColor">
             </ImageView>
 

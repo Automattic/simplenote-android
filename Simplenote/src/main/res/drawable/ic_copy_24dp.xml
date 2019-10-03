@@ -9,7 +9,12 @@
 
     <path
         android:fillColor="@android:color/white"
-        android:pathData="M12,7c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5 -2.24,-5 -5,-5zM12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,20c-4.42,0 -8,-3.58 -8,-8s3.58,-8 8,-8 8,3.58 8,8 -3.58,8 -8,8z">
+        android:pathData="M5,19V7A2,2,0,0,0,3,9V19a2,2,0,0,0,2,2H15a2,2,0,0,0,2-2Z">
+    </path>
+
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M7,5V15a2,2,0,0,0,2,2H19a2,2,0,0,0,2-2V5a2,2,0,0,0-2-2H9A2,2,0,0,0,7,5ZM19,15H9V5H19Z">
     </path>
 
 </vector>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_checklist"
-        android:icon="@drawable/ic_checklist"
+        android:icon="@drawable/ic_checklist_24dp"
         android:title="@string/toggle_checklist"
         app:showAsAction="always" />
     <item

@@ -2,7 +2,6 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="pref_key_note_preferences"
         android:title="@string/notes">
 
         <SwitchPreferenceCompat
@@ -19,7 +18,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_tags_preferences"
         android:title="@string/tags">
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -40,7 +38,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_note_preferences"
         android:title="@string/editor">
         <ListPreference
             android:defaultValue="@integer/default_font_size"
@@ -73,14 +70,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_account_preferences"
         android:title="@string/account">
         <Preference
             android:key="pref_key_authenticate"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_privacy"
         android:title="Privacy">
         <SwitchPreferenceCompat
             android:defaultValue="true"
