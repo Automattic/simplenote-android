@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:height="@dimen/share_icon_size"
+        android:width="@dimen/share_icon_size">
+
+        <shape
+            android:shape="oval">
+
+            <solid
+                android:color="@color/red">
+            </solid>
+
+        </shape>
+
+    </item>
+
+    <item
+        android:bottom="@dimen/padding_small"
+        android:drawable="@drawable/ic_unpublish_24dp"
+        android:end="@dimen/padding_small"
+        android:start="@dimen/padding_small"
+        android:top="@dimen/padding_small">
+    </item>
+
+</layer-list>

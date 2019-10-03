@@ -88,7 +88,6 @@ dependencies {
         transitive = true
     }
     implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.karumi:dexter:5.0.0'
     wearApp project(':Wear')
 }
 

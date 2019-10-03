@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_simplenote_empty_white_24dp"
+        android:drawable="@drawable/ic_simplenote_24dp"
         android:height="96dp"
         android:width="96dp">
     </item>
