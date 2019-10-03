@@ -80,7 +80,7 @@
         android:layout_marginTop="@dimen/padding_extra_extra_small"
         android:layout_toStartOf="@id/note_status"
         android:layout_width="match_parent"
-        android:lineSpacingExtra="@dimen/line_spacing"
+        android:lineSpacingExtra="@dimen/line_spacing_list"
         android:maxLines="2"
         android:textColor="?attr/notePreviewColor"
         android:textSize="@dimen/text_content"
