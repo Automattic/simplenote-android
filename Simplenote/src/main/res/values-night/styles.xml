@@ -11,7 +11,7 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_dark</item>
-        <item name="actionModeBackgroundColor">@color/background_dark</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_4</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
