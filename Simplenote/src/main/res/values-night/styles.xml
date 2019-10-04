@@ -11,7 +11,7 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_dark</item>
-        <item name="actionModeBackgroundColor">@color/background_dark</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_4</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
@@ -26,7 +26,7 @@
         <item name="dividerColor">@color/divider_dark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="drawerBackgroundColor">@color/background_dark_16</item>
-        <item name="drawerBackgroundSelector">@color/bg_drawer_selector</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="fabColor">@color/item_blue_dark</item>
