@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -235,7 +236,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                         if (tagCount == 0) {
                             deleteTag(tag);
                         } else if (tagCount > 0) {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                            AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.Dialog));
                             alert.setTitle(R.string.delete_tag);
                             alert.setMessage(getString(R.string.confirm_delete_tag));
                             alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -271,7 +272,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
             public void onClick(View view) {
                 if (!isAdded()) return;
 
-                final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.Dialog));
                 LinearLayout alertView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
 
                 final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
