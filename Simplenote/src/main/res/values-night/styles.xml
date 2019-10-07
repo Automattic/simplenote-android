@@ -18,7 +18,7 @@
         <item name="actionModeTextColor">@color/item_blue_dark</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
         <item name="chipCheckedOnBackgroundColor">@color/gray_70</item>
-        <item name="chipCheckedOffBackgroundColor">@color/gray_50</item>
+        <item name="chipCheckedOffBackgroundColor">@color/gray_60</item>
         <item name="chipTextColor">@color/text_chip_dark</item>
         <item name="colorAccent">@color/item_blue_dark</item>
         <item name="colorPrimary">@color/blue</item>
