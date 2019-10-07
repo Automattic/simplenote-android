@@ -31,7 +31,7 @@
     <!-- SEMANTIC -->
     <color name="background_dark">@color/background_dark_0</color>
     <color name="background_dark_highlight">@color/gray_70</color>
-    <color name="background_dark_highlight_drawer">@color/gray_60</color>
+    <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/blue_5</color>
     <color name="divider_dark">@color/gray_60</color>
