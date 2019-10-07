@@ -321,7 +321,7 @@ SUPPORTED_LOCALES = [
       f.puts("<en-US>")
       f.puts("#{options[:version_name]}:")
       f.puts(File.open(en_release_notes_path).read)
-      f.puts("/<en-US>")
+      f.puts("</en-US>")
     }
   end
 
