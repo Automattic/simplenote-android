@@ -800,7 +800,7 @@ public class NotesActivity extends AppCompatActivity implements
                 }
 
                 mCurrentNote.save();
-                DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.actionBarTextColor);
+                DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.toolbarIconColor);
 
                 return true;
             case R.id.menu_delete:
@@ -856,7 +856,7 @@ public class NotesActivity extends AppCompatActivity implements
             markdownItem.setTitle(getString(R.string.markdown_show));
         }
 
-        DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.actionBarTextColor);
+        DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.toolbarIconColor);
 
         return super.onPrepareOptionsMenu(menu);
     }
