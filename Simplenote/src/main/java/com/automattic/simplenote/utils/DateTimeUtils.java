@@ -4,9 +4,6 @@ import android.app.Activity;
 
 import java.util.Calendar;
 
-/**
- * Created by onko on 27/03/2016.
- */
 public class DateTimeUtils {
     public static String getDateText(Activity activity, Calendar noteDate) {
         if (noteDate == null) {

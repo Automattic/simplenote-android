@@ -3,28 +3,19 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/listBackgroundSelector"
+    android:background="?android:attr/selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:minHeight="@dimen/minimum_target"
     android:orientation="horizontal">
-
-    <ImageView
-        android:importantForAccessibility="no"
-        android:layout_gravity="center_vertical"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_extra_extra_extra_large"
-        android:layout_marginStart="@dimen/padding_large"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_tags_24dp"
-        android:tint="?attr/noteTitleColor">
-    </ImageView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_name"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginStart="@dimen/padding_large"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:textColor="?attr/noteTitleColor"
@@ -35,26 +26,13 @@
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/tag_count"
         android:gravity="end"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/padding_small"
         android:layout_width="wrap_content"
         android:textColor="?attr/notePreviewColor"
         tools:text="24"
         style="?android:attr/textAppearanceMedium">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    <View
-        android:id="@+id/imageView"
-        android:background="?attr/dividerColor"
-        android:layout_gravity="center_vertical"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="@dimen/padding_extra_small"
-        android:layout_marginStart="@dimen/padding_extra_small"
-        android:layout_marginTop="8dp"
-        android:layout_width="1dp">
-    </View>
 
     <ImageButton
         android:id="@+id/tag_trash"
@@ -63,8 +41,11 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_extra_small"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding_large"
+        android:minHeight="@dimen/minimum_target"
+        android:minWidth="@dimen/minimum_target"
+        android:padding="@dimen/padding_medium"
         android:src="@drawable/ic_trash_24dp"
         android:tint="?attr/iconTintColor">
     </ImageButton>

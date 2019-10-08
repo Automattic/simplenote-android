@@ -9,6 +9,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.automattic.simplenote.R;
@@ -45,7 +47,7 @@ public class ThemeUtils {
             }
         }
 
-        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_SYSTEM)) {
+        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
@@ -94,5 +96,12 @@ public class ThemeUtils {
         ta.recycle();
 
         return textColorId;
+    }
+
+    public static int getColorFromAttribute(@NonNull Context context, @AttrRes int attribute) {
+        TypedArray typedArray = context.obtainStyledAttributes(new int[]{attribute});
+        int colorResId = typedArray.getResourceId(0, android.R.color.black);
+        typedArray.recycle();
+        return context.getColor(colorResId);
     }
 }

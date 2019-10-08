@@ -14,26 +14,31 @@
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
-        <item name="android:actionModeCopyDrawable">@drawable/ic_content_copy_white_24dp</item>
-        <item name="android:actionModeCutDrawable">@drawable/ic_content_cut_white_24dp</item>
-        <item name="android:actionModePasteDrawable">@drawable/ic_content_paste_white_24dp</item>
-        <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_white_24dp</item>
+        <item name="android:actionModeCopyDrawable">@drawable/ic_copy_24dp</item>
+        <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
+        <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
+        <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_24dp</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarTextColor">@color/text_title_light</item>
-        <item name="actionModeBackgroundColor">@color/background_light_highlight</item>
-        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_24dp</item>
+        <item name="actionModeBackgroundColor">@color/background_light</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="actionModeTextColor">@color/text_title_light</item>
+        <item name="actionModeTextColor">@color/item_blue_light</item>
+        <item name="chipCheckedOnBackgroundColor">@color/gray_10</item>
+        <item name="chipCheckedOffBackgroundColor">@color/gray_5</item>
+        <item name="chipTextColor">@color/text_chip_light</item>
         <item name="colorAccent">@color/item_blue_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/background_light</item>
         <item name="dividerColor">@color/divider_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="drawerBackgroundColor">@color/background_light</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_light</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_5</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_60</item>
         <item name="fabColor">@color/item_blue_light</item>
@@ -47,26 +52,34 @@
         <item name="mainBackgroundColor">@color/background_light</item>
         <item name="noteEditorTextColor">@color/text_title_light</item>
         <item name="notePinColor">@color/text_title_light</item>
-        <item name="notePreviewColor">@color/text_title_disabled</item>
+        <item name="notePreviewColor">@color/text_content_light</item>
         <item name="noteTitleColor">@color/text_title_light</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
-        <item name="placeholderLogoColor">@color/gray_5</item>
+        <item name="placeholderLogoColor">@color/empty_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@color/black</item>
-        <item name="tagChipBackgroundDrawable">@drawable/bg_tag_light</item>
-        <item name="tagChipShadowColor">@color/background_light</item>
-        <item name="tagChipTextColor">@color/text_body_light</item>
         <item name="toolbarColor">@color/background_light</item>
+        <item name="toolbarIconColor">@color/gray_50</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="CloseButtonStyle" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
-        <item name="tint">@color/text_title_light</item>
+        <item name="tint">@color/item_blue_light</item>
+    </style>
+
+    <style name="Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Dialog.Button</item>
+    </style>
+
+    <style name="Dialog.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="tint">@color/text_title_light</item>
+        <item name="tint">?attr/toolbarIconColor</item>
         <item name="spinBars">true</item>
     </style>
 
@@ -76,12 +89,12 @@
     </style>
 
     <style name="Button.Flat" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="android:textColor">@color/blue</item>
-        <item name="iconTint">@color/blue</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="iconTint">?attr/colorAccent</item>
     </style>
 
     <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">
@@ -99,7 +112,10 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:background">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
         <item name="colorAccent">@color/item_blue_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
@@ -115,7 +131,7 @@
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents.Light">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
-        <item name="android:textColorSecondary">?attr/actionBarTextColor</item>
+        <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Material.Light.ProgressBar">
@@ -147,17 +163,18 @@
         <item name="android:textColor">?attr/actionModeTextColor</item>
     </style>
 
-    <style name="Theme.Simplestyle.About">
+    <style name="Theme.Simplestyle.About" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:navigationBarColor">@color/blue</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:windowBackground">@color/blue</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="actionBarTextColor">@android:color/white</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="toolbarColor">@color/blue</item>
     </style>
 
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>

@@ -33,12 +33,10 @@ public class NoteMarkdownFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
 
-        DrawableUtils.tintMenuWithResource(
+        DrawableUtils.tintMenuWithAttribute(
             requireContext(),
             menu,
-            ThemeUtils.isLightTheme(requireContext()) ?
-                R.color.text_title_light :
-                R.color.text_title_dark
+            R.attr.toolbarIconColor
         );
 
         for (int i = 0; i < menu.size(); i++) {
@@ -60,7 +58,7 @@ public class NoteMarkdownFragment extends Fragment {
                 trashItem.setIcon(R.drawable.ic_trash_24dp);
             }
 
-            DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.actionBarTextColor);
+            DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.toolbarIconColor);
         }
 
         super.onCreateOptionsMenu(menu, inflater);

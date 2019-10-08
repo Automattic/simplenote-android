@@ -18,9 +18,6 @@ import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Created by Ondrej Ruttkay on 24/03/2016.
- */
 public class AboutFragment extends Fragment {
 
     private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
@@ -50,7 +47,7 @@ public class AboutFragment extends Fragment {
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
 
-        logoImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_simplenote_full_blue_24dp));
+        logoImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_simplenote_24dp));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override

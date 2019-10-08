@@ -24,11 +24,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatCheckedTextView;
 import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
@@ -124,7 +126,7 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
         });
 
         if (getActivity() != null) {
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
                     .setView(view)
                     .setTitle(R.string.post_to_wordpress)
                     .setPositiveButton(R.string.send_post, null)
@@ -205,7 +207,9 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
                 JSONObject site = mSitesArray.getJSONObject(position);
                 Spanned rowText = Html.fromHtml(String.format(
                         Locale.ENGLISH,
-                        "%s<br/><small><span style=\"color:#899199\">%s</span></small>",
+                        "%s<br/><small><span style=\"color:#" +
+                        Integer.toHexString(DrawableUtils.getColor(requireContext(), R.attr.notePreviewColor) & 0xffffff) +
+                        "\">%s</span></small>",
                         site.getString(API_FIELD_NAME),
                         site.getString(API_FIELD_URL)
                 ));

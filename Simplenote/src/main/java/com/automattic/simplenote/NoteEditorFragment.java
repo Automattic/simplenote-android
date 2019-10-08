@@ -5,7 +5,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,8 +16,10 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spanned;
+import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.TypedValue;
@@ -28,6 +32,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -61,6 +66,8 @@ import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -68,6 +75,8 @@ import com.simperium.client.Query;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+
+import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -97,7 +106,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Bucket<Note> mNotesBucket;
     private View mRootView;
     private SimplenoteEditText mContentEditText;
-    private TagsMultiAutoCompleteTextView mTagView;
+    private ChipGroup mTagChips;
+    private TagsMultiAutoCompleteTextView mTagInput;
     private Handler mAutoSaveHandler;
     private Handler mPublishTimeoutHandler;
     private Handler mHistoryTimeoutHandler;
@@ -121,38 +131,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!isAdded()) return;
+            if (!isAdded()) {
+                return;
+            }
 
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                    if (mHistoryBottomSheet.isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
+                    if (mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
                         mHistoryBottomSheet.dismiss();
                         Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
         }
     };
     private InfoBottomSheetDialog mInfoBottomSheet;
     private ShareBottomSheetDialog mShareBottomSheet;
     // Contextual action bar for dealing with links
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
         // Called when the action mode is created; startActionMode() was called
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
+
             if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
                 mode.setTitleOptionalHint(false);
 
-                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
+                DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
             }
 
             int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
@@ -259,9 +269,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket = currentApp.getNotesBucket();
 
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
-        mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_white_24dp, R.attr.actionModeTextColor);
-        mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_white_24dp, R.attr.actionModeTextColor);
-        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_white_24dp, R.attr.actionModeTextColor);
+        mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
+        mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
+        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_24dp, R.attr.actionModeTextColor);
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
@@ -315,9 +325,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
-        mTagView = mRootView.findViewById(R.id.tag_view);
-        mTagView.setTokenizer(new SpaceTokenizer());
-        mTagView.setOnFocusChangeListener(this);
+        mTagInput = mRootView.findViewById(R.id.tag_input);
+        mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
+        mTagInput.setTokenizer(new SpaceTokenizer());
+        mTagInput.setOnFocusChangeListener(this);
+        mTagChips = mRootView.findViewById(R.id.tag_chips);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
 
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
@@ -330,7 +342,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     : ContextUtils.readCssFile(requireContext(), "dark.css");
         }
 
-        mTagView.setAdapter(mAutocompleteAdapter);
+        mTagInput.setAdapter(mAutocompleteAdapter);
 
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
@@ -392,8 +404,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onResume();
         mNotesBucket.start();
         mNotesBucket.addListener(this);
-
-        mTagView.setOnTagAddedListener(this);
+        mTagInput.setOnTagAddedListener(this);
 
         if (mContentEditText != null) {
             mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(getActivity()));
@@ -430,7 +441,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Hide soft keyboard if it is showing...
         DisplayUtils.hideKeyboard(mContentEditText);
 
-        mTagView.setOnTagAddedListener(null);
+        mTagInput.setOnTagAddedListener(null);
 
         if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
@@ -480,7 +491,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 trashItem.setIcon(R.drawable.ic_trash_24dp);
             }
         }
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionBarTextColor);
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
     }
 
     @Override
@@ -650,11 +662,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void updateTagList() {
-        Activity activity = getActivity();
-        if (activity == null) return;
-
-        // Populate this note's tags in the tagView
-        mTagView.setChips(mNote.getTagString());
+        setChips(mNote.getTagString());
+        mTagInput.setText("");
     }
 
     private int newCursorLocation(String newText, String oldText, int cursorLocation) {
@@ -696,24 +705,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
-    public void onTagsChanged(String tagString) {
-        if (mNote == null || !isAdded()) return;
+    public void onTagAdded(String tag) {
+        if (mNote == null || !isAdded()) {
+            return;
+        }
 
-        if (mNote.getTagString() != null && tagString.length() > mNote.getTagString().length()) {
+        if (mNote.getTagString() != null && tag.length() > mNote.getTagString().length()) {
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_TAG_ADDED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "tag_added_to_note"
-            );
-        } else {
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "tag_removed_from_note"
+                AnalyticsTracker.Stat.EDITOR_TAG_ADDED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "tag_added_to_note"
             );
         }
 
-        mNote.setTagString(tagString);
+        mNote.setTagString(mNote.getTagString() + String.valueOf(SPACE) + tag);
         mNote.setModificationDate(Calendar.getInstance());
         updateTagList();
         mNote.save();
@@ -761,7 +766,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int newLinePosition = getNoteContentString().indexOf("\n");
         if (newLinePosition == 0)
             return;
-        editable.setSpan(new RelativeSizeSpan(1.227f), 0, (newLinePosition > 0) ? newLinePosition : editable.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
+        editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
     private void attemptAutoList(Editable editable) {
@@ -783,21 +790,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (isVisible) {
             mNote = null;
             mContentEditText.setText("");
-            mTagView.setText("");
-            if (mPlaceholderView != null)
-                mPlaceholderView.setVisibility(View.VISIBLE);
-        } else {
-            if (mPlaceholderView != null)
-                mPlaceholderView.setVisibility(View.GONE);
+        }
+
+        if (mPlaceholderView != null) {
+            mPlaceholderView.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            String tagString = getNoteTagsString().trim();
-            if (tagString.length() > 0) {
-                mTagView.setChips(tagString);
+            String tags = getNoteTagsString().trim();
+
+            if (mTagInput.getText().toString().trim().length() > 0) {
+                onTagAdded(mTagInput.getText().toString());
+            } else if (tags.length() > 0) {
+                setChips(tags);
             }
         }
     }
@@ -819,11 +827,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private String getNoteTagsString() {
-        if (mTagView == null || mTagView.getText() == null) {
-            return "";
-        } else {
-            return mTagView.getText().toString();
+        StringBuilder tags = new StringBuilder();
+
+        for (int i= 0; i < mTagChips.getChildCount(); i++) {
+            tags.append(((Chip) mTagChips.getChildAt(i)).getText()).append(" ");
         }
+
+        return tags.toString();
     }
 
     /**
@@ -974,7 +984,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void saveNote() {
         try {
             if (mNote == null || mContentEditText == null || mIsLoadingNote ||
-                    (mHistoryBottomSheet != null && mHistoryBottomSheet.isShowing())) {
+                (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
                 return;
             } else {
                 Simplenote application = (Simplenote) requireActivity().getApplication();
@@ -1167,15 +1177,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShareSheet() {
         if (isAdded()) {
-            mShareBottomSheet.show(mNote);
+            mShareBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showInfoSheet() {
         if (isAdded()) {
-            mInfoBottomSheet.show(mNote);
+            mInfoBottomSheet.show(requireFragmentManager(), mNote);
         }
-
     }
 
     private void showHistorySheet() {
@@ -1184,7 +1193,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
             saveNote();
 
-            mHistoryBottomSheet.show(mNote);
+            mHistoryBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
@@ -1403,5 +1412,67 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             // Load markdown in the sibling NoteMarkdownFragment's WebView.
             mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
         }
+    }
+
+    private ColorStateList getChipBackgroundColor() {
+        int[][] states = new int[][] {
+            new int[] { android.R.attr.state_checked}, // checked
+            new int[] {-android.R.attr.state_checked}  // unchecked
+        };
+
+        int[] colors = new int[] {
+            ThemeUtils.getColorFromAttribute(requireContext(), R.attr.chipCheckedOnBackgroundColor),
+            ThemeUtils.getColorFromAttribute(requireContext(), R.attr.chipCheckedOffBackgroundColor)
+        };
+
+        return new ColorStateList(states, colors);
+    }
+
+    private void setChips(CharSequence text) {
+        mTagChips.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
+        mTagChips.setSingleSelection(true);
+        mTagChips.removeAllViews();
+        SimpleStringSplitter tags = new SimpleStringSplitter(SPACE);
+        tags.setString(text.toString());
+
+        for (String tag : tags) {
+            final Chip chip = new Chip(requireContext());
+            chip.setText(tag);
+            chip.setCheckable(true);
+            chip.setCheckedIcon(null);
+            chip.setChipBackgroundColor(getChipBackgroundColor());
+            chip.setTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.chipTextColor));
+            chip.setStateListAnimator(null);
+            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    chip.setCloseIconVisible(isChecked);
+                }
+            });
+            chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTagChips.removeView(view);
+                    updateTags();
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "tag_removed_from_note"
+                    );
+                }
+            });
+            mTagChips.addView(chip);
+        }
+    }
+
+    private void updateTags() {
+        if (mNote == null) {
+            return;
+        }
+
+        mNote.setTagString(getNoteTagsString());
+        mNote.setModificationDate(Calendar.getInstance());
+        updateTagList();
+        mNote.save();
     }
 }

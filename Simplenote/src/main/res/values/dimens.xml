@@ -4,6 +4,7 @@
 
     <!-- MARGIN/PADDING -->
     <dimen name="margin_passcode_pin">40dp</dimen>
+    <dimen name="padding_extra_extra_small">2dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
@@ -23,8 +24,9 @@
     <dimen name="nav_drawer_item_text_size">14sp</dimen>
 
     <dimen name="note_list_item_padding_right">52dp</dimen>
-    <dimen name="note_list_item_padding_bottom">@dimen/padding_small</dimen>
-    <dimen name="note_list_item_padding_top">@dimen/padding_small</dimen>
+    <dimen name="note_list_item_padding_bottom">@dimen/padding_medium</dimen>
+    <dimen name="note_list_item_padding_bottom_button">88dp</dimen>
+    <dimen name="note_list_item_padding_top">@dimen/padding_medium</dimen>
     <dimen name="note_list_padding">@dimen/padding_small</dimen>
     <dimen name="list_padding_left">@dimen/padding_large</dimen>
 
@@ -41,11 +43,18 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_fingerprint">4dp</dimen>
+    <dimen name="icon_status">16dp</dimen>
+    <dimen name="line_spacing">4dp</dimen>
+    <dimen name="line_spacing_list">2dp</dimen>
+    <dimen name="minimum_target">48dp</dimen>
     <dimen name="passcode_logo">96dp</dimen>
     <dimen name="passcode_width">480dp</dimen>
+    <dimen name="tag_input_height">56dp</dimen>
+    <dimen name="text_empty">20sp</dimen>
     <dimen name="text_passcode">18sp</dimen>
     <dimen name="text_widget">12sp</dimen>
-    <dimen name="text_widget_content">16sp</dimen>
-    <dimen name="text_widget_title">18sp</dimen>
+    <dimen name="text_content">14sp</dimen>
+    <dimen name="text_content_title">16sp</dimen>
+    <dimen name="text_tag">14sp</dimen>
 
 </resources>

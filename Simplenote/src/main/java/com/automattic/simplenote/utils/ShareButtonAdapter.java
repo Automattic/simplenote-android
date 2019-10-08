@@ -13,9 +13,6 @@ import com.automattic.simplenote.R;
 
 import java.util.List;
 
-/**
- * Created by Ondrej Ruttkay on 21/03/2016.
- */
 public class ShareButtonAdapter extends RecyclerView.Adapter<ShareButtonAdapter.ViewHolder> {
 
     private List<ShareButtonItem> mItems;

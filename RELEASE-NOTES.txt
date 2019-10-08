@@ -1,6 +1,13 @@
-2.1
+2.2
 -----
  
+2.1.0
+-----
+* Updated dark theme with darker colors for less eye fatigue and better battery life
+* Updated navigation drawer interface for better organization and compatibility
+* Updated note list interface for better performance and readability
+* Removed location permission for dark at night only theme
+
 2.0.0
 -----
 * Added an option to the Theme setting to follow the system day/night mode

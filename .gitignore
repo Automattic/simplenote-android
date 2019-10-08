@@ -35,6 +35,7 @@ sentry.properties
 Simplenote/gradle.properties
 
 *.keystore
+*.jks
 
 # When developing against Simperium-android source directly
 Simperium

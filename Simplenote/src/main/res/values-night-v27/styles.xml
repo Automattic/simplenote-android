@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
+        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:colorBackground">@color/background_dark_16</item>
+        <item name="android:navigationBarColor">@color/background_dark_16</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
+        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+    </style>
+
+</resources>

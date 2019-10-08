@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_view_link"
-        android:icon="@drawable/ic_web_white_24dp"
+        android:icon="@drawable/ic_web_24dp"
         android:title="@string/view_in_browser"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_copy"
-        android:icon="@drawable/ic_content_copy_white_24dp"
+        android:icon="@drawable/ic_copy_24dp"
         android:title="@string/copy"
         app:showAsAction="ifRoom"/>
     <item
