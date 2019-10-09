@@ -229,9 +229,11 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!isAdded()) return;
+                        if (!isAdded() || !hasItem(getAdapterPosition())) {
+                            return;
+                        }
 
-                        final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
+                        final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
                         final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
                             deleteTag(tag);
