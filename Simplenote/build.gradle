@@ -3,7 +3,7 @@ apply plugin: 'io.sentry.android.gradle'
 
 android {
     buildToolsVersion '28.0.3'
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     buildTypes {
         debug {
@@ -27,7 +27,7 @@ android {
         }
         versionCode 83
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
