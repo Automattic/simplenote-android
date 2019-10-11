@@ -61,6 +61,10 @@ public abstract class BaseCursorAdapter<V extends RecyclerView.ViewHolder> exten
         return mCursor;
     }
 
+    public boolean hasItem(int position) {
+        return mDataValid && mCursor.moveToPosition(position);
+    }
+
     public void swapCursor(Cursor newCursor) {
         if (newCursor == mCursor) {
             return;
