@@ -40,9 +40,6 @@ Simplenote/gradle.properties
 # When developing against Simperium-android source directly
 Simperium
 
-# Crashlytics API Key
-Simplenote/crashlytics.properties
-
 # Fastlane
 fastlane/README.md
 fastlane/report.xml
