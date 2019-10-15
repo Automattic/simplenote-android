@@ -7,7 +7,7 @@ jobs:
   Test:
     executor: 
       name: android/default
-      api-version: "28"
+      api-version: "29"
     steps:
       - checkout
       - android/restore-gradle-cache
@@ -22,7 +22,7 @@ jobs:
   Lint:
     executor: 
       name: android/default
-      api-version: "28"
+      api-version: "29"
     steps:
       - checkout
       - android/restore-gradle-cache
@@ -34,7 +34,7 @@ jobs:
   Installable Build:
     executor:
       name: android/default
-      api-version: "28"
+      api-version: "29"
     steps:
       - checkout
       - bundle-install/bundle-install
