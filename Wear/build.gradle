@@ -7,7 +7,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion "28.0.3"
+    buildToolsVersion '29.0.2'
     compileSdkVersion 29
 
     buildTypes {

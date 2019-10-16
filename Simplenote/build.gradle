@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
 
 android {
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     compileSdkVersion 29
 
     buildTypes {
