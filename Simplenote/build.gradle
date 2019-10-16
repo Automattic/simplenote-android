@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
 
 android {
-    buildToolsVersion '28.0.3'
-    compileSdkVersion 28
+    buildToolsVersion '29.0.2'
+    compileSdkVersion 29
 
     buildTypes {
         debug {
@@ -27,7 +27,7 @@ android {
         }
         versionCode 84
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -73,21 +73,17 @@ dependencies {
     implementation 'org.wordpress:passcodelock:1.7.0'
 
     // Google Support
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0-beta01'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     // Google Play Services
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     // Third Party
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.commonsware.cwac:anddown:0.4.0'
     implementation 'net.openid:appauth:0.7.0'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true
-    }
-    implementation 'androidx.browser:browser:1.0.0'
     wearApp project(':Wear')
 }
 
@@ -117,29 +113,14 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
     android.buildTypes.release.signingConfig = android.signingConfigs.release
 }
 
-task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
-    def outputFile = new File("${rootDir}/Simplenote/crashlytics.properties")
-    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
-    if (!inputFile.exists()) {
+task copyGradlePropertiesIfMissing(group: "generate", description: "Copy Gradle Properties") {
+    if (!file("${rootDir}/Simplenote/gradle.properties").exists()) {
         copy {
             from("${rootDir}/Simplenote")
             into("${rootDir}/Simplenote")
             include('gradle.properties-example')
             rename('gradle.properties-example', 'gradle.properties')
         }
-    }
-    outputs.file outputFile
-    inputs.file inputFile
-    doLast {
-        def properties = new Properties()
-        inputFile.withInputStream { stream ->
-            properties.load(stream)
-        }
-        def crashlyticsApiKey = properties.getProperty('crashlyticsApiKey', '0')
-        def writer = new FileWriter(outputFile)
-        writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
-apiKey=${crashlyticsApiKey}""")
-        writer.close()
     }
 }
 
@@ -157,7 +138,7 @@ static String toSnakeCase( String text ) {
 
 android.applicationVariants.all { variant ->
     variant.generateBuildConfigProvider.configure {
-        dependsOn(generateCrashlyticsConfig)
+        dependsOn(copyGradlePropertiesIfMissing)
     }
     def inputFile = file("${rootDir}/Simplenote/gradle.properties")
     def properties = loadPropertiesFromFile(inputFile)
