@@ -56,7 +56,8 @@
             android:layout_marginStart="@dimen/margin_passcode_pin"
             android:layout_width="match_parent"
             android:maxLength="4"
-            style="@style/PasscodeEditTextStyle" >
+            tools:ignore="Autofill"
+            style="@style/PasscodeEditTextStyle">
         </EditText>
 
         <TableLayout

@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
     <item
         android:id="@+id/menu_checklist"
         android:icon="@drawable/ic_checklist_24dp"
         android:title="@string/toggle_checklist"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_history"
         android:icon="@drawable/ic_history_24dp"
         android:title="@string/history"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/share"
         app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_view_info"
         android:icon="@drawable/ic_info_24dp"
@@ -27,4 +35,5 @@
         android:icon="@drawable/ic_trash_24dp"
         android:title="@string/delete"
         app:showAsAction="always" />
+
 </menu>
