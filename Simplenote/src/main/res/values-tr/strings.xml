@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Not tutmanın en basit yolu.</string>
     <string name="simperium_hint_password">Parola</string>
     <string name="simperium_hint_email">E-posta</string>

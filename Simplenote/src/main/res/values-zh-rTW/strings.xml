@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">輕鬆作筆記的最佳方式。</string>
     <string name="simperium_hint_password">密碼</string>
     <string name="simperium_hint_email">電子郵件</string>

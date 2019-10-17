@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Простой способ хранить заметки.</string>
     <string name="simperium_hint_password">Пароль</string>
     <string name="simperium_hint_email">Электронная почта</string>
