@@ -332,7 +332,6 @@ public class NotesActivity extends AppCompatActivity implements
         ColorStateList iconSelector = getIconSelector();
         ColorStateList textSelector = getTextSelector();
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.getLayoutParams().width = ThemeUtils.getOptimalDrawerWidth(this);
         navigationView.setItemIconTintList(iconSelector);
