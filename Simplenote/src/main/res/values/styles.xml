@@ -101,10 +101,6 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
 
-    <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Material.Light.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
-    </style>
-
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
