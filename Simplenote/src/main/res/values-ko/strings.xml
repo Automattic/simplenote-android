@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">메모를 보관하는 가장 간단한 방법입니다.</string>
     <string name="simperium_hint_password">비밀번호</string>
     <string name="simperium_hint_email">이메일</string>

@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">最も手軽にメモを残せる方法です。</string>
     <string name="simperium_hint_password">パスワード</string>
     <string name="simperium_hint_email">メール</string>
