@@ -2,10 +2,6 @@
 
 <resources>
 
-    <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Material.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
-    </style>
-
     <style name="ActionMode.Simplestyle" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">?attr/actionModeBackgroundColor</item>
         <item name="subtitleTextStyle">@style/Simplestyle.ActionModeSubtitleTextStyle</item>
@@ -13,7 +9,6 @@
     </style>
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionModeCopyDrawable">@drawable/ic_copy_24dp</item>
         <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
