@@ -1,0 +1,5 @@
+2.1:
+* Hemos actualizado el tema Oscuro con colores más oscuros para reducir la fatiga visual y el consumo de batería.
+* Hemos actualizado la interfaz del cajón de navegación para mejorar la organización y la compatibilidad.
+* Hemos actualizado la interfaz de la lista de notas para mejorar el rendimiento y la legibilidad.
+* Hemos quitado el permiso de ubicación para el tema Oscuro solo de noche.

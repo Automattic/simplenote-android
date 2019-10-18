@@ -1,0 +1,5 @@
+2.1:
+* Det mörka temat har uppdaterats med mörkare färger för mindre ögontrötthet och bättre batteritid.
+* Gränssnittet för navigeringsreglaget har uppdaterats för bättre organisering och kompatibilitet.
+* Gränssnittet för anteckningslistan har uppdaterats för bättre prestanda och läsbarhet.
+* Platsbehörigheten för mörkt-på-natten-temat har tagits bort.

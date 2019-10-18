@@ -1,0 +1,5 @@
+2.1:
+* Dunkles Theme mit dunkleren Farben aktualisiert, damit Augen nicht so schnell ermüden und die Akkulaufzeit verbessert wird
+* Menübereich zur Navigation aktualisiert, um Organisation und Kompatibilität zu verbessern
+* Notizenliste aktualisiert, um Performance und Lesbarkeit zu verbessern
+* Standortberechtigung für „Nur nachts dunkel“-Theme entfernt

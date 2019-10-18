@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">A melhor forma de manter notas.</string>
     <string name="simperium_hint_password">Senha</string>
     <string name="simperium_hint_email">E-mail</string>
