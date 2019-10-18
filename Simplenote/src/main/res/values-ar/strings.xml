@@ -58,8 +58,6 @@ Language: ar
     <string name="wordpress_post_draft">تعيين حالة للمسودة</string>
     <string name="send_post">المقالة</string>
     <string name="wordpress_post">مقالة وردبرس</string>
-    <string name="location_permission_explanation">تحتاج Simplenote إلى معرفة موقعك التقريبي لتحديد وقتي الشروق والغروب بدقة. وإلا، فسيتم افتراض حلول المساء من الساعة 10:00 مساءً وحتى الساعة 6:00 صباحًا.</string>
-    <string name="location_permission_denied">تم رفض الإذن الخاص بالموقع</string>
     <string name="theme_auto">مظلم في الليل فقط</string>
     <string name="notes">ملاحظات</string>
     <string name="share_analytics_summary">ساعدنا على تحسين Simplenote عن طريق مشاركة بيانات الاستخدام مع أداة التحليلات الخاصة بنا. %1$sتعرّف على المزيد%2$s</string>

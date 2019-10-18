@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Cara paling mudah menyimpan catatan.</string>
     <string name="simperium_hint_password">Kata Sandi</string>
     <string name="simperium_hint_email">Email</string>
@@ -58,8 +58,6 @@ Language: id
     <string name="wordpress_post_draft">Atur status menjadi konsep</string>
     <string name="send_post">Pos</string>
     <string name="wordpress_post">Pos WordPress</string>
-    <string name="location_permission_explanation">Simplenote perlu mengetahui lokasi Anda secara umum untuk menentukan waktu matahari terbenam dan tenggelam secara akurat. Jika tidak, waktu malam hari akan diasumsikan mulai dari jam 22.00 sampai 06.00.</string>
-    <string name="location_permission_denied">Izin Lokasi Ditolak</string>
     <string name="theme_auto">Gelap pada malam hari saja</string>
     <string name="notes">Catatan</string>
     <string name="share_analytics_summary">Bantu kami menyempurnakan Simplenote dengan berbagi data penggunaan dengan alat analitik kami. %1$sPelajari selengkapnya%2$s</string>

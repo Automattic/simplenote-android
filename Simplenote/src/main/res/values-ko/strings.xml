@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">메모를 보관하는 가장 간단한 방법입니다.</string>
     <string name="simperium_hint_password">비밀번호</string>
     <string name="simperium_hint_email">이메일</string>
@@ -58,8 +58,6 @@ Language: ko_KR
     <string name="wordpress_post_draft">상태를 임시글로 설정</string>
     <string name="send_post">글</string>
     <string name="wordpress_post">워드프레스 글</string>
-    <string name="location_permission_explanation">Simplenote에서는 일몰 및 일출 시간을 정확하게 결정하기 위해 회원님의 대략적인 위치를 알아야 합니다. 그렇지 않은 경우 야간 시간을 오후 10시에서 오전 6시 사이로 가정합니다.</string>
-    <string name="location_permission_denied">위치 사용 권한이 거부됨</string>
     <string name="theme_auto">한밤중에만</string>
     <string name="notes">메모</string>
     <string name="share_analytics_summary">사용 데이터를 분석 도구와 공유하여 Simplenote를 개선하도록 도와주세요. %1$s더 알아보기%2$s</string>

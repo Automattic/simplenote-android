@@ -229,9 +229,11 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!isAdded()) return;
+                        if (!isAdded() || !hasItem(getAdapterPosition())) {
+                            return;
+                        }
 
-                        final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
+                        final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
                         final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
                             deleteTag(tag);
@@ -270,12 +272,14 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
             @Override
             public void onClick(View view) {
-                if (!isAdded()) return;
+                if (!isAdded() || !hasItem(getAdapterPosition())) {
+                    return;
+                }
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.Dialog));
                 LinearLayout alertView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
 
-                final Tag tag = ((Bucket.ObjectCursor<Tag>)getItem(getAdapterPosition())).getObject();
+                final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
 
                 final EditText tagNameEditText = alertView.findViewById(R.id.tag_name_edit);
                 tagNameEditText.setText(tag.getName());

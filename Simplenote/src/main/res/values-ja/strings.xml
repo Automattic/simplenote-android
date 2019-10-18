@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">最も手軽にメモを残せる方法です。</string>
     <string name="simperium_hint_password">パスワード</string>
     <string name="simperium_hint_email">メール</string>
@@ -58,8 +58,6 @@ Language: ja_JP
     <string name="wordpress_post_draft">ステータスを下書きに設定</string>
     <string name="send_post">投稿</string>
     <string name="wordpress_post">WordPress 投稿</string>
-    <string name="location_permission_explanation">Simplenote では、日の出と日の入りの時刻を正確に特定するために、おおまかな位置情報が必要です。位置情報がない場合は、午後10時から午前6時を夜の時間帯と見なします。</string>
-    <string name="location_permission_denied">位置情報に関する権限の拒否</string>
     <string name="theme_auto">夜のみ「Dark」</string>
     <string name="notes">メモ</string>
     <string name="share_analytics_summary">弊社の分析ツールで使用データを共有し、Simplenote の向上のご協力ください。%1$sさらに詳しく%2$s</string>

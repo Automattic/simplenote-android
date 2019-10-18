@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">הדרך הפשוטה ביותר לרשום פתקים.</string>
     <string name="simperium_hint_password">סיסמה</string>
     <string name="simperium_hint_email">אימייל</string>
@@ -58,8 +58,6 @@ Language: he_IL
     <string name="wordpress_post_draft">להגדיר את המצב כ\'טיוטה\'</string>
     <string name="send_post">פוסט</string>
     <string name="wordpress_post">פוסט של WordPress</string>
-    <string name="location_permission_explanation">ל-Simplenote נדרש מידע לגבי המיקום המשוער שלך כדי לקבוע את שעות הזריחה והשקיעה המדויקות. אחרת, שעות הלילה נקבעות מ-22:00 עד 06:00.</string>
-    <string name="location_permission_denied">לא ניתנה הרשאה למיקום</string>
     <string name="theme_auto">צבעים כהים במהלך הלילה בלבד</string>
     <string name="notes">פתקים</string>
     <string name="share_analytics_summary">שיתוף נתוני השימוש שלך בכלי הניתוח שלנו יעזור לנו לשפר את Simplenote. %1$sלמידע נוסף%2$s</string>

@@ -1,0 +1,5 @@
+2.1:
+* Göz yorgunluğunu azaltmak ve daha iyi pil ömrü sağlamak için koyu renk teması daha koyu renklerle güncellendi.
+* Daha iyi düzen ve uyumluluk için gezinme çizici arayüzü güncellendi.
+* Daha iyi performans ve okunabilirlik için not listesi arayüzü güncellendi.
+* Yalnızca geceleyin koyu temasında konum izni kaldırıldı.

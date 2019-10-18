@@ -1,6 +1,0 @@
-2.0:
-* Menambahkan pilihan ke pengaturan Tema untuk mengikuti mode siang/malam sistem.
-* Terdapat antarmuka baru yang didesain ulang untuk login dan pendaftaran.
-* Tab terakhir dilihat kini ditampilkan ketika membuka sebuah catatan.
-* Warna antarmuka telah diperbarui untuk aksesibilitas yang lebih baik.
-* Menambahkan pengaturan ukuran widget catatan untuk menampilkan judul dan konten.

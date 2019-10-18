@@ -6,7 +6,7 @@ Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
-    <string name="simperium_title">\@string/app_name</string>
+    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Lo más fácil para tener notas.</string>
     <string name="simperium_hint_password">Contraseña</string>
     <string name="simperium_hint_email">Correo electrónico</string>
@@ -58,8 +58,6 @@ Language: es
     <string name="wordpress_post_draft">Definir estado en borrador</string>
     <string name="send_post">Entrada</string>
     <string name="wordpress_post">Entrada de WordPress</string>
-    <string name="location_permission_explanation">Simplenote debe conocer tu ubicación aproximada para determinar las horas en que se pone y sale el sol. De lo contrario, se determinará que la noche es de 22:00 a 06:00.</string>
-    <string name="location_permission_denied">Permiso de ubicación denegado</string>
     <string name="theme_auto">Oscuro solo de noche</string>
     <string name="notes">Notas</string>
     <string name="share_analytics_summary">Ayúdanos a mejorar Simplenote compartiendo los datos de uso con nuestra herramienta de análisis. %1$sMás información%2$s</string>

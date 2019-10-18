@@ -1,6 +1,0 @@
-2.0:
-* Option zur Theme-Einstellung hinzugefügt, um dem Tag-/Nachtmodus des Systems zu folgen.
-* Für Anmelden und Registrieren gibt es eine neue überarbeitete Benutzeroberfläche.
-* Der zuletzt angezeigte Tab wird jetzt eingeblendet, wenn eine Notiz geöffnet wird.
-* Farben der Benutzeroberfläche wurden für bessere Zugänglichkeit aktualisiert.
-* Ändern der Größe zum Notizen-Widget hinzugefügt, um Titel und Inhalt anzuzeigen.
