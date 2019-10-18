@@ -1,6 +1,0 @@
-2.0:
-* Aggiunta un'opzione alle impostazioni dei temi per seguire la modalità giorno/notte di sistema.
-* L'accesso e l'iscrizione hanno una nuova interfaccia riprogettata.
-* L'ultima scheda visualizzata ora viene mostrata all'apertura di una nota.
-* I colori di interfaccia sono stati aggiornati per una migliore accessibilità.
-* Aggiunto widget per il ridimensionamento delle note per visualizzare titolo e contenuti.

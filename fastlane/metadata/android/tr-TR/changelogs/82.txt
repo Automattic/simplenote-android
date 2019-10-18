@@ -1,6 +1,0 @@
-2.0:
-* Sistemin gündüz/gece modunu takip etmesi için Tema ayarına bir seçenek eklendi.
-* Oturum açma ve kaydolma için yeniden tasarlanan yeni bir arayüz var.
-* Bir notu açarken son görüntülenen sekme gösterilmiyor.
-* Daha iyi erişilebilirlik için arayüz renkleri güncellendi.
-* Başlık ve içeriği görüntülemek için not bileşenini yeniden boyutlandırma eklendi.
