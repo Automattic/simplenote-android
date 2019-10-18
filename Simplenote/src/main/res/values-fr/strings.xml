@@ -58,8 +58,6 @@ Language: fr
     <string name="wordpress_post_draft">Définir l\'état sur brouillon</string>
     <string name="send_post">Article</string>
     <string name="wordpress_post">Article WordPress</string>
-    <string name="location_permission_explanation">Simplenote nécessite de connaître votre localisation approximative pour terminer avec précision les heures de lever et coucher du soleil. Dans le cas contraire, la nuit est supposée comprise entre 22 heures et 6 heures.</string>
-    <string name="location_permission_denied">Autorisation de localisation refusée</string>
     <string name="theme_auto">Sombre la nuit uniquement</string>
     <string name="notes">Notes</string>
     <string name="share_analytics_summary">Aidez-nous à améliorer Simplenote en partageant les données d\'utilisation avec notre outil d\'analyse. %1$sEn savoir plus%2$s</string>

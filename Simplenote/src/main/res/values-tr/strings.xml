@@ -58,8 +58,6 @@ Language: tr
     <string name="wordpress_post_draft">Durumu taslak olarak ayarla</string>
     <string name="send_post">Gönder</string>
     <string name="wordpress_post">WordPress Yazısı</string>
-    <string name="location_permission_explanation">Gün doğumu ve gün batımı zamanlarını doğru şekilde belirleyebilmesi için Simplenote’un yaklaşık konumunuzu bilmesi gerekir. Aksi halde gece vakti 22:00 - 06:00 aralığı olarak ayarlanacaktır.</string>
-    <string name="location_permission_denied">Konum İzni Reddedildi</string>
     <string name="theme_auto">Sadece gece vakti karanlık</string>
     <string name="notes">Notlar</string>
     <string name="share_analytics_summary">Analiz aracımızla kullanım verilerini paylaşarak Simplenote\'u iyileştirmemize yardımcı olun. %1$sDaha fazlasını öğrenin%2$s</string>

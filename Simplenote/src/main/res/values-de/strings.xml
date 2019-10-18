@@ -58,8 +58,6 @@ Language: de
     <string name="wordpress_post_draft">Status auf Entwurf setzen</string>
     <string name="send_post">Beitrag</string>
     <string name="wordpress_post">WordPress-Beitrag</string>
-    <string name="location_permission_explanation">Simplenote muss deinen ungefähren Standort kennen, um die Sonnenuntergangs- und Sonnenaufgangszeiten genau zu bestimmen. Andernfalls wird von einer Nachtzeit von 22:00 bis 6:00 Uhr ausgegangen.</string>
-    <string name="location_permission_denied">Standortberechtigung verweigert</string>
     <string name="theme_auto">Nur nachts dunkel</string>
     <string name="notes">Notizen</string>
     <string name="share_analytics_summary">Hilf uns, Simplenote zu verbessern, indem du Nutzungsdaten für unser Analysetool bereitstellst. %1$sWeitere Informationen%2$s</string>

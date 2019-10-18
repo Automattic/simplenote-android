@@ -58,8 +58,6 @@ Language: it
     <string name="wordpress_post_draft">Imposta stato su bozza</string>
     <string name="send_post">Articolo</string>
     <string name="wordpress_post">Articolo di WordPress</string>
-    <string name="location_permission_explanation">Simplenote deve conoscere la tua posizione approssimativa per determinare con precisione gli orari di alba e tramonto. In caso contrario, si presume che l’orario notturno sia compreso tra le 22:00 e le 06:00.</string>
-    <string name="location_permission_denied">Autorizzazione posizione negata</string>
     <string name="theme_auto">Scuro solo di notte</string>
     <string name="notes">Note</string>
     <string name="share_analytics_summary">Aiutaci a migliorare Simplenote condividendo i dato di utilizzo con il nostro strumento di analisi. %1$sPer saperne di più%2$s</string>

@@ -58,8 +58,6 @@ Language: sv_SE
     <string name="wordpress_post_draft">Ställ in status som utkast</string>
     <string name="send_post">Publicera</string>
     <string name="wordpress_post">WordPress-inlägg</string>
-    <string name="location_permission_explanation">Simplenote behöver veta din ungefärliga plats för att exakt bestämma tider för solnedgång och soluppgång. Annars antas natten vara från 22.00 till 6.00.</string>
-    <string name="location_permission_denied">Platstillstånd nekat</string>
     <string name="theme_auto">Mörk på natten bara</string>
     <string name="notes">Anteckningar</string>
     <string name="share_analytics_summary">Hjälp oss att förbättra Simplenote genom att dela användningsdata med vårt analysverktyg. %1$sLäs mer%2$s</string>

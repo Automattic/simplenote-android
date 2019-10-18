@@ -58,8 +58,6 @@ Language: pt_BR
     <string name="wordpress_post_draft">Definir status como rascunho</string>
     <string name="send_post">Publicar</string>
     <string name="wordpress_post">Post do WordPress</string>
-    <string name="location_permission_explanation">O Simplenote precisa saber sua localização aproximada para determinar com precisão os horários do nascer e pôr do sol. Caso contrário, presume-se que o período noturno seja de 22h às 6h.</string>
-    <string name="location_permission_denied">Permissão de localização negada</string>
     <string name="theme_auto">Escuro apenas à noite</string>
     <string name="notes">Anotações</string>
     <string name="share_analytics_summary">Ajude-nos a aprimorar o Simplenote compartilhando o uso de dados com nossa ferramenta de dados analíticos. %1$sSaiba mais%2$s</string>

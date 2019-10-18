@@ -58,8 +58,6 @@ Language: zh_TW
     <string name="wordpress_post_draft">將狀態設為草稿</string>
     <string name="send_post">張貼</string>
     <string name="wordpress_post">WordPress 文章</string>
-    <string name="location_permission_explanation">Simplenote 需要取得你的大略位置，以精確判斷日落和日出時間。否則，夜晚時間將假設為晚上 10:00 到早上 6:00。</string>
-    <string name="location_permission_denied">位置權限遭拒</string>
     <string name="theme_auto">僅在夜間使用深色背景</string>
     <string name="notes">筆記</string>
     <string name="share_analytics_summary">請透過我們的分析工具分享使用情形資料，協助我們改善 Simplenote。%1$s瞭解更多%2$s</string>

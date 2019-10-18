@@ -58,8 +58,6 @@ Language: nl
     <string name="wordpress_post_draft">Status instellen op concept</string>
     <string name="send_post">Bericht</string>
     <string name="wordpress_post">WordPress-bericht</string>
-    <string name="location_permission_explanation">Simplenote heeft je locatie nodig om de tijd van zonsopkomst en zonsondergang nauwkeurig te kunnen bepalen. Als je deze informatie niet opgeeft, wordt ervan uitgegaan dat het tussen 22.00 en 6.00 uur nacht is.</string>
-    <string name="location_permission_denied">Locatietoestemming geweigerd</string>
     <string name="theme_auto">Alleen \'s nachts donker</string>
     <string name="notes">Notities</string>
     <string name="share_analytics_summary">Help ons Simplenote te verbeteren door gebruiksgegevens te delen met onze analysetool. %1$sMeer informatie%2$s</string>
