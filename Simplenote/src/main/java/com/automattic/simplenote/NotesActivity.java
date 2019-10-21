@@ -625,7 +625,6 @@ public class NotesActivity extends AppCompatActivity implements
         return mNoteListFragment;
     }
 
-    @SuppressWarnings("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -645,6 +644,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSearchMenuItem.expandActionView();
         } else {
             // Workaround for setting the search placeholder text color
+            @SuppressLint("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
