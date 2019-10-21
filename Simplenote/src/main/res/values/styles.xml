@@ -121,6 +121,10 @@
         <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
     </style>
 
+    <style name="ToolbarTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="colorControlNormal">?attr/toolbarIconColor</item>
+    </style>
+
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Material.Light.ProgressBar">
         <item name="android:minWidth">24dp</item>
         <item name="android:maxWidth">24dp</item>
