@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -644,7 +643,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSearchMenuItem.expandActionView();
         } else {
             // Workaround for setting the search placeholder text color
-            @SuppressLint("ResourceType")
+            @SuppressWarnings("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
