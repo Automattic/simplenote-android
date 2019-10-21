@@ -670,6 +670,8 @@ public class NotesActivity extends AppCompatActivity implements
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                getNoteListFragment().searchNotes("");
+
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
                 }
