@@ -107,6 +107,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private LinearLayout mDividerShadow;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
+    private boolean mIsSearching;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
@@ -519,6 +520,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void searchNotes(String searchString) {
+        mIsSearching = true;
+
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
             refreshList();
@@ -529,6 +532,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * Clear search and load all notes
      */
     public void clearSearch() {
+        mIsSearching = false;
+
         if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
             refreshList();
@@ -640,10 +645,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.setNoteId(mCursor.getSimperiumKey());
             Calendar date = getDateByPreference(mCursor.getObject());
             holder.mDate.setText(date != null ? DateTimeUtils.getDateTextShort(date) : "");
+            holder.mDate.setVisibility(mIsSearching && date != null ? View.VISIBLE : View.GONE);
             boolean isPinned = mCursor.getObject().isPinned();
-            holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
+            holder.mPinned.setVisibility(!isPinned || mIsSearching ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
-            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublished.setVisibility(!isPublished || mIsSearching ? View.GONE : View.VISIBLE);
             holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
