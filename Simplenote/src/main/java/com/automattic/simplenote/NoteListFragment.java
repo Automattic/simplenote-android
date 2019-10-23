@@ -385,10 +385,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void setDividerVisible(boolean visible) {
-        if (visible)
-            mDividerLine.setVisibility(View.VISIBLE);
-        else
-            mDividerLine.setVisibility(View.GONE);
+        mDividerLine.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public void setFloatingActionButtonVisible(boolean visible) {
