@@ -64,6 +64,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -747,23 +753,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private Calendar getDateByPreference(Note note) {
-        int sortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
-
-        /* Sort order constants are as follows:
-         *   0: Modified date descending
-         *   1: Modified date ascending
-         *   2: Created date descending
-         *   3: Created date ascending
-         *   4: Content ascending
-         *   5: Content descending
-         */
-        switch (sortOrder) {
-            case 0:
-            case 1:
-                return note.getModificationDate();
-            case 2:
-            case 3:
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_CREATED_ASCENDING:
+            case DATE_CREATED_DESCENDING:
                 return note.getCreationDate();
+            case DATE_MODIFIED_ASCENDING:
+            case DATE_MODIFIED_DESCENDING:
+                return note.getModificationDate();
+            case ALPHABETICAL_ASCENDING:
+            case ALPHABETICAL_DESCENDING:
             default:
                 return null;
         }
