@@ -83,6 +83,11 @@
     <string name="sort_oldest_created">Oldest created date</string>
     <string name="sort_alphabetical">Alphabetically, A-Z</string>
     <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
+    <string name="sort_search_alphabetically">Alphabetically</string>
+    <string name="sort_search_created">Created</string>
+    <string name="sort_search_modified">Modified</string>
+    <string name="sort_search_relevance">Relevance</string>
+    <string name="sort_search_reverse_order">Reverse order</string>
 
     <!-- Editor link options -->
     <string name="call">Call</string>
@@ -194,6 +199,10 @@
     <string name="appearance">Appearance</string>
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle checklist</string>
+
+    <string name="description_down">Down</string>
+    <string name="description_sort">Sort</string>
+    <string name="description_up">Up</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
