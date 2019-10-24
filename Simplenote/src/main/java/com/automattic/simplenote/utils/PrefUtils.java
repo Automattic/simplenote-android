@@ -155,9 +155,10 @@ public class PrefUtils {
         return getIntPref(context, PREF_FONT_SIZE, defaultFontSize);
     }
 
-    public static void sortNoteQuery(Query<Note> query, Context context) {
-        query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
-        int sortOrder = PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER);
+    public static void sortNoteQuery(Query<Note> query, Context context, boolean includePinnedOrdering) {
+        if (includePinnedOrdering) {
+            query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
+        }
 
         switch (PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER)) {
             case DATE_MODIFIED_DESCENDING:

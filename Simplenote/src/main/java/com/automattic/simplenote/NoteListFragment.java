@@ -448,7 +448,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, requireContext());
+        PrefUtils.sortNoteQuery(query, requireContext(), true);
         return query.execute();
     }
 
