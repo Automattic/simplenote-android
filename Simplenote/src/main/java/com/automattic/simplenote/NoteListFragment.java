@@ -700,6 +700,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSortLayoutContent.setVisibility(View.GONE);
         // Restore sort order from Settings.
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
+        refreshList();
 
         if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
