@@ -63,7 +63,6 @@
     <color name="text_button_secondary">@android:color/white</color>
     <color name="text_button_tertiary">@color/blue_60</color>
     <color name="text_link">@color/blue_50</color>
-    <color name="text_footer">@color/gray_60</color>
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 
