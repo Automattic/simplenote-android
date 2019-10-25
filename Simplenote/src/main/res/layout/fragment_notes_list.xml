@@ -42,14 +42,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/divider_shadow"
-        android:background="@drawable/right_shadow"
+    <View
+        android:id="@+id/divider_line"
+        android:background="?attr/dividerColor"
+        android:layout_gravity="end"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
+        android:layout_width="@dimen/divider_height"
         android:visibility="gone">
-    </LinearLayout>
+    </View>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_button"
