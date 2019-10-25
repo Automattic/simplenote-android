@@ -20,7 +20,7 @@
             app:contentInsetStart="@dimen/toolbar_title_keyline"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="?attr/toolbarPopupTheme"
-            app:theme="@style/ToolbarTheme">
+            style="@style/ToolbarTheme">
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

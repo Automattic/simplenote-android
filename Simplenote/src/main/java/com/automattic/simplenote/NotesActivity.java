@@ -624,9 +624,8 @@ public class NotesActivity extends AppCompatActivity implements
         return mNoteListFragment;
     }
 
-    @SuppressWarnings("ResourceType")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
@@ -644,6 +643,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSearchMenuItem.expandActionView();
         } else {
             // Workaround for setting the search placeholder text color
+            @SuppressWarnings("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
@@ -670,10 +670,16 @@ public class NotesActivity extends AppCompatActivity implements
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
+                    updateActionsForLargeLandscape(menu);
+                }
+
                 checkEmptyListText(true);
+
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(false);
                 }
+
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_NOTES_SEARCHED,
                         AnalyticsTracker.CATEGORY_NOTE,
@@ -684,10 +690,15 @@ public class NotesActivity extends AppCompatActivity implements
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
+                    updateActionsForLargeLandscape(menu);
+                }
+
                 // Show all notes again
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(true);
                 }
+
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
@@ -714,7 +725,7 @@ public class NotesActivity extends AppCompatActivity implements
             trashItem.setIcon(R.drawable.ic_trash_24dp);
         }
 
-        if (DisplayUtils.isLargeScreenLandscape(this)) {
+        if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
             // Restore the search query on landscape tablets
             if (!TextUtils.isEmpty(mTabletSearchQuery)) {
                 mSearchMenuItem.expandActionView();
@@ -722,24 +733,7 @@ public class NotesActivity extends AppCompatActivity implements
                 mSearchView.clearFocus();
             }
 
-            if (mCurrentNote != null) {
-                menu.findItem(R.id.menu_share).setVisible(true);
-                menu.findItem(R.id.menu_view_info).setVisible(true);
-                menu.findItem(R.id.menu_checklist).setVisible(true);
-                menu.findItem(R.id.menu_history).setVisible(true);
-                menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
-                menu.findItem(R.id.menu_sidebar).setVisible(true);
-                trashItem.setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_share).setVisible(false);
-                menu.findItem(R.id.menu_view_info).setVisible(false);
-                menu.findItem(R.id.menu_checklist).setVisible(false);
-                menu.findItem(R.id.menu_history).setVisible(false);
-                menu.findItem(R.id.menu_markdown_preview).setVisible(false);
-                menu.findItem(R.id.menu_sidebar).setVisible(false);
-                trashItem.setVisible(false);
-            }
-            menu.findItem(R.id.menu_empty_trash).setVisible(false);
+            updateActionsForLargeLandscape(menu);
         } else {
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
@@ -858,6 +852,28 @@ public class NotesActivity extends AppCompatActivity implements
         DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.toolbarIconColor);
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void updateActionsForLargeLandscape(Menu menu) {
+        if (mCurrentNote != null) {
+            menu.findItem(R.id.menu_checklist).setVisible(true);
+            menu.findItem(R.id.menu_delete).setVisible(true);
+            menu.findItem(R.id.menu_history).setVisible(true);
+            menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
+            menu.findItem(R.id.menu_share).setVisible(true);
+            menu.findItem(R.id.menu_sidebar).setVisible(true);
+            menu.findItem(R.id.menu_view_info).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_checklist).setVisible(false);
+            menu.findItem(R.id.menu_delete).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
+            menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+            menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_sidebar).setVisible(false);
+            menu.findItem(R.id.menu_view_info).setVisible(false);
+        }
+
+        menu.findItem(R.id.menu_empty_trash).setVisible(false);
     }
 
     public void updateViewsAfterTrashAction(Note note) {
