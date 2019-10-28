@@ -49,6 +49,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_height="@dimen/minimum_target"
+            android:layout_marginEnd="@dimen/padding_small"
             android:layout_width="@dimen/sort_switch_width"
             android:padding="@dimen/padding_medium"
             android:src="@drawable/ic_sort_order_24dp"
