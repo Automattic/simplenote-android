@@ -121,6 +121,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsSearching;
     private ImageView mSortDirection;
     private RelativeLayout mSortLayoutContent;
+    private RelativeLayout mSuggestionLayout;
     private SharedPreferences mPreferences;
     private String mSelectedNoteId;
     private TextView mSortOrder;
@@ -297,6 +298,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         });
 
         mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+        mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
         @SuppressLint("InflateParams")
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
@@ -427,7 +429,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onResume() {
         super.onResume();
         getPrefs();
-
         refreshList();
     }
 
@@ -676,16 +677,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void searchNotes(String searchString, boolean isSubmit) {
         mIsSearching = true;
         mSortLayoutContent.setVisibility(View.VISIBLE);
+        mSuggestionLayout.setVisibility(View.VISIBLE);
         // Start search with Relevance sort order selected.
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
             String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
         ).apply();
         mSortOrder.setText(R.string.sort_search_relevance);
-        refreshListForSearch();
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
-            refreshList();
+        }
+
+        if (isSubmit) {
+            mSuggestionLayout.setVisibility(View.GONE);
+            refreshListForSearch();
         }
     }
 
@@ -695,6 +700,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void clearSearch() {
         mIsSearching = false;
         mSortLayoutContent.setVisibility(View.GONE);
+        mSuggestionLayout.setVisibility(View.GONE);
         // Restore sort order from Settings.
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         refreshList();
