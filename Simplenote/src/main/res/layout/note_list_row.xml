@@ -14,13 +14,25 @@
 
     <RelativeLayout
         android:id="@+id/note_status"
+        android:layout_alignBottom="@id/note_title"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_width="wrap_content"
         android:visibility="gone"
         tools:visibility="visible">
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/note_date"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="?attr/notePreviewColor"
+            android:textSize="@dimen/text_content"
+            android:visibility="gone"
+            tools:text="Oct 21">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <ImageView
             android:id="@+id/note_pinned"

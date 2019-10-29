@@ -41,6 +41,7 @@ import androidx.fragment.app.ListFragment;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
+import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -106,6 +107,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
+    private boolean mIsSearching;
     private String mSelectedNoteId;
     private refreshListTask mRefreshListTask;
     private int mTitleFontSize;
@@ -515,6 +517,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void searchNotes(String searchString) {
+        mIsSearching = true;
+
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
             refreshList();
@@ -525,6 +529,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * Clear search and load all notes
      */
     public void clearSearch() {
+        mIsSearching = false;
+
         if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
             refreshList();
@@ -560,6 +566,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         private ImageView mPinned;
         private ImageView mPublished;
         private TextView mContent;
+        private TextView mDate;
         private TextView mTitle;
         private String mMatchOffsets;
         private String mNoteId;
@@ -608,6 +615,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder = new NoteViewHolder();
                 holder.mTitle = view.findViewById(R.id.note_title);
                 holder.mContent = view.findViewById(R.id.note_content);
+                holder.mDate = view.findViewById(R.id.note_date);
                 holder.mPinned = view.findViewById(R.id.note_pinned);
                 holder.mPublished = view.findViewById(R.id.note_published);
                 holder.mStatus = view.findViewById(R.id.note_status);
@@ -619,6 +627,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             if (holder.mTitle.getTextSize() != mTitleFontSize) {
                 holder.mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
                 holder.mContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+                holder.mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
             }
 
             if (position == getListView().getCheckedItemPosition())
@@ -631,11 +640,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.mContent.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+            Calendar date = getDateByPreference(mCursor.getObject());
+            holder.mDate.setText(date != null ? DateTimeUtils.getDateTextShort(date) : "");
+            holder.mDate.setVisibility(mIsSearching && date != null ? View.VISIBLE : View.GONE);
             boolean isPinned = mCursor.getObject().isPinned();
-            holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
+            holder.mPinned.setVisibility(!isPinned || mIsSearching ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
-            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
-            holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublished.setVisibility(!isPublished || mIsSearching ? View.GONE : View.VISIBLE);
+            boolean showIcons = isPinned || isPublished;
+            boolean showDate = mIsSearching && date != null;
+            holder.mStatus.setVisibility(showIcons || showDate ? View.VISIBLE : View.GONE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
@@ -726,6 +740,29 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
+        }
+    }
+
+    private Calendar getDateByPreference(Note note) {
+        int sortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+
+        /* Sort order constants are as follows:
+         *   0: Modified date descending
+         *   1: Modified date ascending
+         *   2: Created date descending
+         *   3: Created date ascending
+         *   4: Content ascending
+         *   5: Content descending
+         */
+        switch (sortOrder) {
+            case 0:
+            case 1:
+                return note.getModificationDate();
+            case 2:
+            case 3:
+                return note.getCreationDate();
+            default:
+                return null;
         }
     }
 

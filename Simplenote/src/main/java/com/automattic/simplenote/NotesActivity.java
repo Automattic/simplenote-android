@@ -673,6 +673,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                getNoteListFragment().searchNotes("");
 
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
