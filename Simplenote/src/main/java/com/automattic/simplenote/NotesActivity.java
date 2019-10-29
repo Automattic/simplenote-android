@@ -295,7 +295,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void onActionModeDestroyed() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (mSearchMenuItem != null && !mSearchMenuItem.isActionViewExpanded()) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
     }
 
     private ColorStateList getIconSelector() {
