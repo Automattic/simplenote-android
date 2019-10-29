@@ -295,7 +295,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void onActionModeDestroyed() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (mSearchMenuItem != null && !mSearchMenuItem.isActionViewExpanded()) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
     }
 
     private ColorStateList getIconSelector() {
@@ -670,6 +672,8 @@ public class NotesActivity extends AppCompatActivity implements
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
                 }
@@ -690,6 +694,8 @@ public class NotesActivity extends AppCompatActivity implements
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
                 }
