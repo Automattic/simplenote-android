@@ -95,6 +95,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
  * interface.
  */
 public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
+    public static final String TAG_PREFIX = "tag:";
 
     /**
      * The preferences key representing the activated item position. Only used on tablets.
@@ -618,7 +619,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private String queryTags(Query<Note> query, String searchString) {
-        Pattern pattern = Pattern.compile("tag:(.*?)( |$)");
+        Pattern pattern = Pattern.compile(TAG_PREFIX + "(.*?)( |$)");
         Matcher matcher = pattern.matcher(searchString);
         while (matcher.find()) {
             query.where(TAGS_PROPERTY, Query.ComparisonType.LIKE, matcher.group(1));
@@ -988,7 +989,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.mButtonDelete.setVisibility(View.GONE);
                     break;
                 case TAG:
-                    holder.mSuggestionText.setText("tag:" + mSuggestions.get(position).getName());
+                    holder.mSuggestionText.setText(TAG_PREFIX + mSuggestions.get(position).getName());
                     holder.mSuggestionIcon.setImageResource(R.drawable.ic_tag_24dp);
                     holder.mButtonDelete.setVisibility(View.GONE);
                     break;
