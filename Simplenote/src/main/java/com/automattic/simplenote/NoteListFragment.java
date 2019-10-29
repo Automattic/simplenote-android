@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,9 +43,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -69,6 +73,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
+import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
+import static com.automattic.simplenote.models.Suggestion.Type.TAG;
+import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
@@ -120,10 +128,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
     private ImageView mSortDirection;
+    private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
     private SharedPreferences mPreferences;
     private String mSelectedNoteId;
+    private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
     private refreshListForSearchTask mRefreshListForSearchTask;
@@ -299,6 +309,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
+        mSuggestionList = view.findViewById(R.id.suggestion_list);
+        mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
+        mSuggestionList.setAdapter(mSuggestionAdapter);
+        mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
         @SuppressLint("InflateParams")
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
@@ -914,6 +928,75 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
+        }
+    }
+
+    private class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.ViewHolder> {
+        private final List<Suggestion> mSuggestions;
+
+        private SuggestionAdapter(List<Suggestion> suggestions) {
+            mSuggestions = new ArrayList<>(suggestions);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSuggestions.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return mSuggestions.get(position).getType();
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+            switch (holder.mViewType) {
+                case HISTORY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_history_24dp);
+                    holder.mButtonDelete.setVisibility(View.VISIBLE);
+                    break;
+                case QUERY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_search_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+                case TAG:
+                    holder.mSuggestionText.setText("tag:" + mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_tag_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+            }
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(requireContext()).inflate(R.layout.search_suggestion, parent, false), viewType);
+        }
+
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            private ImageButton mButtonDelete;
+            private ImageView mSuggestionIcon;
+            private TextView mSuggestionText;
+            private View mView;
+            private int mViewType;
+
+            private ViewHolder(View itemView, int viewType) {
+                super(itemView);
+                mView = itemView;
+                mViewType = viewType;
+                mSuggestionText = itemView.findViewById(R.id.suggestion_text);
+                mSuggestionIcon = itemView.findViewById(R.id.suggestion_icon);
+                mButtonDelete = itemView.findViewById(R.id.suggestion_delete);
+            }
         }
     }
 
