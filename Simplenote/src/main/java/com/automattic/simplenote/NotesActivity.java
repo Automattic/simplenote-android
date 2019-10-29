@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -639,6 +640,8 @@ public class NotesActivity extends AppCompatActivity implements
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
+        LinearLayout searchEditFrame = mSearchView.findViewById(R.id.search_edit_frame);
+        ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
 
         if (!TextUtils.isEmpty(searchQuery)) {
             mSearchView.setQuery(searchQuery, false);
