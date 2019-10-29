@@ -115,7 +115,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ActionMode mActionMode;
     private View mRootView;
     private TextView mEmptyListTextView;
-    private LinearLayout mDividerShadow;
+    private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
@@ -270,11 +270,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
         setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-        mDividerShadow = view.findViewById(R.id.divider_shadow);
+        mDividerLine = view.findViewById(R.id.divider_line);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
-            mDividerShadow.setVisibility(View.VISIBLE);
+            mDividerLine.setVisibility(View.VISIBLE);
         }
 
         mFloatingActionButton = view.findViewById(R.id.fab_button);
@@ -507,10 +507,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void setDividerVisible(boolean visible) {
-        if (visible)
-            mDividerShadow.setVisibility(View.VISIBLE);
-        else
-            mDividerShadow.setVisibility(View.GONE);
+        mDividerLine.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public void setFloatingActionButtonVisible(boolean visible) {
