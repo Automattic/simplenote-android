@@ -864,6 +864,12 @@ public class NotesActivity extends AppCompatActivity implements
         return super.onPrepareOptionsMenu(menu);
     }
 
+    public void submitSearch(String query) {
+        if (mSearchView != null) {
+            mSearchView.setQuery(query, true);
+        }
+    }
+
     private void updateActionsForLargeLandscape(Menu menu) {
         if (mCurrentNote != null) {
             menu.findItem(R.id.menu_checklist).setVisible(true);

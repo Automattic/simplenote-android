@@ -972,6 +972,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
                 }
             });
         }
