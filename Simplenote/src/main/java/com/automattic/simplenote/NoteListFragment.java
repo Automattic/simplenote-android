@@ -673,7 +673,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSelectedNoteId = selectedNoteID;
     }
 
-    public void searchNotes(String searchString) {
+    public void searchNotes(String searchString, boolean isSubmit) {
         mIsSearching = true;
         mSortLayoutContent.setVisibility(View.VISIBLE);
         // Start search with Relevance sort order selected.

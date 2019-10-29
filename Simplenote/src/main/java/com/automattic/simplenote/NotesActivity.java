@@ -656,24 +656,24 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (mSearchMenuItem.isActionViewExpanded()) {
-                    getNoteListFragment().searchNotes(newText);
+                    getNoteListFragment().searchNotes(newText, false);
                 }
+
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String queryText) {
-                getNoteListFragment().searchNotes(queryText);
+                getNoteListFragment().searchNotes(queryText, true);
                 return true;
             }
-
         });
 
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                getNoteListFragment().searchNotes("");
+                getNoteListFragment().searchNotes("", false);
 
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
