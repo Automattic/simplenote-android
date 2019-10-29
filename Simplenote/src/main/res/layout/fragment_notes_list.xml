@@ -42,6 +42,24 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/suggestion_layout"
+        android:background="?attr/mainBackgroundColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/suggestion_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/search_suggestion">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+
     <View
         android:id="@+id/divider_line"
         android:background="?attr/dividerColor"

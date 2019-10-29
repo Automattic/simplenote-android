@@ -200,6 +200,7 @@
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle checklist</string>
 
+    <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
