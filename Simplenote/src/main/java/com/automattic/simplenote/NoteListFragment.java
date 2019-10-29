@@ -49,6 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Suggestion;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -120,6 +121,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
+    private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
     private TextView mEmptyListTextView;
@@ -239,7 +241,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mBucket = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
     }
@@ -702,6 +704,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mSearchString = searchString;
         }
 
+        if (searchString.isEmpty()) {
+            // TODO: Get history items.
+            mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
+            mSuggestionList.setAdapter(mSuggestionAdapter);
+        } else {
+            getTagSuggestions(searchString);
+        }
+
         if (isSubmit) {
             mSuggestionLayout.setVisibility(View.GONE);
             refreshListForSearch();
@@ -727,6 +737,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
+    }
+
+    private void getTagSuggestions(String query) {
+        ArrayList<Suggestion> suggestions = new ArrayList<>();
+        suggestions.add(new Suggestion(query, QUERY));
+        Query<Tag> tags = Tag.all(mBucket).reorder().orderByKey().where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%");
+
+        try (ObjectCursor<Tag> cursor = tags.execute()) {
+            while (cursor.moveToNext()) {
+                suggestions.add(new Suggestion(cursor.getObject().getName(), TAG));
+            }
+        }
+
+        mSuggestionAdapter = new SuggestionAdapter(suggestions);
+        mSuggestionList.setAdapter(mSuggestionAdapter);
     }
 
     /**
