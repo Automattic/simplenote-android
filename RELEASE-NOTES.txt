@@ -1,9 +1,10 @@
 2.3
 -----
- 
+* Added search sorting by relevance, date created, date modified, and alphabetically
+
 2.2
 -----
- 
+
 2.1.0
 -----
 * Updated dark theme with darker colors for less eye fatigue and better battery life

@@ -1,8 +1,10 @@
 package com.automattic.simplenote;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -13,6 +15,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -31,12 +34,14 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -64,6 +69,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -108,10 +119,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
+    private ImageView mSortDirection;
+    private RelativeLayout mSortLayoutContent;
+    private SharedPreferences mPreferences;
     private String mSelectedNoteId;
+    private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
+    private refreshListForSearchTask mRefreshListForSearchTask;
+    private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
+    private boolean mIsSortDown;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -239,6 +257,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             createNewNote("new_note_shortcut");
         }
 
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         mRootView = view.findViewById(R.id.list_root);
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
@@ -277,8 +296,108 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
+        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+        @SuppressLint("InflateParams")
+        LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
+        mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
+        mSortLayoutContent.setVisibility(mIsSearching ? View.VISIBLE : View.GONE);
+        mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
+        mSortOrder.setText(R.string.sort_search_relevance);
+        mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(mSortOrder.getContext(), mSortOrder, Gravity.START);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.search_sort, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        mSortOrder.setText(item.getTitle());
+
+                        switch (item.getItemId()) {
+                            case R.id.search_alphabetically:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(mIsSortDown ? ALPHABETICAL_DESCENDING : ALPHABETICAL_ASCENDING)
+                                ).apply();
+                                refreshListForSearch();
+                                return true;
+                            case R.id.search_created:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(mIsSortDown ? DATE_CREATED_DESCENDING : DATE_CREATED_ASCENDING)
+                                ).apply();
+                                refreshListForSearch();
+                                return true;
+                            case R.id.search_modified:
+                            case R.id.search_relevance:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
+                                ).apply();
+                                refreshListForSearch();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
+        ListView list = view.findViewById(android.R.id.list);
+        list.addHeaderView(sortLayoutContainer);
+
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+        mSortDirection = sortLayoutContainer.findViewById(R.id.sort_direction);
+        ImageView sortDirectionSwitch = sortLayoutContainer.findViewById(R.id.sort_direction_switch);
+        sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float startRotate = mIsSortDown ? -180f : 0f;
+                float endRotate = mIsSortDown ? 0f : -180f;
+                int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+                ObjectAnimator.ofFloat(mSortDirection, View.ROTATION, startRotate, endRotate).setDuration(duration).start();
+                mIsSortDown = !mIsSortDown;
+                switchSortDirection();
+                refreshListForSearch();
+            }
+        });
+        sortDirectionSwitch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(requireContext(), requireContext().getString(R.string.sort_search_reverse_order), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+
+    private void switchSortDirection() {
+        mSortDirection.setContentDescription(getString(mIsSortDown ? R.string.description_down : R.string.description_up));
+
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_MODIFIED_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_ASCENDING)).apply();
+                break;
+            case DATE_MODIFIED_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_DESCENDING)).apply();
+                break;
+            case DATE_CREATED_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_ASCENDING)).apply();
+                break;
+            case DATE_CREATED_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_DESCENDING)).apply();
+                break;
+            case ALPHABETICAL_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_DESCENDING)).apply();
+                break;
+            case ALPHABETICAL_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_ASCENDING)).apply();
+                break;
+        }
     }
 
     private void createNewNote(String label){
@@ -315,7 +434,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onDetach() {
         super.onDetach();
-
+        // Restore sort order from Settings.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
     }
@@ -414,6 +534,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         WidgetUtils.updateNoteWidgets(getActivity());
     }
 
+    private void refreshListForSearch() {
+        if (mRefreshListForSearchTask != null && mRefreshListForSearchTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mRefreshListForSearchTask.cancel(true);
+        }
+
+        mRefreshListForSearchTask = new refreshListForSearchTask();
+        mRefreshListForSearchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void refreshListFromNavSelect() {
         refreshList(true);
     }
@@ -439,7 +568,35 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, requireContext());
+        PrefUtils.sortNoteQuery(query, requireContext(), true);
+        return query.execute();
+    }
+
+    private ObjectCursor<Note> queryNotesForSearch() {
+        if (!isAdded()) {
+            return null;
+        }
+
+        NotesActivity notesActivity = (NotesActivity) requireActivity();
+        Query<Note> query = notesActivity.getSelectedTag().query();
+
+        String searchString = mSearchString;
+
+        if (hasSearchQuery()) {
+            searchString = queryTags(query, mSearchString);
+        }
+
+        if (!TextUtils.isEmpty(searchString)) {
+            query.where(new Query.FullTextMatch(new SearchTokenizer(searchString)));
+            query.include(new Query.FullTextOffsets("match_offsets"));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_CONTENT_INDEX_NAME, Note.CONTENT_PROPERTY));
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        } else {
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        }
+
+        PrefUtils.sortNoteQuery(query, requireContext(), false);
         return query.execute();
     }
 
@@ -518,6 +675,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void searchNotes(String searchString) {
         mIsSearching = true;
+        mSortLayoutContent.setVisibility(View.VISIBLE);
+        // Start search with Relevance sort order selected.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+            String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
+        ).apply();
+        mSortOrder.setText(R.string.sort_search_relevance);
+        refreshListForSearch();
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
@@ -530,6 +694,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     public void clearSearch() {
         mIsSearching = false;
+        mSortLayoutContent.setVisibility(View.GONE);
+        // Restore sort order from Settings.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
+        refreshList();
 
         if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
@@ -599,7 +767,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public Note getItem(int position) {
-            mCursor.moveToPosition(position);
+            mCursor.moveToPosition(position - 1);  // Minus one due to sort view header.
             return mCursor.getObject();
         }
 
@@ -744,23 +912,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private Calendar getDateByPreference(Note note) {
-        int sortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
-
-        /* Sort order constants are as follows:
-         *   0: Modified date descending
-         *   1: Modified date ascending
-         *   2: Created date descending
-         *   3: Created date ascending
-         *   4: Content ascending
-         *   5: Content descending
-         */
-        switch (sortOrder) {
-            case 0:
-            case 1:
-                return note.getModificationDate();
-            case 2:
-            case 3:
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_CREATED_ASCENDING:
+            case DATE_CREATED_DESCENDING:
                 return note.getCreationDate();
+            case DATE_MODIFIED_ASCENDING:
+            case DATE_MODIFIED_DESCENDING:
+                return note.getModificationDate();
+            case ALPHABETICAL_ASCENDING:
+            case ALPHABETICAL_DESCENDING:
             default:
                 return null;
         }
@@ -840,7 +1000,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 count = mNotesAdapter.getCount();
             } catch (SQLiteException e) {
                 count = 0;
-                android.util.Log.e(Simplenote.TAG, "Invalid SQL statement", e);
+                Log.e(Simplenote.TAG, "Invalid SQL statement", e);
                 mNotesAdapter.changeCursor(null);
             }
 
@@ -856,6 +1016,36 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 }
                 notesActivity.updateTrashMenuItem();
             }
+
+            if (mSelectedNoteId != null) {
+                setNoteSelected(mSelectedNoteId);
+                mSelectedNoteId = null;
+            }
+        }
+    }
+
+    private class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+        @Override
+        protected ObjectCursor<Note> doInBackground(Void... args) {
+            return queryNotesForSearch();
+        }
+
+        @Override
+        protected void onPostExecute(ObjectCursor<Note> cursor) {
+            if (cursor == null || getActivity() == null || getActivity().isFinishing()) {
+                return;
+            }
+
+            // While using Query.FullTextMatch, it's easy to enter an invalid term so catch the error and clear the cursor.
+            try {
+                mNotesAdapter.changeCursor(cursor);
+            } catch (SQLiteException e) {
+                Log.e(Simplenote.TAG, "Invalid SQL statement", e);
+                mNotesAdapter.changeCursor(null);
+            }
+
+            NotesActivity notesActivity = (NotesActivity) requireActivity();
+            notesActivity.updateTrashMenuItem();
 
             if (mSelectedNoteId != null) {
                 setNoteSelected(mSelectedNoteId);

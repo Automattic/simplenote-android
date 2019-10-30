@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textColor="?attr/notePreviewColor"
-            android:textSize="@dimen/text_content"
+            android:textSize="@dimen/text_date"
             android:visibility="gone"
             tools:text="Oct 21">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
