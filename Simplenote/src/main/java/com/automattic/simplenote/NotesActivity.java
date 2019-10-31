@@ -668,6 +668,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String queryText) {
                 getNoteListFragment().searchNotes(queryText, true);
+                getNoteListFragment().addSearchItem(queryText);
                 return true;
             }
         });

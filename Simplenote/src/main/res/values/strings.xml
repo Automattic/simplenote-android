@@ -205,6 +205,8 @@
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
 
+    <string name="snackbar_deleted_history">Deleted history item</string>
+
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
     <string name="simperium_button_login_email">Log In with Email</string>

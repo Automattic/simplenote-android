@@ -43,11 +43,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Search;
 import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -63,10 +65,15 @@ import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -94,7 +101,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Bucket.Listener<Search> {
     public static final String TAG_PREFIX = "tag:";
 
     /**
@@ -122,6 +129,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
+    private Bucket<Search> mBucketSearch;
     private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
@@ -242,6 +250,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBucketSearch = ((Simplenote) requireActivity().getApplication()).getSearchesBucket();
         mBucket = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
@@ -706,9 +715,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         if (searchString.isEmpty()) {
-            // TODO: Get history items.
-            mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
-            mSuggestionList.setAdapter(mSuggestionAdapter);
+            getSearchItems();
         } else {
             getTagSuggestions(searchString);
         }
@@ -740,14 +747,59 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return mSearchString != null && !mSearchString.equals("");
     }
 
+    public void addSearchItem(String item) {
+        String key = "";
+
+        try {
+            key = URLEncoder.encode(item.toLowerCase(), "UTF-8");
+            mBucketSearch.getObject(key);
+        } catch (BucketObjectMissingException exception) {
+            try {
+                Search search = mBucketSearch.newObject(key);
+                search.setIndex(mBucketSearch.count());
+                search.setDate(DateTimeUtils.getISO8601FromDate(Calendar.getInstance().getTime()));
+                search.setName(item);
+                search.save();
+            } catch (BucketObjectNameInvalid invalid) {
+                Log.e("addSearchItem", "Could not create search object", invalid);
+            }
+        } catch (UnsupportedEncodingException exception) {
+            Log.e("addSearchItem", "Invalid search key", exception);
+        }
+    }
+
+    private void deleteSearchItem(String item) {
+        try {
+            Search search = mBucketSearch.getObject(URLEncoder.encode(item.toLowerCase(), "UTF-8"));
+            search.delete();
+        } catch (BucketObjectMissingException exception) {
+            Log.e("deleteSearchItem", "Could not find search object", exception);
+        } catch (UnsupportedEncodingException exception) {
+            Log.e("deleteSearchItem", "Invalid search key", exception);
+        }
+    }
+
+    private void getSearchItems() {
+        ArrayList<Suggestion> suggestions = new ArrayList<>();
+        Query<Search> query = Search.all(mBucketSearch).reorder().orderByKey();
+
+        try (ObjectCursor<Search> cursor = query.execute()) {
+            while (cursor.moveToNext()) {
+                suggestions.add(new Suggestion(null, cursor.getObject().getName(), HISTORY));
+            }
+        }
+
+        mSuggestionAdapter.updateItems(suggestions);
+    }
+
     private void getTagSuggestions(String query) {
         ArrayList<Suggestion> suggestions = new ArrayList<>();
-        suggestions.add(new Suggestion(query, QUERY));
+        suggestions.add(new Suggestion(null, query, QUERY));
         Query<Tag> tags = Tag.all(mBucket).reorder().orderByKey().where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%");
 
         try (ObjectCursor<Tag> cursor = tags.execute()) {
             while (cursor.moveToNext()) {
-                suggestions.add(new Suggestion(cursor.getObject().getName(), TAG));
+                suggestions.add(new Suggestion(null, cursor.getObject().getName(), TAG));
             }
         }
 
@@ -957,6 +1009,46 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Search> bucket, Search object) {
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Search> bucket, Search object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNetworkChange(Bucket<Search> bucket, Bucket.ChangeType type, String key) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Search> bucket, Search object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
     private class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.ViewHolder> {
         private final List<Suggestion> mSuggestions;
 
@@ -995,10 +1087,48 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     break;
             }
 
+            holder.mButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    final String item = holder.mSuggestionText.getText().toString();
+                    deleteSearchItem(item);
+                    Snackbar
+                        .make(getRootView(), R.string.snackbar_deleted_history, Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
+                        .setAction(
+                            getString(R.string.undo),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    addSearchItem(item);
+                                }
+                            }
+                        )
+                        .show();
+                }
+            });
+            holder.mButtonDelete.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (v.isHapticFeedbackEnabled()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+
+                    Toast.makeText(getContext(), requireContext().getString(R.string.description_delete_item), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
+                    String item = holder.mSuggestionText.getText().toString();
+                    addSearchItem(item);
+                    ((NotesActivity) requireActivity()).submitSearch(item);
                 }
             });
         }
@@ -1024,6 +1154,51 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 mSuggestionIcon = itemView.findViewById(R.id.suggestion_icon);
                 mButtonDelete = itemView.findViewById(R.id.suggestion_delete);
             }
+        }
+
+        private void updateItems(List<Suggestion> suggestions) {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SuggestionDiffCallback(mSuggestions, suggestions));
+            mSuggestions.clear();
+            mSuggestions.addAll(suggestions);
+            diffResult.dispatchUpdatesTo(this);
+        }
+    }
+
+    private class SuggestionDiffCallback extends DiffUtil.Callback {
+        private List<Suggestion> mListNew;
+        private List<Suggestion> mListOld;
+
+        public SuggestionDiffCallback(List<Suggestion> oldList, List<Suggestion> newList) {
+            mListOld = oldList;
+            mListNew = newList;
+        }
+
+        @Override
+        public boolean areContentsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return
+//                itemOld.getDate().equalsIgnoreCase(itemNew.getDate()) &&
+                itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public boolean areItemsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return
+//                itemOld.getDate().equalsIgnoreCase(itemNew.getDate()) &&
+                itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mListNew.size();
+        }
+
+        @Override
+        public int getOldListSize() {
+            return mListOld.size();
         }
     }
 

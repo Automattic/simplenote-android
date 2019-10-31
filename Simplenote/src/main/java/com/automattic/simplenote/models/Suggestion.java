@@ -20,12 +20,18 @@ public class Suggestion {
         int TAG = 2;
     }
 
+    private String mDate;
     private String mName;
     private @Type int mType;
 
-    public Suggestion(String name, @Type int type) {
+    public Suggestion(String date, String name, @Type int type) {
+        mDate = date;
         mName = name;
         mType = type;
+    }
+
+    public String getDate() {
+        return mDate;
     }
 
     public String getName() {
@@ -34,6 +40,10 @@ public class Suggestion {
 
     public @Type int getType() {
         return mType;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
     }
 
     public void setName(String name) {

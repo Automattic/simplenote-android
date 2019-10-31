@@ -1,6 +1,7 @@
 2.3
 -----
 * Added search sorting by relevance, date created, date modified, and alphabetically
+* Added search history and suggestions
 
 2.2
 -----
