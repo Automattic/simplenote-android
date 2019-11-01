@@ -1,0 +1,2 @@
+2.2:
+Hemos estado optimizando los detalles técnicos. Es posible que no aprecies cambios en la aplicación, pero tendrás una experiencia más estable.

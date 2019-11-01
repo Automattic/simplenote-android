@@ -1,0 +1,2 @@
+2.2:
+Wir haben hinter den Kulissen einiges verbessert. Vielleicht hat sich für dich auf den ersten Blick nichts geändert, aber stell dich auf eine stabilere App ein.

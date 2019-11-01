@@ -1,5 +1,0 @@
-2.1:
-* Donker thema bijgewerkt met donkerdere kleuren om vermoeidheid van de ogen te verminderen en de levensduur van de batterij te verbeteren.
-* Interface van het navigatiemenu bijgewerkt voor verbeterde ordening en compatibiliteit.
-* Interface van de notitielijst bijgewerkt voor verbeterde prestaties en leesbaarheid.
-* Locatiemachtiging verwijderd van 'alleen 's nachts donker' thema.

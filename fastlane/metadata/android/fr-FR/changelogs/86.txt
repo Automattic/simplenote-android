@@ -1,5 +1,0 @@
-2.1 :
-* Mise à jour du thème sombre et ajout de couleurs plus sombres pour diminuer la fatigue oculaire et améliorer l'autonomie de la batterie.
-* Mise à jour de l'interface du menu de navigation pour une meilleure organisation et une compatibilité accrue.
-* Mise à jour de l'interface de la liste de notes pour améliorer les performances et la lisibilité.
-* Suppression de l'autorisation concernant l'emplacement géographique pour le thème sombre la nuit uniquement.

@@ -1,0 +1,2 @@
+2.2:
+Abbiamo rimesso in ordine le cose. Quindi non noterai nulla di palesemente diverso nell'app, ma tutto sarà più stabile.

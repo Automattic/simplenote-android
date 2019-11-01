@@ -1,5 +1,0 @@
-2.1:
-* Memperbarui tema gelap dengan warna yang lebih gelap agar mata tidak mudah lelah dan baterai lebih tahan lama.
-* Memperbarui antarmuka drawer navigasi untuk organisasi dan kompatibilitas yang lebih baik.
-* Memperbarui antarmuka daftar catatan untuk performa dan keterbacaan yang lebih baik.
-* Menghapus izin lokasi untuk tema hanya gelap saat malam.

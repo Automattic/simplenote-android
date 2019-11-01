@@ -1,0 +1,2 @@
+2.2:
+Kami telah melakukan sejumlah peningkatan sistem. Anda mungkin tidak melihat dengan jelas perbedaan di aplikasi, tetapi segalanya akan lebih stabil.

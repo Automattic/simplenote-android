@@ -1,0 +1,2 @@
+2.2:
+We hebben onopvallend heel wat verbeterd. Het lijkt er niet op alsof er heel veel is veranderd, maar je kunt ervan uitgaan dat alles een stuk stabieler is.
