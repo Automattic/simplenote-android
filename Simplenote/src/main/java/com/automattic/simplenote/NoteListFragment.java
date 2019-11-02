@@ -743,9 +743,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private void getTagSuggestions(String query) {
         ArrayList<Suggestion> suggestions = new ArrayList<>();
         suggestions.add(new Suggestion(query, QUERY));
-        Query<Tag> tags = Tag.all(mBucket)
-                .where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%")
-                .reorder().order(Tag.NOTE_COUNT_INDEX_NAME, Query.SortType.DESCENDING);
+        Query<Tag> tags = Tag.all(mBucket).reorder().order(Tag.NOTE_COUNT_INDEX_NAME, Query.SortType.DESCENDING);
+
+        if (!query.endsWith(TAG_PREFIX)) {
+            tags.where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%");
+        }
 
         try (ObjectCursor<Tag> cursor = tags.execute()) {
             while (cursor.moveToNext()) {
