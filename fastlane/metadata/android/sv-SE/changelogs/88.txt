@@ -1,0 +1,2 @@
+2.2:
+Vi har förbättrat saker och ting i bakgrunden. Du kanske inte märker någonting annorlunda med appen, men du kan förvänta dig att allt är mer stabilt.
