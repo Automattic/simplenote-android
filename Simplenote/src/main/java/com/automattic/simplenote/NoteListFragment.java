@@ -67,6 +67,8 @@ import com.automattic.simplenote.utils.WidgetUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
 import java.util.ArrayList;
@@ -76,6 +78,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.models.Search.KEY_SEARCH;
+import static com.automattic.simplenote.models.Search.MAX_RECENT_SEARCHES;
 import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
 import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
 import static com.automattic.simplenote.models.Suggestion.Type.TAG;
@@ -143,6 +147,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
     private refreshListForSearchTask mRefreshListForSearchTask;
+    private int mIndex;
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
@@ -753,6 +758,50 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
+    }
+
+    public void addSearchItem(String item, int index) {
+        List<String> recents = new ArrayList<>();
+        Query<Search> query = mBucketSearch.query();
+
+        try (ObjectCursor<Search> cursor = query.execute()) {
+            Search search = mBucketSearch.get(KEY_SEARCH);
+
+            if (cursor.moveToNext()) {
+                recents = cursor.getObject().getRecent();
+            }
+
+            recents.remove(item);
+            recents.add(index, item);
+            // Trim recent searches to MAX_RECENT_SEARCHES (currently 5) if size is greater than MAX_RECENT_SEARCHES.
+            search.setRecent(recents.subList(0, recents.size() > MAX_RECENT_SEARCHES ? MAX_RECENT_SEARCHES : recents.size()));
+            search.save();
+        } catch (BucketObjectMissingException exception) {
+            // Create entity for recent searches since it doesn't exist.
+            try {
+                Search search = mBucketSearch.newObject(KEY_SEARCH);
+                search.save();
+            } catch (BucketObjectNameInvalid invalid) {
+                Log.e("addSearchItem", "Could not create search object", invalid);
+            }
+        }
+    }
+
+    private void deleteSearchItem(String item) {
+        ArrayList<String> recents = new ArrayList<>();
+        Query<Search> query = mBucketSearch.query();
+
+        try (ObjectCursor<Search> cursor = query.execute()) {
+            if (cursor.moveToNext()) {
+                recents = cursor.getObject().getRecent();
+            }
+
+            Search search = cursor.getObject();
+            mIndex = recents.indexOf(item);
+            recents.remove(item);
+            search.setRecent(recents);
+            search.save();
+        }
     }
 
     private void getSearchItems() {
