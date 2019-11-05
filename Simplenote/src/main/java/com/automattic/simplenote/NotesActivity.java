@@ -60,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
@@ -864,9 +865,15 @@ public class NotesActivity extends AppCompatActivity implements
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void submitSearch(String query) {
+    public void submitSearch(String selection) {
         if (mSearchView != null) {
-            mSearchView.setQuery(query, true);
+            String query = mSearchView.getQuery().toString();
+
+            if (query.endsWith(TAG_PREFIX)) {
+                mSearchView.setQuery(query.substring(0, query.lastIndexOf(TAG_PREFIX)) + selection, true);
+            } else {
+                mSearchView.setQuery(selection, true);
+            }
         }
     }
 
