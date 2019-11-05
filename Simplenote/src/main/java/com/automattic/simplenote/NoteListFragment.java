@@ -65,6 +65,7 @@ import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObjectMissingException;
@@ -1119,6 +1120,42 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.mButtonDelete.setVisibility(View.GONE);
                     break;
             }
+
+            holder.mButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    final String item = holder.mSuggestionText.getText().toString();
+                    deleteSearchItem(item);
+                    Snackbar
+                        .make(getRootView(), R.string.snackbar_deleted_recent_search, Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
+                        .setAction(
+                            getString(R.string.undo),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    addSearchItem(item, mIndex);
+                                }
+                            }
+                        )
+                        .show();
+                }
+            });
+            holder.mButtonDelete.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (v.isHapticFeedbackEnabled()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+
+                    Toast.makeText(getContext(), requireContext().getString(R.string.description_delete_item), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
