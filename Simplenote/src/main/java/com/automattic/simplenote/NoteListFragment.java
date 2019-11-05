@@ -43,6 +43,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -1028,6 +1029,47 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 mSuggestionIcon = itemView.findViewById(R.id.suggestion_icon);
                 mButtonDelete = itemView.findViewById(R.id.suggestion_delete);
             }
+        }
+
+        private void updateItems(List<Suggestion> suggestions) {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SuggestionDiffCallback(mSuggestions, suggestions));
+            mSuggestions.clear();
+            mSuggestions.addAll(suggestions);
+            diffResult.dispatchUpdatesTo(this);
+        }
+    }
+
+    private class SuggestionDiffCallback extends DiffUtil.Callback {
+        private List<Suggestion> mListNew;
+        private List<Suggestion> mListOld;
+
+        private SuggestionDiffCallback(List<Suggestion> oldList, List<Suggestion> newList) {
+            mListOld = oldList;
+            mListNew = newList;
+        }
+
+        @Override
+        public boolean areContentsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public boolean areItemsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mListNew.size();
+        }
+
+        @Override
+        public int getOldListSize() {
+            return mListOld.size();
         }
     }
 
