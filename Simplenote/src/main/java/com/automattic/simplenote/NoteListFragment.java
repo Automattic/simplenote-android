@@ -100,7 +100,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Bucket.Listener<Search> {
     public static final String TAG_PREFIX = "tag:";
 
     /**
@@ -1039,6 +1039,46 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
+        }
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Search> bucket, Search object) {
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Search> bucket, Search object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNetworkChange(Bucket<Search> bucket, Bucket.ChangeType type, String key) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Search> bucket, Search object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
         }
     }
 
