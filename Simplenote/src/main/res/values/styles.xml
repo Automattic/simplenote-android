@@ -2,10 +2,6 @@
 
 <resources>
 
-    <style name="ActionBarTabStyle.Simplestyle" parent="@android:style/Widget.Material.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_simplestyle</item>
-    </style>
-
     <style name="ActionMode.Simplestyle" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">?attr/actionModeBackgroundColor</item>
         <item name="subtitleTextStyle">@style/Simplestyle.ActionModeSubtitleTextStyle</item>
@@ -13,7 +9,6 @@
     </style>
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Simplestyle</item>
         <item name="android:actionModeCopyDrawable">@drawable/ic_copy_24dp</item>
         <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
@@ -101,10 +96,6 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
 
-    <style name="ProgressBar.Simplestyle" parent="@android:style/Widget.Material.Light.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_simplestyle</item>
-    </style>
-
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -123,10 +114,6 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:textColor">@color/text_title_light</item>
-    </style>
-
-    <style name="Theme.Simplestyle.NoActionBar" parent="@android:style/Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">?attr/mainBackgroundColor</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents.Light">
@@ -177,11 +164,6 @@
         <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
-
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Simplestyle.Widget" parent="@android:style/Theme.Material">
-        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.Simplestyle">

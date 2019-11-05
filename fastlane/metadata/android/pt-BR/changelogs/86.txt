@@ -1,5 +1,0 @@
-2.1:
-* Tema noturno atualizado com cores mais escuras para vista menos cansada e maior duração da bateria.
-* Interface de gaveta de navegação atualizada para melhor organização e compatibilidade.
-* Interface de lista de anotações atualizada para melhor desempenho e leitura.
-* Permissão de localização removida para o tema noturno somente à noite.

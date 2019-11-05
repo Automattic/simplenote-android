@@ -1,5 +1,0 @@
-2.1:
-* Tema scuro aggiornato con colori più scuri per aumentare la durata della batteria e affaticare meno gli occhi.
-* Interfaccia del menu di navigazione aggiornata per migliorare l'organizzazione e la compatibilità.
-* Interfaccia dell'elenco delle note aggiornata per migliorare le prestazioni e la leggibilità.
-* Autorizzazione della posizione rimossa per il tema scuro solo di notte.

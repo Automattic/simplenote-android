@@ -1,0 +1,2 @@
+2.2:
+Arka planda bir takım değişiklikler yapıyoruz. Uygulamada bariz bir farklılık görmeyebilirsiniz fakat her şey daha istikrarlı olacaktır.

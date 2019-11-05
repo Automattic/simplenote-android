@@ -1,0 +1,2 @@
+2.2:
+Fizemos alguns ajustes embaixo do capô. Você pode não notar algo muito óbvio no aplicativo mas tudo está mais estável.

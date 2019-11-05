@@ -13,15 +13,15 @@
 
     <!-- ELEVATION -->
     <color name="background_dark_0">#141617</color>
-    <color name="background_dark_1">#1f2021</color>
-    <color name="background_dark_2">#232526</color>
-    <color name="background_dark_3">#252829</color>
-    <color name="background_dark_4">#282b2b</color>
-    <color name="background_dark_6">#2d2f30</color>
+    <color name="background_dark_1">#202324</color>
+    <color name="background_dark_2">#242626</color>
+    <color name="background_dark_3">#262829</color>
+    <color name="background_dark_4">#282a2b</color>
+    <color name="background_dark_6">#2d3030</color>
     <color name="background_dark_8">#2f3233</color>
-    <color name="background_dark_12">#333738</color>
-    <color name="background_dark_16">#323638</color>
-    <color name="background_dark_24">#363a3c</color>
+    <color name="background_dark_12">#333638</color>
+    <color name="background_dark_16">#35393b</color>
+    <color name="background_dark_24">#363b3c</color>
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
@@ -30,8 +30,8 @@
 
     <!-- SEMANTIC -->
     <color name="background_dark">@color/background_dark_0</color>
-    <color name="background_dark_highlight">@color/gray_70</color>
-    <color name="background_dark_highlight_drawer">@color/gray_60</color>
+    <color name="background_dark_highlight">@color/background_dark_8</color>
+    <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/blue_5</color>
     <color name="divider_dark">@color/gray_60</color>

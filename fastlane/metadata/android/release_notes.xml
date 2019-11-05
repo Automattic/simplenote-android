@@ -1,119 +1,68 @@
 <ar>
-2.1:
-* تم تحديث القالب المظلم باستخدام ألوان داكنة لتقليل إجهاد العينين وتحسين عمر البطارية.
-* تم تحديث واجهة درج التنقل لتحسين التنظيم والتوافق.
-* تم تنظيم واجهة قائمة الملحوظات لتحسين الأداء وقابلية القراءة.
-* تمت إزالة إذن الوصول إلى الموقع للقالب المظلم في الليل فقط.
+2.2:
+تم ضبط الأمور بسرية. قد لا تلاحظ أي شيء مختلف بشكل واضح في التطبيق، ولكن توقع أن يصبح كل شيء أكثر استقرارًا.
 </ar>
 <de-DE>
-2.1:
-* Dunkles Theme mit dunkleren Farben aktualisiert, damit Augen nicht so schnell ermüden und die Akkulaufzeit verbessert wird
-* Menübereich zur Navigation aktualisiert, um Organisation und Kompatibilität zu verbessern
-* Notizenliste aktualisiert, um Performance und Lesbarkeit zu verbessern
-* Standortberechtigung für „Nur nachts dunkel“-Theme entfernt
+2.2:
+Wir haben hinter den Kulissen einiges verbessert. Vielleicht hat sich für dich auf den ersten Blick nichts geändert, aber stell dich auf eine stabilere App ein.
 </de-DE>
 <es-ES>
-2.1:
-* Hemos actualizado el tema Oscuro con colores más oscuros para reducir la fatiga visual y el consumo de batería.
-* Hemos actualizado la interfaz del cajón de navegación para mejorar la organización y la compatibilidad.
-* Hemos actualizado la interfaz de la lista de notas para mejorar el rendimiento y la legibilidad.
-* Hemos quitado el permiso de ubicación para el tema Oscuro solo de noche.
+2.2:
+Hemos estado optimizando los detalles técnicos. Es posible que no aprecies cambios en la aplicación, pero tendrás una experiencia más estable.
 </es-ES>
 <fr-FR>
-2.1 :
-* Mise à jour du thème sombre et ajout de couleurs plus sombres pour diminuer la fatigue oculaire et améliorer l'autonomie de la batterie.
-* Mise à jour de l'interface du menu de navigation pour une meilleure organisation et une compatibilité accrue.
-* Mise à jour de l'interface de la liste de notes pour améliorer les performances et la lisibilité.
-* Suppression de l'autorisation concernant l'emplacement géographique pour le thème sombre la nuit uniquement.
+2.2 :
+Nous optimisons les réglages en arrière-plan. Vous ne devriez pas voir de changement notable, mais vous profiterez d'une application plus stable.
 </fr-FR>
 <iw-IL>
-2.1:
-* ערכת עיצוב כהה מעודכנת עם צבעים כהים יותר כדי למנוע עייפות של העיניים וניצול סוללה.
-* ממשק מעודכן בסרגל הניווט לארגון וההתאמה טובים יותר.
-* ממשק מעודכן ברשימת הפתקים לביצועים משופרים ולקריאה נוחה יותר.
-* הסרנו את הרשאות המיקום בערכת עיצוב שמשתנה לצבעים כהים בשעות הלילה בלבד.
+2.2:
+ביצענו כמה תיקונים במנוע. אולי לא מבחינים בשום דבר שונה באפליקציה, אבל אפשר לסמוך על ביצועים יציבים יותר.
 </iw-IL>
 <id>
-2.1:
-* Memperbarui tema gelap dengan warna yang lebih gelap agar mata tidak mudah lelah dan baterai lebih tahan lama.
-* Memperbarui antarmuka drawer navigasi untuk organisasi dan kompatibilitas yang lebih baik.
-* Memperbarui antarmuka daftar catatan untuk performa dan keterbacaan yang lebih baik.
-* Menghapus izin lokasi untuk tema hanya gelap saat malam.
+2.2:
+Kami telah melakukan sejumlah peningkatan sistem. Anda mungkin tidak melihat dengan jelas perbedaan di aplikasi, tetapi segalanya akan lebih stabil.
 </id>
 <it-IT>
-2.1:
-* Tema scuro aggiornato con colori più scuri per aumentare la durata della batteria e affaticare meno gli occhi.
-* Interfaccia del menu di navigazione aggiornata per migliorare l'organizzazione e la compatibilità.
-* Interfaccia dell'elenco delle note aggiornata per migliorare le prestazioni e la leggibilità.
-* Autorizzazione della posizione rimossa per il tema scuro solo di notte.
+2.2:
+Abbiamo rimesso in ordine le cose. Quindi non noterai nulla di palesemente diverso nell'app, ma tutto sarà più stabile.
 </it-IT>
 <ja-JP>
-2.1:
-* 目が疲れにくくバッテリーが長持ちする、より暗い色にダークテーマを更新しました。
-* より整理しやすく互換性が広がるようにナビゲーションドロワーインターフェースを更新しました。
-* パフォーマンスが向上し、見やすくなるようにメモリストインターフェースを更新しました。
-* 色の暗い夜間専用のテーマに必要な位置情報の許可を削除しました。
+2.2:
+内容をチューンアップしています。アプリの見た目にはっきりした違いはありませんが、安定性が向上しました。
 </ja-JP>
 <ko-KR>
-2.1:
-* 눈의 피로를 줄이고 배터리 수명을 연장하기 위해 더 어두운 색상으로 어두운 테마를 업데이트했습니다.
-* 구성 및 호환성을 개선하기 위해 탐색 보관함 인터페이스를 업데이트했습니다.
-* 성능과 가독성을 개선하기 위해 메모 목록 인터페이스를 업데이트했습니다.
-* 야간 전용 테마에 대한 위치 권한을 제거했습니다.
+2.2:
+밖으로 보이지는 않지만 여러 가지 기능을 새롭게 추가했습니다. 앱에서는 명백히 달라진 것이 보이지 않을 수도 있지만 모든 것이 더 안정적으로 변할 것입니다.
 </ko-KR>
 <nl-NL>
-2.1:
-* Donker thema bijgewerkt met donkerdere kleuren om vermoeidheid van de ogen te verminderen en de levensduur van de batterij te verbeteren.
-* Interface van het navigatiemenu bijgewerkt voor verbeterde ordening en compatibiliteit.
-* Interface van de notitielijst bijgewerkt voor verbeterde prestaties en leesbaarheid.
-* Locatiemachtiging verwijderd van 'alleen 's nachts donker' thema.
+2.2:
+We hebben onopvallend heel wat verbeterd. Het lijkt er niet op alsof er heel veel is veranderd, maar je kunt ervan uitgaan dat alles een stuk stabieler is.
 </nl-NL>
 <pt-BR>
-2.1:
-* Tema noturno atualizado com cores mais escuras para vista menos cansada e maior duração da bateria.
-* Interface de gaveta de navegação atualizada para melhor organização e compatibilidade.
-* Interface de lista de anotações atualizada para melhor desempenho e leitura.
-* Permissão de localização removida para o tema noturno somente à noite.
+2.2:
+Fizemos alguns ajustes embaixo do capô. Você pode não notar algo muito óbvio no aplicativo mas tudo está mais estável.
 </pt-BR>
 <ru-RU>
-Версия 2.1
-* Обновленная тёмная тема с более насыщенными цветами снижает нагрузку на глаза и увеличивает срок службы батареи.
-* Обновленный интерфейс панели навигации упорядочивает представление элементов и повышает совместимость.
-* Обновленный интерфейс списка заметок увеличивает эффективность и удобство чтения.
-* Удалено требование разрешения на доступ к сведениям о местоположении для темы, которая становится тёмной только в ночное время.
+Версия 2.2
+Мы внесли ряд технических исправлений. Внешний вид приложения не изменился — повысилась надежность работы всех его функций.
 </ru-RU>
 <sv-SE>
-2.1:
-* Det mörka temat har uppdaterats med mörkare färger för mindre ögontrötthet och bättre batteritid.
-* Gränssnittet för navigeringsreglaget har uppdaterats för bättre organisering och kompatibilitet.
-* Gränssnittet för anteckningslistan har uppdaterats för bättre prestanda och läsbarhet.
-* Platsbehörigheten för mörkt-på-natten-temat har tagits bort.
+2.2:
+Vi har förbättrat saker och ting i bakgrunden. Du kanske inte märker någonting annorlunda med appen, men du kan förvänta dig att allt är mer stabilt.
 </sv-SE>
 <tr-TR>
-2.1:
-* Göz yorgunluğunu azaltmak ve daha iyi pil ömrü sağlamak için koyu renk teması daha koyu renklerle güncellendi.
-* Daha iyi düzen ve uyumluluk için gezinme çizici arayüzü güncellendi.
-* Daha iyi performans ve okunabilirlik için not listesi arayüzü güncellendi.
-* Yalnızca geceleyin koyu temasında konum izni kaldırıldı.
+2.2:
+Arka planda bir takım değişiklikler yapıyoruz. Uygulamada bariz bir farklılık görmeyebilirsiniz fakat her şey daha istikrarlı olacaktır.
 </tr-TR>
 <zh-CN>
-2.1：
-* 使用较暗的颜色更新了深色主题，可缓解眼睛疲劳，延长电池续航时间。
-* 更新了导航抽屉界面，使之更有条理、更具兼容性。
-* 更新了注释列表界面，使之实现更好的性能、更加清晰易读。
-* 删除了仅限夜间主题的位置权限。
+2.2：
+我们一直在优化后台内容。您可能会发现应用程序在外观上没有明显变化，但是一切操作都会变得更加稳定。
 </zh-CN>
 <zh-TW>
-2.1：
-* 更新深色佈景主題，增加一些深色選擇，以減少眼睛疲勞、延長電池壽命。
-* 更新導覽抽屜介面，新的介面將更有組織，相容性也更高。
-* 更新備註清單介面，使用效能提升，讀起來更為方便。
-* 移除「只有夜晚變成深色」(dark at night only) 佈景主題的位置權限。
+2.2：
+我們已經在內部進行若干微調。你可能不會發現應用程式有何顯著差異，不過一切應該會更穩定。
 </zh-TW>
 <en-US>
-2.1:
-* Updated dark theme with darker colors for less eye fatigue and better battery life.
-* Updated navigation drawer interface for better organization and compatibility.
-* Updated note list interface for better performance and readability.
-* Removed location permission for dark at night only theme.
-/<en-US>
+2.2:
+We’ve been tuning things up under the hood. You may not see anything obviously different in the app, but expect everything to be more stable.
+</en-US>
