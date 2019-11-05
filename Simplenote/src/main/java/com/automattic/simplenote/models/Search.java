@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search extends BucketObject {
+    public static final String KEY_SEARCH = "search-key";
     public static final int MAX_RECENT_SEARCHES = 5;
 
     private static final String BUCKET_NAME = "search";
