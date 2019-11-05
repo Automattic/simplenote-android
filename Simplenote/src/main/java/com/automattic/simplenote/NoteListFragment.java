@@ -49,6 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Search;
 import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -123,6 +124,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
+    private Bucket<Search> mBucketSearch;
     private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
@@ -243,6 +245,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBucketSearch = ((Simplenote) requireActivity().getApplication()).getSearchesBucket();
         mBucket = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
@@ -448,6 +451,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onResume();
         getPrefs();
         refreshList();
+        mBucketSearch.start();
+        mBucketSearch.addOnDeleteObjectListener(this);
+        mBucketSearch.addOnNetworkChangeListener(this);
+        mBucketSearch.addOnSaveObjectListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBucketSearch.removeOnDeleteObjectListener(this);
+        mBucketSearch.removeOnNetworkChangeListener(this);
+        mBucketSearch.removeOnSaveObjectListener(this);
+        mBucketSearch.stop();
     }
 
     @Override
@@ -707,9 +723,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         if (searchString.isEmpty()) {
-            // TODO: Get history items.
-            mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
-            mSuggestionList.setAdapter(mSuggestionAdapter);
+            getSearchItems();
         } else {
             getTagSuggestions(searchString);
         }
@@ -739,6 +753,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
+    }
+
+    private void getSearchItems() {
+        ArrayList<Suggestion> suggestions = new ArrayList<>();
+        Query<Search> query = mBucketSearch.query();
+
+        try (ObjectCursor<Search> cursor = query.execute()) {
+            while (cursor.moveToNext()) {
+                List<String> recents = cursor.getObject().getRecent();
+
+                for (String recent : recents) {
+                    suggestions.add(new Suggestion(recent, HISTORY));
+                }
+            }
+        }
+
+        mSuggestionAdapter.updateItems(suggestions);
     }
 
     private void getTagSuggestions(String query) {
