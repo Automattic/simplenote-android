@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
 
 public class AutoBullet {
 
-    private static final String PATTERN_BULLET = "^([\\s]*)([-*+])[\\s]+(.*)$";
+    // \u2022 is the unicode bullet character
+    private static final String PATTERN_BULLET = "^([\\s]*)([-*+\u2022])[\\s]+(.*)$";
     private static final String STR_LINE_BREAK = System.getProperty("line.separator");
     private static final String STR_SPACE = " ";
 
