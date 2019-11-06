@@ -1,6 +1,7 @@
 2.3
 -----
 * Added search sorting by relevance, date created, date modified, and alphabetically
+* Added support for the unicode bullet • in list items
 
 2.2
 -----
