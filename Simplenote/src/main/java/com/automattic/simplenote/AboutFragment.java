@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +35,6 @@ public class AboutFragment extends Fragment {
 
         TextView version = view.findViewById(R.id.about_version);
         TextView copyright = view.findViewById(R.id.about_copyright);
-        ImageView logoImageView = view.findViewById(R.id.about_logo);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
         View playStore = view.findViewById(R.id.about_play_store);
@@ -46,8 +44,6 @@ public class AboutFragment extends Fragment {
 
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
-
-        logoImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_simplenote_24dp));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override

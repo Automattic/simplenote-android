@@ -17,8 +17,11 @@
             android:id="@+id/about_logo"
             android:contentDescription="@string/logo"
             android:layout_gravity="center_horizontal"
-            android:layout_height="90dp"
-            android:layout_width="90dp">
+            android:layout_height="@dimen/about_logo"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:layout_marginTop="@dimen/padding_large"
+            android:layout_width="@dimen/about_logo"
+            android:src="@drawable/ic_simplenote_24dp">
         </ImageView>
 
         <com.automattic.simplenote.widgets.RobotoLightTextView
