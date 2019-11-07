@@ -46,6 +46,14 @@
             tools:text="Version 1.2.3">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
+        <View
+            android:background="@color/blue_40"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:layout_marginTop="@dimen/padding_extra_extra_large"
+            android:layout_width="match_parent">
+        </View>
+
         <LinearLayout
             android:id="@+id/about_blog"
             android:background="?attr/selectableItemBackground"
@@ -76,12 +84,6 @@
             </com.automattic.simplenote.widgets.RobotoLightTextView>
 
         </LinearLayout>
-
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
 
         <LinearLayout
             android:id="@+id/about_twitter"
@@ -114,12 +116,6 @@
 
         </LinearLayout>
 
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
-
         <LinearLayout
             android:id="@+id/about_play_store"
             android:background="?attr/selectableItemBackground"
@@ -151,12 +147,6 @@
 
         </LinearLayout>
 
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
-
         <LinearLayout
             android:id="@+id/about_hiring"
             android:background="?attr/selectableItemBackground"
@@ -181,9 +171,10 @@
         </LinearLayout>
 
         <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_marginBottom="@dimen/padding_extra_large"
+            android:background="@color/blue_40"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/padding_extra_extra_large"
+            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="match_parent">
         </View>
 
