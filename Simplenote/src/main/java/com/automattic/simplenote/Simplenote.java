@@ -15,7 +15,6 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Preferences;
-import com.automattic.simplenote.models.Search;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -43,7 +42,6 @@ public class Simplenote extends Application {
     private static final String AUTH_PROVIDER = "simplenote.com";
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
-    private Bucket<Search> mSearchesBucket;
     private Bucket<Tag> mTagsBucket;
     private static Bucket<Preferences> mPreferencesBucket;
 
@@ -66,7 +64,6 @@ public class Simplenote extends Application {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
             Tag.Schema tagSchema = new Tag.Schema();
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
-            mSearchesBucket = mSimperium.bucket(new Search.Schema());
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mPreferencesBucket.start();
@@ -115,10 +112,6 @@ public class Simplenote extends Application {
         return mNotesBucket;
     }
 
-    public Bucket<Search> getSearchesBucket() {
-        return mSearchesBucket;
-    }
-
     public Bucket<Tag> getTagsBucket() {
         return mTagsBucket;
     }
@@ -147,10 +140,6 @@ public class Simplenote extends Application {
 
                         if (mNotesBucket != null) {
                             mNotesBucket.stop();
-                        }
-
-                        if (mSearchesBucket != null) {
-                            mSearchesBucket.stop();
                         }
 
                         if (mTagsBucket != null) {

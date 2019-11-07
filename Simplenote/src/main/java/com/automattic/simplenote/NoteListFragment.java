@@ -49,7 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Search;
+import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -79,8 +79,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
-import static com.automattic.simplenote.models.Search.KEY_SEARCH;
-import static com.automattic.simplenote.models.Search.MAX_RECENT_SEARCHES;
+import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
 import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
 import static com.automattic.simplenote.models.Suggestion.Type.TAG;
@@ -101,7 +101,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Bucket.Listener<Search> {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Bucket.Listener<Preferences> {
     public static final String TAG_PREFIX = "tag:";
 
     /**
@@ -129,7 +129,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
-    private Bucket<Search> mBucketSearch;
+    private Bucket<Preferences> mBucketPreferences;
     private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
@@ -251,7 +251,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBucketSearch = ((Simplenote) requireActivity().getApplication()).getSearchesBucket();
+        mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucket = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
@@ -457,19 +457,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onResume();
         getPrefs();
         refreshList();
-        mBucketSearch.start();
-        mBucketSearch.addOnDeleteObjectListener(this);
-        mBucketSearch.addOnNetworkChangeListener(this);
-        mBucketSearch.addOnSaveObjectListener(this);
+        mBucketPreferences.start();
+        mBucketPreferences.addOnDeleteObjectListener(this);
+        mBucketPreferences.addOnNetworkChangeListener(this);
+        mBucketPreferences.addOnSaveObjectListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mBucketSearch.removeOnDeleteObjectListener(this);
-        mBucketSearch.removeOnNetworkChangeListener(this);
-        mBucketSearch.removeOnSaveObjectListener(this);
-        mBucketSearch.stop();
+        mBucketPreferences.removeOnDeleteObjectListener(this);
+        mBucketPreferences.removeOnNetworkChangeListener(this);
+        mBucketPreferences.removeOnSaveObjectListener(this);
+        mBucketPreferences.stop();
     }
 
     @Override
@@ -763,25 +763,25 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void addSearchItem(String item, int index) {
         List<String> recents = new ArrayList<>();
-        Query<Search> query = mBucketSearch.query();
+        Query<Preferences> query = mBucketPreferences.query();
 
-        try (ObjectCursor<Search> cursor = query.execute()) {
-            Search search = mBucketSearch.get(KEY_SEARCH);
+        try (ObjectCursor<Preferences> cursor = query.execute()) {
+            Preferences preferences = mBucketPreferences.get(PREFERENCES_OBJECT_KEY);
 
             if (cursor.moveToNext()) {
-                recents = cursor.getObject().getRecent();
+                recents = cursor.getObject().getRecentSearches();
             }
 
             recents.remove(item);
             recents.add(index, item);
             // Trim recent searches to MAX_RECENT_SEARCHES (currently 5) if size is greater than MAX_RECENT_SEARCHES.
-            search.setRecent(recents.subList(0, recents.size() > MAX_RECENT_SEARCHES ? MAX_RECENT_SEARCHES : recents.size()));
-            search.save();
+            preferences.setRecentSearches(recents.subList(0, recents.size() > MAX_RECENT_SEARCHES ? MAX_RECENT_SEARCHES : recents.size()));
+            preferences.save();
         } catch (BucketObjectMissingException exception) {
             // Create entity for recent searches since it doesn't exist.
             try {
-                Search search = mBucketSearch.newObject(KEY_SEARCH);
-                search.save();
+                Preferences preferences = mBucketPreferences.newObject(PREFERENCES_OBJECT_KEY);
+                preferences.save();
             } catch (BucketObjectNameInvalid invalid) {
                 Log.e("addSearchItem", "Could not create search object", invalid);
             }
@@ -790,28 +790,28 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private void deleteSearchItem(String item) {
         ArrayList<String> recents = new ArrayList<>();
-        Query<Search> query = mBucketSearch.query();
+        Query<Preferences> query = mBucketPreferences.query();
 
-        try (ObjectCursor<Search> cursor = query.execute()) {
+        try (ObjectCursor<Preferences> cursor = query.execute()) {
             if (cursor.moveToNext()) {
-                recents = cursor.getObject().getRecent();
+                recents = cursor.getObject().getRecentSearches();
             }
 
-            Search search = cursor.getObject();
+            Preferences preferences = cursor.getObject();
             mIndex = recents.indexOf(item);
             recents.remove(item);
-            search.setRecent(recents);
-            search.save();
+            preferences.setRecentSearches(recents);
+            preferences.save();
         }
     }
 
     private void getSearchItems() {
         ArrayList<Suggestion> suggestions = new ArrayList<>();
-        Query<Search> query = mBucketSearch.query();
+        Query<Preferences> query = mBucketPreferences.query();
 
-        try (ObjectCursor<Search> cursor = query.execute()) {
+        try (ObjectCursor<Preferences> cursor = query.execute()) {
             while (cursor.moveToNext()) {
-                List<String> recents = cursor.getObject().getRecent();
+                List<String> recents = cursor.getObject().getRecentSearches();
 
                 for (String recent : recents) {
                     suggestions.add(new Suggestion(recent, HISTORY));
@@ -1044,11 +1044,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onBeforeUpdateObject(Bucket<Search> bucket, Search object) {
+    public void onBeforeUpdateObject(Bucket<Preferences> bucket, Preferences object) {
     }
 
     @Override
-    public void onDeleteObject(Bucket<Search> bucket, Search object) {
+    public void onDeleteObject(Bucket<Preferences> bucket, Preferences object) {
         if (isAdded()) {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -1060,7 +1060,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onNetworkChange(Bucket<Search> bucket, Bucket.ChangeType type, String key) {
+    public void onNetworkChange(Bucket<Preferences> bucket, Bucket.ChangeType type, String key) {
         if (isAdded()) {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -1072,7 +1072,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onSaveObject(Bucket<Search> bucket, Search object) {
+    public void onSaveObject(Bucket<Preferences> bucket, Preferences object) {
         if (isAdded()) {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
