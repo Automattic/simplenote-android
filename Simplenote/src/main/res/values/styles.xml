@@ -191,6 +191,13 @@
         <item name="toolbarColor">@color/blue</item>
     </style>
 
+    <style name="Theme.Simplestyle.About.Title" parent="TextAppearance.AppCompat">
+        <item name="android:paddingEnd">@dimen/padding_large</item>
+        <item name="android:paddingStart">@dimen/padding_large</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_about_title</item>
+    </style>
+
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>

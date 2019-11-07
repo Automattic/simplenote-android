@@ -33,7 +33,7 @@
             android:paddingStart="@dimen/padding_large"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_about_title">
+            android:textSize="@dimen/text_about_app">
         </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
@@ -62,17 +62,16 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:minHeight="@dimen/minimum_height_about"
             android:paddingBottom="@dimen/padding_medium"
             android:paddingTop="@dimen/padding_medium">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
                 android:text="@string/blog"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <com.automattic.simplenote.widgets.RobotoLightTextView
                 android:layout_height="wrap_content"
@@ -93,17 +92,16 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:minHeight="@dimen/minimum_height_about"
             android:paddingBottom="@dimen/padding_medium"
             android:paddingTop="@dimen/padding_medium">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
                 android:text="@string/twitter"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <com.automattic.simplenote.widgets.RobotoLightTextView
                 android:layout_height="wrap_content"
@@ -124,17 +122,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:minHeight="@dimen/minimum_height_about"
             android:paddingBottom="@dimen/padding_medium"
             android:paddingTop="@dimen/padding_medium">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
                 android:text="@string/rate_us"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <com.automattic.simplenote.widgets.RobotoLightTextView
                 android:layout_height="wrap_content"
@@ -155,6 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:minHeight="@dimen/minimum_height_about"
             android:paddingBottom="@dimen/padding_medium"
             android:paddingTop="@dimen/padding_medium">
 
