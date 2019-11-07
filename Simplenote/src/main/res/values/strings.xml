@@ -109,6 +109,8 @@
 
     <!-- About screen -->
     <string name="about">About Simplenote</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_contribute_title">Contribute</string>
     <string name="about_hiring_title">Careers</string>
     <string name="about_hiring">Are you a developer? We\'re hiring.</string>
     <string name="about_play_store">Google Play Store</string>

@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class AboutFragment extends Fragment {
-
+    private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
     private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
@@ -38,6 +38,7 @@ public class AboutFragment extends Fragment {
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
         View playStore = view.findViewById(R.id.about_play_store);
+        View contribute = view.findViewById(R.id.about_contribute);
         View hiring = view.findViewById(R.id.about_hiring);
 
         version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
@@ -80,6 +81,17 @@ public class AboutFragment extends Fragment {
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse(PLAY_STORE_URL + requireActivity().getPackageName())));
+                }
+            }
+        });
+
+        contribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_CONTRIBUTE)));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
             }
         });

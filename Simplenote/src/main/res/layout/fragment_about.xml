@@ -139,6 +139,34 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/about_contribute"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:minHeight="@dimen/minimum_height_about"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/about_contribute_title"
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/about_contribute_subtitle"
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/about_hiring"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
