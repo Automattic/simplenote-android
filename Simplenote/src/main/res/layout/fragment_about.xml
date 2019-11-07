@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    tools:background="@color/blue">
 
     <LinearLayout
         android:layout_height="wrap_content"
