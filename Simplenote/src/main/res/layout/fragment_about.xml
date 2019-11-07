@@ -150,15 +150,19 @@
             android:paddingBottom="@dimen/padding_medium"
             android:paddingTop="@dimen/padding_medium">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:lineSpacingExtra="@dimen/line_spacing"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+                android:text="@string/about_hiring_title"
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:text="@string/about_hiring"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         </LinearLayout>
 
