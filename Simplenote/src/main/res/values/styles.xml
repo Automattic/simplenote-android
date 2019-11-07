@@ -191,6 +191,13 @@
         <item name="toolbarColor">@color/blue</item>
     </style>
 
+    <style name="Theme.Simplestyle.About.Subtitle" parent="TextAppearance.AppCompat">
+        <item name="android:paddingEnd">@dimen/padding_large</item>
+        <item name="android:paddingStart">@dimen/padding_large</item>
+        <item name="android:textColor">@color/blue_5</item>
+        <item name="android:textSize">@dimen/text_about_subtitle</item>
+    </style>
+
     <style name="Theme.Simplestyle.About.Title" parent="TextAppearance.AppCompat">
         <item name="android:paddingEnd">@dimen/padding_large</item>
         <item name="android:paddingStart">@dimen/padding_large</item>
