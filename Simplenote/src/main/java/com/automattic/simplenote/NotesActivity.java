@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -59,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
@@ -639,6 +641,8 @@ public class NotesActivity extends AppCompatActivity implements
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
+        LinearLayout searchEditFrame = mSearchView.findViewById(R.id.search_edit_frame);
+        ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
 
         if (!TextUtils.isEmpty(searchQuery)) {
             mSearchView.setQuery(searchQuery, false);
@@ -656,24 +660,24 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (mSearchMenuItem.isActionViewExpanded()) {
-                    getNoteListFragment().searchNotes(newText);
+                    getNoteListFragment().searchNotes(newText, false);
                 }
+
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String queryText) {
-                getNoteListFragment().searchNotes(queryText);
+                getNoteListFragment().searchNotes(queryText, true);
                 return true;
             }
-
         });
 
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                getNoteListFragment().searchNotes("");
+                getNoteListFragment().searchNotes("", false);
 
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
@@ -859,6 +863,18 @@ public class NotesActivity extends AppCompatActivity implements
         DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.toolbarIconColor);
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void submitSearch(String selection) {
+        if (mSearchView != null) {
+            String query = mSearchView.getQuery().toString();
+
+            if (query.endsWith(TAG_PREFIX)) {
+                mSearchView.setQuery(query.substring(0, query.lastIndexOf(TAG_PREFIX)) + selection, true);
+            } else {
+                mSearchView.setQuery(selection, true);
+            }
+        }
     }
 
     private void updateActionsForLargeLandscape(Menu menu) {

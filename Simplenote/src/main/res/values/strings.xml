@@ -34,7 +34,7 @@
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
-    <string name="search">Search notes</string>
+    <string name="search">Search notes or tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
@@ -200,6 +200,7 @@
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle checklist</string>
 
+    <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>

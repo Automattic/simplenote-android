@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,9 +43,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Suggestion;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -69,6 +74,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
+import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
+import static com.automattic.simplenote.models.Suggestion.Type.TAG;
+import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
@@ -86,6 +95,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
  * interface.
  */
 public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
+    public static final String TAG_PREFIX = "tag:";
 
     /**
      * The preferences key representing the activated item position. Only used on tablets.
@@ -112,6 +122,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
+    private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
     private TextView mEmptyListTextView;
@@ -120,9 +131,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
     private ImageView mSortDirection;
+    private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
+    private RelativeLayout mSuggestionLayout;
     private SharedPreferences mPreferences;
     private String mSelectedNoteId;
+    private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
     private refreshListForSearchTask mRefreshListForSearchTask;
@@ -228,7 +242,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mBucket = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
     }
@@ -297,6 +311,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         });
 
         mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+        mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
+        mSuggestionList = view.findViewById(R.id.suggestion_list);
+        mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
+        mSuggestionList.setAdapter(mSuggestionAdapter);
+        mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
         @SuppressLint("InflateParams")
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
@@ -427,7 +446,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onResume() {
         super.onResume();
         getPrefs();
-
         refreshList();
     }
 
@@ -601,7 +619,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private String queryTags(Query<Note> query, String searchString) {
-        Pattern pattern = Pattern.compile("tag:(.*?)( |$)");
+        Pattern pattern = Pattern.compile(TAG_PREFIX + "(.*?)( |$)");
         Matcher matcher = pattern.matcher(searchString);
         while (matcher.find()) {
             query.where(TAGS_PROPERTY, Query.ComparisonType.LIKE, matcher.group(1));
@@ -673,19 +691,31 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSelectedNoteId = selectedNoteID;
     }
 
-    public void searchNotes(String searchString) {
+    public void searchNotes(String searchString, boolean isSubmit) {
         mIsSearching = true;
         mSortLayoutContent.setVisibility(View.VISIBLE);
+        mSuggestionLayout.setVisibility(View.VISIBLE);
         // Start search with Relevance sort order selected.
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
             String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
         ).apply();
         mSortOrder.setText(R.string.sort_search_relevance);
-        refreshListForSearch();
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
-            refreshList();
+        }
+
+        if (searchString.isEmpty()) {
+            // TODO: Get history items.
+            mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
+            mSuggestionList.setAdapter(mSuggestionAdapter);
+        } else {
+            getTagSuggestions(searchString);
+        }
+
+        if (isSubmit) {
+            mSuggestionLayout.setVisibility(View.GONE);
+            refreshListForSearch();
         }
     }
 
@@ -695,6 +725,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void clearSearch() {
         mIsSearching = false;
         mSortLayoutContent.setVisibility(View.GONE);
+        mSuggestionLayout.setVisibility(View.GONE);
         // Restore sort order from Settings.
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         refreshList();
@@ -707,6 +738,25 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
+    }
+
+    private void getTagSuggestions(String query) {
+        ArrayList<Suggestion> suggestions = new ArrayList<>();
+        suggestions.add(new Suggestion(query, QUERY));
+        Query<Tag> tags = Tag.all(mBucket).reorder().order(Tag.NOTE_COUNT_INDEX_NAME, Query.SortType.DESCENDING);
+
+        if (!query.endsWith(TAG_PREFIX)) {
+            tags.where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%");
+        }
+
+        try (ObjectCursor<Tag> cursor = tags.execute()) {
+            while (cursor.moveToNext()) {
+                suggestions.add(new Suggestion(cursor.getObject().getName(), TAG));
+            }
+        }
+
+        mSuggestionAdapter = new SuggestionAdapter(suggestions);
+        mSuggestionList.setAdapter(mSuggestionAdapter);
     }
 
     /**
@@ -908,6 +958,76 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
+        }
+    }
+
+    private class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.ViewHolder> {
+        private final List<Suggestion> mSuggestions;
+
+        private SuggestionAdapter(List<Suggestion> suggestions) {
+            mSuggestions = new ArrayList<>(suggestions);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSuggestions.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return mSuggestions.get(position).getType();
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+            switch (holder.mViewType) {
+                case HISTORY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_history_24dp);
+                    holder.mButtonDelete.setVisibility(View.VISIBLE);
+                    break;
+                case QUERY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_search_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+                case TAG:
+                    holder.mSuggestionText.setText(TAG_PREFIX + mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_tag_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+            }
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
+                }
+            });
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(requireContext()).inflate(R.layout.search_suggestion, parent, false), viewType);
+        }
+
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            private ImageButton mButtonDelete;
+            private ImageView mSuggestionIcon;
+            private TextView mSuggestionText;
+            private View mView;
+            private int mViewType;
+
+            private ViewHolder(View itemView, int viewType) {
+                super(itemView);
+                mView = itemView;
+                mViewType = viewType;
+                mSuggestionText = itemView.findViewById(R.id.suggestion_text);
+                mSuggestionIcon = itemView.findViewById(R.id.suggestion_icon);
+                mButtonDelete = itemView.findViewById(R.id.suggestion_delete);
+            }
         }
     }
 
