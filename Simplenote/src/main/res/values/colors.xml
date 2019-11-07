@@ -21,7 +21,7 @@
     <color name="background_dark_8">#323436</color>
     <color name="background_dark_12">#37393b</color>
     <color name="background_dark_16">#3a3c3e</color>
-    <color name="background_dark_24">#363b3c</color>
+    <color name="background_dark_24">#3d3f41</color>
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
