@@ -12,7 +12,7 @@
     <color name="yellow">@color/yellow_20</color>
 
     <!-- ELEVATION -->
-    <color name="background_dark_0">#141617</color>
+    <color name="background_dark_0">#121416</color>
     <color name="background_dark_1">#202324</color>
     <color name="background_dark_2">#242626</color>
     <color name="background_dark_3">#262829</color>
