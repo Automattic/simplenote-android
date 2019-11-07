@@ -24,15 +24,17 @@
             android:src="@drawable/ic_simplenote_24dp">
         </ImageView>
 
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_extra_small"
             android:layout_width="match_parent"
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:text="@string/app_name"
-            android:textSize="32sp">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_about_title">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
         <com.automattic.simplenote.widgets.RobotoLightTextView
             android:id="@+id/about_version"
