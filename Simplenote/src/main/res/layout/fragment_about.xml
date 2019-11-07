@@ -36,14 +36,15 @@
             android:textSize="@dimen/text_about_title">
         </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/about_version"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="13sp"
+            android:textColor="@color/blue_5"
+            android:textSize="@dimen/text_about_version"
             tools:text="Version 1.2.3">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <LinearLayout
             android:id="@+id/about_blog"
