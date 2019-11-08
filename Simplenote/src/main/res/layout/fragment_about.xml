@@ -234,7 +234,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/about_hiring"
+            android:id="@+id/about_careers"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -246,25 +246,25 @@
             android:paddingTop="@dimen/padding_medium">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
-                android:id="@+id/about_hiring_title"
+                android:id="@+id/about_careers_title"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/about_hiring_arrow"
+                android:layout_toStartOf="@+id/about_careers_arrow"
                 android:layout_width="match_parent"
                 android:text="@string/about_hiring_title"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
-                android:layout_below="@+id/about_hiring_title"
+                android:layout_below="@+id/about_careers_title"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/about_hiring_arrow"
+                android:layout_toStartOf="@+id/about_careers_arrow"
                 android:layout_width="match_parent"
                 android:text="@string/about_hiring"
                 style="@style/Theme.Simplestyle.About.Subtitle">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <ImageView
-                android:id="@+id/about_hiring_arrow"
+                android:id="@+id/about_careers_arrow"
                 android:importantForAccessibility="no"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"

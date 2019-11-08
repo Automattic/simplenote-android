@@ -34,18 +34,17 @@ public class AboutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
         TextView version = view.findViewById(R.id.about_version);
-        TextView copyright = view.findViewById(R.id.about_copyright);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
-        View playStore = view.findViewById(R.id.about_play_store);
+        View store = view.findViewById(R.id.about_store);
         View contribute = view.findViewById(R.id.about_contribute);
-        View hiring = view.findViewById(R.id.about_hiring);
+        View careers = view.findViewById(R.id.about_careers);
         TextView privacy = view.findViewById(R.id.about_privacy);
         TextView terms = view.findViewById(R.id.about_terms);
+        TextView copyright = view.findViewById(R.id.about_copyright);
 
         String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
         version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
@@ -74,7 +73,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        playStore.setOnClickListener(new View.OnClickListener() {
+        store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse(PLAY_STORE_URI + requireActivity().getPackageName());
@@ -102,7 +101,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        hiring.setOnClickListener(new View.OnClickListener() {
+        careers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
