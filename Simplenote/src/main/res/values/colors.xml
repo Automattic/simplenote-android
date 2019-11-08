@@ -29,7 +29,7 @@
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
-    <color name="background_dark">@color/background_dark_0</color>
+    <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
