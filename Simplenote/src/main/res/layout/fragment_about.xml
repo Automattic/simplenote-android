@@ -202,6 +202,38 @@
             android:layout_width="match_parent">
         </View>
 
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_privacy"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Privacy Policy"
+                style="@style/Theme.Simplestyle.About.Link">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/link_divider"
+                android:textColor="@color/blue_5"
+                android:textSize="@dimen/text_about_subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_terms"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Terms of Service"
+                style="@style/Theme.Simplestyle.About.Link">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
         <com.automattic.simplenote.widgets.RobotoLightTextView
             android:id="@+id/about_copyright"
             android:background="?attr/selectableItemBackground"

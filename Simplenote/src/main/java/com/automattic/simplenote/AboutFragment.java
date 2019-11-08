@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
@@ -19,6 +21,8 @@ import java.util.Locale;
 
 public class AboutFragment extends Fragment {
     private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
+    private static final String URL_PRIVACY = "https://automattic.com/privacy";
+    private static final String URL_TERMS = "https://simplenote.com/terms";
     private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
@@ -40,9 +44,11 @@ public class AboutFragment extends Fragment {
         View playStore = view.findViewById(R.id.about_play_store);
         View contribute = view.findViewById(R.id.about_contribute);
         View hiring = view.findViewById(R.id.about_hiring);
+        TextView privacy = view.findViewById(R.id.about_privacy);
+        TextView terms = view.findViewById(R.id.about_terms);
 
+        String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
         version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
-
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
 
@@ -101,6 +107,42 @@ public class AboutFragment extends Fragment {
             public void onClick(View v) {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SIMPLENOTE_HIRING_HANDLE)));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        privacy.setText(Html.fromHtml(String.format(
+            getResources().getString(R.string.link_privacy),
+            "<u><span style=\"color:#",
+            colorLink,
+            "\">",
+            "</span></u>"
+        )));
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_PRIVACY)));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        terms.setText(Html.fromHtml(String.format(
+            getResources().getString(R.string.link_terms),
+            "<u><span style=\"color:#",
+            colorLink,
+            "\">",
+            "</span></u>"
+        )));
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_TERMS)));
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }

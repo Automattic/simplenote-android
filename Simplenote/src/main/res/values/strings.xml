@@ -120,6 +120,9 @@
     <string name="blog">Blog</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="link_divider">&#183;</string>
+    <string name="link_privacy">%1$s%2$s%3$sPrivacy Policy%4$s</string>
+    <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
