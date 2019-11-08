@@ -202,6 +202,7 @@
     </style>
 
     <style name="Theme.Simplestyle.About.Subtitle" parent="TextAppearance.AppCompat">
+        <item name="android:ellipsize">end</item>
         <item name="android:paddingEnd">@dimen/padding_large</item>
         <item name="android:paddingStart">@dimen/padding_large</item>
         <item name="android:textColor">@color/blue_5</item>
@@ -209,6 +210,7 @@
     </style>
 
     <style name="Theme.Simplestyle.About.Title" parent="TextAppearance.AppCompat">
+        <item name="android:ellipsize">end</item>
         <item name="android:paddingEnd">@dimen/padding_large</item>
         <item name="android:paddingStart">@dimen/padding_large</item>
         <item name="android:textColor">@android:color/white</item>
