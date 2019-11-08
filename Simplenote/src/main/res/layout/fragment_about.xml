@@ -5,14 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    tools:background="@color/blue">
+    android:layout_width="wrap_content"
+    tools:background="@color/blue"
+    tools:layout_width="match_parent">
 
     <LinearLayout
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:layout_width="@dimen/width_layout"
+        android:orientation="vertical"
+        tools:layout_width="match_parent">
 
         <ImageView
             android:id="@+id/about_logo"
