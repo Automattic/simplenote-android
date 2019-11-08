@@ -234,19 +234,16 @@
 
         </LinearLayout>
 
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/about_copyright"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="bottom|center_horizontal"
-            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_large"
             android:layout_marginTop="@dimen/padding_large"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:paddingEnd="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
-            android:textSize="15sp">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+            tools:text="© Automattic 2019"
+            style="@style/Theme.Simplestyle.About.Subtitle">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     </LinearLayout>
 

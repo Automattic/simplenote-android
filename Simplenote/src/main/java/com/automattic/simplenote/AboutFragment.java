@@ -50,7 +50,7 @@ public class AboutFragment extends Fragment {
         String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
         version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
+        copyright.setText(String.format(Locale.getDefault(), getString(R.string.about_copyright), thisYear));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override

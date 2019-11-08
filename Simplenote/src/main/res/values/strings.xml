@@ -109,6 +109,7 @@
 
     <!-- About screen -->
     <string name="about">About Simplenote</string>
+    <string name="about_copyright">&#169; Automattic %1$d</string>
     <string name="about_contribute_subtitle">github.com</string>
     <string name="about_contribute_title">Contribute</string>
     <string name="about_hiring_title">Careers</string>
