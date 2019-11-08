@@ -131,6 +131,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
     private ImageView mSortDirection;
+    private ListView mList;
     private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
@@ -361,8 +362,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 popup.show();
             }
         });
-        ListView list = view.findViewById(android.R.id.list);
-        list.addHeaderView(sortLayoutContainer);
+        mList = view.findViewById(android.R.id.list);
+        mList.addHeaderView(sortLayoutContainer);
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -392,6 +393,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return true;
             }
         });
+    }
+
+    public void showListPadding(boolean show) {
+        mList.setPadding(
+            mList.getPaddingLeft(),
+            mList.getPaddingTop(),
+            mList.getPaddingRight(),
+            show ? (int) getResources().getDimension(R.dimen.note_list_item_padding_bottom_button) : 0
+        );
     }
 
     private void switchSortDirection() {
