@@ -160,12 +160,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public NoteListFragment() {
     }
 
-    public void setEmptyListViewClickable(boolean isClickable) {
-        if (mEmptyViewText != null) {
-            mEmptyViewText.setClickable(isClickable);
-        }
-    }
-
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);

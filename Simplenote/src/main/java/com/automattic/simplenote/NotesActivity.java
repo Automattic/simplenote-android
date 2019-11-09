@@ -1211,7 +1211,6 @@ public class NotesActivity extends AppCompatActivity implements
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
-            getNoteListFragment().setEmptyListViewClickable(false);
         } else if (mSelectedTag != null) {
             if (mSelectedTag.id == ALL_NOTES_ID) {
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
@@ -1222,13 +1221,11 @@ public class NotesActivity extends AppCompatActivity implements
                         AnalyticsTracker.CATEGORY_NOTE,
                         "trash_filter_selected"
                 );
-                getNoteListFragment().setEmptyListViewClickable(false);
             } else if (mSelectedTag.id != UNTAGGED_NOTES_ID) {
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
             }
         } else {
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
-            getNoteListFragment().setEmptyListViewClickable(true);
         }
     }
 
