@@ -35,6 +35,7 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_fingerprint">4dp</dimen>
+    <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_status">16dp</dimen>
     <dimen name="line_spacing">4dp</dimen>
     <dimen name="line_spacing_list">2dp</dimen>
@@ -46,7 +47,7 @@
     <dimen name="text_content">14sp</dimen>
     <dimen name="text_content_title">16sp</dimen>
     <dimen name="text_date">14sp</dimen>
-    <dimen name="text_empty">20sp</dimen>
+    <dimen name="text_empty">16sp</dimen>
     <dimen name="text_passcode">18sp</dimen>
     <dimen name="text_tag">14sp</dimen>
     <dimen name="text_suggestion">16sp</dimen>
