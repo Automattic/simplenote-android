@@ -24,11 +24,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="word">Word</string>
-    <string name="no_notes_here">No notes here.</string>
-    <string name="why_not_create_one">Why not %1$screate one%2$s?</string>
-    <string name="no_tags_found">No tags found.</string>
-    <string name="trash_is_empty">The trash is empty.</string>
-    <string name="no_notes_found">No notes found.</string>
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     <string name="note_selected">%d note selected</string>
