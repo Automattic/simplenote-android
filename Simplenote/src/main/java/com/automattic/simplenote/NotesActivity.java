@@ -1224,7 +1224,10 @@ public class NotesActivity extends AppCompatActivity implements
                         AnalyticsTracker.CATEGORY_NOTE,
                         "trash_filter_selected"
                 );
-            } else if (mSelectedTag.id != UNTAGGED_NOTES_ID) {
+            } else if (mSelectedTag.id == UNTAGGED_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_untagged_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_untagged));
+            } else {
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_tag_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
             }

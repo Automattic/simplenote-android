@@ -204,6 +204,7 @@
     <string name="empty_notes_search">No notes found</string>
     <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
     <string name="empty_notes_trash">Your trash is empty</string>
+    <string name="empty_notes_untagged">Create an untagged note</string>
     <string name="empty_tags">No tags</string>
 
     <!-- SIMPERIUM -->
