@@ -762,64 +762,63 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void addSearchItem(String item, int index) {
-        List<String> recents = new ArrayList<>();
-        Query<Preferences> query = mBucketPreferences.query();
+        Preferences preferences = getPreferences();
 
-        try (ObjectCursor<Preferences> cursor = query.execute()) {
-            Preferences preferences = mBucketPreferences.get(PREFERENCES_OBJECT_KEY);
-
-            if (cursor.moveToNext()) {
-                recents = cursor.getObject().getRecentSearches();
-            }
-
+        if (preferences != null) {
+            List<String> recents = preferences.getRecentSearches();
             recents.remove(item);
             recents.add(index, item);
             // Trim recent searches to MAX_RECENT_SEARCHES (currently 5) if size is greater than MAX_RECENT_SEARCHES.
             preferences.setRecentSearches(recents.subList(0, recents.size() > MAX_RECENT_SEARCHES ? MAX_RECENT_SEARCHES : recents.size()));
             preferences.save();
-        } catch (BucketObjectMissingException exception) {
-            // Create entity for recent searches since it doesn't exist.
-            try {
-                Preferences preferences = mBucketPreferences.newObject(PREFERENCES_OBJECT_KEY);
-                preferences.save();
-            } catch (BucketObjectNameInvalid invalid) {
-                Log.e("addSearchItem", "Could not create search object", invalid);
-            }
+        } else {
+            Log.e("addSearchItem", "Could not get preferences entity");
         }
     }
 
     private void deleteSearchItem(String item) {
-        ArrayList<String> recents = new ArrayList<>();
-        Query<Preferences> query = mBucketPreferences.query();
+        Preferences preferences = getPreferences();
 
-        try (ObjectCursor<Preferences> cursor = query.execute()) {
-            if (cursor.moveToNext()) {
-                recents = cursor.getObject().getRecentSearches();
-            }
-
-            Preferences preferences = cursor.getObject();
+        if (preferences != null) {
+            List<String> recents = preferences.getRecentSearches();
             mIndex = recents.indexOf(item);
             recents.remove(item);
             preferences.setRecentSearches(recents);
             preferences.save();
+        } else {
+            Log.e("deleteSearchItem", "Could not get preferences entity");
+        }
+    }
+
+    private Preferences getPreferences() {
+        try {
+            return mBucketPreferences.get(PREFERENCES_OBJECT_KEY);
+        } catch (BucketObjectMissingException exception) {
+            try {
+                Preferences preferences = mBucketPreferences.newObject(PREFERENCES_OBJECT_KEY);
+                preferences.save();
+                return preferences;
+            } catch (BucketObjectNameInvalid invalid) {
+                Log.e("getPreferences", "Could not create preferences entity", invalid);
+                return null;
+            }
         }
     }
 
     private void getSearchItems() {
-        ArrayList<Suggestion> suggestions = new ArrayList<>();
-        Query<Preferences> query = mBucketPreferences.query();
+        Preferences preferences = getPreferences();
 
-        try (ObjectCursor<Preferences> cursor = query.execute()) {
-            while (cursor.moveToNext()) {
-                List<String> recents = cursor.getObject().getRecentSearches();
+        if (preferences != null) {
+            ArrayList<Suggestion> suggestions = new ArrayList<>();
 
-                for (String recent : recents) {
-                    suggestions.add(new Suggestion(recent, HISTORY));
-                }
+            for (String recent : preferences.getRecentSearches()) {
+                suggestions.add(new Suggestion(recent, HISTORY));
             }
-        }
 
-        mSuggestionAdapter.updateItems(suggestions);
+            mSuggestionAdapter.updateItems(suggestions);
+        } else {
+            Log.e("getSearchItems", "Could not get preferences entity");
+        }
     }
 
     private void getTagSuggestions(String query) {
