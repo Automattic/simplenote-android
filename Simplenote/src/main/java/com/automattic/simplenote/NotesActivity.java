@@ -1210,11 +1210,14 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
+            getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
         } else if (mSelectedTag != null) {
             if (mSelectedTag.id == ALL_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
             } else if (mSelectedTag.id == TRASH_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_trash_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
@@ -1222,9 +1225,11 @@ public class NotesActivity extends AppCompatActivity implements
                         "trash_filter_selected"
                 );
             } else if (mSelectedTag.id != UNTAGGED_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_tag_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
             }
         } else {
+            getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
         }
     }

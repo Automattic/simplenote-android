@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
@@ -124,6 +125,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
+    private ImageView mEmptyViewImage;
     private TextView mEmptyViewText;
     private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
@@ -269,7 +271,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
+        mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
+        setEmptyListImage(R.drawable.ic_notes_24dp);
         setEmptyListMessage(getString(R.string.empty_notes_all));
         mDividerLine = view.findViewById(R.id.divider_line);
 
@@ -443,6 +447,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
+    }
+
+    public void setEmptyListImage(@DrawableRes int image) {
+        if (mEmptyViewImage != null) {
+            mEmptyViewImage.setImageResource(image);
+        }
     }
 
     public void setEmptyListMessage(String message) {
