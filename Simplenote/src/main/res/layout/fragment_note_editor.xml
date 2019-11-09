@@ -117,7 +117,7 @@
                 android:layout_height="@dimen/logo_empty"
                 android:layout_width="@dimen/logo_empty"
                 android:src="@drawable/logo_login"
-                android:tint="?attr/placeholderLogoColor">
+                android:tint="?attr/emptyImageColor">
             </ImageView>
 
         </LinearLayout>

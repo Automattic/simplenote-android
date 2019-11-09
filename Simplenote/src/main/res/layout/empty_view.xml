@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="@dimen/icon_empty"
         android:src="@drawable/ic_notes_24dp"
-        android:tint="?attr/placeholderLogoColor">
+        android:tint="?attr/emptyImageColor">
     </ImageView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
