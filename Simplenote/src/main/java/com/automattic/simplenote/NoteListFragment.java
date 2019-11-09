@@ -54,7 +54,6 @@ import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -125,7 +124,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucket;
     private ActionMode mActionMode;
     private View mRootView;
-    private TextView mEmptyListTextView;
+    private TextView mEmptyViewText;
     private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
@@ -162,8 +161,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void setEmptyListViewClickable(boolean isClickable) {
-        if (mEmptyListTextView != null) {
-            mEmptyListTextView.setClickable(isClickable);
+        if (mEmptyViewText != null) {
+            mEmptyViewText.setClickable(isClickable);
         }
     }
 
@@ -276,14 +275,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = view.findViewById(R.id.empty_message);
-        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNote();
-            }
-        });
-        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
+        mEmptyViewText = emptyView.findViewById(R.id.text);
+        setEmptyListMessage(getString(R.string.empty_notes_all));
         mDividerLine = view.findViewById(R.id.divider_line);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
@@ -459,8 +452,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void setEmptyListMessage(String message) {
-        if (mEmptyListTextView != null && message != null)
-            mEmptyListTextView.setText(HtmlCompat.fromHtml(message));
+        if (mEmptyViewText != null && message != null) {
+            mEmptyViewText.setText(message);
+        }
     }
 
     @Override

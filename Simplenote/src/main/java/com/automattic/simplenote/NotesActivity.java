@@ -1210,18 +1210,24 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
             getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "trash_filter_selected"
-            );
-            getNoteListFragment().setEmptyListViewClickable(false);
+        } else if (mSelectedTag != null) {
+            if (mSelectedTag.id == ALL_NOTES_ID) {
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
+            } else if (mSelectedTag.id == TRASH_ID) {
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "trash_filter_selected"
+                );
+                getNoteListFragment().setEmptyListViewClickable(false);
+            } else if (mSelectedTag.id != UNTAGGED_NOTES_ID) {
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
+            }
         } else {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
             getNoteListFragment().setEmptyListViewClickable(true);
         }
     }
