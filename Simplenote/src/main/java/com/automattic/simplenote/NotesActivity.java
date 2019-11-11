@@ -685,8 +685,10 @@ public class NotesActivity extends AppCompatActivity implements
 
                 checkEmptyListText(true);
 
+                // Hide floating action button and list bottom padding.
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(false);
+                    mNoteListFragment.showListPadding(false);
                 }
 
                 AnalyticsTracker.track(
@@ -705,9 +707,10 @@ public class NotesActivity extends AppCompatActivity implements
                     updateActionsForLargeLandscape(menu);
                 }
 
-                // Show all notes again
+                // Show floating action button and list bottom padding.
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(true);
+                    mNoteListFragment.showListPadding(true);
                 }
 
                 mTabletSearchQuery = "";
