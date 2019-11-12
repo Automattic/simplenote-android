@@ -669,6 +669,7 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String queryText) {
                 getNoteListFragment().searchNotes(queryText, true);
+                checkEmptyListText(true);
                 return true;
             }
         });
@@ -1210,7 +1211,12 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
+            if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
+                getNoteListFragment().setEmptyListImage(-1);
+            } else {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
+            }
+
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
         } else if (mSelectedTag != null) {
             if (mSelectedTag.id == ALL_NOTES_ID) {

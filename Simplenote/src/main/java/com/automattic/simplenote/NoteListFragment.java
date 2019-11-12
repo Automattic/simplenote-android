@@ -451,7 +451,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void setEmptyListImage(@DrawableRes int image) {
         if (mEmptyViewImage != null) {
-            mEmptyViewImage.setImageResource(image);
+            if (image != -1) {
+                mEmptyViewImage.setVisibility(View.VISIBLE);
+                mEmptyViewImage.setImageResource(image);
+            } else {
+                mEmptyViewImage.setVisibility(View.GONE);
+            }
         }
     }
 
