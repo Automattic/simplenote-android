@@ -407,7 +407,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSelectedTag = mTagsAdapter.getDefaultItem();
         }
 
-        checkEmptyListText(false);
+        checkEmptyListText(mSearchMenuItem != null && mSearchMenuItem.isActionViewExpanded());
 
         if (mNoteListFragment.isHidden()) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
