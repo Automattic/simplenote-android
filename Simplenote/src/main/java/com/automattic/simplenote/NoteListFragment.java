@@ -148,7 +148,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
     private refreshListForSearchTask mRefreshListForSearchTask;
-    private int mIndex;
+    private int mDeletedItemIndex;
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
@@ -781,7 +781,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         if (preferences != null) {
             List<String> recents = preferences.getRecentSearches();
-            mIndex = recents.indexOf(item);
+            mDeletedItemIndex = recents.indexOf(item);
             recents.remove(item);
             preferences.setRecentSearches(recents);
             preferences.save();
@@ -1137,7 +1137,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    addSearchItem(item, mIndex);
+                                    addSearchItem(item, mDeletedItemIndex);
                                 }
                             }
                         )
