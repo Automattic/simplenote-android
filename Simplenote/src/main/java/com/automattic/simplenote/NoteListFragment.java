@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
@@ -56,7 +57,6 @@ import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -133,12 +133,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucketTag;
     private ActionMode mActionMode;
     private View mRootView;
-    private TextView mEmptyListTextView;
+    private ImageView mEmptyViewImage;
+    private TextView mEmptyViewText;
     private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
     private boolean mIsSearching;
     private ImageView mSortDirection;
+    private ListView mList;
     private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
@@ -168,12 +170,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * fragment (e.g. upon screen orientation changes).
      */
     public NoteListFragment() {
-    }
-
-    public void setEmptyListViewClickable(boolean isClickable) {
-        if (mEmptyListTextView != null) {
-            mEmptyListTextView.setClickable(isClickable);
-        }
     }
 
     @Override
@@ -286,14 +282,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = view.findViewById(R.id.empty_message);
-        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNote();
-            }
-        });
-        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
+        mEmptyViewImage = emptyView.findViewById(R.id.image);
+        mEmptyViewText = emptyView.findViewById(R.id.text);
+        setEmptyListImage(R.drawable.ic_notes_24dp);
+        setEmptyListMessage(getString(R.string.empty_notes_all));
         mDividerLine = view.findViewById(R.id.divider_line);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
@@ -371,8 +363,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 popup.show();
             }
         });
-        ListView list = view.findViewById(android.R.id.list);
-        list.addHeaderView(sortLayoutContainer);
+        mList = view.findViewById(android.R.id.list);
+        mList.addHeaderView(sortLayoutContainer);
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -402,6 +394,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 return true;
             }
         });
+    }
+
+    public void showListPadding(boolean show) {
+        mList.setPadding(
+            mList.getPaddingLeft(),
+            mList.getPaddingTop(),
+            mList.getPaddingRight(),
+            show ? (int) getResources().getDimension(R.dimen.note_list_item_padding_bottom_button) : 0
+        );
     }
 
     private void switchSortDirection() {
@@ -481,9 +482,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mCallbacks = sCallbacks;
     }
 
+    public void setEmptyListImage(@DrawableRes int image) {
+        if (mEmptyViewImage != null) {
+            if (image != -1) {
+                mEmptyViewImage.setVisibility(View.VISIBLE);
+                mEmptyViewImage.setImageResource(image);
+            } else {
+                mEmptyViewImage.setVisibility(View.GONE);
+            }
+        }
+    }
+
     public void setEmptyListMessage(String message) {
-        if (mEmptyListTextView != null && message != null)
-            mEmptyListTextView.setText(HtmlCompat.fromHtml(message));
+        if (mEmptyViewText != null && message != null) {
+            mEmptyViewText.setText(message);
+        }
     }
 
     @Override

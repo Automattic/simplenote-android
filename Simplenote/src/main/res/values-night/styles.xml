@@ -28,6 +28,7 @@
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="emptyImageColor">@color/empty_dark</item>
         <item name="fabColor">@color/item_blue_dark</item>
         <item name="fabIconColor">@color/gray_100</item>
         <item name="hintTextColor">@color/text_title_disabled</item>
@@ -44,7 +45,6 @@
         <item name="noteTitleColor">@android:color/white</item>
         <item name="tagChipShadowColor">@color/background_dark</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
-        <item name="placeholderLogoColor">@color/empty_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
         <item name="toolbarColor">@color/background_dark_4</item>
