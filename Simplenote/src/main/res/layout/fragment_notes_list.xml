@@ -22,25 +22,11 @@
         tools:listitem="@layout/note_list_row">
     </ListView>
 
-    <LinearLayout
+    <include
         android:id="@android:id/empty"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:gravity="center">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/empty_message"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:padding="8dp"
-            android:textColor="?attr/notePreviewColor"
-            android:textSize="@dimen/text_empty">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    </LinearLayout>
+        android:visibility="gone"
+        layout="@layout/empty_view">
+    </include>
 
     <RelativeLayout
         android:id="@+id/suggestion_layout"
