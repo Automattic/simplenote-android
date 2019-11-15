@@ -142,6 +142,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsSearching;
     private ImageView mSortDirection;
     private ListView mList;
+    private ObjectAnimator mSortDirectionAnimation;
     private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
@@ -155,7 +156,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
-    private boolean mIsSortDown = true;
+    private boolean mIsSortDown;
+    private boolean mIsSortReverse;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -372,11 +374,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float startRotate = mIsSortDown ? 0f : -180f;
-                float endRotate = mIsSortDown ? -180f : 0f;
-                int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-                ObjectAnimator.ofFloat(mSortDirection, View.ROTATION, startRotate, endRotate).setDuration(duration).start();
-                mIsSortDown = !mIsSortDown;
+                if (mIsSortReverse) {
+                    mSortDirectionAnimation.reverse();
+                } else {
+                    mSortDirectionAnimation.start();
+                }
+
+                mIsSortReverse = !mIsSortReverse;
                 switchSortDirection();
                 refreshListForSearch();
             }
@@ -418,9 +422,39 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private void switchSortDirection() {
-        mSortDirection.setContentDescription(getString(mIsSortDown ? R.string.description_down : R.string.description_up));
+    private void setSortDirection() {
+        if (mIsSortReverse) {
+            mSortDirectionAnimation.reverse();
+            mIsSortReverse = false;
+        }
 
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case ALPHABETICAL_ASCENDING:
+            case DATE_CREATED_ASCENDING:
+            case DATE_MODIFIED_ASCENDING:
+                mSortDirection.setContentDescription(getString(R.string.description_up));
+                mSortDirection.setImageResource(R.drawable.ic_arrow_up_16dp);
+                mIsSortDown = false;
+                break;
+            case ALPHABETICAL_DESCENDING:
+            case DATE_CREATED_DESCENDING:
+            case DATE_MODIFIED_DESCENDING:
+            default:
+                mSortDirection.setContentDescription(getString(R.string.description_down));
+                mSortDirection.setImageResource(R.drawable.ic_arrow_down_16dp);
+                mIsSortDown = true;
+                break;
+        }
+
+        mSortDirectionAnimation = ObjectAnimator.ofFloat(
+            mSortDirection,
+            View.ROTATION,
+            0f,
+            mIsSortDown ? -180f : 180f
+        ).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+    }
+
+    private void switchSortDirection() {
         switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
             case DATE_MODIFIED_DESCENDING:
                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_ASCENDING)).apply();
@@ -589,6 +623,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void refreshList() {
         mSortOrder.setText(getSortOrderText());
+        setSortDirection();
         refreshList(false);
     }
 
