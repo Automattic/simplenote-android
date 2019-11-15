@@ -323,7 +323,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
         mSortLayoutContent.setVisibility(mIsSearching ? View.VISIBLE : View.GONE);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
-        mSortOrder.setText(R.string.sort_search_relevance);
         mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -349,7 +348,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_modified:
-                            case R.id.search_relevance:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
                                 ).apply();
