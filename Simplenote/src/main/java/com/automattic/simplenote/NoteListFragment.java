@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
@@ -253,8 +254,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         setListAdapter(mNotesAdapter);
     }
 
-    // nbradbury - load values from preferences
     protected void getPrefs() {
+        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mTitleFontSize = PrefUtils.getFontSize(getActivity());
         mPreviewFontSize = mTitleFontSize - 2;
@@ -312,7 +313,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
-        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
         mSuggestionList = view.findViewById(R.id.suggestion_list);
         mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
@@ -401,6 +401,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mList.getPaddingRight(),
             show ? (int) getResources().getDimension(R.dimen.note_list_item_padding_bottom_button) : 0
         );
+    }
+
+    private @StringRes int getSortOrderText() {
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case ALPHABETICAL_ASCENDING:
+            case ALPHABETICAL_DESCENDING:
+                return R.string.sort_search_alphabetically;
+            case DATE_CREATED_ASCENDING:
+            case DATE_CREATED_DESCENDING:
+                return R.string.sort_search_created;
+            case DATE_MODIFIED_ASCENDING:
+            case DATE_MODIFIED_DESCENDING:
+            default:
+                return R.string.sort_search_modified;
+        }
     }
 
     private void switchSortDirection() {
@@ -573,6 +588,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void refreshList() {
+        mSortOrder.setText(getSortOrderText());
         refreshList(false);
     }
 
@@ -729,11 +745,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mIsSearching = true;
         mSortLayoutContent.setVisibility(View.VISIBLE);
         mSuggestionLayout.setVisibility(View.VISIBLE);
-        // Start search with Relevance sort order selected.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-            String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
-        ).apply();
-        mSortOrder.setText(R.string.sort_search_relevance);
+        mSortOrder.setText(getSortOrderText());
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
