@@ -141,9 +141,11 @@ public class Simplenote extends Application {
                         if (mNotesBucket != null) {
                             mNotesBucket.stop();
                         }
+
                         if (mTagsBucket != null) {
                             mTagsBucket.stop();
                         }
+
                         if (mPreferencesBucket != null) {
                             mPreferencesBucket.stop();
                         }
