@@ -539,7 +539,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onResume() {
         super.onResume();
         getPrefs();
-        refreshList();
+
+        if (mIsSearching) {
+            refreshListForSearch();
+        } else {
+            refreshList();
+        }
+
         mBucketPreferences.start();
         mBucketPreferences.addOnDeleteObjectListener(this);
         mBucketPreferences.addOnNetworkChangeListener(this);
