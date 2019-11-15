@@ -339,20 +339,50 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         switch (item.getItemId()) {
                             case R.id.search_alphabetically:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(mIsSortDown ? ALPHABETICAL_DESCENDING : ALPHABETICAL_ASCENDING)
+                                    String.valueOf(ALPHABETICAL_ASCENDING)
                                 ).apply();
+
+                                // If arrow is down, rotate it up for ascending direction.
+                                if (mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                } else if (!mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                }
+
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_created:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(mIsSortDown ? DATE_CREATED_DESCENDING : DATE_CREATED_ASCENDING)
+                                    String.valueOf(DATE_CREATED_DESCENDING)
                                 ).apply();
+
+                                // If arrow is up, rotate it down for descending direction.
+                                if (mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                } else if (!mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                }
+
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_modified:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
+                                    String.valueOf(DATE_MODIFIED_DESCENDING)
                                 ).apply();
+
+                                // If arrow is up, rotate it down for descending direction.
+                                if (mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                } else if (!mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                }
+
                                 refreshListForSearch();
                                 return true;
                             default:
