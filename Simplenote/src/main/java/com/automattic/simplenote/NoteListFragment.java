@@ -154,7 +154,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
-    private boolean mIsSortDown;
+    private boolean mIsSortDown = true;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -374,8 +374,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float startRotate = mIsSortDown ? -180f : 0f;
-                float endRotate = mIsSortDown ? 0f : -180f;
+                float startRotate = mIsSortDown ? 0f : -180f;
+                float endRotate = mIsSortDown ? -180f : 0f;
                 int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
                 ObjectAnimator.ofFloat(mSortDirection, View.ROTATION, startRotate, endRotate).setDuration(duration).start();
                 mIsSortDown = !mIsSortDown;
