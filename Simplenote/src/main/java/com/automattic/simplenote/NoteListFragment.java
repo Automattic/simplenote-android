@@ -334,6 +334,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+                        // Do nothing when same sort is selected.
+                        if (mSortOrder.getText().equals(item.getTitle())) {
+                            return false;
+                        }
+
                         mSortOrder.setText(item.getTitle());
 
                         switch (item.getItemId()) {
