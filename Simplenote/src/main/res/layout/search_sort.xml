@@ -25,7 +25,7 @@
             android:layout_marginStart="@dimen/padding_large"
             android:layout_width="wrap_content"
             android:textSize="@dimen/text_content_title"
-            tools:text="@string/sort_search_modified">
+            tools:text="@string/sort_search_relevance">
         </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
         <ImageView

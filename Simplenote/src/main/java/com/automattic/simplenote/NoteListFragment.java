@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
@@ -142,7 +141,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsSearching;
     private ImageView mSortDirection;
     private ListView mList;
-    private ObjectAnimator mSortDirectionAnimation;
     private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
@@ -157,7 +155,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private int mTitleFontSize;
     private int mPreviewFontSize;
     private boolean mIsSortDown;
-    private boolean mIsSortReverse;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -256,8 +253,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         setListAdapter(mNotesAdapter);
     }
 
+    // nbradbury - load values from preferences
     protected void getPrefs() {
-        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mTitleFontSize = PrefUtils.getFontSize(getActivity());
         mPreviewFontSize = mTitleFontSize - 2;
@@ -315,6 +312,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
+        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
         mSuggestionList = view.findViewById(R.id.suggestion_list);
         mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
@@ -325,6 +323,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
         mSortLayoutContent.setVisibility(mIsSearching ? View.VISIBLE : View.GONE);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
+        mSortOrder.setText(R.string.sort_search_relevance);
         mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -334,60 +333,26 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Do nothing when same sort is selected.
-                        if (mSortOrder.getText().equals(item.getTitle())) {
-                            return false;
-                        }
-
                         mSortOrder.setText(item.getTitle());
 
                         switch (item.getItemId()) {
                             case R.id.search_alphabetically:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_ASCENDING)
+                                    String.valueOf(mIsSortDown ? ALPHABETICAL_DESCENDING : ALPHABETICAL_ASCENDING)
                                 ).apply();
-
-                                // If arrow is down, rotate it up for ascending direction.
-                                if (mIsSortDown && !mIsSortReverse) {
-                                    mSortDirectionAnimation.start();
-                                    mIsSortReverse = true;
-                                } else if (!mIsSortDown && mIsSortReverse) {
-                                    mSortDirectionAnimation.reverse();
-                                    mIsSortReverse = false;
-                                }
-
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_created:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_DESCENDING)
+                                    String.valueOf(mIsSortDown ? DATE_CREATED_DESCENDING : DATE_CREATED_ASCENDING)
                                 ).apply();
-
-                                // If arrow is up, rotate it down for descending direction.
-                                if (mIsSortDown && mIsSortReverse) {
-                                    mSortDirectionAnimation.reverse();
-                                    mIsSortReverse = false;
-                                } else if (!mIsSortDown && !mIsSortReverse) {
-                                    mSortDirectionAnimation.start();
-                                    mIsSortReverse = true;
-                                }
-
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_modified:
+                            case R.id.search_relevance:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_DESCENDING)
+                                    String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
                                 ).apply();
-
-                                // If arrow is up, rotate it down for descending direction.
-                                if (mIsSortDown && mIsSortReverse) {
-                                    mSortDirectionAnimation.reverse();
-                                    mIsSortReverse = false;
-                                } else if (!mIsSortDown && !mIsSortReverse) {
-                                    mSortDirectionAnimation.start();
-                                    mIsSortReverse = true;
-                                }
-
                                 refreshListForSearch();
                                 return true;
                             default:
@@ -409,13 +374,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mIsSortReverse) {
-                    mSortDirectionAnimation.reverse();
-                } else {
-                    mSortDirectionAnimation.start();
-                }
-
-                mIsSortReverse = !mIsSortReverse;
+                float startRotate = mIsSortDown ? -180f : 0f;
+                float endRotate = mIsSortDown ? 0f : -180f;
+                int duration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+                ObjectAnimator.ofFloat(mSortDirection, View.ROTATION, startRotate, endRotate).setDuration(duration).start();
+                mIsSortDown = !mIsSortDown;
                 switchSortDirection();
                 refreshListForSearch();
             }
@@ -442,54 +405,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         );
     }
 
-    private @StringRes int getSortOrderText() {
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
-            case ALPHABETICAL_ASCENDING:
-            case ALPHABETICAL_DESCENDING:
-                return R.string.sort_search_alphabetically;
-            case DATE_CREATED_ASCENDING:
-            case DATE_CREATED_DESCENDING:
-                return R.string.sort_search_created;
-            case DATE_MODIFIED_ASCENDING:
-            case DATE_MODIFIED_DESCENDING:
-            default:
-                return R.string.sort_search_modified;
-        }
-    }
-
-    private void setSortDirection() {
-        if (mIsSortReverse) {
-            mSortDirectionAnimation.reverse();
-            mIsSortReverse = false;
-        }
-
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
-            case ALPHABETICAL_ASCENDING:
-            case DATE_CREATED_ASCENDING:
-            case DATE_MODIFIED_ASCENDING:
-                mSortDirection.setContentDescription(getString(R.string.description_up));
-                mSortDirection.setImageResource(R.drawable.ic_arrow_up_16dp);
-                mIsSortDown = false;
-                break;
-            case ALPHABETICAL_DESCENDING:
-            case DATE_CREATED_DESCENDING:
-            case DATE_MODIFIED_DESCENDING:
-            default:
-                mSortDirection.setContentDescription(getString(R.string.description_down));
-                mSortDirection.setImageResource(R.drawable.ic_arrow_down_16dp);
-                mIsSortDown = true;
-                break;
-        }
-
-        mSortDirectionAnimation = ObjectAnimator.ofFloat(
-            mSortDirection,
-            View.ROTATION,
-            0f,
-            mIsSortDown ? -180f : 180f
-        ).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
-    }
-
     private void switchSortDirection() {
+        mSortDirection.setContentDescription(getString(mIsSortDown ? R.string.description_down : R.string.description_up));
+
         switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
             case DATE_MODIFIED_DESCENDING:
                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_ASCENDING)).apply();
@@ -539,13 +457,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onResume() {
         super.onResume();
         getPrefs();
-
-        if (mIsSearching) {
-            refreshListForSearch();
-        } else {
-            refreshList();
-        }
-
+        refreshList();
         mBucketPreferences.start();
         mBucketPreferences.addOnDeleteObjectListener(this);
         mBucketPreferences.addOnNetworkChangeListener(this);
@@ -663,8 +575,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void refreshList() {
-        mSortOrder.setText(getSortOrderText());
-        setSortDirection();
         refreshList(false);
     }
 
@@ -821,7 +731,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mIsSearching = true;
         mSortLayoutContent.setVisibility(View.VISIBLE);
         mSuggestionLayout.setVisibility(View.VISIBLE);
-        mSortOrder.setText(getSortOrderText());
+        // Start search with Relevance sort order selected.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+            String.valueOf(mIsSortDown ? DATE_MODIFIED_DESCENDING : DATE_MODIFIED_ASCENDING)
+        ).apply();
+        mSortOrder.setText(R.string.sort_search_relevance);
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
