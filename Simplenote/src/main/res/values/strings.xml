@@ -81,7 +81,6 @@
     <string name="sort_search_alphabetically">Alphabetically</string>
     <string name="sort_search_created">Created</string>
     <string name="sort_search_modified">Modified</string>
-    <string name="sort_search_relevance">Relevance</string>
     <string name="sort_search_reverse_order">Reverse order</string>
 
     <!-- Editor link options -->
