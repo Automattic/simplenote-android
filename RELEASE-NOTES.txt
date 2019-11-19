@@ -2,6 +2,7 @@
 -----
 * Added search sorting by date created, date modified, and alphabetically
 * Added search history and suggestions
+* Updated passcode lock design
 
 2.2
 -----
