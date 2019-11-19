@@ -239,7 +239,9 @@ public class NotesActivity extends AppCompatActivity implements
             }
         }
 
-        filterListBySelectedTag();
+        if (mSelectedTag != null) {
+            filterListBySelectedTag();
+        }
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
@@ -408,7 +410,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSelectedTag = mTagsAdapter.getDefaultItem();
         }
 
-        checkEmptyListText(false);
+        checkEmptyListText(mSearchMenuItem != null && mSearchMenuItem.isActionViewExpanded());
 
         if (mNoteListFragment.isHidden()) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -670,6 +672,8 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String queryText) {
                 getNoteListFragment().searchNotes(queryText, true);
+                getNoteListFragment().addSearchItem(queryText, 0);
+                checkEmptyListText(true);
                 return true;
             }
         });
@@ -1214,19 +1218,35 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
-            getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "trash_filter_selected"
-            );
-            getNoteListFragment().setEmptyListViewClickable(false);
+            if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
+                getNoteListFragment().setEmptyListImage(-1);
+            } else {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
+            }
+
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
+        } else if (mSelectedTag != null) {
+            if (mSelectedTag.id == ALL_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
+            } else if (mSelectedTag.id == TRASH_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_trash_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "trash_filter_selected"
+                );
+            } else if (mSelectedTag.id == UNTAGGED_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_untagged_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_untagged));
+            } else {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_tag_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
+            }
         } else {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-            getNoteListFragment().setEmptyListViewClickable(true);
+            getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
         }
     }
 

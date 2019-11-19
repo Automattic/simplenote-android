@@ -24,11 +24,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="word">Word</string>
-    <string name="no_notes_here">No notes here.</string>
-    <string name="why_not_create_one">Why not %1$screate one%2$s?</string>
-    <string name="no_tags_found">No tags found.</string>
-    <string name="trash_is_empty">The trash is empty.</string>
-    <string name="no_notes_found">No notes found.</string>
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     <string name="note_selected">%d note selected</string>
@@ -86,7 +81,6 @@
     <string name="sort_search_alphabetically">Alphabetically</string>
     <string name="sort_search_created">Created</string>
     <string name="sort_search_modified">Modified</string>
-    <string name="sort_search_relevance">Relevance</string>
     <string name="sort_search_reverse_order">Reverse order</string>
 
     <!-- Editor link options -->
@@ -204,6 +198,15 @@
     <string name="description_down">Down</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
+
+    <string name="empty_notes_all">Create your first note</string>
+    <string name="empty_notes_search">No notes found</string>
+    <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
+    <string name="empty_notes_trash">Your trash is empty</string>
+    <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_tags">No tags</string>
+
+    <string name="snackbar_deleted_recent_search">Deleted recent search item</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
