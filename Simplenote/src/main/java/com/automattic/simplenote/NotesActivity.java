@@ -238,7 +238,9 @@ public class NotesActivity extends AppCompatActivity implements
             }
         }
 
-        filterListBySelectedTag();
+        if (mSelectedTag != null) {
+            filterListBySelectedTag();
+        }
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
