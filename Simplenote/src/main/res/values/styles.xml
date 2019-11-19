@@ -168,6 +168,7 @@
         <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorPrimary">@color/passcodelock_background</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.Simplestyle">
