@@ -30,6 +30,10 @@
     <!-- http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout -->
     <dimen name="widget_margin">8dp</dimen>
 
+    <!-- PASSCODE -->
+    <dimen name="passcodelock_button_text_size">24dp</dimen>
+    <dimen name="passcodelock_pin_text_size">34dp</dimen>
+
     <!-- SIZE -->
     <dimen name="card_radius">2dp</dimen>
     <dimen name="cell_widget">40dp</dimen>

@@ -96,20 +96,6 @@
     <string name="wpcom_sign_in_error_generic">Couldn\'t sign in with WordPress.com. Please try again.</string>
     <string name="wpcom_sign_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
-    <!-- PIN lock -->
-    <string name="passcode_manage">Manage PIN lock</string>
-    <string name="passcode_enter_passcode">Enter your PIN</string>
-    <string name="passcode_enter_old_passcode">Enter your old PIN</string>
-    <string name="passcode_re_enter_passcode">Re-enter your PIN</string>
-    <string name="passcode_change_passcode">Change PIN</string>
-    <string name="passcode_set">PIN set</string>
-    <string name="passcode_wrong_passcode">Wrong PIN, please try again.</string>
-    <string name="passcode_preference_title">PIN Lock</string>
-    <string name="passcode_turn_off">Turn PIN lock off</string>
-    <string name="passcode_turn_on">Turn PIN lock on</string>
-    <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
-    <string name="description_fingerprint_supported">Fingerprint Supported</string>
-
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
@@ -196,6 +182,7 @@
 
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
+    <string name="description_fingerprint_supported">Fingerprint supported</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
 
@@ -207,6 +194,17 @@
     <string name="empty_tags">No tags</string>
 
     <string name="snackbar_deleted_recent_search">Deleted recent search item</string>
+
+    <!-- PASSCODE -->
+    <string name="passcode_change_passcode">Change passcode</string>
+    <string name="passcode_enter_old_passcode">Enter your old passcode</string>
+    <string name="passcode_preference_title">Passcode Lock</string>
+    <string name="passcode_re_enter_passcode">Confirm your passcode</string>
+    <string name="passcode_summary">Screenshots are disabled while passcode lock is on</string>
+    <string name="passcode_turn_off">Turn passcode lock off</string>
+    <string name="passcode_turn_on">Turn passcode lock on</string>
+    <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
+    <string name="passcodelock_prompt_message">Enter your passcode</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
