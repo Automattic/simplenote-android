@@ -695,7 +695,7 @@ public class NotesActivity extends AppCompatActivity implements
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            mSearchView.setQuery(TAG_PREFIX + mSelectedTag.name + SPACE, true);
+                            mSearchView.setQuery(TAG_PREFIX + mSelectedTag.name + SPACE, false);
                         }
                     }, 10);
                 } else {
