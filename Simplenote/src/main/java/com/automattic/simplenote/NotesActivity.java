@@ -66,6 +66,7 @@ import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
 import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
@@ -682,7 +683,24 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                getNoteListFragment().searchNotes("", false);
+
+                if (mSelectedTag.id != ALL_NOTES_ID && mSelectedTag.id != TRASH_ID && mSelectedTag.id != UNTAGGED_NOTES_ID) {
+                    /*
+                     * This is a hack.  Since onQueryTextChange is being triggered after
+                     * onMenuItemActionExpand and the first time onQueryTextChange is run
+                     * with an empty newText value, removing the post delay will clear the
+                     * search field.  Any post delay value, even 1ms, will workaround the
+                     * issue.
+                     */
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSearchView.setQuery(TAG_PREFIX + mSelectedTag.name + SPACE, true);
+                        }
+                    }, 10);
+                } else {
+                    getNoteListFragment().searchNotes("", false);
+                }
 
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
