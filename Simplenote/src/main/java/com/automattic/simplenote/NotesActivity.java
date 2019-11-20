@@ -54,6 +54,7 @@ import com.simperium.client.User;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -832,7 +833,7 @@ public class NotesActivity extends AppCompatActivity implements
                 alert.setMessage(R.string.confirm_empty_trash);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        new emptyTrashTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        new emptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         AnalyticsTracker.track(
                                 AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
                                 AnalyticsTracker.CATEGORY_NOTE,
@@ -1327,13 +1328,20 @@ public class NotesActivity extends AppCompatActivity implements
         // noop, NoteEditorFragment will handle this
     }
 
-    private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+    private static class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+
+        private SoftReference<NotesActivity> activityRef;
+
+        emptyTrashTask(NotesActivity context) {
+            activityRef = new SoftReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if (mNotesBucket == null) return null;
+            NotesActivity activity = activityRef.get();
+            if (activity.mNotesBucket == null) return null;
 
-            Query<Note> query = Note.allDeleted(mNotesBucket);
+            Query<Note> query = Note.allDeleted(activity.mNotesBucket);
             Bucket.ObjectCursor c = query.execute();
             while (c.moveToNext()) {
                 c.getObject().delete();
@@ -1344,7 +1352,8 @@ public class NotesActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Void nada) {
-            showDetailPlaceholder();
+            NotesActivity activity = activityRef.get();
+            activity.showDetailPlaceholder();
         }
     }
 }

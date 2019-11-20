@@ -73,6 +73,7 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -207,10 +208,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             switch (item.getItemId()) {
                 case R.id.menu_delete:
-                    new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new trashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
-                    new pinNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new pinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
             }
         }
@@ -672,7 +673,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
             mRefreshListTask.cancel(true);
 
-        mRefreshListTask = new refreshListTask();
+        mRefreshListTask = new refreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
         WidgetUtils.updateNoteWidgets(getActivity());
@@ -683,7 +684,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mRefreshListForSearchTask.cancel(true);
         }
 
-        mRefreshListForSearchTask = new refreshListForSearchTask();
+        mRefreshListForSearchTask = new refreshListForSearchTask(this);
         mRefreshListForSearchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -1396,101 +1397,124 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         popup.show();
     }
 
-    private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+    private static class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+        private SoftReference<NoteListFragment> fragmentRef;
         boolean mIsFromNavSelect;
+
+        private refreshListTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Boolean... args) {
+            NoteListFragment fragment = fragmentRef.get();
             mIsFromNavSelect = args[0];
-            return queryNotes();
+            return fragment.queryNotes();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            if (cursor == null || getActivity() == null || getActivity().isFinishing())
+            NoteListFragment fragment = fragmentRef.get();
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing())
                 return;
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
             int count;
             try {
-                mNotesAdapter.changeCursor(cursor);
-                count = mNotesAdapter.getCount();
+                fragment.mNotesAdapter.changeCursor(cursor);
+                count = fragment.mNotesAdapter.getCount();
             } catch (SQLiteException e) {
                 count = 0;
                 Log.e(Simplenote.TAG, "Invalid SQL statement", e);
-                mNotesAdapter.changeCursor(null);
+                fragment.mNotesAdapter.changeCursor(null);
             }
 
-            NotesActivity notesActivity = (NotesActivity) getActivity();
+            NotesActivity notesActivity = (NotesActivity) fragment.getActivity();
             if (notesActivity != null) {
                 if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
                     if (count == 0) {
                         notesActivity.showDetailPlaceholder();
                     } else {
                         // Select the first note
-                        selectFirstNote();
+                        fragment.selectFirstNote();
                     }
                 }
                 notesActivity.updateTrashMenuItem();
             }
 
-            if (mSelectedNoteId != null) {
-                setNoteSelected(mSelectedNoteId);
-                mSelectedNoteId = null;
+            if (fragment.mSelectedNoteId != null) {
+                fragment.setNoteSelected(fragment.mSelectedNoteId);
+                fragment.mSelectedNoteId = null;
             }
         }
     }
 
-    private class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+    private static class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+
+        private SoftReference<NoteListFragment> fragmentRef;
+
+        private refreshListForSearchTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
+
         @Override
         protected ObjectCursor<Note> doInBackground(Void... args) {
-            return queryNotesForSearch();
+            NoteListFragment fragment = fragmentRef.get();
+            return fragment.queryNotesForSearch();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            if (cursor == null || getActivity() == null || getActivity().isFinishing()) {
+            NoteListFragment fragment = fragmentRef.get();
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
 
             // While using Query.FullTextMatch, it's easy to enter an invalid term so catch the error and clear the cursor.
             try {
-                mNotesAdapter.changeCursor(cursor);
+                fragment.mNotesAdapter.changeCursor(cursor);
             } catch (SQLiteException e) {
                 Log.e(Simplenote.TAG, "Invalid SQL statement", e);
-                mNotesAdapter.changeCursor(null);
+                fragment.mNotesAdapter.changeCursor(null);
             }
 
-            NotesActivity notesActivity = (NotesActivity) requireActivity();
+            NotesActivity notesActivity = (NotesActivity) fragment.requireActivity();
             notesActivity.updateTrashMenuItem();
 
-            if (mSelectedNoteId != null) {
-                setNoteSelected(mSelectedNoteId);
-                mSelectedNoteId = null;
+            if (fragment.mSelectedNoteId != null) {
+                fragment.setNoteSelected(fragment.mSelectedNoteId);
+                fragment.mSelectedNoteId = null;
             }
         }
     }
 
-    private class pinNotesTask extends AsyncTask<Void, Void, Void> {
+    private static class pinNotesTask extends AsyncTask<Void, Void, Void> {
 
+        private SoftReference<NoteListFragment> fragmentRef;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
+
+        private pinNotesTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
 
         @Override
         protected void onPreExecute() {
-            if (getListView() != null) {
-                mSelectedRows = getListView().getCheckedItemPositions();
+            NoteListFragment fragment = fragmentRef.get();
+            if (fragment.getListView() != null) {
+                mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
         }
 
         @Override
         protected Void doInBackground(Void... args) {
+            NoteListFragment fragment = fragmentRef.get();
 
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> pinnedNotesList = new ArrayList<>();
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
-                    pinnedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                    pinnedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
                 }
             }
 
@@ -1506,33 +1530,41 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            NoteListFragment fragment = fragmentRef.get();
 
-            mActionMode.finish();
-            refreshList();
+            fragment.mActionMode.finish();
+            fragment.refreshList();
         }
     }
 
-    private class trashNotesTask extends AsyncTask<Void, Void, Void> {
+    private static class trashNotesTask extends AsyncTask<Void, Void, Void> {
 
+        private SoftReference<NoteListFragment> fragmentRef;
         private List<String> mDeletedNoteIds = new ArrayList<>();
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
+        private trashNotesTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
+
         @Override
         protected void onPreExecute() {
-            if (getListView() != null) {
-                mSelectedRows = getListView().getCheckedItemPositions();
+            NoteListFragment fragment = fragmentRef.get();
+            if (fragment.getListView() != null) {
+                mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
         }
 
         @Override
         protected Void doInBackground(Void... args) {
+            NoteListFragment fragment = fragmentRef.get();
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> deletedNotesList = new ArrayList<>();
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
-                    deletedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                    deletedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
                 }
             }
 
@@ -1549,11 +1581,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NotesActivity notesActivity = ((NotesActivity) getActivity());
+            NoteListFragment fragment = fragmentRef.get();
+            NotesActivity notesActivity = ((NotesActivity) fragment.getActivity());
             if (notesActivity != null)
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
 
-            refreshList();
+            fragment.refreshList();
         }
     }
 }

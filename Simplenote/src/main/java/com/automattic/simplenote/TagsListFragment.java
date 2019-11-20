@@ -36,6 +36,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 public class TagsListFragment extends Fragment implements ActionMode.Callback, Bucket.Listener<Tag> {
@@ -194,13 +195,20 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         // noop
     }
 
-    private class removeTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
+    private static class removeTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
+
+        private SoftReference<TagsListFragment> fragmentRef;
+
+        private removeTagFromNotesTask(TagsListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(Tag... removedTags) {
+            TagsListFragment fragment = fragmentRef.get();
             Tag tag = removedTags[0];
             if (tag != null) {
-                Bucket.ObjectCursor<Note> notesCursor = tag.findNotes(mNotesBucket);
+                Bucket.ObjectCursor<Note> notesCursor = tag.findNotes(fragment.mNotesBucket);
                 while (notesCursor.moveToNext()) {
                     Note note = notesCursor.getObject();
                     List<String> tags = note.getTags();
@@ -315,7 +323,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
             private void deleteTag(Tag tag) {
                 tag.delete();
-                new removeTagFromNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
+                new removeTagFromNotesTask(TagsListFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.TAG_MENU_DELETED,
                         AnalyticsTracker.CATEGORY_TAG,
