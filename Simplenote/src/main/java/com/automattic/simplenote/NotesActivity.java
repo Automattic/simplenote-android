@@ -86,6 +86,7 @@ public class NotesActivity extends AppCompatActivity implements
     private boolean mShouldSelectNewNote;
     private boolean mIsSettingsClicked;
     private boolean mIsTabetFullscreen;
+    private boolean mIsTagSelected;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -663,8 +664,10 @@ public class NotesActivity extends AppCompatActivity implements
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mSearchMenuItem.isActionViewExpanded()) {
+                if (mSearchMenuItem.isActionViewExpanded() && !mIsTagSelected) {
                     getNoteListFragment().searchNotes(newText, false);
+                } else if (mIsTagSelected) {
+                    mIsTagSelected = false;
                 }
 
                 return true;
@@ -695,12 +698,13 @@ public class NotesActivity extends AppCompatActivity implements
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            mIsTagSelected = true;
                             mSearchView.setQuery(TAG_PREFIX + mSelectedTag.name + SPACE, false);
                         }
                     }, 10);
-                } else {
-                    getNoteListFragment().searchNotes("", false);
                 }
+
+                getNoteListFragment().searchNotes("", false);
 
                 if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
                     updateActionsForLargeLandscape(menu);
