@@ -25,7 +25,12 @@
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
+    <color name="passcodelock_button_image_color">@color/blue_10</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
+    <color name="passcodelock_divider">@color/blue_40</color>
+    <color name="passcodelock_field_background_color">@android:color/transparent</color>
+    <color name="passcodelock_field_hint_text_color">@android:color/transparent</color>
+    <color name="passcodelock_field_text_color">@android:color/white</color>
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
