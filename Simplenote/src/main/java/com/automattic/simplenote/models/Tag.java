@@ -76,9 +76,24 @@ public class Tag extends BucketObject {
         if (!getSimperiumKey().equals(key)) {
             // create a new tag with the value as the key/name
             //noinspection unchecked
-            Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
-            newTag.setName(name);
-            newTag.save();
+             if(key.contains("\'")){
+                String sub = key;
+                for(int i = 0; i < key.length(); i++){
+                    if(key.charAt(i)=='\'') {
+                        key = key.substring(0, i) + key.substring(i+1, key.length());
+			i = 0;
+                    }
+                }
+                Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
+                name = sub;
+                newTag.setName(name);
+                newTag.save();
+            }
+            else {
+                Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
+                newTag.setName(name);
+                newTag.save();
+            }
             // get all the notes from tag, remove the item
             ObjectCursor<Note> notesCursor = findNotes(notesBucket);
             while (notesCursor.moveToNext()) {
