@@ -779,6 +779,13 @@ public class NotesActivity extends AppCompatActivity implements
 
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
 
+        if (mDrawerLayout != null && mSearchMenuItem != null) {
+            mDrawerLayout.setDrawerLockMode(mSearchMenuItem.isActionViewExpanded() ?
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED :
+                DrawerLayout.LOCK_MODE_UNLOCKED
+            );
+        }
+
         return true;
     }
 
