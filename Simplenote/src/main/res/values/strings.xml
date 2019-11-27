@@ -11,7 +11,7 @@
     <string name="new_note">New note</string>
     <string name="account">Account</string>
     <string name="log_in">Log in</string>
-    <string name="sign_out">Sign out</string>
+    <string name="log_out">Log out</string>
     <string name="words">Words</string>
     <string name="edit_tags">Edit tags</string>
     <string name="rename_tag">Rename tag</string>
@@ -117,7 +117,7 @@
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
-    <string name="unsynced_notes_message">Signing out will delete any unsynced notes. You can verify your synced notes by signing in to the Web App.</string>
+    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can verify your synced notes by logging in to app.simplenote.com in a web browser.</string>
     <string name="visit_web_app">Visit web app</string>
     <string name="delete_notes">Delete notes</string>
 

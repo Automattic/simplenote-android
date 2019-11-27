@@ -71,7 +71,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         if (simperium.needsAuthorization()) {
             authenticatePreference.setTitle(R.string.log_in);
         } else {
-            authenticatePreference.setTitle(R.string.sign_out);
+            authenticatePreference.setTitle(R.string.log_out);
         }
 
         authenticatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -86,7 +86,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     Intent loginIntent = new Intent(getActivity(), SimplenoteAuthenticationActivity.class);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
-                    new SignOutAsyncTask(PreferencesFragment.this).execute();
+                    new LogOutAsyncTask(PreferencesFragment.this).execute();
                 }
                 return true;
             }
@@ -201,10 +201,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         mPreferencesBucket.stop();
     }
 
-    private DialogInterface.OnClickListener signOutClickListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener logOutClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            signOut();
+            logOut();
         }
     };
 
@@ -229,7 +229,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         return false;
     }
 
-    private void signOut() {
+    private void logOut() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         application.getSimperium().deauthorizeUser();
 
@@ -271,7 +271,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     Preference authenticatePreference = findPreference("pref_key_authenticate");
-                    authenticatePreference.setTitle(R.string.sign_out);
+                    authenticatePreference.setTitle(R.string.log_out);
                 }
             });
 
@@ -312,10 +312,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
-    private static class SignOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private static class LogOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private WeakReference<PreferencesFragment> fragmentWeakReference;
 
-        SignOutAsyncTask(PreferencesFragment fragment) {
+        LogOutAsyncTask(PreferencesFragment fragment) {
             fragmentWeakReference = new WeakReference<>(fragment);
         }
 
@@ -337,12 +337,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 new AlertDialog.Builder(new ContextThemeWrapper(fragment.requireContext(), R.style.Dialog))
                         .setTitle(R.string.unsynced_notes)
                         .setMessage(R.string.unsynced_notes_message)
-                        .setPositiveButton(R.string.delete_notes, fragment.signOutClickListener)
+                        .setPositiveButton(R.string.delete_notes, fragment.logOutClickListener)
                         .setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener)
                         .setNegativeButton(R.string.cancel, null)
                         .show();
             } else {
-                fragment.signOut();
+                fragment.logOut();
             }
         }
     }
