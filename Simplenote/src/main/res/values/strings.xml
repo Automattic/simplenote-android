@@ -10,8 +10,8 @@
     <string name="undelete">Restore note</string>
     <string name="new_note">New note</string>
     <string name="account">Account</string>
+    <string name="log_in">Log in</string>
     <string name="sign_out">Sign out</string>
-    <string name="sign_in">Sign in</string>
     <string name="words">Words</string>
     <string name="edit_tags">Edit tags</string>
     <string name="rename_tag">Rename tag</string>
@@ -93,8 +93,8 @@
     <string name="copy">Copy</string>
 
     <!-- account setup -->
-    <string name="wpcom_sign_in_error_generic">Couldn\'t sign in with WordPress.com. Please try again.</string>
-    <string name="wpcom_sign_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
+    <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
+    <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
@@ -149,8 +149,8 @@
     <string name="loading_note">Loading note&#8230;</string>
     <string name="note_not_found">Note not found</string>
     <string name="select_note">Select Note</string>
-    <string name="sign_in_add_widget">Sign in to add this widget</string>
-    <string name="sign_in_use_widget">Sign in to use widget</string>
+    <string name="log_in_add_widget">Log in to add this widget</string>
+    <string name="log_in_use_widget">Log in to use widget</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->

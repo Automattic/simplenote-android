@@ -112,9 +112,9 @@ public class NoteWidget extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
-            views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.sign_in_use_widget));
+            views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.log_in_use_widget));
             views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
-            views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.sign_in_use_widget));
+            views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.log_in_use_widget));
             views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
             views.setViewVisibility(R.id.widget_text_content, View.GONE);
         } else {

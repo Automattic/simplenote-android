@@ -69,7 +69,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (simperium.needsAuthorization()) {
-            authenticatePreference.setTitle(R.string.sign_in);
+            authenticatePreference.setTitle(R.string.log_in);
         } else {
             authenticatePreference.setTitle(R.string.sign_out);
         }
