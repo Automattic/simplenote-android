@@ -206,7 +206,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
-            startLoginActivity(true);
+            startLoginActivity();
             Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
@@ -1040,7 +1040,7 @@ public class NotesActivity extends AppCompatActivity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        startLoginActivity(true);
+                        startLoginActivity();
                     }
                 });
                 break;
@@ -1057,7 +1057,7 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
-    public void startLoginActivity(boolean signInFirst) {
+    public void startLoginActivity() {
         // Clear some account-specific prefs
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.remove(PrefUtils.PREF_WP_TOKEN);

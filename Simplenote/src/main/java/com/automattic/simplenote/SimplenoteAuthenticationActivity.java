@@ -59,16 +59,16 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
             }
 
             if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
-                showDialogError(R.string.wpcom_sign_in_error_unverified);
+                showDialogError(R.string.wpcom_log_in_error_unverified);
             } else {
-                showDialogError(R.string.wpcom_sign_in_error_generic);
+                showDialogError(R.string.wpcom_log_in_error_generic);
             }
         } else if (authorizationResponse != null) {
             // Save token and finish activity.
             boolean authSuccess = WordPressUtils.processAuthResponse((Simplenote) getApplication(), authorizationResponse, mAuthState, true);
 
             if (!authSuccess) {
-                showDialogError(R.string.wpcom_sign_in_error_generic);
+                showDialogError(R.string.wpcom_log_in_error_generic);
             } else {
                 AnalyticsTracker.track(
                     AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,
