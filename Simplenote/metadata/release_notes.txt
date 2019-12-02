@@ -1,1 +1,3 @@
-We’ve been tuning things up under the hood. You may not see anything obviously different in the app, but expect everything to be more stable.
+* Added search sorting by date created, date modified, and alphabetically.
+* Added search history and suggestions.
+* Updated passcode lock design.
