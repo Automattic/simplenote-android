@@ -10,8 +10,8 @@
     <string name="undelete">Restore note</string>
     <string name="new_note">New note</string>
     <string name="account">Account</string>
-    <string name="sign_out">Sign out</string>
-    <string name="sign_in">Sign in</string>
+    <string name="log_in">Log in</string>
+    <string name="log_out">Log out</string>
     <string name="words">Words</string>
     <string name="edit_tags">Edit tags</string>
     <string name="rename_tag">Rename tag</string>
@@ -24,17 +24,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="word">Word</string>
-    <string name="no_notes_here">No notes here.</string>
-    <string name="why_not_create_one">Why not %1$screate one%2$s?</string>
-    <string name="no_tags_found">No tags found.</string>
-    <string name="trash_is_empty">The trash is empty.</string>
-    <string name="no_notes_found">No notes found.</string>
     <string name="website">Visit simplenote.com</string>
     <string name="more_info">More Information</string>
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
-    <string name="search">Search notes</string>
+    <string name="search">Search notes or tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
@@ -70,7 +65,7 @@
     <string name="notes_trashed">Notes trashed.</string>
 
     <!-- welcome note for new users -->
-    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this for instructions.\n\nTo create a new note, tap the blue "Add Note" button.\n\nTo search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.\n\nGot a really important note? Press the pin button while viewing a note to pin it to the top of the list.\n\nUse tags to help organize your notes. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping the share button in the toolbar.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
+    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the blue \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"Info\" button with the \"i\" icon while viewing a note and turn the \"Pin to top\" switch on.\n\nUse tags to help organize your notes. Create a tag in the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping the \"Share\" button with the share icon while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
     <string name="confirm_delete_tag">Are you sure you want to delete this tag?</string>
     <string name="new_note_list">New note&#8230;</string>
     <string name="open_drawer">Open drawer</string>
@@ -83,6 +78,10 @@
     <string name="sort_oldest_created">Oldest created date</string>
     <string name="sort_alphabetical">Alphabetically, A-Z</string>
     <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
+    <string name="sort_search_alphabetically">Alphabetically</string>
+    <string name="sort_search_created">Created</string>
+    <string name="sort_search_modified">Modified</string>
+    <string name="sort_search_reverse_order">Reverse order</string>
 
     <!-- Editor link options -->
     <string name="call">Call</string>
@@ -94,22 +93,8 @@
     <string name="copy">Copy</string>
 
     <!-- account setup -->
-    <string name="wpcom_sign_in_error_generic">Couldn\'t sign in with WordPress.com. Please try again.</string>
-    <string name="wpcom_sign_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
-
-    <!-- PIN lock -->
-    <string name="passcode_manage">Manage PIN lock</string>
-    <string name="passcode_enter_passcode">Enter your PIN</string>
-    <string name="passcode_enter_old_passcode">Enter your old PIN</string>
-    <string name="passcode_re_enter_passcode">Re-enter your PIN</string>
-    <string name="passcode_change_passcode">Change PIN</string>
-    <string name="passcode_set">PIN set</string>
-    <string name="passcode_wrong_passcode">Wrong PIN, please try again.</string>
-    <string name="passcode_preference_title">PIN Lock</string>
-    <string name="passcode_turn_off">Turn PIN lock off</string>
-    <string name="passcode_turn_on">Turn PIN lock on</string>
-    <string name="passcode_summary">Screenshots are disabled while PIN lock is on</string>
-    <string name="description_fingerprint_supported">Fingerprint Supported</string>
+    <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
+    <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
@@ -132,7 +117,7 @@
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
-    <string name="unsynced_notes_message">Signing out will delete any unsynced notes. You can verify your synced notes by signing in to the Web App.</string>
+    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can verify your synced notes by logging in to app.simplenote.com in a web browser.</string>
     <string name="visit_web_app">Visit web app</string>
     <string name="delete_notes">Delete notes</string>
 
@@ -164,8 +149,8 @@
     <string name="loading_note">Loading note&#8230;</string>
     <string name="note_not_found">Note not found</string>
     <string name="select_note">Select Note</string>
-    <string name="sign_in_add_widget">Sign in to add this widget</string>
-    <string name="sign_in_use_widget">Sign in to use widget</string>
+    <string name="log_in_add_widget">Log in to add this widget</string>
+    <string name="log_in_use_widget">Log in to use widget</string>
 
     <!-- Android Wear strings, added here to make GlotPress translation easier -->
     <!-- Note: These need to be manually copied to the Wear app strings -->
@@ -194,6 +179,32 @@
     <string name="appearance">Appearance</string>
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle checklist</string>
+
+    <string name="description_delete_item">Delete item</string>
+    <string name="description_down">Down</string>
+    <string name="description_fingerprint_supported">Fingerprint supported</string>
+    <string name="description_sort">Sort</string>
+    <string name="description_up">Up</string>
+
+    <string name="empty_notes_all">Create your first note</string>
+    <string name="empty_notes_search">No notes found</string>
+    <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
+    <string name="empty_notes_trash">Your trash is empty</string>
+    <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_tags">No tags</string>
+
+    <string name="snackbar_deleted_recent_search">Deleted recent search item</string>
+
+    <!-- PASSCODE -->
+    <string name="passcode_change_passcode">Change passcode</string>
+    <string name="passcode_enter_old_passcode">Enter your old passcode</string>
+    <string name="passcode_preference_title">Passcode Lock</string>
+    <string name="passcode_re_enter_passcode">Confirm your passcode</string>
+    <string name="passcode_summary">Screenshots are disabled while passcode lock is on</string>
+    <string name="passcode_turn_off">Turn passcode lock off</string>
+    <string name="passcode_turn_on">Turn passcode lock on</string>
+    <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
+    <string name="passcodelock_prompt_message">Enter your passcode</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>

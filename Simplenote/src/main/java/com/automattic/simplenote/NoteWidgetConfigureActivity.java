@@ -63,7 +63,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.sign_in_add_widget, Toast.LENGTH_LONG).show();
+            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.log_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -98,7 +98,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this);
+        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this, true);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);

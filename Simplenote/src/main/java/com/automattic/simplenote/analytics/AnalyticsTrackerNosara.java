@@ -2,8 +2,9 @@ package com.automattic.simplenote.analytics;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
+
+import androidx.preference.PreferenceManager;
 
 import com.automattic.android.tracks.TracksClient;
 

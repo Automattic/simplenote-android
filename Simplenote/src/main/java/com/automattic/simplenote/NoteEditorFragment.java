@@ -127,6 +127,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
+    private boolean mIsPaused;
     // Hides the history bottom sheet if no revisions are loaded
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
@@ -434,9 +435,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
-
-        mNotesBucket.removeListener(this);
-        mNotesBucket.stop();
+        mIsPaused = true;
 
         // Hide soft keyboard if it is showing...
         DisplayUtils.hideKeyboard(mContentEditText);
@@ -457,6 +456,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mHighlighter.stop();
         saveNote();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mNotesBucket.removeListener(this);
+        mNotesBucket.stop();
     }
 
     @Override
@@ -1234,7 +1240,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
-        // noop
+        if (mIsPaused) {
+            mNotesBucket.removeListener(this);
+            mNotesBucket.stop();
+        }
     }
 
     @Override

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/search_alphabetically"
+        android:title="@string/sort_search_alphabetically">
+    </item>
+
+    <item
+        android:id="@+id/search_created"
+        android:title="@string/sort_search_created">
+    </item>
+
+    <item
+        android:id="@+id/search_modified"
+        android:title="@string/sort_search_modified">
+    </item>
+
+</menu>

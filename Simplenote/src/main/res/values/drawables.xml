@@ -2,6 +2,10 @@
 
 <resources>
 
+    <!-- PASSCODE -->
+    <drawable name="ic_backspace_white_24dp">@drawable/ic_backspace_24dp</drawable>
+    <drawable name="ic_fingerpint_white_24dp">@drawable/ic_fingerprint_24dp</drawable>
+
     <!-- SIMPERIUM -->
     <drawable name="ic_simperium_login_24dp">@drawable/ic_simplenote_blue_24dp</drawable>
 

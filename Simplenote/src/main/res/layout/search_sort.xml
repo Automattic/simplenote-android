@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <!-- Useless parent layout is required to show/hide list header. -->
+    <RelativeLayout
+        android:id="@+id/sort_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="@dimen/minimum_target"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
+            android:id="@+id/sort_order"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_large"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_content_title"
+            tools:text="@string/sort_search_modified">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+        <ImageView
+            android:id="@+id/sort_direction"
+            android:contentDescription="@string/description_down"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_toEndOf="@id/sort_order"
+            android:layout_width="@dimen/icon_status"
+            android:maxHeight="@dimen/icon_status"
+            android:maxWidth="@dimen/icon_status"
+            android:src="@drawable/ic_arrow_down_16dp"
+            android:tint="?attr/toolbarIconColor">
+        </ImageView>
+
+        <ImageButton
+            android:id="@+id/sort_direction_switch"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_sort"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/minimum_target"
+            android:layout_marginEnd="@dimen/padding_small"
+            android:layout_width="@dimen/sort_switch_width"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/ic_sort_order_24dp"
+            android:tint="?attr/toolbarIconColor">
+        </ImageButton>
+
+    </RelativeLayout>
+
+</LinearLayout>

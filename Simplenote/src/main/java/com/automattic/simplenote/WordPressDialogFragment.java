@@ -296,16 +296,16 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
             }
 
             if (StrUtils.isSameStr(dataUri.getQueryParameter("code"), "1")) {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_unverified), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.wpcom_log_in_error_unverified), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.wpcom_log_in_error_generic), Toast.LENGTH_SHORT).show();
             }
         } else if (authResponse != null) {
             // Save token and finish activity
             Simplenote app = (Simplenote)getActivity().getApplication();
             boolean authSuccess = WordPressUtils.processAuthResponse(app, authResponse, mAuthState, false);
             if (!authSuccess) {
-                Toast.makeText(getActivity(), getString(R.string.wpcom_sign_in_error_generic), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.wpcom_log_in_error_generic), Toast.LENGTH_SHORT).show();
             } else {
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.WPCC_LOGIN_SUCCEEDED,

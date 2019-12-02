@@ -36,6 +36,7 @@
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector_light</item>
         <item name="editorSearchHighlightBackgroundColor">@color/blue_5</item>
         <item name="editorSearchHighlightForegroundColor">@color/blue_60</item>
+        <item name="emptyImageColor">@color/empty_light</item>
         <item name="fabColor">@color/item_blue_light</item>
         <item name="fabIconColor">@android:color/white</item>
         <item name="hintTextColor">@color/text_title_disabled</item>
@@ -50,9 +51,8 @@
         <item name="notePreviewColor">@color/text_content_light</item>
         <item name="noteTitleColor">@color/text_title_light</item>
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
-        <item name="placeholderLogoColor">@color/empty_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="settingsTextColor">@color/black</item>
+        <item name="settingsTextColor">@android:color/black</item>
         <item name="toolbarColor">@color/background_light</item>
         <item name="toolbarIconColor">@color/gray_50</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
@@ -79,7 +79,7 @@
     </style>
 
     <style name="DropDownTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -119,6 +119,10 @@
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.MaterialComponents.Light">
         <item name="android:textColorPrimary">?attr/actionBarTextColor</item>
         <item name="android:textColorSecondary">?attr/toolbarIconColor</item>
+    </style>
+
+    <style name="ToolbarTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="colorControlNormal">?attr/toolbarIconColor</item>
     </style>
 
     <style name="Simplestyle.IndeterminateProgress" parent="@android:style/Widget.Material.Light.ProgressBar">
@@ -164,6 +168,7 @@
         <item name="android:navigationBarColor">@color/passcodelock_background</item>
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorPrimary">@color/passcodelock_background</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.Simplestyle">
@@ -180,13 +185,29 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="PasscodeEditTextStyle">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_margin">@dimen/padding_large</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/passcodelock_field_text_color</item>
+        <item name="android:textColorHint">@color/passcodelock_field_hint_text_color</item>
+        <item name="android:textSize">@dimen/passcodelock_pin_text_size</item>
+    </style>
+
     <style name="PasscodeKeyboardButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+        <item name="android:layout_marginBottom">@dimen/padding_large</item>
+        <item name="android:layout_marginLeft">@dimen/padding_extra_extra_large</item>
+        <item name="android:layout_marginRight">@dimen/padding_extra_extra_large</item>
+        <item name="android:layout_marginTop">@dimen/padding_large</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
         <item name="android:textColor">@color/passcodelock_button_text_color</item>
         <item name="android:textSize">@dimen/passcodelock_button_text_size</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="PasscodeKeyboardImageStyle" parent="@style/PasscodeKeyboardButtonStyle">
+        <item name="android:tint">@color/passcodelock_button_image_color</item>
     </style>
 
 </resources>

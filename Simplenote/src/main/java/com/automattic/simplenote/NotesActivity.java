@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -53,12 +54,14 @@ import com.simperium.client.User;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
@@ -203,7 +206,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
-            startLoginActivity(true);
+            startLoginActivity();
             Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
@@ -236,7 +239,9 @@ public class NotesActivity extends AppCompatActivity implements
             }
         }
 
-        filterListBySelectedTag();
+        if (mSelectedTag != null) {
+            filterListBySelectedTag();
+        }
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
             onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
@@ -295,7 +300,9 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public void onActionModeDestroyed() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (mSearchMenuItem != null && !mSearchMenuItem.isActionViewExpanded()) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
     }
 
     private ColorStateList getIconSelector() {
@@ -403,7 +410,7 @@ public class NotesActivity extends AppCompatActivity implements
             mSelectedTag = mTagsAdapter.getDefaultItem();
         }
 
-        checkEmptyListText(false);
+        checkEmptyListText(mSearchMenuItem != null && mSearchMenuItem.isActionViewExpanded());
 
         if (mNoteListFragment.isHidden()) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -624,9 +631,8 @@ public class NotesActivity extends AppCompatActivity implements
         return mNoteListFragment;
     }
 
-    @SuppressWarnings("ResourceType")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
@@ -638,12 +644,15 @@ public class NotesActivity extends AppCompatActivity implements
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
+        LinearLayout searchEditFrame = mSearchView.findViewById(R.id.search_edit_frame);
+        ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
 
         if (!TextUtils.isEmpty(searchQuery)) {
             mSearchView.setQuery(searchQuery, false);
             mSearchMenuItem.expandActionView();
         } else {
             // Workaround for setting the search placeholder text color
+            @SuppressWarnings("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
             mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
                     hintHexColor,
@@ -654,26 +663,39 @@ public class NotesActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (mSearchMenuItem.isActionViewExpanded()) {
-                    getNoteListFragment().searchNotes(newText);
+                    getNoteListFragment().searchNotes(newText, false);
                 }
+
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String queryText) {
-                getNoteListFragment().searchNotes(queryText);
+                getNoteListFragment().searchNotes(queryText, true);
+                getNoteListFragment().addSearchItem(queryText, 0);
+                checkEmptyListText(true);
                 return true;
             }
-
         });
 
         mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                getNoteListFragment().searchNotes("", false);
+
+                if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
+                    updateActionsForLargeLandscape(menu);
+                }
+
                 checkEmptyListText(true);
+
+                // Hide floating action button and list bottom padding.
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(false);
+                    mNoteListFragment.showListPadding(false);
                 }
+
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.LIST_NOTES_SEARCHED,
                         AnalyticsTracker.CATEGORY_NOTE,
@@ -684,10 +706,18 @@ public class NotesActivity extends AppCompatActivity implements
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                // Show all notes again
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
+                    updateActionsForLargeLandscape(menu);
+                }
+
+                // Show floating action button and list bottom padding.
                 if (mNoteListFragment != null) {
                     mNoteListFragment.setFloatingActionButtonVisible(true);
+                    mNoteListFragment.showListPadding(true);
                 }
+
                 mTabletSearchQuery = "";
                 mSearchView.setQuery("", false);
                 checkEmptyListText(false);
@@ -714,7 +744,7 @@ public class NotesActivity extends AppCompatActivity implements
             trashItem.setIcon(R.drawable.ic_trash_24dp);
         }
 
-        if (DisplayUtils.isLargeScreenLandscape(this)) {
+        if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
             // Restore the search query on landscape tablets
             if (!TextUtils.isEmpty(mTabletSearchQuery)) {
                 mSearchMenuItem.expandActionView();
@@ -722,24 +752,7 @@ public class NotesActivity extends AppCompatActivity implements
                 mSearchView.clearFocus();
             }
 
-            if (mCurrentNote != null) {
-                menu.findItem(R.id.menu_share).setVisible(true);
-                menu.findItem(R.id.menu_view_info).setVisible(true);
-                menu.findItem(R.id.menu_checklist).setVisible(true);
-                menu.findItem(R.id.menu_history).setVisible(true);
-                menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
-                menu.findItem(R.id.menu_sidebar).setVisible(true);
-                trashItem.setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_share).setVisible(false);
-                menu.findItem(R.id.menu_view_info).setVisible(false);
-                menu.findItem(R.id.menu_checklist).setVisible(false);
-                menu.findItem(R.id.menu_history).setVisible(false);
-                menu.findItem(R.id.menu_markdown_preview).setVisible(false);
-                menu.findItem(R.id.menu_sidebar).setVisible(false);
-                trashItem.setVisible(false);
-            }
-            menu.findItem(R.id.menu_empty_trash).setVisible(false);
+            updateActionsForLargeLandscape(menu);
         } else {
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
@@ -765,6 +778,13 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
+
+        if (mDrawerLayout != null && mSearchMenuItem != null) {
+            mDrawerLayout.setDrawerLockMode(mSearchMenuItem.isActionViewExpanded() ?
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED :
+                DrawerLayout.LOCK_MODE_UNLOCKED
+            );
+        }
 
         return true;
     }
@@ -820,7 +840,7 @@ public class NotesActivity extends AppCompatActivity implements
                 alert.setMessage(R.string.confirm_empty_trash);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        new emptyTrashTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        new emptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         AnalyticsTracker.track(
                                 AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
                                 AnalyticsTracker.CATEGORY_NOTE,
@@ -858,6 +878,40 @@ public class NotesActivity extends AppCompatActivity implements
         DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.toolbarIconColor);
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void submitSearch(String selection) {
+        if (mSearchView != null) {
+            String query = mSearchView.getQuery().toString();
+
+            if (query.endsWith(TAG_PREFIX)) {
+                mSearchView.setQuery(query.substring(0, query.lastIndexOf(TAG_PREFIX)) + selection, true);
+            } else {
+                mSearchView.setQuery(selection, true);
+            }
+        }
+    }
+
+    private void updateActionsForLargeLandscape(Menu menu) {
+        if (mCurrentNote != null) {
+            menu.findItem(R.id.menu_checklist).setVisible(true);
+            menu.findItem(R.id.menu_delete).setVisible(true);
+            menu.findItem(R.id.menu_history).setVisible(true);
+            menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
+            menu.findItem(R.id.menu_share).setVisible(true);
+            menu.findItem(R.id.menu_sidebar).setVisible(true);
+            menu.findItem(R.id.menu_view_info).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_checklist).setVisible(false);
+            menu.findItem(R.id.menu_delete).setVisible(false);
+            menu.findItem(R.id.menu_history).setVisible(false);
+            menu.findItem(R.id.menu_markdown_preview).setVisible(false);
+            menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_sidebar).setVisible(false);
+            menu.findItem(R.id.menu_view_info).setVisible(false);
+        }
+
+        menu.findItem(R.id.menu_empty_trash).setVisible(false);
     }
 
     public void updateViewsAfterTrashAction(Note note) {
@@ -986,7 +1040,7 @@ public class NotesActivity extends AppCompatActivity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        startLoginActivity(true);
+                        startLoginActivity();
                     }
                 });
                 break;
@@ -1003,7 +1057,7 @@ public class NotesActivity extends AppCompatActivity implements
         }
     }
 
-    public void startLoginActivity(boolean signInFirst) {
+    public void startLoginActivity() {
         // Clear some account-specific prefs
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.remove(PrefUtils.PREF_WP_TOKEN);
@@ -1171,19 +1225,35 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_found) + "</strong>");
-            getNoteListFragment().setEmptyListViewClickable(false);
-        } else if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.trash_is_empty) + "</strong>");
-            AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "trash_filter_selected"
-            );
-            getNoteListFragment().setEmptyListViewClickable(false);
+            if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
+                getNoteListFragment().setEmptyListImage(-1);
+            } else {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
+            }
+
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
+        } else if (mSelectedTag != null) {
+            if (mSelectedTag.id == ALL_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
+            } else if (mSelectedTag.id == TRASH_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_trash_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "trash_filter_selected"
+                );
+            } else if (mSelectedTag.id == UNTAGGED_NOTES_ID) {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_untagged_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_untagged));
+            } else {
+                getNoteListFragment().setEmptyListImage(R.drawable.ic_tag_24dp);
+                getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
+            }
         } else {
-            getNoteListFragment().setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-            getNoteListFragment().setEmptyListViewClickable(true);
+            getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
+            getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
         }
     }
 
@@ -1265,13 +1335,20 @@ public class NotesActivity extends AppCompatActivity implements
         // noop, NoteEditorFragment will handle this
     }
 
-    private class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+    private static class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+
+        private SoftReference<NotesActivity> activityRef;
+
+        emptyTrashTask(NotesActivity context) {
+            activityRef = new SoftReference<>(context);
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if (mNotesBucket == null) return null;
+            NotesActivity activity = activityRef.get();
+            if (activity.mNotesBucket == null) return null;
 
-            Query<Note> query = Note.allDeleted(mNotesBucket);
+            Query<Note> query = Note.allDeleted(activity.mNotesBucket);
             Bucket.ObjectCursor c = query.execute();
             while (c.moveToNext()) {
                 c.getObject().delete();
@@ -1282,7 +1359,8 @@ public class NotesActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Void nada) {
-            showDetailPlaceholder();
+            NotesActivity activity = activityRef.get();
+            activity.showDetailPlaceholder();
         }
     }
 }

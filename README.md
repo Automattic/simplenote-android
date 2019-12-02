@@ -1,5 +1,5 @@
 # Simplenote for Android
-[![Version](https://img.shields.io/badge/version-2.1-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/2.1) [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android) [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
+[![Version](https://img.shields.io/badge/version-2.2-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/2.2) [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android) [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
 
 Simplenote for Android. Learn more at [Simplenote.com](https://simplenote.com).
 
@@ -21,7 +21,7 @@ sdk.dir=/Applications/Android Studio.app/sdk
 ./gradlew installDebug
 ```
 
-* Create a new account in order to use a development build. Signing in with an existing Simplenote account won't work. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
+* Create a new account in order to use a development build. Logging in with an existing Simplenote account won't work. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/minimum_target"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/suggestion_icon"
+        android:importantForAccessibility="no"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_suggestion"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_width="wrap_content"
+        android:tint="?attr/toolbarIconColor"
+        tools:src="@drawable/ic_history_24dp">
+    </ImageView>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/suggestion_text"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:textColor="?attr/noteTitleColor"
+        android:textSize="@dimen/text_suggestion"
+        tools:text="tag:work"
+        style="?android:attr/textAppearanceMedium">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+    <ImageButton
+        android:id="@+id/suggestion_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/description_delete_item"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_width="@dimen/sort_switch_width"
+        android:minHeight="@dimen/minimum_target"
+        android:minWidth="@dimen/minimum_target"
+        android:padding="@dimen/padding_medium"
+        android:src="@drawable/ic_cross_24dp"
+        android:tint="?attr/toolbarIconColor">
+    </ImageButton>
+
+</LinearLayout>

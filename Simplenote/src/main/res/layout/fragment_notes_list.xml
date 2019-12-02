@@ -22,34 +22,38 @@
         tools:listitem="@layout/note_list_row">
     </ListView>
 
-    <LinearLayout
+    <include
         android:id="@android:id/empty"
+        android:visibility="gone"
+        layout="@layout/empty_view">
+    </include>
+
+    <RelativeLayout
+        android:id="@+id/suggestion_layout"
+        android:background="?attr/mainBackgroundColor"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:gravity="center">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/empty_message"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:padding="8dp"
-            android:textColor="?attr/notePreviewColor"
-            android:textSize="@dimen/text_empty">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/divider_shadow"
-        android:background="@drawable/right_shadow"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
         android:visibility="gone">
-    </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/suggestion_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/search_suggestion">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_line"
+        android:background="?attr/dividerColor"
+        android:layout_gravity="end"
+        android:layout_height="fill_parent"
+        android:layout_width="@dimen/divider_height"
+        android:visibility="gone">
+    </View>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_button"

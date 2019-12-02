@@ -12,6 +12,7 @@ import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ContextUtils;
@@ -21,6 +22,8 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import com.commonsware.cwac.anddown.AndDown;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
+
+import java.lang.ref.SoftReference;
 
 public class NoteMarkdownFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
@@ -70,7 +73,7 @@ public class NoteMarkdownFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
-            new loadNoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            new loadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
         setHasOptionsMenu(true);
         mCss = ThemeUtils.isLightTheme(requireContext())
@@ -134,24 +137,35 @@ public class NoteMarkdownFragment extends Fragment {
                 "</div></body></html>";
     }
 
-    private class loadNoteTask extends AsyncTask<String, Void, Void> {
+    private static class loadNoteTask extends AsyncTask<String, Void, Void> {
+
+        private SoftReference<NoteMarkdownFragment> fragmentRef;
+
+        private loadNoteTask(NoteMarkdownFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
+
         @Override
         protected void onPreExecute() {
-            mIsLoadingNote = true;
+            NoteMarkdownFragment fragment = fragmentRef.get();
+            fragment.mIsLoadingNote = true;
         }
 
         @Override
         protected Void doInBackground(String... args) {
-            if (getActivity() == null) {
+            NoteMarkdownFragment fragment = fragmentRef.get();
+            FragmentActivity activity = fragment.getActivity();
+
+            if (activity == null) {
                 return null;
             }
 
             String noteID = args[0];
-            Simplenote application = (Simplenote) getActivity().getApplication();
+            Simplenote application = (Simplenote) activity.getApplication();
             Bucket<Note> notesBucket = application.getNotesBucket();
 
             try {
-                mNote = notesBucket.get(noteID);
+                fragment.mNote = notesBucket.get(noteID);
             } catch (BucketObjectMissingException exception) {
                 // TODO: Handle a missing note
             }
@@ -161,11 +175,13 @@ public class NoteMarkdownFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void nada) {
-            mIsLoadingNote = false;
+            NoteMarkdownFragment fragment = fragmentRef.get();
 
-            if (mNote != null) {
-                if (getActivity() != null) {
-                    getActivity().invalidateOptionsMenu();
+            fragment.mIsLoadingNote = false;
+
+            if (fragment.mNote != null) {
+                if (fragment.getActivity() != null) {
+                    fragment.getActivity().invalidateOptionsMenu();
                 }
             }
         }

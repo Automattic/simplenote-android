@@ -1,8 +1,10 @@
 package com.automattic.simplenote;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -13,6 +15,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -28,22 +31,33 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.models.Suggestion;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.ChecklistUtils;
+import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -52,10 +66,14 @@ import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
+import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -63,6 +81,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
+import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
+import static com.automattic.simplenote.models.Suggestion.Type.TAG;
+import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -73,7 +103,8 @@ import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener {
+public class NoteListFragment extends ListFragment implements AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Bucket.Listener<Preferences> {
+    public static final String TAG_PREFIX = "tag:";
 
     /**
      * The preferences key representing the activated item position. Only used on tablets.
@@ -100,16 +131,34 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     };
     protected NotesCursorAdapter mNotesAdapter;
     protected String mSearchString;
+    private Bucket<Preferences> mBucketPreferences;
+    private Bucket<Tag> mBucketTag;
     private ActionMode mActionMode;
     private View mRootView;
-    private TextView mEmptyListTextView;
-    private LinearLayout mDividerShadow;
+    private ImageView mEmptyViewImage;
+    private TextView mEmptyViewText;
+    private View mDividerLine;
     private FloatingActionButton mFloatingActionButton;
     private boolean mIsCondensedNoteList;
+    private boolean mIsSearching;
+    private ImageView mSortDirection;
+    private ListView mList;
+    private ObjectAnimator mSortDirectionAnimation;
+    private RecyclerView mSuggestionList;
+    private RelativeLayout mSortLayoutContent;
+    private RelativeLayout mSuggestionLayout;
+    private SharedPreferences mPreferences;
     private String mSelectedNoteId;
+    private SuggestionAdapter mSuggestionAdapter;
+    private TextView mSortOrder;
     private refreshListTask mRefreshListTask;
+    private refreshListForSearchTask mRefreshListForSearchTask;
+    private int mDeletedItemIndex;
+    private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
+    private boolean mIsSortDown;
+    private boolean mIsSortReverse;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -125,12 +174,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * fragment (e.g. upon screen orientation changes).
      */
     public NoteListFragment() {
-    }
-
-    public void setEmptyListViewClickable(boolean isClickable) {
-        if (mEmptyListTextView != null) {
-            mEmptyListTextView.setClickable(isClickable);
-        }
     }
 
     @Override
@@ -165,10 +208,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             switch (item.getItemId()) {
                 case R.id.menu_delete:
-                    new trashNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new trashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
-                    new pinNotesTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new pinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
             }
         }
@@ -208,13 +251,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
+        mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
     }
 
-    // nbradbury - load values from preferences
     protected void getPrefs() {
+        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mTitleFontSize = PrefUtils.getFontSize(getActivity());
         mPreviewFontSize = mTitleFontSize - 2;
@@ -237,23 +281,20 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             createNewNote("new_note_shortcut");
         }
 
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         mRootView = view.findViewById(R.id.list_root);
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
-        mEmptyListTextView = view.findViewById(R.id.empty_message);
-        mEmptyListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNote();
-            }
-        });
-        setEmptyListMessage("<strong>" + getString(R.string.no_notes_here) + "</strong><br />" + String.format(getString(R.string.why_not_create_one), "<u>", "</u>"));
-        mDividerShadow = view.findViewById(R.id.divider_shadow);
+        mEmptyViewImage = emptyView.findViewById(R.id.image);
+        mEmptyViewText = emptyView.findViewById(R.id.text);
+        setEmptyListImage(R.drawable.ic_notes_24dp);
+        setEmptyListMessage(getString(R.string.empty_notes_all));
+        mDividerLine = view.findViewById(R.id.divider_line);
 
         if (DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             setActivateOnItemClick(true);
-            mDividerShadow.setVisibility(View.VISIBLE);
+            mDividerLine.setVisibility(View.VISIBLE);
         }
 
         mFloatingActionButton = view.findViewById(R.id.fab_button);
@@ -275,8 +316,201 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         });
 
+        mSuggestionLayout = view.findViewById(R.id.suggestion_layout);
+        mSuggestionList = view.findViewById(R.id.suggestion_list);
+        mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
+        mSuggestionList.setAdapter(mSuggestionAdapter);
+        mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        @SuppressLint("InflateParams")
+        LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
+        mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
+        mSortLayoutContent.setVisibility(mIsSearching ? View.VISIBLE : View.GONE);
+        mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
+        mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(mSortOrder.getContext(), mSortOrder, Gravity.START);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.search_sort, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Do nothing when same sort is selected.
+                        if (mSortOrder.getText().equals(item.getTitle())) {
+                            return false;
+                        }
+
+                        mSortOrder.setText(item.getTitle());
+
+                        switch (item.getItemId()) {
+                            case R.id.search_alphabetically:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(ALPHABETICAL_ASCENDING)
+                                ).apply();
+
+                                // If arrow is down, rotate it up for ascending direction.
+                                if (mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                } else if (!mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                }
+
+                                refreshListForSearch();
+                                return true;
+                            case R.id.search_created:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(DATE_CREATED_DESCENDING)
+                                ).apply();
+
+                                // If arrow is up, rotate it down for descending direction.
+                                if (mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                } else if (!mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                }
+
+                                refreshListForSearch();
+                                return true;
+                            case R.id.search_modified:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(DATE_MODIFIED_DESCENDING)
+                                ).apply();
+
+                                // If arrow is up, rotate it down for descending direction.
+                                if (mIsSortDown && mIsSortReverse) {
+                                    mSortDirectionAnimation.reverse();
+                                    mIsSortReverse = false;
+                                } else if (!mIsSortDown && !mIsSortReverse) {
+                                    mSortDirectionAnimation.start();
+                                    mIsSortReverse = true;
+                                }
+
+                                refreshListForSearch();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
+        mList = view.findViewById(android.R.id.list);
+        mList.addHeaderView(sortLayoutContainer);
+
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+
+        mSortDirection = sortLayoutContainer.findViewById(R.id.sort_direction);
+        ImageView sortDirectionSwitch = sortLayoutContainer.findViewById(R.id.sort_direction_switch);
+        sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsSortReverse) {
+                    mSortDirectionAnimation.reverse();
+                } else {
+                    mSortDirectionAnimation.start();
+                }
+
+                mIsSortReverse = !mIsSortReverse;
+                switchSortDirection();
+                refreshListForSearch();
+            }
+        });
+        sortDirectionSwitch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(requireContext(), requireContext().getString(R.string.sort_search_reverse_order), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+
+    public void showListPadding(boolean show) {
+        mList.setPadding(
+            mList.getPaddingLeft(),
+            mList.getPaddingTop(),
+            mList.getPaddingRight(),
+            show ? (int) getResources().getDimension(R.dimen.note_list_item_padding_bottom_button) : 0
+        );
+    }
+
+    private @StringRes int getSortOrderText() {
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case ALPHABETICAL_ASCENDING:
+            case ALPHABETICAL_DESCENDING:
+                return R.string.sort_search_alphabetically;
+            case DATE_CREATED_ASCENDING:
+            case DATE_CREATED_DESCENDING:
+                return R.string.sort_search_created;
+            case DATE_MODIFIED_ASCENDING:
+            case DATE_MODIFIED_DESCENDING:
+            default:
+                return R.string.sort_search_modified;
+        }
+    }
+
+    private void setSortDirection() {
+        if (mIsSortReverse) {
+            mSortDirectionAnimation.reverse();
+            mIsSortReverse = false;
+        }
+
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case ALPHABETICAL_ASCENDING:
+            case DATE_CREATED_ASCENDING:
+            case DATE_MODIFIED_ASCENDING:
+                mSortDirection.setContentDescription(getString(R.string.description_up));
+                mSortDirection.setImageResource(R.drawable.ic_arrow_up_16dp);
+                mIsSortDown = false;
+                break;
+            case ALPHABETICAL_DESCENDING:
+            case DATE_CREATED_DESCENDING:
+            case DATE_MODIFIED_DESCENDING:
+            default:
+                mSortDirection.setContentDescription(getString(R.string.description_down));
+                mSortDirection.setImageResource(R.drawable.ic_arrow_down_16dp);
+                mIsSortDown = true;
+                break;
+        }
+
+        mSortDirectionAnimation = ObjectAnimator.ofFloat(
+            mSortDirection,
+            View.ROTATION,
+            0f,
+            mIsSortDown ? -180f : 180f
+        ).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+    }
+
+    private void switchSortDirection() {
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_MODIFIED_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_ASCENDING)).apply();
+                break;
+            case DATE_MODIFIED_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_DESCENDING)).apply();
+                break;
+            case DATE_CREATED_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_ASCENDING)).apply();
+                break;
+            case DATE_CREATED_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_DESCENDING)).apply();
+                break;
+            case ALPHABETICAL_ASCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_DESCENDING)).apply();
+                break;
+            case ALPHABETICAL_DESCENDING:
+                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_ASCENDING)).apply();
+                break;
+        }
     }
 
     private void createNewNote(String label){
@@ -307,20 +541,51 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onResume();
         getPrefs();
 
-        refreshList();
+        if (mIsSearching) {
+            refreshListForSearch();
+        } else {
+            refreshList();
+        }
+
+        mBucketPreferences.start();
+        mBucketPreferences.addOnDeleteObjectListener(this);
+        mBucketPreferences.addOnNetworkChangeListener(this);
+        mBucketPreferences.addOnSaveObjectListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBucketPreferences.removeOnDeleteObjectListener(this);
+        mBucketPreferences.removeOnNetworkChangeListener(this);
+        mBucketPreferences.removeOnSaveObjectListener(this);
+        mBucketPreferences.stop();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
+        // Restore sort order from Settings.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
     }
 
+    public void setEmptyListImage(@DrawableRes int image) {
+        if (mEmptyViewImage != null) {
+            if (image != -1) {
+                mEmptyViewImage.setVisibility(View.VISIBLE);
+                mEmptyViewImage.setImageResource(image);
+            } else {
+                mEmptyViewImage.setVisibility(View.GONE);
+            }
+        }
+    }
+
     public void setEmptyListMessage(String message) {
-        if (mEmptyListTextView != null && message != null)
-            mEmptyListTextView.setText(HtmlCompat.fromHtml(message));
+        if (mEmptyViewText != null && message != null) {
+            mEmptyViewText.setText(message);
+        }
     }
 
     @Override
@@ -385,10 +650,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void setDividerVisible(boolean visible) {
-        if (visible)
-            mDividerShadow.setVisibility(View.VISIBLE);
-        else
-            mDividerShadow.setVisibility(View.GONE);
+        mDividerLine.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public void setFloatingActionButtonVisible(boolean visible) {
@@ -402,6 +664,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void refreshList() {
+        mSortOrder.setText(getSortOrderText());
+        setSortDirection();
         refreshList(false);
     }
 
@@ -409,10 +673,19 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
             mRefreshListTask.cancel(true);
 
-        mRefreshListTask = new refreshListTask();
+        mRefreshListTask = new refreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
         WidgetUtils.updateNoteWidgets(getActivity());
+    }
+
+    private void refreshListForSearch() {
+        if (mRefreshListForSearchTask != null && mRefreshListForSearchTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mRefreshListForSearchTask.cancel(true);
+        }
+
+        mRefreshListForSearchTask = new refreshListForSearchTask(this);
+        mRefreshListForSearchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void refreshListFromNavSelect() {
@@ -440,12 +713,38 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, requireContext());
+        PrefUtils.sortNoteQuery(query, requireContext(), true);
+        return query.execute();
+    }
+
+    private ObjectCursor<Note> queryNotesForSearch() {
+        if (!isAdded()) {
+            return null;
+        }
+
+        Query<Note> query = Note.all(((Simplenote) requireActivity().getApplication()).getNotesBucket());
+        String searchString = mSearchString;
+
+        if (hasSearchQuery()) {
+            searchString = queryTags(query, mSearchString);
+        }
+
+        if (!TextUtils.isEmpty(searchString)) {
+            query.where(new Query.FullTextMatch(new SearchTokenizer(searchString)));
+            query.include(new Query.FullTextOffsets("match_offsets"));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_TITLE_INDEX_NAME, Note.TITLE_INDEX_NAME));
+            query.include(new Query.FullTextSnippet(Note.MATCHED_CONTENT_INDEX_NAME, Note.CONTENT_PROPERTY));
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        } else {
+            query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
+        }
+
+        PrefUtils.sortNoteQuery(query, requireContext(), false);
         return query.execute();
     }
 
     private String queryTags(Query<Note> query, String searchString) {
-        Pattern pattern = Pattern.compile("tag:(.*?)( |$)");
+        Pattern pattern = Pattern.compile(TAG_PREFIX + "(.*?)( |$)");
         Matcher matcher = pattern.matcher(searchString);
         while (matcher.find()) {
             query.where(TAGS_PROPERTY, Query.ComparisonType.LIKE, matcher.group(1));
@@ -517,10 +816,25 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSelectedNoteId = selectedNoteID;
     }
 
-    public void searchNotes(String searchString) {
+    public void searchNotes(String searchString, boolean isSubmit) {
+        mIsSearching = true;
+        mSortLayoutContent.setVisibility(View.VISIBLE);
+        mSuggestionLayout.setVisibility(View.VISIBLE);
+        mSortOrder.setText(getSortOrderText());
+
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
-            refreshList();
+        }
+
+        if (searchString.isEmpty()) {
+            getSearchItems();
+        } else {
+            getTagSuggestions(searchString);
+        }
+
+        if (isSubmit) {
+            mSuggestionLayout.setVisibility(View.GONE);
+            refreshListForSearch();
         }
     }
 
@@ -528,6 +842,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * Clear search and load all notes
      */
     public void clearSearch() {
+        mIsSearching = false;
+        mSortLayoutContent.setVisibility(View.GONE);
+        mSuggestionLayout.setVisibility(View.GONE);
+        // Restore sort order from Settings.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
+        refreshList();
+
         if (mSearchString != null && !mSearchString.equals("")) {
             mSearchString = null;
             refreshList();
@@ -536,6 +857,85 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public boolean hasSearchQuery() {
         return mSearchString != null && !mSearchString.equals("");
+    }
+
+    public void addSearchItem(String item, int index) {
+        Preferences preferences = getPreferences();
+
+        if (preferences != null) {
+            List<String> recents = preferences.getRecentSearches();
+            recents.remove(item);
+            recents.add(index, item);
+            // Trim recent searches to MAX_RECENT_SEARCHES (currently 5) if size is greater than MAX_RECENT_SEARCHES.
+            preferences.setRecentSearches(recents.subList(0, recents.size() > MAX_RECENT_SEARCHES ? MAX_RECENT_SEARCHES : recents.size()));
+            preferences.save();
+        } else {
+            Log.e("addSearchItem", "Could not get preferences entity");
+        }
+    }
+
+    private void deleteSearchItem(String item) {
+        Preferences preferences = getPreferences();
+
+        if (preferences != null) {
+            List<String> recents = preferences.getRecentSearches();
+            mDeletedItemIndex = recents.indexOf(item);
+            recents.remove(item);
+            preferences.setRecentSearches(recents);
+            preferences.save();
+        } else {
+            Log.e("deleteSearchItem", "Could not get preferences entity");
+        }
+    }
+
+    private Preferences getPreferences() {
+        try {
+            return mBucketPreferences.get(PREFERENCES_OBJECT_KEY);
+        } catch (BucketObjectMissingException exception) {
+            try {
+                Preferences preferences = mBucketPreferences.newObject(PREFERENCES_OBJECT_KEY);
+                preferences.save();
+                return preferences;
+            } catch (BucketObjectNameInvalid invalid) {
+                Log.e("getPreferences", "Could not create preferences entity", invalid);
+                return null;
+            }
+        }
+    }
+
+    private void getSearchItems() {
+        Preferences preferences = getPreferences();
+
+        if (preferences != null) {
+            ArrayList<Suggestion> suggestions = new ArrayList<>();
+
+            for (String recent : preferences.getRecentSearches()) {
+                suggestions.add(new Suggestion(recent, HISTORY));
+            }
+
+            mSuggestionAdapter.updateItems(suggestions);
+        } else {
+            Log.e("getSearchItems", "Could not get preferences entity");
+        }
+    }
+
+    private void getTagSuggestions(String query) {
+        ArrayList<Suggestion> suggestions = new ArrayList<>();
+        suggestions.add(new Suggestion(query, QUERY));
+        Query<Tag> tags = Tag.all(mBucketTag).reorder().order(Tag.NOTE_COUNT_INDEX_NAME, Query.SortType.DESCENDING);
+
+        if (!query.endsWith(TAG_PREFIX)) {
+            tags.where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + query + "%");
+        }
+
+        try (ObjectCursor<Tag> cursor = tags.execute()) {
+            while (cursor.moveToNext()) {
+                suggestions.add(new Suggestion(cursor.getObject().getName(), TAG));
+            }
+        }
+
+        mSuggestionAdapter = new SuggestionAdapter(suggestions);
+        mSuggestionList.setAdapter(mSuggestionAdapter);
     }
 
     /**
@@ -563,6 +963,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         private ImageView mPinned;
         private ImageView mPublished;
         private TextView mContent;
+        private TextView mDate;
         private TextView mTitle;
         private String mMatchOffsets;
         private String mNoteId;
@@ -595,7 +996,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public Note getItem(int position) {
-            mCursor.moveToPosition(position);
+            mCursor.moveToPosition(position - 1);  // Minus one due to sort view header.
             return mCursor.getObject();
         }
 
@@ -611,6 +1012,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder = new NoteViewHolder();
                 holder.mTitle = view.findViewById(R.id.note_title);
                 holder.mContent = view.findViewById(R.id.note_content);
+                holder.mDate = view.findViewById(R.id.note_date);
                 holder.mPinned = view.findViewById(R.id.note_pinned);
                 holder.mPublished = view.findViewById(R.id.note_published);
                 holder.mStatus = view.findViewById(R.id.note_status);
@@ -622,6 +1024,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             if (holder.mTitle.getTextSize() != mTitleFontSize) {
                 holder.mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleFontSize);
                 holder.mContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
+                holder.mDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPreviewFontSize);
             }
 
             if (position == getListView().getCheckedItemPosition())
@@ -634,11 +1037,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             holder.mContent.setVisibility(mIsCondensedNoteList ? View.GONE : View.VISIBLE);
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
+            Calendar date = getDateByPreference(mCursor.getObject());
+            holder.mDate.setText(date != null ? DateTimeUtils.getDateTextShort(date) : "");
+            holder.mDate.setVisibility(mIsSearching && date != null ? View.VISIBLE : View.GONE);
             boolean isPinned = mCursor.getObject().isPinned();
-            holder.mPinned.setVisibility(!isPinned ? View.GONE : View.VISIBLE);
+            holder.mPinned.setVisibility(!isPinned || mIsSearching ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
-            holder.mPublished.setVisibility(!isPublished ? View.GONE : View.VISIBLE);
-            holder.mStatus.setVisibility(!isPinned && !isPublished ? View.GONE : View.VISIBLE);
+            holder.mPublished.setVisibility(!isPublished || mIsSearching ? View.GONE : View.VISIBLE);
+            boolean showIcons = isPinned || isPublished;
+            boolean showDate = mIsSearching && date != null;
+            holder.mStatus.setVisibility(showIcons || showDate ? View.VISIBLE : View.GONE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
@@ -732,6 +1140,208 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
+    @Override
+    public void onBeforeUpdateObject(Bucket<Preferences> bucket, Preferences object) {
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Preferences> bucket, Preferences object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNetworkChange(Bucket<Preferences> bucket, Bucket.ChangeType type, String key) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Preferences> bucket, Preferences object) {
+        if (isAdded()) {
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getSearchItems();
+                }
+            });
+        }
+    }
+
+    private class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.ViewHolder> {
+        private final List<Suggestion> mSuggestions;
+
+        private SuggestionAdapter(List<Suggestion> suggestions) {
+            mSuggestions = new ArrayList<>(suggestions);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSuggestions.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return mSuggestions.get(position).getType();
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+            switch (holder.mViewType) {
+                case HISTORY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_history_24dp);
+                    holder.mButtonDelete.setVisibility(View.VISIBLE);
+                    break;
+                case QUERY:
+                    holder.mSuggestionText.setText(mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_search_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+                case TAG:
+                    holder.mSuggestionText.setText(TAG_PREFIX + mSuggestions.get(position).getName());
+                    holder.mSuggestionIcon.setImageResource(R.drawable.ic_tag_24dp);
+                    holder.mButtonDelete.setVisibility(View.GONE);
+                    break;
+            }
+
+            holder.mButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    final String item = holder.mSuggestionText.getText().toString();
+                    deleteSearchItem(item);
+                    Snackbar
+                        .make(getRootView(), R.string.snackbar_deleted_recent_search, Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
+                        .setAction(
+                            getString(R.string.undo),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    addSearchItem(item, mDeletedItemIndex);
+                                }
+                            }
+                        )
+                        .show();
+                }
+            });
+            holder.mButtonDelete.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (v.isHapticFeedbackEnabled()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+
+                    Toast.makeText(getContext(), requireContext().getString(R.string.description_delete_item), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
+                }
+            });
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(requireContext()).inflate(R.layout.search_suggestion, parent, false), viewType);
+        }
+
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            private ImageButton mButtonDelete;
+            private ImageView mSuggestionIcon;
+            private TextView mSuggestionText;
+            private View mView;
+            private int mViewType;
+
+            private ViewHolder(View itemView, int viewType) {
+                super(itemView);
+                mView = itemView;
+                mViewType = viewType;
+                mSuggestionText = itemView.findViewById(R.id.suggestion_text);
+                mSuggestionIcon = itemView.findViewById(R.id.suggestion_icon);
+                mButtonDelete = itemView.findViewById(R.id.suggestion_delete);
+            }
+        }
+
+        private void updateItems(List<Suggestion> suggestions) {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SuggestionDiffCallback(mSuggestions, suggestions));
+            mSuggestions.clear();
+            mSuggestions.addAll(suggestions);
+            diffResult.dispatchUpdatesTo(this);
+        }
+    }
+
+    private class SuggestionDiffCallback extends DiffUtil.Callback {
+        private List<Suggestion> mListNew;
+        private List<Suggestion> mListOld;
+
+        private SuggestionDiffCallback(List<Suggestion> oldList, List<Suggestion> newList) {
+            mListOld = oldList;
+            mListNew = newList;
+        }
+
+        @Override
+        public boolean areContentsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public boolean areItemsTheSame(int itemPositionOld, int itemPositionNew) {
+            Suggestion itemOld = mListOld.get(itemPositionOld);
+            Suggestion itemNew = mListNew.get(itemPositionNew);
+            return itemOld.getName().equalsIgnoreCase(itemNew.getName());
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mListNew.size();
+        }
+
+        @Override
+        public int getOldListSize() {
+            return mListOld.size();
+        }
+    }
+
+    private Calendar getDateByPreference(Note note) {
+        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_CREATED_ASCENDING:
+            case DATE_CREATED_DESCENDING:
+                return note.getCreationDate();
+            case DATE_MODIFIED_ASCENDING:
+            case DATE_MODIFIED_DESCENDING:
+                return note.getModificationDate();
+            case ALPHABETICAL_ASCENDING:
+            case ALPHABETICAL_DESCENDING:
+            default:
+                return null;
+        }
+    }
+
     private void showPopupMenuAtPosition(View view, int position) {
         if (view.getContext() == null) {
             return;
@@ -785,71 +1395,124 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         popup.show();
     }
 
-    private class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+    private static class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+        private SoftReference<NoteListFragment> fragmentRef;
         boolean mIsFromNavSelect;
+
+        private refreshListTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Boolean... args) {
+            NoteListFragment fragment = fragmentRef.get();
             mIsFromNavSelect = args[0];
-            return queryNotes();
+            return fragment.queryNotes();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            if (cursor == null || getActivity() == null || getActivity().isFinishing())
+            NoteListFragment fragment = fragmentRef.get();
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing())
                 return;
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
             int count;
             try {
-                mNotesAdapter.changeCursor(cursor);
-                count = mNotesAdapter.getCount();
+                fragment.mNotesAdapter.changeCursor(cursor);
+                count = fragment.mNotesAdapter.getCount();
             } catch (SQLiteException e) {
                 count = 0;
-                android.util.Log.e(Simplenote.TAG, "Invalid SQL statement", e);
-                mNotesAdapter.changeCursor(null);
+                Log.e(Simplenote.TAG, "Invalid SQL statement", e);
+                fragment.mNotesAdapter.changeCursor(null);
             }
 
-            NotesActivity notesActivity = (NotesActivity) getActivity();
+            NotesActivity notesActivity = (NotesActivity) fragment.getActivity();
             if (notesActivity != null) {
                 if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
                     if (count == 0) {
                         notesActivity.showDetailPlaceholder();
                     } else {
                         // Select the first note
-                        selectFirstNote();
+                        fragment.selectFirstNote();
                     }
                 }
                 notesActivity.updateTrashMenuItem();
             }
 
-            if (mSelectedNoteId != null) {
-                setNoteSelected(mSelectedNoteId);
-                mSelectedNoteId = null;
+            if (fragment.mSelectedNoteId != null) {
+                fragment.setNoteSelected(fragment.mSelectedNoteId);
+                fragment.mSelectedNoteId = null;
             }
         }
     }
 
-    private class pinNotesTask extends AsyncTask<Void, Void, Void> {
+    private static class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
 
+        private SoftReference<NoteListFragment> fragmentRef;
+
+        private refreshListForSearchTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
+
+        @Override
+        protected ObjectCursor<Note> doInBackground(Void... args) {
+            NoteListFragment fragment = fragmentRef.get();
+            return fragment.queryNotesForSearch();
+        }
+
+        @Override
+        protected void onPostExecute(ObjectCursor<Note> cursor) {
+            NoteListFragment fragment = fragmentRef.get();
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
+                return;
+            }
+
+            // While using Query.FullTextMatch, it's easy to enter an invalid term so catch the error and clear the cursor.
+            try {
+                fragment.mNotesAdapter.changeCursor(cursor);
+            } catch (SQLiteException e) {
+                Log.e(Simplenote.TAG, "Invalid SQL statement", e);
+                fragment.mNotesAdapter.changeCursor(null);
+            }
+
+            NotesActivity notesActivity = (NotesActivity) fragment.requireActivity();
+            notesActivity.updateTrashMenuItem();
+
+            if (fragment.mSelectedNoteId != null) {
+                fragment.setNoteSelected(fragment.mSelectedNoteId);
+                fragment.mSelectedNoteId = null;
+            }
+        }
+    }
+
+    private static class pinNotesTask extends AsyncTask<Void, Void, Void> {
+
+        private SoftReference<NoteListFragment> fragmentRef;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
+
+        private pinNotesTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
 
         @Override
         protected void onPreExecute() {
-            if (getListView() != null) {
-                mSelectedRows = getListView().getCheckedItemPositions();
+            NoteListFragment fragment = fragmentRef.get();
+            if (fragment.getListView() != null) {
+                mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
         }
 
         @Override
         protected Void doInBackground(Void... args) {
+            NoteListFragment fragment = fragmentRef.get();
 
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> pinnedNotesList = new ArrayList<>();
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
-                    pinnedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                    pinnedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
                 }
             }
 
@@ -865,33 +1528,41 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            NoteListFragment fragment = fragmentRef.get();
 
-            mActionMode.finish();
-            refreshList();
+            fragment.mActionMode.finish();
+            fragment.refreshList();
         }
     }
 
-    private class trashNotesTask extends AsyncTask<Void, Void, Void> {
+    private static class trashNotesTask extends AsyncTask<Void, Void, Void> {
 
+        private SoftReference<NoteListFragment> fragmentRef;
         private List<String> mDeletedNoteIds = new ArrayList<>();
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
+        private trashNotesTask(NoteListFragment context) {
+            fragmentRef = new SoftReference<>(context);
+        }
+
         @Override
         protected void onPreExecute() {
-            if (getListView() != null) {
-                mSelectedRows = getListView().getCheckedItemPositions();
+            NoteListFragment fragment = fragmentRef.get();
+            if (fragment.getListView() != null) {
+                mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
         }
 
         @Override
         protected Void doInBackground(Void... args) {
+            NoteListFragment fragment = fragmentRef.get();
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> deletedNotesList = new ArrayList<>();
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
-                    deletedNotesList.add(mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
+                    deletedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
                 }
             }
 
@@ -908,11 +1579,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NotesActivity notesActivity = ((NotesActivity) getActivity());
+            NoteListFragment fragment = fragmentRef.get();
+            NotesActivity notesActivity = ((NotesActivity) fragment.getActivity());
             if (notesActivity != null)
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
 
-            refreshList();
+            fragment.refreshList();
         }
     }
 }

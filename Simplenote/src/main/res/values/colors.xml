@@ -12,32 +12,37 @@
     <color name="yellow">@color/yellow_20</color>
 
     <!-- ELEVATION -->
-    <color name="background_dark_0">#141617</color>
-    <color name="background_dark_1">#202324</color>
-    <color name="background_dark_2">#242626</color>
-    <color name="background_dark_3">#262829</color>
-    <color name="background_dark_4">#282a2b</color>
-    <color name="background_dark_6">#2d3030</color>
-    <color name="background_dark_8">#2f3233</color>
-    <color name="background_dark_12">#333638</color>
-    <color name="background_dark_16">#35393b</color>
-    <color name="background_dark_24">#363b3c</color>
+    <color name="background_dark_0">#121416</color>
+    <color name="background_dark_1">#1f2123</color>
+    <color name="background_dark_2">#242628</color>
+    <color name="background_dark_3">#27292b</color>
+    <color name="background_dark_4">#2a2c2e</color>
+    <color name="background_dark_6">#2f3133</color>
+    <color name="background_dark_8">#323436</color>
+    <color name="background_dark_12">#37393b</color>
+    <color name="background_dark_16">#3a3c3e</color>
+    <color name="background_dark_24">#3d3f41</color>
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
+    <color name="passcodelock_button_image_color">@color/blue_10</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
+    <color name="passcodelock_divider">@color/blue_40</color>
+    <color name="passcodelock_field_background_color">@android:color/transparent</color>
+    <color name="passcodelock_field_hint_text_color">@android:color/transparent</color>
+    <color name="passcodelock_field_text_color">@android:color/white</color>
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
-    <color name="background_dark">@color/background_dark_0</color>
+    <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/blue_5</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
-    <color name="empty_dark">@color/gray_40</color>
-    <color name="empty_light">@color/gray_20</color>
+    <color name="empty_dark">@color/gray_60</color>
+    <color name="empty_light">@color/gray_5</color>
     <color name="item_blue_dark">@color/blue_20</color>
     <color name="item_blue_light">@color/blue_50</color>
     <color name="status_negative">@color/red</color>
@@ -63,7 +68,6 @@
     <color name="text_button_secondary">@android:color/white</color>
     <color name="text_button_tertiary">@color/blue_60</color>
     <color name="text_link">@color/blue_50</color>
-    <color name="text_footer">@color/gray_60</color>
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 

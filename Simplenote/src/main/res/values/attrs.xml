@@ -18,7 +18,7 @@
     <attr name="listSearchHighlightBackgroundColor" format="reference|color"/>
     <attr name="editorSearchHighlightForegroundColor" format="reference|color"/>
     <attr name="editorSearchHighlightBackgroundColor" format="reference|color"/>
-    <attr name="placeholderLogoColor" format="reference|color"/>
+    <attr name="emptyImageColor" format="reference|color"/>
     <attr name="chipCheckedOffBackgroundColor" format="reference"/>
     <attr name="chipCheckedOnBackgroundColor" format="reference"/>
     <attr name="chipTextColor" format="reference"/>

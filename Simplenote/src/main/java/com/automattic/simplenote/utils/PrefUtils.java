@@ -7,14 +7,19 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import androidx.annotation.IntDef;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Query;
 
+import java.lang.annotation.Retention;
+
 import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @SuppressWarnings("unused")
 public class PrefUtils {
@@ -68,6 +73,24 @@ public class PrefUtils {
 
     // string. Store notes linked to note widget instances.
     public static final String PREF_NOTE_WIDGET_NOTE = "pref_key_note_widget_";
+
+    public static final int ALPHABETICAL_ASCENDING = 4;
+    public static final int ALPHABETICAL_DESCENDING = 5;
+    public static final int DATE_CREATED_ASCENDING = 3;
+    public static final int DATE_CREATED_DESCENDING = 2;
+    public static final int DATE_MODIFIED_ASCENDING = 1;
+    public static final int DATE_MODIFIED_DESCENDING = 0;
+
+    @Retention(SOURCE)
+    @IntDef({
+        DATE_MODIFIED_DESCENDING,
+        DATE_MODIFIED_ASCENDING,
+        DATE_CREATED_DESCENDING,
+        DATE_CREATED_ASCENDING,
+        ALPHABETICAL_ASCENDING,
+        ALPHABETICAL_DESCENDING
+    })
+    public @interface Sort {}
 
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -132,27 +155,28 @@ public class PrefUtils {
         return getIntPref(context, PREF_FONT_SIZE, defaultFontSize);
     }
 
-    public static void sortNoteQuery(Query<Note> query, Context context) {
-        query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
-        int sortOrder = PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER);
+    public static void sortNoteQuery(Query<Note> query, Context context, boolean includePinnedOrdering) {
+        if (includePinnedOrdering) {
+            query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
+        }
 
-        switch (sortOrder) {
-            case 0:
+        switch (PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER)) {
+            case DATE_MODIFIED_DESCENDING:
                 query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.DESCENDING);
                 break;
-            case 1:
+            case DATE_MODIFIED_ASCENDING:
                 query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.ASCENDING);
                 break;
-            case 2:
+            case DATE_CREATED_DESCENDING:
                 query.order(Note.CREATED_INDEX_NAME, Query.SortType.DESCENDING);
                 break;
-            case 3:
+            case DATE_CREATED_ASCENDING:
                 query.order(Note.CREATED_INDEX_NAME, Query.SortType.ASCENDING);
                 break;
-            case 4:
+            case ALPHABETICAL_ASCENDING:
                 query.order(Note.CONTENT_PROPERTY, Query.SortType.ASCENDING);
                 break;
-            case 5:
+            case ALPHABETICAL_DESCENDING:
                 query.order(Note.CONTENT_PROPERTY, Query.SortType.DESCENDING);
                 break;
         }
