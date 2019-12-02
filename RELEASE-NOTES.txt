@@ -1,3 +1,6 @@
+2.4
+-----
+ 
 2.3
 -----
 * Added search sorting by date created, date modified, and alphabetically
