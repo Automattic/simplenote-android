@@ -1049,7 +1049,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
                 if (mActionMode != null) {
                     mActionMode.setSubtitle(mLinkText);
-                    setLinkMenuItem();
+                    updateMenuItems();
                     return;
                 }
 
@@ -1060,7 +1060,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         mActionMode.setSubtitle(mLinkText);
                     }
 
-                    setLinkMenuItem();
+                    updateMenuItems();
                 }
             } else if (mActionMode != null) {
                 mActionMode.finish();
@@ -1072,7 +1072,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void setLinkMenuItem() {
+    private void updateMenuItems() {
         mCopyMenuItem.setIcon(mCopyIcon);
         mShareMenuItem.setIcon(mShareIcon);
 
