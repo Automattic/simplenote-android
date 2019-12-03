@@ -997,7 +997,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public Note getItem(int position) {
-            mCursor.moveToPosition(position - 1);  // Minus one due to sort view header.
+            mCursor.moveToPosition(position - mList.getHeaderViewsCount());
             return mCursor.getObject();
         }
 
