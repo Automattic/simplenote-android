@@ -253,8 +253,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
-        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
-        setListAdapter(mNotesAdapter);
     }
 
     protected void getPrefs() {
@@ -401,6 +399,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         });
         mList = view.findViewById(android.R.id.list);
         mList.addHeaderView(sortLayoutContainer);
+
+        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
+        setListAdapter(mNotesAdapter);
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
