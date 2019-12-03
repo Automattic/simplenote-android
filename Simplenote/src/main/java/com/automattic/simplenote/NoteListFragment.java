@@ -610,7 +610,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
-            Note selectedNote = mNotesAdapter.getItem(0);
+            Note selectedNote = mNotesAdapter.getItem(mList.getHeaderViewsCount());
             mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled(), selectedNote.isPreviewEnabled());
         }
     }
@@ -807,7 +807,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 cursor.moveToPosition(i);
                 String noteKey = cursor.getSimperiumKey();
                 if (noteKey != null && noteKey.equals(selectedNoteID)) {
-                    setActivatedPosition(i);
+                    setActivatedPosition(i + mList.getHeaderViewsCount());
                     return;
                 }
             }
