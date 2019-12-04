@@ -129,7 +129,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Drawable mEmailIcon;
     private Drawable mMapIcon;
     private Drawable mShareIcon;
-    private Drawable mWebIcon;
+    private Drawable mBrowserIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
@@ -281,7 +281,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
         mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
-        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_24dp, R.attr.actionModeTextColor);
+        mBrowserIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_browser_24dp, R.attr.actionModeTextColor);
         mCopyIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_copy_24dp, R.attr.actionModeTextColor);
         mShareIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_share_24dp, R.attr.actionModeTextColor);
 
@@ -1087,7 +1087,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
             } else {
-                mViewLinkMenuItem.setIcon(mWebIcon);
+                mViewLinkMenuItem.setIcon(mBrowserIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }
