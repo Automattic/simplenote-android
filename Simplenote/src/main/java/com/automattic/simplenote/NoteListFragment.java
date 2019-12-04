@@ -126,7 +126,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         @Override
-        public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
+        public void onNoteSelected(String noteID, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         }
     };
     protected NotesCursorAdapter mNotesAdapter;
@@ -253,8 +253,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
-        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
-        setListAdapter(mNotesAdapter);
     }
 
     protected void getPrefs() {
@@ -401,6 +399,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         });
         mList = view.findViewById(android.R.id.list);
         mList.addHeaderView(sortLayoutContainer);
+
+        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
+        setListAdapter(mNotesAdapter);
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
@@ -598,7 +599,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         if (noteID != null) {
             Note note = mNotesAdapter.getItem(position);
-            mCallbacks.onNoteSelected(noteID, position, holder.mMatchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
+            mCallbacks.onNoteSelected(noteID, holder.mMatchOffsets, note.isMarkdownEnabled(), note.isPreviewEnabled());
         }
 
         mActivatedPosition = position;
@@ -609,8 +610,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     public void selectFirstNote() {
         if (mNotesAdapter.getCount() > 0) {
-            Note selectedNote = mNotesAdapter.getItem(0);
-            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), 0, null, selectedNote.isMarkdownEnabled(), selectedNote.isPreviewEnabled());
+            Note selectedNote = mNotesAdapter.getItem(mList.getHeaderViewsCount());
+            mCallbacks.onNoteSelected(selectedNote.getSimperiumKey(), null, selectedNote.isMarkdownEnabled(), selectedNote.isPreviewEnabled());
         }
     }
 
@@ -781,7 +782,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mCallbacks.onNoteSelected(note.getSimperiumKey(), 0, null, note.isMarkdownEnabled(), note.isPreviewEnabled());
+                    mCallbacks.onNoteSelected(note.getSimperiumKey(), null, note.isMarkdownEnabled(), note.isPreviewEnabled());
                 }
             }, 50);
         } else {
@@ -806,7 +807,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 cursor.moveToPosition(i);
                 String noteKey = cursor.getSimperiumKey();
                 if (noteKey != null && noteKey.equals(selectedNoteID)) {
-                    setActivatedPosition(i);
+                    setActivatedPosition(i + mList.getHeaderViewsCount());
                     return;
                 }
             }
@@ -955,7 +956,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         /**
          * Callback for when a note has been selected.
          */
-        void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled);
+        void onNoteSelected(String noteID, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled);
     }
 
     // view holder for NotesCursorAdapter
@@ -996,7 +997,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         public Note getItem(int position) {
-            mCursor.moveToPosition(position - 1);  // Minus one due to sort view header.
+            mCursor.moveToPosition(position - mList.getHeaderViewsCount());
             return mCursor.getObject();
         }
 
