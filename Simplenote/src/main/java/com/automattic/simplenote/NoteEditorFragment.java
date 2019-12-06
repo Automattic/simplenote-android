@@ -118,11 +118,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private boolean mIsPreviewEnabled;
     private boolean mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
+    private MenuItem mCopyMenuItem;
+    private MenuItem mShareMenuItem;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
-    private Drawable mEmailIcon, mWebIcon, mMapIcon, mCallIcon;
+    private Drawable mCallIcon;
+    private Drawable mCopyIcon;
+    private Drawable mEmailIcon;
+    private Drawable mMapIcon;
+    private Drawable mShareIcon;
+    private Drawable mBrowserIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
@@ -159,6 +166,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
+                mCopyMenuItem = menu.findItem(R.id.menu_copy);
+                mShareMenuItem = menu.findItem(R.id.menu_share);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
                 mode.setTitleOptionalHint(false);
@@ -272,7 +281,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
         mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
-        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_24dp, R.attr.actionModeTextColor);
+        mBrowserIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_browser_24dp, R.attr.actionModeTextColor);
+        mCopyIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_copy_24dp, R.attr.actionModeTextColor);
+        mShareIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_share_24dp, R.attr.actionModeTextColor);
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
@@ -1038,7 +1049,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
                 if (mActionMode != null) {
                     mActionMode.setSubtitle(mLinkText);
-                    setLinkMenuItem();
+                    updateMenuItems();
                     return;
                 }
 
@@ -1049,7 +1060,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         mActionMode.setSubtitle(mLinkText);
                     }
 
-                    setLinkMenuItem();
+                    updateMenuItems();
                 }
             } else if (mActionMode != null) {
                 mActionMode.finish();
@@ -1061,7 +1072,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void setLinkMenuItem() {
+    private void updateMenuItems() {
+        mCopyMenuItem.setIcon(mCopyIcon);
+        mShareMenuItem.setIcon(mShareIcon);
+
         if (mViewLinkMenuItem != null && mLinkUrl != null) {
             if (mLinkUrl.startsWith("tel:")) {
                 mViewLinkMenuItem.setIcon(mCallIcon);
@@ -1073,7 +1087,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
             } else {
-                mViewLinkMenuItem.setIcon(mWebIcon);
+                mViewLinkMenuItem.setIcon(mBrowserIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }
