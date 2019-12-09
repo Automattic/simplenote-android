@@ -9,14 +9,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class DateTimeUtils {
-    public static String getDateText(Context context, Calendar noteDate) {
-        if (noteDate == null) {
+    public static String getDateText(Context context, Calendar calendar) {
+        if (calendar == null) {
             return "";
         }
 
         CharSequence dateText = DateUtils.getRelativeDateTimeString(
                 context,
-                noteDate.getTimeInMillis(),
+                calendar.getTimeInMillis(),
                 Calendar.getInstance().getTimeInMillis(),
                 0L,
                 DateUtils.FORMAT_ABBREV_ALL
