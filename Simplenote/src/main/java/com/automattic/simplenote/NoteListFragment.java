@@ -1039,7 +1039,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mCursor.moveToPosition(position);
             holder.setNoteId(mCursor.getSimperiumKey());
             Calendar date = getDateByPreference(mCursor.getObject());
-            holder.mDate.setText(date != null ? DateTimeUtils.getDateTextShort(date) : "");
+            holder.mDate.setText(date != null ? DateTimeUtils.getDateTextNumeric(date) : "");
             holder.mDate.setVisibility(mIsSearching && date != null ? View.VISIBLE : View.GONE);
             boolean isPinned = mCursor.getObject().isPinned();
             holder.mPinned.setVisibility(!isPinned || mIsSearching ? View.GONE : View.VISIBLE);

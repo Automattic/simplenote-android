@@ -1,6 +1,7 @@
 package com.automattic.simplenote.utils;
 
 import android.app.Activity;
+import android.text.format.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,8 +25,8 @@ public class DateTimeUtils {
         return dateText.toString();
     }
 
-    public static String getDateTextShort(Calendar date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-        return formatter.format(date.getTime());
+    public static String getDateTextNumeric(Calendar date) {
+        String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MM/dd/YYYY");
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(date.getTime());
     }
 }
