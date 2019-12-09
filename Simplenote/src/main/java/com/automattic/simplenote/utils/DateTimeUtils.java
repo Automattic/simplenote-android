@@ -2,6 +2,7 @@ package com.automattic.simplenote.utils;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,12 +15,12 @@ public class DateTimeUtils {
         }
 
         long now = Calendar.getInstance().getTimeInMillis();
-        CharSequence dateText = android.text.format.DateUtils.getRelativeDateTimeString(
+        CharSequence dateText = DateUtils.getRelativeDateTimeString(
                 activity,
                 noteDate.getTimeInMillis(),
                 now,
                 0L,
-                android.text.format.DateUtils.FORMAT_ABBREV_ALL
+                DateUtils.FORMAT_ABBREV_ALL
         );
 
         return dateText.toString();
