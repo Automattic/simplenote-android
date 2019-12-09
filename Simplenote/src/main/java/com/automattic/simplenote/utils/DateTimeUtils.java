@@ -1,6 +1,6 @@
 package com.automattic.simplenote.utils;
 
-import android.app.Activity;
+import android.content.Context;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
@@ -9,14 +9,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class DateTimeUtils {
-    public static String getDateText(Activity activity, Calendar noteDate) {
+    public static String getDateText(Context context, Calendar noteDate) {
         if (noteDate == null) {
             return "";
         }
 
         long now = Calendar.getInstance().getTimeInMillis();
         CharSequence dateText = DateUtils.getRelativeDateTimeString(
-                activity,
+                context,
                 noteDate.getTimeInMillis(),
                 now,
                 0L,
