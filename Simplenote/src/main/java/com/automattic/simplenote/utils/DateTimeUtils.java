@@ -14,11 +14,10 @@ public class DateTimeUtils {
             return "";
         }
 
-        long now = Calendar.getInstance().getTimeInMillis();
         CharSequence dateText = DateUtils.getRelativeDateTimeString(
                 context,
                 noteDate.getTimeInMillis(),
-                now,
+                Calendar.getInstance().getTimeInMillis(),
                 0L,
                 DateUtils.FORMAT_ABBREV_ALL
         );
