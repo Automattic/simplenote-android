@@ -135,7 +135,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         if (mFragment.isAdded()) {
             showNow(manager, TAG);
 
-            String date = DateTimeUtils.getDateText(mFragment.getActivity(), note.getModificationDate());
+            String date = DateTimeUtils.getDateText(requireContext(), note.getModificationDate());
             mInfoModifiedDate.setText(String.format(mFragment.getString(R.string.modified_time), date));
             mInfoPinSwitch.setChecked(note.isPinned());
             mInfoMarkdownSwitch.setChecked(note.isMarkdownEnabled());

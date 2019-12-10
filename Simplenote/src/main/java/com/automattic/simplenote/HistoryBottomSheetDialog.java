@@ -114,7 +114,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
                     mListener.onHistoryUpdateNote(revisedNote.getContent());
                 }
 
-                mHistoryDate.setText(DateTimeUtils.getDateText(mFragment.getActivity(), noteDate));
+                mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), noteDate));
             }
 
             @Override
@@ -188,7 +188,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
         if (totalRevs > 0) {
             mHistorySeekBar.setMax(totalRevs);
             mHistorySeekBar.setProgress(totalRevs);
-            mHistoryDate.setText(DateTimeUtils.getDateText(mFragment.getActivity(), mNote.getModificationDate()));
+            mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), mNote.getModificationDate()));
             mLoadingView.setVisibility(View.GONE);
             mSliderView.setVisibility(View.VISIBLE);
         } else {
