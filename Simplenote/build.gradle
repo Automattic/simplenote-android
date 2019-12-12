@@ -68,7 +68,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     // Automattic and WordPress dependencies
-    implementation 'com.simperium.android:simperium:0.9.2'
+    implementation 'com.simperium.android:simperium:0.9.3'
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.0'
 
