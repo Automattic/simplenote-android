@@ -26,7 +26,7 @@ public class DateTimeUtils {
     }
 
     public static String getDateTextNumeric(Calendar date) {
-        String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MM/dd/YYYY");
+        String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MM/dd/yyyy");
         return new SimpleDateFormat(pattern, Locale.getDefault()).format(date.getTime());
     }
 }
