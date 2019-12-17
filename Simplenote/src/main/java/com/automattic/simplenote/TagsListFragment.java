@@ -243,7 +243,6 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                         if (!isAdded() || !hasItem(getAdapterPosition())) {
                             return;
                         }
-
                         final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
                         final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
@@ -301,12 +300,18 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String value = tagNameEditText.getText().toString().trim();
                         try {
-                            tag.renameTo(value, mNotesBucket);
-                            AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
-                                    AnalyticsTracker.CATEGORY_TAG,
-                                    "tag_alert_edit_box"
-                            );
+                            final String space = " ";
+                            if (value.contains(space)) {
+                                Toast.makeText(getActivity(), "The tag must be characters excluding spaces.", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                tag.renameTo(value, mNotesBucket);
+                                AnalyticsTracker.track(
+                                        AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
+                                        AnalyticsTracker.CATEGORY_TAG,
+                                        "tag_alert_edit_box"
+                                );
+                            }
                         } catch (BucketObjectNameInvalid e) {
                             android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
                             // TODO: show user a message that new tag name is not ok
