@@ -24,79 +24,77 @@
             android:paddingStart="@dimen/padding_extra_large">
 
             <androidx.core.widget.NestedScrollView
-                android:fillViewport="true"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent">
+                android:layout_weight="9"
+                android:fillViewport="true">
 
                 <com.automattic.simplenote.widgets.SimplenoteEditText
                     android:id="@+id/note_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="top"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
                     android:lineSpacingExtra="@dimen/line_spacing"
                     android:lineSpacingMultiplier="1.0"
                     android:maxLength="999999999"
                     android:nextFocusDown="@id/tag_input"
                     android:nextFocusForward="@id/tag_input"
-                    android:paddingBottom="@dimen/padding_extra_extra_large"
                     android:paddingTop="@dimen/padding_extra_extra_large"
+                    android:paddingBottom="@dimen/padding_extra_extra_large"
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="?attr/colorAccent"
-                    tools:context=".NoteEditorFragment">
-                </com.automattic.simplenote.widgets.SimplenoteEditText>
+                    tools:context=".NoteEditorFragment"></com.automattic.simplenote.widgets.SimplenoteEditText>
 
             </androidx.core.widget.NestedScrollView>
 
             <HorizontalScrollView
                 android:id="@+id/horizontal_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
                 android:clipToPadding="false"
                 android:fillViewport="true"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
                 android:overScrollMode="never"
                 android:scrollbars="none">
 
                 <LinearLayout
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/tag_chips"
-                        android:clipToPadding="false"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:paddingBottom="@dimen/padding_small"
-                        android:paddingEnd="@dimen/padding_small"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipToPadding="false"
                         android:paddingStart="0dp"
                         android:paddingTop="@dimen/padding_small"
-                        android:visibility="gone">
-                    </com.google.android.material.chip.ChipGroup>
+                        android:paddingEnd="@dimen/padding_small"
+                        android:paddingBottom="@dimen/padding_small"
+                        android:visibility="gone"></com.google.android.material.chip.ChipGroup>
 
                     <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                         android:id="@+id/tag_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="?attr/mainBackgroundColor"
                         android:completionThreshold="1"
                         android:dropDownAnchor="@id/horizontal_scroll_view"
                         android:hint="@string/tag_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textNoSuggestions"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
                         android:longClickable="false"
                         android:minHeight="@dimen/tag_input_height"
-                        android:nextFocusForward="@+id/note_content"
                         android:nextFocusLeft="@id/tag_input"
                         android:nextFocusUp="@id/note_editor"
+                        android:nextFocusForward="@+id/note_content"
                         android:textColor="?attr/noteEditorTextColor"
                         android:textColorHint="?attr/hintTextColor"
-                        android:textSize="@dimen/text_tag">
-                    </com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView>
+                        android:textSize="@dimen/text_tag"></com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView>
 
                 </LinearLayout>
 
