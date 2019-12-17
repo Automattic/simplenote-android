@@ -722,9 +722,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             return null;
         }
 
-        NotesActivity notesActivity = (NotesActivity) requireActivity();
-        Query<Note> query = notesActivity.getSelectedTag().query();
-
+        Query<Note> query = Note.all(((Simplenote) requireActivity().getApplication()).getNotesBucket());
         String searchString = mSearchString;
 
         if (hasSearchQuery()) {

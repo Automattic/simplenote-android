@@ -11,19 +11,18 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_023"
+msgid ""
+"2.3:\n"
+"* Added search sorting by date created, date modified, and alphabetically.\n"
+"* Added search history and suggestions.\n"
+"* Updated passcode lock design.\n"
+msgstr ""
+
 msgctxt "release_note_022"
 msgid ""
 "2.2:\n"
 "We’ve been tuning things up under the hood. You may not see anything obviously different in the app, but expect everything to be more stable.\n"
-msgstr ""
-
-msgctxt "release_note_021"
-msgid ""
-"2.1:\n"
-"* Updated dark theme with darker colors for less eye fatigue and better battery life.\n"
-"* Updated navigation drawer interface for better organization and compatibility.\n"
-"* Updated note list interface for better performance and readability.\n"
-"* Removed location permission for dark at night only theme.\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
