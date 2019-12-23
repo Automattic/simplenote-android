@@ -57,15 +57,15 @@ public class CreateNoteActivity extends Activity {
         @Override
         protected Boolean doInBackground(String... voiceNotes) {
             Activity activity = mCreateNoteActivityReference.get();
+
             if (voiceNotes.length == 0 || activity == null) {
                 return false;
             }
 
             boolean isSuccess = false;
-
             String voiceNote = voiceNotes[0];
-            Task<List<Node>> rawNodes =
-                    Wearable.getNodeClient(activity.getApplicationContext()).getConnectedNodes();
+            Task<List<Node>> rawNodes = Wearable.getNodeClient(
+                    activity.getApplicationContext()).getConnectedNodes();
 
             try {
                 List<Node> nodes = Tasks.await(rawNodes);
@@ -83,7 +83,6 @@ public class CreateNoteActivity extends Activity {
                     } catch (ExecutionException | InterruptedException e) {
                         Log.e("Create Note", "Failed to send new-note messages: " + e.getMessage(), e);
                     }
-
                 }
             } catch (ExecutionException | InterruptedException e) {
                 Log.e("Create Note", "Failed to get connected Nodes: " + e.getMessage(), e);
@@ -95,6 +94,7 @@ public class CreateNoteActivity extends Activity {
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             CreateNoteActivity activity = mCreateNoteActivityReference.get();
+
             if (activity != null) {
                 activity.showConfirmationActivityAndFinish(isSuccess);
             }
