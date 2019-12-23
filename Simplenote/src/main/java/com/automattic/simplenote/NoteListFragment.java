@@ -152,7 +152,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
     private RefreshListTask mRefreshListTask;
-    private refreshListForSearchTask mRefreshListForSearchTask;
+    private RefreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
@@ -685,7 +685,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mRefreshListForSearchTask.cancel(true);
         }
 
-        mRefreshListForSearchTask = new refreshListForSearchTask(this);
+        mRefreshListForSearchTask = new RefreshListForSearchTask(this);
         mRefreshListForSearchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -1453,11 +1453,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private static class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
-
+    private static class RefreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
         private SoftReference<NoteListFragment> mNoteListFragmentReference;
 
-        private refreshListForSearchTask(NoteListFragment context) {
+        private RefreshListForSearchTask(NoteListFragment context) {
             mNoteListFragmentReference = new SoftReference<>(context);
         }
 
@@ -1470,6 +1469,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
+
             if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
