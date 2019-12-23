@@ -1494,16 +1494,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private static class pinNotesTask extends AsyncTask<Void, Void, Void> {
 
-        private SoftReference<NoteListFragment> fragmentRef;
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
         private pinNotesTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             if (fragment.getListView() != null) {
                 mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
@@ -1511,7 +1511,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
 
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
@@ -1534,7 +1534,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
 
             fragment.mActionMode.finish();
             fragment.refreshList();
