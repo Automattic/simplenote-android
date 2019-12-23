@@ -86,7 +86,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     Intent loginIntent = new Intent(getActivity(), SimplenoteAuthenticationActivity.class);
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
-                    new LogOutAsyncTask(PreferencesFragment.this).execute();
+                    new LogOutTask(PreferencesFragment.this).execute();
                 }
                 return true;
             }
@@ -312,10 +312,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
-    private static class LogOutAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private static class LogOutTask extends AsyncTask<Void, Void, Boolean> {
         private WeakReference<PreferencesFragment> mPreferencesFragmentReference;
 
-        LogOutAsyncTask(PreferencesFragment fragment) {
+        LogOutTask(PreferencesFragment fragment) {
             mPreferencesFragmentReference = new WeakReference<>(fragment);
         }
 
@@ -328,6 +328,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         @Override
         protected void onPostExecute(Boolean hasUnsyncedNotes) {
             PreferencesFragment fragment = mPreferencesFragmentReference.get();
+
             if (fragment == null) {
                 return;
             }
