@@ -1397,23 +1397,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private static class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
-        private SoftReference<NoteListFragment> fragmentRef;
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         boolean mIsFromNavSelect;
 
         private refreshListTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Boolean... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             mIsFromNavSelect = args[0];
             return fragment.queryNotes();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing())
                 return;
 
