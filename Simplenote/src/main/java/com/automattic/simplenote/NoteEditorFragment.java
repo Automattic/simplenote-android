@@ -1283,6 +1283,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         @Override
         protected void onPreExecute() {
             NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null) {
                 fragment.mContentEditText.removeTextChangedListener(fragment);
                 fragment.mIsLoadingNote = true;
@@ -1292,6 +1293,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         @Override
         protected Void doInBackground(String... args) {
             NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment == null || fragment.getActivity() == null) {
                 return null;
             }
@@ -1302,6 +1304,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             try {
                 fragment.mNote = notesBucket.get(noteID);
+
                 // Set the current note in NotesActivity when on a tablet
                 if (fragment.getActivity() instanceof NotesActivity) {
                     ((NotesActivity) fragment.getActivity()).setCurrentNote(fragment.mNote);
@@ -1315,8 +1318,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store
                 Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
+
                 while (notesCursor.moveToNext()) {
                     Note currentNote = notesCursor.getObject();
+
                     if (currentNote != null && currentNote.getSimperiumKey().equals(noteID)) {
                         fragment.mNote = currentNote;
                         return null;
@@ -1330,17 +1335,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         @Override
         protected void onPostExecute(Void nada) {
             final NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
-            if (fragment == null
-                    || fragment.getActivity() == null
-                    || fragment.getActivity().isFinishing()) {
+            if (fragment == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
 
             fragment.refreshContent(false);
+
             if (fragment.mMatchOffsets != null) {
                 int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
-
                 fragment.mShouldScrollToSearchMatch = true;
             }
 
@@ -1358,21 +1361,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
 
                         InputMethodManager inputMethodManager = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
                         if (inputMethodManager != null) {
                             inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
                         }
                     }
                 }, 100);
-
             } else if (fragment.mNote != null) {
                 // If we have a valid note, hide the placeholder
                 fragment.setPlaceholderVisible(false);
             }
 
             fragment.updateMarkdownView();
-
             fragment.requireActivity().invalidateOptionsMenu();
-
             fragment.linkifyEditorContent();
             fragment.mIsLoadingNote = false;
         }
