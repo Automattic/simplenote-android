@@ -197,15 +197,15 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
     private static class removeTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
 
-        private SoftReference<TagsListFragment> fragmentRef;
+        private SoftReference<TagsListFragment> mTagsListFragmentReference;
 
         private removeTagFromNotesTask(TagsListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mTagsListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected Void doInBackground(Tag... removedTags) {
-            TagsListFragment fragment = fragmentRef.get();
+            TagsListFragment fragment = mTagsListFragmentReference.get();
             Tag tag = removedTags[0];
             if (tag != null) {
                 Bucket.ObjectCursor<Note> notesCursor = tag.findNotes(fragment.mNotesBucket);
