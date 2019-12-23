@@ -1274,15 +1274,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
-        WeakReference<NoteEditorFragment> weakFragment;
+        WeakReference<NoteEditorFragment> mNoteEditorFragmentReference;
 
         LoadNoteTask(NoteEditorFragment fragment) {
-            weakFragment = new WeakReference<>(fragment);
+            mNoteEditorFragmentReference = new WeakReference<>(fragment);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
             if (fragment != null) {
                 fragment.mContentEditText.removeTextChangedListener(fragment);
                 fragment.mIsLoadingNote = true;
@@ -1291,7 +1291,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected Void doInBackground(String... args) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
             if (fragment == null || fragment.getActivity() == null) {
                 return null;
             }
@@ -1329,7 +1329,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            final NoteEditorFragment fragment = weakFragment.get();
+            final NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
             if (fragment == null
                     || fragment.getActivity() == null
                     || fragment.getActivity().isFinishing()) {
