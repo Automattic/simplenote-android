@@ -139,21 +139,21 @@ public class NoteMarkdownFragment extends Fragment {
 
     private static class loadNoteTask extends AsyncTask<String, Void, Void> {
 
-        private SoftReference<NoteMarkdownFragment> fragmentRef;
+        private SoftReference<NoteMarkdownFragment> mNoteMarkdownFragmentReference;
 
         private loadNoteTask(NoteMarkdownFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mNoteMarkdownFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteMarkdownFragment fragment = fragmentRef.get();
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             fragment.mIsLoadingNote = true;
         }
 
         @Override
         protected Void doInBackground(String... args) {
-            NoteMarkdownFragment fragment = fragmentRef.get();
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             FragmentActivity activity = fragment.getActivity();
 
             if (activity == null) {
@@ -175,7 +175,7 @@ public class NoteMarkdownFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void nada) {
-            NoteMarkdownFragment fragment = fragmentRef.get();
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
 
             fragment.mIsLoadingNote = false;
 
