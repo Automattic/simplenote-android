@@ -211,7 +211,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     new trashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
-                    new pinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new PinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
             }
         }
@@ -1492,30 +1492,27 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private static class pinNotesTask extends AsyncTask<Void, Void, Void> {
-
+    private static class PinNotesTask extends AsyncTask<Void, Void, Void> {
         private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
-        private pinNotesTask(NoteListFragment context) {
+        private PinNotesTask(NoteListFragment context) {
             mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-            if (fragment.getListView() != null) {
-                mSelectedRows = fragment.getListView().getCheckedItemPositions();
-            }
+            mSelectedRows = fragment.getListView().getCheckedItemPositions();
         }
 
         @Override
         protected Void doInBackground(Void... args) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> pinnedNotesList = new ArrayList<>();
+
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
                     pinnedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
@@ -1535,7 +1532,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @Override
         protected void onPostExecute(Void aVoid) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-
             fragment.mActionMode.finish();
             fragment.refreshList();
         }
