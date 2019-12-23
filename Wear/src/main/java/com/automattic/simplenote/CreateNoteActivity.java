@@ -48,15 +48,15 @@ public class CreateNoteActivity extends Activity {
 
 
     private static class SendNoteTask extends AsyncTask<String, Void, Boolean> {
-        WeakReference<CreateNoteActivity> weakActivity;
+        WeakReference<CreateNoteActivity> mCreateNoteActivityReference;
 
         SendNoteTask(CreateNoteActivity activity) {
-            weakActivity = new WeakReference<>(activity);
+            mCreateNoteActivityReference = new WeakReference<>(activity);
         }
 
         @Override
         protected Boolean doInBackground(String... voiceNotes) {
-            Activity activity = weakActivity.get();
+            Activity activity = mCreateNoteActivityReference.get();
             if (voiceNotes.length == 0 || activity == null) {
                 return false;
             }
@@ -94,7 +94,7 @@ public class CreateNoteActivity extends Activity {
 
         @Override
         protected void onPostExecute(Boolean isSuccess) {
-            CreateNoteActivity activity = weakActivity.get();
+            CreateNoteActivity activity = mCreateNoteActivityReference.get();
             if (activity != null) {
                 activity.showConfirmationActivityAndFinish(isSuccess);
             }
