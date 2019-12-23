@@ -208,7 +208,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
             switch (item.getItemId()) {
                 case R.id.menu_delete:
-                    new trashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new TrashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
                     new PinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1537,31 +1537,28 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private static class trashNotesTask extends AsyncTask<Void, Void, Void> {
-
-        private SoftReference<NoteListFragment> mNoteListFragmentReference;
+    private static class TrashNotesTask extends AsyncTask<Void, Void, Void> {
         private List<String> mDeletedNoteIds = new ArrayList<>();
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
-        private trashNotesTask(NoteListFragment context) {
+        private TrashNotesTask(NoteListFragment context) {
             mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-            if (fragment.getListView() != null) {
-                mSelectedRows = fragment.getListView().getCheckedItemPositions();
-            }
+            mSelectedRows = fragment.getListView().getCheckedItemPositions();
         }
 
         @Override
         protected Void doInBackground(Void... args) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> deletedNotesList = new ArrayList<>();
+
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
                     deletedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
@@ -1583,8 +1580,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         protected void onPostExecute(Void aVoid) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
             NotesActivity notesActivity = ((NotesActivity) fragment.getActivity());
-            if (notesActivity != null)
+
+            if (notesActivity != null) {
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
+            }
 
             fragment.refreshList();
         }
