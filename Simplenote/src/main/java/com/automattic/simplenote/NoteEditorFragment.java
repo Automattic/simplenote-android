@@ -1389,15 +1389,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         @Override
         protected Void doInBackground(Void... args) {
             NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null) {
                 fragment.saveNote();
             }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void nada) {
             NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                 // Update links
                 fragment.linkifyEditorContent();
