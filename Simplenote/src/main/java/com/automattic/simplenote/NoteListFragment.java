@@ -151,7 +151,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private String mSelectedNoteId;
     private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
-    private refreshListTask mRefreshListTask;
+    private RefreshListTask mRefreshListTask;
     private refreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
     private int mPreferenceSortOrder;
@@ -674,7 +674,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
             mRefreshListTask.cancel(true);
 
-        mRefreshListTask = new refreshListTask(this);
+        mRefreshListTask = new RefreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
         WidgetUtils.updateNoteWidgets(getActivity());
@@ -813,7 +813,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         }
 
-        // Didn't find the note, let's try again after the cursor updates (see refreshListTask)
+        // Didn't find the note, let's try again after the cursor updates (see RefreshListTask)
         mSelectedNoteId = selectedNoteID;
     }
 
@@ -1396,11 +1396,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         popup.show();
     }
 
-    private static class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+    private static class RefreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
         private SoftReference<NoteListFragment> mNoteListFragmentReference;
-        boolean mIsFromNavSelect;
+        private boolean mIsFromNavSelect;
 
-        private refreshListTask(NoteListFragment context) {
+        private RefreshListTask(NoteListFragment context) {
             mNoteListFragmentReference = new SoftReference<>(context);
         }
 
@@ -1414,11 +1414,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
             NoteListFragment fragment = mNoteListFragmentReference.get();
-            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing())
+
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
+            }
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
             int count;
+
             try {
                 fragment.mNotesAdapter.changeCursor(cursor);
                 count = fragment.mNotesAdapter.getCount();
@@ -1429,6 +1432,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             NotesActivity notesActivity = (NotesActivity) fragment.getActivity();
+
             if (notesActivity != null) {
                 if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
                     if (count == 0) {
@@ -1438,6 +1442,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         fragment.selectFirstNote();
                     }
                 }
+
                 notesActivity.updateTrashMenuItem();
             }
 
