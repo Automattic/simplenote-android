@@ -1380,15 +1380,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private static class SaveNoteTask extends AsyncTask<Void, Void, Void> {
-        WeakReference<NoteEditorFragment> weakFragment;
+        WeakReference<NoteEditorFragment> mNoteEditorFragmentReference;
 
         SaveNoteTask(NoteEditorFragment fragment) {
-            weakFragment = new WeakReference<>(fragment);
+            mNoteEditorFragmentReference = new WeakReference<>(fragment);
         }
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
             if (fragment != null) {
                 fragment.saveNote();
             }
@@ -1397,7 +1397,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
             if (fragment != null && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                 // Update links
                 fragment.linkifyEditorContent();
