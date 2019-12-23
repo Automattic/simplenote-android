@@ -1455,21 +1455,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private static class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
 
-        private SoftReference<NoteListFragment> fragmentRef;
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
 
         private refreshListForSearchTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             return fragment.queryNotesForSearch();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
