@@ -1539,17 +1539,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private static class trashNotesTask extends AsyncTask<Void, Void, Void> {
 
-        private SoftReference<NoteListFragment> fragmentRef;
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private List<String> mDeletedNoteIds = new ArrayList<>();
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
         private trashNotesTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             if (fragment.getListView() != null) {
                 mSelectedRows = fragment.getListView().getCheckedItemPositions();
             }
@@ -1557,7 +1557,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
 
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
@@ -1581,7 +1581,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             NotesActivity notesActivity = ((NotesActivity) fragment.getActivity());
             if (notesActivity != null)
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
