@@ -1337,15 +1337,15 @@ public class NotesActivity extends AppCompatActivity implements
 
     private static class emptyTrashTask extends AsyncTask<Void, Void, Void> {
 
-        private SoftReference<NotesActivity> activityRef;
+        private SoftReference<NotesActivity> mNotesActivityReference;
 
         emptyTrashTask(NotesActivity context) {
-            activityRef = new SoftReference<>(context);
+            mNotesActivityReference = new SoftReference<>(context);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            NotesActivity activity = activityRef.get();
+            NotesActivity activity = mNotesActivityReference.get();
             if (activity.mNotesBucket == null) return null;
 
             Query<Note> query = Note.allDeleted(activity.mNotesBucket);
@@ -1359,7 +1359,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Void nada) {
-            NotesActivity activity = activityRef.get();
+            NotesActivity activity = mNotesActivityReference.get();
             activity.showDetailPlaceholder();
         }
     }
