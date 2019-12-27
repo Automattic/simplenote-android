@@ -73,7 +73,7 @@ public class NoteMarkdownFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
-            new loadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+            new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
         setHasOptionsMenu(true);
         mCss = ThemeUtils.isLightTheme(requireContext())
@@ -137,23 +137,22 @@ public class NoteMarkdownFragment extends Fragment {
                 "</div></body></html>";
     }
 
-    private static class loadNoteTask extends AsyncTask<String, Void, Void> {
+    private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
+        private SoftReference<NoteMarkdownFragment> mNoteMarkdownFragmentReference;
 
-        private SoftReference<NoteMarkdownFragment> fragmentRef;
-
-        private loadNoteTask(NoteMarkdownFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private LoadNoteTask(NoteMarkdownFragment context) {
+            mNoteMarkdownFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteMarkdownFragment fragment = fragmentRef.get();
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             fragment.mIsLoadingNote = true;
         }
 
         @Override
         protected Void doInBackground(String... args) {
-            NoteMarkdownFragment fragment = fragmentRef.get();
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             FragmentActivity activity = fragment.getActivity();
 
             if (activity == null) {
@@ -175,8 +174,7 @@ public class NoteMarkdownFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void nada) {
-            NoteMarkdownFragment fragment = fragmentRef.get();
-
+            NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             fragment.mIsLoadingNote = false;
 
             if (fragment.mNote != null) {

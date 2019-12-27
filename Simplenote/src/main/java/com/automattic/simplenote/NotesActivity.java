@@ -840,7 +840,7 @@ public class NotesActivity extends AppCompatActivity implements
                 alert.setMessage(R.string.confirm_empty_trash);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        new emptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         AnalyticsTracker.track(
                                 AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
                                 AnalyticsTracker.CATEGORY_NOTE,
@@ -1335,23 +1335,26 @@ public class NotesActivity extends AppCompatActivity implements
         // noop, NoteEditorFragment will handle this
     }
 
-    private static class emptyTrashTask extends AsyncTask<Void, Void, Void> {
+    private static class EmptyTrashTask extends AsyncTask<Void, Void, Void> {
+        private SoftReference<NotesActivity> mNotesActivityReference;
 
-        private SoftReference<NotesActivity> activityRef;
-
-        emptyTrashTask(NotesActivity context) {
-            activityRef = new SoftReference<>(context);
+        EmptyTrashTask(NotesActivity context) {
+            mNotesActivityReference = new SoftReference<>(context);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            NotesActivity activity = activityRef.get();
-            if (activity.mNotesBucket == null) return null;
+            NotesActivity activity = mNotesActivityReference.get();
+
+            if (activity.mNotesBucket == null) {
+                return null;
+            }
 
             Query<Note> query = Note.allDeleted(activity.mNotesBucket);
-            Bucket.ObjectCursor c = query.execute();
-            while (c.moveToNext()) {
-                c.getObject().delete();
+            Bucket.ObjectCursor cursor = query.execute();
+
+            while (cursor.moveToNext()) {
+                cursor.getObject().delete();
             }
 
             return null;
@@ -1359,8 +1362,11 @@ public class NotesActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Void nada) {
-            NotesActivity activity = activityRef.get();
-            activity.showDetailPlaceholder();
+            NotesActivity activity = mNotesActivityReference.get();
+
+            if (activity != null) {
+                activity.showDetailPlaceholder();
+            }
         }
     }
 }
