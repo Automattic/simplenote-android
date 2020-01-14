@@ -408,6 +408,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mSortDirection = sortLayoutContainer.findViewById(R.id.sort_direction);
         ImageView sortDirectionSwitch = sortLayoutContainer.findViewById(R.id.sort_direction_switch);
+        sortDirectionSwitch.setImageResource(R.drawable.ic_sort_order_24dp);
         sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
