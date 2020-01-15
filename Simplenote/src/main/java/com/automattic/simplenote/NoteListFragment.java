@@ -561,13 +561,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
         mBucketPreferences.stop();
+
+        // Restore sort order from Settings.
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        // Restore sort order from Settings.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
     }
