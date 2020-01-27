@@ -1,6 +1,7 @@
 2.4
 -----
 * Fixed sync bug with deleting tags and emptying trash
+* Fixed networking bug causing interface slowness
 
 2.3
 -----
