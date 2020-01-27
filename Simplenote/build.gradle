@@ -23,9 +23,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.3-rc-3"
+            versionName "2.3-rc-4"
         }
-        versionCode 91
+        versionCode 92
         minSdkVersion 23
         targetSdkVersion 29
 
@@ -68,7 +68,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     // Automattic and WordPress dependencies
-    implementation 'com.simperium.android:simperium:0.9.3'
+    implementation 'com.simperium.android:simperium:0.9.4'
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.0'
 
