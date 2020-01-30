@@ -70,7 +70,7 @@ dependencies {
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.9.5'
     implementation 'com.automattic:tracks:1.2'
-    implementation 'org.wordpress:passcodelock:2.0.1'
+    implementation 'org.wordpress:passcodelock:2.0.2'
 
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'
