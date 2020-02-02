@@ -84,7 +84,7 @@
     </style>
 
     <style name="Button.Flat" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">@color/accent_text_button_disabled_selector</item>
     </style>
 
     <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
