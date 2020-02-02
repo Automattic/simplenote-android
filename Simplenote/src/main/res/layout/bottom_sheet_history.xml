@@ -47,12 +47,8 @@
             android:gravity="start"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:paddingBottom="@dimen/padding_extra_large"
-            android:paddingEnd="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_extra_large"
-            android:textSize="14sp"
-            tools:text="March 1, 2016 13:30">
+            tools:text="Jan 27, 2020, 13:37"
+            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <View

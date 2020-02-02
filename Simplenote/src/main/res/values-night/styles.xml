@@ -83,6 +83,12 @@
         <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
+    <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.Simplestyle.BottomSheetDialog">
+        <item name="android:ellipsize">end</item>
+        <item name="android:padding">@dimen/padding_large</item>
+        <item name="android:textColor">@color/text_title_dark</item>
+    </style>
+
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:textColor">@android:color/white</item>
     </style>
