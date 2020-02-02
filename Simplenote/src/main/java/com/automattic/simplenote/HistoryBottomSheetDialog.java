@@ -114,7 +114,12 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
                     mListener.onHistoryUpdateNote(revisedNote.getContent());
                 }
 
-                mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), noteDate));
+                if (noteDate != null) {
+                    mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), noteDate));
+                    mHistoryDate.setVisibility(View.VISIBLE);
+                } else {
+                    mHistoryDate.setVisibility(View.GONE);
+                }
             }
 
             @Override
