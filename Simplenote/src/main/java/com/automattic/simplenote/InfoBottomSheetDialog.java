@@ -55,10 +55,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
     }
 
-    private String getCombinedCount(String content) {
-        return String.format("%s\n%s", getWordCount(content), getCharactersCount(content));
-    }
-
     private String getWordCount(String content) {
         int words = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
         return NumberFormat.getInstance().format(words);
