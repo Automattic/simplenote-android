@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +20,13 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
     private Fragment mFragment;
-    private InfoSheetListener mListener;
     private TextView mCountCharacters;
     private TextView mCountWords;
     private TextView mDateTimeCreated;
     private TextView mDateTimeModified;
 
-    public InfoBottomSheetDialog(@NonNull Fragment fragment, @NonNull final InfoSheetListener infoSheetListener) {
+    public InfoBottomSheetDialog(@NonNull Fragment fragment) {
         mFragment = fragment;
-        mListener = infoSheetListener;
     }
 
     @Nullable
@@ -42,13 +39,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mDateTimeModified = infoView.findViewById(R.id.date_time_modified);
 
         if (getDialog() != null) {
-            getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    mListener.onInfoDismissed();
-                }
-            });
-
             getDialog().setContentView(infoView);
         }
 
@@ -76,13 +66,5 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
     private String getCharactersCount(String content) {
         return NumberFormat.getInstance().format(content.length());
-    }
-
-    public interface InfoSheetListener {
-        void onInfoCopyLinkClicked();
-        void onInfoDismissed();
-        void onInfoMarkdownSwitchChanged(boolean isSwitchedOn);
-        void onInfoPinSwitchChanged(boolean isSwitchedOn);
-        void onInfoShareLinkClicked();
     }
 }
