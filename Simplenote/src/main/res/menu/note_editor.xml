@@ -27,7 +27,7 @@
     <item
         android:id="@+id/menu_view_info"
         android:icon="@drawable/ic_info_24dp"
-        android:title="@string/note_info"
+        android:title="@string/information"
         app:showAsAction="always" />
 
     <item

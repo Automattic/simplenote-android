@@ -90,6 +90,14 @@
         <item name="android:textSize">@dimen/text_bottom_sheet</item>
     </style>
 
+    <style name="Theme.Simplestyle.BottomSheetDialog.Value" parent="Theme.Simplestyle.BottomSheetDialog">
+        <item name="android:paddingBottom">@dimen/padding_large</item>
+        <item name="android:paddingEnd">@dimen/padding_large</item>
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:textColor">@color/text_content_dark</item>
+        <item name="android:textSize">@dimen/text_bottom_sheet</item>
+    </style>
+
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:textColor">@android:color/white</item>
     </style>
