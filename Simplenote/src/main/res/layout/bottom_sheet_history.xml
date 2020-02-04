@@ -47,7 +47,6 @@
             android:gravity="center_vertical|start"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:minHeight="@dimen/bottom_sheet_row_height"
             tools:text="Jan 27, 2020, 13:37"
             style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
