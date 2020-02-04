@@ -46,7 +46,7 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_view_info"
+        android:id="@+id/menu_info"
         android:icon="@drawable/ic_info_24dp"
         android:title="@string/information"
         app:showAsAction="always"/>

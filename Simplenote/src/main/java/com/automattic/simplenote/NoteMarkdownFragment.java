@@ -48,7 +48,7 @@ public class NoteMarkdownFragment extends Fragment {
         }
 
         if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);

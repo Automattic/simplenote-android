@@ -756,7 +756,7 @@ public class NotesActivity extends AppCompatActivity implements
         } else {
             menu.findItem(R.id.menu_search).setVisible(true);
             menu.findItem(R.id.menu_share).setVisible(false);
-            menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_info).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
             menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
@@ -900,7 +900,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
             menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_sidebar).setVisible(true);
-            menu.findItem(R.id.menu_view_info).setVisible(true);
+            menu.findItem(R.id.menu_info).setVisible(true);
         } else {
             menu.findItem(R.id.menu_checklist).setVisible(false);
             menu.findItem(R.id.menu_delete).setVisible(false);
@@ -908,7 +908,7 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_sidebar).setVisible(false);
-            menu.findItem(R.id.menu_view_info).setVisible(false);
+            menu.findItem(R.id.menu_info).setVisible(false);
         }
 
         menu.findItem(R.id.menu_empty_trash).setVisible(false);

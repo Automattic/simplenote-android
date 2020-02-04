@@ -494,7 +494,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         inflater.inflate(R.menu.note_editor, menu);
 
         if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
@@ -514,14 +514,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_view_info:
-                showInfo();
-                return true;
             case R.id.menu_checklist:
                 insertChecklist();
                 return true;
             case R.id.menu_history:
                 showHistory();
+                return true;
+            case R.id.menu_info:
+                showInfo();
                 return true;
             case R.id.menu_share:
                 shareNote();
