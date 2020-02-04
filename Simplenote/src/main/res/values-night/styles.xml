@@ -85,6 +85,7 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical|start</item>
         <item name="android:maxLines">1</item>
         <item name="android:minHeight">@dimen/bottom_sheet_row_height</item>
         <item name="android:padding">@dimen/padding_large</item>
@@ -93,6 +94,7 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Value" parent="Theme.Simplestyle.BottomSheetDialog">
+        <item name="android:gravity">center_vertical|end</item>
         <item name="android:minHeight">@dimen/bottom_sheet_row_height</item>
         <item name="android:paddingBottom">@dimen/padding_large</item>
         <item name="android:paddingEnd">@dimen/padding_large</item>

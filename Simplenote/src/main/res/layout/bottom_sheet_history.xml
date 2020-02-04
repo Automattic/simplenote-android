@@ -44,7 +44,6 @@
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/history_date"
-            android:gravity="center_vertical|start"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             tools:text="Jan 27, 2020, 13:37"
