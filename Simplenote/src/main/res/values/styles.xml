@@ -84,7 +84,7 @@
     </style>
 
     <style name="Button.Flat" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">@color/accent_text_button_disabled_selector</item>
     </style>
 
     <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
@@ -110,6 +110,13 @@
         <item name="colorAccent">@color/item_blue_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:ellipsize">end</item>
+        <item name="android:padding">@dimen/padding_large</item>
+        <item name="android:textColor">@color/text_title_light</item>
+        <item name="android:textSize">@dimen/text_bottom_sheet</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.MaterialComponents.Light.BottomSheetDialog">

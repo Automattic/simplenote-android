@@ -32,6 +32,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
     private Note mNote;
     private SeekBar mHistorySeekBar;
     private TextView mHistoryDate;
+    private View mButtonRestore;
     private View mErrorText;
     private View mLoadingView;
     private View mProgressBar;
@@ -108,13 +109,20 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
                 if (progress == mNoteRevisionsList.size() && mNote != null) {
                     mListener.onHistoryUpdateNote(mNote.getContent());
                     noteDate = mNote.getModificationDate();
+                    mButtonRestore.setEnabled(false);
                 } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
                     Note revisedNote = mNoteRevisionsList.get(progress);
                     noteDate = revisedNote.getModificationDate();
                     mListener.onHistoryUpdateNote(revisedNote.getContent());
+                    mButtonRestore.setEnabled(true);
                 }
 
-                mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), noteDate));
+                if (noteDate != null) {
+                    mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), noteDate));
+                    mHistoryDate.setVisibility(View.VISIBLE);
+                } else {
+                    mHistoryDate.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -135,8 +143,8 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        View restoreHistoryButton = history.findViewById(R.id.restore_history_button);
-        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
+        mButtonRestore = history.findViewById(R.id.restore_history_button);
+        mButtonRestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDidTapButton = true;
@@ -188,7 +196,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
         if (totalRevs > 0) {
             mHistorySeekBar.setMax(totalRevs);
             mHistorySeekBar.setProgress(totalRevs);
-            mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), mNote.getModificationDate()));
+            mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), mNote.getModificationDate()));
             mLoadingView.setVisibility(View.GONE);
             mSliderView.setVisibility(View.VISIBLE);
         } else {
