@@ -25,8 +25,10 @@ import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
 
-public class NoteMarkdownFragment extends Fragment {
+public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<Note> {
     public static final String ARG_ITEM_ID = "item_id";
+
+    private Bucket<Note> mNotesBucket;
     private Note mNote;
     private String mCss;
     private WebView mMarkdown;
@@ -66,6 +68,8 @@ public class NoteMarkdownFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mNotesBucket = ((Simplenote) requireActivity().getApplication()).getNotesBucket();
+
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
 
@@ -134,6 +138,40 @@ public class NoteMarkdownFragment extends Fragment {
         markdownItem.setEnabled(false);
 
         super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mNotesBucket.removeListener(this);
+        mNotesBucket.stop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNotesBucket.start();
+        mNotesBucket.addListener(this);
+    }
+
+    @Override
+    public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
+    }
+
+    @Override
+    public void onDeleteObject(Bucket<Note> bucket, Note note) {
+    }
+
+    @Override
+    public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String key) {
+    }
+
+    @Override
+    public void onSaveObject(Bucket<Note> bucket, Note note) {
+        if (note.equals(mNote)) {
+            mNote = note;
+            requireActivity().invalidateOptionsMenu();
+        }
     }
 
     public void updateMarkdown(String text) {
