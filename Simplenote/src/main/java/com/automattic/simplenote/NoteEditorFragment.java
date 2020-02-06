@@ -83,7 +83,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener,
         SimplenoteEditText.OnCheckboxToggledListener {
 
     public static final String ARG_ITEM_ID = "item_id";
@@ -271,7 +270,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
+        mInfoBottomSheet = new InfoBottomSheetDialog(this);
         mShareBottomSheet = new ShareBottomSheetDialog(this, this);
         mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
 
@@ -495,7 +494,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         inflater.inflate(R.menu.note_editor, menu);
 
         if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
+            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
             viewPublishedNoteItem.setVisible(true);
 
             MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
@@ -515,14 +514,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_view_info:
-                showInfo();
-                return true;
             case R.id.menu_checklist:
                 insertChecklist();
                 return true;
             case R.id.menu_history:
                 showHistory();
+                return true;
+            case R.id.menu_info:
+                showInfo();
                 return true;
             case R.id.menu_share:
                 shareNote();
@@ -940,62 +939,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onHistoryUpdateNote(String content) {
         mContentEditText.setText(content);
-    }
-
-    /**
-     * Info bottom sheet listeners
-     */
-
-    @Override
-    public void onInfoPinSwitchChanged(boolean isSwitchedOn) {
-        NoteUtils.setNotePin(mNote, isSwitchedOn);
-    }
-
-    @Override
-    public void onInfoMarkdownSwitchChanged(boolean isSwitchedOn) {
-        mIsMarkdownEnabled = isSwitchedOn;
-        Activity activity = getActivity();
-
-        if (activity instanceof NoteEditorActivity) {
-
-            NoteEditorActivity editorActivity = (NoteEditorActivity) activity;
-            if (mIsMarkdownEnabled) {
-
-                editorActivity.showTabs();
-
-                if (mNoteMarkdownFragment == null) {
-                    // Get markdown fragment and update content
-                    mNoteMarkdownFragment =
-                            editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
-                }
-            } else {
-                editorActivity.hideTabs();
-            }
-        } else if (activity instanceof NotesActivity) {
-            setMarkdownEnabled(mIsMarkdownEnabled);
-            ((NotesActivity) getActivity()).setMarkdownShowing(false);
-        }
-
-        saveNote();
-    }
-
-    @Override
-    public void onInfoCopyLinkClicked() {
-        copyToClipboard(mNote.getPublishedUrl());
-        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onInfoShareLinkClicked() {
-        if (mInfoBottomSheet != null) {
-            mInfoBottomSheet.dismiss();
-        }
-        showShareSheet();
-    }
-
-    @Override
-    public void onInfoDismissed() {
     }
 
     protected void saveNote() {
