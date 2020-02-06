@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.IconResizer;
 import com.automattic.simplenote.utils.ShareButtonAdapter;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +100,24 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             mShareIntent.setType("text/plain");
 
             mShareButtons = getShareButtons(mFragment.requireActivity(), mShareIntent);
+        }
+
+        if (getDialog() != null) {
+            // Set peek height to half height of view (i.e. set STATE_HALF_EXPANDED) to show some of
+            // sharing options when bottom sheet is shown.
+            getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+                    FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                    if (bottomSheet != null) {
+                        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+                        behavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                        behavior.setSkipCollapsed(true);
+                    }
+                }
+            });
         }
 
         return super.onCreateView(inflater, container, savedInstanceState);

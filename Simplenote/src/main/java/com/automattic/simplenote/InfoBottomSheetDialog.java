@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.NumberFormat;
 
@@ -122,6 +125,22 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     mListener.onInfoDismissed();
+                }
+            });
+
+            // Set peek height to full height of view (i.e. set STATE_EXPANDED) to avoid buttons
+            // being off screen when bottom sheet is shown.
+            getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+                    FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                    if (bottomSheet != null) {
+                        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        behavior.setSkipCollapsed(true);
+                    }
                 }
             });
 
