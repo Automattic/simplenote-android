@@ -559,7 +559,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             MenuItem publishItem = menu.findItem(R.id.menu_publish);
             MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
             MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
-            MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
+            MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
             pinItem.setChecked(mNote.isPinned());
             publishItem.setChecked(mNote.isPublished());
@@ -570,7 +570,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(false);
                 copyLinkItem.setEnabled(false);
                 markdownItem.setEnabled(false);
-                trashItem.setTitle(R.string.undelete);
+                trashItem.setTitle(R.string.restore);
             } else {
                 pinItem.setEnabled(true);
                 publishItem.setEnabled(true);

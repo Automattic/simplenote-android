@@ -737,10 +737,10 @@ public class NotesActivity extends AppCompatActivity implements
             }
         });
 
-        MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
+        MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
-            trashItem.setTitle(R.string.undelete);
+            trashItem.setTitle(R.string.restore);
         } else {
             trashItem.setTitle(R.string.trash);
         }

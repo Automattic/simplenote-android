@@ -52,10 +52,10 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
             viewPublishedNoteItem.setVisible(true);
-            MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
+            MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
             if (mNote.isDeleted()) {
-                trashItem.setTitle(R.string.undelete);
+                trashItem.setTitle(R.string.restore);
             } else {
                 trashItem.setTitle(R.string.trash);
             }
