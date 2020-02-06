@@ -1336,13 +1336,18 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSaveObject(Bucket<Note> bucket, Note object) {
+    public void onSaveObject(Bucket<Note> bucket, Note note) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mNoteListFragment.refreshList();
             }
         });
+
+        if (note.equals(mCurrentNote)) {
+            mCurrentNote = note;
+            invalidateOptionsMenu();
+        }
     }
 
     @Override
