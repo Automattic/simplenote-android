@@ -27,7 +27,7 @@ msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
 msgctxt "play_store_promo"
-msgid "Simplenote is an easy way to keep notes, lists, ideas and more."
+msgid "Take notes, create to-do lists, capture ideas, and more."
 msgstr ""
 
 #. translators: Multi-paragraph text used to display in the Play Store.
