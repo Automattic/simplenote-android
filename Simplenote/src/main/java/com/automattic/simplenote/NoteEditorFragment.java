@@ -43,6 +43,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.view.MenuCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -494,6 +495,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         inflater.inflate(R.menu.note_editor, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
     }
 
     @Override

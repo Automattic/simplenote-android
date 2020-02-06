@@ -27,6 +27,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -636,6 +637,7 @@ public class NotesActivity extends AppCompatActivity implements
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.notes_list, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;
