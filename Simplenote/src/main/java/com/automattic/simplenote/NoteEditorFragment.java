@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -45,6 +46,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -492,23 +494,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         inflater.inflate(R.menu.note_editor, menu);
-
-        if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
-            viewPublishedNoteItem.setVisible(true);
-
-            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-
-            if (mNote.isDeleted()) {
-                trashItem.setTitle(R.string.undelete);
-                trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
-            } else {
-                trashItem.setTitle(R.string.delete);
-                trashItem.setIcon(R.drawable.ic_trash_24dp);
-            }
-        }
-
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
     }
 
     @Override
@@ -517,26 +502,84 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_checklist:
                 insertChecklist();
                 return true;
+            case R.id.menu_copy:
+                copyToClipboard(mNote.getPublishedUrl());
+                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
             case R.id.menu_info:
                 showInfo();
                 return true;
+            case R.id.menu_markdown:
+                setMarkdown(!item.isChecked());
+                return true;
+            case R.id.menu_pin:
+                NoteUtils.setNotePin(mNote, !item.isChecked());
+                requireActivity().invalidateOptionsMenu();
+                return true;
+            case R.id.menu_publish:
+                if (item.isChecked()) {
+                    unpublishNote();
+                } else {
+                    publishNote();
+                }
+
+                return true;
             case R.id.menu_share:
                 shareNote();
                 return true;
-            case R.id.menu_delete:
-                if (!isAdded()) return false;
+            case R.id.menu_trash:
+                if (!isAdded()) {
+                    return false;
+                }
+
                 deleteNote();
                 return true;
             case android.R.id.home:
-                if (!isAdded()) return false;
+                if (!isAdded()) {
+                    return false;
+                }
+
                 requireActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        if (mNote != null) {
+            menu.findItem(R.id.menu_info).setVisible(true);
+            MenuItem pinItem = menu.findItem(R.id.menu_pin);
+            MenuItem publishItem = menu.findItem(R.id.menu_publish);
+            MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
+            MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+            MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
+
+            pinItem.setChecked(mNote.isPinned());
+            publishItem.setChecked(mNote.isPublished());
+            markdownItem.setChecked(mNote.isMarkdownEnabled());
+
+            if (mNote.isDeleted()) {
+                pinItem.setEnabled(false);
+                publishItem.setEnabled(false);
+                copyLinkItem.setEnabled(false);
+                markdownItem.setEnabled(false);
+                trashItem.setTitle(R.string.undelete);
+            } else {
+                pinItem.setEnabled(true);
+                publishItem.setEnabled(true);
+                copyLinkItem.setEnabled(mNote.isPublished());
+                markdownItem.setEnabled(true);
+                trashItem.setTitle(R.string.delete);
+            }
+        }
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
+        super.onPrepareOptionsMenu(menu);
     }
 
     private void insertChecklist() {
@@ -609,6 +652,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             saveNote();
             showInfoSheet();
         }
+    }
+
+    private void setMarkdown(boolean isChecked) {
+        mIsMarkdownEnabled = isChecked;
+        Activity activity = getActivity();
+
+        if (activity instanceof NoteEditorActivity) {
+            NoteEditorActivity editorActivity = (NoteEditorActivity) activity;
+
+            if (mIsMarkdownEnabled) {
+                editorActivity.showTabs();
+
+                if (mNoteMarkdownFragment == null) {
+                    // Get markdown fragment and update content
+                    mNoteMarkdownFragment = editorActivity.getNoteMarkdownFragment();
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+                }
+            } else {
+                editorActivity.hideTabs();
+            }
+        } else if (activity instanceof NotesActivity) {
+            setMarkdownEnabled(mIsMarkdownEnabled);
+            ((NotesActivity) getActivity()).setMarkdownShowing(false);
+        }
+
+        saveNote();
+
+        // Set preference so that next new note will have markdown enabled.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
+        editor.apply();
     }
 
     protected void setMarkdownEnabled(boolean enabled) {
@@ -1054,7 +1129,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void updatePublishedState(boolean isSuccess) {
-
         if (mPublishingSnackbar == null) {
             return;
         }
@@ -1064,7 +1138,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
                             R.color.status_positive,
@@ -1109,6 +1182,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mIsUndoingPublishing = false;
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void publishNote() {

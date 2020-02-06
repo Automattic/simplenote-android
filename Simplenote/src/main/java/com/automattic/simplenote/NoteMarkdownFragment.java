@@ -50,8 +50,7 @@ public class NoteMarkdownFragment extends Fragment {
         if (mNote != null) {
             MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_info);
             viewPublishedNoteItem.setVisible(true);
-
-            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+            MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
 
             if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
@@ -71,10 +70,12 @@ public class NoteMarkdownFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
+
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String key = arguments.getString(ARG_ITEM_ID);
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         }
+
         setHasOptionsMenu(true);
         mCss = ThemeUtils.isLightTheme(requireContext())
                 ? ContextUtils.readCssFile(requireContext(), "light.css")
@@ -87,12 +88,18 @@ public class NoteMarkdownFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_delete:
-                if (!isAdded()) return false;
+            case R.id.menu_trash:
+                if (!isAdded()) {
+                    return false;
+                }
+
                 deleteNote();
                 return true;
             case android.R.id.home:
-                if (!isAdded()) return false;
+                if (!isAdded()) {
+                    return false;
+                }
+
                 requireActivity().finish();
                 return true;
             default:
@@ -109,10 +116,24 @@ public class NoteMarkdownFragment extends Fragment {
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         // Disable share and delete actions until note is loaded.
         if (mIsLoadingNote) {
-            menu.findItem(R.id.menu_delete).setEnabled(false);
+            menu.findItem(R.id.menu_trash).setEnabled(false);
         } else {
-            menu.findItem(R.id.menu_delete).setEnabled(true);
+            menu.findItem(R.id.menu_trash).setEnabled(true);
         }
+
+        MenuItem pinItem = menu.findItem(R.id.menu_pin);
+        MenuItem publishItem = menu.findItem(R.id.menu_publish);
+        MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
+        MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+
+        pinItem.setChecked(mNote.isPinned());
+        publishItem.setChecked(mNote.isPublished());
+        markdownItem.setChecked(mNote.isMarkdownEnabled());
+
+        pinItem.setEnabled(false);
+        publishItem.setEnabled(false);
+        copyLinkItem.setEnabled(false);
+        markdownItem.setEnabled(false);
 
         super.onPrepareOptionsMenu(menu);
     }

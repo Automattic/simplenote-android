@@ -735,7 +735,8 @@ public class NotesActivity extends AppCompatActivity implements
             }
         });
 
-        MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
+        MenuItem trashItem = menu.findItem(R.id.menu_trash).setTitle(R.string.undelete);
+
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
             trashItem.setTitle(R.string.undelete);
             trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
@@ -758,11 +759,12 @@ public class NotesActivity extends AppCompatActivity implements
             menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_info).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
-            menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
             menu.findItem(R.id.menu_sidebar).setVisible(false);
             trashItem.setVisible(false);
             menu.findItem(R.id.menu_empty_trash).setVisible(false);
+            menu.setGroupVisible(R.id.group_1, false);
+            menu.setGroupVisible(R.id.group_2, false);
         }
 
         if (mSelectedTag != null && mSelectedTag.id == TRASH_ID) {
@@ -772,8 +774,6 @@ public class NotesActivity extends AppCompatActivity implements
             updateTrashMenuItem();
 
             menu.findItem(R.id.menu_search).setVisible(false);
-            menu.findItem(R.id.menu_share).setVisible(false);
-            menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
@@ -822,7 +822,7 @@ public class NotesActivity extends AppCompatActivity implements
                 DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.toolbarIconColor);
 
                 return true;
-            case R.id.menu_delete:
+            case R.id.menu_trash:
                 if (mNoteEditorFragment != null) {
                     if (mCurrentNote != null) {
                         mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
@@ -865,18 +865,45 @@ public class NotesActivity extends AppCompatActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem markdownItem = menu.findItem(R.id.menu_markdown_preview);
+        MenuItem pinItem = menu.findItem(R.id.menu_pin);
+        MenuItem shareItem = menu.findItem(R.id.menu_share);
+        MenuItem historyItem = menu.findItem(R.id.menu_history);
+        MenuItem publishItem = menu.findItem(R.id.menu_publish);
+        MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
+        MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+        MenuItem markdownPreviewItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            markdownItem.setIcon(R.drawable.ic_visibility_off_24dp);
-            markdownItem.setTitle(getString(R.string.markdown_hide));
+            markdownPreviewItem.setIcon(R.drawable.ic_visibility_off_24dp);
+            markdownPreviewItem.setTitle(getString(R.string.markdown_hide));
         } else {
-            markdownItem.setIcon(R.drawable.ic_visibility_on_24dp);
-            markdownItem.setTitle(getString(R.string.markdown_show));
+            markdownPreviewItem.setIcon(R.drawable.ic_visibility_on_24dp);
+            markdownPreviewItem.setTitle(getString(R.string.markdown_show));
         }
 
-        DrawableUtils.tintMenuItemWithAttribute(this, markdownItem, R.attr.toolbarIconColor);
+        if (mCurrentNote != null) {
+            pinItem.setChecked(mCurrentNote.isPinned());
+            publishItem.setChecked(mCurrentNote.isPublished());
+            markdownItem.setChecked(mCurrentNote.isMarkdownEnabled());
 
+            if (mCurrentNote.isDeleted()) {
+                pinItem.setEnabled(false);
+                shareItem.setEnabled(false);
+                historyItem.setEnabled(false);
+                publishItem.setEnabled(false);
+                copyLinkItem.setEnabled(false);
+                markdownItem.setEnabled(false);
+            } else {
+                pinItem.setEnabled(true);
+                shareItem.setEnabled(true);
+                historyItem.setEnabled(true);
+                publishItem.setEnabled(true);
+                copyLinkItem.setEnabled(mCurrentNote.isPublished());
+                markdownItem.setEnabled(true);
+            }
+        }
+
+        DrawableUtils.tintMenuItemWithAttribute(this, markdownPreviewItem, R.attr.toolbarIconColor);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -895,20 +922,18 @@ public class NotesActivity extends AppCompatActivity implements
     private void updateActionsForLargeLandscape(Menu menu) {
         if (mCurrentNote != null) {
             menu.findItem(R.id.menu_checklist).setVisible(true);
-            menu.findItem(R.id.menu_delete).setVisible(true);
-            menu.findItem(R.id.menu_history).setVisible(true);
             menu.findItem(R.id.menu_markdown_preview).setVisible(mCurrentNote.isMarkdownEnabled());
-            menu.findItem(R.id.menu_share).setVisible(true);
             menu.findItem(R.id.menu_sidebar).setVisible(true);
             menu.findItem(R.id.menu_info).setVisible(true);
+            menu.setGroupVisible(R.id.group_1, true);
+            menu.setGroupVisible(R.id.group_2, true);
         } else {
             menu.findItem(R.id.menu_checklist).setVisible(false);
-            menu.findItem(R.id.menu_delete).setVisible(false);
-            menu.findItem(R.id.menu_history).setVisible(false);
             menu.findItem(R.id.menu_markdown_preview).setVisible(false);
-            menu.findItem(R.id.menu_share).setVisible(false);
             menu.findItem(R.id.menu_sidebar).setVisible(false);
             menu.findItem(R.id.menu_info).setVisible(false);
+            menu.setGroupVisible(R.id.group_1, false);
+            menu.setGroupVisible(R.id.group_2, false);
         }
 
         menu.findItem(R.id.menu_empty_trash).setVisible(false);
