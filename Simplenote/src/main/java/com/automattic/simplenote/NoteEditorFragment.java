@@ -576,7 +576,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(true);
                 copyLinkItem.setEnabled(mNote.isPublished());
                 markdownItem.setEnabled(true);
-                trashItem.setTitle(R.string.delete);
+                trashItem.setTitle(R.string.trash);
             }
         }
 

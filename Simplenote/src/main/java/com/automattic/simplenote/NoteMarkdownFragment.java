@@ -57,7 +57,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
             if (mNote.isDeleted()) {
                 trashItem.setTitle(R.string.undelete);
             } else {
-                trashItem.setTitle(R.string.delete);
+                trashItem.setTitle(R.string.trash);
             }
 
             DrawableUtils.tintMenuItemWithAttribute(getActivity(), trashItem, R.attr.toolbarIconColor);

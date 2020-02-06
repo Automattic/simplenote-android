@@ -6,7 +6,6 @@
     <string name="tag_hint">Add tag&#8230;</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
-    <string name="delete">Trash</string>
     <string name="undelete">Restore</string>
     <string name="new_note">New note</string>
     <string name="account">Account</string>
