@@ -739,10 +739,8 @@ public class NotesActivity extends AppCompatActivity implements
 
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
             trashItem.setTitle(R.string.undelete);
-            trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
         } else {
             trashItem.setTitle(R.string.delete);
-            trashItem.setIcon(R.drawable.ic_trash_24dp);
         }
 
         if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
