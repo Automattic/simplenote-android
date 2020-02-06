@@ -17,7 +17,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 @SuppressWarnings("unused")
 public class DrawableUtils {
-    public static Drawable setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {
+    public static void setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {
         Drawable drawable = menuItem.getIcon();
 
         if (drawable != null) {
