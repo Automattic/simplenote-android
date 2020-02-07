@@ -568,7 +568,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             publishItem.setChecked(mNote.isPublished());
             markdownItem.setChecked(mNote.isMarkdownEnabled());
 
-            if (mNote.isDeleted()) {
+            // Disable actions when note is in Trash or markdown view is shown on large device.
+            if (mNote.isDeleted() || (mMarkdown != null && mMarkdown.getVisibility() == View.VISIBLE)) {
                 pinItem.setEnabled(false);
                 shareItem.setEnabled(false);
                 historyItem.setEnabled(false);
