@@ -207,7 +207,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (getListView().getCheckedItemIds().length > 0) {
 
             switch (item.getItemId()) {
-                case R.id.menu_delete:
+                case R.id.menu_trash:
                     new TrashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
@@ -1380,7 +1380,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         note.save();
                         refreshList();
                         return true;
-                    case R.id.menu_delete:
+                    case R.id.menu_trash:
                         note.setDeleted(!note.isDeleted());
                         note.setModificationDate(Calendar.getInstance());
                         note.save();

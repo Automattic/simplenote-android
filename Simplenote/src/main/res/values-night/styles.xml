@@ -49,7 +49,7 @@
         <item name="settingsTextColor">@android:color/white</item>
         <item name="toolbarColor">@color/background_dark_4</item>
         <item name="toolbarIconColor">@color/gray_20</item>
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.MaterialComponents</item>
+        <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 
@@ -105,6 +105,10 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarTheme.Popup" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:backgroundTint">@color/background_dark_8</item>
     </style>
 
 </resources>

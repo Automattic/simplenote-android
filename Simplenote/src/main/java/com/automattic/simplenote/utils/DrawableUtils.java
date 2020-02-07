@@ -17,11 +17,13 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 @SuppressWarnings("unused")
 public class DrawableUtils {
-    public static Drawable setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {
+    public static void setMenuItemAlpha(MenuItem menuItem, @FloatRange(from=0,to=1) double alpha) {
         Drawable drawable = menuItem.getIcon();
-        drawable = DrawableCompat.wrap(drawable).mutate();
-        drawable.setAlpha((int) (alpha * 255));  // 255 is 100% opacity.
-        return drawable;
+
+        if (drawable != null) {
+            drawable = DrawableCompat.wrap(drawable).mutate();
+            drawable.setAlpha((int) (alpha * 255));  // 255 is 100% opacity.
+        }
     }
 
     public static Drawable tintDrawableWithResource(Context context, @DrawableRes int drawableRes, @ColorRes int colorRes) {
