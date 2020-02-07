@@ -576,7 +576,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 copyLinkItem.setEnabled(false);
                 markdownItem.setEnabled(false);
                 trashItem.setTitle(R.string.restore);
-                checklistItem.setVisible(false);
+                checklistItem.setEnabled(false);
             } else {
                 pinItem.setEnabled(true);
                 shareItem.setEnabled(true);
@@ -585,7 +585,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 copyLinkItem.setEnabled(mNote.isPublished());
                 markdownItem.setEnabled(true);
                 trashItem.setTitle(R.string.trash);
-                checklistItem.setVisible(true);
+                checklistItem.setEnabled(true);
             }
         }
 
