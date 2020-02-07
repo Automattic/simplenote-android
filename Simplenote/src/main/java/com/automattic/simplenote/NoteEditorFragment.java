@@ -576,7 +576,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(false);
                 copyLinkItem.setEnabled(false);
                 markdownItem.setEnabled(false);
-                trashItem.setTitle(R.string.restore);
                 checklistItem.setEnabled(false);
                 DrawableUtils.setMenuItemAlpha(checklistItem, 0.3);  // 0.3 is 30% opacity.
             } else {
@@ -586,9 +585,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(true);
                 copyLinkItem.setEnabled(mNote.isPublished());
                 markdownItem.setEnabled(true);
-                trashItem.setTitle(R.string.trash);
                 checklistItem.setEnabled(true);
                 DrawableUtils.setMenuItemAlpha(checklistItem, 1.0);  // 1.0 is 100% opacity.
+            }
+
+            if (mNote.isDeleted()) {
+                trashItem.setTitle(R.string.restore);
+            } else {
+                trashItem.setTitle(R.string.trash);
             }
         }
 
@@ -636,6 +640,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void showMarkdown() {
         loadMarkdownData();
         mMarkdown.setVisibility(View.VISIBLE);
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void shareNote() {
