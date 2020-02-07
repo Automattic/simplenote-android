@@ -61,7 +61,6 @@ import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SimplenoteMovementMethod;
-import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
@@ -1158,45 +1157,52 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
                 if (mIsUndoingPublishing) {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.status_positive,
-                            Snackbar.LENGTH_LONG);
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.status_positive,
-                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
-                                    unpublishNote();
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
+                            .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
+                            .setAction(
+                                R.string.undo,
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mIsUndoingPublishing = true;
+                                        unpublishNote();
+                                    }
                                 }
-                            });
+                            )
+                            .show();
                 }
+
                 copyToClipboard(mNote.getPublishedUrl());
             } else {
                 if (mIsUndoingPublishing) {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.status_negative,
-                            Snackbar.LENGTH_LONG);
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.status_negative,
-                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
-                                    publishNote();
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
+                            .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
+                            .setAction(
+                                R.string.undo,
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mIsUndoingPublishing = true;
+                                        publishNote();
+                                    }
                                 }
-                            });
+                            )
+                            .show();
                 }
             }
         } else {
             if (mNote.isPublished()) {
-                SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_error,
-                        R.color.status_negative, Snackbar.LENGTH_LONG);
+                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
+                        .show();
             } else {
-                SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_error,
-                        R.color.status_negative, Snackbar.LENGTH_LONG);
+                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
+                        .show();
             }
         }
 
@@ -1205,20 +1211,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void publishNote() {
-
         if (isAdded()) {
-            mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.publishing,
-                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar = Snackbar.make(mRootView, R.string.publishing, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar.show();
         }
+
         setPublishedNote(true);
     }
 
     private void unpublishNote() {
-
         if (isAdded()) {
-            mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublishing,
-                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar = Snackbar.make(mRootView, R.string.unpublishing, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar.show();
         }
+
         setPublishedNote(false);
     }
 
