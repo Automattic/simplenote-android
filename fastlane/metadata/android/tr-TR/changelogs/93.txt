@@ -1,0 +1,4 @@
+2.3:
+* Oluşturma tarihine, değişiklik tarihine ve alfabetik sıraya göre arama eklendi.
+* Arama tarihçesi ve öneriler eklendi.
+* Parola kilidi tasarımı güncellendi.

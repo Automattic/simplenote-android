@@ -1,68 +1,102 @@
 <ar>
-2.2:
-تم ضبط الأمور بسرية. قد لا تلاحظ أي شيء مختلف بشكل واضح في التطبيق، ولكن توقع أن يصبح كل شيء أكثر استقرارًا.
+2.3:
+* فرز البحث المضاف حسب تاريخ الإنشاء وتاريخ التعديل وأبجديًا.
+* محفوظات البحث المضاف واقتراحاته.
+* تم تحديث تصميم قفل رمز الوصول.
 </ar>
 <de-DE>
-2.2:
-Wir haben hinter den Kulissen einiges verbessert. Vielleicht hat sich für dich auf den ersten Blick nichts geändert, aber stell dich auf eine stabilere App ein.
+2.3:
+* Sortieren der Suche nach Erstellungsdatum, Änderungsdatum und alphabetischer Reihenfolge hinzugefügt.
+* Suchverlauf und -vorschläge hinzugefügt.
+* Design der Zugangscode-Sperre aktualisiert.
 </de-DE>
 <es-ES>
-2.2:
-Hemos estado optimizando los detalles técnicos. Es posible que no aprecies cambios en la aplicación, pero tendrás una experiencia más estable.
+2.3:
+* Se han añadido opciones de ordenación de las búsquedas por fecha de creación, fecha de modificación y alfabéticamente.
+* Se ha añadido un historial de búsquedas y sugerencias.
+* Se ha actualizado el diseño del bloqueo con contraseña.
 </es-ES>
 <fr-FR>
-2.2 :
-Nous optimisons les réglages en arrière-plan. Vous ne devriez pas voir de changement notable, mais vous profiterez d'une application plus stable.
+2.3 :
+* Ajout du tri de la recherche par date de création, date de modification et ordre alphabétique.
+* Ajout de l'historique de recherche et des suggestions.
+* Design du code d'accès de verrouillage mis à jour.
 </fr-FR>
 <iw-IL>
-2.2:
-ביצענו כמה תיקונים במנוע. אולי לא מבחינים בשום דבר שונה באפליקציה, אבל אפשר לסמוך על ביצועים יציבים יותר.
+2.3:
+* הוספנו מיון חיפוש לפי תאריך היצירה, תאריך השינוי וסדר אלפביתי.
+* הוספנו היסטוריה והצעות לחיפוש.
+* עדכנו את עיצוב הנעילה של קוד הסיסמה.
 </iw-IL>
 <id>
-2.2:
-Kami telah melakukan sejumlah peningkatan sistem. Anda mungkin tidak melihat dengan jelas perbedaan di aplikasi, tetapi segalanya akan lebih stabil.
+2.3:
+* Menambahkan pengurutan pencarian berdasarkan tanggal pembuatan, tanggal modifikasi, dan menurut abjad.
+* Menambahkan riwayat pencarian dan saran.
+* Memperbarui desain kunci kode sandi.
 </id>
 <it-IT>
-2.2:
-Abbiamo rimesso in ordine le cose. Quindi non noterai nulla di palesemente diverso nell'app, ma tutto sarà più stabile.
+2.3:
+*Aggiunto l'ordine di ricerca per data di creazione, data di modifica e ordine alfabetico.
+*Aggiunti cronologia di ricerca e suggerimenti.
+*Design del blocco del PIN aggiornato.
 </it-IT>
 <ja-JP>
-2.2:
-内容をチューンアップしています。アプリの見た目にはっきりした違いはありませんが、安定性が向上しました。
+2.3 :
+* 作成日、変更日、アルファベット順による検索の並べ替え機能を追加しました。
+* 検索履歴と候補を追加しました。
+* パスコードロックのデザインを更新しました。
 </ja-JP>
 <ko-KR>
-2.2:
-밖으로 보이지는 않지만 여러 가지 기능을 새롭게 추가했습니다. 앱에서는 명백히 달라진 것이 보이지 않을 수도 있지만 모든 것이 더 안정적으로 변할 것입니다.
+2.3:
+* 생성 날짜, 수정 날짜 및 알파벳순으로 검색 정렬을 추가했습니다.
+* 검색 기록 및 제안을 추가했습니다.
+* 패스코드 잠금 디자인을 업데이트했습니다.
 </ko-KR>
 <nl-NL>
-2.2:
-We hebben onopvallend heel wat verbeterd. Het lijkt er niet op alsof er heel veel is veranderd, maar je kunt ervan uitgaan dat alles een stuk stabieler is.
+2.3:
+* Sorteerfunctie voor zoeken op datum van aanmaak, datum aangepast en alfabetisch toegevoegd.
+* Zoekgeschiedenis en suggesties toegevoegd.
+* Design van pincodevergrendeling bijgewerkt.
 </nl-NL>
 <pt-BR>
-2.2:
-Fizemos alguns ajustes embaixo do capô. Você pode não notar algo muito óbvio no aplicativo mas tudo está mais estável.
+2.3:
+* Adicionamos ordem de pesquisa por data de criação, data de modificação e alfabética.
+* Adicionamos histórico de pesquisas e sugestões.
+* Atualizamos o design da tela de bloqueio por código.
 </pt-BR>
 <ru-RU>
-Версия 2.2
-Мы внесли ряд технических исправлений. Внешний вид приложения не изменился — повысилась надежность работы всех его функций.
+Версия 2.3
+* Добавлена сортировка результатов поиска по дате создания, дате изменения и по алфавиту.
+* Добавлена история поиска и варианты поисковых выражений.
+* Обновлен дизайн блокировки с помощью пароля.
 </ru-RU>
 <sv-SE>
-2.2:
-Vi har förbättrat saker och ting i bakgrunden. Du kanske inte märker någonting annorlunda med appen, men du kan förvänta dig att allt är mer stabilt.
+2.3:
+* Lade till söksortering efter datum skapad, datum ändrad och bokstavsordning.
+* Lade till sökhistorik och förslag.
+* Uppdaterade designen på lösenordslåset.
 </sv-SE>
 <tr-TR>
-2.2:
-Arka planda bir takım değişiklikler yapıyoruz. Uygulamada bariz bir farklılık görmeyebilirsiniz fakat her şey daha istikrarlı olacaktır.
+2.3:
+* Oluşturma tarihine, değişiklik tarihine ve alfabetik sıraya göre arama eklendi.
+* Arama tarihçesi ve öneriler eklendi.
+* Parola kilidi tasarımı güncellendi.
 </tr-TR>
 <zh-CN>
-2.2：
-我们一直在优化后台内容。您可能会发现应用程序在外观上没有明显变化，但是一切操作都会变得更加稳定。
+2.3：
+* 添加了按创建日期、修改日期和字母顺序排序的搜索。
+* 添加了搜索历史记录和建议。
+* 更新了密码锁设计。
 </zh-CN>
 <zh-TW>
-2.2：
-我們已經在內部進行若干微調。你可能不會發現應用程式有何顯著差異，不過一切應該會更穩定。
+2.3：
+* 新增依建立日期、修改日期和字母順序尋找的搜尋排序功能。
+* 新增搜尋記錄和建議。
+* 更新密碼鎖定設計。
 </zh-TW>
 <en-US>
-2.2:
-We’ve been tuning things up under the hood. You may not see anything obviously different in the app, but expect everything to be more stable.
+2.3:
+* Added search sorting by date created, date modified, and alphabetically.
+* Added search history and suggestions.
+* Updated passcode lock design.
 </en-US>

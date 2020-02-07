@@ -1,0 +1,4 @@
+2.3:
+* Menambahkan pengurutan pencarian berdasarkan tanggal pembuatan, tanggal modifikasi, dan menurut abjad.
+* Menambahkan riwayat pencarian dan saran.
+* Memperbarui desain kunci kode sandi.
