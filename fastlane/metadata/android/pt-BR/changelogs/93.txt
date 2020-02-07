@@ -1,0 +1,4 @@
+2.3:
+* Adicionamos ordem de pesquisa por data de criação, data de modificação e alfabética.
+* Adicionamos histórico de pesquisas e sugestões.
+* Atualizamos o design da tela de bloqueio por código.
