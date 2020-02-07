@@ -239,7 +239,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     };
     private Snackbar mPublishingSnackbar;
-    private boolean mIsUndoingPublishing;
+    private boolean mHideActionOnSuccess;
     // Resets note publish status if Simperium never returned the new publish status
     private final Runnable mPublishTimeoutRunnable = new Runnable() {
         @Override
@@ -1156,7 +1156,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                if (mIsUndoingPublishing) {
+                if (mHideActionOnSuccess) {
                     Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
                             .show();
                 } else {
@@ -1167,7 +1167,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        mIsUndoingPublishing = true;
+                                        mHideActionOnSuccess = true;
                                         unpublishNote();
                                     }
                                 }
@@ -1177,7 +1177,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 copyToClipboard(mNote.getPublishedUrl());
             } else {
-                if (mIsUndoingPublishing) {
+                if (mHideActionOnSuccess) {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
                             .show();
                 } else {
@@ -1188,7 +1188,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        mIsUndoingPublishing = true;
+                                        mHideActionOnSuccess = true;
                                         publishNote();
                                     }
                                 }
@@ -1205,7 +1205,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
+                                    mHideActionOnSuccess = true;
                                     unpublishNote();
                                 }
                             }
@@ -1218,7 +1218,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
+                                    mHideActionOnSuccess = true;
                                     publishNote();
                                 }
                             }
@@ -1226,7 +1226,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
 
-        mIsUndoingPublishing = false;
+        mHideActionOnSuccess = false;
         requireActivity().invalidateOptionsMenu();
     }
 
