@@ -208,7 +208,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_copy:
                     if (mLinkText != null && getActivity() != null) {
                         copyToClipboard(mLinkText);
-                        Toast.makeText(requireActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                         mode.finish();
                     }
                     return true;
@@ -505,7 +505,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return true;
             case R.id.menu_copy:
                 copyToClipboard(mNote.getPublishedUrl());
-                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_history:
                 showHistory();
