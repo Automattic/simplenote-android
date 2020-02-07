@@ -1,6 +1,7 @@
 2.4
 -----
 * Updated note information with date modified, date created, word count, and character count
+* Moved note options from the action bar to the ellipsis menu
 * Fixed sync bug with deleting tags and emptying trash
 * Fixed networking bug causing interface slowness
 
