@@ -577,6 +577,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 markdownItem.setEnabled(false);
                 trashItem.setTitle(R.string.restore);
                 checklistItem.setEnabled(false);
+                DrawableUtils.setMenuItemAlpha(checklistItem, 0.3);  // 0.3 is 30% opacity.
             } else {
                 pinItem.setEnabled(true);
                 shareItem.setEnabled(true);
@@ -586,6 +587,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 markdownItem.setEnabled(true);
                 trashItem.setTitle(R.string.trash);
                 checklistItem.setEnabled(true);
+                DrawableUtils.setMenuItemAlpha(checklistItem, 1.0);  // 1.0 is 100% opacity.
             }
         }
 
