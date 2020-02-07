@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -37,6 +38,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.note_markdown, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
 
         DrawableUtils.tintMenuWithAttribute(
             requireContext(),
