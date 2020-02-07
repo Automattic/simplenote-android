@@ -1,2 +1,0 @@
-2.2 :
-Nous optimisons les réglages en arrière-plan. Vous ne devriez pas voir de changement notable, mais vous profiterez d'une application plus stable.

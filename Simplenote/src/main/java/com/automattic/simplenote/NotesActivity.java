@@ -244,7 +244,7 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         if (mCurrentNote != null && mShouldSelectNewNote) {
-            onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+            onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             mShouldSelectNewNote = false;
         }
 
@@ -968,7 +968,7 @@ public class NotesActivity extends AppCompatActivity implements
      * the item with the given ID was selected. Used for tablets only.
      */
     @Override
-    public void onNoteSelected(String noteID, int position, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
+    public void onNoteSelected(String noteID, String matchOffsets, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         if (!DisplayUtils.isLargeScreenLandscape(this)) {
             // Launch the editor activity
             Bundle arguments = new Bundle();
@@ -1191,7 +1191,7 @@ public class NotesActivity extends AppCompatActivity implements
 
                 // Select the current note on a tablet
                 if (mCurrentNote != null) {
-                    onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+                    onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
                 } else {
                     mNoteEditorFragment.setPlaceholderVisible(true);
                     mNoteListFragment.getListView().clearChoices();
@@ -1200,7 +1200,7 @@ public class NotesActivity extends AppCompatActivity implements
                 invalidateOptionsMenu();
             // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
             } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
-                onNoteSelected(mCurrentNote.getSimperiumKey(), 0, null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+                onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
         }
 

@@ -1,31 +1,32 @@
 package com.automattic.simplenote.utils;
 
-import android.app.Activity;
+import android.content.Context;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class DateTimeUtils {
-    public static String getDateText(Activity activity, Calendar noteDate) {
-        if (noteDate == null) {
+    public static String getDateText(Context context, Calendar calendar) {
+        if (calendar == null) {
             return "";
         }
 
-        long now = Calendar.getInstance().getTimeInMillis();
-        CharSequence dateText = android.text.format.DateUtils.getRelativeDateTimeString(
-                activity,
-                noteDate.getTimeInMillis(),
-                now,
+        CharSequence dateText = DateUtils.getRelativeDateTimeString(
+                context,
+                calendar.getTimeInMillis(),
+                Calendar.getInstance().getTimeInMillis(),
                 0L,
-                android.text.format.DateUtils.FORMAT_ABBREV_ALL
+                DateUtils.FORMAT_ABBREV_ALL
         );
 
         return dateText.toString();
     }
 
-    public static String getDateTextShort(Calendar date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-        return formatter.format(date.getTime());
+    public static String getDateTextNumeric(Calendar date) {
+        String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MM/dd/YYYY");
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(date.getTime());
     }
 }
