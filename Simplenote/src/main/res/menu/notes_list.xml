@@ -7,6 +7,13 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView"/>
+
+    <item
         android:id="@+id/menu_sidebar"
         android:icon="@drawable/ic_tags_close_24dp"
         android:title="@string/toggle_sidebar"
@@ -19,13 +26,6 @@
         android:title="@string/markdown_show"
         android:visible="false"
         app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search_24dp"
-        android:title="@string/search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView"/>
 
     <item
         android:id="@+id/menu_checklist"
