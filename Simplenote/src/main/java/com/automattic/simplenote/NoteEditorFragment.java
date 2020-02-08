@@ -1161,7 +1161,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             .show();
                 } else {
                     Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
-                            .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                             .setAction(
                                 R.string.undo,
                                 new View.OnClickListener() {
@@ -1182,7 +1181,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             .show();
                 } else {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
-                            .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                             .setAction(
                                 R.string.undo,
                                 new View.OnClickListener() {
@@ -1199,7 +1197,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else {
             if (mNote.isPublished()) {
                 Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                         .setAction(
                             R.string.retry,
                             new View.OnClickListener() {
@@ -1212,7 +1209,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         ).show();
             } else {
                 Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                         .setAction(
                             R.string.retry,
                             new View.OnClickListener() {
