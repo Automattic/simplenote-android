@@ -128,7 +128,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_delete) {
+        if (menuItem.getItemId() == R.id.menu_trash) {
             actionMode.finish(); // Action picked, so close the CAB
             return true;
         }

@@ -7,6 +7,13 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView"/>
+
+    <item
         android:id="@+id/menu_sidebar"
         android:icon="@drawable/ic_tags_close_24dp"
         android:title="@string/toggle_sidebar"
@@ -21,40 +28,15 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search_24dp"
-        android:title="@string/search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView"/>
-
-    <item
         android:id="@+id/menu_checklist"
         android:icon="@drawable/ic_checklist_24dp"
         android:title="@string/toggle_checklist"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_history"
-        android:icon="@drawable/ic_history_24dp"
-        android:title="@string/history"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_share_24dp"
-        android:title="@string/share"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_view_info"
+        android:id="@+id/menu_info"
         android:icon="@drawable/ic_info_24dp"
-        android:title="@string/note_info"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_delete"
-        android:icon="@drawable/ic_trash_24dp"
-        android:title="@string/delete"
+        android:title="@string/information"
         app:showAsAction="always"/>
 
     <item
@@ -62,5 +44,61 @@
         android:icon="@drawable/ic_trash_selector"
         android:title="@string/empty_trash"
         app:showAsAction="ifRoom"/>
+
+    <group
+        android:id="@+id/group_1">
+
+        <item
+            android:id="@+id/menu_pin"
+            android:checkable="true"
+            android:title="@string/pin"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_markdown"
+            android:checkable="true"
+            android:title="@string/markdown"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_share"
+            android:title="@string/share"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_history"
+            android:title="@string/history"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_trash"
+            android:title="@string/trash"
+            app:showAsAction="never">
+        </item>
+
+    </group>
+
+    <group
+        android:id="@+id/group_2">
+
+        <item
+            android:id="@+id/menu_publish"
+            android:checkable="true"
+            android:title="@string/publish"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_copy"
+            android:enabled="false"
+            android:title="@string/copy_link"
+            app:showAsAction="never">
+        </item>
+
+    </group>
 
 </menu>

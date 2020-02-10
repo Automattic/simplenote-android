@@ -14,30 +14,71 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_history"
-        android:enabled="false"
-        android:icon="@drawable/ic_history_24dp"
-        android:title="@string/history"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_share"
-        android:enabled="false"
-        android:icon="@drawable/ic_share_24dp"
-        android:title="@string/share"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/menu_view_info"
+        android:id="@+id/menu_info"
         android:enabled="false"
         android:icon="@drawable/ic_info_24dp"
-        android:title="@string/note_info"
+        android:title="@string/information"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/menu_delete"
-        android:icon="@drawable/ic_trash_24dp"
-        android:title="@string/delete"
-        app:showAsAction="always"/>
+    <group
+        android:id="@+id/group_1">
+
+        <item
+            android:id="@+id/menu_pin"
+            android:checkable="true"
+            android:enabled="false"
+            android:title="@string/pin"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_markdown"
+            android:checkable="true"
+            android:enabled="false"
+            android:title="@string/markdown"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_share"
+            android:enabled="false"
+            android:title="@string/share"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_history"
+            android:enabled="false"
+            android:title="@string/history"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_trash"
+            android:title="@string/trash"
+            app:showAsAction="never">
+        </item>
+
+    </group>
+
+    <group
+        android:id="@+id/group_2">
+
+        <item
+            android:id="@+id/menu_publish"
+            android:checkable="true"
+            android:enabled="false"
+            android:title="@string/publish"
+            app:showAsAction="never">
+        </item>
+
+        <item
+            android:id="@+id/menu_copy"
+            android:enabled="false"
+            android:title="@string/copy_link"
+            app:showAsAction="never">
+        </item>
+
+    </group>
 
 </menu>
