@@ -1,3 +1,6 @@
+2.5
+-----
+ 
 2.4
 -----
 * Updated note information with date modified, date created, word count, and character count
