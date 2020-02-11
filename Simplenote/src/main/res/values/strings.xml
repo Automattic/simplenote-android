@@ -194,7 +194,7 @@
     <string name="empty_notes_untagged">Create an untagged note</string>
     <string name="empty_tags">No tags</string>
 
-    <string name="snackbar_deleted_recent_search">Deleted recent search item</string>
+    <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
