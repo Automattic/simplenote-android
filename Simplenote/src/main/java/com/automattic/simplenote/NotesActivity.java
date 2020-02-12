@@ -1089,6 +1089,9 @@ public class NotesActivity extends AppCompatActivity implements
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
 
+        // Remove Passcode Lock password
+        AppLockManager.getInstance().getAppLock().setPassword("");
+
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
