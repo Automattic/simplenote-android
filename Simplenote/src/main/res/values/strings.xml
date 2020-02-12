@@ -90,7 +90,7 @@
     <string name="view_map">View map</string>
     <string name="view_in_browser">View in browser</string>
     <string name="link">Link</string>
-    <string name="link_copied">Link copied to clipboard</string>
+    <string name="link_copied">Link copied!</string>
     <string name="copy">Copy</string>
 
     <!-- account setup -->
@@ -126,12 +126,14 @@
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not create link&#8230;</string>
-    <string name="unpublish_error">Could not remove link&#8230;</string>
-    <string name="publish_successful">Success! Link copied to clipboard&#8230;</string>
+    <string name="publish_error">Could not create link.</string>
+    <string name="unpublish_error">Could not remove link.</string>
+    <string name="publish_successful">Published. Link copied!</string>
     <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing link&#8230;</string>
+    <string name="publishing">Publishing&#8230;</string>
     <string name="unpublishing">Removing public link&#8230;</string>
+    <string name="retry">Retry</string>
+
     <string name="collaborate">Collaborate</string>
     <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
 
@@ -192,7 +194,7 @@
     <string name="empty_notes_untagged">Create an untagged note</string>
     <string name="empty_tags">No tags</string>
 
-    <string name="snackbar_deleted_recent_search">Deleted recent search item</string>
+    <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>

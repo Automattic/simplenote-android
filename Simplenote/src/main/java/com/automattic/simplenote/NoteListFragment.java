@@ -1231,7 +1231,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     deleteSearchItem(item);
                     Snackbar
                         .make(getRootView(), R.string.snackbar_deleted_recent_search, Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                         .setAction(
                             getString(R.string.undo),
                             new View.OnClickListener() {
