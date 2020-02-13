@@ -1340,7 +1340,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             try {
                 fragment.mNote = notesBucket.get(noteID);
-                fragment.requireActivity().invalidateOptionsMenu();
 
                 // Set the current note in NotesActivity when on a tablet
                 if (fragment.getActivity() instanceof NotesActivity) {
