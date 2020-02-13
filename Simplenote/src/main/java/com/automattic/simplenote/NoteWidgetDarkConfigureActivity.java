@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -167,7 +169,13 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
 
             // Populate fields with extracted properties
             titleTextView.setText(title);
-            contentTextView.setText(snippet);
+            SpannableStringBuilder snippetSpan = new SpannableStringBuilder(snippet);
+            snippetSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                    context,
+                    snippetSpan,
+                    ChecklistUtils.CHECKLIST_REGEX,
+                    R.color.text_title_disabled);
+            contentTextView.setText(snippetSpan);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,7 +210,12 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
                     mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.text_title_dark, context.getTheme()));
                     mRemoteViews.setTextViewText(R.id.widget_text_title, title);
                     mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
-                    mRemoteViews.setTextViewText(R.id.widget_text_content, content);
+                    SpannableStringBuilder contentSpan = new SpannableStringBuilder(content);
+                    contentSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistUnicodeSpansForRegex(
+                            contentSpan,
+                            ChecklistUtils.CHECKLIST_REGEX
+                    );
+                    mRemoteViews.setTextViewText(R.id.widget_text_content, contentSpan);
                     mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful
