@@ -31,6 +31,8 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 
+import org.wordpress.passcodelock.AppLockManager;
+
 import java.lang.ref.WeakReference;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -258,6 +260,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         // Remove WordPress sites
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
+
+        // Remove Passcode Lock password
+        AppLockManager.getInstance().getAppLock().setPassword("");
 
         WidgetUtils.updateNoteWidgets(getActivity());
 
