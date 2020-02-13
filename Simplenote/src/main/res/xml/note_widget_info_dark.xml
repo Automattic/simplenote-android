@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:configure="com.automattic.simplenote.NoteWidgetDarkConfigureActivity"
+    android:initialLayout="@layout/note_widget_dark"
+    android:minHeight="@dimen/cell_widget"
+    android:minWidth="@dimen/cell_widget"
+    android:previewImage="@drawable/note_widget_preview_dark"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="21600000"
+    android:widgetCategory="home_screen"
+    tools:targetApi="jelly_bean_mr1">
+</appwidget-provider>

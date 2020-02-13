@@ -145,7 +145,8 @@
     <string name="font_size_large">Large</string>
     <string name="font_size_extra_large">Extra large</string>
 
-    <!-- Pinned Note Widget -->
+    <!-- Note Widget -->
+    <string name="note_widget_dark">Note (Dark)</string>
     <string name="note_widget_light">Note (Light)</string>
     <string name="loading_note">Loading note&#8230;</string>
     <string name="note_not_found">Note not found</string>
