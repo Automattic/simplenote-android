@@ -32,9 +32,9 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-import static com.automattic.simplenote.NoteWidgetLight.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;

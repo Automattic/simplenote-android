@@ -24,9 +24,9 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WID
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteWidgetLight extends AppWidgetProvider {
-    public static final String KEY_WIDGET_CLICK = "key_widget_click";
     public static final String KEY_WIDGET_IDS_LIGHT = "key_widget_ids_light";
 
     @Override

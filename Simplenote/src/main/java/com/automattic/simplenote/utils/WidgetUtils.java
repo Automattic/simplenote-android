@@ -9,6 +9,8 @@ import com.automattic.simplenote.NoteWidgetDark;
 import com.automattic.simplenote.NoteWidgetLight;
 
 public class WidgetUtils {
+    public static final String KEY_WIDGET_CLICK = "key_widget_click";
+
     public static void updateNoteWidgets(Context context) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
