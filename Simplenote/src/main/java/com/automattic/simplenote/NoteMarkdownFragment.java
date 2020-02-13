@@ -226,7 +226,6 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
             try {
                 fragment.mNote = notesBucket.get(noteID);
-                fragment.requireActivity().invalidateOptionsMenu();
             } catch (BucketObjectMissingException exception) {
                 // TODO: Handle a missing note
             }
