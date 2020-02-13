@@ -63,7 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.NoteWidgetLight.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
