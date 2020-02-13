@@ -237,12 +237,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         protected void onPostExecute(Void nada) {
             NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             fragment.mIsLoadingNote = false;
-
-            if (fragment.mNote != null) {
-                if (fragment.getActivity() != null) {
-                    fragment.getActivity().invalidateOptionsMenu();
-                }
-            }
+            fragment.requireActivity().invalidateOptionsMenu();
         }
     }
 }
