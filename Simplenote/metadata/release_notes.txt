@@ -1,3 +1,4 @@
-* Added search sorting by date created, date modified, and alphabetically.
-* Added search history and suggestions.
-* Updated passcode lock design.
+* Updated note information with date modified, date created, word count, and character count.
+* Moved some note options from note information and the action bar to the ellipsis menu.
+* Fixed a syncing bug with deleting tags and emptying trash.
+* Fixed a networking bug that made the app lag.
