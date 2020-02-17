@@ -1,7 +1,8 @@
 2.5
 -----
 * Added a dark version of the note widget to view and open a note in the app from the home screen
- 
+* Added a note list widget to open any note in the app from the home screen
+
 2.4
 -----
 * Updated note information with date modified, date created, word count, and character count
