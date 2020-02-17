@@ -78,6 +78,14 @@ import com.simperium.client.Query;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
@@ -616,9 +624,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "toolbar_button"
+            EDITOR_CHECKLIST_INSERTED,
+            CATEGORY_NOTE,
+            "toolbar_button"
         );
     }
 
@@ -655,9 +663,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             showShareSheet();
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "action_bar_share_button"
+                EDITOR_NOTE_CONTENT_SHARED,
+                CATEGORY_NOTE,
+                "action_bar_share_button"
             );
         }
     }
@@ -829,8 +837,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mNote.getTagString() != null && tag.length() > mNote.getTagString().length()) {
             AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_TAG_ADDED,
-                AnalyticsTracker.CATEGORY_NOTE,
+                EDITOR_TAG_ADDED,
+                CATEGORY_NOTE,
                 "tag_added_to_note"
             );
         }
@@ -1066,9 +1074,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mNote.save();
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "editor_save"
+                    EDITOR_NOTE_EDITED,
+                    CATEGORY_NOTE,
+                    "editor_save"
                 );
             }
         } catch (BucketObjectMissingException exception) {
@@ -1146,10 +1154,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, PUBLISH_TIMEOUT);
 
             AnalyticsTracker.track(
-                    (isPublished) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
-                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "publish_note_button"
+                isPublished ? EDITOR_NOTE_PUBLISHED : EDITOR_NOTE_UNPUBLISHED,
+                CATEGORY_NOTE,
+                "publish_note_button"
             );
         }
     }
@@ -1548,8 +1555,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mTagChips.removeView(view);
                     updateTags();
                     AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
-                        AnalyticsTracker.CATEGORY_NOTE,
+                        EDITOR_TAG_REMOVED,
+                        CATEGORY_NOTE,
                         "tag_removed_from_note"
                     );
                 }
