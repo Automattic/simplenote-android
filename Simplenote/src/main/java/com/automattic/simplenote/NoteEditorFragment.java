@@ -88,6 +88,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         HistoryBottomSheetDialog.HistorySheetListener,
         SimplenoteEditText.OnCheckboxToggledListener {
 
+    public static final String ARG_IS_FROM_WIDGET = "is_from_widget";
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     public static final String ARG_MATCH_OFFSETS = "match_offsets";

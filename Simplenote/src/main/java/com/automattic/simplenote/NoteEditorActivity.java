@@ -72,6 +72,8 @@ public class NoteEditorActivity extends AppCompatActivity {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
+            arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET,
+                    intent.getBooleanExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false));
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
