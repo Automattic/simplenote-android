@@ -138,6 +138,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private boolean mIsPaused;
+    private boolean mIsFromWidget;
+
     // Hides the history bottom sheet if no revisions are loaded
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
@@ -346,8 +348,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
-
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
+
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
@@ -358,18 +360,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);
-
         Bundle arguments = getArguments();
+
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             // Load note if we were passed a note Id
             String key = arguments.getString(ARG_ITEM_ID);
+
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
+
+            mIsFromWidget = arguments.getBoolean(ARG_IS_FROM_WIDGET);
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
-        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
+        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null) {
             // Restore selected note when in dual pane mode
             String noteId = savedInstanceState.getString(STATE_NOTE_ID);
+
             if (noteId != null) {
                 setNote(noteId);
             }
@@ -491,7 +497,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
+
+        if (!isAdded() || (!mIsFromWidget && DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null)) {
             return;
         }
 
