@@ -133,6 +133,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
+                    arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET, true);
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, updatedNote.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, updatedNote.isMarkdownEnabled());
                     arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, updatedNote.isPreviewEnabled());

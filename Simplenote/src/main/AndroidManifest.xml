@@ -114,6 +114,30 @@
         </activity>
 
         <receiver
+            android:name=".NoteListWidgetDark"
+            android:label="@string/note_list_widget_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_list_widget_info_dark">
+            </meta-data>
+        </receiver>
+
+        <receiver
+            android:name=".NoteListWidgetLight"
+            android:label="@string/note_list_widget_light">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_list_widget_info_light">
+            </meta-data>
+        </receiver>
+
+        <receiver
             android:name=".NoteWidgetDark"
             android:label="@string/note_widget_dark">
             <intent-filter>
@@ -136,6 +160,16 @@
                 android:resource="@xml/note_widget_info_light">
             </meta-data>
         </receiver>
+
+        <service
+            android:name=".NoteListWidgetDarkService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
+
+        <service
+            android:name=".NoteListWidgetLightService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
 
         <activity
             android:name=".NoteWidgetDarkConfigureActivity"

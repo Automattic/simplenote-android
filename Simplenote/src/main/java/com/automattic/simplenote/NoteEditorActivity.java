@@ -28,8 +28,10 @@ import org.wordpress.passcodelock.AppLockManager;
 import java.util.ArrayList;
 
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -72,6 +74,8 @@ public class NoteEditorActivity extends AppCompatActivity {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
+            arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET,
+                    intent.getBooleanExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false));
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
@@ -159,6 +163,15 @@ public class NoteEditorActivity extends AppCompatActivity {
                 NOTE_WIDGET_NOTE_TAPPED,
                 CATEGORY_WIDGET,
                 "note_widget_note_tapped"
+            );
+        }
+
+        if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null &&
+            intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_NOTE_TAPPED) {
+            AnalyticsTracker.track(
+                NOTE_LIST_WIDGET_NOTE_TAPPED,
+                CATEGORY_WIDGET,
+                "note_list_widget_note_tapped"
             );
         }
     }

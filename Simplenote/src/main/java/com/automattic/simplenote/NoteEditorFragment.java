@@ -78,6 +78,14 @@ import com.simperium.client.Query;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
@@ -87,6 +95,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         HistoryBottomSheetDialog.HistorySheetListener,
         SimplenoteEditText.OnCheckboxToggledListener {
 
+    public static final String ARG_IS_FROM_WIDGET = "is_from_widget";
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
@@ -136,6 +145,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private boolean mIsPaused;
+    private boolean mIsFromWidget;
+
     // Hides the history bottom sheet if no revisions are loaded
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
@@ -356,18 +367,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);
-
         Bundle arguments = getArguments();
+
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             // Load note if we were passed a note Id
             String key = arguments.getString(ARG_ITEM_ID);
+
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
+
+            mIsFromWidget = arguments.getBoolean(ARG_IS_FROM_WIDGET);
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
-        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
+        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null) {
             // Restore selected note when in dual pane mode
             String noteId = savedInstanceState.getString(STATE_NOTE_ID);
+
             if (noteId != null) {
                 setNote(noteId);
             }
@@ -489,7 +504,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
+
+        if (!isAdded() || (!mIsFromWidget && DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null)) {
             return;
         }
 
@@ -608,9 +624,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "toolbar_button"
+            EDITOR_CHECKLIST_INSERTED,
+            CATEGORY_NOTE,
+            "toolbar_button"
         );
     }
 
@@ -647,9 +663,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             showShareSheet();
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "action_bar_share_button"
+                EDITOR_NOTE_CONTENT_SHARED,
+                CATEGORY_NOTE,
+                "action_bar_share_button"
             );
         }
     }
@@ -821,8 +837,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mNote.getTagString() != null && tag.length() > mNote.getTagString().length()) {
             AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_TAG_ADDED,
-                AnalyticsTracker.CATEGORY_NOTE,
+                EDITOR_TAG_ADDED,
+                CATEGORY_NOTE,
                 "tag_added_to_note"
             );
         }
@@ -1058,9 +1074,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mNote.save();
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "editor_save"
+                    EDITOR_NOTE_EDITED,
+                    CATEGORY_NOTE,
+                    "editor_save"
                 );
             }
         } catch (BucketObjectMissingException exception) {
@@ -1138,10 +1154,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, PUBLISH_TIMEOUT);
 
             AnalyticsTracker.track(
-                    (isPublished) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
-                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "publish_note_button"
+                isPublished ? EDITOR_NOTE_PUBLISHED : EDITOR_NOTE_UNPUBLISHED,
+                CATEGORY_NOTE,
+                "publish_note_button"
             );
         }
     }
@@ -1540,8 +1555,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mTagChips.removeView(view);
                     updateTags();
                     AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
-                        AnalyticsTracker.CATEGORY_NOTE,
+                        EDITOR_TAG_REMOVED,
+                        CATEGORY_NOTE,
                         "tag_removed_from_note"
                     );
                 }
