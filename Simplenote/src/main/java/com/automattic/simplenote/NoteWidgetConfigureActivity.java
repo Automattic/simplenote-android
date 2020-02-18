@@ -181,6 +181,7 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
+                    arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET, true);
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
 
