@@ -11,6 +11,11 @@
     <color name="red">@color/red_50</color>
     <color name="yellow">@color/yellow_20</color>
 
+    <!-- WIDGET -->
+    <color name="widget_background">@color/background_light</color>
+    <color name="widget_text">@color/text_title_light</color>
+    <color name="widget_text_body">@color/text_body_light</color>
+
     <!-- ELEVATION -->
     <color name="background_dark_0">#121416</color>
     <color name="background_dark_1">#1f2123</color>
