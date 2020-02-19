@@ -46,8 +46,13 @@ public class ThemeUtils {
                 }
             }
         }
-
-        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
+        
+        // Don't need to call this from `setTheme` since NightMode is being set at the Application level in `Simplenote`
+        // setNightMode(activity);
+    }
+    
+    public static void setNightMode(Context context) {
+        switch (PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
