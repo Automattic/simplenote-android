@@ -47,8 +47,8 @@ public class ThemeUtils {
             }
         }
         
-        // Don't need to call this from `setTheme` since NightMode is being set at the Application level in `Simplenote`
-        // setNightMode(activity);
+        // Kept here because PreferencesFragment applies theme using Activity.recreate() which calls setTheme in PreferencesActivity.onCreate()
+        setNightMode(activity);
     }
     
     public static void setNightMode(Context context) {
