@@ -184,6 +184,7 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
                     arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET, true);
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+                    arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
 
                     // Create intent to navigate to selected note on widget click
                     Intent intent = new Intent(context, NoteEditorActivity.class);
