@@ -339,7 +339,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         };
 
-        WidgetUtils.updateNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
     @Override

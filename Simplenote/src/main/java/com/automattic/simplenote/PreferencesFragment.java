@@ -264,7 +264,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         // Remove Passcode Lock password
         AppLockManager.getInstance().getAppLock().setPassword("");
 
-        WidgetUtils.updateNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
 
         getActivity().finish();
     }
