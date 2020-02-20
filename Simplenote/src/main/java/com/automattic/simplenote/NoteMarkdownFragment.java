@@ -130,9 +130,11 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
         MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
 
-        pinItem.setChecked(mNote.isPinned());
-        publishItem.setChecked(mNote.isPublished());
-        markdownItem.setChecked(mNote.isMarkdownEnabled());
+        if (mNote != null) {
+            pinItem.setChecked(mNote.isPinned());
+            publishItem.setChecked(mNote.isPublished());
+            markdownItem.setChecked(mNote.isMarkdownEnabled());
+        }
 
         pinItem.setEnabled(false);
         publishItem.setEnabled(false);
@@ -235,12 +237,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         protected void onPostExecute(Void nada) {
             NoteMarkdownFragment fragment = mNoteMarkdownFragmentReference.get();
             fragment.mIsLoadingNote = false;
-
-            if (fragment.mNote != null) {
-                if (fragment.getActivity() != null) {
-                    fragment.getActivity().invalidateOptionsMenu();
-                }
-            }
+            fragment.requireActivity().invalidateOptionsMenu();
         }
     }
 }
