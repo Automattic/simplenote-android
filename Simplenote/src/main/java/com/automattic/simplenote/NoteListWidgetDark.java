@@ -168,6 +168,7 @@ public class NoteListWidgetDark extends AppWidgetProvider {
             }
         }
 
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 }
