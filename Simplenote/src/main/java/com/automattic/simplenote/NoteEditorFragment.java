@@ -36,7 +36,6 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -402,15 +401,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Calculate how far to scroll to bring the match into view
                     Layout layout = mContentEditText.getLayout();
                     int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-
-                    // We use different scroll views in the root of the layout files... yuck.
-                    // So we have to cast appropriately to do a smooth scroll
-                    if (mRootView instanceof NestedScrollView) {
-                        ((NestedScrollView)mRootView).smoothScrollTo(0, lineTop);
-                    } else {
-                        ((ScrollView)mRootView).smoothScrollTo(0, lineTop);
-                    }
-
+                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
                     mShouldScrollToSearchMatch = false;
                 }
             }
