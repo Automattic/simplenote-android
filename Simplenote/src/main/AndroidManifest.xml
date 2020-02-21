@@ -114,19 +114,39 @@
         </activity>
 
         <receiver
-            android:name=".NoteWidget"
-            android:label="@string/label_note">
+            android:name=".NoteWidgetDark"
+            android:label="@string/note_widget_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/note_widget_info" />
+                android:resource="@xml/note_widget_info_dark">
+            </meta-data>
+        </receiver>
+
+        <receiver
+            android:name=".NoteWidgetLight"
+            android:label="@string/note_widget_light">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_widget_info_light">
+            </meta-data>
         </receiver>
 
         <activity
-            android:name=".NoteWidgetConfigureActivity"
+            android:name=".NoteWidgetDarkConfigureActivity"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".NoteWidgetLightConfigureActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

@@ -32,19 +32,19 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NoteWidgetConfigureActivity extends AppCompatActivity {
+public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
     private NotesCursorAdapter mNotesAdapter;
     private RemoteViews mRemoteViews;
     private Simplenote mApplication;
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-    public NoteWidgetConfigureActivity() {
+    public NoteWidgetLightConfigureActivity() {
         super();
     }
 
@@ -64,13 +64,13 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.log_in_add_widget, Toast.LENGTH_LONG).show();
+            Toast.makeText(NoteWidgetLightConfigureActivity.this, R.string.log_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
         // Get widget information
-        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget);
+        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetLightConfigureActivity.this);
+        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_light);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -99,15 +99,15 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this, true);
+        PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this, true);
         ObjectCursor<Note> cursor = query.execute();
 
-        Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
+        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, R.style.Theme_Transparent);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         @SuppressLint("InflateParams")
         final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
         final ListView list = layout.findViewById(R.id.list);
-        mNotesAdapter = new NotesCursorAdapter(NoteWidgetConfigureActivity.this, cursor);
+        mNotesAdapter = new NotesCursorAdapter(NoteWidgetLightConfigureActivity.this, cursor);
         list.setAdapter(mNotesAdapter);
 
         builder.setView(layout)

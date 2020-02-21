@@ -63,7 +63,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
@@ -73,6 +72,7 @@ import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NotesActivity extends AppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
