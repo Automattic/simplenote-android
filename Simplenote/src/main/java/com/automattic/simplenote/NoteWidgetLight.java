@@ -6,11 +6,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -155,7 +157,12 @@ public class NoteWidgetLight extends AppWidgetProvider {
                     views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_title, title);
                     views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
-                    views.setTextViewText(R.id.widget_text_content, content);
+                    SpannableStringBuilder contentSpan = new SpannableStringBuilder(content);
+                    contentSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistUnicodeSpansForRegex(
+                            contentSpan,
+                            ChecklistUtils.CHECKLIST_REGEX
+                    );
+                    views.setTextViewText(R.id.widget_text_content, contentSpan);
                 } catch (BucketObjectMissingException e) {
                     // Create intent to navigate to widget configure activity on widget click
                     Intent intent = new Intent(context, NoteWidgetLightConfigureActivity.class);
