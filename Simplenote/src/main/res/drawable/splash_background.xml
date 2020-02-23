@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@color/blue"/>
+    <item
+        android:width="72dp"
+        android:height="72dp"
+        android:drawable="@drawable/ic_simplenote_24dp"
+        android:gravity="center"/>
+</layer-list>

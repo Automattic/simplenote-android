@@ -51,8 +51,6 @@ public class Simplenote extends Application {
 
         CrashUtils.initWithContext(this);
     
-        ThemeUtils.setNightMode(getApplicationContext());
-
         AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
 
         mSimperium = Simperium.newClient(

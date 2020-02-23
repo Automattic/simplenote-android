@@ -10,7 +10,7 @@ import com.automattic.simplenote.utils.ThemeUtils;
 
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
-public class TagsActivity extends AppCompatActivity {
+public class TagsActivity extends ThemedAppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
