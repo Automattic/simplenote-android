@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_layout"
+    android:background="@drawable/note_widget_background_light"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:paddingEnd="@dimen/widget_margin"
+    android:paddingStart="@dimen/widget_margin"
+    android:paddingTop="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/widget_text"
+        android:ellipsize="end"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:maxLines="4"
+        android:text="@string/loading_note"
+        android:textColor="@color/text_title_light"
+        android:textSize="@dimen/text_widget"
+        android:visibility="visible"
+        tools:text="To-Do List"
+        tools:textColor="@color/text_title_light"
+        tools:visibility="gone">
+    </TextView>
+
+    <TextView
+        android:id="@+id/widget_text_title"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/loading_note"
+        android:textColor="@color/text_title_light"
+        android:textSize="@dimen/text_content_title"
+        android:visibility="gone"
+        tools:text="To-Do List"
+        tools:textColor="@color/text_title_light"
+        tools:visibility="visible">
+    </TextView>
+
+    <TextView
+        android:id="@+id/widget_text_content"
+        android:ellipsize="end"
+        android:layout_below="@id/widget_text_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/text_body_light"
+        android:textSize="@dimen/text_content"
+        android:visibility="gone"
+        tools:text="- Create note widget\n- Update layout design\n- Add resizable attributes\n- Add note content"
+        tools:visibility="visible">
+    </TextView>
+
+</RelativeLayout>

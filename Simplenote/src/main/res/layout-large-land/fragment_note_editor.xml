@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
@@ -140,4 +140,4 @@
 
     </FrameLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -27,10 +27,10 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteEditorActivity extends ThemedAppCompatActivity {
     private TabLayout mTabLayout;
@@ -72,6 +72,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
             arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
+            arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET,
+                    intent.getBooleanExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false));
 
             boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
             arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);

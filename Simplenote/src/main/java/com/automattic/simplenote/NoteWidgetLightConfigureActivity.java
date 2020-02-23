@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -32,18 +34,19 @@ import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.Query;
 import com.simperium.client.User;
 
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NoteWidgetConfigureActivity extends AppCompatActivity {
+public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
     private NotesCursorAdapter mNotesAdapter;
     private RemoteViews mRemoteViews;
     private Simplenote mApplication;
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-    public NoteWidgetConfigureActivity() {
+    public NoteWidgetLightConfigureActivity() {
         super();
     }
 
@@ -63,13 +66,13 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            Toast.makeText(NoteWidgetConfigureActivity.this, R.string.log_in_add_widget, Toast.LENGTH_LONG).show();
+            Toast.makeText(NoteWidgetLightConfigureActivity.this, R.string.log_in_add_widget, Toast.LENGTH_LONG).show();
             finish();
         }
 
         // Get widget information
-        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget);
+        mWidgetManager = AppWidgetManager.getInstance(NoteWidgetLightConfigureActivity.this);
+        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_light);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -98,15 +101,15 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, NoteWidgetConfigureActivity.this, true);
+        PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this, true);
         ObjectCursor<Note> cursor = query.execute();
 
-        Context context = new ContextThemeWrapper(NoteWidgetConfigureActivity.this, R.style.Theme_Transparent);
+        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, R.style.Theme_Transparent);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         @SuppressLint("InflateParams")
         final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
         final ListView list = layout.findViewById(R.id.list);
-        mNotesAdapter = new NotesCursorAdapter(NoteWidgetConfigureActivity.this, cursor);
+        mNotesAdapter = new NotesCursorAdapter(NoteWidgetLightConfigureActivity.this, cursor);
         list.setAdapter(mNotesAdapter);
 
         builder.setView(layout)
@@ -167,7 +170,13 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
 
             // Populate fields with extracted properties
             titleTextView.setText(title);
-            contentTextView.setText(snippet);
+            SpannableStringBuilder snippetSpan = new SpannableStringBuilder(snippet);
+            snippetSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
+                    context,
+                    snippetSpan,
+                    ChecklistUtils.CHECKLIST_REGEX,
+                    R.color.text_title_disabled);
+            contentTextView.setText(snippetSpan);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,12 +190,15 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
+                    arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET, true);
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+                    arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
 
                     // Create intent to navigate to selected note on widget click
                     Intent intent = new Intent(context, NoteEditorActivity.class);
                     intent.putExtras(arguments);
+                    intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_NOTE_TAPPED);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
@@ -202,7 +214,12 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
                     mRemoteViews.setTextColor(R.id.widget_text, getResources().getColor(R.color.text_title_light, context.getTheme()));
                     mRemoteViews.setTextViewText(R.id.widget_text_title, title);
                     mRemoteViews.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
-                    mRemoteViews.setTextViewText(R.id.widget_text_content, content);
+                    SpannableStringBuilder contentSpan = new SpannableStringBuilder(content);
+                    contentSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistUnicodeSpansForRegex(
+                            contentSpan,
+                            ChecklistUtils.CHECKLIST_REGEX
+                    );
+                    mRemoteViews.setTextViewText(R.id.widget_text_content, contentSpan);
                     mWidgetManager.updateAppWidget(mAppWidgetId, mRemoteViews);
 
                     // Set the result as successful

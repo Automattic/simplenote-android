@@ -15,12 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChecklistUtils {
-
     public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
-    public static final int CHECKLIST_OFFSET = 4;
+    public static final int CHECKLIST_OFFSET = 3;
 
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
@@ -81,6 +80,48 @@ public class ChecklistUtils {
 
         return editable;
     }
+
+    /***
+     * Adds CheckableSpans for matching markdown formatted checklists.
+     * @param editable the spannable string to run the regex against.
+     * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINES
+     * @return Editable - resulting spannable string
+     */
+    public static Editable addChecklistUnicodeSpansForRegex(Editable editable, String regex) {
+        if (editable == null) {
+            return new SpannableStringBuilder("");
+        }
+
+        Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
+        Matcher m = p.matcher(editable);
+
+        int positionAdjustment = 0;
+        while(m.find()) {
+            int start = m.start() - positionAdjustment;
+            int end = m.end() - positionAdjustment;
+
+            // Safety first!
+            if (end > editable.length()) {
+                continue;
+            }
+
+            String leadingSpaces = m.group(1);
+            if (!TextUtils.isEmpty(leadingSpaces)) {
+                start += leadingSpaces.length();
+            }
+
+            String match = m.group(2);
+            if (match == null) {
+                continue;
+            }
+
+            CheckableSpan checkableSpan = new CheckableSpan();
+            checkableSpan.setChecked(match.contains("x") || match.contains("X"));
+            editable.replace(start, end, checkableSpan.isChecked() ? "\u2611" : "\u2610");
+            editable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            positionAdjustment += (end - start) - 1;
+        }
+
+        return editable;
+    }
 }
-
-
