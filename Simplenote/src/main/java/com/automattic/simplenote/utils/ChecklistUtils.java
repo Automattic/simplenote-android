@@ -19,7 +19,7 @@ public class ChecklistUtils {
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
-    public static final int CHECKLIST_OFFSET = 4;
+    public static final int CHECKLIST_OFFSET = 3;
 
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
