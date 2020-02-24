@@ -1,6 +1,7 @@
 2.5
 -----
 * Added a dark version of the note widget to view and open a note in the app from the home screen
+* Added support for right-to-left languages and layouts
 * Fixed a bug that highlighted search terms incorrectly in notes with checklists
  
 2.4
