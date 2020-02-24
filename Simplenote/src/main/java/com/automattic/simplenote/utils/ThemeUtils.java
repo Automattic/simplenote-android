@@ -47,12 +47,7 @@ public class ThemeUtils {
             }
         }
         
-        // Kept here because PreferencesFragment applies theme using Activity.recreate() which calls setTheme in PreferencesActivity.onCreate()
-        setNightMode(activity);
-    }
-    
-    public static void setNightMode(Context context) {
-        switch (PrefUtils.getIntPref(context, PrefUtils.PREF_THEME, THEME_LIGHT)) {
+        switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
                 break;
@@ -67,7 +62,7 @@ public class ThemeUtils {
                 break;
         }
     }
-
+    
     public static boolean isLightTheme(Context context) {
         int uiMode = context.getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
