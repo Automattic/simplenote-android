@@ -25,6 +25,8 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIS
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
+import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_HEIGHT_FOR_BUTTON;
+import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_WIDTH_FOR_BUTTON;
 
 public class NoteListWidgetDark extends AppWidgetProvider {
     public static final String KEY_LIST_WIDGET_IDS_DARK = "key_list_widget_ids_dark";
@@ -83,8 +85,8 @@ public class NoteListWidgetDark extends AppWidgetProvider {
 
     private void resizeWidget(Bundle appWidgetOptions, RemoteViews views) {
         // Show/Hide add button based on widget height and width
-        if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > 150 &&
-            appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > 300) {
+        if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > MINIMUM_HEIGHT_FOR_BUTTON &&
+            appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > MINIMUM_WIDTH_FOR_BUTTON) {
             views.setViewVisibility(R.id.widget_button, View.VISIBLE);
         } else {
             views.setViewVisibility(R.id.widget_button, View.GONE);
@@ -152,8 +154,8 @@ public class NoteListWidgetDark extends AppWidgetProvider {
                 views.setViewVisibility(R.id.widget_text, View.GONE);
                 views.setViewVisibility(R.id.widget_list, View.VISIBLE);
 
-                if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > 150 &&
-                    appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > 300) {
+                if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > MINIMUM_HEIGHT_FOR_BUTTON &&
+                    appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > MINIMUM_WIDTH_FOR_BUTTON) {
                     views.setViewVisibility(R.id.widget_button, View.VISIBLE);
                 } else {
                     views.setViewVisibility(R.id.widget_button, View.GONE);

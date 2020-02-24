@@ -13,6 +13,8 @@ import com.automattic.simplenote.NoteWidgetLight;
 public class WidgetUtils {
     public static final String KEY_LIST_WIDGET_CLICK = "key_list_widget_click";
     public static final String KEY_WIDGET_CLICK = "key_widget_click";
+    public static final int MINIMUM_HEIGHT_FOR_BUTTON = 150;
+    public static final int MINIMUM_WIDTH_FOR_BUTTON = 300;
 
     public static void updateNoteWidgets(Context context) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
