@@ -46,7 +46,6 @@ public class ThemeUtils {
                 }
             }
         }
-        
         switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
@@ -62,7 +61,6 @@ public class ThemeUtils {
                 break;
         }
     }
-    
     public static boolean isLightTheme(Context context) {
         int uiMode = context.getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
