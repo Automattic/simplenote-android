@@ -74,7 +74,7 @@ import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NotesActivity extends AppCompatActivity implements
+public class NotesActivity extends ThemedAppCompatActivity implements
         NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
 

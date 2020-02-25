@@ -17,7 +17,7 @@ import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends ThemedAppCompatActivity {
     private static final String EXTRA_THEME_CHANGED = "themeChanged";
 
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;

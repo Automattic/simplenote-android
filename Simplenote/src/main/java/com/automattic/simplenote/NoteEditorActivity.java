@@ -32,7 +32,7 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WID
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NoteEditorActivity extends AppCompatActivity {
+public class NoteEditorActivity extends ThemedAppCompatActivity {
     private TabLayout mTabLayout;
     private Note mNote;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;

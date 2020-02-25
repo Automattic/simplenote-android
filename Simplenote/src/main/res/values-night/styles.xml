@@ -71,7 +71,14 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
-
+    
+    <style name="Theme.Simplestyle.Splash">
+        <item name="android:navigationBarColor">@color/blue</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+    
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:colorBackground">@color/background_dark_16</item>
         <item name="android:navigationBarColor">@color/background_dark_16</item>
