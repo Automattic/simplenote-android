@@ -29,6 +29,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="search">Search Notes or Tags</string>
+    <string name="search_hint">Search notes or tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
