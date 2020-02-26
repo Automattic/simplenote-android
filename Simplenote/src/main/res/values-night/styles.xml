@@ -75,7 +75,7 @@
     <style name="Theme.Simplestyle.Splash">
         <item name="android:navigationBarColor">@color/blue</item>
         <item name="android:statusBarColor">@color/blue</item>
-        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
     
