@@ -420,6 +420,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mRootView;
     }
 
+    public void scrollToMatch(int location) {
+        if (isAdded()) {
+            // Calculate how far to scroll to bring the match into view
+            Layout layout = mContentEditText.getLayout();
+            int lineTop = layout.getLineTop(layout.getLineForOffset(location));
+            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
