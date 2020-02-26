@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <string name="app_name" translatable="false">Simplenote</string>
@@ -17,7 +18,7 @@
     <string name="delete_tag">Delete tag</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="empty_trash">Empty trash</string>
+    <string name="empty_trash">Empty Trash</string>
     <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -27,32 +28,31 @@
     <string name="note_selected">%d note selected</string>
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
-    <string name="search">Search notes or tags</string>
+    <string name="search">Search Notes or Tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="information">Information</string>
-    <string name="toggle_sidebar">Toggle sidebar</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="pin">Pin</string>
-    <string name="pin_to_top">Pin to top</string>
-    <string name="unpin_from_top">Unpin from top</string>
+    <string name="pin_to_top">Pin to Top</string>
+    <string name="unpin_from_top">Unpin from Top</string>
     <string name="created">Created</string>
     <string name="modified">Modified</string>
     <string name="tab_edit">Edit</string>
     <string name="tab_preview">Preview</string>
-    <string name="list_hide">Hide list</string>
-    <string name="list_show">Show list</string>
+    <string name="list_hide">Hide List</string>
+    <string name="list_show">Show List</string>
     <string name="markdown">Markdown</string>
     <string name="markdown_hide">Hide Markdown</string>
     <string name="markdown_show">Show Markdown</string>
     <string name="character">Character</string>
     <string name="characters">Characters</string>
     <string name="logo">Logo</string>
-    <string name="copy_link">Copy link</string>
+    <string name="copy_link">Copy Link</string>
 
     <!-- Preferences -->
     <string name="editor">Editor</string>
@@ -182,7 +182,7 @@
     <string name="sort_tags_alphabetically">Sort alphabetically</string>
     <string name="appearance">Appearance</string>
     <string name="all_notes">All Notes</string>
-    <string name="toggle_checklist">Toggle checklist</string>
+    <string name="toggle_checklist">Toggle Checklist</string>
 
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
