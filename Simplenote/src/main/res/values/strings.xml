@@ -51,6 +51,9 @@
     <string name="characters">Characters</string>
     <string name="logo">Logo</string>
     <string name="copy_link">Copy link</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="of">of</string>
 
     <!-- Preferences -->
     <string name="editor">Editor</string>
