@@ -349,6 +349,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
+        mContentEditText.setOnFocusChangeListener(this);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
@@ -934,6 +935,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (tags.length() > 0) {
                 setChips(tags);
             }
+        }
+
+        if (v instanceof SimplenoteEditText && hasFocus && !DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
         }
     }
 
