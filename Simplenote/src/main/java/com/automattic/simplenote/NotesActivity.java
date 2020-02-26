@@ -598,6 +598,22 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         }
     }
 
+    public void updateTrashMenuItem(boolean shouldWaitForAnimation) {
+        if (shouldWaitForAnimation) {
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTrashMenuItem();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
+        } else {
+            updateTrashMenuItem();
+        }
+    }
+
     private void addEditorFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -784,7 +800,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
 
-            updateTrashMenuItem();
+            updateTrashMenuItem(false);
 
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
