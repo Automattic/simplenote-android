@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr
+        name="android:drawable">
+
+        <vector
+            android:name="av_visibility_off_on_24dp"
+            android:height="24dp"
+            android:width="24dp"
+            android:viewportHeight="24"
+            android:viewportWidth="24">
+
+            <path
+                android:name="strike"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 19.73 22 L 21 20.73 L 3.27 3 L 2 4.27 Z">
+            </path>
+
+            <clip-path
+                android:name="mask"
+                android:pathData="M 0 0 L 24 0 L 24 24 L 0 24 L 0 0 Z M 4.54 1.73 L 3.27 3 L 21 20.73 L 22.27 19.46 Z">
+            </clip-path>
+
+            <path
+                android:name="iris"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 12 15.5 C 11.072 15.5 10.181 15.131 9.525 14.475 C 8.869 13.819 8.5 12.928 8.5 12 C 8.5 11.072 8.869 10.181 9.525 9.525 C 10.181 8.869 11.072 8.5 12 8.5 C 12.928 8.5 13.819 8.869 14.475 9.525 C 15.131 10.181 15.5 11.072 15.5 12 C 15.5 12.614 15.338 13.218 15.031 13.75 C 14.724 14.282 14.282 14.724 13.75 15.031 C 13.218 15.338 12.614 15.5 12 15.5 Z M 12 10.5 C 11.602 10.5 11.221 10.658 10.939 10.939 C 10.658 11.221 10.5 11.602 10.5 12 C 10.5 12.398 10.658 12.779 10.939 13.061 C 11.221 13.342 11.602 13.5 12 13.5 C 12.398 13.5 12.779 13.342 13.061 13.061 C 13.342 12.779 13.5 12.398 13.5 12 C 13.5 11.602 13.342 11.221 13.061 10.939 C 12.779 10.658 12.398 10.5 12 10.5 Z">
+            </path>
+
+            <path
+                android:name="lid"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 12 19.5 C 9.834 19.499 7.726 18.794 5.995 17.492 C 4.264 16.19 3.002 14.361 2.4 12.28 L 2.32 12 L 2.4 11.72 C 3.006 9.643 4.269 7.818 6 6.52 C 7.731 5.222 9.837 4.52 12 4.52 C 14.163 4.52 16.269 5.222 18 6.52 C 19.731 7.818 20.994 9.643 21.6 11.72 L 21.68 12 L 21.6 12.28 C 20.998 14.361 19.736 16.19 18.005 17.492 C 16.274 18.794 14.166 19.499 12 19.5 Z M 4.41 12 C 4.941 13.593 5.96 14.979 7.322 15.961 C 8.684 16.943 10.321 17.472 12 17.472 C 13.679 17.472 15.316 16.943 16.678 15.961 C 18.04 14.979 19.059 13.593 19.59 12 C 19.059 10.407 18.04 9.021 16.678 8.039 C 15.316 7.057 13.679 6.528 12 6.528 C 10.321 6.528 8.684 7.057 7.322 8.039 C 5.96 9.021 4.941 10.407 4.41 12 Z">
+            </path>
+
+        </vector>
+
+    </aapt:attr>
+
+    <target
+        android:name="strike">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 19.73 22 L 21 20.73 L 3.27 3 L 2 4.27 Z"
+                android:valueTo="M 2 4.27 L 3.27 3 L 3.27 3 L 2 4.27 Z"
+                android:valueType="pathType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 0 0 L 24 0 L 24 24 L 0 24 L 0 0 Z M 4.54 1.73 L 3.27 3 L 21 20.73 L 22.27 19.46 Z"
+                android:valueTo="M 0 0 L 24 0 L 24 24 L 0 24 L 0 0 Z M 4.54 1.73 L 3.27 3 L 3.27 3 L 4.54 1.73 Z"
+                android:valueType="pathType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+</animated-vector>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr
+        name="android:drawable">
+
+        <vector
+            android:name="av_checklist_24dp"
+            android:height="24dp"
+            android:width="24dp"
+            android:viewportHeight="24"
+            android:viewportWidth="24">
+
+            <group
+                android:name="group_check1">
+
+                <clip-path
+                    android:name="mask_check1"
+                    android:pathData="M 5.4 9 L 3 6.7 L 4.4 5.3 L 5.4 6.3 L 7.7 4 L 9.1 5.4 L 5.4 9 Z">
+                </clip-path>
+
+                <path
+                    android:name="check1"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 5.4 9 L 3 6.7 L 4.4 5.3 L 5.4 6.3 L 7.7 4 L 9.1 5.4 L 5.4 9 Z">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_line1">
+
+                <clip-path
+                    android:name="mask_line1"
+                    android:pathData="M 11 6 L 21 6 L 21 18 L 11 18 Z">
+                </clip-path>
+
+                <path
+                    android:name="line1"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 21 6 L 11 6 L 11 8 L 21 8 L 21 6 Z">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_check2">
+
+                <clip-path
+                    android:name="mask_check2"
+                    android:pathData="M 5.4 14.5 L 3 12.2 L 4.4 10.8 L 5.4 11.8 L 7.7 9.5 L 9.1 10.9 L 5.4 14.5 Z">
+                </clip-path>
+
+                <path
+                    android:name="check2"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 5.4 14.5 L 3 12.2 L 4.4 10.8 L 5.4 11.8 L 7.7 9.5 L 9.1 10.9 L 5.4 14.5 Z">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_line2">
+
+                <clip-path
+                    android:name="mask_line2"
+                    android:pathData="M 21 11 L 11 11 L 11 13 L 21 13 L 21 11 Z">
+                </clip-path>
+
+                <path
+                    android:name="line2"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 21 11 L 11 11 L 11 13 L 21 13 L 21 11 Z">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_check3">
+
+                <clip-path
+                    android:name="mask_check3"
+                    android:pathData="M 5.4 20 L 3 17.7 L 4.4 16.3 L 5.4 17.3 L 7.7 15 L 9.1 16.4 L 5.4 20 Z">
+                </clip-path>
+
+                <path
+                    android:name="check3"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 5.4 20 L 3 17.7 L 4.4 16.3 L 5.4 17.3 L 7.7 15 L 9.1 16.4 L 5.4 20 Z">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_line3">
+
+                <clip-path
+                    android:name="mask_line3"
+                    android:pathData="M 21 16 L 11 16 L 11 18 L 21 18 L 21 16 Z">
+                </clip-path>
+
+                <path
+                    android:name="line3"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 21 16 L 11 16 L 11 18 L 21 18 L 21 16 Z">
+                </path>
+
+            </group>
+
+        </vector>
+
+    </aapt:attr>
+
+    <target
+        android:name="mask_line1">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation_third"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 11 6 L 11 6 L 11 8 L 11 8 Z"
+                android:valueTo="M 11 6 L 21 6 L 21 8 L 11 8 Z"
+                android:valueType="pathType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_line2">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_third"
+                    android:valueFrom="M 11 11 L 11 11 L 11 13 L 11 13 Z"
+                    android:valueTo="M 11 11 L 21 11 L 21 13 L 11 13 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 11 6 L 11 6 L 11 8 L 11 8 Z"
+                    android:valueTo="M 11 6 L 11 6 L 11 8 L 11 8 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_line3">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third_double"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 11 16 L 11 16 L 11 18 L 11 18 Z"
+                    android:valueTo="M 11 16 L 11 16 L 11 18 L 11 18 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_third_double"
+                    android:valueFrom="M 11 16 L 11 16 L 11 18 L 11 18 Z"
+                    android:valueTo="M 11 16 L 21 16 L 21 18 L 11 18 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_check1">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_eighth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 4.4 5.3 L 4.4 5.3 L 4.4 5.3 L 4.4 5.3 L 3 6.7 L 3 6.7 L 3 6.7"
+                    android:valueTo="M 4.4 5.3 L 5.4 6.3 L 5.4 6.3 L 6.8 7.7 L 5.4 9 L 3 6.7 L 4.4 5.3"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_fifth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_eighth"
+                    android:valueFrom="M 4.4 5.3 L 5.4 6.3 L 5.4 6.3 L 6.8 7.7 L 5.4 9 L 3 6.7 L 4.4 5.3"
+                    android:valueTo="M 4.4 5.3 L 5.4 6.3 L 7.7 4 L 9.1 5.4 L 5.4 9 L 3 6.7 L 4.4 5.3"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_check2">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_eighth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_third"
+                    android:valueFrom="M 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 3 12.2 L 3 12.2 L 3 12.2"
+                    android:valueTo="M 4.4 10.8 L 5.4 11.8 L 5.4 11.8 L 6.8 13.2 L 5.4 14.5 L 3 12.2 L 4.4 10.8"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_fifth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_half"
+                    android:valueFrom="M 4.4 10.8 L 5.4 11.8 L 5.4 11.8 L 6.8 13.2 L 5.4 14.5 L 3 12.2 L 4.4 10.8"
+                    android:valueTo="M 4.4 10.8 L 5.4 11.8 L 7.7 9.5 L 9.1 10.9 L 5.4 14.5 L 3 12.2 L 4.4 10.8"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 3 12.2 L 3 12.2 L 3 12.2"
+                    android:valueTo="M 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 4.4 10.8 L 3 12.2 L 3 12.2 L 3 12.2"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_check3">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_third_double"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 3 17.7 L 3 17.7 L 3 17.7"
+                    android:valueTo="M 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 3 17.7 L 3 17.7 L 3 17.7"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_eighth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_third_double"
+                    android:valueFrom="M 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 4.4 16.3 L 3 17.7 L 3 17.7 L 3 17.7"
+                    android:valueTo="M 4.4 16.3 L 5.4 17.3 L 5.4 17.3 L 6.8 18.7 L 5.4 20 L 3 17.7 L 4.4 16.3"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_fifth"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_fifth_quadruple"
+                    android:valueFrom="M 4.4 16.3 L 5.4 17.3 L 5.4 17.3 L 6.8 18.7 L 5.4 20 L 3 17.7 L 4.4 16.3"
+                    android:valueTo="M 4.4 16.3 L 5.4 17.3 L 7.7 15 L 9.1 16.4 L 5.4 20 L 3 17.7 L 4.4 16.3"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+</animated-vector>

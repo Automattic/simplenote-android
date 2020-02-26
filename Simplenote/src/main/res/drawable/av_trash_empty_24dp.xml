@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr
+        name="android:drawable">
+
+        <vector
+            android:name="av_trash_empty_24dp"
+            android:height="24dp"
+            android:width="24dp"
+            android:viewportHeight="24"
+            android:viewportWidth="24">
+
+            <path
+                android:name="base"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 18 21 L 6 21 C 4.9 21 4 20.1 4 19 L 4 9 L 6 9 L 6 19 L 18 19 L 18 9 L 20 9 L 20 19 C 20 20.1 19.1 21 18 21 Z">
+            </path>
+
+            <path
+                android:name="lid"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 16 5 L 16 4 C 16 2.9 15.1 2 14 2 L 10 2 C 8.9 2 8 2.9 8 4 L 8 5 L 3 5 L 3 7 L 21 7 L 21 5 L 16 5 Z M 10 4 L 14 4 L 14 5 L 10 5 L 10 4 Z">
+            </path>
+
+            <clip-path
+                android:name="mask_fill"
+                android:pathData="M 9 9 L 15 9 L 15 17 L 9 17 L 9 9 Z">
+            </clip-path>
+
+            <path
+                android:name="fill"
+                android:fillColor="?attr/toolbarIconColor"
+                android:pathData="M 9 9 L 11 9 L 11 17 L 9 17 L 9 9 Z M 13 9 L 15 9 L 15 17 L 13 17 L 13 9 Z">
+            </path>
+
+        </vector>
+
+    </aapt:attr>
+
+    <target
+        android:name="av_trash_empty_24dp">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="alpha"
+                android:valueFrom="1"
+                android:valueTo="0.5"
+                android:valueType="floatType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask_fill">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_half"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 9 9 L 15 9 L 15 17 L 9 17 L 9 9 Z"
+                    android:valueTo="M 9 9 L 15 9 L 15 9 L 9 9 L 9 9 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_fourth"
+                    android:interpolator="@android:anim/anticipate_interpolator"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_half"
+                    android:valueFrom="M 9 9 L 15 9 L 15 9 L 9 9 L 9 9 Z"
+                    android:valueTo="M 9 9 L 15 9 L 15 17 L 9 17 L 9 9 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="lid">
+
+        <aapt:attr
+            name="android:animation">
+
+            <set>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_half"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pathData"
+                    android:valueFrom="M 16 5 L 16 4 C 16 2.9 15.1 2 14 2 L 10 2 C 8.9 2 8 2.9 8 4 L 8 5 L 3 5 L 3 7 L 21 7 L 21 5 L 16 5 Z M 10 4 L 14 4 L 14 5 L 10 5 L 10 4 Z"
+                    android:valueTo="M 16 3 L 16 2 C 16 0.9 15.1 0 14 0 L 10 0 C 8.9 0 8 0.9 8 2 L 8 3 L 3 3 L 3 5 L 21 5 L 21 3 L 16 3 Z M 10 2 L 14 2 L 14 3 L 10 3 L 10 2 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+                <objectAnimator
+                    android:duration="@integer/time_animation_eighth_triple"
+                    android:interpolator="@android:anim/bounce_interpolator"
+                    android:propertyName="pathData"
+                    android:startOffset="@integer/time_animation_eighth_quintuple"
+                    android:valueFrom="M 16 3 L 16 2 C 16 0.9 15.1 0 14 0 L 10 0 C 8.9 0 8 0.9 8 2 L 8 3 L 3 3 L 3 5 L 21 5 L 21 3 L 16 3 Z M 10 2 L 14 2 L 14 3 L 10 3 L 10 2 Z"
+                    android:valueTo="M 16 5 L 16 4 C 16 2.9 15.1 2 14 2 L 10 2 C 8.9 2 8 2.9 8 4 L 8 5 L 3 5 L 3 7 L 21 7 L 21 5 L 16 5 Z M 10 4 L 14 4 L 14 5 L 10 5 L 10 4 Z"
+                    android:valueType="pathType">
+                </objectAnimator>
+
+            </set>
+
+        </aapt:attr>
+
+    </target>
+
+</animated-vector>
