@@ -39,6 +39,7 @@
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="pin">Pin</string>
+    <string name="toggle_pin">Toggle Pin to Top</string>
     <string name="pin_to_top">Pin to Top</string>
     <string name="unpin_from_top">Unpin from Top</string>
     <string name="created">Created</string>

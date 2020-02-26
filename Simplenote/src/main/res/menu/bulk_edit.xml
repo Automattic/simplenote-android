@@ -9,13 +9,15 @@
     <item
         android:id="@+id/menu_pin"
         android:icon="@drawable/ic_pinned_24dp"
-        android:title="@string/pin_to_top"
-        app:showAsAction="always"/>
+        android:title="@string/toggle_pin"
+        app:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/menu_trash"
         android:icon="@drawable/ic_trash_24dp"
         android:title="@string/trash"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
 </menu>
