@@ -45,6 +45,7 @@
     <color name="empty_light">@color/gray_5</color>
     <color name="item_blue_dark">@color/blue_20</color>
     <color name="item_blue_light">@color/blue_50</color>
+    <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
     <color name="text_blue_dark">@color/blue_10</color>

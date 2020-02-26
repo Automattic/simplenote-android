@@ -36,8 +36,9 @@
 
     <!-- SIZE -->
     <dimen name="bottom_sheet_row_height">56dp</dimen>
-    <dimen name="card_radius">2dp</dimen>
     <dimen name="cell_widget">40dp</dimen>
+    <dimen name="cell_widget_double">80dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_fingerprint">4dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
