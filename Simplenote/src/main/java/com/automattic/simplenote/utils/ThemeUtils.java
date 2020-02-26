@@ -3,7 +3,6 @@ package com.automattic.simplenote.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
@@ -16,6 +15,9 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.R;
 
 import java.util.List;
+
+import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
+import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
 
@@ -46,6 +48,7 @@ public class ThemeUtils {
                 }
             }
         }
+
         switch (PrefUtils.getIntPref(activity, PrefUtils.PREF_THEME, THEME_LIGHT)) {
             case THEME_AUTO:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
@@ -61,10 +64,9 @@ public class ThemeUtils {
                 break;
         }
     }
+
     public static boolean isLightTheme(Context context) {
-        int uiMode = context.getResources().getConfiguration().uiMode &
-                        Configuration.UI_MODE_NIGHT_MASK;
-        return uiMode != Configuration.UI_MODE_NIGHT_YES;
+        return (context.getResources().getConfiguration().uiMode & UI_MODE_NIGHT_MASK) != UI_MODE_NIGHT_YES;
     }
 
     /*
