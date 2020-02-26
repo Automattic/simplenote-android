@@ -930,7 +930,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                     item.setTitle(string);
                 }
             },
-            getResources().getInteger(android.R.integer.config_mediumAnimTime)
+            getResources().getInteger(R.integer.time_animation)
         );
     }
 
@@ -1013,7 +1013,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 mNoteEditorFragment.hideMarkdown();
             }
         }
-        invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     /**
@@ -1377,7 +1386,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
         if (note.equals(mCurrentNote)) {
             mCurrentNote = note;
-            invalidateOptionsMenu();
+
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidateOptionsMenu();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
         }
     }
 

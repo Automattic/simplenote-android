@@ -641,7 +641,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void showMarkdown() {
         loadMarkdownData();
         mMarkdown.setVisibility(View.VISIBLE);
-        requireActivity().invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    requireActivity().invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     private void shareNote() {
