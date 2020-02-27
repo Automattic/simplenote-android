@@ -7,18 +7,15 @@ import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * Abstract class to apply default app theme to all activities that extend from it.
- * Applies `@style/Theme.Simplestyle` theme. Override `themeId` to apply a different theme.
+ * Abstract class to apply {@link R.style#Theme_Simplestyle} theme to activities extending from it.
+ * Override {@link ThemedAppCompatActivity#mThemeId} in extended activity to apply another theme.
  */
 abstract public class ThemedAppCompatActivity extends AppCompatActivity {
-    
-    // Theme for activity. Override in activity to apply a different theme
-    protected @StyleRes int themeId = R.style.Theme_Simplestyle;
+    protected @StyleRes int mThemeId = R.style.Theme_Simplestyle;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        setTheme(themeId);
+        setTheme(mThemeId);
     }
 }

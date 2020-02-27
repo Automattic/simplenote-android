@@ -18,7 +18,6 @@ import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
