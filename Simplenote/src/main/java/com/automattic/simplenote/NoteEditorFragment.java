@@ -115,6 +115,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     };
     private Bucket<Note> mNotesBucket;
     private View mRootView;
+    private View mTagPadding;
     private SimplenoteEditText mContentEditText;
     private ChipGroup mTagChips;
     private TagsMultiAutoCompleteTextView mTagInput;
@@ -354,6 +355,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagInput.setTokenizer(new SpaceTokenizer());
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
+        mTagPadding = mRootView.findViewById(R.id.tag_padding);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
 
@@ -1532,6 +1534,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void setChips(CharSequence text) {
+        mTagPadding.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
         mTagChips.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
         mTagChips.setSingleSelection(true);
         mTagChips.removeAllViews();
