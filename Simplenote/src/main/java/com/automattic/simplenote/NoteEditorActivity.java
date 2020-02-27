@@ -281,7 +281,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 matchesStart[j] = matches[i];
             }
 
-            // Remove duplicate items with linked hash set and linked list.
+            // Remove duplicate items with linked hash set and linked list since full-text search
+            // may return the same position more than once when parsing both title and content.
             matchesStart = new LinkedHashSet<>(new LinkedList<>(Arrays.asList(matchesStart))).toArray(new String[0]);
             mSearchMatchIndexes = new int[matchesStart.length];
 
