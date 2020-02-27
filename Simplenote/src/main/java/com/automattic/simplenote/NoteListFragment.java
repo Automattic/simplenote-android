@@ -1443,7 +1443,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     }
                 }
 
-                notesActivity.updateTrashMenuItem();
+                notesActivity.updateTrashMenuItem(true);
             }
 
             if (fragment.mSelectedNoteId != null) {
@@ -1483,7 +1483,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             NotesActivity notesActivity = (NotesActivity) fragment.requireActivity();
-            notesActivity.updateTrashMenuItem();
+            notesActivity.updateTrashMenuItem(true);
 
             if (fragment.mSelectedNoteId != null) {
                 fragment.setNoteSelected(fragment.mSelectedNoteId);

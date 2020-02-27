@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -626,17 +629,37 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         return mSelectedTag;
     }
 
-    // Enable or disable the trash action bar button depending on if there are deleted notes or not
+    // Set trash action bar button enabled/disabled and icon based on deleted notes or not.
     public void updateTrashMenuItem() {
-        if (mEmptyTrashMenuItem == null || mNotesBucket == null)
+        if (mEmptyTrashMenuItem == null || mNotesBucket == null) {
             return;
+        }
 
-        // Disable the trash icon if there are no notes trashed.
+        // Disable trash icon if there are no trashed notes.
         Query<Note> query = Note.allDeleted(mNotesBucket);
+
         if (query.count() == 0) {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ic_trash_disabled_24dp);
             mEmptyTrashMenuItem.setEnabled(false);
         } else {
+            mEmptyTrashMenuItem.setIcon(R.drawable.av_trash_empty_24dp);
             mEmptyTrashMenuItem.setEnabled(true);
+        }
+    }
+
+    public void updateTrashMenuItem(boolean shouldWaitForAnimation) {
+        if (shouldWaitForAnimation) {
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTrashMenuItem();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
+        } else {
+            updateTrashMenuItem();
         }
     }
 
@@ -705,9 +728,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             // Workaround for setting the search placeholder text color
             @SuppressWarnings("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
-            mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
-                    hintHexColor,
-                    getString(R.string.search))));
+            mSearchView.setQueryHint(
+                HtmlCompat.fromHtml(
+                    String.format(
+                        "<font color=\"%s\">%s</font>",
+                        hintHexColor,
+                        getString(R.string.search)
+                    )
+                )
+            );
         }
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -820,13 +849,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
 
-            updateTrashMenuItem();
+            updateTrashMenuItem(false);
 
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
-        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
+        DrawableUtils.tintMenuItemWithAttribute(this, menu.findItem(R.id.menu_search), R.attr.toolbarIconColor);
 
         if (mDrawerLayout != null && mSearchMenuItem != null) {
             mDrawerLayout.setDrawerLockMode(mSearchMenuItem.isActionViewExpanded() ?
@@ -839,37 +868,37 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         switch (item.getItemId()) {
             case R.id.menu_sidebar:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
                 if (mNoteListFragment.isHidden()) {
                     ft.show(mNoteListFragment);
+                    setIconAfterAnimation(item, R.drawable.av_list_hide_show_24dp, R.string.list_hide);
                 } else {
                     ft.hide(mNoteListFragment);
+                    setIconAfterAnimation(item, R.drawable.av_list_show_hide_24dp, R.string.list_show);
                 }
+
                 ft.commitNowAllowingStateLoss();
                 mIsTabetFullscreen = mNoteListFragment.isHidden();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
-                    item.setIcon(R.drawable.ic_visibility_on_24dp);
-                    item.setTitle(getString(R.string.markdown_show));
+                    setIconAfterAnimation(item, R.drawable.av_visibility_on_off_24dp, R.string.markdown_show);
                     setMarkdownShowing(false);
                     mCurrentNote.setPreviewEnabled(false);
                 } else {
-                    item.setIcon(R.drawable.ic_visibility_off_24dp);
-                    item.setTitle(getString(R.string.markdown_hide));
+                    setIconAfterAnimation(item, R.drawable.av_visibility_off_on_24dp, R.string.markdown_hide);
                     setMarkdownShowing(true);
                     mCurrentNote.setPreviewEnabled(true);
                 }
 
                 mCurrentNote.save();
-                DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.toolbarIconColor);
-
                 return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null) {
@@ -877,10 +906,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                         mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
                         mCurrentNote.setModificationDate(Calendar.getInstance());
                         mCurrentNote.save();
-
                         updateViewsAfterTrashAction(mCurrentNote);
                     }
                 }
+
                 return true;
             case R.id.menu_empty_trash:
                 AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Dialog));
@@ -890,6 +919,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
                         AnalyticsTracker.track(
                             LIST_TRASH_EMPTIED,
                             CATEGORY_NOTE,
@@ -923,11 +953,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         MenuItem markdownPreviewItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            markdownPreviewItem.setIcon(R.drawable.ic_visibility_off_24dp);
-            markdownPreviewItem.setTitle(getString(R.string.markdown_hide));
+            markdownPreviewItem.setIcon(R.drawable.av_visibility_off_on_24dp);
+            markdownPreviewItem.setTitle(R.string.markdown_hide);
         } else {
-            markdownPreviewItem.setIcon(R.drawable.ic_visibility_on_24dp);
-            markdownPreviewItem.setTitle(getString(R.string.markdown_show));
+            markdownPreviewItem.setIcon(R.drawable.av_visibility_on_off_24dp);
+            markdownPreviewItem.setTitle(R.string.markdown_show);
         }
 
         if (mCurrentNote != null) {
@@ -952,8 +982,21 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             }
         }
 
-        DrawableUtils.tintMenuItemWithAttribute(this, markdownPreviewItem, R.attr.toolbarIconColor);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setIconAfterAnimation(final MenuItem item, final @DrawableRes int drawable, final @StringRes int string) {
+        ((AnimatedVectorDrawable) item.getIcon()).start();
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    item.setIcon(drawable);
+                    item.setTitle(string);
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     public void submitSearch(String selection) {
@@ -1027,6 +1070,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
     public void setMarkdownShowing(boolean isMarkdownShowing) {
         mIsShowingMarkdown = isMarkdownShowing;
+
         if (mNoteEditorFragment != null) {
             if (isMarkdownShowing) {
                 mNoteEditorFragment.showMarkdown();
@@ -1034,7 +1078,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 mNoteEditorFragment.hideMarkdown();
             }
         }
-        invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     /**
@@ -1398,7 +1451,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
         if (note.equals(mCurrentNote)) {
             mCurrentNote = note;
-            invalidateOptionsMenu();
+
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidateOptionsMenu();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
         }
     }
 

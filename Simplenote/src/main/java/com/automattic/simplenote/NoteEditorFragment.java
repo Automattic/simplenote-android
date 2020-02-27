@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -508,6 +509,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_checklist:
+                ((AnimatedVectorDrawable) item.getIcon()).start();
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
@@ -518,6 +520,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 showHistory();
                 return true;
             case R.id.menu_info:
+                ((AnimatedVectorDrawable) item.getIcon()).start();
                 showInfo();
                 return true;
             case R.id.menu_markdown:
@@ -646,7 +649,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void showMarkdown() {
         loadMarkdownData();
         mMarkdown.setVisibility(View.VISIBLE);
-        requireActivity().invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    requireActivity().invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     private void shareNote() {

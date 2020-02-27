@@ -11,39 +11,45 @@
         android:icon="@drawable/ic_search_24dp"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView"/>
+        app:showAsAction="always|collapseActionView">
+    </item>
 
     <item
         android:id="@+id/menu_sidebar"
-        android:icon="@drawable/ic_tags_close_24dp"
-        android:title="@string/toggle_sidebar"
+        android:icon="@drawable/av_list_hide_show_24dp"
+        android:title="@string/list_hide"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/menu_markdown_preview"
-        android:icon="@drawable/ic_visibility_on_24dp"
+        android:icon="@drawable/av_visibility_on_off_24dp"
         android:title="@string/markdown_show"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/menu_checklist"
-        android:icon="@drawable/ic_checklist_24dp"
+        android:icon="@drawable/av_checklist_24dp"
         android:title="@string/toggle_checklist"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/menu_info"
-        android:icon="@drawable/ic_info_24dp"
+        android:icon="@drawable/av_info_24dp"
         android:title="@string/information"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/menu_empty_trash"
-        android:icon="@drawable/ic_trash_selector"
+        android:icon="@drawable/av_trash_empty_24dp"
         android:title="@string/empty_trash"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom">
+    </item>
 
     <group
         android:id="@+id/group_1">
