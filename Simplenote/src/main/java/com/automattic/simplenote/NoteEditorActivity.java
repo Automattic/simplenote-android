@@ -303,18 +303,17 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             public void onClick(View v) {
                 if (mSearchMatchIndex > 0) {
                     mSearchMatchIndex--;
+                    mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                    new Handler().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                updateSearchMatchBarStatus();
+                            }
+                        },
+                        getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                    );
                 }
-
-                mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
-                new Handler().postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            updateSearchMatchBarStatus();
-                        }
-                    },
-                    getResources().getInteger(android.R.integer.config_mediumAnimTime)
-                );
             }
         });
         mButtonPrevious.setOnLongClickListener(new View.OnLongClickListener() {
@@ -334,18 +333,17 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             public void onClick(View v) {
                 if (mSearchMatchIndex < mSearchMatchIndexes.length - 1) {
                     mSearchMatchIndex++;
+                    mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                    new Handler().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                updateSearchMatchBarStatus();
+                            }
+                        },
+                        getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                    );
                 }
-
-                mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
-                new Handler().postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            updateSearchMatchBarStatus();
-                        }
-                    },
-                    getResources().getInteger(android.R.integer.config_mediumAnimTime)
-                );
             }
         });
         mButtonNext.setOnLongClickListener(new View.OnLongClickListener() {
