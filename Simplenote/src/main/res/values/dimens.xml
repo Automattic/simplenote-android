@@ -29,6 +29,7 @@
 
     <!-- PASSCODE -->
     <dimen name="passcodelock_button_text_size">24dp</dimen>
+    <dimen name="passcodelock_pin_text_size">34dp</dimen>
 
     <!-- SIZE -->
     <dimen name="bottom_sheet_row_height">56dp</dimen>
