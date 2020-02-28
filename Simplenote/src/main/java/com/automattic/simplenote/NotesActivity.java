@@ -104,7 +104,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private boolean mIsSettingsClicked;
-    private boolean mIsTabetFullscreen;
+    private boolean mIsTabletFullscreen;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -186,7 +186,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         } else {
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
-        mIsTabetFullscreen = mNoteListFragment.isHidden();
+        mIsTabletFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
@@ -306,7 +306,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
-            if (mIsTabetFullscreen) {
+            if (mIsTabletFullscreen) {
                 ft.hide(mNoteListFragment);
             } else {
                 ft.show(mNoteListFragment);
@@ -884,7 +884,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 }
 
                 ft.commitNowAllowingStateLoss();
-                mIsTabetFullscreen = mNoteListFragment.isHidden();
+                mIsTabletFullscreen = mNoteListFragment.isHidden();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
