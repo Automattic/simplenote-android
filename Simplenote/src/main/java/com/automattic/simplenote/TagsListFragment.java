@@ -5,11 +5,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +36,9 @@ import com.simperium.client.Query;
 import java.lang.ref.SoftReference;
 import java.util.List;
 
-public class TagsListFragment extends Fragment implements ActionMode.Callback, Bucket.Listener<Tag> {
-
-    private ActionMode mActionMode;
-    private Bucket<Tag> mTagsBucket;
+public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
     private Bucket<Note> mNotesBucket;
+    private Bucket<Tag> mTagsBucket;
     private TagsAdapter mTagsAdapter;
 
     /**
@@ -110,34 +105,6 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
         mTagsAdapter.swapCursor(cursor);
-    }
-
-    // TODO: Finish bulk editing
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.bulk_edit, menu);
-        mActionMode = actionMode;
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-        return false;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_trash) {
-            actionMode.finish(); // Action picked, so close the CAB
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode actionMode) {
-        mActionMode = null;
     }
 
     @Override
