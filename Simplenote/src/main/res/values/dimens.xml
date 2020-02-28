@@ -22,6 +22,7 @@
 
     <dimen name="note_list_item_padding_bottom">@dimen/padding_medium</dimen>
     <dimen name="note_list_item_padding_bottom_button">88dp</dimen>
+    <dimen name="note_list_item_padding_bottom_button_widget">64dp</dimen>
     <dimen name="note_list_item_padding_top">@dimen/padding_medium</dimen>
 
     <!-- https://support.google.com/accessibility/android/answer/7101858 -->
