@@ -34,7 +34,6 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="information">Information</string>
-    <string name="toggle_sidebar">Toggle sidebar</string>
     <string name="tags">Tags</string>
     <string name="edit">Edit</string>
     <string name="pin">Pin</string>
@@ -189,7 +188,6 @@
 
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
-    <string name="description_fingerprint_supported">Fingerprint supported</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
 
