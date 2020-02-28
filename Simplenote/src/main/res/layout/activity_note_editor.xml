@@ -55,7 +55,9 @@
         <RelativeLayout
             android:id="@+id/search_match_bar"
             android:background="?attr/mainBackgroundColor"
+            android:clickable="true"
             android:elevation="@dimen/elevation_bar"
+            android:focusable="true"
             android:layout_gravity="bottom"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
