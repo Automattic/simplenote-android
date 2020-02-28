@@ -878,6 +878,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHighlighter.removeMatches();
         }
 
+        if (!DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
+        }
+
         // Temporarily remove the text watcher as we process checklists to prevent callback looping
         mContentEditText.removeTextChangedListener(this);
         mContentEditText.processChecklists();
@@ -935,10 +939,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (tags.length() > 0) {
                 setChips(tags);
             }
-        }
-
-        if (v instanceof SimplenoteEditText && hasFocus && !DisplayUtils.isLargeScreenLandscape(requireContext())) {
-            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
         }
     }
 
