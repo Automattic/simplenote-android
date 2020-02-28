@@ -3,7 +3,6 @@ package com.automattic.simplenote;
 import android.os.Bundle;
 import android.text.SpannableString;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
