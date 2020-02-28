@@ -31,7 +31,8 @@ public class TagsActivity extends ThemedAppCompatActivity {
 
         if (savedInstanceState == null) {
             TagsListFragment tagsListFragment = new TagsListFragment();
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }
