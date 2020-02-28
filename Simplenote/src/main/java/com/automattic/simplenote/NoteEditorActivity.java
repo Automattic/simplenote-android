@@ -26,6 +26,7 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
 
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
@@ -61,8 +62,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         NoteEditorFragment noteEditorFragment;
         NoteMarkdownFragment noteMarkdownFragment;
 
-        mNoteEditorFragmentPagerAdapter =
-                new NoteEditorFragmentPagerAdapter(getSupportFragmentManager());
+        mNoteEditorFragmentPagerAdapter = new NoteEditorFragmentPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager = findViewById(R.id.pager);
         mTabLayout = findViewById(R.id.tabs);
 
@@ -238,8 +238,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         private final ArrayList<Fragment> mFragments = new ArrayList<>();
         private final ArrayList<String> mTitles = new ArrayList<>();
 
-        NoteEditorFragmentPagerAdapter(FragmentManager manager) {
-            super(manager);
+        NoteEditorFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
         }
 
         @Override
