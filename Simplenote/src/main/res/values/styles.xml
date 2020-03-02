@@ -202,6 +202,19 @@
         <item name="android:textSize">@dimen/text_about_subtitle</item>
     </style>
 
+    <style name="Theme.Simplestyle.About.Row">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/minimum_height_about</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+    </style>
+
     <style name="Theme.Simplestyle.About.Subtitle" parent="TextAppearance.AppCompat">
         <item name="android:ellipsize">end</item>
         <item name="android:paddingEnd">@dimen/padding_large</item>

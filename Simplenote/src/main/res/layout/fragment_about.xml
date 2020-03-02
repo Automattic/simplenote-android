@@ -59,15 +59,7 @@
 
         <RelativeLayout
             android:id="@+id/about_blog"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="@dimen/minimum_height_about"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_blog_title"
@@ -103,15 +95,7 @@
 
         <RelativeLayout
             android:id="@+id/about_twitter"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="@dimen/minimum_height_about"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_twitter_title"
@@ -147,15 +131,7 @@
 
         <RelativeLayout
             android:id="@+id/about_store"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_height_about"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_store_title"
@@ -191,15 +167,7 @@
 
         <RelativeLayout
             android:id="@+id/about_contribute"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="@dimen/minimum_height_about"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_contribute_title"
@@ -235,15 +203,7 @@
 
         <RelativeLayout
             android:id="@+id/about_careers"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="@dimen/minimum_height_about"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_careers_title"
