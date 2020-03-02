@@ -3,6 +3,7 @@
 * Added a dark version of the note widget to view and open a note in the app from the home screen
 * Added a note list widget to open any note in the app from the home screen
 * Added support for right-to-left languages and layouts
+* Added search to tags list
 * Fixed a bug that highlighted search terms incorrectly in notes with checklists
 
 2.4
