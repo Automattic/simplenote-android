@@ -63,9 +63,7 @@
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_blog_title"
-                android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/about_blog_arrow"
-                android:layout_width="match_parent"
                 android:text="@string/blog"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
@@ -93,9 +91,7 @@
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_twitter_title"
-                android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/about_twitter_arrow"
-                android:layout_width="match_parent"
                 android:text="@string/twitter"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
@@ -123,9 +119,7 @@
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_store_title"
-                android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/about_store_arrow"
-                android:layout_width="match_parent"
                 android:text="@string/rate_us"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
@@ -153,9 +147,7 @@
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_contribute_title"
-                android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/about_contribute_arrow"
-                android:layout_width="match_parent"
                 android:text="@string/about_contribute_title"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
@@ -183,9 +175,7 @@
 
             <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:id="@+id/about_careers_title"
-                android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/about_careers_arrow"
-                android:layout_width="match_parent"
                 android:text="@string/about_hiring_title"
                 style="@style/Theme.Simplestyle.About.Title">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
