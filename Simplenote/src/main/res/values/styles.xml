@@ -193,6 +193,16 @@
         <item name="toolbarColor">@color/blue</item>
     </style>
 
+    <style name="Theme.Simplestyle.About.Arrow">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/padding_large</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:src">@drawable/ic_arrow_top_right_24dp</item>
+        <item name="android:tint">@color/blue_10</item>
+    </style>
+
     <style name="Theme.Simplestyle.About.Link" parent="TextAppearance.AppCompat">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>

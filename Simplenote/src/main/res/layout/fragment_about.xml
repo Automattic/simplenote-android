@@ -82,13 +82,7 @@
             <ImageView
                 android:id="@+id/about_blog_arrow"
                 android:importantForAccessibility="no"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_top_right_24dp"
-                android:tint="@color/blue_10">
+                style="@style/Theme.Simplestyle.About.Arrow">
             </ImageView>
 
         </RelativeLayout>
@@ -118,13 +112,7 @@
             <ImageView
                 android:id="@+id/about_twitter_arrow"
                 android:importantForAccessibility="no"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_top_right_24dp"
-                android:tint="@color/blue_10">
+                style="@style/Theme.Simplestyle.About.Arrow">
             </ImageView>
 
         </RelativeLayout>
@@ -154,13 +142,7 @@
             <ImageView
                 android:id="@+id/about_store_arrow"
                 android:importantForAccessibility="no"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_top_right_24dp"
-                android:tint="@color/blue_10">
+                style="@style/Theme.Simplestyle.About.Arrow">
             </ImageView>
 
         </RelativeLayout>
@@ -190,13 +172,7 @@
             <ImageView
                 android:id="@+id/about_contribute_arrow"
                 android:importantForAccessibility="no"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_top_right_24dp"
-                android:tint="@color/blue_10">
+                style="@style/Theme.Simplestyle.About.Arrow">
             </ImageView>
 
         </RelativeLayout>
@@ -226,13 +202,7 @@
             <ImageView
                 android:id="@+id/about_careers_arrow"
                 android:importantForAccessibility="no"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_top_right_24dp"
-                android:tint="@color/blue_10">
+                style="@style/Theme.Simplestyle.About.Arrow">
             </ImageView>
 
         </RelativeLayout>
