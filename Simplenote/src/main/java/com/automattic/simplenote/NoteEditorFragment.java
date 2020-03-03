@@ -887,9 +887,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addTextChangedListener(this);
     }
 
+    /**
+     * Set the note title to be a larger size and bold style.
+     *
+     * Remove all existing spans before applying spans or performance issues will occur.  Since both
+     * {@link RelativeSizeSpan} and {@link StyleSpan} inherit from {@link MetricAffectingSpan}, all
+     * spans are removed when {@link MetricAffectingSpan} is removed.
+     */
     private void setTitleSpan(Editable editable) {
-        // Set the note title to be a larger size and bold style.
-        // NOTE: Remove all existing spans before applying spans or performance issues will occur.
         for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
             editable.removeSpan(span);
         }
