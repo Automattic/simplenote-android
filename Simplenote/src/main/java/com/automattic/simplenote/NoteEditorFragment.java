@@ -887,15 +887,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void setTitleSpan(Editable editable) {
-        // Set the note title to be a larger size
-        // Remove any existing size spans
-        RelativeSizeSpan[] spans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (RelativeSizeSpan span : spans) {
+        // Set the note title to be a larger size and bold style.
+        // NOTE: Remove all existing spans before applying spans or performance issues will occur.
+        for (RelativeSizeSpan span : editable.getSpans(0, editable.length(), RelativeSizeSpan.class)) {
             editable.removeSpan(span);
         }
+
+        for (StyleSpan span : editable.getSpans(0, editable.length(), StyleSpan.class)) {
+            editable.removeSpan(span);
+        }
+
         int newLinePosition = getNoteContentString().indexOf("\n");
-        if (newLinePosition == 0)
+
+        if (newLinePosition == 0) {
             return;
+        }
+
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
         editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
