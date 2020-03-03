@@ -20,6 +20,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
+import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -889,11 +890,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void setTitleSpan(Editable editable) {
         // Set the note title to be a larger size and bold style.
         // NOTE: Remove all existing spans before applying spans or performance issues will occur.
-        for (RelativeSizeSpan span : editable.getSpans(0, editable.length(), RelativeSizeSpan.class)) {
-            editable.removeSpan(span);
-        }
-
-        for (StyleSpan span : editable.getSpans(0, editable.length(), StyleSpan.class)) {
+        for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
             editable.removeSpan(span);
         }
 
