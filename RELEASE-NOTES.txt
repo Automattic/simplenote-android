@@ -4,6 +4,7 @@
 * Added a note list widget to open any note in the app from the home screen
 * Added support for right-to-left languages and layouts
 * Fixed a bug that highlighted search terms incorrectly in notes with checklists
+* Fixed a bug with the note title that made the app lag while editing a note
 
 2.4
 -----
