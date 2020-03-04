@@ -20,6 +20,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
+import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -886,16 +887,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addTextChangedListener(this);
     }
 
+    /**
+     * Set the note title to be a larger size and bold style.
+     *
+     * Remove all existing spans before applying spans or performance issues will occur.  Since both
+     * {@link RelativeSizeSpan} and {@link StyleSpan} inherit from {@link MetricAffectingSpan}, all
+     * spans are removed when {@link MetricAffectingSpan} is removed.
+     */
     private void setTitleSpan(Editable editable) {
-        // Set the note title to be a larger size
-        // Remove any existing size spans
-        RelativeSizeSpan[] spans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (RelativeSizeSpan span : spans) {
+        for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
             editable.removeSpan(span);
         }
+
         int newLinePosition = getNoteContentString().indexOf("\n");
-        if (newLinePosition == 0)
+
+        if (newLinePosition == 0) {
             return;
+        }
+
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
         editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
