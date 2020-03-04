@@ -351,6 +351,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
+        mContentEditText.setOnFocusChangeListener(this);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
@@ -420,6 +421,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    public void scrollToMatch(int location) {
+        if (isAdded()) {
+            // Calculate how far to scroll to bring the match into view
+            Layout layout = mContentEditText.getLayout();
+            int lineTop = layout.getLineTop(layout.getLineForOffset(location));
+            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+        }
     }
 
     @Override
@@ -879,6 +889,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mMatchOffsets != null) {
             mMatchOffsets = null;
             mHighlighter.removeMatches();
+        }
+
+        if (!DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
         }
 
         // Temporarily remove the text watcher as we process checklists to prevent callback looping
