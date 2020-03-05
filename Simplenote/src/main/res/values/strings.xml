@@ -12,10 +12,10 @@
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="words">Words</string>
-    <string name="edit_tags">Edit tags</string>
-    <string name="rename_tag">Rename tag</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="rename_tag">Rename Tag</string>
     <string name="tag_name">Tag name</string>
-    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag">Delete Tag</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="empty_trash">Empty Trash</string>
