@@ -277,8 +277,8 @@ public class Note extends BucketObject {
     }
 
     /**
-     * Sets the note's tags by providing it with a {@link String} of space
-     * seperated tags. Filters out duplicate tags.
+     * Sets the note's tags by providing it with a {@link String} of space separated tags.
+     * Filters out duplicate tags.
      *
      * @param tagString a space delimited list of tags
      */

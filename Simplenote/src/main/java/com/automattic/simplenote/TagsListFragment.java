@@ -1,12 +1,10 @@
 package com.automattic.simplenote;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,10 +46,9 @@ import java.util.List;
 
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 
-public class TagsListFragment extends Fragment implements ActionMode.Callback, Bucket.Listener<Tag> {
-    private ActionMode mActionMode;
-    private Bucket<Tag> mTagsBucket;
+public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
     private Bucket<Note> mNotesBucket;
+    private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
@@ -158,15 +156,15 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
         setHasOptionsMenu(true);
 
-        Simplenote application = (Simplenote) getActivity().getApplication();
+        Simplenote application = (Simplenote) requireActivity().getApplication();
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        mTagsList = getActivity().findViewById(R.id.list);
+        mTagsList = requireActivity().findViewById(R.id.list);
         mTagsAdapter = new TagsAdapter();
         mTagsList.setAdapter(mTagsAdapter);
-        mTagsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        View emptyView = getActivity().findViewById(R.id.empty);
+        mTagsList.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        View emptyView = requireActivity().findViewById(R.id.empty);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
         checkEmptyList();
@@ -246,40 +244,11 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         }
     }
 
-    // TODO: Finish bulk editing
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.bulk_edit, menu);
-        mActionMode = actionMode;
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-        return false;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_trash) {
-            actionMode.finish(); // Action picked, so close the CAB
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode actionMode) {
-        mActionMode = null;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             if (isAdded()) {
-                getActivity().finish();
+                requireActivity().finish();
                 return true;
             }
         }
@@ -291,7 +260,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
     @Override
     public void onDeleteObject(Bucket<Tag> bucket, Tag object) {
         if (isAdded()) {
-            getActivity().runOnUiThread(new Runnable() {
+            requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mIsSearching) {
@@ -307,7 +276,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
     @Override
     public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
         if (isAdded()) {
-            getActivity().runOnUiThread(new Runnable() {
+            requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mIsSearching) {
@@ -323,7 +292,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
     @Override
     public void onSaveObject(Bucket<Tag> bucket, Tag object) {
         if (isAdded()) {
-            getActivity().runOnUiThread(new Runnable() {
+            requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mIsSearching) {
@@ -420,7 +389,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         }
 
-                        Toast.makeText(getContext(), getContext().getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), requireContext().getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
@@ -435,7 +404,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                 }
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.Dialog));
-                LinearLayout alertView = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
+                LinearLayout alertView = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
 
                 final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
 

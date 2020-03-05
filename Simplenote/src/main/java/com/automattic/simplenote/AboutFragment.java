@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
@@ -47,7 +48,7 @@ public class AboutFragment extends Fragment {
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), "© %1d Automattic", thisYear));
 
-        logoImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_simplenote_24dp));
+        logoImageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_simplenote_24dp));
 
         blog.setOnClickListener(new View.OnClickListener() {
             @Override

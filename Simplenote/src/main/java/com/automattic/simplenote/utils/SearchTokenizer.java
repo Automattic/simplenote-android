@@ -40,7 +40,7 @@ public class SearchTokenizer {
         // if the current char is a single or double quote
         boolean isQuoteChar;
 
-        // if the previous char was an eschape char
+        // if the previous char was an escape char
         boolean isEscaped = false;
 
         // the current character
