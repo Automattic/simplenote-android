@@ -61,6 +61,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     private TabLayout mTabLayout;
     private boolean isMarkdownEnabled;
     private boolean isPreviewEnabled;
+    private boolean isSearchMatch;
     private int[] mSearchMatchIndexes;
     private int mSearchMatchIndex;
 
@@ -169,6 +170,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
         if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS)) {
             setUpSearchMatchBar(intent);
+            isSearchMatch = true;
         }
 
         mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
@@ -178,7 +180,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         if (isMarkdownEnabled) {
             showTabs();
 
-            if (isPreviewEnabled) {
+            if (isPreviewEnabled & !isSearchMatch) {
                 mViewPager.setCurrentItem(mNoteEditorFragmentPagerAdapter.getCount() - 1);
             }
         }

@@ -1109,14 +1109,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+
             if (mNoteListFragment.isHidden()) {
                 editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             }
+
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
-            setMarkdownShowing(isPreviewEnabled);
+            setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
