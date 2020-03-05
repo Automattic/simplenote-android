@@ -28,6 +28,7 @@
     <string name="notes_selected">%d notes selected</string>
     <string name="note_added">Note added</string>
     <string name="search">Search notes or tags</string>
+    <string name="search_tags">Search tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
@@ -203,6 +204,7 @@
     <string name="empty_notes_untagged">Create an untagged note</string>
     <string name="empty_notes_widget">No notes</string>
     <string name="empty_tags">No tags</string>
+    <string name="empty_tags_search">No tags found</string>
 
     <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
 
