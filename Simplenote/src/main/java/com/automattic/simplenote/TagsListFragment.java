@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +33,9 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.BaseCursorAdapter;
+import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -36,16 +44,105 @@ import com.simperium.client.Query;
 import java.lang.ref.SoftReference;
 import java.util.List;
 
+import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
+
 public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private EmptyViewRecyclerView mTagsList;
+    private ImageView mEmptyViewImage;
+    private MenuItem mSearchMenuItem;
+    private String mSearchQuery;
     private TagsAdapter mTagsAdapter;
+    private TextView mEmptyViewText;
+    private boolean mIsSearching;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public TagsListFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.tags_list, menu);
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
+
+        mSearchMenuItem = menu.findItem(R.id.menu_search);
+        mSearchMenuItem.setOnActionExpandListener(
+            new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    mIsSearching = false;
+                    return true;
+                }
+
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    mIsSearching = true;
+                    return true;
+                }
+            }
+        );
+        SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
+        LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
+        ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
+
+        // Workaround for setting the search placeholder text color.
+        @SuppressWarnings("ResourceType")
+        String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
+        searchView.setQueryHint(
+            HtmlCompat.fromHtml(
+                String.format(
+                    "<font color=\"%s\">%s</font>",
+                    hintHexColor,
+                    getString(R.string.search_tags)
+                )
+            )
+        );
+
+        searchView.setOnQueryTextListener(
+            new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    if (mSearchMenuItem.isActionViewExpanded()) {
+                        mSearchQuery = query;
+                        refreshTagsSearch();
+                        mTagsList.scrollToPosition(0);
+                        checkEmptyList();
+                    }
+
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String queryText) {
+                    return true;
+                }
+            }
+        );
+
+        searchView.setOnCloseListener(
+            new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    mIsSearching = false;
+                    mSearchQuery = "";
+                    refreshTags();
+                    mTagsList.scrollToPosition(0);
+                    checkEmptyList();
+                    return false;
+                }
+            }
+        );
     }
 
     @Override
@@ -63,16 +160,15 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
         mTagsBucket = application.getTagsBucket();
         mNotesBucket = application.getNotesBucket();
 
-        EmptyViewRecyclerView recyclerView = requireActivity().findViewById(R.id.list);
+        mTagsList = requireActivity().findViewById(R.id.list);
         mTagsAdapter = new TagsAdapter();
-        recyclerView.setAdapter(mTagsAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mTagsList.setAdapter(mTagsAdapter);
+        mTagsList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         View emptyView = requireActivity().findViewById(R.id.empty);
-        ImageView emptyViewImage = emptyView.findViewById(R.id.image);
-        emptyViewImage.setImageResource(R.drawable.ic_tag_24dp);
-        TextView emptyViewText = emptyView.findViewById(R.id.text);
-        emptyViewText.setText(R.string.empty_tags);
-        recyclerView.setEmptyView(emptyView);
+        mEmptyViewImage = emptyView.findViewById(R.id.image);
+        mEmptyViewText = emptyView.findViewById(R.id.text);
+        checkEmptyList();
+        mTagsList.setEmptyView(emptyView);
 
         refreshTags();
     }
@@ -101,10 +197,51 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
         mTagsBucket.stop();
     }
 
+    public void checkEmptyList() {
+        if (mIsSearching) {
+            if (DisplayUtils.isLandscape(getActivity()) && !DisplayUtils.isLargeScreen(getActivity())) {
+                setEmptyListImage(-1);
+                setEmptyListMessage(getString(R.string.empty_tags_search));
+            } else {
+                setEmptyListImage(R.drawable.ic_search_24dp);
+                setEmptyListMessage(getString(R.string.empty_tags_search));
+            }
+        } else {
+            setEmptyListImage(R.drawable.ic_tag_24dp);
+            setEmptyListMessage(getString(R.string.empty_tags));
+        }
+    }
+
     protected void refreshTags() {
         Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
         mTagsAdapter.swapCursor(cursor);
+    }
+
+    protected void refreshTagsSearch() {
+        Query<Tag> tags = Tag.all(mTagsBucket)
+            .where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + mSearchQuery + "%")
+            .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
+            .reorder();
+        Bucket.ObjectCursor<Tag> cursor = tags.execute();
+        mTagsAdapter.swapCursor(cursor);
+    }
+
+    private void setEmptyListImage(@DrawableRes int image) {
+        if (mEmptyViewImage != null) {
+            if (image != -1) {
+                mEmptyViewImage.setVisibility(View.VISIBLE);
+                mEmptyViewImage.setImageResource(image);
+            } else {
+                mEmptyViewImage.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setEmptyListMessage(String message) {
+        if (mEmptyViewText != null && message != null) {
+            mEmptyViewText.setText(message);
+        }
     }
 
     @Override
@@ -126,7 +263,11 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    refreshTags();
+                    if (mIsSearching) {
+                        refreshTagsSearch();
+                    } else {
+                        refreshTags();
+                    }
                 }
             });
         }
@@ -138,7 +279,11 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    refreshTags();
+                    if (mIsSearching) {
+                        refreshTagsSearch();
+                    } else {
+                        refreshTags();
+                    }
                 }
             });
         }
@@ -150,7 +295,11 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    refreshTags();
+                    if (mIsSearching) {
+                        refreshTagsSearch();
+                    } else {
+                        refreshTags();
+                    }
                 }
             });
         }
@@ -192,9 +341,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
     }
 
     private class TagsAdapter extends BaseCursorAdapter<TagsAdapter.ViewHolder> {
-
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
             private TextView tagTitle;
             private TextView tagCountTextView;
             private ImageButton deleteButton;
@@ -310,18 +457,16 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
-
             View contactView = inflater.inflate(R.layout.tags_list_row, parent, false);
-
             return new ViewHolder(contactView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, Cursor cursor) {
             Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
-
             holder.tagTitle.setText(tag.getName());
             final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
+
             if (tagCount > 0) {
                 holder.tagCountTextView.setText(String.valueOf(tagCount));
             } else {
