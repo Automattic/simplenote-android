@@ -147,6 +147,8 @@ android.applicationVariants.all { variant ->
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||
             key == "GOOGLE_ANALYTICS_ID" ||
+            key == "LOGIN_EMAIL" ||
+            key == "LOGIN_PASSWORD" ||
             key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID") {
             buildConfigField "String", key, "\"${property.value}\""

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+
+    <item
+        android:drawable="@color/blue">
+    </item>
+
+    <item
+        android:drawable="@drawable/ic_simplenote_24dp"
+        android:gravity="center"
+        android:height="@dimen/icon_empty"
+        android:width="@dimen/icon_empty">
+    </item>
+
+</layer-list>

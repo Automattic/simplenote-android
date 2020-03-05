@@ -9,7 +9,7 @@
     </solid>
 
     <corners
-        android:radius="@dimen/card_radius">
+        android:radius="@dimen/corner_radius">
     </corners>
 
 </shape>

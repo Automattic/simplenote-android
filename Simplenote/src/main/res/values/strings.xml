@@ -30,6 +30,8 @@
     <string name="note_added">Note added</string>
     <string name="search">Search Notes or Tags</string>
     <string name="search_hint">Search notes or tags</string>
+    <string name="search_tags">Search Tags</string>
+    <string name="search_tags_hint">Search tags</string>
     <string name="notes">Notes</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
@@ -56,6 +58,9 @@
     <string name="logo">Logo</string>
     <string name="copy_link">Copy Link</string>
     <string name="more_options">More Options</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="of">of</string>
 
     <!-- Preferences -->
     <string name="editor">Editor</string>
@@ -150,10 +155,13 @@
     <string name="font_size_large">Large</string>
     <string name="font_size_extra_large">Extra large</string>
 
-    <!-- Note Widget -->
+    <!-- Widgets -->
+    <string name="note_list_widget_dark">Note List (Dark)</string>
+    <string name="note_list_widget_light">Note List (Light)</string>
     <string name="note_widget_dark">Note (Dark)</string>
     <string name="note_widget_light">Note (Light)</string>
     <string name="loading_note">Loading note&#8230;</string>
+    <string name="loading_notes">Loading notes&#8230;</string>
     <string name="note_not_found">Note not found</string>
     <string name="select_note">Select Note</string>
     <string name="log_in_add_widget">Log in to add this widget</string>
@@ -198,7 +206,9 @@
     <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
     <string name="empty_notes_trash">Your trash is empty</string>
     <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_notes_widget">No notes</string>
     <string name="empty_tags">No tags</string>
+    <string name="empty_tags_search">No tags found</string>
 
     <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
 

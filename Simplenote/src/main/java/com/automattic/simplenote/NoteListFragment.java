@@ -678,7 +678,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mRefreshListTask = new RefreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
-        WidgetUtils.updateNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
     private void refreshListForSearch() {

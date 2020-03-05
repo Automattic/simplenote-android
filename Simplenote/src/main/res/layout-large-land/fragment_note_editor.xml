@@ -73,11 +73,15 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:paddingBottom="@dimen/padding_small"
-                        android:paddingEnd="@dimen/padding_small"
-                        android:paddingStart="0dp"
                         android:paddingTop="@dimen/padding_small"
                         android:visibility="gone">
                     </com.google.android.material.chip.ChipGroup>
+
+                    <View
+                        android:id="@+id/tag_padding"
+                        android:layout_height="match_parent"
+                        android:layout_width="@dimen/padding_small">
+                    </View>
 
                     <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                         android:id="@+id/tag_input"

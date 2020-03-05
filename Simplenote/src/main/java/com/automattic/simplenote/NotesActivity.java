@@ -66,8 +66,24 @@ import java.util.List;
 import java.util.Map;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_TAG;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTES_SEARCHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_OPENED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TAG_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_EMPTIED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
@@ -75,6 +91,7 @@ import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NotesActivity extends ThemedAppCompatActivity implements
@@ -207,19 +224,51 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        Intent intent = getIntent();
 
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
             startLoginActivity();
-            Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
-                    intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
                 AnalyticsTracker.track(
-                        NOTE_WIDGET_SIGN_IN_TAPPED,
-                        CATEGORY_WIDGET,
-                        "note_widget_sign_in_tapped"
+                    NOTE_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_widget_sign_in_tapped"
                 );
+            }
+
+            if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null &&
+                intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_SIGN_IN_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_sign_in_tapped"
+                );
+            }
+        }
+
+        if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
+            if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_tapped"
+                );
+            } else if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_BUTTON_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_BUTTON_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_button_tapped"
+                );
+                AnalyticsTracker.track(
+                    LIST_NOTE_CREATED,
+                    CATEGORY_NOTE,
+                    "note_list_widget"
+                );
+                getIntent().removeExtra(KEY_LIST_WIDGET_CLICK);
+                getNoteListFragment().addNote();
             }
         }
 
@@ -355,10 +404,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
                     if (item.getItemId() == SETTINGS_ID) {
                         AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                                AnalyticsTracker.CATEGORY_TAG,
-                                "selected_tag_in_navigation_drawer",
-                                new HashMap<String, String>(1){{put("tag", "settings");}}
+                            LIST_TAG_VIEWED,
+                            CATEGORY_TAG,
+                            "selected_tag_in_navigation_drawer",
+                            new HashMap<String, String>(1){{put("tag", "settings");}}
                         );
                         mIsSettingsClicked = true;
                         return false;
@@ -449,8 +498,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                AnalyticsTracker.CATEGORY_TAG,
+                LIST_TAG_VIEWED,
+                CATEGORY_TAG,
                 "selected_tag_in_navigation_drawer",
                 properties
         );
@@ -503,9 +552,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 mShouldSelectNewNote = true;
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "external_share"
+                    LIST_NOTE_CREATED,
+                    CATEGORY_NOTE,
+                    "external_share"
                 );
 
                 if (!DisplayUtils.isLargeScreenLandscape(this)) {
@@ -728,9 +777,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 }
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTES_SEARCHED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "action_bar_search_tap"
+                    LIST_NOTES_SEARCHED,
+                    CATEGORY_NOTE,
+                    "action_bar_search_tap"
                 );
                 return true;
             }
@@ -872,9 +921,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
                         AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
-                                AnalyticsTracker.CATEGORY_NOTE,
-                                "overflow_menu"
+                            LIST_TRASH_EMPTIED,
+                            CATEGORY_NOTE,
+                            "overflow_menu"
                         );
                     }
                 });
@@ -993,15 +1042,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
             mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_NOTE_DELETED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "overflow_menu"
+                LIST_NOTE_DELETED,
+                CATEGORY_NOTE,
+                "overflow_menu"
             );
         } else {
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "overflow_menu"
+                EDITOR_NOTE_RESTORED,
+                CATEGORY_NOTE,
+                "overflow_menu"
             );
         }
 
@@ -1060,14 +1109,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+
             if (mNoteListFragment.isHidden()) {
                 editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             }
+
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
-            setMarkdownShowing(isPreviewEnabled);
+            setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
@@ -1083,9 +1134,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_NOTE_OPENED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "note_list_row_tap"
+            LIST_NOTE_OPENED,
+            CATEGORY_NOTE,
+            "note_list_row_tap"
         );
     }
 
@@ -1093,9 +1144,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     public void onUserCreated(User user) {
         // New account created
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.USER_ACCOUNT_CREATED,
-                AnalyticsTracker.CATEGORY_USER,
-                "account_created_from_login_activity"
+            USER_ACCOUNT_CREATED,
+            CATEGORY_USER,
+            "account_created_from_login_activity"
         );
     }
 
@@ -1201,9 +1252,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.USER_SIGNED_IN,
-                        AnalyticsTracker.CATEGORY_USER,
-                        "signed_in_from_login_activity"
+                    USER_SIGNED_IN,
+                    CATEGORY_USER,
+                    "signed_in_from_login_activity"
                 );
 
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
@@ -1321,9 +1372,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_trash_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "trash_filter_selected"
+                    LIST_TRASH_VIEWED,
+                    CATEGORY_NOTE,
+                    "trash_filter_selected"
                 );
             } else if (mSelectedTag.id == UNTAGGED_NOTES_ID) {
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_untagged_24dp);
