@@ -106,7 +106,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
                 String.format(
                     "<font color=\"%s\">%s</font>",
                     hintHexColor,
-                    getString(R.string.search_tags)
+                    getString(R.string.search_tags_hint)
                 )
             )
         );
