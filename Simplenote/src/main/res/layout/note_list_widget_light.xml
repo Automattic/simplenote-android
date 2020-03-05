@@ -30,6 +30,7 @@
         android:divider="@null"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:paddingBottom="@dimen/note_list_item_padding_bottom_button_widget"
         android:scrollbarStyle="outsideOverlay"
         android:visibility="gone"
         tools:listitem="@layout/note_list_widget_item_light"

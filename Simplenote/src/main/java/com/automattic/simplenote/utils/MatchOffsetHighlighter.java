@@ -17,9 +17,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MatchOffsetHighlighter implements Runnable {
+    public  static final int MATCH_INDEX_COUNT = 4;
+    public  static final int MATCH_INDEX_START = 2;
 
-    static private final String CHARSET = "UTF-8";
-    static private final int FIRST_MATCH_LOCATION = 2;
+    private static final String CHARSET = "UTF-8";
 
     protected static OnMatchListener sListener = new DefaultMatcher();
     private static List<Object> mMatchedSpans = Collections.synchronizedList(new ArrayList<>());
@@ -123,9 +124,9 @@ public class MatchOffsetHighlighter implements Runnable {
         }
 
         String[] values = matches.split("\\s+", 4);
-        if (values.length > FIRST_MATCH_LOCATION) {
+        if (values.length > MATCH_INDEX_START) {
             try {
-                int location = Integer.valueOf(values[FIRST_MATCH_LOCATION]);
+                int location = Integer.valueOf(values[MATCH_INDEX_START]);
 
                 return location + getByteOffset(content, 0, location);
             } catch (NumberFormatException exception) {

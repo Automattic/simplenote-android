@@ -19,6 +19,7 @@
 
     <dimen name="note_list_item_padding_bottom">@dimen/padding_medium</dimen>
     <dimen name="note_list_item_padding_bottom_button">88dp</dimen>
+    <dimen name="note_list_item_padding_bottom_button_widget">64dp</dimen>
     <dimen name="note_list_item_padding_top">@dimen/padding_medium</dimen>
 
     <!-- https://support.google.com/accessibility/android/answer/7101858 -->
@@ -37,6 +38,7 @@
     <dimen name="cell_widget_double">80dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+    <dimen name="elevation_bar">8dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_status">16dp</dimen>
     <dimen name="line_spacing">4dp</dimen>
