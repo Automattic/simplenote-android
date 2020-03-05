@@ -14,7 +14,6 @@
         <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_24dp</item>
         <item name="android:actionOverflowButtonStyle">@style/Action.Overflow</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/background_light</item>
@@ -95,10 +94,6 @@
     <style name="Button.Flat.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="iconTint">?attr/colorAccent</item>
-    </style>
-
-    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
     </style>
 
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">

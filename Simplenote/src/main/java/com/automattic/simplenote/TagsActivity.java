@@ -3,7 +3,6 @@ package com.automattic.simplenote;
 import android.os.Bundle;
 import android.text.SpannableString;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -32,7 +31,8 @@ public class TagsActivity extends ThemedAppCompatActivity {
 
         if (savedInstanceState == null) {
             TagsListFragment tagsListFragment = new TagsListFragment();
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }
