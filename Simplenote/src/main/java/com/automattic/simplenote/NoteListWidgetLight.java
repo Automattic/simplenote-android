@@ -34,7 +34,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_list_widget_light);
-        resizeWidget(newOptions, views);
+        resizeWidget(context, newOptions, views);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
@@ -83,19 +83,21 @@ public class NoteListWidgetLight extends AppWidgetProvider {
         }
     }
 
-    private void resizeWidget(Bundle appWidgetOptions, RemoteViews views) {
+    private void resizeWidget(Context context, Bundle appWidgetOptions, RemoteViews views) {
         // Show/Hide add button based on widget height and width
         if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > MINIMUM_HEIGHT_FOR_BUTTON &&
             appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > MINIMUM_WIDTH_FOR_BUTTON) {
+            views.setViewPadding(R.id.widget_list, 0, 0, 0, context.getResources().getDimensionPixelSize(R.dimen.note_list_item_padding_bottom_button_widget));
             views.setViewVisibility(R.id.widget_button, View.VISIBLE);
         } else {
+            views.setViewPadding(R.id.widget_list, 0, 0, 0, 0);
             views.setViewVisibility(R.id.widget_button, View.GONE);
         }
     }
 
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_list_widget_light);
-        resizeWidget(appWidgetOptions, views);
+        resizeWidget(context, appWidgetOptions, views);
 
         // Verify user authentication
         Simplenote currentApp = (Simplenote) context.getApplicationContext();
