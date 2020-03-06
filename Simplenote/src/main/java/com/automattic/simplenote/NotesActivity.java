@@ -732,7 +732,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                     String.format(
                         "<font color=\"%s\">%s</font>",
                         hintHexColor,
-                        getString(R.string.search)
+                        getString(R.string.search_hint)
                     )
                 )
             );

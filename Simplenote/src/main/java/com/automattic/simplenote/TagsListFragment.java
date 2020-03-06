@@ -104,7 +104,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
                 String.format(
                     "<font color=\"%s\">%s</font>",
                     hintHexColor,
-                    getString(R.string.search_tags)
+                    getString(R.string.search_tags_hint)
                 )
             )
         );
