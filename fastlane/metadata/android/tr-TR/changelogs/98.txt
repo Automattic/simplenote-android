@@ -1,0 +1,5 @@
+2.4:
+* Not bilgisi; değiştirilme tarihi, oluşturulma tarihi, kelime sayısı ve karakter sayısı ile güncellendi.
+* Not bilgisindeki bazı not seçenekleri ve eylem çubuğu, üç nokta menüsüne taşındı.
+* Etiketleri silme ve çöpü boşaltma ile ilgili senkronizasyon hatası düzeltildi.
+* Uygulamada gecikmeye neden olan bir ağ hatası düzeltildi.

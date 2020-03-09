@@ -1,4 +1,0 @@
-2.3:
-* Sorteerfunctie voor zoeken op datum van aanmaak, datum aangepast en alfabetisch toegevoegd.
-* Zoekgeschiedenis en suggesties toegevoegd.
-* Design van pincodevergrendeling bijgewerkt.

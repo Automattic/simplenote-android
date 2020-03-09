@@ -1,0 +1,5 @@
+2.4:
+* Notizeninformationen mit Änderungsdatum, Erstellungsdatum, Wortanzahl und Zeichenanzahl aktualisiert.
+* Einige Notizenoptionen aus den Notizeninformationen und der Aktionsleiste in das Dreipunkt-Menü verschoben.
+* Einen Synchronisierungsfehler beim Löschen von Schlagwörtern und Leeren des Papierkorbs behoben.
+* Einen Netzwerkfehler behoben, der zu Verzögerungen der App führte.

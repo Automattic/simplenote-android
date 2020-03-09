@@ -1,4 +1,0 @@
-2.3:
-*Aggiunto l'ordine di ricerca per data di creazione, data di modifica e ordine alfabetico.
-*Aggiunti cronologia di ricerca e suggerimenti.
-*Design del blocco del PIN aggiornato.
