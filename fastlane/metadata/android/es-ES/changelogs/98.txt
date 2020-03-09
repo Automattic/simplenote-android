@@ -1,0 +1,5 @@
+2.4:
+* Información actualizada de las notas con la fecha de modificación, la fecha de creación, el número de palabras y el número de caracteres.
+* Hemos trasladado algunas opciones de notas de la información de las notas y la barra de acción al menú de tres puntos.
+* Hemos solucionado un error de sincronización que ocurría al eliminar etiquetas y vaciar la papelera.
+* Hemos solucionado un error de red que hacía que la aplicación se retrasara.

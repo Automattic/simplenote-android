@@ -2,9 +2,12 @@ package com.automattic.simplenote;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.view.Gravity;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -31,11 +34,22 @@ public class BottomSheetDialogBase extends BottomSheetDialogFragment {
             int dp = (int) getDialog().getContext().getResources().getDimension(R.dimen.width_layout);
 
             if (dp > 0) {
-                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                layoutParams.copyFrom(getDialog().getWindow() != null ? getDialog().getWindow().getAttributes() : null);
-                layoutParams.width = dp;
-                layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
-                getDialog().getWindow().setAttributes(layoutParams);
+                FrameLayout bottomSheetLayout = getDialog().findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                if (bottomSheetLayout != null) {
+                    ViewParent bottomSheetParent = bottomSheetLayout.getParent();
+
+                    if (bottomSheetParent instanceof CoordinatorLayout) {
+                        CoordinatorLayout.LayoutParams coordinatorLayoutParams = (CoordinatorLayout.LayoutParams) bottomSheetLayout.getLayoutParams();
+                        coordinatorLayoutParams.width = dp;
+                        bottomSheetLayout.setLayoutParams(coordinatorLayoutParams);
+
+                        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) bottomSheetParent;
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) coordinatorLayout.getLayoutParams();
+                        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+                        coordinatorLayout.setLayoutParams(layoutParams);
+                    }
+                }
             }
         }
     }

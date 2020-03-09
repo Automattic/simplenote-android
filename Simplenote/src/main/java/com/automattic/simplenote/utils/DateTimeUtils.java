@@ -29,4 +29,12 @@ public class DateTimeUtils {
         String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MM/dd/yyyy");
         return new SimpleDateFormat(pattern, Locale.getDefault()).format(date.getTime());
     }
+
+    public static String getDateTextString(Context context, Calendar calendar) {
+        String pattern = DateFormat.getBestDateTimePattern(
+                Locale.getDefault(),
+                DateFormat.is24HourFormat(context) ? "MMM dd, yyyy, H:mm" : "MMM dd, yyyy, h:mm"
+        );
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(calendar.getTime());
+    }
 }

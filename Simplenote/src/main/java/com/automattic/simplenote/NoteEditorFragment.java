@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -42,9 +43,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.view.MenuCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -83,9 +86,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         SimplenoteEditText.OnSelectionChangedListener,
         ShareBottomSheetDialog.ShareSheetListener,
         HistoryBottomSheetDialog.HistorySheetListener,
-        InfoBottomSheetDialog.InfoSheetListener,
         SimplenoteEditText.OnCheckboxToggledListener {
 
+    public static final String ARG_IS_FROM_WIDGET = "is_from_widget";
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_NEW_NOTE = "new_note";
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
@@ -118,16 +121,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private boolean mIsPreviewEnabled;
     private boolean mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
+    private MenuItem mCopyMenuItem;
+    private MenuItem mShareMenuItem;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
-    private Drawable mEmailIcon, mWebIcon, mMapIcon, mCallIcon;
+    private Drawable mCallIcon;
+    private Drawable mCopyIcon;
+    private Drawable mEmailIcon;
+    private Drawable mMapIcon;
+    private Drawable mShareIcon;
+    private Drawable mBrowserIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private boolean mIsPaused;
+    private boolean mIsFromWidget;
+
     // Hides the history bottom sheet if no revisions are loaded
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
         @Override
@@ -159,6 +171,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             if (inflater != null) {
                 inflater.inflate(R.menu.view_link, menu);
+                mCopyMenuItem = menu.findItem(R.id.menu_copy);
+                mShareMenuItem = menu.findItem(R.id.menu_share);
                 mViewLinkMenuItem = menu.findItem(R.id.menu_view_link);
                 mode.setTitle(getString(R.string.link));
                 mode.setTitleOptionalHint(false);
@@ -262,7 +276,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mInfoBottomSheet = new InfoBottomSheetDialog(this, this);
+        mInfoBottomSheet = new InfoBottomSheetDialog(this);
         mShareBottomSheet = new ShareBottomSheetDialog(this, this);
         mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
 
@@ -272,7 +286,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
         mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
-        mWebIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_web_24dp, R.attr.actionModeTextColor);
+        mBrowserIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_browser_24dp, R.attr.actionModeTextColor);
+        mCopyIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_copy_24dp, R.attr.actionModeTextColor);
+        mShareIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_share_24dp, R.attr.actionModeTextColor);
 
         mAutoSaveHandler = new Handler();
         mPublishTimeoutHandler = new Handler();
@@ -332,8 +348,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
-
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
+
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
@@ -344,18 +360,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);
-
         Bundle arguments = getArguments();
+
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             // Load note if we were passed a note Id
             String key = arguments.getString(ARG_ITEM_ID);
+
             if (arguments.containsKey(ARG_MATCH_OFFSETS)) {
                 mMatchOffsets = arguments.getString(ARG_MATCH_OFFSETS);
             }
+
+            mIsFromWidget = arguments.getBoolean(ARG_IS_FROM_WIDGET);
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
-        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null ) {
+        } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null) {
             // Restore selected note when in dual pane mode
             String noteId = savedInstanceState.getString(STATE_NOTE_ID);
+
             if (noteId != null) {
                 setNote(noteId);
             }
@@ -477,56 +497,115 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (!isAdded() || DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null) {
+
+        if (!isAdded() || (!mIsFromWidget && DisplayUtils.isLargeScreenLandscape(getActivity()) && mNoteMarkdownFragment == null)) {
             return;
         }
 
         inflater.inflate(R.menu.note_editor, menu);
-
-        if (mNote != null) {
-            MenuItem viewPublishedNoteItem = menu.findItem(R.id.menu_view_info);
-            viewPublishedNoteItem.setVisible(true);
-
-            MenuItem trashItem = menu.findItem(R.id.menu_delete).setTitle(R.string.undelete);
-
-            if (mNote.isDeleted()) {
-                trashItem.setTitle(R.string.undelete);
-                trashItem.setIcon(R.drawable.ic_trash_restore_24dp);
-            } else {
-                trashItem.setTitle(R.string.delete);
-                trashItem.setIcon(R.drawable.ic_trash_24dp);
-            }
-        }
-
-        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
+        MenuCompat.setGroupDividerEnabled(menu, true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_view_info:
-                showInfo();
-                return true;
             case R.id.menu_checklist:
                 insertChecklist();
+                return true;
+            case R.id.menu_copy:
+                copyToClipboard(mNote.getPublishedUrl());
+                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
+            case R.id.menu_info:
+                showInfo();
+                return true;
+            case R.id.menu_markdown:
+                setMarkdown(!item.isChecked());
+                return true;
+            case R.id.menu_pin:
+                NoteUtils.setNotePin(mNote, !item.isChecked());
+                requireActivity().invalidateOptionsMenu();
+                return true;
+            case R.id.menu_publish:
+                if (item.isChecked()) {
+                    unpublishNote();
+                } else {
+                    publishNote();
+                }
+
+                return true;
             case R.id.menu_share:
                 shareNote();
                 return true;
-            case R.id.menu_delete:
-                if (!isAdded()) return false;
+            case R.id.menu_trash:
+                if (!isAdded()) {
+                    return false;
+                }
+
                 deleteNote();
                 return true;
             case android.R.id.home:
-                if (!isAdded()) return false;
+                if (!isAdded()) {
+                    return false;
+                }
+
                 requireActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        if (mNote != null) {
+            menu.findItem(R.id.menu_info).setVisible(true);
+            MenuItem pinItem = menu.findItem(R.id.menu_pin);
+            MenuItem shareItem = menu.findItem(R.id.menu_share);
+            MenuItem historyItem = menu.findItem(R.id.menu_history);
+            MenuItem publishItem = menu.findItem(R.id.menu_publish);
+            MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
+            MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+            MenuItem trashItem = menu.findItem(R.id.menu_trash);
+            MenuItem checklistItem = menu.findItem(R.id.menu_checklist);
+
+            pinItem.setChecked(mNote.isPinned());
+            publishItem.setChecked(mNote.isPublished());
+            markdownItem.setChecked(mNote.isMarkdownEnabled());
+
+            // Disable actions when note is in Trash or markdown view is shown on large device.
+            if (mNote.isDeleted() || (mMarkdown != null && mMarkdown.getVisibility() == View.VISIBLE)) {
+                pinItem.setEnabled(false);
+                shareItem.setEnabled(false);
+                historyItem.setEnabled(false);
+                publishItem.setEnabled(false);
+                copyLinkItem.setEnabled(false);
+                markdownItem.setEnabled(false);
+                checklistItem.setEnabled(false);
+                DrawableUtils.setMenuItemAlpha(checklistItem, 0.3);  // 0.3 is 30% opacity.
+            } else {
+                pinItem.setEnabled(true);
+                shareItem.setEnabled(true);
+                historyItem.setEnabled(true);
+                publishItem.setEnabled(true);
+                copyLinkItem.setEnabled(mNote.isPublished());
+                markdownItem.setEnabled(true);
+                checklistItem.setEnabled(true);
+                DrawableUtils.setMenuItemAlpha(checklistItem, 1.0);  // 1.0 is 100% opacity.
+            }
+
+            if (mNote.isDeleted()) {
+                trashItem.setTitle(R.string.restore);
+            } else {
+                trashItem.setTitle(R.string.trash);
+            }
+        }
+
+        DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
+        super.onPrepareOptionsMenu(menu);
     }
 
     private void insertChecklist() {
@@ -569,6 +648,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void showMarkdown() {
         loadMarkdownData();
         mMarkdown.setVisibility(View.VISIBLE);
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void shareNote() {
@@ -599,6 +679,38 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             saveNote();
             showInfoSheet();
         }
+    }
+
+    private void setMarkdown(boolean isChecked) {
+        mIsMarkdownEnabled = isChecked;
+        Activity activity = getActivity();
+
+        if (activity instanceof NoteEditorActivity) {
+            NoteEditorActivity editorActivity = (NoteEditorActivity) activity;
+
+            if (mIsMarkdownEnabled) {
+                editorActivity.showTabs();
+
+                if (mNoteMarkdownFragment == null) {
+                    // Get markdown fragment and update content
+                    mNoteMarkdownFragment = editorActivity.getNoteMarkdownFragment();
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+                }
+            } else {
+                editorActivity.hideTabs();
+            }
+        } else if (activity instanceof NotesActivity) {
+            setMarkdownEnabled(mIsMarkdownEnabled);
+            ((NotesActivity) getActivity()).setMarkdownShowing(false);
+        }
+
+        saveNote();
+
+        // Set preference so that next new note will have markdown enabled.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
+        editor.apply();
     }
 
     protected void setMarkdownEnabled(boolean enabled) {
@@ -931,62 +1043,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setText(content);
     }
 
-    /**
-     * Info bottom sheet listeners
-     */
-
-    @Override
-    public void onInfoPinSwitchChanged(boolean isSwitchedOn) {
-        NoteUtils.setNotePin(mNote, isSwitchedOn);
-    }
-
-    @Override
-    public void onInfoMarkdownSwitchChanged(boolean isSwitchedOn) {
-        mIsMarkdownEnabled = isSwitchedOn;
-        Activity activity = getActivity();
-
-        if (activity instanceof NoteEditorActivity) {
-
-            NoteEditorActivity editorActivity = (NoteEditorActivity) activity;
-            if (mIsMarkdownEnabled) {
-
-                editorActivity.showTabs();
-
-                if (mNoteMarkdownFragment == null) {
-                    // Get markdown fragment and update content
-                    mNoteMarkdownFragment =
-                            editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
-                }
-            } else {
-                editorActivity.hideTabs();
-            }
-        } else if (activity instanceof NotesActivity) {
-            setMarkdownEnabled(mIsMarkdownEnabled);
-            ((NotesActivity) getActivity()).setMarkdownShowing(false);
-        }
-
-        saveNote();
-    }
-
-    @Override
-    public void onInfoCopyLinkClicked() {
-        copyToClipboard(mNote.getPublishedUrl());
-        Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onInfoShareLinkClicked() {
-        if (mInfoBottomSheet != null) {
-            mInfoBottomSheet.dismiss();
-        }
-        showShareSheet();
-    }
-
-    @Override
-    public void onInfoDismissed() {
-    }
-
     protected void saveNote() {
         try {
             if (mNote == null || mContentEditText == null || mIsLoadingNote ||
@@ -1038,7 +1094,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
                 if (mActionMode != null) {
                     mActionMode.setSubtitle(mLinkText);
-                    setLinkMenuItem();
+                    updateMenuItems();
                     return;
                 }
 
@@ -1049,7 +1105,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         mActionMode.setSubtitle(mLinkText);
                     }
 
-                    setLinkMenuItem();
+                    updateMenuItems();
                 }
             } else if (mActionMode != null) {
                 mActionMode.finish();
@@ -1061,7 +1117,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void setLinkMenuItem() {
+    private void updateMenuItems() {
+        mCopyMenuItem.setIcon(mCopyIcon);
+        mShareMenuItem.setIcon(mShareIcon);
+
         if (mViewLinkMenuItem != null && mLinkUrl != null) {
             if (mLinkUrl.startsWith("tel:")) {
                 mViewLinkMenuItem.setIcon(mCallIcon);
@@ -1073,7 +1132,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
             } else {
-                mViewLinkMenuItem.setIcon(mWebIcon);
+                mViewLinkMenuItem.setIcon(mBrowserIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
             }
         }
@@ -1097,7 +1156,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void updatePublishedState(boolean isSuccess) {
-
         if (mPublishingSnackbar == null) {
             return;
         }
@@ -1107,7 +1165,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-
                 if (mIsUndoingPublishing) {
                     SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
                             R.color.status_positive,
@@ -1152,6 +1209,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mIsUndoingPublishing = false;
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void publishNote() {
@@ -1260,15 +1318,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
-        WeakReference<NoteEditorFragment> weakFragment;
+        WeakReference<NoteEditorFragment> mNoteEditorFragmentReference;
 
         LoadNoteTask(NoteEditorFragment fragment) {
-            weakFragment = new WeakReference<>(fragment);
+            mNoteEditorFragmentReference = new WeakReference<>(fragment);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null) {
                 fragment.mContentEditText.removeTextChangedListener(fragment);
                 fragment.mIsLoadingNote = true;
@@ -1277,7 +1336,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected Void doInBackground(String... args) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment == null || fragment.getActivity() == null) {
                 return null;
             }
@@ -1288,6 +1348,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             try {
                 fragment.mNote = notesBucket.get(noteID);
+
                 // Set the current note in NotesActivity when on a tablet
                 if (fragment.getActivity() instanceof NotesActivity) {
                     ((NotesActivity) fragment.getActivity()).setCurrentNote(fragment.mNote);
@@ -1301,8 +1362,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store
                 Bucket.ObjectCursor<Note> notesCursor = notesBucket.allObjects();
+
                 while (notesCursor.moveToNext()) {
                     Note currentNote = notesCursor.getObject();
+
                     if (currentNote != null && currentNote.getSimperiumKey().equals(noteID)) {
                         fragment.mNote = currentNote;
                         return null;
@@ -1315,18 +1378,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         @Override
         protected void onPostExecute(Void nada) {
-            final NoteEditorFragment fragment = weakFragment.get();
-            if (fragment == null
-                    || fragment.getActivity() == null
-                    || fragment.getActivity().isFinishing()) {
+            final NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+            if (fragment == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
 
             fragment.refreshContent(false);
+
             if (fragment.mMatchOffsets != null) {
                 int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
-
                 fragment.mShouldScrollToSearchMatch = true;
             }
 
@@ -1344,45 +1405,46 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
 
                         InputMethodManager inputMethodManager = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
                         if (inputMethodManager != null) {
                             inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
                         }
                     }
                 }, 100);
-
             } else if (fragment.mNote != null) {
                 // If we have a valid note, hide the placeholder
                 fragment.setPlaceholderVisible(false);
             }
 
             fragment.updateMarkdownView();
-
             fragment.requireActivity().invalidateOptionsMenu();
-
             fragment.linkifyEditorContent();
             fragment.mIsLoadingNote = false;
         }
     }
 
     private static class SaveNoteTask extends AsyncTask<Void, Void, Void> {
-        WeakReference<NoteEditorFragment> weakFragment;
+        WeakReference<NoteEditorFragment> mNoteEditorFragmentReference;
 
         SaveNoteTask(NoteEditorFragment fragment) {
-            weakFragment = new WeakReference<>(fragment);
+            mNoteEditorFragmentReference = new WeakReference<>(fragment);
         }
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null) {
                 fragment.saveNote();
             }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void nada) {
-            NoteEditorFragment fragment = weakFragment.get();
+            NoteEditorFragment fragment = mNoteEditorFragmentReference.get();
+
             if (fragment != null && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                 // Update links
                 fragment.linkifyEditorContent();

@@ -1,4 +1,0 @@
-2.3:
-* Lade till söksortering efter datum skapad, datum ändrad och bokstavsordning.
-* Lade till sökhistorik och förslag.
-* Uppdaterade designen på lösenordslåset.

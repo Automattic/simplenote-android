@@ -13,9 +13,9 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_delete"
+        android:id="@+id/menu_trash"
         android:icon="@drawable/ic_trash_24dp"
-        android:title="@string/delete"
+        android:title="@string/trash"
         app:showAsAction="always"/>
 
 </menu>

@@ -12,7 +12,9 @@
         android:divider="?attr/listDividerDrawable"
         android:dividerHeight="@dimen/divider_height"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
     </com.automattic.simplenote.widgets.EmptyViewRecyclerView>
 
     <include

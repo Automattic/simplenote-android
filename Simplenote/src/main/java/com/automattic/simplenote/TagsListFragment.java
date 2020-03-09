@@ -128,7 +128,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_delete) {
+        if (menuItem.getItemId() == R.id.menu_trash) {
             actionMode.finish(); // Action picked, so close the CAB
             return true;
         }
@@ -195,29 +195,32 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
         // noop
     }
 
-    private static class removeTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
+    private static class RemoveTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
+        private SoftReference<TagsListFragment> mTagsListFragmentReference;
 
-        private SoftReference<TagsListFragment> fragmentRef;
-
-        private removeTagFromNotesTask(TagsListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private RemoveTagFromNotesTask(TagsListFragment context) {
+            mTagsListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected Void doInBackground(Tag... removedTags) {
-            TagsListFragment fragment = fragmentRef.get();
+            TagsListFragment fragment = mTagsListFragmentReference.get();
             Tag tag = removedTags[0];
+
             if (tag != null) {
-                Bucket.ObjectCursor<Note> notesCursor = tag.findNotes(fragment.mNotesBucket);
-                while (notesCursor.moveToNext()) {
-                    Note note = notesCursor.getObject();
+                Bucket.ObjectCursor<Note> cursor = tag.findNotes(fragment.mNotesBucket);
+
+                while (cursor.moveToNext()) {
+                    Note note = cursor.getObject();
                     List<String> tags = note.getTags();
                     tags.remove(tag.getName());
                     note.setTags(tags);
                     note.save();
                 }
-                notesCursor.close();
+
+                cursor.close();
             }
+
             return null;
         }
     }
@@ -323,7 +326,7 @@ public class TagsListFragment extends Fragment implements ActionMode.Callback, B
 
             private void deleteTag(Tag tag) {
                 tag.delete();
-                new removeTagFromNotesTask(TagsListFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
+                new RemoveTagFromNotesTask(TagsListFragment.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.TAG_MENU_DELETED,
                         AnalyticsTracker.CATEGORY_TAG,

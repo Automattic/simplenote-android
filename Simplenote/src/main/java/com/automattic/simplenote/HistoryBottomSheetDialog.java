@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.simperium.client.Bucket;
 
 import org.json.JSONObject;
@@ -32,6 +35,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
     private Note mNote;
     private SeekBar mHistorySeekBar;
     private TextView mHistoryDate;
+    private View mButtonRestore;
     private View mErrorText;
     private View mLoadingView;
     private View mProgressBar;
@@ -108,13 +112,20 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
                 if (progress == mNoteRevisionsList.size() && mNote != null) {
                     mListener.onHistoryUpdateNote(mNote.getContent());
                     noteDate = mNote.getModificationDate();
+                    mButtonRestore.setEnabled(false);
                 } else if (progress < mNoteRevisionsList.size() && mNoteRevisionsList.get(progress) != null) {
                     Note revisedNote = mNoteRevisionsList.get(progress);
                     noteDate = revisedNote.getModificationDate();
                     mListener.onHistoryUpdateNote(revisedNote.getContent());
+                    mButtonRestore.setEnabled(true);
                 }
 
-                mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), noteDate));
+                if (noteDate != null) {
+                    mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), noteDate));
+                    mHistoryDate.setVisibility(View.VISIBLE);
+                } else {
+                    mHistoryDate.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -135,8 +146,8 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
             }
         });
 
-        View restoreHistoryButton = history.findViewById(R.id.restore_history_button);
-        restoreHistoryButton.setOnClickListener(new View.OnClickListener() {
+        mButtonRestore = history.findViewById(R.id.restore_history_button);
+        mButtonRestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDidTapButton = true;
@@ -150,6 +161,22 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
                 public void onDismiss(DialogInterface dialog) {
                     mListener.onHistoryDismissed();
                     mNote = null;
+                }
+            });
+
+            // Set peek height to full height of view (i.e. set STATE_EXPANDED) to avoid buttons
+            // being off screen when bottom sheet is shown.
+            getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+                    FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                    if (bottomSheet != null) {
+                        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        behavior.setSkipCollapsed(true);
+                    }
                 }
             });
 
@@ -188,7 +215,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
         if (totalRevs > 0) {
             mHistorySeekBar.setMax(totalRevs);
             mHistorySeekBar.setProgress(totalRevs);
-            mHistoryDate.setText(DateTimeUtils.getDateText(requireContext(), mNote.getModificationDate()));
+            mHistoryDate.setText(DateTimeUtils.getDateTextString(requireContext(), mNote.getModificationDate()));
             mLoadingView.setVisibility(View.GONE);
             mSliderView.setVisibility(View.VISIBLE);
         } else {

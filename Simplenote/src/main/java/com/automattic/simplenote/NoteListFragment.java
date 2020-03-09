@@ -151,8 +151,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private String mSelectedNoteId;
     private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
-    private refreshListTask mRefreshListTask;
-    private refreshListForSearchTask mRefreshListForSearchTask;
+    private RefreshListTask mRefreshListTask;
+    private RefreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
     private int mPreferenceSortOrder;
     private int mTitleFontSize;
@@ -207,11 +207,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (getListView().getCheckedItemIds().length > 0) {
 
             switch (item.getItemId()) {
-                case R.id.menu_delete:
-                    new trashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                case R.id.menu_trash:
+                    new TrashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
                 case R.id.menu_pin:
-                    new pinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new PinNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
             }
         }
@@ -408,6 +408,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mSortDirection = sortLayoutContainer.findViewById(R.id.sort_direction);
         ImageView sortDirectionSwitch = sortLayoutContainer.findViewById(R.id.sort_direction_switch);
+        sortDirectionSwitch.setImageResource(R.drawable.ic_sort_order_24dp);
         sortDirectionSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -674,7 +675,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (mRefreshListTask != null && mRefreshListTask.getStatus() != AsyncTask.Status.FINISHED)
             mRefreshListTask.cancel(true);
 
-        mRefreshListTask = new refreshListTask(this);
+        mRefreshListTask = new RefreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
         WidgetUtils.updateNoteWidgets(getActivity());
@@ -685,7 +686,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mRefreshListForSearchTask.cancel(true);
         }
 
-        mRefreshListForSearchTask = new refreshListForSearchTask(this);
+        mRefreshListForSearchTask = new RefreshListForSearchTask(this);
         mRefreshListForSearchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -813,7 +814,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
         }
 
-        // Didn't find the note, let's try again after the cursor updates (see refreshListTask)
+        // Didn't find the note, let's try again after the cursor updates (see RefreshListTask)
         mSelectedNoteId = selectedNoteID;
     }
 
@@ -1379,7 +1380,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         note.save();
                         refreshList();
                         return true;
-                    case R.id.menu_delete:
+                    case R.id.menu_trash:
                         note.setDeleted(!note.isDeleted());
                         note.setModificationDate(Calendar.getInstance());
                         note.save();
@@ -1396,29 +1397,32 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         popup.show();
     }
 
-    private static class refreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
-        private SoftReference<NoteListFragment> fragmentRef;
-        boolean mIsFromNavSelect;
+    private static class RefreshListTask extends AsyncTask<Boolean, Void, ObjectCursor<Note>> {
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
+        private boolean mIsFromNavSelect;
 
-        private refreshListTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private RefreshListTask(NoteListFragment context) {
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Boolean... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             mIsFromNavSelect = args[0];
             return fragment.queryNotes();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            NoteListFragment fragment = fragmentRef.get();
-            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing())
+            NoteListFragment fragment = mNoteListFragmentReference.get();
+
+            if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
+            }
 
             // While using a Query.FullTextMatch it's easy to enter an invalid term so catch the error and clear the cursor
             int count;
+
             try {
                 fragment.mNotesAdapter.changeCursor(cursor);
                 count = fragment.mNotesAdapter.getCount();
@@ -1429,6 +1433,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             NotesActivity notesActivity = (NotesActivity) fragment.getActivity();
+
             if (notesActivity != null) {
                 if (mIsFromNavSelect && DisplayUtils.isLargeScreenLandscape(notesActivity)) {
                     if (count == 0) {
@@ -1438,6 +1443,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         fragment.selectFirstNote();
                     }
                 }
+
                 notesActivity.updateTrashMenuItem();
             }
 
@@ -1448,23 +1454,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private static class refreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+    private static class RefreshListForSearchTask extends AsyncTask<Void, Void, ObjectCursor<Note>> {
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
 
-        private SoftReference<NoteListFragment> fragmentRef;
-
-        private refreshListForSearchTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private RefreshListForSearchTask(NoteListFragment context) {
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected ObjectCursor<Note> doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             return fragment.queryNotesForSearch();
         }
 
         @Override
         protected void onPostExecute(ObjectCursor<Note> cursor) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
+
             if (cursor == null || fragment.getActivity() == null || fragment.getActivity().isFinishing()) {
                 return;
             }
@@ -1487,30 +1493,27 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private static class pinNotesTask extends AsyncTask<Void, Void, Void> {
-
-        private SoftReference<NoteListFragment> fragmentRef;
+    private static class PinNotesTask extends AsyncTask<Void, Void, Void> {
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
-        private pinNotesTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private PinNotesTask(NoteListFragment context) {
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteListFragment fragment = fragmentRef.get();
-            if (fragment.getListView() != null) {
-                mSelectedRows = fragment.getListView().getCheckedItemPositions();
-            }
+            NoteListFragment fragment = mNoteListFragmentReference.get();
+            mSelectedRows = fragment.getListView().getCheckedItemPositions();
         }
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
-
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             // Get the checked notes and add them to the pinnedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> pinnedNotesList = new ArrayList<>();
+
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
                     pinnedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
@@ -1529,38 +1532,34 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NoteListFragment fragment = fragmentRef.get();
-
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             fragment.mActionMode.finish();
             fragment.refreshList();
         }
     }
 
-    private static class trashNotesTask extends AsyncTask<Void, Void, Void> {
-
-        private SoftReference<NoteListFragment> fragmentRef;
+    private static class TrashNotesTask extends AsyncTask<Void, Void, Void> {
         private List<String> mDeletedNoteIds = new ArrayList<>();
+        private SoftReference<NoteListFragment> mNoteListFragmentReference;
         private SparseBooleanArray mSelectedRows = new SparseBooleanArray();
 
-        private trashNotesTask(NoteListFragment context) {
-            fragmentRef = new SoftReference<>(context);
+        private TrashNotesTask(NoteListFragment context) {
+            mNoteListFragmentReference = new SoftReference<>(context);
         }
 
         @Override
         protected void onPreExecute() {
-            NoteListFragment fragment = fragmentRef.get();
-            if (fragment.getListView() != null) {
-                mSelectedRows = fragment.getListView().getCheckedItemPositions();
-            }
+            NoteListFragment fragment = mNoteListFragmentReference.get();
+            mSelectedRows = fragment.getListView().getCheckedItemPositions();
         }
 
         @Override
         protected Void doInBackground(Void... args) {
-            NoteListFragment fragment = fragmentRef.get();
-
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             // Get the checked notes and add them to the deletedNotesList
             // We can't modify the note in this loop because the adapter could change
             List<Note> deletedNotesList = new ArrayList<>();
+
             for (int i = 0; i < mSelectedRows.size(); i++) {
                 if (mSelectedRows.valueAt(i)) {
                     deletedNotesList.add(fragment.mNotesAdapter.getItem(mSelectedRows.keyAt(i)));
@@ -1580,10 +1579,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            NoteListFragment fragment = fragmentRef.get();
+            NoteListFragment fragment = mNoteListFragmentReference.get();
             NotesActivity notesActivity = ((NotesActivity) fragment.getActivity());
-            if (notesActivity != null)
+
+            if (notesActivity != null) {
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
+            }
 
             fragment.refreshList();
         }

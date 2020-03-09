@@ -35,6 +35,7 @@ import com.simperium.client.User;
 import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 
 public class NoteWidgetConfigureActivity extends AppCompatActivity {
     private AppWidgetManager mWidgetManager;
@@ -181,12 +182,15 @@ public class NoteWidgetConfigureActivity extends AppCompatActivity {
 
                     // Prepare bundle for NoteEditorActivity
                     Bundle arguments = new Bundle();
+                    arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET, true);
                     arguments.putString(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
                     arguments.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+                    arguments.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
 
                     // Create intent to navigate to selected note on widget click
                     Intent intent = new Intent(context, NoteEditorActivity.class);
                     intent.putExtras(arguments);
+                    intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_NOTE_TAPPED);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, mAppWidgetId, intent, 0);
 
