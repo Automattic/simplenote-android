@@ -910,7 +910,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
      */
     private void setTitleSpan(Editable editable) {
         for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
-            editable.removeSpan(span);
+            if (span instanceof RelativeSizeSpan || span instanceof StyleSpan) {
+                editable.removeSpan(span);
+            }
         }
 
         int newLinePosition = getNoteContentString().indexOf("\n");
