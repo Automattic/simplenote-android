@@ -1,0 +1,5 @@
+2.4:
+* Uppdaterad meddelandeinformation med datum ändrat, datum skapat, antal ord och antal tecken.
+* Flyttade några meddelandealternativ från meddelandeinformationen och åtgärdsfältet till ellips-menyn.
+* Åtgärdade en synkroniseringsbugg med att ta bort etiketter och tömma papperskorgen.
+* Åtgärdade en nätverksbugg som fick appen att lagga.

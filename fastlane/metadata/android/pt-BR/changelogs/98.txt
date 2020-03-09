@@ -1,0 +1,5 @@
+2.4:
+* Informações de nota atualizadas com data de modificação, data de criação, contagem de palavras e contagem de caracteres.
+* Algumas opções de nota foram movidas das informações de nota e da barra de ações para o menu de elipse.
+* Bug de sincronização com tags excluídas e lixeira vazia resolvido.
+* Bug de serviço de rede que causava lentidão no aplicativo resolvido.

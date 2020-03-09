@@ -1,0 +1,5 @@
+2.4:
+* Bijgewerkte notitiegegevens met aangepaste datum, aanmaakdatum, aantal woorden en aantal tekens.
+* Aantal notitie-opties verplaatst van notitiegegevens en de actiebalk naar het ellipsmenu.
+* Synchronisatieprobleem opgelost waarbij codes werden verwijderd en de prullenbak werd geleegd.
+* Netwerkprobleem opgelost waardoor de app traag werd.

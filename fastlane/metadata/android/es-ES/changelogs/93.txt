@@ -1,4 +1,0 @@
-2.3:
-* Se han añadido opciones de ordenación de las búsquedas por fecha de creación, fecha de modificación y alfabéticamente.
-* Se ha añadido un historial de búsquedas y sugerencias.
-* Se ha actualizado el diseño del bloqueo con contraseña.

@@ -1,4 +1,0 @@
-2.3 :
-* Ajout du tri de la recherche par date de création, date de modification et ordre alphabétique.
-* Ajout de l'historique de recherche et des suggestions.
-* Design du code d'accès de verrouillage mis à jour.
