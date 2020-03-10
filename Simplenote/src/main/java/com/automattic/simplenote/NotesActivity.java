@@ -992,6 +992,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 public void run() {
                     item.setIcon(drawable);
                     item.setTitle(string);
+
+                    if (item == mEmptyTrashMenuItem) {
+                        invalidateOptionsMenu();
+                    }
                 }
             },
             getResources().getInteger(R.integer.time_animation)
