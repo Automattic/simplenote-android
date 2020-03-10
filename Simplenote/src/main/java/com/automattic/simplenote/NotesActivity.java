@@ -115,6 +115,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
     private MenuItem mEmptyTrashMenuItem;
+    private Handler mInvalidateOptionsMenuHandler = new Handler();
+    private Runnable mInvalidateOptionsMenuRunnable = new Runnable() {
+        @Override
+        public void run() {
+            invalidateOptionsMenu();
+        }
+    };
 
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
@@ -900,13 +907,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 mCurrentNote.save();
                 return true;
             case R.id.menu_trash:
-                if (mNoteEditorFragment != null) {
-                    if (mCurrentNote != null) {
-                        mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
-                        mCurrentNote.setModificationDate(Calendar.getInstance());
-                        mCurrentNote.save();
-                        updateViewsAfterTrashAction(mCurrentNote);
-                    }
+                if (mNoteEditorFragment != null && mCurrentNote != null) {
+                    mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
+                    mCurrentNote.setModificationDate(Calendar.getInstance());
+                    mCurrentNote.save();
+                    updateViewsAfterTrashAction(mCurrentNote);
                 }
 
                 return true;
@@ -1064,7 +1069,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             fragment.refreshList();
         }
 
-        invalidateOptionsMenu();
+        if (mInvalidateOptionsMenuHandler != null) {
+            mInvalidateOptionsMenuHandler.removeCallbacks(mInvalidateOptionsMenuRunnable);
+            mInvalidateOptionsMenuHandler.postDelayed(
+                mInvalidateOptionsMenuRunnable,
+                getResources().getInteger(android.R.integer.config_shortAnimTime)
+            );
+        }
     }
 
     public void setMarkdownShowing(boolean isMarkdownShowing) {
