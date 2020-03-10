@@ -1297,19 +1297,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void showShareSheet() {
-        if (isAdded()) {
+        if (isAdded() && mShareBottomSheet != null && !mShareBottomSheet.isAdded()) {
             mShareBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showInfoSheet() {
-        if (isAdded()) {
+        if (isAdded() && mInfoBottomSheet != null && !mInfoBottomSheet.isAdded()) {
             mInfoBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showHistorySheet() {
-        if (isAdded()) {
+        if (isAdded() && mHistoryBottomSheet != null && !mHistoryBottomSheet.isAdded()) {
             // Request revisions for the current note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
             saveNote();
