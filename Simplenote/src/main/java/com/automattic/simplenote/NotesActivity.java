@@ -10,6 +10,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -1453,7 +1454,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         if (note.equals(mCurrentNote)) {
             mCurrentNote = note;
 
-            new Handler().postDelayed(
+            new Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {
