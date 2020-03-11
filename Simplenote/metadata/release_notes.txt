@@ -1,4 +1,5 @@
-* Updated note information with date modified, date created, word count, and character count.
-* Moved some note options from note information and the action bar to the ellipsis menu.
-* Fixed a syncing bug with deleting tags and emptying trash.
-* Fixed a networking bug that made the app lag.
+* Taking notes in Urdu, Arabic, or… Aramaic? We’ve introduced support and layouts for right-to-left languages!
+* Open any note in the app from the home screen with a new note list widget.
+* We’ve added a new toolbar to find matching terms within notes, and the option to search your tags list.
+* The note widget on your home screen is now available in dark mode, too.
+* We smoothed out searches in notes that contain checklists, and shooed off an issue that caused a lag while editing.
