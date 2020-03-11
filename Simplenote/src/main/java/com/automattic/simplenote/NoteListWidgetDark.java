@@ -159,13 +159,6 @@ public class NoteListWidgetDark extends AppWidgetProvider {
                 views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.empty_notes_widget));
                 views.setViewVisibility(R.id.widget_text, View.GONE);
                 views.setViewVisibility(R.id.widget_list, View.VISIBLE);
-
-                if (appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) > MINIMUM_HEIGHT_FOR_BUTTON &&
-                    appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) > MINIMUM_WIDTH_FOR_BUTTON) {
-                    views.setViewVisibility(R.id.widget_button, View.VISIBLE);
-                } else {
-                    views.setViewVisibility(R.id.widget_button, View.GONE);
-                }
             } else {
                 // Create intent to navigate to notes activity on widget click
                 Intent intent = new Intent(context, NotesActivity.class);
