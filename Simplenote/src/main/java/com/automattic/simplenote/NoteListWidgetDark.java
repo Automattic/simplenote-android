@@ -112,6 +112,10 @@ public class NoteListWidgetDark extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
+            // Reset intent to navigate to note editor on note list add button click to navigate to notes activity, which redirects to login/signup
+            Intent intentButton = new Intent(context, NotesActivity.class);
+            views.setOnClickPendingIntent(R.id.widget_button, PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT));
+
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.log_in_use_widget));
             views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
             views.setViewVisibility(R.id.widget_text, View.VISIBLE);
@@ -169,6 +173,10 @@ public class NoteListWidgetDark extends AppWidgetProvider {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
                 views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+
+                // Reset intent to navigate to note editor on note list add button click to navigate to notes activity
+                Intent intentButton = new Intent(context, NotesActivity.class);
+                views.setOnClickPendingIntent(R.id.widget_button, PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT));
 
                 views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                 views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.empty_notes_widget));
