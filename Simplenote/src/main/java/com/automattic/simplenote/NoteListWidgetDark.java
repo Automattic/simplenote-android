@@ -113,7 +113,7 @@ public class NoteListWidgetDark extends AppWidgetProvider {
             Intent intent = new Intent(context, NotesActivity.class);
             intent.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_SIGN_IN_TAPPED);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
             // Reset intent to navigate to note editor on note list add button click to navigate to notes activity, which redirects to login/signup
@@ -168,7 +168,7 @@ public class NoteListWidgetDark extends AppWidgetProvider {
                 Intent intent = new Intent(context, NotesActivity.class);
                 intent.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_TAPPED);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
                 // Create intent to navigate to note editor on note list add button click

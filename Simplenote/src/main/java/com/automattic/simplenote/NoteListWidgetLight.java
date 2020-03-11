@@ -137,7 +137,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
                 Intent intentLoading = new Intent(context, NotesActivity.class);
                 intentLoading.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_TAPPED);
                 intentLoading.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntentLoading = PendingIntent.getActivity(context, appWidgetId, intentLoading, 0);
+                PendingIntent pendingIntentLoading = PendingIntent.getActivity(context, appWidgetId, intentLoading, PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.widget_layout, pendingIntentLoading);
 
                 // Create intent for note list widget service
@@ -168,7 +168,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
                 Intent intent = new Intent(context, NotesActivity.class);
                 intent.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_TAPPED);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
                 // Create intent to navigate to note editor on note list add button click
