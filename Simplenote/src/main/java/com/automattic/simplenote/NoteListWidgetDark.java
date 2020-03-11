@@ -151,8 +151,8 @@ public class NoteListWidgetDark extends AppWidgetProvider {
                 Intent intentButton = new Intent(context, NotesActivity.class);
                 intentButton.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_BUTTON_TAPPED);
                 intentButton.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.widget_button, pendingIntent);
+                PendingIntent pendingIntentButton = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT);
+                views.setOnClickPendingIntent(R.id.widget_button, pendingIntentButton);
 
                 views.setEmptyView(R.id.widget_list, R.id.widget_text);
                 views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
