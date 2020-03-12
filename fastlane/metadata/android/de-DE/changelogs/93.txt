@@ -1,4 +1,0 @@
-2.3:
-* Sortieren der Suche nach Erstellungsdatum, Änderungsdatum und alphabetischer Reihenfolge hinzugefügt.
-* Suchverlauf und -vorschläge hinzugefügt.
-* Design der Zugangscode-Sperre aktualisiert.

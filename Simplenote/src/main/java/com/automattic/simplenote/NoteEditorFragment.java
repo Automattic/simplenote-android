@@ -20,6 +20,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
+import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -350,6 +351,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
+        mContentEditText.setOnFocusChangeListener(this);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
@@ -419,6 +421,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         });
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    public void scrollToMatch(int location) {
+        if (isAdded()) {
+            // Calculate how far to scroll to bring the match into view
+            Layout layout = mContentEditText.getLayout();
+            int lineTop = layout.getLineTop(layout.getLineForOffset(location));
+            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+        }
     }
 
     @Override
@@ -880,22 +891,34 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHighlighter.removeMatches();
         }
 
+        if (!DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
+        }
+
         // Temporarily remove the text watcher as we process checklists to prevent callback looping
         mContentEditText.removeTextChangedListener(this);
         mContentEditText.processChecklists();
         mContentEditText.addTextChangedListener(this);
     }
 
+    /**
+     * Set the note title to be a larger size and bold style.
+     *
+     * Remove all existing spans before applying spans or performance issues will occur.  Since both
+     * {@link RelativeSizeSpan} and {@link StyleSpan} inherit from {@link MetricAffectingSpan}, all
+     * spans are removed when {@link MetricAffectingSpan} is removed.
+     */
     private void setTitleSpan(Editable editable) {
-        // Set the note title to be a larger size
-        // Remove any existing size spans
-        RelativeSizeSpan[] spans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (RelativeSizeSpan span : spans) {
+        for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
             editable.removeSpan(span);
         }
+
         int newLinePosition = getNoteContentString().indexOf("\n");
-        if (newLinePosition == 0)
+
+        if (newLinePosition == 0) {
             return;
+        }
+
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
         editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -1274,19 +1297,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void showShareSheet() {
-        if (isAdded()) {
+        if (isAdded() && mShareBottomSheet != null && !mShareBottomSheet.isAdded()) {
             mShareBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showInfoSheet() {
-        if (isAdded()) {
+        if (isAdded() && mInfoBottomSheet != null && !mInfoBottomSheet.isAdded()) {
             mInfoBottomSheet.show(requireFragmentManager(), mNote);
         }
     }
 
     private void showHistorySheet() {
-        if (isAdded()) {
+        if (isAdded() && mHistoryBottomSheet != null && !mHistoryBottomSheet.isAdded()) {
             // Request revisions for the current note
             mNotesBucket.getRevisions(mNote, MAX_REVISIONS, mHistoryBottomSheet.getRevisionsRequestCallbacks());
             saveNote();

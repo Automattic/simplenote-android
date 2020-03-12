@@ -10,6 +10,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +26,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -105,7 +105,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     private boolean mIsShowingMarkdown;
     private boolean mShouldSelectNewNote;
     private boolean mIsSettingsClicked;
-    private boolean mIsTabetFullscreen;
+    private boolean mIsTabletFullscreen;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -116,6 +116,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements
     private NoteEditorFragment mNoteEditorFragment;
     private Note mCurrentNote;
     private MenuItem mEmptyTrashMenuItem;
+    private Handler mInvalidateOptionsMenuHandler = new Handler();
+    private Runnable mInvalidateOptionsMenuRunnable = new Runnable() {
+        @Override
+        public void run() {
+            invalidateOptionsMenu();
+        }
+    };
 
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
@@ -187,7 +194,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         } else {
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
-        mIsTabetFullscreen = mNoteListFragment.isHidden();
+        mIsTabletFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
@@ -307,7 +314,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
-            if (mIsTabetFullscreen) {
+            if (mIsTabletFullscreen) {
                 ft.hide(mNoteListFragment);
             } else {
                 ft.show(mNoteListFragment);
@@ -733,7 +740,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                     String.format(
                         "<font color=\"%s\">%s</font>",
                         hintHexColor,
-                        getString(R.string.search)
+                        getString(R.string.search_hint)
                     )
                 )
             );
@@ -885,7 +892,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 }
 
                 ft.commitNowAllowingStateLoss();
-                mIsTabetFullscreen = mNoteListFragment.isHidden();
+                mIsTabletFullscreen = mNoteListFragment.isHidden();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
@@ -901,13 +908,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 mCurrentNote.save();
                 return true;
             case R.id.menu_trash:
-                if (mNoteEditorFragment != null) {
-                    if (mCurrentNote != null) {
-                        mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
-                        mCurrentNote.setModificationDate(Calendar.getInstance());
-                        mCurrentNote.save();
-                        updateViewsAfterTrashAction(mCurrentNote);
-                    }
+                if (mNoteEditorFragment != null && mCurrentNote != null) {
+                    mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
+                    mCurrentNote.setModificationDate(Calendar.getInstance());
+                    mCurrentNote.save();
+                    updateViewsAfterTrashAction(mCurrentNote);
                 }
 
                 return true;
@@ -993,6 +998,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                 public void run() {
                     item.setIcon(drawable);
                     item.setTitle(string);
+
+                    if (item == mEmptyTrashMenuItem) {
+                        invalidateOptionsMenu();
+                    }
                 }
             },
             getResources().getInteger(R.integer.time_animation)
@@ -1065,7 +1074,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             fragment.refreshList();
         }
 
-        invalidateOptionsMenu();
+        if (mInvalidateOptionsMenuHandler != null) {
+            mInvalidateOptionsMenuHandler.removeCallbacks(mInvalidateOptionsMenuRunnable);
+            mInvalidateOptionsMenuHandler.postDelayed(
+                mInvalidateOptionsMenuRunnable,
+                getResources().getInteger(android.R.integer.config_shortAnimTime)
+            );
+        }
     }
 
     public void setMarkdownShowing(boolean isMarkdownShowing) {
@@ -1109,14 +1124,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+
             if (mNoteListFragment.isHidden()) {
                 editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             }
+
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
-            setMarkdownShowing(isPreviewEnabled);
+            setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
@@ -1452,7 +1469,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         if (note.equals(mCurrentNote)) {
             mCurrentNote = note;
 
-            new Handler().postDelayed(
+            new Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {

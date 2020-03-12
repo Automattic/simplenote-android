@@ -7,6 +7,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
+
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.widgets.CenteredImageSpan;
 import com.automattic.simplenote.widgets.CheckableSpan;
@@ -64,7 +66,7 @@ public class ChecklistUtils {
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
             editable.replace(start, end, "\u00A0");
 
-            Drawable iconDrawable = context.getResources().getDrawable(
+            Drawable iconDrawable = ContextCompat.getDrawable(context,
                     checkableSpan.isChecked()
                             ? R.drawable.ic_checkbox_checked_24px
                             : R.drawable.ic_checkbox_unchecked_24px);

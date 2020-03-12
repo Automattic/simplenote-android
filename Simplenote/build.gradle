@@ -23,9 +23,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.4-rc-3"
+            versionName "2.4"
         }
-        versionCode 97
+        versionCode 98
         minSdkVersion 23
         targetSdkVersion 29
 
@@ -147,6 +147,8 @@ android.applicationVariants.all { variant ->
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||
             key == "GOOGLE_ANALYTICS_ID" ||
+            key == "LOGIN_EMAIL" ||
+            key == "LOGIN_PASSWORD" ||
             key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID") {
             buildConfigField "String", key, "\"${property.value}\""
