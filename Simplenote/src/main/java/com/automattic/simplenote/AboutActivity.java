@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,12 @@ public class AboutActivity extends AppCompatActivity {
                 this, R.drawable.ic_cross_24dp, android.R.color.white
             ));
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override

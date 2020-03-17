@@ -16,7 +16,7 @@
         android:orientation="vertical"
         tools:layout_width="match_parent">
 
-        <ImageView
+        <com.automattic.simplenote.widgets.SpinningImageButton
             android:id="@+id/about_logo"
             android:contentDescription="@string/logo"
             android:layout_gravity="center_horizontal"
@@ -25,7 +25,7 @@
             android:layout_marginTop="@dimen/padding_large"
             android:layout_width="@dimen/about_logo"
             android:src="@drawable/ic_simplenote_24dp">
-        </ImageView>
+        </com.automattic.simplenote.widgets.SpinningImageButton>
 
         <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:gravity="center_horizontal"

@@ -1,10 +1,13 @@
 package com.automattic.simplenote;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +16,30 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widgets.SpinningImageButton;
+import com.automattic.simplenote.widgets.SpinningImageButton.SpeedListener;
+
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends Fragment implements SpeedListener {
+    private static final String PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
+    private static final String PLAY_STORE_URI = "market://details?id=";
+    private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
+    private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
+    private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
+    private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
+    private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
     private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
     private static final String URL_PRIVACY = "https://automattic.com/privacy";
     private static final String URL_TERMS = "https://simplenote.com/terms";
-    private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
-    private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
-    private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
-    private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
-    private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
-    private static final String PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
-    private static final String PLAY_STORE_URI = "market://details?id=";
 
     @Nullable
     @Override
@@ -41,7 +51,7 @@ public class AboutFragment extends Fragment {
         View twitter = view.findViewById(R.id.about_twitter);
         View store = view.findViewById(R.id.about_store);
         View contribute = view.findViewById(R.id.about_contribute);
-        View careers = view.findViewById(R.id.about_careers);
+        View hiring = view.findViewById(R.id.about_careers);
         TextView privacy = view.findViewById(R.id.about_privacy);
         TextView terms = view.findViewById(R.id.about_terms);
         TextView copyright = view.findViewById(R.id.about_copyright);
@@ -101,7 +111,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        careers.setOnClickListener(new View.OnClickListener() {
+        hiring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -148,6 +158,45 @@ public class AboutFragment extends Fragment {
             }
         });
 
+        ((SpinningImageButton) view.findViewById(R.id.about_logo)).setSpeedListener(this);
         return view;
+    }
+
+    @Override
+    public void OnMaximumSpeed() {
+        String[] items = requireActivity().getResources().getStringArray(R.array.array_about);
+        long index = System.currentTimeMillis() % items.length;
+        final AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+            .setMessage(HtmlCompat.fromHtml(String.format(
+                items[(int) index],
+                "<span style=\"color:#",
+                Integer.toHexString(
+                    ThemeUtils.getColorFromAttribute(requireActivity(), R.attr.colorAccent) & 0xffffff
+                ),
+                "\">",
+                "</span>"
+            )))
+            .show();
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        };
+
+        dialog.setOnDismissListener(
+            new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    handler.removeCallbacks(runnable);
+                }
+            }
+        );
+
+        handler.postDelayed(runnable, items[(int) index].length() * 50);
+        ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
