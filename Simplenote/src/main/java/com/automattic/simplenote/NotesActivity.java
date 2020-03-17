@@ -272,7 +272,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     CATEGORY_NOTE,
                     "note_list_widget"
                 );
-                getIntent().removeExtra(KEY_LIST_WIDGET_CLICK);
+                intent.removeExtra(KEY_LIST_WIDGET_CLICK);
                 getNoteListFragment().addNote();
             }
         }
