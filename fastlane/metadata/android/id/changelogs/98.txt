@@ -1,0 +1,5 @@
+2.4:
+* Informasi catatan diperbarui dengan tanggal diubah, tanggal dibuat, jumlah kata, dan jumlah karakter.
+* Memindahkan beberapa pilihan catatan dari informasi catatan dan bilah tindakan ke menu elipsis.
+* Memperbaiki bug dengan menghapus tag dan mengosongkan tempat sampah.
+* Memperbaiki bug jaringan yang membuat aplikasi mengalami lag.
