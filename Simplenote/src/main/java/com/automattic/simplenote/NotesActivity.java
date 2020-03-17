@@ -93,18 +93,21 @@ import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NotesActivity extends ThemedAppCompatActivity implements
-        NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+public class NotesActivity extends ThemedAppCompatActivity implements NoteListFragment.Callbacks,
+        User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
-
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
+
+    private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
+
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
-    private boolean mIsShowingMarkdown;
-    private boolean mShouldSelectNewNote;
+    private boolean mHasTappedNoteListWidgetButton;
     private boolean mIsSettingsClicked;
+    private boolean mIsShowingMarkdown;
     private boolean mIsTabletFullscreen;
+    private boolean mShouldSelectNewNote;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -184,8 +187,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements
             fragmentTransaction.add(R.id.note_fragment_container, mNoteListFragment, TAG_NOTE_LIST);
             fragmentTransaction.commit();
         } else {
+            mHasTappedNoteListWidgetButton = savedInstanceState.getBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED);
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
+
         mIsTabletFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
@@ -255,7 +260,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements
                     CATEGORY_WIDGET,
                     "note_list_widget_tapped"
                 );
-            } else if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_BUTTON_TAPPED) {
+            } else if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_BUTTON_TAPPED && !mHasTappedNoteListWidgetButton) {
+                mHasTappedNoteListWidgetButton = true;
                 AnalyticsTracker.track(
                     NOTE_LIST_WIDGET_BUTTON_TAPPED,
                     CATEGORY_WIDGET,
@@ -327,6 +333,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
         mNotesBucket.stop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED, mHasTappedNoteListWidgetButton);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
