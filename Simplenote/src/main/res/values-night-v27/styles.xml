@@ -10,6 +10,21 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="Theme.Simplestyle.About" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:colorEdgeEffect">@android:color/white</item>
+        <item name="android:navigationBarColor">@color/blue</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/blue</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorControlHighlight">@color/item_blue_dark</item>
+        <item name="colorPrimary">@color/item_blue_dark</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="toolbarColor">@color/blue</item>
+    </style>
+
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:colorBackground">@color/background_dark_16</item>
         <item name="android:navigationBarColor">@color/background_dark_16</item>
