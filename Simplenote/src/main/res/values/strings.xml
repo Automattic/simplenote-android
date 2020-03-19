@@ -117,7 +117,11 @@
 
     <!-- About screen -->
     <string name="about">About Simplenote</string>
-    <string name="about_hiring">Simplenote is made with love by the folks at Automattic. Are you a developer? We\'re hiring.</string>
+    <string name="about_copyright">&#169; Automattic %1$d</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_contribute_title">Contribute</string>
+    <string name="about_hiring_title">Careers</string>
+    <string name="about_hiring">Are you a developer? We\'re hiring.</string>
     <string name="about_play_store">Google Play Store</string>
     <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
     <string name="twitter">Twitter</string>
@@ -125,6 +129,9 @@
     <string name="blog">Blog</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="link_divider">&#183;</string>
+    <string name="link_privacy">%1$s%2$s%3$sPrivacy Policy%4$s</string>
+    <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
