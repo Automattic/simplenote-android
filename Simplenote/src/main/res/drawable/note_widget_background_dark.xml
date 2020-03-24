@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid
-        android:color="@android:color/white">
+        android:color="@color/background_dark">
     </solid>
 
     <corners
-        android:radius="@dimen/card_radius">
+        android:radius="@dimen/corner_radius">
     </corners>
 
 </shape>

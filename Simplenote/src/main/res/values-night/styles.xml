@@ -4,7 +4,6 @@
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:navigationBarColor">@color/background_dark</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/background_dark</item>
@@ -62,16 +61,12 @@
         <item name="spinBars">true</item>
     </style>
 
-    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle_dark</item>
-    </style>
-
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
-
+    
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:colorBackground">@color/background_dark_16</item>
         <item name="android:navigationBarColor">@color/background_dark_16</item>

@@ -3,14 +3,13 @@ package com.automattic.simplenote;
 import android.os.Bundle;
 import android.text.SpannableString;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
-public class TagsActivity extends AppCompatActivity {
+public class TagsActivity extends ThemedAppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,8 @@ public class TagsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             TagsListFragment tagsListFragment = new TagsListFragment();
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .add(R.id.tags_container, tagsListFragment)
                     .commit();
         }

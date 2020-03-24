@@ -6,11 +6,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -24,15 +26,15 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WID
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NoteWidget extends AppWidgetProvider {
-    public static final String KEY_WIDGET_CLICK = "key_widget_click";
-    public static final String KEY_WIDGET_IDS = "key_widget_ids";
+public class NoteWidgetDark extends AppWidgetProvider {
+    public static final String KEY_WIDGET_IDS_DARK = "key_widget_ids_dark";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getExtras() != null && intent.hasExtra(KEY_WIDGET_IDS)) {
-            int[] ids = intent.getExtras().getIntArray(KEY_WIDGET_IDS);
+        if (intent.getExtras() != null && intent.hasExtra(KEY_WIDGET_IDS_DARK)) {
+            int[] ids = intent.getExtras().getIntArray(KEY_WIDGET_IDS_DARK);
             this.onUpdate(context, AppWidgetManager.getInstance(context), ids);
         } else {
             super.onReceive(context, intent);
@@ -49,7 +51,7 @@ public class NoteWidget extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_dark);
         resizeWidget(newOptions, views);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -96,7 +98,7 @@ public class NoteWidget extends AppWidgetProvider {
 
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         // Get widget views
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_dark);
         resizeWidget(appWidgetOptions, views);
 
         // Verify user authentication
@@ -105,7 +107,7 @@ public class NoteWidget extends AppWidgetProvider {
         User user = simperium.getUser();
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
-            // Create intent to navigate to notes activity which redirects to signin on widget click
+            // Create intent to navigate to notes activity which redirects to login on widget click
             Intent intent = new Intent(context, NotesActivity.class);
             intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_SIGN_IN_TAPPED);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -113,9 +115,9 @@ public class NoteWidget extends AppWidgetProvider {
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.log_in_use_widget));
-            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+            views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
             views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.log_in_use_widget));
-            views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+            views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
             views.setViewVisibility(R.id.widget_text_content, View.GONE);
         } else {
             // Get note id from SharedPreferences
@@ -152,13 +154,18 @@ public class NoteWidget extends AppWidgetProvider {
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, title);
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_title, title);
-                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
-                    views.setTextViewText(R.id.widget_text_content, content);
+                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
+                    SpannableStringBuilder contentSpan = new SpannableStringBuilder(content);
+                    contentSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistUnicodeSpansForRegex(
+                            contentSpan,
+                            ChecklistUtils.CHECKLIST_REGEX
+                    );
+                    views.setTextViewText(R.id.widget_text_content, contentSpan);
                 } catch (BucketObjectMissingException e) {
                     // Create intent to navigate to widget configure activity on widget click
-                    Intent intent = new Intent(context, NoteWidgetConfigureActivity.class);
+                    Intent intent = new Intent(context, NoteWidgetDarkConfigureActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED);
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -166,17 +173,17 @@ public class NoteWidget extends AppWidgetProvider {
 
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+                    views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                     views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.note_not_found));
-                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+                    views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                     views.setViewVisibility(R.id.widget_text_content, View.GONE);
                 }
             } else {
                 views.setOnClickPendingIntent(R.id.widget_layout, null);
                 views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
-                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+                views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                 views.setTextViewText(R.id.widget_text_title, context.getResources().getString(R.string.note_not_found));
-                views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
+                views.setTextColor(R.id.widget_text_title, context.getResources().getColor(R.color.text_title_dark, context.getTheme()));
                 views.setViewVisibility(R.id.widget_text_content, View.GONE);
             }
         }

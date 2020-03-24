@@ -3,8 +3,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:animateLayoutChanges="true"
@@ -19,7 +20,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/toolbarColor"
             app:contentInsetStart="@dimen/toolbar_title_keyline"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="?attr/toolbarPopupTheme"
             style="@style/ToolbarTheme">
         </androidx.appcompat.widget.Toolbar>
@@ -51,6 +51,97 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.automattic.simplenote.widgets.NoteEditorViewPager>
+
+        <RelativeLayout
+            android:id="@+id/search_match_bar"
+            android:background="?attr/mainBackgroundColor"
+            android:clickable="true"
+            android:elevation="@dimen/elevation_bar"
+            android:focusable="true"
+            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/button_previous"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/previous"
+                android:focusable="true"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:minHeight="@dimen/minimum_target"
+                android:minWidth="@dimen/minimum_target"
+                android:padding="@dimen/margin_default"
+                android:src="@drawable/ic_chevron_left_24dp"
+                android:tint="@color/toolbar_icon_alpha_40_selector"
+                android:tintMode="src_in">
+            </ImageButton>
+
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
+                android:id="@+id/text_of"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/margin_default_half"
+                android:text="@string/of"
+                android:textColor="?attr/noteTitleColor"
+                android:textSize="@dimen/text_content_title">
+            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
+                android:id="@+id/text_position"
+                android:gravity="end"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/button_previous"
+                android:layout_toStartOf="@+id/text_of"
+                android:layout_width="wrap_content"
+                android:textColor="?attr/noteTitleColor"
+                android:textSize="@dimen/text_content_title"
+                tools:text="1">
+            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
+                android:id="@+id/text_total"
+                android:gravity="start"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/text_of"
+                android:layout_toStartOf="@id/button_next"
+                android:layout_width="wrap_content"
+                android:textColor="?attr/noteTitleColor"
+                android:textSize="@dimen/text_content_title"
+                tools:text="7">
+            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+            <ImageButton
+                android:id="@+id/button_next"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/next"
+                android:focusable="true"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:minHeight="@dimen/minimum_target"
+                android:minWidth="@dimen/minimum_target"
+                android:padding="@dimen/margin_default"
+                android:src="@drawable/ic_chevron_right_24dp"
+                android:tint="@color/toolbar_icon_alpha_40_selector"
+                android:tintMode="src_in">
+            </ImageButton>
+
+            <View
+                android:background="?attr/dividerColor"
+                android:layout_height="@dimen/divider_height"
+                android:layout_width="match_parent">
+            </View>
+
+        </RelativeLayout>
 
     </FrameLayout>
 

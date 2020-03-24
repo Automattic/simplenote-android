@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
+import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -36,7 +38,6 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,6 @@ import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SimplenoteMovementMethod;
-import com.automattic.simplenote.utils.SnackbarUtils;
 import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
@@ -79,6 +79,14 @@ import com.simperium.client.Query;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
@@ -108,6 +116,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     };
     private Bucket<Note> mNotesBucket;
     private View mRootView;
+    private View mTagPadding;
     private SimplenoteEditText mContentEditText;
     private ChipGroup mTagChips;
     private TagsMultiAutoCompleteTextView mTagInput;
@@ -212,7 +221,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_copy:
                     if (mLinkText != null && getActivity() != null) {
                         copyToClipboard(mLinkText);
-                        Toast.makeText(requireActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                         mode.finish();
                     }
                     return true;
@@ -243,7 +252,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     };
     private Snackbar mPublishingSnackbar;
-    private boolean mIsUndoingPublishing;
+    private boolean mHideActionOnSuccess;
     // Resets note publish status if Simperium never returned the new publish status
     private final Runnable mPublishTimeoutRunnable = new Runnable() {
         @Override
@@ -332,7 +341,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         };
 
-        WidgetUtils.updateNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
     @Override
@@ -342,11 +351,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
+        mContentEditText.setOnFocusChangeListener(this);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
+        mTagPadding = mRootView.findViewById(R.id.tag_padding);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
 
@@ -403,21 +414,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     // Calculate how far to scroll to bring the match into view
                     Layout layout = mContentEditText.getLayout();
                     int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-
-                    // We use different scroll views in the root of the layout files... yuck.
-                    // So we have to cast appropriately to do a smooth scroll
-                    if (mRootView instanceof NestedScrollView) {
-                        ((NestedScrollView)mRootView).smoothScrollTo(0, lineTop);
-                    } else {
-                        ((ScrollView)mRootView).smoothScrollTo(0, lineTop);
-                    }
-
+                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
                     mShouldScrollToSearchMatch = false;
                 }
             }
         });
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    public void scrollToMatch(int location) {
+        if (isAdded()) {
+            // Calculate how far to scroll to bring the match into view
+            Layout layout = mContentEditText.getLayout();
+            int lineTop = layout.getLineTop(layout.getLineForOffset(location));
+            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+        }
     }
 
     @Override
@@ -510,16 +522,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_checklist:
+                ((AnimatedVectorDrawable) item.getIcon()).start();
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
                 copyToClipboard(mNote.getPublishedUrl());
-                Toast.makeText(getActivity(), getString(R.string.link_copied), Toast.LENGTH_SHORT).show();
+                Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
             case R.id.menu_info:
+                ((AnimatedVectorDrawable) item.getIcon()).start();
                 showInfo();
                 return true;
             case R.id.menu_markdown:
@@ -617,9 +631,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "toolbar_button"
+            EDITOR_CHECKLIST_INSERTED,
+            CATEGORY_NOTE,
+            "toolbar_button"
         );
     }
 
@@ -648,7 +662,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     protected void showMarkdown() {
         loadMarkdownData();
         mMarkdown.setVisibility(View.VISIBLE);
-        requireActivity().invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    requireActivity().invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     private void shareNote() {
@@ -656,9 +679,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.clearFocus();
             showShareSheet();
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "action_bar_share_button"
+                EDITOR_NOTE_CONTENT_SHARED,
+                CATEGORY_NOTE,
+                "action_bar_share_button"
             );
         }
     }
@@ -830,8 +853,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mNote.getTagString() != null && tag.length() > mNote.getTagString().length()) {
             AnalyticsTracker.track(
-                AnalyticsTracker.Stat.EDITOR_TAG_ADDED,
-                AnalyticsTracker.CATEGORY_NOTE,
+                EDITOR_TAG_ADDED,
+                CATEGORY_NOTE,
                 "tag_added_to_note"
             );
         }
@@ -868,22 +891,36 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mHighlighter.removeMatches();
         }
 
+        if (!DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            ((NoteEditorActivity) requireActivity()).setSearchMatchBarVisible(false);
+        }
+
         // Temporarily remove the text watcher as we process checklists to prevent callback looping
         mContentEditText.removeTextChangedListener(this);
         mContentEditText.processChecklists();
         mContentEditText.addTextChangedListener(this);
     }
 
+    /**
+     * Set the note title to be a larger size and bold style.
+     *
+     * Remove all existing spans before applying spans or performance issues will occur.  Since both
+     * {@link RelativeSizeSpan} and {@link StyleSpan} inherit from {@link MetricAffectingSpan}, all
+     * spans are removed when {@link MetricAffectingSpan} is removed.
+     */
     private void setTitleSpan(Editable editable) {
-        // Set the note title to be a larger size
-        // Remove any existing size spans
-        RelativeSizeSpan[] spans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
-        for (RelativeSizeSpan span : spans) {
-            editable.removeSpan(span);
+        for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
+            if (span instanceof RelativeSizeSpan || span instanceof StyleSpan) {
+                editable.removeSpan(span);
+            }
         }
+
         int newLinePosition = getNoteContentString().indexOf("\n");
-        if (newLinePosition == 0)
+
+        if (newLinePosition == 0) {
             return;
+        }
+
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
         editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -1067,9 +1104,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mNote.save();
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_NOTE_EDITED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "editor_save"
+                    EDITOR_NOTE_EDITED,
+                    CATEGORY_NOTE,
+                    "editor_save"
                 );
             }
         } catch (BucketObjectMissingException exception) {
@@ -1147,10 +1184,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPublishTimeoutHandler.postDelayed(mPublishTimeoutRunnable, PUBLISH_TIMEOUT);
 
             AnalyticsTracker.track(
-                    (isPublished) ? AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED :
-                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "publish_note_button"
+                isPublished ? EDITOR_NOTE_PUBLISHED : EDITOR_NOTE_UNPUBLISHED,
+                CATEGORY_NOTE,
+                "publish_note_button"
             );
         }
     }
@@ -1165,68 +1201,91 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                if (mIsUndoingPublishing) {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.status_positive,
-                            Snackbar.LENGTH_LONG);
+                if (mHideActionOnSuccess) {
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_successful,
-                            R.color.status_positive,
-                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
-                                    unpublishNote();
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
+                            .setAction(
+                                R.string.undo,
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mHideActionOnSuccess = true;
+                                        unpublishNote();
+                                    }
                                 }
-                            });
+                            )
+                            .show();
                 }
+
                 copyToClipboard(mNote.getPublishedUrl());
             } else {
-                if (mIsUndoingPublishing) {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.status_negative,
-                            Snackbar.LENGTH_LONG);
+                if (mHideActionOnSuccess) {
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
-                    SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_successful,
-                            R.color.status_negative,
-                            Snackbar.LENGTH_LONG, R.string.undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mIsUndoingPublishing = true;
-                                    publishNote();
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
+                            .setAction(
+                                R.string.undo,
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mHideActionOnSuccess = true;
+                                        publishNote();
+                                    }
                                 }
-                            });
+                            )
+                            .show();
                 }
             }
         } else {
             if (mNote.isPublished()) {
-                SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublish_error,
-                        R.color.status_negative, Snackbar.LENGTH_LONG);
+                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
+                        .setAction(
+                            R.string.retry,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mHideActionOnSuccess = true;
+                                    unpublishNote();
+                                }
+                            }
+                        ).show();
             } else {
-                SnackbarUtils.showSnackbar(requireActivity(), R.string.publish_error,
-                        R.color.status_negative, Snackbar.LENGTH_LONG);
+                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
+                        .setAction(
+                            R.string.retry,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mHideActionOnSuccess = true;
+                                    publishNote();
+                                }
+                            }
+                        ).show();
             }
         }
 
-        mIsUndoingPublishing = false;
+        mHideActionOnSuccess = false;
         requireActivity().invalidateOptionsMenu();
     }
 
     private void publishNote() {
-
         if (isAdded()) {
-            mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.publishing,
-                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar = Snackbar.make(mRootView, R.string.publishing, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar.show();
         }
+
         setPublishedNote(true);
     }
 
     private void unpublishNote() {
-
         if (isAdded()) {
-            mPublishingSnackbar = SnackbarUtils.showSnackbar(requireActivity(), R.string.unpublishing,
-                    R.color.blue, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar = Snackbar.make(mRootView, R.string.unpublishing, Snackbar.LENGTH_INDEFINITE);
+            mPublishingSnackbar.show();
         }
+
         setPublishedNote(false);
     }
 
@@ -1500,6 +1559,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void setChips(CharSequence text) {
+        mTagPadding.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
         mTagChips.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
         mTagChips.setSingleSelection(true);
         mTagChips.removeAllViews();
@@ -1526,8 +1586,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     mTagChips.removeView(view);
                     updateTags();
                     AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.EDITOR_TAG_REMOVED,
-                        AnalyticsTracker.CATEGORY_NOTE,
+                        EDITOR_TAG_REMOVED,
+                        CATEGORY_NOTE,
                         "tag_removed_from_note"
                     );
                 }

@@ -1,7 +1,6 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Layout;
-import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.ArrowKeyMovementMethod;
 import android.view.MotionEvent;

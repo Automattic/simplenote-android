@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr
+        name="android:drawable">
+
+        <vector
+            android:name="av_info_24dp"
+            android:height="24dp"
+            android:width="24dp"
+            android:viewportHeight="24"
+            android:viewportWidth="24">
+
+            <group
+                android:name="group_circle">
+
+                <path
+                    android:name="circle"
+                    android:pathData="M 12 3 C 7 3 3 7 3 12 C 3 17 7 21 12 21 C 17 21 21 17 21 12 C 21 7 17 3 12 3 Z"
+                    android:strokeColor="?attr/toolbarIconColor"
+                    android:strokeWidth="2">
+                </path>
+
+            </group>
+
+            <group
+                android:name="group_letter">
+
+                <clip-path
+                    android:name="mask"
+                    android:pathData="M 11 11 L 13 11 L 13 17 L 11 17 L 11 11 Z M 12 7 C 12.6 7 13 7.4 13 8 C 13 8.6 12.6 9 12 9 C 11.4 9 11 8.6 11 8 C 11 7.4 11.4 7 12 7 Z">
+                </clip-path>
+
+                <path
+                    android:name="letter"
+                    android:fillColor="?attr/toolbarIconColor"
+                    android:pathData="M 11 11 L 13 11 L 13 17 L 11 17 L 11 11 Z M 12 7 C 12.6 7 13 7.4 13 8 C 13 8.6 12.6 9 12 9 C 11.4 9 11 8.6 11 8 C 11 7.4 11.4 7 12 7 Z">
+                </path>
+
+            </group>
+
+        </vector>
+
+    </aapt:attr>
+
+    <target
+        android:name="circle">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="trimPathStart"
+                android:valueFrom="1"
+                android:valueTo="0"
+                android:valueType="floatType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+    <target
+        android:name="mask">
+
+        <aapt:attr
+            name="android:animation">
+
+            <objectAnimator
+                android:duration="@integer/time_animation"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 11 17 L 13 17 L 13 17 L 11 17 L 11 17 Z"
+                android:valueTo="M 11 7 L 13 7 L 13 17 L 11 17 L 11 7 Z"
+                android:valueType="pathType">
+            </objectAnimator>
+
+        </aapt:attr>
+
+    </target>
+
+</animated-vector>

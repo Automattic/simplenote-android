@@ -678,7 +678,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mRefreshListTask = new RefreshListTask(this);
         mRefreshListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, fromNav);
 
-        WidgetUtils.updateNoteWidgets(getActivity());
+        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
     private void refreshListForSearch() {
@@ -1231,7 +1231,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     deleteSearchItem(item);
                     Snackbar
                         .make(getRootView(), R.string.snackbar_deleted_recent_search, Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent))
                         .setAction(
                             getString(R.string.undo),
                             new View.OnClickListener() {
@@ -1444,7 +1443,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     }
                 }
 
-                notesActivity.updateTrashMenuItem();
+                notesActivity.updateTrashMenuItem(true);
             }
 
             if (fragment.mSelectedNoteId != null) {
@@ -1484,7 +1483,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             NotesActivity notesActivity = (NotesActivity) fragment.requireActivity();
-            notesActivity.updateTrashMenuItem();
+            notesActivity.updateTrashMenuItem(true);
 
             if (fragment.mSelectedNoteId != null) {
                 fragment.setNoteSelected(fragment.mSelectedNoteId);

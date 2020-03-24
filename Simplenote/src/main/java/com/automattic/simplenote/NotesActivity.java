@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,11 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -63,9 +65,24 @@ import java.util.List;
 import java.util.Map;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
-import static com.automattic.simplenote.NoteWidget.KEY_WIDGET_CLICK;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_TAG;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTES_SEARCHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_OPENED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TAG_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_EMPTIED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
@@ -73,19 +90,24 @@ import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
-public class NotesActivity extends AppCompatActivity implements
-        NoteListFragment.Callbacks, User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+public class NotesActivity extends ThemedAppCompatActivity implements NoteListFragment.Callbacks,
+        User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
         Bucket.Listener<Note> {
-
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
+
+    private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
+
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
-    private boolean mIsShowingMarkdown;
-    private boolean mShouldSelectNewNote;
+    private boolean mHasTappedNoteListWidgetButton;
     private boolean mIsSettingsClicked;
-    private boolean mIsTabetFullscreen;
+    private boolean mIsShowingMarkdown;
+    private boolean mIsTabletFullscreen;
+    private boolean mShouldSelectNewNote;
 
     private String mTabletSearchQuery;
     private UndoBarController mUndoBarController;
@@ -165,9 +187,11 @@ public class NotesActivity extends AppCompatActivity implements
             fragmentTransaction.add(R.id.note_fragment_container, mNoteListFragment, TAG_NOTE_LIST);
             fragmentTransaction.commit();
         } else {
+            mHasTappedNoteListWidgetButton = savedInstanceState.getBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED);
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
         }
-        mIsTabetFullscreen = mNoteListFragment.isHidden();
+
+        mIsTabletFullscreen = mNoteListFragment.isHidden();
 
         if (DisplayUtils.isLargeScreen(this)) {
             if (getSupportFragmentManager().findFragmentByTag(TAG_NOTE_EDITOR) != null) {
@@ -204,19 +228,52 @@ public class NotesActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        Intent intent = getIntent();
 
         // Ensure user has valid authorization
         if (userAuthenticationIsInvalid()) {
             startLoginActivity();
-            Intent intent = getIntent();
 
             if (intent.hasExtra(KEY_WIDGET_CLICK) && intent.getExtras() != null &&
-                    intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
+                intent.getExtras().getSerializable(KEY_WIDGET_CLICK) == NOTE_WIDGET_SIGN_IN_TAPPED) {
                 AnalyticsTracker.track(
-                        NOTE_WIDGET_SIGN_IN_TAPPED,
-                        CATEGORY_WIDGET,
-                        "note_widget_sign_in_tapped"
+                    NOTE_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_widget_sign_in_tapped"
                 );
+            }
+
+            if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null &&
+                intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_SIGN_IN_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_SIGN_IN_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_sign_in_tapped"
+                );
+            }
+        }
+
+        if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
+            if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_TAPPED) {
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_tapped"
+                );
+            } else if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_BUTTON_TAPPED && !mHasTappedNoteListWidgetButton) {
+                mHasTappedNoteListWidgetButton = true;
+                AnalyticsTracker.track(
+                    NOTE_LIST_WIDGET_BUTTON_TAPPED,
+                    CATEGORY_WIDGET,
+                    "note_list_widget_button_tapped"
+                );
+                AnalyticsTracker.track(
+                    LIST_NOTE_CREATED,
+                    CATEGORY_NOTE,
+                    "note_list_widget"
+                );
+                intent.removeExtra(KEY_LIST_WIDGET_CLICK);
+                getNoteListFragment().addNote();
             }
         }
 
@@ -255,7 +312,7 @@ public class NotesActivity extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
-            if (mIsTabetFullscreen) {
+            if (mIsTabletFullscreen) {
                 ft.hide(mNoteListFragment);
             } else {
                 ft.show(mNoteListFragment);
@@ -276,6 +333,12 @@ public class NotesActivity extends AppCompatActivity implements
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
         mNotesBucket.stop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED, mHasTappedNoteListWidgetButton);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -352,10 +415,10 @@ public class NotesActivity extends AppCompatActivity implements
 
                     if (item.getItemId() == SETTINGS_ID) {
                         AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                                AnalyticsTracker.CATEGORY_TAG,
-                                "selected_tag_in_navigation_drawer",
-                                new HashMap<String, String>(1){{put("tag", "settings");}}
+                            LIST_TAG_VIEWED,
+                            CATEGORY_TAG,
+                            "selected_tag_in_navigation_drawer",
+                            new HashMap<String, String>(1){{put("tag", "settings");}}
                         );
                         mIsSettingsClicked = true;
                         return false;
@@ -446,8 +509,8 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_TAG_VIEWED,
-                AnalyticsTracker.CATEGORY_TAG,
+                LIST_TAG_VIEWED,
+                CATEGORY_TAG,
                 "selected_tag_in_navigation_drawer",
                 properties
         );
@@ -500,9 +563,9 @@ public class NotesActivity extends AppCompatActivity implements
                 mShouldSelectNewNote = true;
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "external_share"
+                    LIST_NOTE_CREATED,
+                    CATEGORY_NOTE,
+                    "external_share"
                 );
 
                 if (!DisplayUtils.isLargeScreenLandscape(this)) {
@@ -577,17 +640,37 @@ public class NotesActivity extends AppCompatActivity implements
         return mSelectedTag;
     }
 
-    // Enable or disable the trash action bar button depending on if there are deleted notes or not
+    // Set trash action bar button enabled/disabled and icon based on deleted notes or not.
     public void updateTrashMenuItem() {
-        if (mEmptyTrashMenuItem == null || mNotesBucket == null)
+        if (mEmptyTrashMenuItem == null || mNotesBucket == null) {
             return;
+        }
 
-        // Disable the trash icon if there are no notes trashed.
+        // Disable trash icon if there are no trashed notes.
         Query<Note> query = Note.allDeleted(mNotesBucket);
+
         if (query.count() == 0) {
+            mEmptyTrashMenuItem.setIcon(R.drawable.ic_trash_disabled_24dp);
             mEmptyTrashMenuItem.setEnabled(false);
         } else {
+            mEmptyTrashMenuItem.setIcon(R.drawable.av_trash_empty_24dp);
             mEmptyTrashMenuItem.setEnabled(true);
+        }
+    }
+
+    public void updateTrashMenuItem(boolean shouldWaitForAnimation) {
+        if (shouldWaitForAnimation) {
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTrashMenuItem();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
+        } else {
+            updateTrashMenuItem();
         }
     }
 
@@ -656,9 +739,15 @@ public class NotesActivity extends AppCompatActivity implements
             // Workaround for setting the search placeholder text color
             @SuppressWarnings("ResourceType")
             String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
-            mSearchView.setQueryHint(HtmlCompat.fromHtml(String.format("<font color=\"%s\">%s</font>",
-                    hintHexColor,
-                    getString(R.string.search))));
+            mSearchView.setQueryHint(
+                HtmlCompat.fromHtml(
+                    String.format(
+                        "<font color=\"%s\">%s</font>",
+                        hintHexColor,
+                        getString(R.string.search_hint)
+                    )
+                )
+            );
         }
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -699,9 +788,9 @@ public class NotesActivity extends AppCompatActivity implements
                 }
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_NOTES_SEARCHED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "action_bar_search_tap"
+                    LIST_NOTES_SEARCHED,
+                    CATEGORY_NOTE,
+                    "action_bar_search_tap"
                 );
                 return true;
             }
@@ -771,13 +860,13 @@ public class NotesActivity extends AppCompatActivity implements
             mEmptyTrashMenuItem = menu.findItem(R.id.menu_empty_trash);
             mEmptyTrashMenuItem.setVisible(true);
 
-            updateTrashMenuItem();
+            updateTrashMenuItem(false);
 
             menu.findItem(R.id.menu_search).setVisible(false);
             menu.findItem(R.id.menu_checklist).setVisible(false);
         }
 
-        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor);
+        DrawableUtils.tintMenuItemWithAttribute(this, menu.findItem(R.id.menu_search), R.attr.toolbarIconColor);
 
         if (mDrawerLayout != null && mSearchMenuItem != null) {
             mDrawerLayout.setDrawerLockMode(mSearchMenuItem.isActionViewExpanded() ?
@@ -790,37 +879,37 @@ public class NotesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         switch (item.getItemId()) {
             case R.id.menu_sidebar:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
                 if (mNoteListFragment.isHidden()) {
                     ft.show(mNoteListFragment);
+                    setIconAfterAnimation(item, R.drawable.av_list_hide_show_24dp, R.string.list_hide);
                 } else {
                     ft.hide(mNoteListFragment);
+                    setIconAfterAnimation(item, R.drawable.av_list_show_hide_24dp, R.string.list_show);
                 }
+
                 ft.commitNowAllowingStateLoss();
-                mIsTabetFullscreen = mNoteListFragment.isHidden();
+                mIsTabletFullscreen = mNoteListFragment.isHidden();
                 return true;
             case R.id.menu_markdown_preview:
                 if (mIsShowingMarkdown) {
-                    item.setIcon(R.drawable.ic_visibility_on_24dp);
-                    item.setTitle(getString(R.string.markdown_show));
+                    setIconAfterAnimation(item, R.drawable.av_visibility_on_off_24dp, R.string.markdown_show);
                     setMarkdownShowing(false);
                     mCurrentNote.setPreviewEnabled(false);
                 } else {
-                    item.setIcon(R.drawable.ic_visibility_off_24dp);
-                    item.setTitle(getString(R.string.markdown_hide));
+                    setIconAfterAnimation(item, R.drawable.av_visibility_off_on_24dp, R.string.markdown_hide);
                     setMarkdownShowing(true);
                     mCurrentNote.setPreviewEnabled(true);
                 }
 
                 mCurrentNote.save();
-                DrawableUtils.tintMenuItemWithAttribute(this, item, R.attr.toolbarIconColor);
-
                 return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null) {
@@ -828,10 +917,10 @@ public class NotesActivity extends AppCompatActivity implements
                         mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
                         mCurrentNote.setModificationDate(Calendar.getInstance());
                         mCurrentNote.save();
-
                         updateViewsAfterTrashAction(mCurrentNote);
                     }
                 }
+
                 return true;
             case R.id.menu_empty_trash:
                 AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Dialog));
@@ -841,10 +930,11 @@ public class NotesActivity extends AppCompatActivity implements
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
                         AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.LIST_TRASH_EMPTIED,
-                                AnalyticsTracker.CATEGORY_NOTE,
-                                "overflow_menu"
+                            LIST_TRASH_EMPTIED,
+                            CATEGORY_NOTE,
+                            "overflow_menu"
                         );
                     }
                 });
@@ -874,11 +964,11 @@ public class NotesActivity extends AppCompatActivity implements
         MenuItem markdownPreviewItem = menu.findItem(R.id.menu_markdown_preview);
 
         if (mIsShowingMarkdown) {
-            markdownPreviewItem.setIcon(R.drawable.ic_visibility_off_24dp);
-            markdownPreviewItem.setTitle(getString(R.string.markdown_hide));
+            markdownPreviewItem.setIcon(R.drawable.av_visibility_off_on_24dp);
+            markdownPreviewItem.setTitle(R.string.markdown_hide);
         } else {
-            markdownPreviewItem.setIcon(R.drawable.ic_visibility_on_24dp);
-            markdownPreviewItem.setTitle(getString(R.string.markdown_show));
+            markdownPreviewItem.setIcon(R.drawable.av_visibility_on_off_24dp);
+            markdownPreviewItem.setTitle(R.string.markdown_show);
         }
 
         if (mCurrentNote != null) {
@@ -903,8 +993,21 @@ public class NotesActivity extends AppCompatActivity implements
             }
         }
 
-        DrawableUtils.tintMenuItemWithAttribute(this, markdownPreviewItem, R.attr.toolbarIconColor);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setIconAfterAnimation(final MenuItem item, final @DrawableRes int drawable, final @StringRes int string) {
+        ((AnimatedVectorDrawable) item.getIcon()).start();
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    item.setIcon(drawable);
+                    item.setTitle(string);
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     public void submitSearch(String selection) {
@@ -950,15 +1053,15 @@ public class NotesActivity extends AppCompatActivity implements
             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
             mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.LIST_NOTE_DELETED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "overflow_menu"
+                LIST_NOTE_DELETED,
+                CATEGORY_NOTE,
+                "overflow_menu"
             );
         } else {
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "overflow_menu"
+                EDITOR_NOTE_RESTORED,
+                CATEGORY_NOTE,
+                "overflow_menu"
             );
         }
 
@@ -978,6 +1081,7 @@ public class NotesActivity extends AppCompatActivity implements
 
     public void setMarkdownShowing(boolean isMarkdownShowing) {
         mIsShowingMarkdown = isMarkdownShowing;
+
         if (mNoteEditorFragment != null) {
             if (isMarkdownShowing) {
                 mNoteEditorFragment.showMarkdown();
@@ -985,7 +1089,16 @@ public class NotesActivity extends AppCompatActivity implements
                 mNoteEditorFragment.hideMarkdown();
             }
         }
-        invalidateOptionsMenu();
+
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            },
+            getResources().getInteger(R.integer.time_animation)
+        );
     }
 
     /**
@@ -1007,14 +1120,16 @@ public class NotesActivity extends AppCompatActivity implements
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
+
             if (mNoteListFragment.isHidden()) {
                 editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             }
+
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
-            setMarkdownShowing(isPreviewEnabled);
+            setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
             if (mSearchView != null && mSearchView.getQuery() != null) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
@@ -1030,9 +1145,9 @@ public class NotesActivity extends AppCompatActivity implements
         }
 
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_NOTE_OPENED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                "note_list_row_tap"
+            LIST_NOTE_OPENED,
+            CATEGORY_NOTE,
+            "note_list_row_tap"
         );
     }
 
@@ -1040,9 +1155,9 @@ public class NotesActivity extends AppCompatActivity implements
     public void onUserCreated(User user) {
         // New account created
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.USER_ACCOUNT_CREATED,
-                AnalyticsTracker.CATEGORY_USER,
-                "account_created_from_login_activity"
+            USER_ACCOUNT_CREATED,
+            CATEGORY_USER,
+            "account_created_from_login_activity"
         );
     }
 
@@ -1088,6 +1203,9 @@ public class NotesActivity extends AppCompatActivity implements
         editor.remove(PrefUtils.PREF_WP_TOKEN);
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
+
+        // Remove Passcode Lock password
+        AppLockManager.getInstance().getAppLock().setPassword("");
 
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
@@ -1145,9 +1263,9 @@ public class NotesActivity extends AppCompatActivity implements
                 CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.USER_SIGNED_IN,
-                        AnalyticsTracker.CATEGORY_USER,
-                        "signed_in_from_login_activity"
+                    USER_SIGNED_IN,
+                    CATEGORY_USER,
+                    "signed_in_from_login_activity"
                 );
 
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
@@ -1265,9 +1383,9 @@ public class NotesActivity extends AppCompatActivity implements
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_trash_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_trash));
                 AnalyticsTracker.track(
-                        AnalyticsTracker.Stat.LIST_TRASH_VIEWED,
-                        AnalyticsTracker.CATEGORY_NOTE,
-                        "trash_filter_selected"
+                    LIST_TRASH_VIEWED,
+                    CATEGORY_NOTE,
+                    "trash_filter_selected"
                 );
             } else if (mSelectedTag.id == UNTAGGED_NOTES_ID) {
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_untagged_24dp);
@@ -1346,7 +1464,16 @@ public class NotesActivity extends AppCompatActivity implements
 
         if (note.equals(mCurrentNote)) {
             mCurrentNote = note;
-            invalidateOptionsMenu();
+
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidateOptionsMenu();
+                    }
+                },
+                getResources().getInteger(R.integer.time_animation)
+            );
         }
     }
 

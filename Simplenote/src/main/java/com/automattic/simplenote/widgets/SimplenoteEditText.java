@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.ChecklistUtils;
@@ -95,7 +96,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         final ImageSpan[] imageSpans = editable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
             // ImageSpans are static, so we need to remove the old one and replace :|
-            Drawable iconDrawable = getContext().getResources().getDrawable(
+            Drawable iconDrawable = ContextCompat.getDrawable(getContext(),
                     checkableSpan.isChecked()
                             ? R.drawable.ic_checkbox_checked_24px
                             : R.drawable.ic_checkbox_unchecked_24px);

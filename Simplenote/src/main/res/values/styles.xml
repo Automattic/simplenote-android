@@ -13,7 +13,7 @@
         <item name="android:actionModeCutDrawable">@drawable/ic_cut_24dp</item>
         <item name="android:actionModePasteDrawable">@drawable/ic_paste_24dp</item>
         <item name="android:actionModeSelectAllDrawable">@drawable/ic_select_all_24dp</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Simplestyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/Action.Overflow</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
         <item name="android:windowBackground">@color/background_light</item>
@@ -59,6 +59,10 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
+    <style name="Action.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:contentDescription">@string/more_options</item>
+    </style>
+
     <style name="CloseButtonStyle" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
         <item name="tint">@color/item_blue_light</item>
     </style>
@@ -92,14 +96,17 @@
         <item name="iconTint">?attr/colorAccent</item>
     </style>
 
-    <style name="PopupMenu.Simplestyle" parent="@android:style/Widget.Material.Light.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_simplestyle</item>
-    </style>
-
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+    
+    <style name="Theme.Simplestyle.Splash">
+        <item name="android:navigationBarColor">@color/blue</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">

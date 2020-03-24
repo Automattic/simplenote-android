@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+
     <integer name="default_font_size">16</integer>
+    <integer name="time_animation">400</integer> <!-- @android:integer/config_mediumAnimTime -->
+    <integer name="time_animation_eighth">50</integer>
+    <integer name="time_animation_eighth_quintuple">250</integer>
+    <integer name="time_animation_eighth_triple">150</integer>
+    <integer name="time_animation_fifth">80</integer>
+    <integer name="time_animation_fifth_quadruple">320</integer>
+    <integer name="time_animation_fourth">100</integer>
+    <integer name="time_animation_fourth_triple">300</integer>
+    <integer name="time_animation_half">200</integer>
+    <integer name="time_animation_third">133</integer>
+    <integer name="time_animation_third_double">266</integer>
+
 </resources>

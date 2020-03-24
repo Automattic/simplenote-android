@@ -13,7 +13,8 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Simplestyle">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Simplestyle.Splash">
         <activity
             android:name=".NotesActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
@@ -114,19 +115,73 @@
         </activity>
 
         <receiver
-            android:name=".NoteWidget"
-            android:label="@string/label_note">
+            android:name=".NoteListWidgetDark"
+            android:label="@string/note_list_widget_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/note_widget_info" />
+                android:resource="@xml/note_list_widget_info_dark">
+            </meta-data>
         </receiver>
 
+        <receiver
+            android:name=".NoteListWidgetLight"
+            android:label="@string/note_list_widget_light">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_list_widget_info_light">
+            </meta-data>
+        </receiver>
+
+        <receiver
+            android:name=".NoteWidgetDark"
+            android:label="@string/note_widget_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_widget_info_dark">
+            </meta-data>
+        </receiver>
+
+        <receiver
+            android:name=".NoteWidgetLight"
+            android:label="@string/note_widget_light">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/note_widget_info_light">
+            </meta-data>
+        </receiver>
+
+        <service
+            android:name=".NoteListWidgetDarkService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
+
+        <service
+            android:name=".NoteListWidgetLightService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
+
         <activity
-            android:name=".NoteWidgetConfigureActivity"
+            android:name=".NoteWidgetDarkConfigureActivity"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".NoteWidgetLightConfigureActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

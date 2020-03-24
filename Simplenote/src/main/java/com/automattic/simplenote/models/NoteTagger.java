@@ -9,8 +9,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * Listens to the notes bucket and creates tags for any non-existant tags
- * in the tags bucket.
+ * Listens to the notes bucket and creates tags for any non-existent tags in the tags bucket.
  */
 public class NoteTagger implements Bucket.Listener<Note> {
 
