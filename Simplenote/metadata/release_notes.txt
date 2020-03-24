@@ -1,4 +1,7 @@
-* Updated note information with date modified, date created, word count, and character count.
-* Moved some note options from note information and the action bar to the ellipsis menu.
-* Fixed a syncing bug with deleting tags and emptying trash.
-* Fixed a networking bug that made the app lag.
+* Added a dark version of the note widget to view and open a note in the app from the home screen.
+* Added a note list widget to open any note in the app from the home screen.
+* Added a toolbar to find matching search terms within notes.
+* Added support for right-to-left languages and layouts.
+* Added search to tags list.
+* Fixed a bug that highlighted search terms incorrectly in notes with checklists.
+* Fixed a bug with the note title that made the app lag while editing a note.
