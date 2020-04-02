@@ -248,7 +248,7 @@
     <string name="simperium_error_email">Invalid email</string>
     <string name="simperium_error_password">Invalid password</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sForgot password?%4$s</string>
-    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot/?email=%1$s</string>
     <string name="simperium_footer_signup">By creating an account, you agree to our %1$s%2$s%3$sTerms and Conditions%4$s</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_hint_email">Email</string>
