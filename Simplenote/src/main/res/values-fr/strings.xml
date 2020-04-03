@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-02 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="search">Rechercher des notes ou des étiquettes</string>
+    <string name="empty_tags_search">Aucune étiquette trouvée</string>
+    <string name="empty_notes_widget">Aucune note</string>
+    <string name="loading_notes">Chargement des notes…</string>
+    <string name="note_widget_light">Note (affichage clair)</string>
+    <string name="note_widget_dark">Note (affichage foncé)</string>
+    <string name="note_list_widget_light">Liste de notes (affichage clair)</string>
+    <string name="note_list_widget_dark">Liste de notes (affichage foncé)</string>
+    <string name="retry">Réessayer</string>
+    <string name="publishing">Publication…</string>
+    <string name="publish_successful">Publié. Lien copié !</string>
+    <string name="link_copied">Lien copié !</string>
+    <string name="of">sur</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
+    <string name="more_options">Plus d\'options</string>
+    <string name="list_show">Afficher la liste</string>
+    <string name="list_hide">Masquer la liste</string>
+    <string name="toggle_pin">Activer/désactiver Épingler en haut</string>
+    <string name="search_tags_hint">Rechercher dans les étiquettes</string>
+    <string name="search_tags">Rechercher dans les étiquettes</string>
+    <string name="copy_link">Copier le lien</string>
+    <string name="modified">Modifiée</string>
+    <string name="created">Créée</string>
+    <string name="pin">Épingler</string>
+    <string name="information">Information</string>
     <string name="passcodelock_prompt_message">Entrer votre code d\'accès</string>
     <string name="passcode_turn_on">Activer le code d\'accès</string>
     <string name="passcode_turn_off">Désactiver le code d\'accès</string>
@@ -28,7 +54,7 @@ Language: fr
     <string name="sort_search_created">Créé</string>
     <string name="sort_search_alphabetically">Par ordre alphabétique</string>
     <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton bleu « Nouvelle note » avec l\'icône plus.\n\nPour recherche vos notes, appuyez sur le bouton de recherche avec l\'icône en forme de loupe et entrez n\'importe quel texte. Simplenote affichera les recherches récentes initiales et les recherches suggérées à la saisie de texte. Les notes correspondant au texte entré apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez-la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l\'icône en forme d\'épingle. Appuyez sur le bouton « Info » avec l\'icône en forme de « i » à partir de la note consultée et activez l\'option « Épingler en haut ».\n\nUtilisez des étiquettes pour faciliter l\'organisation de vos notes. Créez une étiquette dans le champ « Ajouter une étiquette… » au bas d\'une note. Vous pouvez également ajouter une adresse e-mail sous forme d\'étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d\'autres applications Android en appuyant sur le bouton « Partager » avec l\'icône de partage à partir de la note consultée.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web, et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
-    <string name="search">Rechercher des notes ou des étiquettes</string>
+    <string name="search_hint">Rechercher dans les notes ou les étiquettes</string>
     <string name="log_out">Déconnexion</string>
     <string name="log_in">Connexion</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: fr
     <string name="simperium_button_login_email">Se connecter avec l\'adresse e-mail</string>
     <string name="simperium_button_login">Connexion</string>
     <string name="theme_system">Paramètres par défaut du système</string>
-    <string name="description_fingerprint_supported">Empreinte digitale prise en charge</string>
-    <string name="toggle_sidebar">Basculer la colonne latérale</string>
     <string name="toggle_checklist">Basculer sur la liste de contrôle</string>
     <string name="log_in_use_widget">Se connecter pour utiliser des widgets</string>
     <string name="log_in_add_widget">Se connecter pour ajouter ce widget</string>
     <string name="select_note">Sélectionner la remarque</string>
     <string name="note_not_found">Remarque introuvable</string>
     <string name="loading_note">Chargement de la remarque en cours…</string>
-    <string name="label_note">Remarque</string>
     <string name="passcode_summary">Les captures d\'écran sont désactivées lorsque le code d\'accès est activé</string>
     <string name="all_notes">Toutes les notes</string>
     <string name="appearance">Apparence</string>
@@ -86,7 +109,7 @@ Language: fr
     <string name="theme_auto">Sombre la nuit uniquement</string>
     <string name="notes">Notes</string>
     <string name="share_analytics_summary">Aidez-nous à améliorer Simplenote en partageant les données d\'utilisation avec notre outil d\'analyse. %1$sEn savoir plus%2$s</string>
-    <string name="share_analytics">Partager des analyses</string>
+    <string name="share_analytics">Partager les données d\'utilisation</string>
     <string name="editor">Éditeur</string>
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Désépingler du haut</string>
@@ -96,17 +119,13 @@ Language: fr
     <string name="unsynced_notes">Notes non synchronisées détectées</string>
     <string name="wpcom_log_in_error_unverified">Activez votre compte WordPress.com par e-mail et réessayez.</string>
     <string name="wpcom_log_in_error_generic">Impossible de se connecter à WordPress.com. Veuillez réessayer.</string>
-    <string name="note_not_published">Note non publiée</string>
     <string name="collaborate_message">Ajoutez un e-mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
     <string name="collaborate">Collaborer</string>
     <string name="unpublishing">Suppression du lien public…</string>
-    <string name="publishing">Publication du lien…</string>
     <string name="unpublish_successful">Lien public supprimé.</string>
-    <string name="publish_successful">Terminé ! Lien copié dans le presse-papier…</string>
-    <string name="unpublish_error">Impossible de supprimer le lien…</string>
-    <string name="publish_error">Impossible de créer le lien…</string>
+    <string name="unpublish_error">Impossible de supprimer le lien.</string>
+    <string name="publish_error">Impossible de créer le lien.</string>
     <string name="unpublish">Supprimer le lien public</string>
-    <string name="public_link">Lien public</string>
     <string name="no_browser_available">« Impossible d’ouvrir le site web. Aucun navigateur disponible. »</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Donnez-nous votre avis</string>
@@ -116,11 +135,10 @@ Language: fr
     <string name="about">À propos de Simplenote</string>
     <string name="markdown_show">Montrer Markdown</string>
     <string name="markdown_hide">Cacher Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Prévisualiser</string>
     <string name="tab_edit">Modifier</string>
-    <string name="modified_time">Modifié il y a %s</string>
     <string name="pin_to_top">Épingler en haut</string>
-    <string name="enable_markdown">Activer markdown</string>
     <string name="error_history">Impossible de récupérer l\'historique.</string>
     <string name="history">Historique</string>
     <string name="restore">Restaurer</string>
@@ -136,7 +154,6 @@ Language: fr
     <string name="published">Publié</string>
     <string name="publish">Publier</string>
     <string name="version">Version</string>
-    <string name="note_info">Info</string>
     <string name="theme">Thème</string>
     <string name="theme_dark">Foncé</string>
     <string name="theme_light">Clair</string>
@@ -148,7 +165,6 @@ Language: fr
     <string name="passcode_enter_old_passcode">Entrer ancien code d\'accès</string>
     <string name="error">Erreur</string>
     <string name="copy">Copie</string>
-    <string name="link_copied">Lien copié dans le presse-papier</string>
     <string name="link">Lien</string>
     <string name="view_in_browser">Voir dans le navigateur</string>
     <string name="view_map">Voir la carte</string>
@@ -166,9 +182,6 @@ Language: fr
     <string name="rename_tag">Renommer tag</string>
     <string name="new_note_list">Nouvelle note…</string>
     <string name="confirm_delete_tag">Êtes-vous sûr de vouloir supprimer ce tag ?</string>
-    <string name="edit_tags">Editer tags</string>
-    <string name="new_note">Nouvelle note</string>
-    <string name="delete">Placer dans la corbeille</string>
     <string name="note_deleted">Note placée dans la corbeille</string>
     <string name="undo">Défaire</string>
     <string name="yesterday">Hier</string>
@@ -187,12 +200,13 @@ Language: fr
     <string name="save">Sauver</string>
     <string name="delete_tag">Supprimer le tag</string>
     <string name="tag_name">Nom du tag</string>
+    <string name="edit_tags">Modifier les étiquettes</string>
     <string name="characters">Caractères</string>
     <string name="words">Mots</string>
     <string name="font_size">Taille de caractère</string>
     <string name="detect_links">Détecter les liens</string>
     <string name="account">Compte</string>
-    <string name="undelete">Restorer note</string>
+    <string name="new_note">Nouvelle note</string>
     <string name="share">Partager</string>
     <string name="settings">Paramètres</string>
     <string name="tag_hint">Ajouter un tag…</string>

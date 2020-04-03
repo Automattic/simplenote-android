@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-01 00:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="search">البحث عن الملحوظات أو الوسوم</string>
+    <string name="empty_tags_search">لم يتم العثور على وسوم</string>
+    <string name="empty_notes_widget">لا توجد ملحوظات</string>
+    <string name="loading_notes">جارٍ تحميل الملحوظات…</string>
+    <string name="note_widget_light">ملحوظة (فاتح)</string>
+    <string name="note_widget_dark">ملحوظة (غامق)</string>
+    <string name="note_list_widget_light">قائمة الملحوظات (فاتح)</string>
+    <string name="note_list_widget_dark">قائمة الملحوظات (غامق)</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="publishing">جارٍ النشر…</string>
+    <string name="publish_successful">تم النشر. تم نسخ الرابط!</string>
+    <string name="link_copied">تم نسخ الرابط!</string>
+    <string name="of">من</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
+    <string name="more_options">مزيد من الخيارات</string>
+    <string name="list_show">عرض القائمة</string>
+    <string name="list_hide">إخفاء القائمة</string>
+    <string name="toggle_pin">تبديل التثبيت في الأعلى</string>
+    <string name="search_tags_hint">البحث عن الوسوم</string>
+    <string name="search_tags">البحث عن الوسوم</string>
+    <string name="copy_link">نسخ الرابط</string>
+    <string name="modified">معدَّل</string>
+    <string name="created">تم الإنشاء</string>
+    <string name="pin">تثبيت</string>
+    <string name="information">معلومات</string>
     <string name="passcodelock_prompt_message">إدخال رمز المرور الخاص بك</string>
     <string name="passcode_turn_on">تشغيل قفل رمز المرور</string>
     <string name="passcode_turn_off">إيقاف تشغيل قفل رمز المرور</string>
@@ -28,7 +54,7 @@ Language: ar
     <string name="sort_search_created">تاريخ الإنشاء</string>
     <string name="sort_search_alphabetically">أبجديًا</string>
     <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذه الملحوظة للحصول على الإرشادات.\n\nلإنشاء ملحوظة جديدة، انقر على زر \"إضافة ملحوظة\" الأزرق مع أيقونة \"الإضافة\".\n\nللبحث عن ملحوظاتك، انقر على زر \"بحث\" مع أيقونة العدسة المكبِّرة وأدخل أي نص. سيعرض برنامج Simplenote مبدئيًا عمليات البحث الأخيرة وعمليات البحث المقترحة عند إدخال نص. ستظهر الملحوظات التي تتطابق مع النص الذي تم إدخاله بمجرد إرسال البحث.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ قم بتثبيتها في الجزء العلوي من قائمة الملحوظات. يمكنك تثبيت الملحوظة بطريقتين. اضغط ضغطًا مطولاً على الملحوظة الموجودة في القائمة وانقر على زر \"تثبيت في الأعلى\" مع أيقونة التثبيت. انقر على زر \"معلومات\" وأيقونة \"i\" عند عرض الملحوظة، وشغِّل مفتاح \"تثبيت في الأعلى\".\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. أنشئ وسمًا في حقل \"إضافة وسم…\" في أسفل الملحوظة. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات مع التطبيقات الأخرى التي تعمل بنظام التشغيل Android بسهولة عن طريق النقر على زر \"مشاركة\" مع أيقونة المشاركة عند عرض الملحوظة.\n\nتظهر الملحوظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
-    <string name="search">البحث عن الملحوظات أو الوسوم</string>
+    <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="log_in">تسجيل الدخول</string>
     <string name="simperium_title">‎@string/app_name</string>
@@ -54,15 +80,12 @@ Language: ar
     <string name="simperium_button_login_email">تسجيل الدخول باستخدام البريد الإلكتروني</string>
     <string name="simperium_button_login">تسجيل الدخول</string>
     <string name="theme_system">الإعداد الافتراضي للنظام</string>
-    <string name="description_fingerprint_supported">بصمة الإصبع مدعومة</string>
-    <string name="toggle_sidebar">تبديل الشريط الجانبي</string>
     <string name="toggle_checklist">تبديل قائمة الاختيار</string>
     <string name="log_in_use_widget">تسجيل الدخول لاستخدام المربع الجانبي</string>
     <string name="log_in_add_widget">تسجيل الدخول لإضافة هذا المربع الجانبي</string>
     <string name="select_note">تحديد ملحوظة</string>
     <string name="note_not_found">الملحوظة غير موجودة</string>
     <string name="loading_note">جارٍ تحميل الملحوظة…</string>
-    <string name="label_note">ملحوظة</string>
     <string name="passcode_summary">تُعرض لقطات الشاشة عندما يكون قفل رمز المرور قيد التشغيل</string>
     <string name="all_notes">كل الملاحظات</string>
     <string name="appearance">المظهر</string>
@@ -96,17 +119,13 @@ Language: ar
     <string name="unsynced_notes">تم الكشف عن ملاحظات غير متزامنة</string>
     <string name="wpcom_log_in_error_unverified">يمكنك تفعيل حسابك على ووردبريس.كوم من خلال البريد الإلكتروني والمحاولة مجددًا.</string>
     <string name="wpcom_log_in_error_generic">تعذر تسجيل الدخول باستخدام ووردبريس.كوم. يُرجى المحاولة مجددًا.</string>
-    <string name="note_not_published">لم يتم نشر الملاحظة</string>
     <string name="collaborate_message">إضافة بريد إلكتروني في حقل العلامة للتعاون مع مستخدمين آخرين.</string>
     <string name="collaborate">تعاون</string>
     <string name="unpublishing">جارٍ إزالة الرابط العام…</string>
-    <string name="publishing">جارٍ نشر الرابط…</string>
     <string name="unpublish_successful">تمت إزالة الرابط العام.</string>
-    <string name="publish_successful">نجاح! تم نسخ الرابط إلى الحافظة…</string>
-    <string name="unpublish_error">تعذر إزالة رابط…</string>
-    <string name="publish_error">تعذر إنشاء رابط…</string>
+    <string name="unpublish_error">تعذر إزالة الرابط.</string>
+    <string name="publish_error">تعذر إنشاء الرابط.</string>
     <string name="unpublish">إزالة الرابط العام</string>
-    <string name="public_link">الرابط العام</string>
     <string name="no_browser_available">\"يتعذر فتح موقع الويب. لا يتوفر متصفح.\"</string>
     <string name="blog">المدونة</string>
     <string name="rate_us">صنّفنا</string>
@@ -116,11 +135,10 @@ Language: ar
     <string name="about">نبذة عن Simplenote</string>
     <string name="markdown_show">إظهار الضبط</string>
     <string name="markdown_hide">إخفاء الضبط</string>
+    <string name="markdown">الضبط</string>
     <string name="tab_preview">معاينة</string>
     <string name="tab_edit">تحرير</string>
-    <string name="modified_time">تم التعديل %s</string>
     <string name="pin_to_top">تثبيت في المقدمة</string>
-    <string name="enable_markdown">تمكين الضبط</string>
     <string name="error_history">تعذر استرداد سجل الأحداث.</string>
     <string name="history">سجل الأحداث</string>
     <string name="restore">استعادة</string>
@@ -136,7 +154,6 @@ Language: ar
     <string name="published">منشور</string>
     <string name="publish">نشر</string>
     <string name="version">النسخة</string>
-    <string name="note_info">معلومات</string>
     <string name="theme">قالب</string>
     <string name="theme_dark">داكن</string>
     <string name="theme_light">فاتح</string>
@@ -148,7 +165,6 @@ Language: ar
     <string name="passcode_enter_old_passcode">إدخال رمز المرور القديم الخاص بك</string>
     <string name="error">خطأ</string>
     <string name="copy">نسخ</string>
-    <string name="link_copied">نسخ الرابط إلى الحافظة</string>
     <string name="link">رابط</string>
     <string name="view_in_browser">عرض في المتصفح</string>
     <string name="view_map">عرض الخريطة</string>
@@ -166,9 +182,6 @@ Language: ar
     <string name="rename_tag">إعادة تسمية الوسم</string>
     <string name="new_note_list">ملاحظة جديدة…</string>
     <string name="confirm_delete_tag">هل أنت متأكد من رغبتك في حذف هذا الوسم؟</string>
-    <string name="edit_tags">تحرير الوسوم</string>
-    <string name="new_note">ملاحظة جديدة</string>
-    <string name="delete">نقل إلى سلة المهملات</string>
     <string name="note_deleted">تم وضع الملاحظة بسلة المهملات.</string>
     <string name="undo">تراجع</string>
     <string name="yesterday">أمس</string>
@@ -187,12 +200,13 @@ Language: ar
     <string name="save">حفظ</string>
     <string name="delete_tag">حذف الوسم</string>
     <string name="tag_name">اسم الوسم</string>
+    <string name="edit_tags">تحرير الوسم</string>
     <string name="characters">أحرف</string>
     <string name="words">الكلمات</string>
     <string name="font_size">حجم الخط</string>
     <string name="detect_links">الكشف عن الروابط</string>
     <string name="account">الحساب</string>
-    <string name="undelete">استعادة الوسم</string>
+    <string name="new_note">ملحوظة جديدة</string>
     <string name="share">مشاركة</string>
     <string name="settings">إعدادات</string>
     <string name="tag_hint">إضافة وسم…</string>

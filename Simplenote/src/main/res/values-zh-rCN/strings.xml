@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-02 00:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="search">搜索备注或标签</string>
+    <string name="empty_tags_search">未找到标签</string>
+    <string name="empty_notes_widget">无备注</string>
+    <string name="loading_notes">正在加载备注…</string>
+    <string name="note_widget_light">备注（浅色）</string>
+    <string name="note_widget_dark">备注（深色）</string>
+    <string name="note_list_widget_light">备注列表（浅色）</string>
+    <string name="note_list_widget_dark">备注列表（深色）</string>
+    <string name="retry">重试</string>
+    <string name="publishing">正在发布…</string>
+    <string name="publish_successful">已发布。链接已复制！</string>
+    <string name="link_copied">链接已复制！</string>
+    <string name="of">/</string>
+    <string name="next">下一步</string>
+    <string name="previous">上一个</string>
+    <string name="more_options">更多选项</string>
+    <string name="list_show">显示列表</string>
+    <string name="list_hide">隐藏列表</string>
+    <string name="toggle_pin">将 PIN 切换到顶部</string>
+    <string name="search_tags_hint">搜索标签</string>
+    <string name="search_tags">搜索标签</string>
+    <string name="copy_link">复制链接</string>
+    <string name="modified">已修改</string>
+    <string name="created">已创建</string>
+    <string name="pin">置顶</string>
+    <string name="information">信息</string>
     <string name="passcodelock_prompt_message">输入您的密码</string>
     <string name="passcode_turn_on">开启密码锁</string>
     <string name="passcode_turn_off">关闭密码锁</string>
@@ -28,7 +54,7 @@ Language: zh_CN
     <string name="sort_search_created">创建时间</string>
     <string name="sort_search_alphabetically">按字母顺序</string>
     <string name="welcome_note">欢迎使用 Simplenote Android！\n打开此笔记以获取说明。\n\n要创建新笔记，请点击带加号图标的蓝色“新建笔记”按钮。\n\n要搜索您的笔记，请点击带有放大镜图标的“搜索”按钮，并输入任意文本。Simplenote 将在输入文本时显示最近的搜索和建议的搜索。提交搜索后，将显示与输入文本匹配的笔记。\n\n要获取至关重要的笔记？将其固定在笔记列表的顶部。您有两种方法可以固定笔记长按列表中的笔记并点击带有钉子图标的“固定在顶部”按钮。查看笔记时，点击带有“i”图标的“信息”按钮，然后开启“固定在顶部”。\n\n使用标签来帮助整理笔记。在笔记底部的“添加标签…”字段中创建标签。您也可以添加电子邮件地址，并将其用作标签，以便与他人分享笔记。\n\n在查看笔记时，点击共享图标上的“共享”按钮，即可轻松与其他 Android 应用程序共享笔记。\n\n已删除的笔记会进入回收站。您可以根据需要将其还原，也可以清空回收站，以将其永久删除。\n\n您可以通过 Web 及其他设备访问自己的笔记。转至 http://simplenote.com，开始使用。\n\n衷心希望您喜欢使用 Simplenote！</string>
-    <string name="search">搜索笔记或标签</string>
+    <string name="search_hint">搜索备注或标签</string>
     <string name="log_out">注销</string>
     <string name="log_in">登录</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: zh_CN
     <string name="simperium_button_login_email">使用电子邮件登录</string>
     <string name="simperium_button_login">登录</string>
     <string name="theme_system">系统默认</string>
-    <string name="description_fingerprint_supported">支持指纹解锁</string>
-    <string name="toggle_sidebar">切换边栏</string>
     <string name="toggle_checklist">切换清单</string>
     <string name="log_in_use_widget">登录以使用小组件</string>
     <string name="log_in_add_widget">登录以添加此小组件</string>
     <string name="select_note">选择笔记</string>
     <string name="note_not_found">未找到笔记</string>
     <string name="loading_note">正在加载笔记…</string>
-    <string name="label_note">笔记</string>
     <string name="passcode_summary">密码锁开启时，屏幕截图将处于禁用状态</string>
     <string name="all_notes">所有便签</string>
     <string name="appearance">外观</string>
@@ -96,17 +119,13 @@ Language: zh_CN
     <string name="unsynced_notes">发现未同步的笔记</string>
     <string name="wpcom_log_in_error_unverified">通过电子邮件激活您的 WordPress.com 帐户，然后重试。</string>
     <string name="wpcom_log_in_error_generic">无法登录 WordPress.com。请重试。</string>
-    <string name="note_not_published">笔记尚未发布</string>
     <string name="collaborate_message">在标签中添加邮箱地址即可与其他用户协作。</string>
     <string name="collaborate">协作</string>
     <string name="unpublishing">正在删除公开链接…</string>
-    <string name="publishing">正在发布链接…</string>
     <string name="unpublish_successful">公开链接已删除。</string>
-    <string name="publish_successful">成功！链接已复制到剪贴板…</string>
-    <string name="unpublish_error">无法删除链接…</string>
-    <string name="publish_error">无法创建链接…</string>
+    <string name="unpublish_error">无法删除链接。</string>
+    <string name="publish_error">无法创建链接。</string>
     <string name="unpublish">删除公开链接</string>
-    <string name="public_link">公开链接</string>
     <string name="no_browser_available">“无法打开网站。没有可用的浏览器。”</string>
     <string name="blog">博客</string>
     <string name="rate_us">给我们评分</string>
@@ -116,11 +135,10 @@ Language: zh_CN
     <string name="about">关于 Simplenote</string>
     <string name="markdown_show">显示 Markdown</string>
     <string name="markdown_hide">隐藏 Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">预览</string>
     <string name="tab_edit">编辑</string>
-    <string name="modified_time">修改时间：%s</string>
     <string name="pin_to_top">置顶</string>
-    <string name="enable_markdown">启用 Markdown</string>
     <string name="error_history">无法获取历史记录。</string>
     <string name="history">历史记录</string>
     <string name="restore">恢复</string>
@@ -136,7 +154,6 @@ Language: zh_CN
     <string name="published">已发布</string>
     <string name="publish">发布</string>
     <string name="version">版本</string>
-    <string name="note_info">信息</string>
     <string name="theme">主题</string>
     <string name="theme_dark">深色</string>
     <string name="theme_light">浅色</string>
@@ -148,7 +165,6 @@ Language: zh_CN
     <string name="passcode_enter_old_passcode">输入您的旧密码</string>
     <string name="error">错误</string>
     <string name="copy">复制</string>
-    <string name="link_copied">链接已复制到剪贴板</string>
     <string name="link">链接</string>
     <string name="view_in_browser">在浏览器中查看</string>
     <string name="view_map">查看地图</string>
@@ -166,9 +182,6 @@ Language: zh_CN
     <string name="rename_tag">重命名标签</string>
     <string name="new_note_list">新建笔记…</string>
     <string name="confirm_delete_tag">是否确定要删除此标签？</string>
-    <string name="edit_tags">编辑标签</string>
-    <string name="new_note">新建笔记</string>
-    <string name="delete">移动到回收站</string>
     <string name="note_deleted">已将笔记放入回收站。</string>
     <string name="undo">撤消</string>
     <string name="yesterday">昨天</string>
@@ -187,12 +200,13 @@ Language: zh_CN
     <string name="save">保存</string>
     <string name="delete_tag">删除标签</string>
     <string name="tag_name">标签名称</string>
+    <string name="edit_tags">编辑标签</string>
     <string name="characters">个字符</string>
     <string name="words">个词语/分句</string>
     <string name="font_size">字体大小</string>
     <string name="detect_links">检测链接</string>
     <string name="account">帐户</string>
-    <string name="undelete">恢复笔记</string>
+    <string name="new_note">新建备注</string>
     <string name="share">共享</string>
     <string name="settings">设置</string>
     <string name="tag_hint">添加标签…</string>

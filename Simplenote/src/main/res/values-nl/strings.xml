@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-02 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="search">Notities of tags zoeken</string>
+    <string name="empty_tags_search">Geen tags gevonden</string>
+    <string name="empty_notes_widget">Geen notities</string>
+    <string name="loading_notes">Notities worden geladen …</string>
+    <string name="note_widget_light">Notitie (licht)</string>
+    <string name="note_widget_dark">Notitie (donker)</string>
+    <string name="note_list_widget_light">Lijst met notities (licht)</string>
+    <string name="note_list_widget_dark">Lijst met notities (donker)</string>
+    <string name="retry">Opnieuw proberen</string>
+    <string name="publishing">Bezig met publiceren …</string>
+    <string name="publish_successful">Gepubliceerd. Link gekopieerd!</string>
+    <string name="link_copied">Link gekopieerd!</string>
+    <string name="of">van</string>
+    <string name="next">Volgende</string>
+    <string name="previous">Vorige</string>
+    <string name="more_options">Meer opties</string>
+    <string name="list_show">Lijst weergeven</string>
+    <string name="list_hide">Lijst verbergen</string>
+    <string name="toggle_pin">Vastzetten aan bovenkant in-/uitschakelen</string>
+    <string name="search_tags_hint">Zoeken op tags</string>
+    <string name="search_tags">Zoeken op tags</string>
+    <string name="copy_link">Link kopiëren</string>
+    <string name="modified">Aangepast</string>
+    <string name="created">Aangemaakt</string>
+    <string name="pin">Vastmaken</string>
+    <string name="information">Informatie</string>
     <string name="passcodelock_prompt_message">Voer je wachtwoordcode in</string>
     <string name="passcode_turn_on">Pincodevergrendeling inschakelen</string>
     <string name="passcode_turn_off">Pincodevergrendeling uitschakelen</string>
@@ -28,7 +54,7 @@ Language: nl
     <string name="sort_search_created">Aangemaakt</string>
     <string name="sort_search_alphabetically">Alfabetisch</string>
     <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de blauwe knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wilt zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een echt belangrijke notitie? Vastmaken bovenaan de notitielijst. Je kunt een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Info\' met het \'i\'-pictogram terwijl je een notitie bekijkt en zet de schakelaar \'Vastmaken aan bovenzijde\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag aan in het veld \'Tag toevoegen…\' onderaan een notitie. Je kunt ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door op de knop \'Delen\' te tikken met het deelpictogram terwijl je een notitie bekijkt.\n\nVerwijderde notities gaan naar de prullenbak. Je kunt ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kunt je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
-    <string name="search">Notities of tags zoeken</string>
+    <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: nl
     <string name="simperium_button_login_email">Inloggen met e-mail</string>
     <string name="simperium_button_login">Inloggen</string>
     <string name="theme_system">Systeemstandaard</string>
-    <string name="description_fingerprint_supported">Vingerafdruk ondersteund</string>
-    <string name="toggle_sidebar">Sidebar tonen/verbergen</string>
     <string name="toggle_checklist">Checklist in-/uitschakelen</string>
     <string name="log_in_use_widget">Log in om de widget te gebruiken</string>
     <string name="log_in_add_widget">Log in om deze widget toe te voegen</string>
     <string name="select_note">Selecteer notitie</string>
     <string name="note_not_found">Notitie niet gevonden</string>
     <string name="loading_note">Notitie wordt geladen …</string>
-    <string name="label_note">Notitie</string>
     <string name="passcode_summary">Screenshots zijn uitgeschakeld terwijl pincodevergrendeling actief is</string>
     <string name="all_notes">Alle notities</string>
     <string name="appearance">Weergave</string>
@@ -96,17 +119,13 @@ Language: nl
     <string name="unsynced_notes">Ongesynchroniseerde notities gedetecteerd</string>
     <string name="wpcom_log_in_error_unverified">Activeer je WordPress.com-account via e-mail en probeer het nogmaals.</string>
     <string name="wpcom_log_in_error_generic">Kan niet inloggen via WordPress.com. Probeer het nog eens.</string>
-    <string name="note_not_published">Notitie niet gepubliceerd</string>
     <string name="collaborate_message">Voeg een e-mail toe aan het tag-veld om met andere gebruikers samen te werken.</string>
     <string name="collaborate">Samenwerken</string>
     <string name="unpublishing">Openbare link wordt verwijderd…</string>
-    <string name="publishing">Link wordt gepubliceerd…</string>
     <string name="unpublish_successful">Openbare link verwijderd.</string>
-    <string name="publish_successful">Gelukt! Link gekopieerd naar klembord…</string>
-    <string name="unpublish_error">Kon link niet verwijderen…</string>
-    <string name="publish_error">Kon link niet aanmaken…</string>
+    <string name="unpublish_error">Kon link niet verwijderen.</string>
+    <string name="publish_error">Kon link niet aanmaken.</string>
     <string name="unpublish">Openbare link verwijderen</string>
-    <string name="public_link">Openbare link</string>
     <string name="no_browser_available">\"Website openen mislukt. Geen browser beschikbaar.\"</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Beoordeel ons</string>
@@ -116,11 +135,10 @@ Language: nl
     <string name="about">Over Simplenote</string>
     <string name="markdown_show">Snelle stijl weergeven</string>
     <string name="markdown_hide">Snelle stijl verbergen</string>
+    <string name="markdown">Snelle stijl</string>
     <string name="tab_preview">Voorbeeld bekijken</string>
     <string name="tab_edit">Bewerken</string>
-    <string name="modified_time">%s bewerkt</string>
     <string name="pin_to_top">Vastmaken aan bovenzijde</string>
-    <string name="enable_markdown">Snelle stijl inschakelen</string>
     <string name="error_history">Geschiedenis ophalen mislukt.</string>
     <string name="history">Geschiedenis</string>
     <string name="restore">Herstellen</string>
@@ -136,7 +154,6 @@ Language: nl
     <string name="published">Gepubliceerd</string>
     <string name="publish">Publiceren</string>
     <string name="version">Versie</string>
-    <string name="note_info">Info</string>
     <string name="theme">Thema</string>
     <string name="theme_dark">Donker</string>
     <string name="theme_light">Licht</string>
@@ -148,7 +165,6 @@ Language: nl
     <string name="passcode_enter_old_passcode">Voer je vorige pincode in</string>
     <string name="error">Fout</string>
     <string name="copy">Kopiëren</string>
-    <string name="link_copied">Link gekopieerd naar klembord</string>
     <string name="link">Link</string>
     <string name="view_in_browser">Bekijken in browser</string>
     <string name="view_map">Kaart bekijken</string>
@@ -166,9 +182,6 @@ Language: nl
     <string name="rename_tag">Tag hernoemen</string>
     <string name="new_note_list">Nieuwe notitie …</string>
     <string name="confirm_delete_tag">Weet je zeker dat je deze tag wil verwijderen?</string>
-    <string name="edit_tags">Tags bewerken</string>
-    <string name="new_note">Nieuwe notitie</string>
-    <string name="delete">Verplaatsen naar prullenbak</string>
     <string name="note_deleted">Notitie in prullenbak.</string>
     <string name="undo">Ongedaan maken</string>
     <string name="yesterday">Gisteren</string>
@@ -187,12 +200,13 @@ Language: nl
     <string name="save">Opslaan</string>
     <string name="delete_tag">Tag verwijderen</string>
     <string name="tag_name">Tagnaam</string>
+    <string name="edit_tags">Tags bewerken</string>
     <string name="characters">Tekens</string>
     <string name="words">Woorden</string>
     <string name="font_size">Tekengrootte</string>
     <string name="detect_links">Koppelingen detecteren</string>
     <string name="account">Account</string>
-    <string name="undelete">Notitie herstellen</string>
+    <string name="new_note">Nieuwe notitie</string>
     <string name="share">Delen</string>
     <string name="settings">Instellingen</string>
     <string name="tag_hint">Tag toevoegen …</string>

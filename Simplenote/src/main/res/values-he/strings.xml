@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:55:02+0000
+Translation-Revision-Date: 2020-04-02 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="search">לחפש פתקים או תגיות</string>
+    <string name="empty_tags_search">לא נמצאו תגיות</string>
+    <string name="empty_notes_widget">אין פתקים</string>
+    <string name="loading_notes">טוען פתקים…</string>
+    <string name="note_widget_light">פתק (בהיר)</string>
+    <string name="note_widget_dark">פתק (כהה)</string>
+    <string name="note_list_widget_light">רשימת פתקים (בהירה)</string>
+    <string name="note_list_widget_dark">רשימת פתקים (כהה)</string>
+    <string name="retry">יש לנסות שנית</string>
+    <string name="publishing">מפרסם…</string>
+    <string name="publish_successful">פורסם. הקישור הועתק!</string>
+    <string name="link_copied">הקישור הועתק!</string>
+    <string name="of">מתוך</string>
+    <string name="next">הבא</string>
+    <string name="previous">הקודם</string>
+    <string name="more_options">עוד אפשרויות</string>
+    <string name="list_show">להציג רשימה</string>
+    <string name="list_hide">להסתיר רשימה</string>
+    <string name="toggle_pin">לשנות את האפשרות \'הצמדה לראש העמוד\'</string>
+    <string name="search_tags_hint">לחפש תגיות</string>
+    <string name="search_tags">לחפש תגיות</string>
+    <string name="copy_link">להעתיק את הקישור</string>
+    <string name="modified">הותאם</string>
+    <string name="created">נוצר</string>
+    <string name="pin">לנעוץ</string>
+    <string name="information">מידע</string>
     <string name="passcodelock_prompt_message">להזין קוד סיסמה</string>
     <string name="passcode_turn_on">להפעיל נעילה של קוד סיסמה</string>
     <string name="passcode_turn_off">להשבית נעילה של קוד סיסמה</string>
@@ -28,7 +54,7 @@ Language: he_IL
     <string name="sort_search_created">נוצר</string>
     <string name="sort_search_alphabetically">סדר אלפביתי</string>
     <string name="welcome_note">ברוכים הבאים אל Simplenote Android!\nיש לפתוח את הפתק להוראות.\n\nכדי ליצור פתק חדש, יש להקיש על הכפתור \'פתק חדש\' עם סמל הפלוס (+).\n\nכדי לחפש בפתקים שלך, יש להקיש על הכפתור \'חיפוש\' עם הסמל של הזכוכית המגדלת ולהזין טקסט. השירות של Simplenote יציג לך את החיפושים האחרונים שביצעת תחילה והצעות לחיפושים בעת ההקלדה. פתקים שתואמים לטקסט שהוזן יוצגו לאחר שהבקשה לחיפוש נשלחה.\n\nיש לך פתק חשוב? ניתן לנעוץ אותו בראש הרשימה של הפתקים. אפשר לנעוץ פתק בשתי דרכים. על ידי לחיצה ארוכה על הפתק ברשימה והקשה על הכפתור \'הצמדה לראש העמוד\' עם סמל הנעץ. על ידי הקשה על הכפתור \'מידע\' עם הסמל \"i\" כאשר מציגים את הפתק והפעלה של הפעולה \'הצמדה לראש העמוד\'.\n\nניתן להשתמש בתגיות כדי לארגן את הפתקים שלך ביעילות. יש ליצור את התגית בשדה \'להוסיף תגית…\' בתחתית הפתק. אפשר גם להוסיף כתובת אימייל כתגית כדי לשתף פתק עם מישהו.\n\nאפשר לשתף פתקים באפליקציות אחרות של Android על ידי הקשה על הכפתור \'שיתוף\' עם סמל השיתוף בזמן שמציגים פתק.\n\nפתקים שנמחקו מועברים לפח. אפשר לשחזר את הפריטים כרצונך או לרוקן את הפח כדי למחוק אותם לצמיתות.\n\nאפשר לגשת לפתקים שלך ברשת ובמכשירים האחרים שלך. יש לעבור לכתובת http://simplenote.com כדי להתחיל.\n\nאנחנו מקווים שהשירות של Simplenote מוצא חן בעינך!</string>
-    <string name="search">לחפש פתקים או תגיות</string>
+    <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
     <string name="log_in">התחברות</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: he_IL
     <string name="simperium_button_login_email">התחברות באמצעות אימייל</string>
     <string name="simperium_button_login">התחברות</string>
     <string name="theme_system">ברירת המחדל לפי המערכת</string>
-    <string name="description_fingerprint_supported">תמיכה בטביעות אצבעות</string>
-    <string name="toggle_sidebar">שינוי הסרגל הצדי</string>
     <string name="toggle_checklist">לשנות את רשימת המשימות</string>
     <string name="log_in_use_widget">יש להתחבר כדי להשתמש בווידג\'ט</string>
     <string name="log_in_add_widget">יש להתחבר כדי להוסיף את הווידג\'ט</string>
     <string name="select_note">יש לבחור פתק</string>
     <string name="note_not_found">פתק לא נמצא</string>
     <string name="loading_note">טוען את הפתק…</string>
-    <string name="label_note">פתק</string>
     <string name="passcode_summary">צילומי המסך מושבתים כאשר מופעלת הנעילה של קוד הסיסמה</string>
     <string name="all_notes">כל הפתקים</string>
     <string name="appearance">מראה</string>
@@ -96,17 +119,13 @@ Language: he_IL
     <string name="unsynced_notes">נמצאו פתקים שלא סונכרנו</string>
     <string name="wpcom_log_in_error_unverified">יש להפעיל את החשבון שלך ב-WordPress.com באמצעות האימייל ולנסות שוב.</string>
     <string name="wpcom_log_in_error_generic">לא ניתן היה להתחבר עם WordPress.com. יש לנסות שוב.</string>
-    <string name="note_not_published">הפתק לא פורסם</string>
     <string name="collaborate_message">הוספת אימייל בשדה \'תגית\' לצורך שיתוף פעולה בעריכה עם משתמשים אחרים.</string>
     <string name="collaborate">שיתוף פעולה בעריכה</string>
     <string name="unpublishing">מסיר קישור ציבורי…</string>
-    <string name="publishing">מפרסם קישור…</string>
     <string name="unpublish_successful">קישור ציבורי.</string>
-    <string name="publish_successful">הצלחה! הקישור הועתק ללוח…</string>
-    <string name="unpublish_error">לא הצלחנו להסיר את הקישור…</string>
-    <string name="publish_error">לא הצלחנו ליצור את הקישור…</string>
+    <string name="unpublish_error">לא ניתן היה להסיר קישור.</string>
+    <string name="publish_error">לא ניתן היה ליצור קישור.</string>
     <string name="unpublish">הסרת קישור ציבורי</string>
-    <string name="public_link">קישור ציבורי</string>
     <string name="no_browser_available">\"לא ניתן היה לפתוח את אתר האינטרנט. אין דפדפן זמין.\"</string>
     <string name="blog">בלוג</string>
     <string name="rate_us">נשמח לקבל ממך דירוג</string>
@@ -116,11 +135,10 @@ Language: he_IL
     <string name="about">אודות Simplenote</string>
     <string name="markdown_show">הצגת Markdown</string>
     <string name="markdown_hide">הסתרת Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">תצוגה מקדימה</string>
     <string name="tab_edit">עריכה</string>
-    <string name="modified_time">שונה %s</string>
     <string name="pin_to_top">הצמדה לראש העמוד</string>
-    <string name="enable_markdown">הפעלת markdown</string>
     <string name="error_history">לא הצלחנו לאחזר את ההיסטוריה.</string>
     <string name="history">היסטוריה</string>
     <string name="restore">שחזור</string>
@@ -136,7 +154,6 @@ Language: he_IL
     <string name="published">פורסם</string>
     <string name="publish">לפרסם</string>
     <string name="version">גרסה</string>
-    <string name="note_info">מידע</string>
     <string name="theme">עיצוב</string>
     <string name="theme_dark">כהה</string>
     <string name="theme_light">בהיר</string>
@@ -148,7 +165,6 @@ Language: he_IL
     <string name="passcode_enter_old_passcode">יש להזין את קוד הסיסמה הישן</string>
     <string name="error">שגיאה</string>
     <string name="copy">להעתיק</string>
-    <string name="link_copied">הקישור הועתק ללוח</string>
     <string name="link">קישור</string>
     <string name="view_in_browser">לפתוח בדפדפן</string>
     <string name="view_map">לצפות במפה</string>
@@ -166,9 +182,6 @@ Language: he_IL
     <string name="rename_tag">שינוי שם תגית</string>
     <string name="new_note_list">פתק חדש…</string>
     <string name="confirm_delete_tag">בטוח שברצונך למחוק תגית זו?</string>
-    <string name="edit_tags">עריכת תגים</string>
-    <string name="new_note">פתח חדש</string>
-    <string name="delete">העברה לפח</string>
     <string name="note_deleted">הפתק הועבר לאשפה.</string>
     <string name="undo">ביטול</string>
     <string name="yesterday">אתמול</string>
@@ -187,12 +200,13 @@ Language: he_IL
     <string name="save">לשמור</string>
     <string name="delete_tag">למחוק תגית</string>
     <string name="tag_name">שם התגית</string>
+    <string name="edit_tags">לערוך תגיות</string>
     <string name="characters">תווים</string>
     <string name="words">מילים</string>
     <string name="font_size">גודל הגופן</string>
     <string name="detect_links">מחיקת קישורים</string>
     <string name="account">חשבון</string>
-    <string name="undelete">לשחזר פתק</string>
+    <string name="new_note">פתק חדש</string>
     <string name="share">שיתוף</string>
     <string name="settings">הגדרות</string>
     <string name="tag_hint">להוסיף תגית…</string>

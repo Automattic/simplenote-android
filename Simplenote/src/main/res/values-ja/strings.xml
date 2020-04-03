@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-13 01:54:03+0000
+Translation-Revision-Date: 2020-04-03 00:54:51+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="search">メモまたはタグを検索</string>
+    <string name="empty_tags_search">タグが見つかりません</string>
+    <string name="empty_notes_widget">メモがありません</string>
+    <string name="loading_notes">メモを読み込んでいます…</string>
+    <string name="note_widget_light">メモ (ライト)</string>
+    <string name="note_widget_dark">メモ (ダーク)</string>
+    <string name="note_list_widget_light">メモリスト (ライト)</string>
+    <string name="note_list_widget_dark">メモリスト (ダーク)</string>
+    <string name="retry">再試行</string>
+    <string name="publishing">公開しています…</string>
+    <string name="publish_successful">公開済み。リンクをコピーしました。</string>
+    <string name="link_copied">リンクをコピーしました。</string>
+    <string name="of">/</string>
+    <string name="next">次へ</string>
+    <string name="previous">前へ</string>
+    <string name="more_options">追加オプション</string>
+    <string name="list_show">リストを表示</string>
+    <string name="list_hide">リストを非表示</string>
+    <string name="toggle_pin">「上部に固定」に切り替える</string>
+    <string name="search_tags_hint">検索タグ</string>
+    <string name="search_tags">タグを検索</string>
+    <string name="copy_link">リンクをコピー</string>
+    <string name="modified">更新日</string>
+    <string name="created">作成日</string>
+    <string name="pin">ピン</string>
+    <string name="information">情報</string>
     <string name="passcodelock_prompt_message">パスコードを入力</string>
     <string name="passcode_turn_on">パスコードロックをオン</string>
     <string name="passcode_turn_off">パスコードロックをオフ</string>
@@ -28,7 +54,7 @@ Language: ja_JP
     <string name="sort_search_created">作成日</string>
     <string name="sort_search_alphabetically">アルファベット順</string>
     <string name="welcome_note">Simplenote Android へようこそ !\n手順についてはこのメモを開いてください。\n\n新しいメモを作成するには、プラスアイコンの付いた青い「新規ノート」ボタンをタップします。\n\nメモを検索するには、虫眼鏡アイコンの「検索」ボタンをタップして、テキストを入力します。Simplenote では、最初に最近の検索が表示され、テキストを入力すると検索候補が表示されます。検索を実行すると、入力したテキストに一致するメモが表示されます。\n\nとても重要なメモですか ?メモリストの最上部にピンできます。メモのピンには2つの方法があります。リスト内のメモを長押しして、ピンアイコンの「上部に固定」ボタンをタップします。メモを表示して「i」アイコンの付いた「情報」ボタンをタップし、「上部に固定」スイッチをオンにします。\n\nメモを整理するにはタグを利用します。タグは、メモの最下部にある「タグを追加…」フィールドで作成します。メモを他の人と共有するために、メールアドレスをタグとして追加することもできます。\n\nメモを表示中に共有アイコンの付いた「共有」ボタンをタップするだけで、簡単にメモを他の Android アプリと共有できます。\n\n削除したメモはゴミ箱に入ります。ゴミ箱内のメモは必要に応じて復元できます。完全にメモを削除するには、ゴミ箱を空にします。\n\nメモは Web を通じてさまざまなデバイスでアクセスできます。開始するには、http://simplenote.com に移動します。\n\nSimplenote をお楽しみください !</string>
-    <string name="search">メモまたはタグを検索</string>
+    <string name="search_hint">メモまたはタグを検索</string>
     <string name="log_out">ログアウト</string>
     <string name="log_in">ログイン</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: ja_JP
     <string name="simperium_button_login_email">メールアドレスでログイン</string>
     <string name="simperium_button_login">ログイン</string>
     <string name="theme_system">システムの初期設定</string>
-    <string name="description_fingerprint_supported">指紋認証に対応</string>
-    <string name="toggle_sidebar">サイドバーを切り替える</string>
     <string name="toggle_checklist">チェックリストをトグル表示</string>
     <string name="log_in_use_widget">ログインしてウィジェットを使用</string>
     <string name="log_in_add_widget">ログインしてこのウィジェットを追加</string>
     <string name="select_note">メモを選択</string>
     <string name="note_not_found">メモが見つかりませんでした</string>
     <string name="loading_note">メモを読み込み中…</string>
-    <string name="label_note">メモ</string>
     <string name="passcode_summary">パスコードロックが有効な間はスクリーンショットが無効になります</string>
     <string name="all_notes">すべてのノート</string>
     <string name="appearance">外観</string>
@@ -96,17 +119,13 @@ Language: ja_JP
     <string name="unsynced_notes">同期されていないメモが検出されました</string>
     <string name="wpcom_log_in_error_unverified">メールから WordPress.com アカウントを有効にしてから、もう一度試してください。</string>
     <string name="wpcom_log_in_error_generic">WordPress.com にログインできませんでした。もう一度お試しください。</string>
-    <string name="note_not_published">非公開ノート</string>
     <string name="collaborate_message">メールアドレスをタグフィールドに追加すると、他のユーザーと共同作業できます。</string>
     <string name="collaborate">共同編集</string>
     <string name="unpublishing">公開リンクを削除中…</string>
-    <string name="publishing">リンクを公開中…</string>
     <string name="unpublish_successful">公開リンクを削除しました。</string>
-    <string name="publish_successful">成功しました。リンクをクリップボードにコピーしました…</string>
-    <string name="unpublish_error">リンクを削除できませんでした…</string>
-    <string name="publish_error">リンクを作成できませんでした…</string>
+    <string name="unpublish_error">リンクを削除できませんでした。</string>
+    <string name="publish_error">リンクを作成できませんでした。</string>
     <string name="unpublish">公開リンクを削除</string>
-    <string name="public_link">公開リンク</string>
     <string name="no_browser_available">「サイトを開けません。使用可能なブラウザーがありません。」</string>
     <string name="blog">ブログ</string>
     <string name="rate_us">評価してください</string>
@@ -116,11 +135,10 @@ Language: ja_JP
     <string name="about">Simplenote について</string>
     <string name="markdown_show">Markdown 非表示</string>
     <string name="markdown_hide">Markdown を非表示</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">プレビュー</string>
     <string name="tab_edit">編集</string>
-    <string name="modified_time">編集日時 %s</string>
     <string name="pin_to_top">上部に固定</string>
-    <string name="enable_markdown">Markdown を有効化</string>
     <string name="error_history">履歴を取得できませんでした。</string>
     <string name="history">履歴</string>
     <string name="restore">復元</string>
@@ -136,7 +154,6 @@ Language: ja_JP
     <string name="published">公開済み</string>
     <string name="publish">公開</string>
     <string name="version">バージョン</string>
-    <string name="note_info">情報</string>
     <string name="theme">テーマ</string>
     <string name="theme_dark">ダーク</string>
     <string name="theme_light">ライト</string>
@@ -148,7 +165,6 @@ Language: ja_JP
     <string name="passcode_enter_old_passcode">古いパスコードを入力してください</string>
     <string name="error">エラー</string>
     <string name="copy">コピー</string>
-    <string name="link_copied">リンクをクリップボードにコピーしました</string>
     <string name="link">リンク</string>
     <string name="view_in_browser">ブラウザで表示</string>
     <string name="view_map">地図を表示</string>
@@ -166,9 +182,6 @@ Language: ja_JP
     <string name="rename_tag">タグ名を変更</string>
     <string name="new_note_list">新規ノート…</string>
     <string name="confirm_delete_tag">本当にこのタグを削除しますか ?</string>
-    <string name="edit_tags">タグを編集</string>
-    <string name="new_note">新規ノート</string>
-    <string name="delete">ゴミ箱へ移動</string>
     <string name="note_deleted">ノートをゴミ箱に入れました。</string>
     <string name="undo">取り消し</string>
     <string name="yesterday">昨日</string>
@@ -187,12 +200,13 @@ Language: ja_JP
     <string name="save">保存</string>
     <string name="delete_tag">タグを削除</string>
     <string name="tag_name">タグ名</string>
+    <string name="edit_tags">タグを編集</string>
     <string name="characters">文字</string>
     <string name="words">単語</string>
     <string name="font_size">フォントサイズ</string>
     <string name="detect_links">リンクを検出</string>
     <string name="account">アカウント</string>
-    <string name="undelete">ノートを復元</string>
+    <string name="new_note">新規ノート</string>
     <string name="share">共有</string>
     <string name="settings">設定</string>
     <string name="tag_hint">タグを追加…</string>
