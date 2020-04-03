@@ -1,0 +1,8 @@
+2.5 :
+* Ajout d'une version foncée du widget de notes permettant de voir et d'ouvrir une note dans l'application à partir de l'écran d'accueil.
+* Ajout d'un widget de liste de notes permettant d'ouvrir n'importe quelle note dans l'application à partir de l'écran d'accueil.
+* Ajout d'une barre d'outils permettant de trouver des termes de recherche correspondant dans les notes.
+* Ajout de la prise en charge de mises en page et de langues s'écrivant de droite à gauche.
+* Ajout d'une fonction de recherche dans la liste d'étiquettes.
+* Résolution d'un bug qui ne mettait pas correctement en surbrillance les termes de recherche dans les notes avec les listes de contrôle.
+* Résolution d'un bug dans le titre d'une note qui ralentissait l'application lors de la modification d'une note.

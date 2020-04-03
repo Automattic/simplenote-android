@@ -1,0 +1,8 @@
+2.5:
+* Dunkle Version des Notizen-Widget zum Aufrufen und Öffnen einer Notiz in der App über den Startbildschirm hinzugefügt.
+* Notizenlisten-Widget zum Öffnen einer Notiz in der App über den Startbildschirm hinzugefügt.
+* Werkzeugleiste zum Suchen passender Suchbegriffe in Notizen hinzugefügt.
+* Unterstützung für Rechts-nach-Links-Sprachen und entsprechende Layouts hinzugefügt.
+* Suche zu Schlagwörterliste hinzugefügt.
+* Fehler behoben, bei dem Suchbegriffe in Notizen mit Checklisten falsch hervorgehoben wurden.
+* Fehler beim Notizentitel behoben, der die App beim Bearbeiten einer Notiz verlangsamte.

@@ -1,0 +1,8 @@
+2.5:
+* Nova versão escura do widget de anotação para exibir e abrir uma anotação no app pela tela inicial.
+* Novo widget de lista de anotações para abrir qualquer anotação no aplicativo pela tela inicial.
+* Nova barra de ferramentas para encontrar termos de busca correspondentes nas anotações.
+* Suporte a layouts e idiomas escritos da direita para a esquerda.
+* Adicionamos pesquisas à lista de tags.
+* Correção de bug que destacava termos de busca erroneamente nas anotações com listas de verificações.
+* Correção de bug no título de anotações que causava lentidão no app ao editar uma anotação.
