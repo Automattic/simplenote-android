@@ -1,0 +1,8 @@
+2.5:
+* Bir notu ana sayfa ekranındaki uygulamada görüntülemek ve açmak için not pencere öğesinin koyu sürümü eklendi.
+* Herhangi bir notu ana sayfa ekranındaki uygulamada açmak için not listesi pencere öğesi eklendi.
+* Notlardaki eşleşen arama terimlerini bulmak için bir araç çubuğu eklendi.
+* Sağdan sola diller ve düzenler için destek eklendi.
+* Etiketler listesine arama eklendi.
+* Kontrol listesi içeren notlardaki arama terimlerini hatalı şekilde vurgulayan bir hata düzeltildi.
+* Bir notu düzenlerken uygulamada gecikmeye neden olan, not başlığı ile ilgili bir hata düzeltildi.

@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-11 00:54:04+0000
+Translation-Revision-Date: 2020-04-01 00:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="search">Поиск заметок или меток</string>
+    <string name="empty_tags_search">Метки не найдены</string>
+    <string name="empty_notes_widget">Нет заметок</string>
+    <string name="loading_notes">Загрузка заметок…</string>
+    <string name="note_widget_light">Заметка (светлая версия)</string>
+    <string name="note_widget_dark">Заметка (темная версия)</string>
+    <string name="note_list_widget_light">Список заметок (светлая версия)</string>
+    <string name="note_list_widget_dark">Список заметок (темная версия)</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="publishing">Публикация…</string>
+    <string name="publish_successful">Опубликовано. Ссылка скопирована!</string>
+    <string name="link_copied">Ссылка скопирована!</string>
+    <string name="of">из</string>
+    <string name="next">Вперед</string>
+    <string name="previous">Назад</string>
+    <string name="more_options">Дополнительные параметры</string>
+    <string name="list_show">Развернуть список</string>
+    <string name="list_hide">Свернуть список</string>
+    <string name="toggle_pin">Переключатель \"Закрепить вверху\"</string>
+    <string name="search_tags_hint">Поиск меток</string>
+    <string name="search_tags">Поиск меток</string>
+    <string name="copy_link">Копировать ссылку</string>
+    <string name="modified">Изменено</string>
+    <string name="created">Создано</string>
+    <string name="pin">Закрепить</string>
+    <string name="information">Информация</string>
     <string name="passcodelock_prompt_message">Введите ваш пароль</string>
     <string name="passcode_turn_on">Включить блокировку с помощью пароля</string>
     <string name="passcode_turn_off">Выключить блокировку с помощью пароля</string>
@@ -28,7 +54,7 @@ Language: ru
     <string name="sort_search_created">Создано</string>
     <string name="sort_search_alphabetically">По алфавиту</string>
     <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите синюю кнопку \"Новая заметка\" со значком плюса.\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку \"Информация\" со значком i при просмотре заметки и установите переключатель \"Закрепить вверху\" во включенное положение.\n\nУпорядочьте заметки с помощью меток. Метку можно создать в поле \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать кнопку \"Поделиться\" с соответствующим значком при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
-    <string name="search">Поиск заметок или меток</string>
+    <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
     <string name="log_in">Войти</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: ru
     <string name="simperium_button_login_email">Войти через эл. почту</string>
     <string name="simperium_button_login">Вход</string>
     <string name="theme_system">Системные параметры по умолчанию</string>
-    <string name="description_fingerprint_supported">Поддерживаются отпечатки пальцев</string>
-    <string name="toggle_sidebar">Сменить боковую панель</string>
     <string name="toggle_checklist">Сменить список проверки</string>
     <string name="log_in_use_widget">Войдите, чтобы использовать виджет</string>
     <string name="log_in_add_widget">Войдите, чтобы добавить виджет</string>
     <string name="select_note">Выбрать уведомление</string>
     <string name="note_not_found">Уведомление не найдено</string>
     <string name="loading_note">Загрузка уведомления…</string>
-    <string name="label_note">Уведомление</string>
     <string name="passcode_summary">Нельзя делать снимки экрана, если включена блокировка с помощью пароля</string>
     <string name="all_notes">Все примечания</string>
     <string name="appearance">Внешний вид</string>
@@ -96,17 +119,13 @@ Language: ru
     <string name="unsynced_notes">Обнаружены несинхронизированные заметки</string>
     <string name="wpcom_log_in_error_unverified">Активируйте учётную запись WordPress.com по электронной почте и повторите попытку.</string>
     <string name="wpcom_log_in_error_generic">Не удалось войти в систему WordPress.com. Повторите попытку.</string>
-    <string name="note_not_published">Заметка не опубликована</string>
     <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>
     <string name="collaborate">Совместная работа</string>
     <string name="unpublishing">Удаление опубликованной ссылки…</string>
-    <string name="publishing">Публикация ссылки</string>
     <string name="unpublish_successful">Общедоступная ссылка удалена.</string>
-    <string name="publish_successful">Готово! Ссылка скопирована в буфер обмена…</string>
     <string name="unpublish_error">Не удалось удалить ссылку…</string>
     <string name="publish_error">Не удалось создать ссылку…</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
-    <string name="public_link">Общедоступная ссылка</string>
     <string name="no_browser_available">\"Не удалось открыть веб-сайт. Браузер недоступен\".</string>
     <string name="blog">Блог</string>
     <string name="rate_us">Оцените нас</string>
@@ -116,11 +135,10 @@ Language: ru
     <string name="about">О приложении Simplenote</string>
     <string name="markdown_show">Показать Markdown</string>
     <string name="markdown_hide">Скрыть Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Предварительный просмотр</string>
     <string name="tab_edit">Правка</string>
-    <string name="modified_time">Изменено %s</string>
     <string name="pin_to_top">Закрепить наверху</string>
-    <string name="enable_markdown">Включить Markdown</string>
     <string name="error_history">Не удалось загрузить историю.</string>
     <string name="history">История</string>
     <string name="restore">Восстановить</string>
@@ -136,7 +154,6 @@ Language: ru
     <string name="published">Опубликовано</string>
     <string name="publish">Опубликовать</string>
     <string name="version">Версия</string>
-    <string name="note_info">Информация</string>
     <string name="theme">Тема оформления</string>
     <string name="theme_dark">Темная</string>
     <string name="theme_light">Светлая</string>
@@ -148,7 +165,6 @@ Language: ru
     <string name="passcode_enter_old_passcode">Введите старый пароль</string>
     <string name="error">Ошибка</string>
     <string name="copy">Копировать</string>
-    <string name="link_copied">Ссылка скопирована в буфер обмена.</string>
     <string name="link">Ссылка</string>
     <string name="view_in_browser">Посмотреть в браузере</string>
     <string name="view_map">Посмотреть карту</string>
@@ -166,9 +182,6 @@ Language: ru
     <string name="rename_tag">Переименовать метку</string>
     <string name="new_note_list">Новая заметка…</string>
     <string name="confirm_delete_tag">Вы действительно хотите удалить эту метку?</string>
-    <string name="edit_tags">Редактировать метки</string>
-    <string name="new_note">Новая заметка</string>
-    <string name="delete">Переместить в корзину</string>
     <string name="note_deleted">Заметка перемещена в корзину.</string>
     <string name="undo">Отменить</string>
     <string name="yesterday">Вчера</string>
@@ -187,12 +200,13 @@ Language: ru
     <string name="save">Сохранить</string>
     <string name="delete_tag">Удалить метку</string>
     <string name="tag_name">Название метки</string>
+    <string name="edit_tags">Изменение меток</string>
     <string name="characters">Символы</string>
     <string name="words">Слова</string>
     <string name="font_size">Размер шрифта</string>
     <string name="detect_links">Найти ссылки</string>
     <string name="account">Учетная запись</string>
-    <string name="undelete">Восстановить заметку</string>
+    <string name="new_note">Новая заметка…</string>
     <string name="share">Поделиться</string>
     <string name="settings">Настройки</string>
     <string name="tag_hint">Добавить метку…</string>

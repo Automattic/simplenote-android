@@ -1,5 +1,0 @@
-2.4:
-*Informazioni della nota aggiornate con data di modifica, data di creazione, conteggio parole e conteggio caratteri.
-*Alcune opzioni della nota spostate dalle informazioni della nota e dalla barra delle azioni al menu ellissi.
-*Risolto un bug relativo alla sincronizzazione con eliminazione di tag e svuotamento del cestino.
-*Risolto un bug di rete che causava il ritardo dell'app.

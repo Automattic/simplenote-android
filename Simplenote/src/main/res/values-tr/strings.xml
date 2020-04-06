@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-03 00:55:01+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="search">Not ve Etiket Ara</string>
+    <string name="empty_tags_search">Etiket bulunamadı</string>
+    <string name="empty_notes_widget">Not yok</string>
+    <string name="loading_notes">Notlar yükleniyor…</string>
+    <string name="note_widget_light">Not (Açık)</string>
+    <string name="note_widget_dark">Not (Koyu)</string>
+    <string name="note_list_widget_light">Not Listesi (Açık)</string>
+    <string name="note_list_widget_dark">Not Listesi (Koyu)</string>
+    <string name="retry">Tekrar dene</string>
+    <string name="publishing">Yayımlanıyor…</string>
+    <string name="publish_successful">Yayımlandı. Bağlantı kopyalandı!</string>
+    <string name="link_copied">Bağlantı kopyalandı!</string>
+    <string name="of">,</string>
+    <string name="next">Sonraki</string>
+    <string name="previous">Önceki</string>
+    <string name="more_options">Daha Çok Seçenek</string>
+    <string name="list_show">Listeyi Göster</string>
+    <string name="list_hide">Listeyi Gizle</string>
+    <string name="toggle_pin">Üste Sabitleye Geç</string>
+    <string name="search_tags_hint">Etiketleri ara</string>
+    <string name="search_tags">Etiketlerde Ara</string>
+    <string name="copy_link">Bağlantıyı kopyala</string>
+    <string name="modified">Değiştirildi</string>
+    <string name="created">Oluşturuldu</string>
+    <string name="pin">Sabitle</string>
+    <string name="information">Bilgi</string>
     <string name="passcodelock_prompt_message">Parolanızı girin</string>
     <string name="passcode_turn_on">Parola kilidini kapat</string>
     <string name="passcode_turn_off">Parola kilidini aç</string>
@@ -28,7 +54,7 @@ Language: tr
     <string name="sort_search_created">Oluşturulma</string>
     <string name="sort_search_alphabetically">Alfabetik</string>
     <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bun notu açın.\n\nYeni not oluşturmak için + ikonuna sahip mavi \"Not Ekle\" düğmesine dokunun.\n\nNotlarınızı aramak için, büyüteç simgesine sahip \"Ara\" düğmesine dokunun ve bir metin girin. Simplenote ilk olarak son aramaları ve ardından metin girerken önerilen aramaları gösterecektir. Girilen metinle eşleşen notlar, arama gönderildikten sonra gösterilecektir.\n\nGerçekten önemli bir notunuz mu var? Not listesinin en üstüne sabitleyin. Bir notu iki şekilde sabitleyebilirsiniz. Listedeki nota uzun basın ve ataş ikonuna sahip \"Üste Sabitle\" düğmesine basın. Bir notu görüntülerken \"i\" ikonuna sahip \"bilgi\" düğmesine basın ve \"Üste Sabitle\" anahtarını etkinleştirin.\n\nNotlarınızı organize etmek için etiketleri kullanın. Bir not girişinin en altındaki \"Etiket ekle…\" alanında bir etiket oluşturun. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e-posta adresi de ekleyebilirsiniz.\n\nBir notu görüntülerken \"Paylaş\" düğmesine dokunarak diğer Android uygulamalarıyla kolayca not paylaşabilirsiniz.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
-    <string name="search">Not ve etiket ara</string>
+    <string name="search_hint">Not ve etiket ara</string>
     <string name="log_out">Oturumu kapat</string>
     <string name="log_in">Oturum aç</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: tr
     <string name="simperium_button_login_email">E-postayla Oturum Aç</string>
     <string name="simperium_button_login">Oturum Aç</string>
     <string name="theme_system">Sistem varsayılanı</string>
-    <string name="description_fingerprint_supported">Parmak İzi Destekli</string>
-    <string name="toggle_sidebar">Kenar çubuğunu aç/kapat</string>
     <string name="toggle_checklist">Kontrol listesine geç</string>
     <string name="log_in_use_widget">Widget kullanmak için oturum açın</string>
     <string name="log_in_add_widget">Bu bileşeni eklemek için oturum açın</string>
     <string name="select_note">Not Seç</string>
     <string name="note_not_found">Not bulunamadı</string>
     <string name="loading_note">Not yükleniyor…</string>
-    <string name="label_note">Not</string>
     <string name="passcode_summary">Parola kilidi açıkken ekran görüntüleri devre dışıdır</string>
     <string name="all_notes">Tüm Notlar</string>
     <string name="appearance">Görünüm</string>
@@ -96,17 +119,13 @@ Language: tr
     <string name="unsynced_notes">Senkronize edilmemiş notlar tespit edildi</string>
     <string name="wpcom_log_in_error_unverified">WordPress.com hesabınızı e-posta aracılığıyla etkinleştirin ve tekrar deneyin.</string>
     <string name="wpcom_log_in_error_generic">WordPress.com ile giriş yapılamadı. Lütfen yeniden deneyin.</string>
-    <string name="note_not_published">Not yayınlanmadı</string>
     <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
     <string name="unpublishing">Herkese açık bağlantı kaldırılıyor…</string>
-    <string name="publishing">Bağlantı yayımlanıyor…</string>
     <string name="unpublish_successful">Herkese açık bağlantı kaldırıldı.</string>
-    <string name="publish_successful">Başarılı! Bağlantı panoya kopyalandı…</string>
-    <string name="unpublish_error">Bağlantı kaldırılamadı…</string>
-    <string name="publish_error">Bağlantı oluşturulamadı…</string>
+    <string name="unpublish_error">Bağlantı kaldırılamadı.</string>
+    <string name="publish_error">Bağlantı oluşturulamadı.</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
-    <string name="public_link">Herkese açık bağlantı</string>
     <string name="no_browser_available">\"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok.\"</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Bizi Değerlendirin</string>
@@ -116,11 +135,10 @@ Language: tr
     <string name="about">Simplenote Hakkında</string>
     <string name="markdown_show">Markdown’ı Göster</string>
     <string name="markdown_hide">Markdown’ı Gizle</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Önizle</string>
     <string name="tab_edit">Düzenle</string>
-    <string name="modified_time">Değiştirildi %s</string>
     <string name="pin_to_top">Sayfanın başına sabitle</string>
-    <string name="enable_markdown">Markdown’ı etkinleştir</string>
     <string name="error_history">Geçmiş alınamadı.</string>
     <string name="history">Geçmiş</string>
     <string name="restore">Geri Yükle</string>
@@ -136,7 +154,6 @@ Language: tr
     <string name="published">Yayınlandı</string>
     <string name="publish">Yayınla</string>
     <string name="version">Sürüm</string>
-    <string name="note_info">Bilgi</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Koyu</string>
     <string name="theme_light">Açık</string>
@@ -148,7 +165,6 @@ Language: tr
     <string name="passcode_enter_old_passcode">Eski parolanızı girin</string>
     <string name="error">Hata</string>
     <string name="copy">Kopyala</string>
-    <string name="link_copied">Bağlantı panoya kopyalandı</string>
     <string name="link">Bağlantı</string>
     <string name="view_in_browser">Tarayıcıda görüntüle</string>
     <string name="view_map">Haritayı görüntüle</string>
@@ -166,9 +182,6 @@ Language: tr
     <string name="rename_tag">Etiketi yeniden adlandır</string>
     <string name="new_note_list">Yeni not…</string>
     <string name="confirm_delete_tag">Bu etiketi silmek istediğinizden emin misiniz?</string>
-    <string name="edit_tags">Etiketleri düzenle</string>
-    <string name="new_note">Yeni not</string>
-    <string name="delete">Çöp kutusuna taşı</string>
     <string name="note_deleted">Not çöpe atıldı.</string>
     <string name="undo">Geri al</string>
     <string name="yesterday">Dün</string>
@@ -187,12 +200,13 @@ Language: tr
     <string name="save">Kaydet</string>
     <string name="delete_tag">Etiketi sil</string>
     <string name="tag_name">Etiket adı</string>
+    <string name="edit_tags">Etiketleri Düzenle</string>
     <string name="characters">Karakter</string>
     <string name="words">Sözcük</string>
     <string name="font_size">Yazı tipi boyutu</string>
     <string name="detect_links">Bağlantıları tespit et</string>
     <string name="account">Hesap</string>
-    <string name="undelete">Notu geri yükle</string>
+    <string name="new_note">Yeni Not</string>
     <string name="share">Paylaş</string>
     <string name="settings">Ayarlar</string>
     <string name="tag_hint">Etiket ekle…</string>
