@@ -1,5 +1,0 @@
-2.4 :
-*Mise à jour des informations sur les notes de version incluant la date de modification, la date de création, le nombre de mots et le nombre de caractères.
-*Déplacement de certaines options de notes de version des informations sur ces dernières et de la barre d'action vers le menu représenté par trois points.
-*Résolution d'un bug de synchronisation avec suppression des étiquettes et vidage de la corbeille.
-*Résolution d'un bug d'interconnexion réseau qui faisait ralentissait l'application.

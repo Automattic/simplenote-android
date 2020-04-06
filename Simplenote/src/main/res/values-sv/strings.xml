@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:55+0000
+Translation-Revision-Date: 2020-03-28 14:21:23+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="search">Sök anteckningar eller etiketter</string>
+    <string name="empty_tags_search">Inga etiketter hittades</string>
+    <string name="empty_notes_widget">Inga anteckningar</string>
+    <string name="loading_notes">Laddar in anteckningar…</string>
+    <string name="note_widget_light">Anteckning (ljus)</string>
+    <string name="note_widget_dark">Anteckning (mörk)</string>
+    <string name="note_list_widget_light">Anteckningslista (ljus)</string>
+    <string name="note_list_widget_dark">Anteckningslista (mörk)</string>
+    <string name="retry">Försök igen</string>
+    <string name="publishing">Publicerar…</string>
+    <string name="publish_successful">Publicerat. Länk kopierad!</string>
+    <string name="link_copied">Länk kopierad!</string>
+    <string name="of">av</string>
+    <string name="next">Nästa</string>
+    <string name="previous">Föregående</string>
+    <string name="more_options">Fler alternativ</string>
+    <string name="list_show">Visa lista</string>
+    <string name="list_hide">Dölj lista</string>
+    <string name="toggle_pin">Slå på/av fäst till toppen</string>
+    <string name="search_tags_hint">Sök etiketter</string>
+    <string name="search_tags">Sök etiketter</string>
+    <string name="copy_link">Kopiera länk</string>
+    <string name="modified">Ändrad</string>
+    <string name="created">Skapad</string>
+    <string name="pin">Fäst</string>
+    <string name="information">Information</string>
     <string name="passcodelock_prompt_message">Ange din låskod</string>
     <string name="passcode_turn_on">Aktivera lösenordslås</string>
     <string name="passcode_turn_off">Inaktivera lösenordslås</string>
@@ -28,7 +54,7 @@ Language: sv_SE
     <string name="sort_search_created">Skapad</string>
     <string name="sort_search_alphabetically">Alfabetiskt</string>
     <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på den blå knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på Info-knappen med i-ikonen när du visar en anteckning och aktivera Fäst överst-knappen.\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett i fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på Dela-knappen med dela-ikonen när du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
-    <string name="search">Sök anteckningar eller etiketter</string>
+    <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: sv_SE
     <string name="simperium_button_login_email">Logga in med e-post</string>
     <string name="simperium_button_login">Logga in</string>
     <string name="theme_system">Systemstandard</string>
-    <string name="description_fingerprint_supported">Fingeravtryck stöds</string>
-    <string name="toggle_sidebar">Växla sidofält</string>
-    <string name="toggle_checklist">Växla checklista</string>
+    <string name="toggle_checklist">Slå på/av checklista</string>
     <string name="log_in_use_widget">Logga in för att använda widget</string>
     <string name="log_in_add_widget">Logga in för att lägga till denna widget</string>
     <string name="select_note">Välj anteckning</string>
     <string name="note_not_found">Anteckningen hittades inte</string>
     <string name="loading_note">Laddar anteckning…</string>
-    <string name="label_note">Anteckning</string>
     <string name="passcode_summary">Skärmbilder är inaktiverade medan losenordslåset är på</string>
     <string name="all_notes">Alla anteckningar</string>
     <string name="appearance">Utseende</string>
@@ -71,16 +94,16 @@ Language: sv_SE
     <string name="could_not_access_site_data">Kunde inte komma åt webbplatsdata.</string>
     <string name="wordpress_post_link">Dela WordPress-inlägg</string>
     <string name="reconnect_to_wordpress">Anslut till WordPress.com igen.</string>
-    <string name="network_error_message">Ett nätverksfel uppstod. Var vänlig försök igen.</string>
+    <string name="network_error_message">Ett nätverksfel påträffades. Försök igen.</string>
     <string name="select_site">Välj en webbplats att publicera på.</string>
     <string name="post_to_wordpress">Publicera på WordPress</string>
-    <string name="untitled_site">Webbplats utan titel</string>
+    <string name="untitled_site">Webbplats utan rubrik</string>
     <string name="connect_with_wordpress">Anslut</string>
     <string name="wordpress_connect_summary">För att publicera en anteckning direkt till en WordPress-webbplats, anslut ditt WordPress.com-konto.</string>
     <string name="done">Klart</string>
     <string name="success">Anteckningen har publicerats på: %1$s</string>
     <string name="uploading_post">Laddar upp inlägg</string>
-    <string name="wordpress_post_draft">Ställ in status som utkast</string>
+    <string name="wordpress_post_draft">Ställ in status till utkast</string>
     <string name="send_post">Publicera</string>
     <string name="wordpress_post">WordPress-inlägg</string>
     <string name="theme_auto">Mörk på natten bara</string>
@@ -88,25 +111,21 @@ Language: sv_SE
     <string name="share_analytics_summary">Hjälp oss att förbättra Simplenote genom att dela användningsdata med vårt analysverktyg. %1$sLäs mer%2$s</string>
     <string name="share_analytics">Dela analys</string>
     <string name="editor">Redigerare</string>
-    <string name="logo">Logotyp</string>
+    <string name="logo">Logga</string>
     <string name="unpin_from_top">Ta bort från topp</string>
     <string name="untagged_notes">Omärkta anteckningar</string>
-    <string name="delete_notes">Radera anteckningar</string>
+    <string name="delete_notes">Ta bort anteckningar</string>
     <string name="visit_web_app">Besök webbapp</string>
     <string name="unsynced_notes">Osynkroniserade anteckningar upptäckta</string>
     <string name="wpcom_log_in_error_unverified">Aktivera ditt WordPress.com-konto via e-post och försök igen.</string>
     <string name="wpcom_log_in_error_generic">Kunde inte logga in med WordPress.com. Försök igen.</string>
-    <string name="note_not_published">Anteckningen kunde inte publiceras</string>
     <string name="collaborate_message">Lägg till en e-post i etikettfältet för att samarbeta med andra användare.</string>
     <string name="collaborate">Samarbeta</string>
     <string name="unpublishing">Tar bort offentlig länk…</string>
-    <string name="publishing">Publicerar länk…</string>
     <string name="unpublish_successful">Offentlig länk borttagen.</string>
-    <string name="publish_successful">Klart! Länken har kopierats till urklipp…</string>
-    <string name="unpublish_error">Det gick inte att ta bort länken…</string>
-    <string name="publish_error">Det gick inte att skapa länken…</string>
+    <string name="unpublish_error">Kunde inte ta bort länk.</string>
+    <string name="publish_error">Kunde inte skapa länk.</string>
     <string name="unpublish">Ta bort offentlig länk</string>
-    <string name="public_link">Offentlig länk</string>
     <string name="no_browser_available">\"Kunde inte öppna webbplats. Ingen webbläsare tillgänglig.\"</string>
     <string name="blog">Blogg</string>
     <string name="rate_us">Betygsätt oss</string>
@@ -116,11 +135,10 @@ Language: sv_SE
     <string name="about">Om Simplenote</string>
     <string name="markdown_show">Visa Markdown</string>
     <string name="markdown_hide">Dölj Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Förhandsgranska</string>
     <string name="tab_edit">Redigera</string>
-    <string name="modified_time">Modifierad %s</string>
     <string name="pin_to_top">Nåla fast högst upp</string>
-    <string name="enable_markdown">Aktivera Markdown</string>
     <string name="error_history">Kunde inte hämta historik.</string>
     <string name="history">Historik</string>
     <string name="restore">Återställ</string>
@@ -136,7 +154,6 @@ Language: sv_SE
     <string name="published">Publicerad</string>
     <string name="publish">Publicera</string>
     <string name="version">Version</string>
-    <string name="note_info">Info</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Mörk</string>
     <string name="theme_light">Ljus</string>
@@ -148,7 +165,6 @@ Language: sv_SE
     <string name="passcode_enter_old_passcode">Ange ditt gamla lösenord</string>
     <string name="error">Fel</string>
     <string name="copy">Kopiera</string>
-    <string name="link_copied">Länk kopierad till urklipp</string>
     <string name="link">Länk</string>
     <string name="view_in_browser">Öppna i webbläsare</string>
     <string name="view_map">Visa karta</string>
@@ -166,9 +182,6 @@ Language: sv_SE
     <string name="rename_tag">Döp om etikett</string>
     <string name="new_note_list">Ny anteckning…</string>
     <string name="confirm_delete_tag">Är du säker på att du vill ta bort etiketten?</string>
-    <string name="edit_tags">Redigera etiketter</string>
-    <string name="new_note">Ny anteckning</string>
-    <string name="delete">Kasta bort</string>
     <string name="note_deleted">Anteckning borttagen.</string>
     <string name="undo">Ångra</string>
     <string name="yesterday">Igår</string>
@@ -187,12 +200,13 @@ Language: sv_SE
     <string name="save">Spara</string>
     <string name="delete_tag">Ta bort etikett</string>
     <string name="tag_name">Etikettnamn</string>
+    <string name="edit_tags">Redigera etiketter</string>
     <string name="characters">Tecken</string>
     <string name="words">Ord</string>
     <string name="font_size">Typsnittsstorlek</string>
     <string name="detect_links">Detektera länkar</string>
     <string name="account">Konto</string>
-    <string name="undelete">Återställ anteckning</string>
+    <string name="new_note">Ny anteckning</string>
     <string name="share">Dela</string>
     <string name="settings">Inställningar</string>
     <string name="tag_hint">Lägg till etikett…</string>

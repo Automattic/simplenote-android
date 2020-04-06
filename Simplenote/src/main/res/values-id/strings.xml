@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-12 00:54:51+0000
+Translation-Revision-Date: 2020-04-01 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="search">Cari Catatan atau Tag</string>
+    <string name="empty_tags_search">Tidak ada tag yang ditemukan</string>
+    <string name="empty_notes_widget">Tidak ada catatan</string>
+    <string name="loading_notes">Memuat catatan…</string>
+    <string name="note_widget_light">Catatan (Terang)</string>
+    <string name="note_widget_dark">Catatan (Gelap)</string>
+    <string name="note_list_widget_light">Daftar Catatan (Terang)</string>
+    <string name="note_list_widget_dark">Daftar Catatan (Gelap)</string>
+    <string name="retry">Coba lagi</string>
+    <string name="publishing">Memublikasikan…</string>
+    <string name="publish_successful">Dipublikasikan. Tautan disalin!</string>
+    <string name="link_copied">Tautan disalin!</string>
+    <string name="of">dari</string>
+    <string name="next">Selanjutnya</string>
+    <string name="previous">Sebelumnya</string>
+    <string name="more_options">Pilihan Lainnya</string>
+    <string name="list_show">Tampilkan Daftar</string>
+    <string name="list_hide">Sembunyikan Daftar</string>
+    <string name="toggle_pin">Alihkan Pin ke Atas</string>
+    <string name="search_tags_hint">Cari tag</string>
+    <string name="search_tags">Cari Tag</string>
+    <string name="copy_link">Salin tautan</string>
+    <string name="modified">Dimodifikasi</string>
+    <string name="created">Dibuat</string>
+    <string name="pin">Sematkan</string>
+    <string name="information">Informasi</string>
     <string name="passcodelock_prompt_message">Masukkan kode sandi Anda</string>
     <string name="passcode_turn_on">Aktifkan kunci kode sandi</string>
     <string name="passcode_turn_off">Nonaktifkan kunci kode sandi</string>
@@ -28,7 +54,7 @@ Language: id
     <string name="sort_search_created">Dibuat</string>
     <string name="sort_search_alphabetically">Menurut Abjad</string>
     <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" berwarna biru dengan ikon plus.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Info\" dengan ikon \"i\" saat melihat catatan dan aktifkan tombol \"Sematkan ke atas\".\n\nGunakan tag untuk membantu menata catatan. Buat tag di bidang \"Tambahkan tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan email dengan mudah menggunakan aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" dengan ikon bagikan saat melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
-    <string name="search">Cari catatan atau tag</string>
+    <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: id
     <string name="simperium_button_login_email">Login dengan Email</string>
     <string name="simperium_button_login">Login</string>
     <string name="theme_system">Pengaturan asal sistem</string>
-    <string name="description_fingerprint_supported">Fingerprint Didukung</string>
-    <string name="toggle_sidebar">Bilah sisi tombol</string>
     <string name="toggle_checklist">Alihkan daftar periksa</string>
     <string name="log_in_use_widget">Login untuk menggunakan widget</string>
     <string name="log_in_add_widget">Login untuk menambahkan widget ini</string>
     <string name="select_note">Pilih Catatan</string>
     <string name="note_not_found">Catatan tidak ditemukan</string>
     <string name="loading_note">Memuat catatan…</string>
-    <string name="label_note">Catatan</string>
     <string name="passcode_summary">Tangkapan layar dinonaktifkan saat kunci kode sandi aktif</string>
     <string name="all_notes">Semua Catatan</string>
     <string name="appearance">Tampilan</string>
@@ -96,17 +119,13 @@ Language: id
     <string name="unsynced_notes">Catatan yang belum disinkronkan terdeteksi</string>
     <string name="wpcom_log_in_error_unverified">Aktifkan akun WordPress.com melalui email dan coba lagi.</string>
     <string name="wpcom_log_in_error_generic">Tidak dapat login dengan WordPress.com. Coba lagi.</string>
-    <string name="note_not_published">Catatan tidak diterbitkan</string>
     <string name="collaborate_message">Tambahkan email di bidang tag untuk berkolaborasi dengan pengguna lain.</string>
     <string name="collaborate">Kolaborasi</string>
     <string name="unpublishing">Menghapus tautan publik…</string>
-    <string name="publishing">Memublikasikan tautan…</string>
     <string name="unpublish_successful">Tautan publik dihapus.</string>
-    <string name="publish_successful">Berhasil! Tautan disalin ke clipboard…</string>
-    <string name="unpublish_error">Tidak dapat menghapus tautan…</string>
-    <string name="publish_error">Tidak dapat membuat tautan…</string>
+    <string name="unpublish_error">Tidak dapat menghapus tautan.</string>
+    <string name="publish_error">Tidak dapat membuat tautan.</string>
     <string name="unpublish">Hapus tautan publik</string>
-    <string name="public_link">Tautan publik</string>
     <string name="no_browser_available">\"Tidak dapat membuka situs web. Browser tidak tersedia.\"</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Beri Rating</string>
@@ -116,11 +135,10 @@ Language: id
     <string name="about">Tentang Simplenote</string>
     <string name="markdown_show">Tampilkan Markdown</string>
     <string name="markdown_hide">Sembunyikan Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Pratinjau</string>
     <string name="tab_edit">Edit</string>
-    <string name="modified_time">Dimodifikasi %s</string>
     <string name="pin_to_top">Sematkan ke atas</string>
-    <string name="enable_markdown">Aktifkan markdown</string>
     <string name="error_history">Tidak dapat mengambil riwayat.</string>
     <string name="history">Riwayat</string>
     <string name="restore">Pulihkan</string>
@@ -136,7 +154,6 @@ Language: id
     <string name="published">Diterbitkan</string>
     <string name="publish">Terbitkan</string>
     <string name="version">Versi</string>
-    <string name="note_info">Info</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Gelap</string>
     <string name="theme_light">Terang</string>
@@ -148,7 +165,6 @@ Language: id
     <string name="passcode_enter_old_passcode">Masukkan kode sandi lama Anda</string>
     <string name="error">Kesalahan</string>
     <string name="copy">Salin</string>
-    <string name="link_copied">Tautan disalin ke clipboard</string>
     <string name="link">Tautan</string>
     <string name="view_in_browser">Tampilkan di browser</string>
     <string name="view_map">Tampilkan peta</string>
@@ -166,9 +182,6 @@ Language: id
     <string name="rename_tag">Ganti nama label</string>
     <string name="new_note_list">Catatan baru…</string>
     <string name="confirm_delete_tag">Anda yakin ingin menghapus label ini?</string>
-    <string name="edit_tags">Sunting label</string>
-    <string name="new_note">Catatan baru</string>
-    <string name="delete">Pindahkan ke sampah</string>
     <string name="note_deleted">Catatan dibuang.</string>
     <string name="undo">Urungkan</string>
     <string name="yesterday">Kemarin</string>
@@ -187,12 +200,13 @@ Language: id
     <string name="save">Simpan</string>
     <string name="delete_tag">Hapus label</string>
     <string name="tag_name">Nama label</string>
+    <string name="edit_tags">Sunting Tag</string>
     <string name="characters">Karakter</string>
     <string name="words">Kata</string>
     <string name="font_size">Ukuran font</string>
     <string name="detect_links">Mendeteksi tautan</string>
     <string name="account">Akun</string>
-    <string name="undelete">Pulihkan catatan</string>
+    <string name="new_note">Catatan Baru</string>
     <string name="share">Bagikan</string>
     <string name="settings">Pengaturan</string>
     <string name="tag_hint">Tambahkan label…</string>

@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-11 00:54:04+0000
+Translation-Revision-Date: 2020-03-31 00:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="search">Pesquisar anotações ou tags</string>
+    <string name="empty_tags_search">Nenhuma tag encontrada</string>
+    <string name="empty_notes_widget">Nenhuma anotação</string>
+    <string name="loading_notes">Carregando anotações…</string>
+    <string name="note_widget_light">Anotação (Clara)</string>
+    <string name="note_widget_dark">Anotação (Escura)</string>
+    <string name="note_list_widget_light">Lista de anotações (Clara)</string>
+    <string name="note_list_widget_dark">Lista de anotações (Escura)</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="publishing">Publicando…</string>
+    <string name="publish_successful">Publicação realizada. Link copiado!</string>
+    <string name="link_copied">Link copiado!</string>
+    <string name="of">de</string>
+    <string name="next">Próximo</string>
+    <string name="previous">Anterior</string>
+    <string name="more_options">Mais opções</string>
+    <string name="list_show">Exibir lista</string>
+    <string name="list_hide">Ocultar lista</string>
+    <string name="toggle_pin">Alternar “Fixar no topo”</string>
+    <string name="search_tags_hint">Pesquisar tags</string>
+    <string name="search_tags">Pesquisar tags</string>
+    <string name="copy_link">Copiar link</string>
+    <string name="modified">Modificação</string>
+    <string name="created">Criação</string>
+    <string name="pin">Fixar</string>
+    <string name="information">Informações</string>
     <string name="passcodelock_prompt_message">Insira sua senha</string>
     <string name="passcode_turn_on">Ativar bloqueio de senha</string>
     <string name="passcode_turn_off">Desativar bloqueio de senha</string>
@@ -28,7 +54,7 @@ Language: pt_BR
     <string name="sort_search_created">Criação</string>
     <string name="sort_search_alphabetically">Ordem alfabética</string>
     <string name="welcome_note">Bem-vindo ao Simplenote para Android!\nAbra esta anotação para ver as instruções.\n\nPara criar uma nova anotação, toque no botão azul \"Nova anotação\" com o ícone de adição.\n\nPara pesquisar suas anotações, toque no botão \"Pesquisar\" com o ícone de lupa e insira algum texto. O Simplenote mostra inicialmente pesquisas recentes e pesquisas sugeridas enquanto você digita. As anotações correspondentes ao texto inserido serão mostradas após o envio da pesquisa.\n\nRecebeu uma anotação muito importante? Fixe-a no topo da lista de anotações. Há duas maneiras de fixar as anotações: pressione e segure a anotação na lista e toque no botão \"Fixar no topo\" com o ícone de alfinete ou toque no botão \"Informações\" com o ícone \"i\" ao visualizar uma anotação e ative o botão \"Fixar no topo\".\n\nUse tags para ajudar a organizar suas anotações. Crie uma tag no campo \"Adicionar tag…\" na parte inferior de uma anotação. Você também pode adicionar um endereço de e-mail como tag para compartilhar uma anotação com alguém.\n\nCompartilhe anotações facilmente com outros aplicativos Android tocando no botão \"Compartilhar\" com o ícone de compartilhamento ao visualizar a anotação.\n\nAs anotações excluídas vão para a lixeira. Você pode restaurá-las, se desejar, ou esvaziar a lixeira para eliminá-las permanentemente.\n\nVocê pode acessar suas anotações na Web e em outros dispositivos. Acesse http://simplenote.com para começar.\n\nEsperamos que você goste de usar o Simplenote!</string>
-    <string name="search">Pesquisar anotações ou tags</string>
+    <string name="search_hint">Pesquisar anotações ou tags</string>
     <string name="log_out">Fazer logout</string>
     <string name="log_in">Fazer login</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: pt_BR
     <string name="simperium_button_login_email">Fazer login com o e-mail</string>
     <string name="simperium_button_login">Fazer login</string>
     <string name="theme_system">Sistema padrão</string>
-    <string name="description_fingerprint_supported">Digital compatível</string>
-    <string name="toggle_sidebar">Alternar barra lateral</string>
     <string name="toggle_checklist">Alternar lista de verificação</string>
     <string name="log_in_use_widget">Fazer login para usar o widget</string>
     <string name="log_in_add_widget">Fazer login para adicionar este widget</string>
     <string name="select_note">Selecione a anotação</string>
     <string name="note_not_found">Nenhuma anotação encontrada</string>
     <string name="loading_note">Carregando anotação…</string>
-    <string name="label_note">Observação</string>
     <string name="passcode_summary">As capturas de tela serão desativadas quando o bloqueio por senha estiver ativado</string>
     <string name="all_notes">Todas as anotações</string>
     <string name="appearance">Aparência</string>
@@ -96,17 +119,13 @@ Language: pt_BR
     <string name="unsynced_notes">Anotações não sincronizadas detectadas</string>
     <string name="wpcom_log_in_error_unverified">Ative sua conta do WordPress.com por e-mail e tente novamente.</string>
     <string name="wpcom_log_in_error_generic">Não foi possível fazer login usando o WordPress.com. Tente novamente.</string>
-    <string name="note_not_published">Anotação não publicada</string>
     <string name="collaborate_message">Adicione um email ao campo da tag para colaborar com outros usuários.</string>
     <string name="collaborate">Colaborar</string>
     <string name="unpublishing">Removendo link público…</string>
-    <string name="publishing">Publicando o link…</string>
     <string name="unpublish_successful">Link público removido.</string>
-    <string name="publish_successful">Sucesso! Link copiado para a área de transferência…</string>
-    <string name="unpublish_error">Não foi possível remover o link…</string>
-    <string name="publish_error">Não foi possível criar o link…</string>
+    <string name="unpublish_error">Não foi possível remover o link.</string>
+    <string name="publish_error">Não foi possível criar o link.</string>
     <string name="unpublish">Remover link público</string>
-    <string name="public_link">Link público</string>
     <string name="no_browser_available">\"Não foi possível abrir o site. Nenhum navegador disponível.\"</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Classifique-nos</string>
@@ -116,11 +135,10 @@ Language: pt_BR
     <string name="about">Sobre o Simplenote</string>
     <string name="markdown_show">Exibir Markdown</string>
     <string name="markdown_hide">Ocultar Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Visualizar</string>
     <string name="tab_edit">Editar</string>
-    <string name="modified_time">Modificado %s</string>
     <string name="pin_to_top">Marcar no topo</string>
-    <string name="enable_markdown">Permitir Markdown</string>
     <string name="error_history">Não foi possível recuperar o histórico.</string>
     <string name="history">Histórico</string>
     <string name="restore">Restaurar</string>
@@ -136,7 +154,6 @@ Language: pt_BR
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
     <string name="version">Versão</string>
-    <string name="note_info">Informações</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Escuro</string>
     <string name="theme_light">Claro</string>
@@ -148,7 +165,6 @@ Language: pt_BR
     <string name="passcode_enter_old_passcode">Insira sua senha antiga</string>
     <string name="error">Erro</string>
     <string name="copy">Copiar</string>
-    <string name="link_copied">Link copiado para a área de transferência</string>
     <string name="link">Link</string>
     <string name="view_in_browser">Visualizar no navegador</string>
     <string name="view_map">Visualizar mapa</string>
@@ -166,9 +182,6 @@ Language: pt_BR
     <string name="rename_tag">Renomear tag</string>
     <string name="new_note_list">Nova anotação…</string>
     <string name="confirm_delete_tag">Tem certeza que deseja excluir esta tag?</string>
-    <string name="edit_tags">Editar tags</string>
-    <string name="new_note">Nova anotação</string>
-    <string name="delete">Mover para a lixeira</string>
     <string name="note_deleted">Anotação enviada para a lixeira.</string>
     <string name="undo">Desfazer</string>
     <string name="yesterday">Ontem</string>
@@ -187,12 +200,13 @@ Language: pt_BR
     <string name="save">Salvar</string>
     <string name="delete_tag">Excluir tag</string>
     <string name="tag_name">Nome da tag</string>
+    <string name="edit_tags">Editar tags</string>
     <string name="characters">Caracteres</string>
     <string name="words">Palavras</string>
     <string name="font_size">Tamanho da fonte</string>
     <string name="detect_links">Detectar links</string>
     <string name="account">Conta</string>
-    <string name="undelete">Restaurar anotação</string>
+    <string name="new_note">Nova anotação</string>
     <string name="share">Compartilhar</string>
     <string name="settings">Configurações</string>
     <string name="tag_hint">Adicionar tag…</string>
