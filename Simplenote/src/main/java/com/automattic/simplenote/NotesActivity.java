@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -997,7 +996,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     private void setIconAfterAnimation(final MenuItem item, final @DrawableRes int drawable, final @StringRes int string) {
-        ((AnimatedVectorDrawable) item.getIcon()).start();
+        DrawableUtils.startAnimatedVectorDrawable(item.getIcon());
         new Handler().postDelayed(
             new Runnable() {
                 @Override

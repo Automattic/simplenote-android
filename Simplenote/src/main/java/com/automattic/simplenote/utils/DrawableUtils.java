@@ -2,7 +2,9 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 @SuppressWarnings("unused")
 public class DrawableUtils {
@@ -58,6 +61,14 @@ public class DrawableUtils {
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(tintColorAttribute, typedValue, true);
         return typedValue.data;
+    }
+
+    public static void startAnimatedVectorDrawable(Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ((AnimatedVectorDrawable) drawable).start();
+        } else {
+            ((AnimatedVectorDrawableCompat) drawable).start();
+        }
     }
 
     public static void tintMenuWithAttribute(Context context, Menu menu, @AttrRes int tintColorAttribute) {
