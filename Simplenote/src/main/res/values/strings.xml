@@ -240,6 +240,7 @@
     <string name="simperium_dialog_message_login_reset">Your password is insecure and must be reset.  The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
     <string name="simperium_dialog_message_network">There is no network available.  Please, connect to a network and try again.</string>
     <string name="simperium_dialog_message_password">The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
+    <string name="simperium_dialog_message_password_login">Passwords must be a minimum of %1$d characters excluding new lines, spaces, and tabs.</string>
     <string name="simperium_dialog_message_signup">Could not sign up with the provided email address and password.</string>
     <string name="simperium_dialog_message_signup_existing">The email address you entered is already associated with a Simplenote account.</string>
     <string name="simperium_dialog_progress_logging_in">Logging in&#8230;</string>
