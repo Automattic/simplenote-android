@@ -1,0 +1,8 @@
+2.5:
+* Menambahkan versi gelap widget catatan untuk menampilkan dan membuka catatan di aplikasi dari layar awal.
+* Menambahkan widget daftar catatan untuk membuka catatan apa pun di aplikasi dari layar awal.
+* Menambahkan bilah peralatan untuk menemukan istilah pencarian yang cocok dalam catatan.
+* Menambahkan dukungan untuk tata letak dan bahasa dengan penulisan kanan ke kiri.
+* Menambahkan pencarian ke daftar tag.
+* Memperbaiki bug yang menyoroti istilah pencarian secara tidak tepat di catatan dengan daftar centang.
+* Memperbaiki bug dengan judul catatan yang membuat aplikasi mengalami lag saat menyunting catatan.

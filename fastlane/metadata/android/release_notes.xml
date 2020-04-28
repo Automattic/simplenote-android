@@ -1,119 +1,170 @@
 <ar>
-2.4:
-* تم تحديث المعلومات الواردة في الملحوظات مع تاريخ التعديل وتاريخ الإنشاء وعدد الكلمات وعدد الأحرف.
-* تم نقل بعض الخيارات الواردة في الملحوظات من المعلومات الواردة في الملحوظات وشريط الإجراءات إلى قائمة علامات القطع.
-* تم إصلاح أخطاء المزامنة مع حذف الوسوم وإفراغ سلة المهملات.
-* تم إصلاح أخطاء الشبكات التي تسببت في تباطؤ التطبيق.
+2.5:
+* تمت إضافة نسخة داكنة للمربع الجانبي للملحوظة لعرض الملحوظة وفتحها في التطبيق من الشاشة الرئيسية.
+* تمت إضافة مربع جانبي لقائمة الملحوظات لفتح أي ملحوظة في التطبيق من الشاشة الرئيسية.
+* تمت إضافة شريط أدوات للعثور على مصطلحات البحث المتطابقة ضمن الملحوظات.
+* تمت إضافة دعم للغات والتخطيطات من اليمين إلى اليسار.
+* تمت إضافة البحث إلى قائمة الوسوم.
+* تم إصلاح الخطأ الذي أظهر مصطلحات البحث بشكل غير صحيح في الملحوظات مع قوائم الاختيار.
+* تم إصلاح الخطأ الموجود في عنوان الملحوظة الذي تسبَّب في تأخر التطبيق في أثناء تحرير الملحوظة.
 </ar>
 <de-DE>
-2.4:
-* Notizeninformationen mit Änderungsdatum, Erstellungsdatum, Wortanzahl und Zeichenanzahl aktualisiert.
-* Einige Notizenoptionen aus den Notizeninformationen und der Aktionsleiste in das Dreipunkt-Menü verschoben.
-* Einen Synchronisierungsfehler beim Löschen von Schlagwörtern und Leeren des Papierkorbs behoben.
-* Einen Netzwerkfehler behoben, der zu Verzögerungen der App führte.
+2.5:
+* Dunkle Version des Notizen-Widget zum Aufrufen und Öffnen einer Notiz in der App über den Startbildschirm hinzugefügt.
+* Notizenlisten-Widget zum Öffnen einer Notiz in der App über den Startbildschirm hinzugefügt.
+* Werkzeugleiste zum Suchen passender Suchbegriffe in Notizen hinzugefügt.
+* Unterstützung für Rechts-nach-Links-Sprachen und entsprechende Layouts hinzugefügt.
+* Suche zu Schlagwörterliste hinzugefügt.
+* Fehler behoben, bei dem Suchbegriffe in Notizen mit Checklisten falsch hervorgehoben wurden.
+* Fehler beim Notizentitel behoben, der die App beim Bearbeiten einer Notiz verlangsamte.
 </de-DE>
 <es-ES>
-2.4:
-* Información actualizada de las notas con la fecha de modificación, la fecha de creación, el número de palabras y el número de caracteres.
-* Hemos trasladado algunas opciones de notas de la información de las notas y la barra de acción al menú de tres puntos.
-* Hemos solucionado un error de sincronización que ocurría al eliminar etiquetas y vaciar la papelera.
-* Hemos solucionado un error de red que hacía que la aplicación se retrasara.
+2.5:
+* Se ha añadido la versión oscura del widget de notas para ver notas y abrirlas en la aplicación desde la pantalla de inicio.
+* Se ha añadido un widget de lista de notas para abrir notas en la aplicación desde la pantalla de inicio.
+* Se ha añadido una barra de herramientas para encontrar términos de búsqueda coincidentes en las notas.
+* Se ha añadido compatibilidad con idiomas y diseños de derecha a izquierda.
+* Se ha añadido la búsqueda a la lista de etiquetas.
+* Hemos solucionado un error que resaltaba incorrectamente los términos de búsqueda en las notas con listas de verificación.
+* Hemos solucionado un error con el título de la nota que hacía que la aplicación se retrasara al editar una nota.
 </es-ES>
 <fr-FR>
-2.4 :
-*Mise à jour des informations sur les notes de version incluant la date de modification, la date de création, le nombre de mots et le nombre de caractères.
-*Déplacement de certaines options de notes de version des informations sur ces dernières et de la barre d'action vers le menu représenté par trois points.
-*Résolution d'un bug de synchronisation avec suppression des étiquettes et vidage de la corbeille.
-*Résolution d'un bug d'interconnexion réseau qui faisait ralentissait l'application.
+2.5 :
+* Ajout d'une version foncée du widget de notes permettant de voir et d'ouvrir une note dans l'application à partir de l'écran d'accueil.
+* Ajout d'un widget de liste de notes permettant d'ouvrir n'importe quelle note dans l'application à partir de l'écran d'accueil.
+* Ajout d'une barre d'outils permettant de trouver des termes de recherche correspondant dans les notes.
+* Ajout de la prise en charge de mises en page et de langues s'écrivant de droite à gauche.
+* Ajout d'une fonction de recherche dans la liste d'étiquettes.
+* Résolution d'un bug qui ne mettait pas correctement en surbrillance les termes de recherche dans les notes avec les listes de contrôle.
+* Résolution d'un bug dans le titre d'une note qui ralentissait l'application lors de la modification d'une note.
 </fr-FR>
 <iw-IL>
-2.4:
-* פרטים מעודכנים לפתקים, כולל תאריך שינוי, תאריך יצירה, ספירת מילים וספירת תווים.
-* הזזנו כמה מאפשרויות הפתקים שבפרטי הפתק ובסרגל הפעולות לתפריט של שלוש הנקודות.
-* תיקנו את באג הסנכרון שמחק תגיות ורוקן את הפח.
-* מחקנו את באג הרשת שהאט את פעילות האפליקציה.
+2.5:
+* הוספנו מצב כהה לווידג'ט הפתקים כדי להציג ולפתוח את הפתק באפליקציה ממסך הבית.
+* הוספנו וידג'ט של רשימת פתקים כדי לפתוח כל פתק באפליקציה ממסך הבית.
+* הוספנו סרגל כלים כדי למצוא מונחי חיפוש תואמים בפתקים.
+* הוספנו תמיכה בשפות ובפריסות מימין לשמאל.
+* הוספנו חיפוש לרשימת התגיות.
+* תיקנו באג שהדגיש מונחי חיפוש באופן שגוי בפתקים וברשימות משימות.
+* תיקנו באג בכותרות הפתקים שגרם לביצועים איטיים באפליקציה בזמן עריכה של פתק.
 </iw-IL>
 <id>
-2.4:
-* Informasi catatan diperbarui dengan tanggal diubah, tanggal dibuat, jumlah kata, dan jumlah karakter.
-* Memindahkan beberapa pilihan catatan dari informasi catatan dan bilah tindakan ke menu elipsis.
-* Memperbaiki bug dengan menghapus tag dan mengosongkan tempat sampah.
-* Memperbaiki bug jaringan yang membuat aplikasi mengalami lag.
+2.5:
+* Menambahkan versi gelap widget catatan untuk menampilkan dan membuka catatan di aplikasi dari layar awal.
+* Menambahkan widget daftar catatan untuk membuka catatan apa pun di aplikasi dari layar awal.
+* Menambahkan bilah peralatan untuk menemukan istilah pencarian yang cocok dalam catatan.
+* Menambahkan dukungan untuk tata letak dan bahasa dengan penulisan kanan ke kiri.
+* Menambahkan pencarian ke daftar tag.
+* Memperbaiki bug yang menyoroti istilah pencarian secara tidak tepat di catatan dengan daftar centang.
+* Memperbaiki bug dengan judul catatan yang membuat aplikasi mengalami lag saat menyunting catatan.
 </id>
 <it-IT>
-2.4:
-*Informazioni della nota aggiornate con data di modifica, data di creazione, conteggio parole e conteggio caratteri.
-*Alcune opzioni della nota spostate dalle informazioni della nota e dalla barra delle azioni al menu ellissi.
-*Risolto un bug relativo alla sincronizzazione con eliminazione di tag e svuotamento del cestino.
-*Risolto un bug di rete che causava il ritardo dell'app.
+2.5:
+*Aggiunta una versione scura per visualizzare e aprire una nota nell'app dalla schermata principale.
+*Aggiunto un widget dell'elenco delle note per aprire qualsiasi nota nell'app dalla schermata principale.
+*Aggiunta una barra degli strumenti per trovare i termini di ricerca corrispondenti nelle note.
+*Aggiunto un supporto per le lingue da destra a sinistra e per i layout.
+*Aggiunta la ricerca all'elenco dei tag.
+*Corretto un bug che evidenziava i termini di ricerca in modo non corretto nelle note con la checklist.
+*Corretto un bug relativo al titolo della nota che causava un ritardo dell'app durante la modifica della nota.
 </it-IT>
 <ja-JP>
-2.4:
-* メモ情報の変更日、作成日、単語数、文字数を更新しました。
-* 複数のメモオプションを、メモ情報とアクションバーから省略記号メニューに移動しました。
-* タグを削除したときやゴミ箱を空にしたときに発生する同期のバグを修正しました。
-* アプリの速度低下を引き起こしていたネットワーキングのバグを修正しました。
+2.5:
+* ホーム画面からアプリのメモを表示したり、開いたりできるメモウィジェットのダークバージョンを追加しました。
+* ホーム画面からアプリのメモを開くことができるメモリストウィジェットを追加しました。
+* メモ内で一致する検索キーワードを検索できるツールバーを追加しました。
+* 右から左に書く言語とレイアウトのサポートを追加しました。
+* タグリストに検索機能を追加しました。
+* チェックリスト付きのメモで検索キーワードが誤って強調表示されるバグを修正しました。
+* メモの編集中にアプリの速度低下を引き起こしていたメモのタイトルのバグを修正しました。
 </ja-JP>
 <ko-KR>
-2.4:
-* 수정된 날짜, 생성된 날짜, 단어 수 및 문자 수로 업데이트된 메모 정보.
-* 일부 메모 옵션을 메모 정보 및 작업 표시줄에서 줄임표 메뉴로 옮겼습니다.
-* 태그 삭제 및 휴지통 비우기와의 동기화 버그가 수정되었습니다.
-* 앱이 지연되는 네트워킹 버그가 수정되었습니다.
+2.5:
+* 홈 화면에서 앱의 메모를 보고 열 수 있는 어두운 버전의 메모 위젯을 추가했습니다.
+* 홈 화면에서 앱의 메모를 열 수 있는 메모 목록 위젯을 추가했습니다.
+* 메모 내에서 일치하는 검색어를 찾기 위한 도구 모음을 추가했습니다.
+* 오른쪽에서 왼쪽으로 쓰는 언어 및 레이아웃에 대한 지원을 추가했습니다.
+* 태그 목록에 검색을 추가했습니다.
+* 체크리스트가 있는 메모에서 검색어를 잘못 강조 표시하는 버그가 수정되었습니다.
+* 메모를 편집하는 동안 앱을 지연시키는 메모 제목의 버그가 수정되었습니다.
 </ko-KR>
 <nl-NL>
-2.4:
-* Bijgewerkte notitiegegevens met aangepaste datum, aanmaakdatum, aantal woorden en aantal tekens.
-* Aantal notitie-opties verplaatst van notitiegegevens en de actiebalk naar het ellipsmenu.
-* Synchronisatieprobleem opgelost waarbij codes werden verwijderd en de prullenbak werd geleegd.
-* Netwerkprobleem opgelost waardoor de app traag werd.
+2.5:
+* We hebben een donkere versie van de notitie-widget toegevoegd om notities in de app te bekijken en te openen vanuit het startscherm.
+* We hebben een notitielijst-widget toegevoegd om notities in de app te openen vanuit het startscherm.
+* We hebben een werkbalk toegevoegd om overeenkomende termen in notities te vinden.
+* Ondersteuning toegevoegd voor talen die van rechts naar links worden gelezen en voor opmaak.
+* Zoekfunctie toegevoegd aan de taglijst.
+* Een probleem verholpen waarbij zoektermen onjuist werden gemarkeerd in notities met checklists.
+* Een probleem verholpen met de notitie-titel dat ervoor zorgde dat de app ging laggen bij het bewerken van een notitie.
 </nl-NL>
 <pt-BR>
-2.4:
-* Informações de nota atualizadas com data de modificação, data de criação, contagem de palavras e contagem de caracteres.
-* Algumas opções de nota foram movidas das informações de nota e da barra de ações para o menu de elipse.
-* Bug de sincronização com tags excluídas e lixeira vazia resolvido.
-* Bug de serviço de rede que causava lentidão no aplicativo resolvido.
+2.5:
+* Nova versão escura do widget de anotação para exibir e abrir uma anotação no app pela tela inicial.
+* Novo widget de lista de anotações para abrir qualquer anotação no aplicativo pela tela inicial.
+* Nova barra de ferramentas para encontrar termos de busca correspondentes nas anotações.
+* Suporte a layouts e idiomas escritos da direita para a esquerda.
+* Adicionamos pesquisas à lista de tags.
+* Correção de bug que destacava termos de busca erroneamente nas anotações com listas de verificações.
+* Correção de bug no título de anotações que causava lentidão no app ao editar uma anotação.
 </pt-BR>
 <ru-RU>
-Версия 2.4:
-* Обновленная информация о заметках с указанием даты изменения, даты создания, количества слов и количества символов.
-* Некоторые параметры заметок перенесены из раздела информации о заметках и панели действий в меню под знаком многоточия.
-* Исправлена ошибка синхронизации с удалением тегов и очисткой корзины.
-* Исправлена сетевая ошибка, из-за которой приложение зависало.
+2.5:
+* Добавлена темная версия виджета для просмотра заметок в приложении с главного экрана.
+* Добавлен виджет со списком заметок для открытия заметок в приложении с главного экрана.
+* Добавлена панель инструментов для поиска ключевых слов в заметках.
+* Добавлена поддержка языков и раскладок клавиатуры с письмом справа налево.
+* В список меток добавлен поиск.
+* Исправлена ошибка, из-за которой в заметках с контрольными списками неправильно выделялись поисковые запросы.
+* Исправлена ошибка заголовка, вызывавшая зависание при изменении заметки.
 </ru-RU>
 <sv-SE>
-2.4:
-* Uppdaterad meddelandeinformation med datum ändrat, datum skapat, antal ord och antal tecken.
-* Flyttade några meddelandealternativ från meddelandeinformationen och åtgärdsfältet till ellips-menyn.
-* Åtgärdade en synkroniseringsbugg med att ta bort etiketter och tömma papperskorgen.
-* Åtgärdade en nätverksbugg som fick appen att lagga.
+2.5:
+* En mörk version av anteckningswidgeten har lagts till för att visa och öppna en anteckning i appen från startskärmen.
+* En listwidget för anteckningar har lagts till för öppna en anteckning i appen från startskärmen.
+* Ett verktygsfält har lagts till för att hitta matchande söktermer i anteckningar.
+* Stöd för höger-till-vänster-språk och layouter har lagts till.
+* Sökning har lagts till för etikettlistan.
+* En bugg som felaktigt markerade söktermer i anteckningar har korrigerats.
+* En bugg i anteckningsrubriken som gjorde att appen laggade vid redigering av en anteckning har korrigerats.
 </sv-SE>
 <tr-TR>
-2.4:
-* Not bilgisi; değiştirilme tarihi, oluşturulma tarihi, kelime sayısı ve karakter sayısı ile güncellendi.
-* Not bilgisindeki bazı not seçenekleri ve eylem çubuğu, üç nokta menüsüne taşındı.
-* Etiketleri silme ve çöpü boşaltma ile ilgili senkronizasyon hatası düzeltildi.
-* Uygulamada gecikmeye neden olan bir ağ hatası düzeltildi.
+2.5:
+* Bir notu ana sayfa ekranındaki uygulamada görüntülemek ve açmak için not pencere öğesinin koyu sürümü eklendi.
+* Herhangi bir notu ana sayfa ekranındaki uygulamada açmak için not listesi pencere öğesi eklendi.
+* Notlardaki eşleşen arama terimlerini bulmak için bir araç çubuğu eklendi.
+* Sağdan sola diller ve düzenler için destek eklendi.
+* Etiketler listesine arama eklendi.
+* Kontrol listesi içeren notlardaki arama terimlerini hatalı şekilde vurgulayan bir hata düzeltildi.
+* Bir notu düzenlerken uygulamada gecikmeye neden olan, not başlığı ile ilgili bir hata düzeltildi.
 </tr-TR>
 <zh-CN>
-2.4：
-* 更新了说明信息，包括修改日期、创建日期、字数和字符数。
-* 将说明信息和操作栏中的一些说明选项移动到了省略号菜单中。
-* 修复了删除标签和清空回收站的同步错误。
-* 修复了导致应用程序延迟的网络错误。
+2.5：
+* 添加了深色版备注小工具，以便从主屏幕查看和打开应用程序中的备注。
+* 添加了备注列表小工具，以便从主屏幕打开应用程序中的任何备注。
+* 添加了工具栏，以便在备注内查找匹配的搜索词。
+* 添加了对从右到左的语言和布局的支持。
+* 向标签列表添加了搜索功能。
+* 修复了在带有检查清单的备注中错误地突出显示搜索词的问题。
+* 修复了编辑备注时导致应用程序延迟的备注标题的问题。
 </zh-CN>
 <zh-TW>
-2.4：
-* 更新修改日期、建立日期、字數和字元數的備註資訊。
-* 將部分備註選項從備註資訊和動作列移至省略符號選單。
-* 修正刪除標籤和清空垃圾桶時的同步錯誤。
-* 修正造成應用程式延遲的網路錯誤。
+2.5：
+* 新增深色版本的筆記小工具，可於應用程式的主畫面中瀏覽及開啟筆記。
+* 新增筆記清單小工具，可於應用程式的主畫面中開啟任何筆記。
+* 新增可於筆記內尋找相符搜尋詞彙的工具列。
+* 新增對從右至左的語言和版面形式的支援。
+* 新增標籤清單搜尋功能。
+* 修復包含檢查清單的筆記中，醒目提示的搜尋詞彙有誤的錯誤。
+* 修復編輯筆記時，筆記標題導致應用程式延遲的錯誤。
 </zh-TW>
 <en-US>
-2.4:
-* Updated note information with date modified, date created, word count, and character count.
-* Moved some note options from note information and the action bar to the ellipsis menu.
-* Fixed a syncing bug with deleting tags and emptying trash.
-* Fixed a networking bug that made the app lag.
+2.5:
+* Added a dark version of the note widget to view and open a note in the app from the home screen.
+* Added a note list widget to open any note in the app from the home screen.
+* Added a toolbar to find matching search terms within notes.
+* Added support for right-to-left languages and layouts.
+* Added search to tags list.
+* Fixed a bug that highlighted search terms incorrectly in notes with checklists.
+* Fixed a bug with the note title that made the app lag while editing a note.
 </en-US>

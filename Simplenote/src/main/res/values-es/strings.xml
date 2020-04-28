@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2019-12-13 02:54:03+0000
+Translation-Revision-Date: 2020-04-02 00:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="search">Buscar notas o etiquetas</string>
+    <string name="empty_tags_search">No se han encontrado etiquetas</string>
+    <string name="empty_notes_widget">No hay notas</string>
+    <string name="loading_notes">Cargando notas…</string>
+    <string name="note_widget_light">Nota (Claro)</string>
+    <string name="note_widget_dark">Nota (Oscuro)</string>
+    <string name="note_list_widget_light">Lista de notas (Claro)</string>
+    <string name="note_list_widget_dark">Lista de notas (Oscuro)</string>
+    <string name="retry">Reintentar</string>
+    <string name="publishing">Publicando…</string>
+    <string name="publish_successful">Se ha publicado. ¡El enlace se ha copiado!</string>
+    <string name="link_copied">¡El enlace se ha copiado!</string>
+    <string name="of">de</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Previo</string>
+    <string name="more_options">Más opciones</string>
+    <string name="list_show">Mostrar lista</string>
+    <string name="list_hide">Ocultar lista</string>
+    <string name="toggle_pin">Activar Anclar en la parte superior</string>
+    <string name="search_tags_hint">Buscar etiquetas</string>
+    <string name="search_tags">Buscar etiquetas</string>
+    <string name="copy_link">Copiar enlace</string>
+    <string name="modified">Modificado</string>
+    <string name="created">Creado</string>
+    <string name="pin">Anclar</string>
+    <string name="information">Información</string>
     <string name="passcodelock_prompt_message">Introduce tu contraseña</string>
     <string name="passcode_turn_on">Activar el bloqueo con contraseña</string>
     <string name="passcode_turn_off">Desactivar el bloqueo con contraseña</string>
@@ -28,7 +54,7 @@ Language: es
     <string name="sort_search_created">Creado</string>
     <string name="sort_search_alphabetically">Alfabéticamente</string>
     <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre esta nota para leer las instrucciones.\n\nPara crear una nota nueva, toca el botón azul \"Añadir nota\" con el icono Más.\n\nPara buscar en tus notas, toca el botón \"Buscar\" con el icono de la lupa e introduce el texto que quieras. Simplenote mostrará primero tus búsquedas recientes y las sugerencias de búsqueda mientras escribes. Las notas que coincidan con el texto introducido se mostrarán una vez que hayas validado la búsqueda.\n\n¿Tienes una nota muy importante? Fíjala en la parte superior de la lista de notas. Puedes fijar una nota de dos maneras. Pulsa prolongadamente en la nota de la lista y toca el botón \"Anclar en la parte superior\" con el botón de fijar. Toca el botón \"Información\" con el icono \"i\" mientras visualizas una nota y activa el interruptor \"Anclar en la parte superior\".\n\nUsa las etiquetas para organizar las notas fácilmente. Crea una etiqueta en el campo \"Añadir una etiqueta…\" en la parte inferior de una nota. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nComparte las notas con otras aplicaciones para Android solo con tocar el botón \"Compartir\" con el icono de compartir mientras visualizas una nota.\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
-    <string name="search">Buscar notas o etiquetas</string>
+    <string name="search_hint">Buscar notas o etiquetas</string>
     <string name="log_out">Salir</string>
     <string name="log_in">Acceder</string>
     <string name="simperium_title">@string/app_name</string>
@@ -54,15 +80,12 @@ Language: es
     <string name="simperium_button_login_email">Acceder con el correo electrónico</string>
     <string name="simperium_button_login">Acceder</string>
     <string name="theme_system">Valores predeterminados del sistema</string>
-    <string name="description_fingerprint_supported">Huella digital admitida</string>
-    <string name="toggle_sidebar">Activar/desactivar barra lateral</string>
     <string name="toggle_checklist">Activar/desactivar lista de verificación</string>
     <string name="log_in_use_widget">Accede para usar el widget</string>
     <string name="log_in_add_widget">Accede para usar este widget</string>
     <string name="select_note">Elegir nota</string>
     <string name="note_not_found">No se ha encontrado la nota</string>
     <string name="loading_note">Cargando nota…</string>
-    <string name="label_note">Nota</string>
     <string name="passcode_summary">Las capturas de pantalla están desactivadas mientras el bloqueo con contraseña está activado</string>
     <string name="all_notes">Todas las notas</string>
     <string name="appearance">Apariencia</string>
@@ -96,17 +119,13 @@ Language: es
     <string name="unsynced_notes">Se han detectado notas sin sincronizar</string>
     <string name="wpcom_log_in_error_unverified">Activa tu cuenta de WordPress.com mediante correo electrónico e inténtalo de nuevo.</string>
     <string name="wpcom_log_in_error_generic">No se ha podido acceder con WordPress.com. Inténtalo de nuevo.</string>
-    <string name="note_not_published">La nota no se ha publicado</string>
     <string name="collaborate_message">Añade una dirección de correo electrónico en el campo de la etiqueta para colaborar con otros usuarios</string>
     <string name="collaborate">Colaborar</string>
     <string name="unpublishing">Eliminando el enlace público…</string>
-    <string name="publishing">Publicando el enlace…</string>
     <string name="unpublish_successful">El enlace público se ha eliminado.</string>
-    <string name="publish_successful">¡Bien! El enlace se ha copiado al portapapeles…</string>
-    <string name="unpublish_error">No se ha podido eliminar el enlace…</string>
-    <string name="publish_error">No se ha podido crear el enlace…</string>
+    <string name="unpublish_error">No se ha podido eliminar el enlace.</string>
+    <string name="publish_error">No se ha podido crear el enlace.</string>
     <string name="unpublish">Eliminar el enlace público</string>
-    <string name="public_link">Enlace público</string>
     <string name="no_browser_available">\"No se puede abrir el sitio web. No hay ningún navegador disponible.\"</string>
     <string name="blog">Blog</string>
     <string name="rate_us">Puntúanos</string>
@@ -116,11 +135,10 @@ Language: es
     <string name="about">Acerca de Simplenote</string>
     <string name="markdown_show">Mostrar Markdown</string>
     <string name="markdown_hide">Ocultar Markdown</string>
+    <string name="markdown">Markdown</string>
     <string name="tab_preview">Vista previa</string>
     <string name="tab_edit">Editar</string>
-    <string name="modified_time">Se ha modificado %s</string>
     <string name="pin_to_top">Anclar en la parte superior</string>
-    <string name="enable_markdown">Habilitar Markdown</string>
     <string name="error_history">No se ha podido recuperar el historial.</string>
     <string name="history">Historial</string>
     <string name="restore">Restaurar</string>
@@ -136,7 +154,6 @@ Language: es
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
     <string name="version">Versión</string>
-    <string name="note_info">Información</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_light">Claro</string>
@@ -148,7 +165,6 @@ Language: es
     <string name="passcode_enter_old_passcode">Introduce tu anterior contraseña</string>
     <string name="error">Error</string>
     <string name="copy">Copiar</string>
-    <string name="link_copied">Enlace copiado al portapapeles</string>
     <string name="link">Enlace</string>
     <string name="view_in_browser">Ver en navegador</string>
     <string name="view_map">Ver mapa</string>
@@ -166,9 +182,6 @@ Language: es
     <string name="rename_tag">Renombrar etiqueta</string>
     <string name="new_note_list">Nueva nota…</string>
     <string name="confirm_delete_tag">¿Estás seguro de borrar esta etiqueta?</string>
-    <string name="edit_tags">Editar etiquetas</string>
-    <string name="new_note">Nueva nota</string>
-    <string name="delete">Mover a la papelera</string>
     <string name="note_deleted">Nota movida a la papelera.</string>
     <string name="undo">Deshacer</string>
     <string name="yesterday">Ayer</string>
@@ -187,12 +200,13 @@ Language: es
     <string name="save">Guardar</string>
     <string name="delete_tag">Borrar etiqueta</string>
     <string name="tag_name">Nombre de etiqueta</string>
+    <string name="edit_tags">Editar Etiquetas</string>
     <string name="characters">Caracteres</string>
     <string name="words">Palabras</string>
     <string name="font_size">Tamaño de la fuente</string>
     <string name="detect_links">Detectar enlaces</string>
     <string name="account">Cuenta</string>
-    <string name="undelete">Restaurar nota</string>
+    <string name="new_note">Nueva nota</string>
     <string name="share">Compartir</string>
     <string name="settings">Ajustes</string>
     <string name="tag_hint">Añadir una etiqueta…</string>

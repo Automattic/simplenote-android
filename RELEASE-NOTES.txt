@@ -1,6 +1,7 @@
 2.6
 -----
- 
+* Fixed networking bug causing data loss
+
 2.5
 -----
 * Added a dark version of the note widget to view and open a note in the app from the home screen
