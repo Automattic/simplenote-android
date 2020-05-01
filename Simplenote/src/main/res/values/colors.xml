@@ -3,9 +3,9 @@
 <resources>
 
     <!-- APPLICATION -->
-    <color name="blue">@color/blue_50</color>
-    <color name="blue_dark">@color/blue_60</color>
-    <color name="blue_light">@color/blue_0</color>
+    <color name="blue">@color/simplenote_blue_50</color>
+    <color name="blue_dark">@color/simplenote_blue_60</color>
+    <color name="blue_light">@color/simplenote_blue_0</color>
     <color name="gray">@color/gray_50</color>
     <color name="green">@color/green_50</color>
     <color name="red">@color/red_50</color>
@@ -25,9 +25,9 @@
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
-    <color name="passcodelock_button_image_color">@color/blue_10</color>
+    <color name="passcodelock_button_image_color">@color/simplenote_blue_10</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
-    <color name="passcodelock_divider">@color/blue_40</color>
+    <color name="passcodelock_divider">@color/simplenote_blue_40</color>
     <color name="passcodelock_field_background_color">@android:color/transparent</color>
     <color name="passcodelock_field_hint_text_color">@android:color/transparent</color>
     <color name="passcodelock_field_text_color">@android:color/white</color>
@@ -38,18 +38,18 @@
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
-    <color name="background_light_highlight">@color/blue_5</color>
+    <color name="background_light_highlight">@color/simplenote_blue_5</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_60</color>
     <color name="empty_light">@color/gray_5</color>
-    <color name="item_blue_dark">@color/blue_20</color>
-    <color name="item_blue_light">@color/blue_50</color>
+    <color name="item_blue_dark">@color/simplenote_blue_20</color>
+    <color name="item_blue_light">@color/simplenote_blue_50</color>
     <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
-    <color name="text_blue_dark">@color/blue_10</color>
-    <color name="text_blue_light">@color/blue_60</color>
+    <color name="text_blue_dark">@color/simplenote_blue_10</color>
+    <color name="text_blue_light">@color/simplenote_blue_60</color>
     <color name="text_body_dark">@color/gray_10</color>
     <color name="text_body_light">@color/gray_50</color>
     <color name="text_chip_dark">@android:color/white</color>
@@ -62,13 +62,13 @@
 
     <!-- SIMPERIUM -->
     <color name="background_button_disabled">@color/gray_20</color>
-    <color name="background_button_primary">@color/blue_50</color>
+    <color name="background_button_primary">@color/simplenote_blue_50</color>
     <color name="background_button_secondary">@color/wordpress_blue_50</color>
     <color name="text_button_disabled">@color/gray_20</color>
     <color name="text_button_primary">@android:color/white</color>
     <color name="text_button_secondary">@android:color/white</color>
-    <color name="text_button_tertiary">@color/blue_60</color>
-    <color name="text_link">@color/blue_50</color>
+    <color name="text_button_tertiary">@color/simplenote_blue_60</color>
+    <color name="text_link">@color/simplenote_blue_50</color>
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 
