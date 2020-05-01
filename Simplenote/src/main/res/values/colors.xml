@@ -72,7 +72,7 @@
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 
-    <!-- STUDIO 2.2.0 -->
+    <!-- STUDIO 2.3.0 -->
     <color name="blue_0">#e9eff5</color>
     <color name="blue_5">#c5d9ed</color>
     <color name="blue_10">#9ec2e6</color>
