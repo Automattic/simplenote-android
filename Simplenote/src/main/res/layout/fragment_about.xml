@@ -44,13 +44,13 @@
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textColor="@color/blue_5"
+            android:textColor="@color/simplenote_blue_5"
             android:textSize="@dimen/text_about_version"
             tools:text="Version 1.2.3">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <View
-            android:background="@color/blue_40"
+            android:background="@color/simplenote_blue_40"
             android:layout_height="@dimen/divider_height"
             android:layout_marginBottom="@dimen/padding_small"
             android:layout_marginTop="@dimen/padding_extra_extra_large"
@@ -188,7 +188,7 @@
         </RelativeLayout>
 
         <View
-            android:background="@color/blue_40"
+            android:background="@color/simplenote_blue_40"
             android:layout_height="@dimen/divider_height"
             android:layout_marginBottom="@dimen/padding_extra_extra_large"
             android:layout_marginTop="@dimen/padding_small"
@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/link_divider"
-                android:textColor="@color/blue_5"
+                android:textColor="@color/simplenote_blue_5"
                 android:textSize="@dimen/text_about_subtitle">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
