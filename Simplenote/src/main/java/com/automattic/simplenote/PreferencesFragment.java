@@ -2,12 +2,17 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,6 +26,7 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -31,8 +37,11 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -110,6 +119,20 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
+                return true;
+            }
+        });
+
+        findPreference("pref_key_export").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_TITLE, "account.json");
+
+                startActivityForResult(intent, 1);
+
                 return true;
             }
         });
@@ -195,6 +218,72 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         updateAnalyticsSwitchState();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode != 1 || resultCode != Activity.RESULT_OK || resultData == null) {
+            return;
+        }
+
+        Uri uri = resultData.getData();
+
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        Bucket<Note> noteBucket = currentApp.getNotesBucket();
+        Bucket<Tag> tagBucket = currentApp.getTagsBucket();
+
+        JSONObject account = new JSONObject();
+
+        Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
+
+        try {
+            account.put("user", currentApp.getSimperium().getUser().getEmail());
+
+            JSONArray notes = new JSONArray();
+            while (cursor.moveToNext()) {
+                Note appNote = cursor.getObject();
+                JSONObject note = new JSONObject();
+
+                note.put("id", appNote.getSimperiumKey());
+                note.put("deleted", appNote.isDeleted());
+                note.put("content", appNote.getContent());
+                note.put("publishURL", appNote.getPublishedUrl());
+                note.put("tags", new JSONArray(appNote.getTags()));
+                note.put("systemTags", appNote.getSystemTags());
+
+                note.put("version", appNote.getVersion());
+
+                notes.put(note);
+            }
+            account.put("notes", notes);
+
+            JSONArray tags = new JSONArray();
+            Bucket.ObjectCursor<Tag> tagCursor = tagBucket.allObjects();
+            while (tagCursor.moveToNext()) {
+                Tag appTag = tagCursor.getObject();
+                JSONObject tag = new JSONObject();
+
+                tag.put("id", appTag.getSimperiumKey());
+                tag.put("name", appTag.getName());
+
+                if (null != appTag.getIndex()) {
+                    tag.put("index", appTag.getIndex());
+                }
+
+                tag.put("version", appTag.getVersion());
+
+                tags.put(tag);
+            }
+
+            account.put("tags", tags);
+
+            ParcelFileDescriptor pfd = getActivity().getContentResolver().openFileDescriptor(uri, "w");
+            FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor());
+            fileOutputStream.write(account.toString(2).getBytes());
+            pfd.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

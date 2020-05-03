@@ -63,6 +63,7 @@
     <string name="of">of</string>
 
     <!-- Preferences -->
+    <string name="export">Export account</string>
     <string name="editor">Editor</string>
     <string name="condensed_note_list">Condensed note list</string>
     <string name="sort_order">Sort order</string>

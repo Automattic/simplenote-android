@@ -92,6 +92,10 @@
     <PreferenceCategory
         android:title="@string/more_info">
         <Preference
+            android:key="pref_key_export"
+            android:persistent="false"
+            android:title="@string/export"/>
+        <Preference
             android:key="pref_key_about"
             android:persistent="false"
             android:title="@string/about"/>
