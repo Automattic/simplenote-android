@@ -1,3 +1,6 @@
+2.7
+-----
+ 
 2.6
 -----
 * Fixed networking bug causing data loss
