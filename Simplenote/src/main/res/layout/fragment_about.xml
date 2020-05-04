@@ -5,194 +5,238 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="wrap_content"
+    tools:background="@color/blue"
+    tools:layout_width="match_parent">
 
     <LinearLayout
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:layout_width="@dimen/width_layout"
+        android:orientation="vertical"
+        tools:layout_width="match_parent">
 
-        <ImageView
+        <com.automattic.simplenote.widgets.SpinningImageButton
             android:id="@+id/about_logo"
             android:contentDescription="@string/logo"
             android:layout_gravity="center_horizontal"
-            android:layout_height="90dp"
-            android:layout_width="90dp">
-        </ImageView>
+            android:layout_height="@dimen/about_logo"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:layout_marginTop="@dimen/padding_large"
+            android:layout_width="@dimen/about_logo"
+            android:src="@drawable/ic_simplenote_24dp">
+        </com.automattic.simplenote.widgets.SpinningImageButton>
 
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoMediumTextView
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_extra_small"
             android:layout_width="match_parent"
             android:paddingEnd="@dimen/padding_large"
             android:paddingStart="@dimen/padding_large"
             android:text="@string/app_name"
-            android:textSize="32sp">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_about_app">
+        </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/about_version"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="13sp"
+            android:textColor="@color/blue_5"
+            android:textSize="@dimen/text_about_version"
             tools:text="Version 1.2.3">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-        <LinearLayout
+        <View
+            android:background="@color/blue_40"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:layout_marginTop="@dimen/padding_extra_extra_large"
+            android:layout_width="match_parent">
+        </View>
+
+        <RelativeLayout
             android:id="@+id/about_blog"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_blog_title"
+                android:layout_toStartOf="@+id/about_blog_arrow"
                 android:text="@string/blog"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@id/about_blog_title"
+                android:layout_toStartOf="@+id/about_blog_arrow"
                 android:text="@string/simplenote_blog_url"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/about_blog_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
 
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/about_twitter"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            style="@style/Theme.Simplestyle.About.Row">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_twitter_title"
+                android:layout_toStartOf="@+id/about_twitter_arrow"
                 android:text="@string/twitter"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@id/about_twitter_title"
+                android:layout_toStartOf="@+id/about_twitter_arrow"
                 android:text="@string/about_twitter_handle"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/about_twitter_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
 
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_width="match_parent">
-        </View>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/about_play_store"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+        <RelativeLayout
+            android:id="@+id/about_store"
+            style="@style/Theme.Simplestyle.About.Row">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_store_title"
+                android:layout_toStartOf="@+id/about_store_arrow"
                 android:text="@string/rate_us"
-                android:textSize="22sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@id/about_store_title"
+                android:layout_toStartOf="@+id/about_store_arrow"
                 android:text="@string/about_play_store"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/about_store_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_contribute"
+            style="@style/Theme.Simplestyle.About.Row">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_contribute_title"
+                android:layout_toStartOf="@+id/about_contribute_arrow"
+                android:text="@string/about_contribute_title"
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@+id/about_contribute_title"
+                android:layout_toStartOf="@+id/about_contribute_arrow"
+                android:text="@string/about_contribute_subtitle"
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <ImageView
+                android:id="@+id/about_contribute_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_careers"
+            style="@style/Theme.Simplestyle.About.Row">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_careers_title"
+                android:layout_toStartOf="@+id/about_careers_arrow"
+                android:text="@string/about_hiring_title"
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@+id/about_careers_title"
+                android:layout_toStartOf="@+id/about_careers_arrow"
+                android:text="@string/about_hiring"
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <ImageView
+                android:id="@+id/about_careers_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
+
+        </RelativeLayout>
 
         <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
+            android:background="@color/blue_40"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/padding_extra_extra_large"
+            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="match_parent">
         </View>
 
         <LinearLayout
-            android:id="@+id/about_hiring"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_medium"
-            android:paddingTop="@dimen/padding_medium">
+            android:orientation="horizontal">
 
-            <com.automattic.simplenote.widgets.RobotoLightTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_privacy"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:lineSpacingExtra="@dimen/line_spacing"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingStart="@dimen/padding_large"
-                android:text="@string/about_hiring"
-                android:textSize="15sp">
-            </com.automattic.simplenote.widgets.RobotoLightTextView>
+                android:layout_width="wrap_content"
+                tools:text="Privacy Policy"
+                style="@style/Theme.Simplestyle.About.Link">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/link_divider"
+                android:textColor="@color/blue_5"
+                android:textSize="@dimen/text_about_subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_terms"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Terms of Service"
+                style="@style/Theme.Simplestyle.About.Link">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         </LinearLayout>
 
-        <View
-            android:background="@android:color/white"
-            android:layout_height="1px"
-            android:layout_marginBottom="@dimen/padding_extra_large"
-            android:layout_width="match_parent">
-        </View>
-
-        <com.automattic.simplenote.widgets.RobotoLightTextView
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/about_copyright"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="bottom|center_horizontal"
-            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_large"
             android:layout_marginTop="@dimen/padding_large"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:paddingEnd="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
-            android:textSize="15sp">
-        </com.automattic.simplenote.widgets.RobotoLightTextView>
+            tools:text="© Automattic 2019"
+            style="@style/Theme.Simplestyle.About.Subtitle">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
     </LinearLayout>
 
