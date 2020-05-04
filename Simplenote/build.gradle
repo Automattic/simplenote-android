@@ -6,9 +6,9 @@ android {
     compileSdkVersion 29
 
     buildTypes {
-        debug {
-            applicationIdSuffix '.debug'
-        }
+//        debug {
+//            applicationIdSuffix '.debug'
+//        }
 
         release {
             minifyEnabled true
