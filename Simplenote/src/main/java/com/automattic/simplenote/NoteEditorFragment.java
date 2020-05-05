@@ -1085,9 +1085,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
                 return;
             } else {
-                Simplenote application = (Simplenote) requireActivity().getApplication();
-                Bucket<Note> notesBucket = application.getNotesBucket();
-                mNote = notesBucket.get(mNote.getSimperiumKey());
+                mNote = mNotesBucket.get(mNote.getSimperiumKey());
                 mIsPreviewEnabled = mNote.isPreviewEnabled();
             }
 
