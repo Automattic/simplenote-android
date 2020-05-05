@@ -1,11 +1,20 @@
 default_platform(:android)
 fastlane_require 'dotenv'
 
+USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
+
+before_all do
+  # Check that the env file exists
+  unless is_ci || File.file?(USER_ENV_FILE_PATH)
+    UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values")
+  end
+end
+
 platform :android do
 ########################################################################
 # Environment
 ########################################################################
-Dotenv.load('~/.simplenoteandroid-env.default')
+Dotenv.load(USER_ENV_FILE_PATH)
 ENV[GHHELPER_REPO="automattic/simplenote-android"]
 ENV["PROJECT_ROOT_FOLDER"]="./"
 ENV["PROJECT_NAME"]="Simplenote"
