@@ -29,7 +29,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     lintOptions {
