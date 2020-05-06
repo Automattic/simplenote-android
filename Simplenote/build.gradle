@@ -67,6 +67,8 @@ dependencies {
         exclude group: 'androidx', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
+    // Fastlane screengrab for screenshots automation
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.9.10'
     implementation 'com.automattic:tracks:1.2'
