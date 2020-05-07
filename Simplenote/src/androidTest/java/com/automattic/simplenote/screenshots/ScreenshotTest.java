@@ -43,16 +43,13 @@ public class ScreenshotTest {
 
     @Test
     public void screenshotTest() {
-        ViewInteraction loginButton = onView(
-                allOf(ViewMatchers.withId(R.id.button_login), isDisplayed())
-        );
-        loginButton.perform(click());
-
-        ViewInteraction loginWithEmailButton = onView(
-                allOf(withId(R.id.button_email), isDisplayed())
-        );
-        loginWithEmailButton.perform(click());
+        getViewById(R.id.button_login).perform(click());
+        getViewById(R.id.button_email).perform(click());
 
         Screengrab.screenshot("test-screenshot");
+    }
+
+    private ViewInteraction getViewById(Integer id) {
+        return onView(allOf(ViewMatchers.withId(id), isDisplayed()));
     }
 }
