@@ -5,7 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -13,6 +16,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -27,6 +31,8 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -46,10 +52,38 @@ public class ScreenshotTest {
         getViewById(R.id.button_login).perform(click());
         getViewById(R.id.button_email).perform(click());
 
+        onView(withId(R.id.input_email)).check(matches(ViewMatchers.isDisplayed()));
+
+        getViewById(R.id.input_email)
+                .perform(click())
+                .perform(replaceTextInCustomInput("potato"))
+                .perform(ViewActions.closeSoftKeyboard());
+
         Screengrab.screenshot("test-screenshot");
     }
 
     private ViewInteraction getViewById(Integer id) {
         return onView(allOf(ViewMatchers.withId(id), isDisplayed()));
     }
+
+    // Thanks to https://stackoverflow.com/a/47412904/809944
+    public static ViewAction replaceTextInCustomInput(final String text) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return allOf(isDisplayed(), isAssignableFrom(TextInputLayout.class));
+            }
+
+            @Override
+            public String getDescription() {
+                return "Replace text in TextInputLayout view";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                ((TextInputLayout) view).getEditText().setText(text);
+            }
+        };
+    }
 }
+
