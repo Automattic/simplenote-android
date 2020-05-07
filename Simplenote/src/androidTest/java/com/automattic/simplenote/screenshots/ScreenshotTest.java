@@ -52,12 +52,17 @@ public class ScreenshotTest {
         getViewById(R.id.button_login).perform(click());
         getViewById(R.id.button_email).perform(click());
 
-        onView(withId(R.id.input_email)).check(matches(ViewMatchers.isDisplayed()));
-
         getViewById(R.id.input_email)
                 .perform(click())
-                .perform(replaceTextInCustomInput("potato"))
+                .perform(replaceTextInCustomInput("test@example.com"))
                 .perform(ViewActions.closeSoftKeyboard());
+
+        getViewById(R.id.input_password)
+                .perform(click())
+                .perform(replaceTextInCustomInput("password"))
+                .perform(ViewActions.closeSoftKeyboard());
+
+        getViewById(R.id.button).perform(click());
 
         Screengrab.screenshot("test-screenshot");
     }
