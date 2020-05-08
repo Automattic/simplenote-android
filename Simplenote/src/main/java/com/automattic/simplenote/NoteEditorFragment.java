@@ -785,6 +785,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.setText(mNote.getContent());
 
             if (isNoteUpdate) {
+                // Update markdown and preview flags from updated note.
+                mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                mIsPreviewEnabled = mNote.isPreviewEnabled();
+
+                // Show/Hide tabs based on markdown flag.
+                setMarkdown(mIsMarkdownEnabled);
+
                 // Save the note so any local changes get synced
                 mNote.save();
 
