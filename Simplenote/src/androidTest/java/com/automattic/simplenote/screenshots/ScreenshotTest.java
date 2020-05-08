@@ -62,7 +62,7 @@ public class ScreenshotTest {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public void screenshotTest() {
+    public void screenshotTest() throws InterruptedException {
         // If already logged in, logout.
         if (isViewDisplayed(getViewById(R.id.list_root))) {
             // There is no R.id for the menu drawer button
@@ -102,6 +102,10 @@ public class ScreenshotTest {
                     )
             )
             .perform(RecyclerViewActions.actionOnItemAtPosition(14, click()));
+
+            // Give time to the logout to finish
+            // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
+            Thread.sleep(3000);
         }
 
         getViewById(R.id.button_login).perform(click());
