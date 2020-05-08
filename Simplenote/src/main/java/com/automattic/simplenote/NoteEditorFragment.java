@@ -790,7 +790,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Show/Hide tabs based on markdown flag.
                 setMarkdown(mIsMarkdownEnabled);
 
-                // Save the note so any local changes get synced
+                // Save note so any local changes get synced.
                 mNote.save();
 
                 if (mContentEditText.hasFocus()
