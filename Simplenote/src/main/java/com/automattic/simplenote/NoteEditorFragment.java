@@ -779,9 +779,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
-
             int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
-
             mContentEditText.setText(mNote.getContent());
 
             if (isNoteUpdate) {
