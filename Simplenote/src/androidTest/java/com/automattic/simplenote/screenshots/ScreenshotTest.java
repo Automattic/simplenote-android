@@ -123,7 +123,18 @@ public class ScreenshotTest {
 
         getViewById(R.id.button).perform(click());
 
-        Screengrab.screenshot("test-screenshot");
+        // This waits for the notes container to load, that is the login has been successful.
+        // We still have to wait for the notes to load from the backend, though.
+        waitForViewToBeDisplayed(R.id.list, 10000);
+
+        // Wait for notes to load.
+        // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
+        Thread.sleep(5000);
+
+        // Select the note to screenshot
+        onView(allOf(withId(R.id.note_title), withText("# Lemon Cake & Blueberry"))).perform(click());
+
+        Screengrab.screenshot("note");
     }
 
     private ViewInteraction getViewById(Integer id) {
@@ -175,6 +186,48 @@ public class ScreenshotTest {
             @Override
             public void perform(UiController uiController, View view) {
                 ((TextInputLayout) view).getEditText().setText(text);
+            }
+        };
+    }
+
+    // Thanks to https://stackoverflow.com/a/49814995/809944
+    public static ViewAction waitForViewToBeDisplayed(final int id, final long milliseconds) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isDisplayed();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Wait for a specific view with id <" + id + "> for " + milliseconds + " millis.";
+            }
+
+            @Override
+            public void perform(final UiController uiController, final View view) {
+                uiController.loopMainThreadUntilIdle();
+                final long startTime = System.currentTimeMillis();
+                final long endTime = startTime + milliseconds;
+                final Matcher<View> viewMatcher = withId(id);
+
+                do {
+                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+                        // found view with required ID
+                        if (viewMatcher.matches(child)) {
+                            return;
+                        }
+                    }
+
+                    uiController.loopMainThreadForAtLeast(50);
+                }
+                while (System.currentTimeMillis() < endTime);
+
+                // timeout happens
+                throw new PerformException.Builder()
+                        .withActionDescription(this.getDescription())
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new TimeoutException())
+                        .build();
             }
         };
     }
