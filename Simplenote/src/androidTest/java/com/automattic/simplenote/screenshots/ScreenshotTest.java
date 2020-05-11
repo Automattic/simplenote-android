@@ -77,6 +77,12 @@ public class ScreenshotTest {
         Screengrab.screenshot("search");
 
         dismissSearch();
+
+        enableDarkModeFromNotesList();
+
+        dismissSettings();
+
+        disableDarkModeFromNotesList();
     }
 
     private void selectNoteFromNotesList() {
@@ -99,11 +105,7 @@ public class ScreenshotTest {
         onView(withContentDescription("Collapse")).perform(click());
     }
 
-    private void logoutIfNeeded() throws InterruptedException {
-        if (isViewDisplayed(getViewById(R.id.list_root)) == false) {
-            return;
-        }
-
+    private void loadSettingsFromNotesList() {
         // There is no R.id for the menu drawer button
         onView(allOf(withContentDescription("Open drawer"))).perform(click());
 
@@ -120,16 +122,14 @@ public class ScreenshotTest {
                         3),
                         isDisplayed()));
         navigationMenuItemView.perform(click());
+    }
 
-        // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
-        // that will reveal the logout button.
-        onView(withId(R.id.preferences_container)).perform(swipeUp());
+    private Integer themePosition = 6;
+    private Integer logoutPosition = 14;
 
-        // Logout
-        //
-        // Note: I couldn't find a way to get a straight reference to the item, so I was left
-        // with this brittle position based matching.
-        //
+    // Note: I couldn't find a way to get a straight reference to the item, so I was left with this
+    // brittle position based matching.
+    private void selectSettingsOption(Integer textId, Integer position) {
         // Also note: I had to use that withId + hasDescendant because simply using the
         // recycler view id produced multiple views.
         //
@@ -137,10 +137,46 @@ public class ScreenshotTest {
         onView(
                 allOf(
                         withId(androidx.preference.R.id.recycler_view),
-                        hasDescendant(withText(R.string.log_out))
+                        hasDescendant(withText(textId))
                 )
         )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(14, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
+    }
+
+    private void enableDarkModeFromNotesList() {
+        loadThemeSwitcherFromNotesList();
+        // The options have no id, and I couldn't find a way to access them by their text
+        onView(childAtPosition(withId(R.id.select_dialog_listview), 1)).perform(click());
+    }
+
+    private void disableDarkModeFromNotesList() {
+        loadThemeSwitcherFromNotesList();
+        // The options have no id, and I couldn't find a way to access them by their text
+        onView(childAtPosition(withId(R.id.select_dialog_listview), 0)).perform(click());
+    }
+
+    private void loadThemeSwitcherFromNotesList() {
+        loadSettingsFromNotesList();
+        selectSettingsOption(R.string.theme, 6);
+    }
+
+    private void dismissSettings() {
+        onView(withContentDescription("Navigate up")).perform(click());
+    }
+
+    private void logoutIfNeeded() throws InterruptedException {
+        if (isViewDisplayed(getViewById(R.id.list_root)) == false) {
+            return;
+        }
+
+        loadSettingsFromNotesList();
+
+        // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
+        // that will reveal the logout button.
+        onView(withId(R.id.preferences_container)).perform(swipeUp());
+
+        // Logout
+        selectSettingsOption(R.string.log_out, logoutPosition);
 
         // Give time to the logout to finish
         // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
