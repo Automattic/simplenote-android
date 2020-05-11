@@ -82,6 +82,16 @@ public class ScreenshotTest {
 
         dismissSettings();
 
+        Screengrab.screenshot("notes-list");
+
+        loadSideMenuFromNotesList();
+
+        Screengrab.screenshot("tags");
+
+        dismissSideMenu();
+
+        loadSideMenuFromNotesList();
+
         disableDarkModeFromNotesList();
     }
 
@@ -105,9 +115,18 @@ public class ScreenshotTest {
         onView(withContentDescription("Collapse")).perform(click());
     }
 
-    private void loadSettingsFromNotesList() {
+    private void loadSideMenuFromNotesList() {
         // There is no R.id for the menu drawer button
         onView(allOf(withContentDescription("Open drawer"))).perform(click());
+    }
+
+    private void dismissSideMenu() {
+        // Same logic as loading it actually...
+        loadSideMenuFromNotesList();
+    }
+
+    private void loadSettingsFromNotesList() {
+        loadSideMenuFromNotesList();
 
         // Tap on settings
         //
