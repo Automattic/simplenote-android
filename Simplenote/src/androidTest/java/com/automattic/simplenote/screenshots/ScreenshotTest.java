@@ -1,11 +1,14 @@
 package com.automattic.simplenote.screenshots;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -17,8 +20,12 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.filters.LargeTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.Until;
 
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
@@ -47,10 +54,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotTest {
+    private static final String SIMPLENOTE_PACKAGE = "com.automattic.simplenote.debug";
+    private static final int LAUNCH_TIMEOUT = 5000;
+
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
 
@@ -59,7 +71,10 @@ public class ScreenshotTest {
 
     @Test
     public void screenshotTest() throws InterruptedException {
+        // Pre-checks if the state is dirty
+        enterThenDisablePasscodeIfNeeded();
         logoutIfNeeded();
+
         login();
 
         // Wait for notes to load.
@@ -88,11 +103,32 @@ public class ScreenshotTest {
 
         Screengrab.screenshot("tags");
 
-        dismissSideMenu();
+        loadSettingsFromSideMenu();
 
-        loadSideMenuFromNotesList();
+        loadPasscodeSetterFromSettings();
 
-        disableDarkModeFromNotesList();
+        // Set
+        typeFullPasscode();
+        // Confirm
+        typeFullPasscode();
+
+        // Relaunch Simplenote to show the pin screen
+        relaunchSimplenote();
+
+        // We want only 3 numbers in the passcode screenshot. Also, as soon as we press the fourth,
+        // the screen is dismissed, so we wouldn't be able to take the screenshot.
+        tapPasscodeKeypad();
+        tapPasscodeKeypad();
+        tapPasscodeKeypad();
+        Screengrab.screenshot("pin");
+        tapPasscodeKeypad();
+
+        loadSettingsFromNotesList();
+        // Disable passcode
+        loadPasscodeUnsetterFromSettings();
+        typeFullPasscode();
+        // Disable darkmode
+        disableDarkModeFromSettings();
     }
 
     private void selectNoteFromNotesList() {
@@ -127,9 +163,10 @@ public class ScreenshotTest {
 
     private void loadSettingsFromNotesList() {
         loadSideMenuFromNotesList();
+        loadSettingsFromSideMenu();
+    }
 
-        // Tap on settings
-        //
+    private void loadSettingsFromSideMenu() {
         // Note: I couldn't find a way to get a straight reference to the settings item, so I
         // was left with this brittle position based matching.
         ViewInteraction navigationMenuItemView = onView(
@@ -143,8 +180,9 @@ public class ScreenshotTest {
         navigationMenuItemView.perform(click());
     }
 
-    private Integer themePosition = 6;
-    private Integer logoutPosition = 14;
+    private int themePosition = 6;
+    private int logoutPosition = 14;
+    private int passcodePosition = 11;
 
     // Note: I couldn't find a way to get a straight reference to the item, so I was left with this
     // brittle position based matching.
@@ -168,14 +206,18 @@ public class ScreenshotTest {
         onView(childAtPosition(withId(R.id.select_dialog_listview), 1)).perform(click());
     }
 
-    private void disableDarkModeFromNotesList() {
-        loadThemeSwitcherFromNotesList();
+    private void disableDarkModeFromSettings() {
+        loadThemeSwitcherFromSettings();
         // The options have no id, and I couldn't find a way to access them by their text
         onView(childAtPosition(withId(R.id.select_dialog_listview), 0)).perform(click());
     }
 
     private void loadThemeSwitcherFromNotesList() {
         loadSettingsFromNotesList();
+        loadThemeSwitcherFromSettings();
+    }
+
+    private void loadThemeSwitcherFromSettings() {
         selectSettingsOption(R.string.theme, 6);
     }
 
@@ -202,6 +244,38 @@ public class ScreenshotTest {
         Thread.sleep(3000);
     }
 
+    private void enterThenDisablePasscodeIfNeeded() {
+        if (isViewDisplayed(getViewById(R.id.button1)) == false) {
+            return;
+        }
+
+        typeFullPasscode();
+
+        loadSettingsFromNotesList();
+        loadPasscodeUnsetterFromSettings();
+        typeFullPasscode();
+        dismissSettings();
+    }
+
+    private void loadPasscodeSetterFromSettings() {
+        selectSettingsOption(R.string.passcode_turn_on, passcodePosition);
+    }
+
+    private void loadPasscodeUnsetterFromSettings() {
+        selectSettingsOption(R.string.passcode_turn_off, passcodePosition);
+    }
+
+    private void typeFullPasscode() {
+        tapPasscodeKeypad();
+        tapPasscodeKeypad();
+        tapPasscodeKeypad();
+        tapPasscodeKeypad();
+    }
+
+    private void tapPasscodeKeypad() {
+        onView(withId(R.id.button1)).perform(click());
+    }
+
     private void login() {
         getViewById(R.id.button_login).perform(click());
         getViewById(R.id.button_email).perform(click());
@@ -221,6 +295,32 @@ public class ScreenshotTest {
         // This waits for the notes container to load, that is the login has been successful.
         // We still have to wait for the notes to load from the backend, though.
         waitForViewToBeDisplayed(R.id.list, 10000);
+    }
+
+    private void relaunchSimplenote() {
+        // Taken straight out of:
+        // https://developer.android.com/training/testing/ui-testing/uiautomator-testing#java
+        // Initialize UiDevice instance
+        final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
+        // Start from the home screen
+        device.pressHome();
+
+        // Wait for launcher
+        final String launcherPackage = device.getLauncherPackageName();
+        assertThat(launcherPackage, notNullValue());
+        device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
+
+        // Launch the app
+        Context context = ApplicationProvider.getApplicationContext();
+        final Intent intent = context.getPackageManager()
+                .getLaunchIntentForPackage(SIMPLENOTE_PACKAGE);
+        // Clear out any previous instances
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+
+        // Wait for the app to appear
+        device.wait(Until.hasObject(By.pkg(SIMPLENOTE_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
     }
 
     private ViewInteraction getViewById(Integer id) {
