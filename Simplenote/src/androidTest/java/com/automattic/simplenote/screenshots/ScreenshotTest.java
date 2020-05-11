@@ -4,11 +4,8 @@ package com.automattic.simplenote.screenshots;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.HorizontalScrollView;
-import android.widget.ListView;
-import android.widget.ScrollView;
 
-import androidx.core.widget.NestedScrollView;
+import androidx.appcompat.widget.SearchView;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -29,7 +26,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -63,51 +59,95 @@ public class ScreenshotTest {
 
     @Test
     public void screenshotTest() throws InterruptedException {
-        // If already logged in, logout.
-        if (isViewDisplayed(getViewById(R.id.list_root))) {
-            // There is no R.id for the menu drawer button
-            onView(allOf(withContentDescription("Open drawer"))).perform(click());
+        logoutIfNeeded();
+        login();
 
-            // Tap on settings
-            //
-            // Note: I couldn't find a way to get a straight reference to the settings item, so I
-            // was left with this brittle position based matching.
-            ViewInteraction navigationMenuItemView = onView(
-                    allOf(childAtPosition(
-                            allOf(withId(R.id.design_navigation_view),
-                                    childAtPosition(
-                                            withId(R.id.navigation_view),
-                                            0)),
-                            3),
-                            isDisplayed()));
-            navigationMenuItemView.perform(click());
+        // Wait for notes to load.
+        // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
+        Thread.sleep(5000);
 
-            // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
-            // that will reveal the logout button.
-            onView(withId(R.id.preferences_container)) .perform(swipeUp());
+        selectNoteFromNotesList();
 
-            // Logout
-            //
-            // Note: I couldn't find a way to get a straight reference to the item, so I was left
-            // with this brittle position based matching.
-            //
-            // Also note: I had to use that withId + hasDescendant because simply using the
-            // recycler view id produced multiple views.
-            //
-            // Inspired by https://stackoverflow.com/a/37247925/809944.
-            onView(
-                    allOf(
-                            withId(androidx.preference.R.id.recycler_view),
-                            hasDescendant(withText(R.string.log_out))
-                    )
-            )
-            .perform(RecyclerViewActions.actionOnItemAtPosition(14, click()));
+        Screengrab.screenshot("note");
 
-            // Give time to the logout to finish
-            // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
-            Thread.sleep(3000);
+        dismissNoteEditor();
+
+        loadSearchFromNotesList("Recipe");
+
+        Screengrab.screenshot("search");
+
+        dismissSearch();
+    }
+
+    private void selectNoteFromNotesList() {
+        onView(allOf(withId(R.id.note_title), withText("# Lemon Cake & Blueberry"))).perform(click());
+    }
+
+    private void dismissNoteEditor() {
+        onView(withContentDescription("Navigate up")).perform(click());
+    }
+
+    private void loadSearchFromNotesList(String query) {
+        // Tap the search button in the toolbar
+        onView(withId(R.id.menu_search)).perform(click());
+        // Type the search query
+        onView(withId(R.id.search_src_text)).perform(typeSearchViewText(query));
+
+    }
+
+    private void dismissSearch() {
+        onView(withContentDescription("Collapse")).perform(click());
+    }
+
+    private void logoutIfNeeded() throws InterruptedException {
+        if (isViewDisplayed(getViewById(R.id.list_root)) == false) {
+            return;
         }
 
+        // There is no R.id for the menu drawer button
+        onView(allOf(withContentDescription("Open drawer"))).perform(click());
+
+        // Tap on settings
+        //
+        // Note: I couldn't find a way to get a straight reference to the settings item, so I
+        // was left with this brittle position based matching.
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.navigation_view),
+                                        0)),
+                        3),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
+
+        // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
+        // that will reveal the logout button.
+        onView(withId(R.id.preferences_container)).perform(swipeUp());
+
+        // Logout
+        //
+        // Note: I couldn't find a way to get a straight reference to the item, so I was left
+        // with this brittle position based matching.
+        //
+        // Also note: I had to use that withId + hasDescendant because simply using the
+        // recycler view id produced multiple views.
+        //
+        // Inspired by https://stackoverflow.com/a/37247925/809944.
+        onView(
+                allOf(
+                        withId(androidx.preference.R.id.recycler_view),
+                        hasDescendant(withText(R.string.log_out))
+                )
+        )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(14, click()));
+
+        // Give time to the logout to finish
+        // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
+        Thread.sleep(3000);
+    }
+
+    private void login() {
         getViewById(R.id.button_login).perform(click());
         getViewById(R.id.button_email).perform(click());
 
@@ -126,15 +166,6 @@ public class ScreenshotTest {
         // This waits for the notes container to load, that is the login has been successful.
         // We still have to wait for the notes to load from the backend, though.
         waitForViewToBeDisplayed(R.id.list, 10000);
-
-        // Wait for notes to load.
-        // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
-        Thread.sleep(5000);
-
-        // Select the note to screenshot
-        onView(allOf(withId(R.id.note_title), withText("# Lemon Cake & Blueberry"))).perform(click());
-
-        Screengrab.screenshot("note");
     }
 
     private ViewInteraction getViewById(Integer id) {
@@ -231,5 +262,26 @@ public class ScreenshotTest {
             }
         };
     }
-}
 
+    // Modified from https://stackoverflow.com/a/48037073/809944
+    public static ViewAction typeSearchViewText(final String text) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                // Ensure that only apply if it is a SearchView.SearchAutoComplete and if it is
+                // visible.
+                return allOf(isDisplayed(), isAssignableFrom(SearchView.SearchAutoComplete.class));
+            }
+
+            @Override
+            public String getDescription() {
+                return "Change view text";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                ((SearchView.SearchAutoComplete) view).setText(text);
+            }
+        };
+    }
+}
