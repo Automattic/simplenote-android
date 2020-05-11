@@ -845,7 +845,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             // Restore the search query on landscape tablets
             if (!TextUtils.isEmpty(mTabletSearchQuery)) {
                 mSearchMenuItem.expandActionView();
-                mSearchView.setQuery(mTabletSearchQuery, false);
+                mSearchView.setQuery(mTabletSearchQuery, true);
                 mSearchView.clearFocus();
             }
 
