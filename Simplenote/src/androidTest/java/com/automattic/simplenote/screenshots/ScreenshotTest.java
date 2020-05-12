@@ -27,6 +27,7 @@ import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 
+import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -282,12 +283,12 @@ public class ScreenshotTest {
 
         getViewById(R.id.input_email)
                 .perform(click())
-                .perform(replaceTextInCustomInput("test@example.com"))
+                .perform(replaceTextInCustomInput(BuildConfig.SCREENSHOT_EMAIL))
                 .perform(ViewActions.closeSoftKeyboard());
 
         getViewById(R.id.input_password)
                 .perform(click())
-                .perform(replaceTextInCustomInput("password"))
+                .perform(replaceTextInCustomInput(BuildConfig.SCREENSHOT_PASSWORD))
                 .perform(ViewActions.closeSoftKeyboard());
 
         getViewById(R.id.button).perform(click());
