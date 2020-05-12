@@ -960,6 +960,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        if (DisplayUtils.isLargeScreenLandscape(NotesActivity.this)) {
+            updateActionsForLargeLandscape(menu);
+        }
+
         MenuItem pinItem = menu.findItem(R.id.menu_pin);
         MenuItem shareItem = menu.findItem(R.id.menu_share);
         MenuItem historyItem = menu.findItem(R.id.menu_history);
