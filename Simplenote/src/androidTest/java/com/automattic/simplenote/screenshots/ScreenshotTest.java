@@ -35,6 +35,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,6 +45,8 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeoutException;
 
 import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
+import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -57,6 +61,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import static tools.fastlane.screengrab.cleanstatusbar.BarsMode.TRANSPARENT;
+import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -69,6 +75,18 @@ public class ScreenshotTest {
 
     @Rule
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
+
+    @BeforeClass
+    public static void beforeAll() {
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+
+        new CleanStatusBar()
+                .setBatteryLevel(100)
+                .setClock("1231")
+                .setWifiVisibility(SHOW)
+                .setBarsMode(TRANSPARENT)
+                .enable();
+    }
 
     @Test
     public void screenshotTest() throws InterruptedException {
@@ -130,6 +148,11 @@ public class ScreenshotTest {
         typeFullPasscode();
         // Disable darkmode
         disableDarkModeFromSettings();
+    }
+
+    @AfterClass
+    public static void afterAll() {
+        CleanStatusBar.disable();
     }
 
     private void selectNoteFromNotesList() {
