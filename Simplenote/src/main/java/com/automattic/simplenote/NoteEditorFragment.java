@@ -779,13 +779,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
-
             int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
-
             mContentEditText.setText(mNote.getContent());
 
             if (isNoteUpdate) {
-                // Save the note so any local changes get synced
+                // Update markdown and preview flags from updated note.
+                mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                mIsPreviewEnabled = mNote.isPreviewEnabled();
+
+                // Show/Hide tabs based on markdown flag.
+                setMarkdown(mIsMarkdownEnabled);
+
+                // Save note so any local changes get synced.
                 mNote.save();
 
                 if (mContentEditText.hasFocus()
