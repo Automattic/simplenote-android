@@ -793,6 +793,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Save note so any local changes get synced.
                 mNote.save();
 
+                // Update overflow popup menu.
+                requireActivity().invalidateOptionsMenu();
+
                 if (mContentEditText.hasFocus()
                         && cursorPosition != mContentEditText.getSelectionEnd()
                         && cursorPosition < mContentEditText.getText().length()) {
