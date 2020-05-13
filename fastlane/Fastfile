@@ -320,7 +320,7 @@ SUPPORTED_LOCALES = [
   desc "Take screenshots in the app"
   lane :take_screenshots do |options|
     gradle(task: "assemble", build_type: "Debug")
-    gradle(task: "assemble", build_type: "Release")
+    gradle(task: "assemble", build_type: "DebugAndroidTest")
 
     capture_android_screenshots(
       locales: ["en-US"],
