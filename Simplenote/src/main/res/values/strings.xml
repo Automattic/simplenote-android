@@ -149,6 +149,7 @@
     <string name="unpublish_successful">Public link removed.</string>
     <string name="publishing">Publishing&#8230;</string>
     <string name="unpublishing">Removing public link&#8230;</string>
+    <string name="error_network_required">A network connection is required. Please, check your connection and try again.</string>
     <string name="retry">Retry</string>
 
     <string name="collaborate">Collaborate</string>
