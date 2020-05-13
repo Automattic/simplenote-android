@@ -793,6 +793,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Save note so any local changes get synced.
                 mNote.save();
 
+                // Update current note object on large screen devices in landscape orientation.
+                if (DisplayUtils.isLargeScreenLandscape(requireContext())) {
+                    ((NotesActivity) requireActivity()).setCurrentNote(mNote);
+                }
+
                 // Update overflow popup menu.
                 requireActivity().invalidateOptionsMenu();
 
