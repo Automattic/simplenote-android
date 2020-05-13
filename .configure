@@ -1,7 +1,7 @@
 {
   "project_name": "simplenote-android",
   "branch": "master",
-  "pinned_hash": "762e0b09d8046d5ccc3ac7e610307662b079eb43",
+  "pinned_hash": "a3f517df566f1b9a12cd0b7f9ffeb72301fcfc97",
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
