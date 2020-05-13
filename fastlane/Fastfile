@@ -337,6 +337,7 @@ SUPPORTED_LOCALES = [
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
       use_tests_in_classes: "com.automattic.simplenote.screenshots.ScreenshotTest",
+      use_timestamp_suffix: false,
       # Need to use this in order to get access to the screenshots on the
       # emulator. Also note that you might need to run on a Google API
       # emulator, that is one without the Play Store. See
