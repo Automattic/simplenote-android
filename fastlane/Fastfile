@@ -319,7 +319,12 @@ SUPPORTED_LOCALES = [
 
   desc "Take screenshots in the app"
   lane :take_screenshots do |options|
-    gradle(task: "assemble", build_type: "Debug")
+    # We use the screenshots build type for the app APK, which allows us to not
+    # set the special permissions in the debug build type so that it doesn't
+    # deviate from the release one. For the test APK though, we still use the
+    # debug build type, as it's the only testable one, and there's no need to
+    # make a dedicated one for the screenshots.
+    gradle(task: "assemble", build_type: "Screenshots")
     gradle(task: "assemble", build_type: "DebugAndroidTest")
 
     capture_android_screenshots(
@@ -327,7 +332,7 @@ SUPPORTED_LOCALES = [
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
       app_package_name: "com.automattic.simplenote.debug",
-      app_apk_path: "Simplenote/build/outputs/apk/debug/Simplenote-debug.apk",
+      app_apk_path: "Simplenote/build/outputs/apk/screenshots/Simplenote-screenshots.apk",
       tests_apk_path: "Simplenote/build/outputs/apk/androidTest/debug/Simplenote-debug-androidTest.apk",
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.

@@ -15,6 +15,13 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        // Dedicated build type for screenshots so that we can add the special
+        // permissions only to it, keeping debug and release closer together to
+        // make bug hunting easier.
+        screenshots {
+            initWith debug
+        }
     }
 
     defaultConfig {
