@@ -51,10 +51,12 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -69,6 +71,7 @@ import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 public class ScreenshotTest {
     private static final String SIMPLENOTE_PACKAGE = "com.automattic.simplenote.debug";
     private static final int LAUNCH_TIMEOUT = 5000;
+    private static final String NOTE_TITLE = "# Lemon Cake & Blueberry";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
@@ -107,10 +110,8 @@ public class ScreenshotTest {
         dismissNoteEditor();
 
         loadSearchFromNotesList("Recipe");
-
-        // If we don't wait for the search results to load, we'll just take a screenshot of an empty
-        // search screen.
-        Thread.sleep(1000);
+        // Make sure the results have been rendered
+        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 1000);
 
         Screengrab.screenshot("search");
 
@@ -168,11 +169,17 @@ public class ScreenshotTest {
     }
 
     private void loadSearchFromNotesList(String query) {
+        final int searchViewId = R.id.search_src_text;
+
         // Tap the search button in the toolbar
         onView(withId(R.id.menu_search)).perform(click());
         // Type the search query
-        onView(withId(R.id.search_src_text)).perform(typeSearchViewText(query));
+        onView(withId(searchViewId)).perform(typeSearchViewText(query));
+        onView(withId(searchViewId)).perform(pressImeActionButton());
+    }
 
+    private void waitForViewMatching(final Matcher<View> matcher, final long milliseconds) {
+        onView(isRoot()).perform(waitForViewToBeDisplayed(matcher, milliseconds));
     }
 
     private void dismissSearch() {
@@ -400,6 +407,46 @@ public class ScreenshotTest {
             @Override
             public void perform(UiController uiController, View view) {
                 ((TextInputLayout) view).getEditText().setText(text);
+            }
+        };
+    }
+
+    public static ViewAction waitForViewToBeDisplayed(final Matcher<View> matcher, final long milliseconds) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isDisplayed();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Wait for a view matching the given matcher for " + milliseconds + " millis.";
+            }
+
+            @Override
+            public void perform(final UiController uiController, final View view) {
+                uiController.loopMainThreadUntilIdle();
+                final long startTime = System.currentTimeMillis();
+                final long endTime = startTime + milliseconds;
+
+                do {
+                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+                        // found matching view
+                        if (matcher.matches(child)) {
+                            return;
+                        }
+                    }
+
+                    uiController.loopMainThreadForAtLeast(50);
+                }
+                while (System.currentTimeMillis() < endTime);
+
+                // timeout happens
+                throw new PerformException.Builder()
+                        .withActionDescription(this.getDescription())
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new TimeoutException())
+                        .build();
             }
         };
     }
