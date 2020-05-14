@@ -108,6 +108,10 @@ public class ScreenshotTest {
 
         loadSearchFromNotesList("Recipe");
 
+        // If we don't wait for the search results to load, we'll just take a screenshot of an empty
+        // search screen.
+        Thread.sleep(1000);
+
         Screengrab.screenshot("search");
 
         dismissSearch();
