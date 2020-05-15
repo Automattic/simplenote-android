@@ -6,6 +6,7 @@ on: push
 env:
   BUNDLE_PATH: vendor/bundle
   CONFIGURE_ENCRYPTION_KEY: ${{ secrets.CONFIGURE_ENCRYPTION_KEY }}
+  SCREENGRAB_SKIP_OPEN_SUMMARY: true
 
 jobs:
   build:
