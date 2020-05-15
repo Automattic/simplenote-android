@@ -344,7 +344,11 @@ SUPPORTED_LOCALES = [
       # https://github.com/fastlane/fastlane/issues/15788#issuecomment-583778278
       #
       # Trying without root to see if it work on CI
-      use_adb_root: false
+      # Update: this makes CI work, but I don't know if it'll succeed with the
+      # screenshots
+      use_adb_root: false,
+      # TODO: let's see if we're getting some screenshots...
+      exit_on_test_failure: false
     )
   end
 
