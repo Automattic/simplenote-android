@@ -33,9 +33,10 @@ Use the [testing checklist][testing-checklist] as a guide for smoke testing the 
 
 You can install a beta version in one of two ways:
 
-1. On your Android device, head to [Simplenote in the Google Play Store][play-store], scroll down to the “Join the beta” section, and tap “Join” to opt in to the beta program. You’ll get the latest beta as an update in the Play Store. (You'll continue to get updates each time a new beta is released, which is useful for ongoing beta testing.)
+1. Go to the [Simplenote testing opt-in page][simplenote-testing-url] and click the "Become a Tester" button. (You can also open [Simplenote in the Play Store][play-store] on your Android device, scroll down to the “Join the beta” section, and tap “Join.”)  Once you're a tester, the app will update automatically through the Play Store just like any other app when a new beta is released.
 2. Alternately, install the latest pre-release version from the [Releases][releases] page. (This is good for one-off testing, or beta testing without the Google Play Store on your device.)
 
 [testing-checklist]: TESTING-CHECKLIST.md
-[play-store]: https://play.google.com/store/apps/details?id=com.automattic.simplenote
+[simplenote-testing]: https://play.google.com/apps/testing/com.automattic.simplenote
+[simplenote-play-store]: https://play.google.com/store/apps/details?id=com.automattic.simplenote
 [releases]: https://github.com/Automattic/simplenote-android/releases
