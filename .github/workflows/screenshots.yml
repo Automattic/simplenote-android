@@ -38,6 +38,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          script: bundle exec fastlane take_screenshots
 
       - uses: actions/upload-artifact@v1
         name: Upload all screenshots as artifacts
