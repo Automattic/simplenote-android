@@ -93,11 +93,14 @@ public class ScreenshotTest {
 
     @Test
     public void screenshotTest() throws InterruptedException {
+        Screengrab.screenshot("start");
         // Pre-checks if the state is dirty
         enterThenDisablePasscodeIfNeeded();
         logoutIfNeeded();
 
         login();
+
+        Screengrab.screenshot("post-login");
 
         // Wait for notes to load.
         // TODO: let's see if this is enough to sort out the timeout test failure on CI
