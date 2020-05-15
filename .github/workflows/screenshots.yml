@@ -38,6 +38,14 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          # Google APIs because otherwise we can't take screenshots properly
+          # TODO: this is not actually verified, just based on previous
+          # experience dealing with Fastlane's screengrab
+          target: google_apis
+          # This shouldn't be required because it's already set in the
+          # gradle.build
+          # TODO: try without it
+          disable-animations: true
           script: bundle exec fastlane take_screenshots
 
       - uses: actions/upload-artifact@v1
