@@ -20,9 +20,23 @@ Here's a quick guide to create a pull request for your simplenote-android patch:
 [build-instructions]: https://github.com/Automattic/simplenote-android/blob/develop/README.md#how-to-configure
 [pr]: https://github.com/Automattic/simplenote-android/compare/
 
-# Branching
+## Branching
 
 * `develop` branch represents the cutting edge version. This is probably the one you want to fork from and base your patch on. This is the default github branch.
 * Fix or feature branches. Proposed new features and bug fixes should live in their own branch. Use the following naming convention: if a github issue exists for this feature/bugfix, the branch will be named `issue/ISSUEID-comment` where ISSUEID is the corresponding github issue id. If a github issue doesn't exist, branch will be named `feature/comment`. These branches will be merged in `develop`.
 
 [git-flow]: http://nvie.com/posts/a-successful-git-branching-model/
+
+## Testing
+
+Use the [testing checklist][testing-checklist] as a guide for smoke testing the app after making code changes. Looking for other ways to contribute? You can also use the checklist as a guide for beta testing the app.
+
+You can install a beta version in one of two ways:
+
+1. Go to the [Simplenote testing opt-in page][simplenote-testing] and click the "Become a Tester" button. (You can also open [Simplenote in the Play Store][simplenote-play-store] on your Android device, scroll down to the “Join the beta” section, and tap “Join.”)  Once you're a tester, the app will update automatically through the Play Store just like any other app when a new beta is released.
+2. Alternately, install the latest pre-release version from the [Releases][releases] page. (This is good for one-off testing, or beta testing without the Google Play Store on your device.)
+
+[testing-checklist]: TESTING-CHECKLIST.md
+[simplenote-testing]: https://play.google.com/apps/testing/com.automattic.simplenote
+[simplenote-play-store]: https://play.google.com/store/apps/details?id=com.automattic.simplenote
+[releases]: https://github.com/Automattic/simplenote-android/releases
