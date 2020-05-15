@@ -1,0 +1,56 @@
+name: Screenshots
+
+# TODO: on push just while developing
+on: push
+
+env:
+  BUNDLE_PATH: vendor/bundle
+  CONFIGURE_ENCRYPTION_KEY: ${{ secrets.CONFIGURE_ENCRYPTION_KEY }}
+
+jobs:
+  build:
+    name: Generate Screenshots
+    # TODO: check if it would be faster on Linux, using macOS just because we
+    # already know it works there
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.5.x' # Same as project's .ruby-version
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Restore Ruby Dependency Cache
+        id: restore-ruby-dependency-cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - name: Install Ruby Dependencies
+        run: |
+          bundle install
+
+      - name: Restore CocoaPods Dependency Cache
+        id: restore-cocoapods-dependency-cache
+        uses: actions/cache@v1
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+
+      - name: Install App Dependencies
+        run: bundle exec rake dependencies
+
+      - name: Take all screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+
+      - uses: actions/upload-artifact@v1
+        name: Upload all screenshots as artifacts
+        with:
+          name: screenshots
+          path: fastlane/screenshots
