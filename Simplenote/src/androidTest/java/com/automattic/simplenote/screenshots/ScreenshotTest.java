@@ -102,6 +102,8 @@ public class ScreenshotTest {
         // Wait for notes to load.
         // TODO: this should be some kind of loop/polling code, not a dumb and fragile sleep
         Thread.sleep(5000);
+        // TODO: let's see if this is enough to sort out the timeout test failure on CI
+        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 20000);
 
         selectNoteFromNotesList();
 
