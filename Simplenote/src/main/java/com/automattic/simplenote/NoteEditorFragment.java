@@ -57,6 +57,7 @@ import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
@@ -1282,6 +1283,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void publishNote() {
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (isAdded()) {
             mPublishingSnackbar = Snackbar.make(mRootView, R.string.publishing, Snackbar.LENGTH_INDEFINITE);
             mPublishingSnackbar.show();
@@ -1291,6 +1297,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void unpublishNote() {
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (isAdded()) {
             mPublishingSnackbar = Snackbar.make(mRootView, R.string.unpublishing, Snackbar.LENGTH_INDEFINITE);
             mPublishingSnackbar.show();
