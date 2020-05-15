@@ -25,8 +25,8 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="drawerBackgroundColor">@color/background_dark_16</item>
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
-        <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
-        <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
         <item name="emptyImageColor">@color/empty_dark</item>
         <item name="fabColor">@color/item_blue_dark</item>
         <item name="fabIconColor">@color/gray_100</item>
@@ -35,8 +35,8 @@
         <item name="isLightTheme">false</item>
         <item name="listBackgroundSelector">@drawable/bg_list_dark</item>
         <item name="listDividerDrawable">@drawable/divider_dark</item>
-        <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
-        <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="listSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
         <item name="mainBackgroundColor">@color/background_dark</item>
         <item name="noteEditorTextColor">@android:color/white</item>
         <item name="notePinColor">@android:color/white</item>

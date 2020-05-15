@@ -3,9 +3,9 @@
 <resources>
 
     <!-- APPLICATION -->
-    <color name="blue">@color/blue_50</color>
-    <color name="blue_dark">@color/blue_60</color>
-    <color name="blue_light">@color/blue_0</color>
+    <color name="blue">@color/simplenote_blue_50</color>
+    <color name="blue_dark">@color/simplenote_blue_60</color>
+    <color name="blue_light">@color/simplenote_blue_0</color>
     <color name="gray">@color/gray_50</color>
     <color name="green">@color/green_50</color>
     <color name="red">@color/red_50</color>
@@ -25,9 +25,9 @@
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
-    <color name="passcodelock_button_image_color">@color/blue_10</color>
+    <color name="passcodelock_button_image_color">@color/simplenote_blue_10</color>
     <color name="passcodelock_button_text_color">@android:color/white</color>
-    <color name="passcodelock_divider">@color/blue_40</color>
+    <color name="passcodelock_divider">@color/simplenote_blue_40</color>
     <color name="passcodelock_field_background_color">@android:color/transparent</color>
     <color name="passcodelock_field_hint_text_color">@android:color/transparent</color>
     <color name="passcodelock_field_text_color">@android:color/white</color>
@@ -38,18 +38,18 @@
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
-    <color name="background_light_highlight">@color/blue_5</color>
+    <color name="background_light_highlight">@color/simplenote_blue_5</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_60</color>
     <color name="empty_light">@color/gray_5</color>
-    <color name="item_blue_dark">@color/blue_20</color>
-    <color name="item_blue_light">@color/blue_50</color>
+    <color name="item_blue_dark">@color/simplenote_blue_20</color>
+    <color name="item_blue_light">@color/simplenote_blue_50</color>
     <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
-    <color name="text_blue_dark">@color/blue_10</color>
-    <color name="text_blue_light">@color/blue_60</color>
+    <color name="text_blue_dark">@color/simplenote_blue_10</color>
+    <color name="text_blue_light">@color/simplenote_blue_60</color>
     <color name="text_body_dark">@color/gray_10</color>
     <color name="text_body_light">@color/gray_50</color>
     <color name="text_chip_dark">@android:color/white</color>
@@ -62,17 +62,17 @@
 
     <!-- SIMPERIUM -->
     <color name="background_button_disabled">@color/gray_20</color>
-    <color name="background_button_primary">@color/blue_50</color>
+    <color name="background_button_primary">@color/simplenote_blue_50</color>
     <color name="background_button_secondary">@color/wordpress_blue_50</color>
     <color name="text_button_disabled">@color/gray_20</color>
     <color name="text_button_primary">@android:color/white</color>
     <color name="text_button_secondary">@android:color/white</color>
-    <color name="text_button_tertiary">@color/blue_60</color>
-    <color name="text_link">@color/blue_50</color>
+    <color name="text_button_tertiary">@color/simplenote_blue_60</color>
+    <color name="text_link">@color/simplenote_blue_50</color>
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 
-    <!-- STUDIO 2.2.0 -->
+    <!-- STUDIO 2.3.0 -->
     <color name="blue_0">#e9eff5</color>
     <color name="blue_5">#c5d9ed</color>
     <color name="blue_10">#9ec2e6</color>
@@ -89,7 +89,7 @@
     <color name="gray_5">#dcdcde</color>
     <color name="gray_10">#c3c4c7</color>
     <color name="gray_20">#a7aaad</color>
-    <color name="gray_30">#8e9196</color>
+    <color name="gray_30">#8c8f94</color>
     <color name="gray_40">#787c82</color>
     <color name="gray_50">#646970</color>
     <color name="gray_60">#50575e</color>
@@ -121,6 +121,18 @@
     <color name="red_80">#691c1c</color>
     <color name="red_90">#451313</color>
     <color name="red_100">#240a0a</color>
+    <color name="simplenote_blue_0">#e9ecf5</color>
+    <color name="simplenote_blue_5">#ced9f2</color>
+    <color name="simplenote_blue_10">#abc1f5</color>
+    <color name="simplenote_blue_20">#84a4f0</color>
+    <color name="simplenote_blue_30">#618df2</color>
+    <color name="simplenote_blue_40">#4678eb</color>
+    <color name="simplenote_blue_50">#3361cc</color>
+    <color name="simplenote_blue_60">#1d4fc4</color>
+    <color name="simplenote_blue_70">#113ead</color>
+    <color name="simplenote_blue_80">#0d2f85</color>
+    <color name="simplenote_blue_90">#09205c</color>
+    <color name="simplenote_blue_100">#05102e</color>
     <color name="wordpress_blue_0">#e6f1f5</color>
     <color name="wordpress_blue_5">#bedae6</color>
     <color name="wordpress_blue_10">#98c6d9</color>
@@ -133,17 +145,17 @@
     <color name="wordpress_blue_80">#002c40</color>
     <color name="wordpress_blue_90">#001d2d</color>
     <color name="wordpress_blue_100">#00101c</color>
-    <color name="yellow_0">#f5efe4</color>
-    <color name="yellow_5">#f5e1b3</color>
-    <color name="yellow_10">#f2cf75</color>
-    <color name="yellow_20">#f0c443</color>
-    <color name="yellow_30">#dbae17</color>
-    <color name="yellow_40">#b69000</color>
-    <color name="yellow_50">#907300</color>
-    <color name="yellow_60">#705b00</color>
-    <color name="yellow_70">#5c4b00</color>
-    <color name="yellow_80">#453900</color>
-    <color name="yellow_90">#302800</color>
-    <color name="yellow_100">#1c1700</color>
+    <color name="yellow_0">#f5f1e1</color>
+    <color name="yellow_5">#f5e6b3</color>
+    <color name="yellow_10">#f2d76b</color>
+    <color name="yellow_20">#f0c930</color>
+    <color name="yellow_30">#deb100</color>
+    <color name="yellow_40">#c08c00</color>
+    <color name="yellow_50">#9d6e00</color>
+    <color name="yellow_60">#7d5600</color>
+    <color name="yellow_70">#674600</color>
+    <color name="yellow_80">#4f3500</color>
+    <color name="yellow_90">#332200</color>
+    <color name="yellow_100">#1c1300</color>
 
 </resources>
