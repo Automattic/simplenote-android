@@ -342,7 +342,9 @@ SUPPORTED_LOCALES = [
       # emulator. Also note that you might need to run on a Google API
       # emulator, that is one without the Play Store. See
       # https://github.com/fastlane/fastlane/issues/15788#issuecomment-583778278
-      use_adb_root: true
+      #
+      # Trying without root to see if it work on CI
+      use_adb_root: false
     )
   end
 
