@@ -15,6 +15,13 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        // Dedicated build type for screenshots so that we can add the special
+        // permissions only to it, keeping debug and release closer together to
+        // make bug hunting easier.
+        screenshots {
+            initWith debug
+        }
     }
 
     defaultConfig {
@@ -67,6 +74,8 @@ dependencies {
         exclude group: 'androidx', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
+    // Fastlane screengrab for screenshots automation
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.9.10'
     implementation 'com.automattic:tracks:1.2'
