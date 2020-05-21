@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".Simplenote"
+        android:name="com.automattic.simplenote.Simplenote"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +19,19 @@
         android:theme="@style/Theme.Simplestyle.Splash">
 
         <activity
-            android:name=".NotesActivity"
+            android:name="com.automattic.simplenote.AboutActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Simplestyle.About">
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.NoteEditorActivity"
+            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.NotesActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:label="@string/app_launcher_name"
             android:resizeableActivity="true"
@@ -71,86 +83,49 @@
         </activity>
 
         <activity
-            android:name=".NoteEditorActivity"
-            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
-            android:windowSoftInputMode="stateHidden">
+            android:name="com.automattic.simplenote.NoteWidgetDarkConfigureActivity"
+            android:theme="@style/Theme.Transparent">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+
+            </intent-filter>
+
         </activity>
 
         <activity
-            android:name=".PreferencesActivity"
+            android:name="com.automattic.simplenote.NoteWidgetLightConfigureActivity"
+            android:theme="@style/Theme.Transparent">
+
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.PreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Preferences"
             android:parentActivityName=".NotesActivity">
         </activity>
 
         <activity
-            android:name=".TagsActivity"
+            android:name="com.automattic.simplenote.SimplenoteAuthenticationActivity">
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.SimplenoteCredentialsActivity">
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
-        <activity
-            android:name=".AboutActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.Simplestyle.About">
-        </activity>
-
-        <activity
-            android:name=".SimplenoteAuthenticationActivity">
-        </activity>
-
-        <activity
-            android:name=".SimplenoteCredentialsActivity">
-        </activity>
-
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
-            android:theme="@style/Theme.Simplestyle.Passcode"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
-            android:theme="@style/Theme.Simplestyle.Passcode"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
-        <!-- Samsung Multi-Window Support -->
-        <uses-library
-            android:name="com.sec.android.app.multiwindow"
-            android:required="false">
-        </uses-library>
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false">
-        </uses-library>
-
-        <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true">
-        </meta-data>
-
-        <!-- Android Wear -->
-        <service
-            android:name=".utils.SimplenoteWearListenerService">
-
-            <intent-filter>
-
-                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
-
-            </intent-filter>
-
-        </service>
-
-        <!-- Google Play Services -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version">
-        </meta-data>
-
-        <!-- OAUTH -->
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             tools:node="replace">
@@ -168,8 +143,33 @@
 
         </activity>
 
+        <!--suppress AndroidDomInspection -->
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
+            android:theme="@style/Theme.Simplestyle.Passcode"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <!--suppress AndroidDomInspection -->
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
+            android:theme="@style/Theme.Simplestyle.Passcode"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <!-- Google Play Services -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version">
+        </meta-data>
+
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true">
+        </meta-data>
+
         <receiver
-            android:name=".NoteListWidgetDark"
+            android:name="com.automattic.simplenote.NoteListWidgetDark"
             android:label="@string/note_list_widget_dark">
 
             <intent-filter>
@@ -186,7 +186,7 @@
         </receiver>
 
         <receiver
-            android:name=".NoteListWidgetLight"
+            android:name="com.automattic.simplenote.NoteListWidgetLight"
             android:label="@string/note_list_widget_light">
 
             <intent-filter>
@@ -203,7 +203,7 @@
         </receiver>
 
         <receiver
-            android:name=".NoteWidgetDark"
+            android:name="com.automattic.simplenote.NoteWidgetDark"
             android:label="@string/note_widget_dark">
 
             <intent-filter>
@@ -220,7 +220,7 @@
         </receiver>
 
         <receiver
-            android:name=".NoteWidgetLight"
+            android:name="com.automattic.simplenote.NoteWidgetLight"
             android:label="@string/note_widget_light">
 
             <intent-filter>
@@ -237,38 +237,37 @@
         </receiver>
 
         <service
-            android:name=".NoteListWidgetDarkService"
+            android:name="com.automattic.simplenote.NoteListWidgetDarkService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
 
         <service
-            android:name=".NoteListWidgetLightService"
+            android:name="com.automattic.simplenote.NoteListWidgetLightService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
 
-        <activity
-            android:name=".NoteWidgetDarkConfigureActivity"
-            android:theme="@style/Theme.Transparent">
+        <!-- Android Wear -->
+        <service
+            android:name="com.automattic.simplenote.utils.SimplenoteWearListenerService">
 
             <intent-filter>
 
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
 
             </intent-filter>
 
-        </activity>
+        </service>
 
-        <activity
-            android:name=".NoteWidgetLightConfigureActivity"
-            android:theme="@style/Theme.Transparent">
+        <!-- Samsung Multi-Window Support -->
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false">
+        </uses-library>
 
-            <intent-filter>
-
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-
-            </intent-filter>
-
-        </activity>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false">
+        </uses-library>
 
     </application>
 
