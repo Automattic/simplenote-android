@@ -28,6 +28,8 @@ config.properties
 *.ipr
 *.iws
 .idea/
+# Android Studio Layout Inspector captures foldre
+captures/
 
 # Gradle
 .gradle/
