@@ -1052,7 +1052,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             menu.setGroupVisible(R.id.group_2, false);
         }
 
-        menu.findItem(R.id.menu_empty_trash).setVisible(false);
+        menu.findItem(R.id.menu_empty_trash).setVisible(mSelectedTag != null && mSelectedTag.id == TRASH_ID);
     }
 
     public void updateViewsAfterTrashAction(Note note) {
