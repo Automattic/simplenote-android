@@ -1,5 +1,5 @@
 orbs:
-  android: wordpress-mobile/android@0.0.32
+  android: wordpress-mobile/android@1.0.13
   bundle-install: toshimaru/bundle-install@0.3.1
 
 version: 2.1
