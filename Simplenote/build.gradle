@@ -67,7 +67,8 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0') {
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0')
+    androidTestImplementation('com.schibsted.spain:barista:3.5.0') {
         // Necessary to avoid version conflicts
         exclude group: 'androidx', module: 'appcompat'
         exclude group: 'androidx', module: 'support-v4'
