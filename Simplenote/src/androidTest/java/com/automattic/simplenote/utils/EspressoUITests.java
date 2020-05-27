@@ -12,17 +12,12 @@ import org.junit.Test;
 
 import androidx.test.rule.ActivityTestRule;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains;
 import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.schibsted.spain.barista.interaction.BaristaDrawerInteractions.openDrawer;
 import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
 import static com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem;
 import static java.lang.Thread.sleep;
-import static org.hamcrest.core.StringEndsWith.endsWith;
 
 public class EspressoUITests {
 
@@ -46,19 +41,8 @@ public class EspressoUITests {
         sleep(2000);
         swipeToBottom();
         sleep(2000);
-        onView(withText(endsWith("Log out"))).perform(click());
+        clickOn(R.string.log_out);
     }
-
-    @Test
-    public static void loginWithInvalidCredentials() {
-        clickOn(R.id.button_login);
-        clickOn(R.id.button_email);
-        writeTo(R.id.input_email, "test.espresso.00005@gmail.com");
-        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");
-        clickOn(R.id.button);
-        assertContains(R.string.simperium_dialog_message_login);
-    }
-
 
     public static void swipe(int start, int end, int delay) {
         long downTime = SystemClock.uptimeMillis();
