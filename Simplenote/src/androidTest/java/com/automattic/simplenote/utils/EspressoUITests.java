@@ -29,8 +29,21 @@ public class EspressoUITests {
     public static void loginWithCredentials() throws InterruptedException {
         clickOn(R.id.button_login);
         clickOn(R.id.button_email);
+        sleep(2000);
+    }
+
+    @Test
+    public static void loginWithValidCredentials() throws InterruptedException {
         writeTo(R.id.input_email, BuildConfig.TEST_USER_EMAIL);
         writeTo(R.id.input_password, BuildConfig.TEST_USER_PASSWORD);
+        clickOn(R.id.button);
+        sleep(2000);
+    }
+
+    @Test
+    public static void loginWithInvalidCredentials() throws InterruptedException {
+        writeTo(R.id.input_email, "test.espresso.00005@gmail.com");
+        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");;
         clickOn(R.id.button);
         sleep(2000);
     }
