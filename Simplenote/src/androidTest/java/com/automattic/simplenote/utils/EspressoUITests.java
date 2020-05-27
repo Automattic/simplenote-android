@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 
+import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 
@@ -28,8 +29,8 @@ public class EspressoUITests {
     public static void loginWithCredentials() throws InterruptedException {
         clickOn(R.id.button_login);
         clickOn(R.id.button_email);
-        writeTo(R.id.input_email, "test.espresso.00001@gmail.com");
-        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");
+        writeTo(R.id.input_email, BuildConfig.TEST_USER_EMAIL);
+        writeTo(R.id.input_password, BuildConfig.TEST_USER_PASSWORD);
         clickOn(R.id.button);
         sleep(2000);
     }

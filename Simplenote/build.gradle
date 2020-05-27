@@ -162,7 +162,9 @@ android.applicationVariants.all { variant ->
             key == "SENTRY_DSN" ||
             key == "WPCOM_CLIENT_ID" ||
             key == "SCREENSHOT_EMAIL" ||
-            key == "SCREENSHOT_PASSWORD") {
+            key == "SCREENSHOT_PASSWORD" ||
+            key == "TEST_USER_EMAIL" ||
+            key == "TEST_USER_PASSWORD") {
             buildConfigField "String", key, "\"${property.value}\""
         }
     }
