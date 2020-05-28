@@ -38,6 +38,8 @@ public class DeleteNotes {
         logOut2();
     }
 
+    //adds note > delete > undo deletion > deletes note from all notes list > logout
+
     @Test
     public void addNoteDeleteNoteFromDetail() throws InterruptedException {
         loginWithCredentials();
@@ -45,9 +47,10 @@ public class DeleteNotes {
         addNote();
         tapNote();
         optionsTapTrash();
-        undoDeleteNoteFromList();
         logOut2();
     }
+
+    //adds note > goes to note detail > delete > logout
 
     //TODO: Add a test flow emptying trash
 

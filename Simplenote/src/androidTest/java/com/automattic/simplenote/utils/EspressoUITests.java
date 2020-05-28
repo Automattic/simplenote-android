@@ -54,7 +54,7 @@ public class EspressoUITests {
     @Test
     public static void loginWithInvalidCredentials() throws InterruptedException {
         writeTo(R.id.input_email, "test.espresso.00005@gmail.com");
-        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");;
+        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");
         clickOn(R.id.button);
         sleep(2000);
     }
@@ -89,8 +89,7 @@ public class EspressoUITests {
 
     @Test
     public static void addNoteContent() {
-        writeTo(R.id.note_content, "*-Re7]J4Ux8q)g?X");;
-
+        writeTo(R.id.note_content, "*-Re7]J4Ux8q)g?X");
     }
 
     @Test
