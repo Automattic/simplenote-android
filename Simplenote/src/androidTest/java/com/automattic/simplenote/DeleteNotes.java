@@ -11,7 +11,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import static com.automattic.simplenote.utils.EspressoUITests.addNote;
 import static com.automattic.simplenote.utils.EspressoUITests.deleteNoteFromList;
-import static com.automattic.simplenote.utils.EspressoUITests.logOut2;
+import static com.automattic.simplenote.utils.EspressoUITests.logOut;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithCredentials;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithValidCredentials;
 import static com.automattic.simplenote.utils.EspressoUITests.optionsTapTrash;
@@ -35,7 +35,7 @@ public class DeleteNotes {
         deleteNoteFromList();
         undoDeleteNoteFromList();
         deleteNoteFromList();
-        logOut2();
+        logOut();
     }
 
     //adds note > delete > undo deletion > deletes note from all notes list > logout
@@ -47,7 +47,7 @@ public class DeleteNotes {
         addNote();
         tapNote();
         optionsTapTrash();
-        logOut2();
+        logOut();
     }
 
     //adds note > goes to note detail > delete > logout

@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -19,6 +20,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -65,23 +68,14 @@ public class EspressoUITests {
         clickListItem(R.id.design_navigation_view, 3);
         sleep(2000);
         swipeToBottom();
-        sleep(2000);
         clickOn(R.string.log_out);
+        try {
+            onView(withText(R.string.unsynced_notes_message)).check(matches(isDisplayed()));
+            onView(withId(android.R.id.button1)).perform((click()));
+        } catch (NoMatchingViewException e) {
+        }
     }
-
-    @Test
-    public static void logOut2() throws InterruptedException {
-        openDrawer();
-        clickListItem(R.id.design_navigation_view, 3);
-        sleep(2000);
-        swipeToBottom();
-        sleep(2000);
-        clickOn(R.string.log_out);
-        onView(withId(android.R.id.button1)).perform((click()));
-    }
-
-    //TODO - Add a if/else logout test to migrate 2 logout's into one, to handle alertDialog when there's unsynced notes and user tries to logout
-
+    
     @Test
     public static void tapNoteButton() {
         clickOn(R.id.fab_button);
