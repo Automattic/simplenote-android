@@ -5,6 +5,7 @@ Type
 - [ ] 🔮 Experiment
 - [ ] 📚 Documentation
 - [ ] 🪓 Structural
+- [ ] 💻 Automated Tests
 - [ ] 👻 Other
 
 ### Fix
