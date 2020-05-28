@@ -54,8 +54,6 @@ public class DeleteNotes {
 
     //adds note > goes to note detail > delete > logout
 
-    //TODO: Add a test flow emptying trash
-
     @Test
     public void emptyTrash() throws InterruptedException {
         loginWithCredentials();
@@ -68,6 +66,8 @@ public class DeleteNotes {
         tapEmptyTrash();
         logOut();
     }
+
+    //adds note > delete note > trash > empty trash > verify trash is empty > logout
 
 }
 
