@@ -1,5 +1,7 @@
-package com.automattic.simplenote;
+package com.automattic.simplenote.espressoUITests;
 
+
+import com.automattic.simplenote.NotesActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,21 +11,21 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import static com.automattic.simplenote.utils.EspressoUITests.addNote;
-import static com.automattic.simplenote.utils.EspressoUITests.deleteNoteFromList;
-import static com.automattic.simplenote.utils.EspressoUITests.logOut;
-import static com.automattic.simplenote.utils.EspressoUITests.loginWithCredentials;
-import static com.automattic.simplenote.utils.EspressoUITests.loginWithValidCredentials;
-import static com.automattic.simplenote.utils.EspressoUITests.optionsTapTrash;
-import static com.automattic.simplenote.utils.EspressoUITests.tapEmptyTrash;
-import static com.automattic.simplenote.utils.EspressoUITests.tapNote;
-import static com.automattic.simplenote.utils.EspressoUITests.trash;
-import static com.automattic.simplenote.utils.EspressoUITests.undoDeleteNoteFromList;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithCredentials;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithValidCredentials;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.addNote;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.deleteNoteFromList;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapEmptyTrash;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapNote;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.trash;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.undoDeleteNoteFromList;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.optionsTapTrash;
 
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DeleteNotes {
+public class NotesActivityTest {
 
     @Rule
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
