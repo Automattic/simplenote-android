@@ -197,9 +197,9 @@ public class EspressoUITests {
     }
 
     @Test
-    public static void emptyTrash() {
+    public static void tapEmptyTrash() {
         clickOn(R.id.menu_empty_trash);
-        onView(withId(android.R.id.button1)).perform((click()));
+        clickOn(R.string.yes);
         assertContains(R.string.empty_notes_trash);
     }
 

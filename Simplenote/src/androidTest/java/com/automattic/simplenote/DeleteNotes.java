@@ -15,7 +15,9 @@ import static com.automattic.simplenote.utils.EspressoUITests.logOut;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithCredentials;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithValidCredentials;
 import static com.automattic.simplenote.utils.EspressoUITests.optionsTapTrash;
+import static com.automattic.simplenote.utils.EspressoUITests.tapEmptyTrash;
 import static com.automattic.simplenote.utils.EspressoUITests.tapNote;
+import static com.automattic.simplenote.utils.EspressoUITests.trash;
 import static com.automattic.simplenote.utils.EspressoUITests.undoDeleteNoteFromList;
 
 
@@ -53,6 +55,19 @@ public class DeleteNotes {
     //adds note > goes to note detail > delete > logout
 
     //TODO: Add a test flow emptying trash
+
+    @Test
+    public void emptyTrash() throws InterruptedException {
+        loginWithCredentials();
+        loginWithValidCredentials();
+        addNote();
+        tapNote();
+        optionsTapTrash();
+        trash();
+        Thread.sleep(2000);
+        tapEmptyTrash();
+        logOut();
+    }
 
 }
 
