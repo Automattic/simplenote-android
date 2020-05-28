@@ -9,6 +9,9 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.automattic.simplenote.utils.EspressoUITests.logOut;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithCredentials;
 import static com.automattic.simplenote.utils.EspressoUITests.loginWithInvalidCredentials;
@@ -35,5 +38,15 @@ public class Login {
         loginWithInvalidCredentials();
         assertContains(R.string.simperium_dialog_message_login);
     }
+
+    @Test
+    public void loginWithValidCredentialsAfterUsingWrongCredentials() throws InterruptedException {
+        loginWithCredentials();
+        loginWithInvalidCredentials();
+        assertContains(R.string.simperium_dialog_message_login);
+        onView(withId(android.R.id.button1)).perform((click()));
+        loginWithValidCredentials();
+    }
+
 }
 
