@@ -1,12 +1,3 @@
-Type
-- [ ] 🐛 Bug fix
-- [ ] 🎁 New feature
-- [ ] 🎨 Improvement
-- [ ] 🔮 Experiment
-- [ ] 📚 Documentation
-- [ ] 🪓 Structural
-- [ ] 💻 Automated Tests
-- [ ] 👻 Other
 
 ### Fix
 <!--
@@ -15,9 +6,10 @@ Type
 
 
 
-| Before | After |
-| --- | ---| 
-<img src="link" width="300" height="650"> | <img src="link" width="300" height="650"> 
+### Before 
+
+### After 
+
 
 ### Test
 <!--
