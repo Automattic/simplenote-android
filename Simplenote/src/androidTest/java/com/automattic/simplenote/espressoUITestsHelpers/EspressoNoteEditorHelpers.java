@@ -29,6 +29,7 @@ public class EspressoNoteEditorHelpers {
     @Test
     public static void addNoteContent() {
         clickOn(R.id.note_content);
+        sleep(2, SECONDS);
         writeTo(R.id.note_content, ("*-Re7]J4Ux8q)g?X"));
     }
 
