@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-01 00:54:04+0000
+Translation-Revision-Date: 2020-05-05 03:16:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
@@ -72,7 +72,7 @@ Language: id
     <string name="simperium_dialog_progress_logging_in">Login…</string>
     <string name="simperium_dialog_message_signup_existing">Alamat email yang Anda masukkan telah dikaitkan dengan akun Simplenote.</string>
     <string name="simperium_dialog_message_signup">Tidak dapat mendaftar dengan alamat email dan kata sandi yang diberikan.</string>
-    <string name="simperium_dialog_message_password">Kata sandi minimal harus %1$d karakter, tidak termasuk baris baru, spasi, dan tab.</string>
+    <string name="simperium_dialog_message_password_login">Kata sandi minimal harus %1$d karakter, tidak termasuk baris baru, spasi, dan tab.</string>
     <string name="simperium_dialog_message_network">Tidak ada jaringan yang tersedia. Harap hubungkan ke jaringan dan coba lagi.</string>
     <string name="simperium_dialog_message_login">Tidak dapat login dengan alamat email dan kata sandi yang diberikan.</string>
     <string name="simperium_button_signup">Mendaftar</string>
@@ -131,7 +131,6 @@ Language: id
     <string name="rate_us">Beri Rating</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_hiring">Simplenote dibuat dengan sepenuh hati oleh para staf di Automattic. Apakah Anda pengembang? Kami membuka lowongan.</string>
     <string name="about">Tentang Simplenote</string>
     <string name="markdown_show">Tampilkan Markdown</string>
     <string name="markdown_hide">Sembunyikan Markdown</string>

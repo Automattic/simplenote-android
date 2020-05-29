@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-03 00:55:01+0000
+Translation-Revision-Date: 2020-05-05 03:16:05+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
@@ -72,7 +72,7 @@ Language: tr
     <string name="simperium_dialog_progress_logging_in">Oturum açılıyor…</string>
     <string name="simperium_dialog_message_signup_existing">Girdiğiniz e-posta adresi bir Simplenote hesabıyla zaten ilişkilendirilmiş.</string>
     <string name="simperium_dialog_message_signup">Verilen e-posta adresi ve parolayla kaydolunamadı.</string>
-    <string name="simperium_dialog_message_password">Parolalar; satır başı, boşluk ve sekme hariç minimum %1$d karakter uzunluğunda olmalıdır.</string>
+    <string name="simperium_dialog_message_password_login">Parolalar; satır başı, boşluk ve sekme hariç minimum %1$d karakter uzunluğunda olmalıdır.</string>
     <string name="simperium_dialog_message_network">Kullanılabilir ağ yok. Lütfen bir ağa bağlanıp tekrar deneyin.</string>
     <string name="simperium_dialog_message_login">Verilen e-posta adresi ve parolayla oturum açılamadı.</string>
     <string name="simperium_button_signup">Kaydol</string>
@@ -131,7 +131,6 @@ Language: tr
     <string name="rate_us">Bizi Değerlendirin</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_hiring">Simplenote, Automatticc’teki kişiler tarafından sevgiyle yapılmıştır. Bir geliştirici misiniz? İşe alıyoruz.</string>
     <string name="about">Simplenote Hakkında</string>
     <string name="markdown_show">Markdown’ı Göster</string>
     <string name="markdown_hide">Markdown’ı Gizle</string>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-03-28 14:21:23+0000
+Translation-Revision-Date: 2020-05-05 12:08:26+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
+    <string name="simperium_dialog_message_login_reset">Ditt lösenord är osäkert och måste återställas. Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?email=%1$s</string>
+    <string name="simperium_button_login_reset">Återställ</string>
+    <string name="link_terms">%1$s%2$s%3$sAnvändarvillkor%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sIntegritetspolicy%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">Är du en utvecklare? Vi anställer.</string>
+    <string name="about_hiring_title">Karriärer</string>
+    <string name="about_contribute_title">Bidra</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">Sök anteckningar eller etiketter</string>
     <string name="empty_tags_search">Inga etiketter hittades</string>
     <string name="empty_notes_widget">Inga anteckningar</string>
@@ -72,7 +84,7 @@ Language: sv_SE
     <string name="simperium_dialog_progress_logging_in">Loggar in…</string>
     <string name="simperium_dialog_message_signup_existing">Den angivna e-postadressen är redan associerad med ett Simplenote-konto.</string>
     <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
-    <string name="simperium_dialog_message_password">Lösenord måste ha minst %1$d tecken, exklusive radbrytningar, blanksteg och tabbar.</string>
+    <string name="simperium_dialog_message_password_login">Lösenord måste ha minst %1$d tecken, exklusive radbrytningar, blanksteg och tabbar.</string>
     <string name="simperium_dialog_message_network">Det finns inget tillgängligt nätverk. Anslut till ett nätverk och försök igen.</string>
     <string name="simperium_dialog_message_login">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
     <string name="simperium_button_signup">Skapa konto</string>
@@ -131,7 +143,6 @@ Language: sv_SE
     <string name="rate_us">Betygsätt oss</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_hiring">Simplenote är tillverkad Automattic med kärlek. Är du en utvecklare? Vi anställer.</string>
     <string name="about">Om Simplenote</string>
     <string name="markdown_show">Visa Markdown</string>
     <string name="markdown_hide">Dölj Markdown</string>
@@ -203,7 +214,7 @@ Language: sv_SE
     <string name="edit_tags">Redigera etiketter</string>
     <string name="characters">Tecken</string>
     <string name="words">Ord</string>
-    <string name="font_size">Typsnittsstorlek</string>
+    <string name="font_size">Textstorlek</string>
     <string name="detect_links">Detektera länkar</string>
     <string name="account">Konto</string>
     <string name="new_note">Ny anteckning</string>

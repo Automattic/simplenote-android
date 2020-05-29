@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-01 00:54:04+0000
+Translation-Revision-Date: 2020-05-05 03:16:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
@@ -72,7 +72,7 @@ Language: ar
     <string name="simperium_dialog_progress_logging_in">جارٍ تسجيل الدخول…</string>
     <string name="simperium_dialog_message_signup_existing">عنوان البريد الإلكتروني الذي أدخلته مرتبط بالفعل بحساب Simplenote.</string>
     <string name="simperium_dialog_message_signup">يتعذر التسجيل باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
-    <string name="simperium_dialog_message_password">يجب ألا تقل كلمات المرور عن %1$d من الأحرف بحد أدنى باستثناء الأسطر والمسافات وعلامات التبويب الجديدة.</string>
+    <string name="simperium_dialog_message_password_login">يجب ألا تقل كلمات المرور عن %1$d من الأحرف بحد أدنى باستثناء الأسطر والمسافات وعلامات التبويب الجديدة.</string>
     <string name="simperium_dialog_message_network">لا توجد شبكة متاحة. يرجى الاتصال بإحدى الشبكات والمحاولة مجددًا.</string>
     <string name="simperium_dialog_message_login">يتعذر تسجيل الدخول باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
     <string name="simperium_button_signup">التسجيل</string>
@@ -131,7 +131,6 @@ Language: ar
     <string name="rate_us">صنّفنا</string>
     <string name="twitter">تويتر</string>
     <string name="about_play_store">متجر Google Play</string>
-    <string name="about_hiring">تم تصميم Simplenote بالحب الذي يملأ قلوب الجماهير في Automattic. هل أنت مطور؟ نحن نبحث عن مطورين لتعيينهم لدينا.</string>
     <string name="about">نبذة عن Simplenote</string>
     <string name="markdown_show">إظهار الضبط</string>
     <string name="markdown_hide">إخفاء الضبط</string>
