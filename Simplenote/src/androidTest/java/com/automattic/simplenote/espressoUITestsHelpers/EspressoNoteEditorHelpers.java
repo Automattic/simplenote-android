@@ -18,6 +18,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains;
 import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
+import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class EspressoNoteEditorHelpers {
 
@@ -26,7 +28,8 @@ public class EspressoNoteEditorHelpers {
 
     @Test
     public static void addNoteContent() {
-        writeTo(R.id.note_content, "*-Re7]J4Ux8q)g?X");
+        clickOn(R.id.note_content);
+        writeTo(R.id.note_content, ("*-Re7]J4Ux8q)g?X"));
     }
 
     @Test
@@ -46,10 +49,10 @@ public class EspressoNoteEditorHelpers {
     }
 
     @Test
-    public static void optionsTapTrash() throws InterruptedException {
+    public static void optionsTapTrash() {
         onView(withContentDescription(R.string.more_options))
                 .perform(click());
-        Thread.sleep(2000);
+        sleep(2, SECONDS);
         onView(withText("Trash")).perform(click()); //when using ID or position crashes on popup window menu test fails
     }
 

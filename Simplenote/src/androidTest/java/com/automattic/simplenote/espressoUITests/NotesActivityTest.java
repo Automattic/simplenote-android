@@ -22,6 +22,8 @@ import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActiv
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.trash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.undoDeleteNoteFromList;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.optionsTapTrash;
+import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 @LargeTest
@@ -32,11 +34,11 @@ public class NotesActivityTest {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public void addNoteDeleteFromNotesList() throws InterruptedException {
+    public void addNoteDeleteFromNotesList() {
         loginWithCredentials();
         login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
-        Thread.sleep(2000);
+        sleep(2, SECONDS);
         deleteNoteFromList();
         undoDeleteNoteFromList();
         deleteNoteFromList();
@@ -46,7 +48,7 @@ public class NotesActivityTest {
     //adds note > delete > undo deletion > deletes note from all notes list > logout
 
     @Test
-    public void addNoteDeleteNoteFromDetail() throws InterruptedException {
+    public void addNoteDeleteNoteFromDetail() {
         loginWithCredentials();
         login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
@@ -58,14 +60,14 @@ public class NotesActivityTest {
     //adds note > goes to note detail > delete > logout
 
     @Test
-    public void emptyTrash() throws InterruptedException {
+    public void emptyTrash() {
         loginWithCredentials();
         login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
         tapNote();
         optionsTapTrash();
         trash();
-        Thread.sleep(2000);
+        sleep(2, SECONDS);
         tapEmptyTrash();
         logOut();
     }

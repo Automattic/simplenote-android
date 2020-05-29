@@ -20,6 +20,8 @@ import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.c
 import static com.schibsted.spain.barista.interaction.BaristaDrawerInteractions.openDrawer;
 import static com.schibsted.spain.barista.interaction.BaristaKeyboardInteractions.closeKeyboard;
 import static com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem;
+import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class EspressoNoteActivityHelpers {
 
@@ -27,10 +29,10 @@ public class EspressoNoteActivityHelpers {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public static void addNote() throws InterruptedException {
+    public static void addNote() {
         tapNoteButton();
         addNoteContent();
-        Thread.sleep(2000);
+        sleep(2, SECONDS);
         closeKeyboard();
         Espresso.pressBack();
         assertContains("*-Re7]J4Ux8q)g?X");

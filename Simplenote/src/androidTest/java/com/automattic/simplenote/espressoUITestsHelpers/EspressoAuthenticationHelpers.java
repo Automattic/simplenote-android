@@ -2,6 +2,7 @@ package com.automattic.simplenote.espressoUITestsHelpers;
 
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
+import com.schibsted.spain.barista.interaction.BaristaSleepInteractions;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.c
 import static com.schibsted.spain.barista.interaction.BaristaDrawerInteractions.openDrawer;
 import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
 import static com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem;
-import static java.lang.Thread.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class EspressoAuthenticationHelpers {
 
@@ -28,25 +29,25 @@ public class EspressoAuthenticationHelpers {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public static void loginWithCredentials() throws InterruptedException {
+    public static void loginWithCredentials() {
         clickOn(R.id.button_login);
         clickOn(R.id.button_email);
-        sleep(2000);
+        BaristaSleepInteractions.sleep(2, SECONDS);
     }
 
     @Test
-    public static void login(String email, String password) throws InterruptedException {
+    public static void login(String email, String password) {
         writeTo(R.id.input_email, email);
         writeTo(R.id.input_password, password);
         clickOn(R.id.button);
-        sleep(2000);
+        BaristaSleepInteractions.sleep(2, SECONDS);
     }
 
     @Test
-    public static void logOut() throws InterruptedException {
+    public static void logOut() {
         openDrawer();
         clickListItem(R.id.design_navigation_view, 3);
-        sleep(2000);
+        BaristaSleepInteractions.sleep(2, SECONDS);
         swipeToBottom();
         clickOn(R.string.log_out);
         try {

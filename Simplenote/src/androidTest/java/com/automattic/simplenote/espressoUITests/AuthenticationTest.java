@@ -25,7 +25,8 @@ import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthentic
 import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains;
 import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
-import static java.lang.Thread.sleep;
+import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -35,7 +36,7 @@ public class AuthenticationTest {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public void signUpWithCredentialsAndLogout() throws InterruptedException {
+    public void signUpWithCredentialsAndLogout() {
 
         //generate random string
 
@@ -52,26 +53,26 @@ public class AuthenticationTest {
         writeTo(R.id.input_email, (random_string + "@gmail.com"));
         writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");
         clickOn(R.id.button);
-        sleep(2000);
+        sleep(2, SECONDS);
         logOut();
     }
 
     @Test
-    public void loginWithValidCredentialsLogout() throws InterruptedException {
+    public void loginWithValidCredentialsLogout() {
         loginWithCredentials();
         login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         logOut();
     }
 
     @Test
-    public void loginWithInvalidCredentialsVerifyAlert() throws InterruptedException {
+    public void loginWithInvalidCredentialsVerifyAlert() {
         loginWithCredentials();
         login("test.espresso.90890@gmail.com","testespresso");
         BaristaVisibilityAssertions.assertContains(R.string.simperium_dialog_message_login);
     }
 
     @Test
-    public void loginWithValidCredentialsAfterUsingWrongCredentials() throws InterruptedException {
+    public void loginWithValidCredentialsAfterUsingWrongCredentials() {
         loginWithCredentials();
         login("test.espresso.90890@gmail.com","testespresso");
         assertContains(R.string.simperium_dialog_message_login);

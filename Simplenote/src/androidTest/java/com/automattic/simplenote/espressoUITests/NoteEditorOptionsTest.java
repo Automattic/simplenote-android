@@ -19,6 +19,8 @@ import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthentic
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.addNote;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapNote;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.addChecklist;
+import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 @LargeTest
@@ -29,11 +31,11 @@ public class NoteEditorOptionsTest {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public void addChecklistNote() throws InterruptedException {
+    public void addChecklistNote() {
         loginWithCredentials();
         login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
-        Thread.sleep(2000);
+        sleep(2, SECONDS);
         tapNote();
         addChecklist();
         Espresso.pressBack();

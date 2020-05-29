@@ -30,7 +30,6 @@ public class EspressoGeneralHelpers {
         clickOn(R.id.touch_outside);
     }
 
-
     public static void swipe(int start, int end, int delay) {
         long downTime = SystemClock.uptimeMillis();
         long eventTime = SystemClock.uptimeMillis();
