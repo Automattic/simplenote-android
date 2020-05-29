@@ -1,0 +1,2 @@
+2.6:
+* Correção do bug de rede que causava perda de dados

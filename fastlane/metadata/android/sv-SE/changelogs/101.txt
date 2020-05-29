@@ -1,8 +1,0 @@
-2.5:
-* En mörk version av anteckningswidgeten har lagts till för att visa och öppna en anteckning i appen från startskärmen.
-* En listwidget för anteckningar har lagts till för öppna en anteckning i appen från startskärmen.
-* Ett verktygsfält har lagts till för att hitta matchande söktermer i anteckningar.
-* Stöd för höger-till-vänster-språk och layouter har lagts till.
-* Sökning har lagts till för etikettlistan.
-* En bugg som felaktigt markerade söktermer i anteckningar har korrigerats.
-* En bugg i anteckningsrubriken som gjorde att appen laggade vid redigering av en anteckning har korrigerats.
