@@ -1,8 +1,0 @@
-2.5:
-*Aggiunta una versione scura per visualizzare e aprire una nota nell'app dalla schermata principale.
-*Aggiunto un widget dell'elenco delle note per aprire qualsiasi nota nell'app dalla schermata principale.
-*Aggiunta una barra degli strumenti per trovare i termini di ricerca corrispondenti nelle note.
-*Aggiunto un supporto per le lingue da destra a sinistra e per i layout.
-*Aggiunta la ricerca all'elenco dei tag.
-*Corretto un bug che evidenziava i termini di ricerca in modo non corretto nelle note con la checklist.
-*Corretto un bug relativo al titolo della nota che causava un ritardo dell'app durante la modifica della nota.

@@ -1,8 +1,0 @@
-2.5:
-* We hebben een donkere versie van de notitie-widget toegevoegd om notities in de app te bekijken en te openen vanuit het startscherm.
-* We hebben een notitielijst-widget toegevoegd om notities in de app te openen vanuit het startscherm.
-* We hebben een werkbalk toegevoegd om overeenkomende termen in notities te vinden.
-* Ondersteuning toegevoegd voor talen die van rechts naar links worden gelezen en voor opmaak.
-* Zoekfunctie toegevoegd aan de taglijst.
-* Een probleem verholpen waarbij zoektermen onjuist werden gemarkeerd in notities met checklists.
-* Een probleem verholpen met de notitie-titel dat ervoor zorgde dat de app ging laggen bij het bewerken van een notitie.

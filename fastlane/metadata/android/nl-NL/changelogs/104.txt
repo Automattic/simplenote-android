@@ -1,0 +1,2 @@
+2.6:
+* Netwerkbug die gegevensverlies veroorzaakt opgelost
