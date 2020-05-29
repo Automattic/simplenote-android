@@ -1,6 +1,5 @@
 package com.automattic.simplenote.espressoUITestsHelpers;
 
-import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 
@@ -36,17 +35,9 @@ public class EspressoAuthenticationHelpers {
     }
 
     @Test
-    public static void loginWithValidCredentials() throws InterruptedException {
-        writeTo(R.id.input_email, BuildConfig.TEST_USER_EMAIL);
-        writeTo(R.id.input_password, BuildConfig.TEST_USER_PASSWORD);
-        clickOn(R.id.button);
-        sleep(2000);
-    }
-
-    @Test
-    public static void loginWithInvalidCredentials() throws InterruptedException {
-        writeTo(R.id.input_email, "test.espresso.00005@gmail.com");
-        writeTo(R.id.input_password, "*-Re7]J4Ux8q)g?X");
+    public static void login(String email, String password) throws InterruptedException {
+        writeTo(R.id.input_email, email);
+        writeTo(R.id.input_password, password);
         clickOn(R.id.button);
         sleep(2000);
     }

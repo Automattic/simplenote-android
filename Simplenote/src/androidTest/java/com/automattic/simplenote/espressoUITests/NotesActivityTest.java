@@ -1,6 +1,7 @@
 package com.automattic.simplenote.espressoUITests;
 
 
+import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.NotesActivity;
 
 import org.junit.Rule;
@@ -12,8 +13,8 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.login;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithCredentials;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithValidCredentials;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.addNote;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.deleteNoteFromList;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapEmptyTrash;
@@ -33,7 +34,7 @@ public class NotesActivityTest {
     @Test
     public void addNoteDeleteFromNotesList() throws InterruptedException {
         loginWithCredentials();
-        loginWithValidCredentials();
+        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
         Thread.sleep(2000);
         deleteNoteFromList();
@@ -47,7 +48,7 @@ public class NotesActivityTest {
     @Test
     public void addNoteDeleteNoteFromDetail() throws InterruptedException {
         loginWithCredentials();
-        loginWithValidCredentials();
+        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
         tapNote();
         optionsTapTrash();
@@ -59,7 +60,7 @@ public class NotesActivityTest {
     @Test
     public void emptyTrash() throws InterruptedException {
         loginWithCredentials();
-        loginWithValidCredentials();
+        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
         addNote();
         tapNote();
         optionsTapTrash();

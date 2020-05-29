@@ -27,9 +27,10 @@ public class EspressoNoteActivityHelpers {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public static void addNote() {
+    public static void addNote() throws InterruptedException {
         tapNoteButton();
         addNoteContent();
+        Thread.sleep(2000);
         closeKeyboard();
         Espresso.pressBack();
         assertContains("*-Re7]J4Ux8q)g?X");
