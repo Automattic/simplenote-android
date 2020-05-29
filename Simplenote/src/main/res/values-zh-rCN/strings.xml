@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-02 00:54:04+0000
+Translation-Revision-Date: 2020-05-05 03:16:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
@@ -72,7 +72,7 @@ Language: zh_CN
     <string name="simperium_dialog_progress_logging_in">正在登录…</string>
     <string name="simperium_dialog_message_signup_existing">您输入的电子邮件地址已与 Simplenote 帐户关联。</string>
     <string name="simperium_dialog_message_signup">无法使用所提供的电子邮件地址和密码注册。</string>
-    <string name="simperium_dialog_message_password">密码必须至少包含 %1$d 个字符，且不能包含换行符、空格和制表符。</string>
+    <string name="simperium_dialog_message_password_login">密码必须至少包含 %1$d 个字符，且不能包含换行符、空格和制表符。</string>
     <string name="simperium_dialog_message_network">没有可用的网络。请连接到网络并重试。</string>
     <string name="simperium_dialog_message_login">无法使用所提供的电子邮件地址和密码登录。</string>
     <string name="simperium_button_signup">注册</string>
@@ -131,7 +131,6 @@ Language: zh_CN
     <string name="rate_us">给我们评分</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play 商店</string>
-    <string name="about_hiring">Simplenote 是由 Automattic 的工作人员用心打造的一款产品。您是一名开发者吗？我们正在招贤纳士。</string>
     <string name="about">关于 Simplenote</string>
     <string name="markdown_show">显示 Markdown</string>
     <string name="markdown_hide">隐藏 Markdown</string>
