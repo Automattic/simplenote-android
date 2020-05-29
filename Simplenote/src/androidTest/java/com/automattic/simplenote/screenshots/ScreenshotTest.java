@@ -103,7 +103,7 @@ public class ScreenshotTest {
         // we need to interact with to be loaded in the list fails. I suspect it might be due to the
         // app changing root activity (from login to notes list) but I haven't had the time to
         // research it properly
-        Thread.sleep(500);
+        Thread.sleep(2000);
         waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 5000);
 
         selectNoteFromNotesList();
