@@ -16,12 +16,11 @@ import androidx.test.runner.AndroidJUnit4;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterApp;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterEmailPassword;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.signUp;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapLoginButton;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapSignUpButton;
 import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -36,7 +35,7 @@ public class AuthenticationTest {
     public void signUpWithCredentialsAndLogout() {
         signUp();
         enterEmailPassword(randomAlphanumeric(16)+ "@gmail.com", "testespresso");
-        tapSignUpButton();
+        enterApp();
         logOut();
     }
 
@@ -44,7 +43,7 @@ public class AuthenticationTest {
     public void loginWithValidCredentialsLogout() {
         loginWithEmail();
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         logOut();
     }
 
@@ -52,7 +51,7 @@ public class AuthenticationTest {
     public void loginWithInvalidCredentialsVerifyAlert() {
         loginWithEmail();
         enterEmailPassword("test.espresso.90890@gmail.com","testespresso");
-        tapLoginButton();
+        enterApp();
         assertContains(R.string.simperium_dialog_message_login);
     }
 
@@ -60,11 +59,11 @@ public class AuthenticationTest {
     public void loginWithValidCredentialsAfterUsingWrongCredentials() {
         loginWithEmail();
         enterEmailPassword("test.espresso.90890@gmail.com","testespresso");
-        tapLoginButton();
+        enterApp();
         assertContains(R.string.simperium_dialog_message_login);
         onView(withId(android.R.id.button1)).perform((click()));
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         logOut();
     }
 

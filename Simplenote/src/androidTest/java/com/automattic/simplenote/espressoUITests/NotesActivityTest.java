@@ -18,17 +18,17 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterApp;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterEmailPassword;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapLoginButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoGeneralHelpers.tapNoteButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.assert1noteSelected;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.exitNoteEditor;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.openDrawerTapTrash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapAddNoteButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapEmptyTrash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapMenuTrash;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.openDrawerTapTrash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.writeNoteEditor;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.optionsTapTrash;
 
@@ -44,7 +44,7 @@ public class NotesActivityTest {
     public void addNoteDeleteFromNotesList() {
         loginWithEmail();
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         tapNoteButton();
         writeNoteEditor("writeNoteContent");
         exitNoteEditor();
@@ -60,7 +60,7 @@ public class NotesActivityTest {
     public void addNoteDeleteNoteFromDetail() {
         loginWithEmail();
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         tapNoteButton();
         writeNoteEditor("testEspresso");
         exitNoteEditor();
@@ -75,7 +75,7 @@ public class NotesActivityTest {
     public void emptyTrash() {
         loginWithEmail();
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         tapAddNoteButton();
         writeNoteEditor("simpleNote001");
         onView(withText("simpleNote001")).check(matches(isDisplayed()));

@@ -18,10 +18,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterApp;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterEmailPassword;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapLoginButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.exitNoteEditor;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapAddNoteButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.writeNoteEditor;
@@ -39,7 +39,7 @@ public class NoteEditorOptionsTest {
     public void addChecklistNote() {
         loginWithEmail();
         enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        tapLoginButton();
+        enterApp();
         tapAddNoteButton();
         writeNoteEditor("noteContent001");
         exitNoteEditor();

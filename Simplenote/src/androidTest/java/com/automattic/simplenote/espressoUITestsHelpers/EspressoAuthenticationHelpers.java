@@ -36,16 +36,12 @@ public class EspressoAuthenticationHelpers {
     }
 
     @Test
-    public static void tapSignUpButton() {
+    public static void enterApp() {
         clickOn(R.id.button);
         BaristaSleepInteractions.sleep(2, SECONDS);
     }
 
-    @Test
-    public static void tapLoginButton() {
-        clickOn(R.id.button);
-        BaristaSleepInteractions.sleep(2, SECONDS);
-    }
+    //taps on sign up/login button after entering email/pw, both buttons have the same ID
 
     @Test
     public static void enterEmailPassword(String email, String password) {
