@@ -29,17 +29,34 @@ public class EspressoAuthenticationHelpers {
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
     @Test
-    public static void loginWithCredentials() {
+    public static void loginWithEmail() {
         clickOn(R.id.button_login);
         clickOn(R.id.button_email);
         BaristaSleepInteractions.sleep(2, SECONDS);
     }
 
     @Test
-    public static void login(String email, String password) {
+    public static void tapSignUpButton() {
+        clickOn(R.id.button);
+        BaristaSleepInteractions.sleep(2, SECONDS);
+    }
+
+    @Test
+    public static void tapLoginButton() {
+        clickOn(R.id.button);
+        BaristaSleepInteractions.sleep(2, SECONDS);
+    }
+
+    @Test
+    public static void enterEmailPassword(String email, String password) {
         writeTo(R.id.input_email, email);
         writeTo(R.id.input_password, password);
-        clickOn(R.id.button);
+        BaristaSleepInteractions.sleep(2, SECONDS);
+    }
+
+    @Test
+    public static void signUp() {
+        clickOn(R.id.button_signup);
         BaristaSleepInteractions.sleep(2, SECONDS);
     }
 

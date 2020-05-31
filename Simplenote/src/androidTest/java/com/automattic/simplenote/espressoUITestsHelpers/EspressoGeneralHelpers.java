@@ -51,7 +51,7 @@ public class EspressoGeneralHelpers {
     }
 
     // Swipe down one page at a time
-    public static void scrollSlowlyDown() {
+    public static void swipeSlowlyDown() {
         swipe(775, 100, 100);
     }
 
@@ -61,7 +61,7 @@ public class EspressoGeneralHelpers {
     }
 
     // Swipe up one page at a time
-    public static void scrollSlowlyUp() {
+    public static void swipeSlowlyUp() {
         swipe(100, 775, 100);
     }
 

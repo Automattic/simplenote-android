@@ -13,14 +13,19 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterEmailPassword;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.login;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithCredentials;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.addNote;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapNote;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapLoginButton;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.exitNoteEditor;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapAddNoteButton;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.writeNoteEditor;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.addChecklist;
-import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 @LargeTest
@@ -32,11 +37,14 @@ public class NoteEditorOptionsTest {
 
     @Test
     public void addChecklistNote() {
-        loginWithCredentials();
-        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        addNote();
-        sleep(2, SECONDS);
-        tapNote();
+        loginWithEmail();
+        enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        tapLoginButton();
+        tapAddNoteButton();
+        writeNoteEditor("noteContent001");
+        exitNoteEditor();
+        onView(withText("noteContent001")).check(matches(isDisplayed()));
+        onView((withText("noteContent001"))).perform((click()));
         addChecklist();
         Espresso.pressBack();
         logOut();

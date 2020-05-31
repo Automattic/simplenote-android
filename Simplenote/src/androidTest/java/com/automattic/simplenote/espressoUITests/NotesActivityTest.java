@@ -15,22 +15,22 @@ import androidx.test.runner.AndroidJUnit4;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.enterEmailPassword;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.logOut;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.login;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithCredentials;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.tapLoginButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoGeneralHelpers.tapNoteButton;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.addNote;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.assert1noteSelected;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.exitNoteEditor;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapAddNoteButton;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapEmptyTrash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapMenuTrash;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.tapNote;
-import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.trash;
+import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.openDrawerTapTrash;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteActivityHelpers.writeNoteEditor;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoNoteEditorHelpers.optionsTapTrash;
-import static com.schibsted.spain.barista.interaction.BaristaSleepInteractions.sleep;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 @LargeTest
@@ -42,8 +42,9 @@ public class NotesActivityTest {
 
     @Test
     public void addNoteDeleteFromNotesList() {
-        loginWithCredentials();
-        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        loginWithEmail();
+        enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        tapLoginButton();
         tapNoteButton();
         writeNoteEditor("writeNoteContent");
         exitNoteEditor();
@@ -57,12 +58,13 @@ public class NotesActivityTest {
 
     @Test
     public void addNoteDeleteNoteFromDetail() {
-        loginWithCredentials();
-        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        loginWithEmail();
+        enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        tapLoginButton();
         tapNoteButton();
-        writeNoteEditor("writeNoteContent2");
+        writeNoteEditor("testEspresso");
         exitNoteEditor();
-        onView(withText("writeNoteContent2")).perform(click());
+        onView(withText("testEspresso")).perform(click());
         optionsTapTrash();
         logOut();
     }
@@ -71,13 +73,15 @@ public class NotesActivityTest {
 
     @Test
     public void emptyTrash() {
-        loginWithCredentials();
-        login(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
-        addNote();
-        tapNote();
+        loginWithEmail();
+        enterEmailPassword(BuildConfig.TEST_USER_EMAIL,BuildConfig.TEST_USER_PASSWORD);
+        tapLoginButton();
+        tapAddNoteButton();
+        writeNoteEditor("simpleNote001");
+        onView(withText("simpleNote001")).check(matches(isDisplayed()));
+        onView((withText("simpleNote001"))).perform((click()));
         optionsTapTrash();
-        trash();
-        sleep(2, SECONDS);
+        openDrawerTapTrash();
         tapEmptyTrash();
         logOut();
     }
