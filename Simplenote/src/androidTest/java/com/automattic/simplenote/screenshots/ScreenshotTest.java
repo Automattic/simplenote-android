@@ -154,7 +154,7 @@ public class ScreenshotTest {
         loadPasscodeUnsetterFromSettings();
         typeFullPasscode();
         // Disable darkmode
-        disableDarkModeFromSettings();
+        enableLightModeFromSettings();
     }
 
     @AfterClass
@@ -329,7 +329,7 @@ public class ScreenshotTest {
         selectSettingsOption(R.string.theme, themePosition);
     }
 
-    private void disableDarkModeFromSettings() {
+    private void enableLightModeFromSettings() {
         loadThemeSwitcherFromSettings();
         // The options have no id, and I couldn't find a way to access them by their text
         onView(childAtPosition(withId(R.id.select_dialog_listview), 0)).perform(click());
