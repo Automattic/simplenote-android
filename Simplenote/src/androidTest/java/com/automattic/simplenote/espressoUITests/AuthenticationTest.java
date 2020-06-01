@@ -22,7 +22,7 @@ import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthentic
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.loginWithEmail;
 import static com.automattic.simplenote.espressoUITestsHelpers.EspressoAuthenticationHelpers.signUp;
 import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+import static java.lang.StrictMath.random;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -34,7 +34,7 @@ public class AuthenticationTest {
     @Test
     public void signUpWithCredentialsAndLogout() {
         signUp();
-        enterEmailPassword(randomAlphanumeric(16)+ "@gmail.com", "testespresso");
+        enterEmailPassword(random() + "@gmail.com", "testespresso");
         enterApp();
         logOut();
     }
