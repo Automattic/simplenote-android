@@ -1,0 +1,2 @@
+2.6 :
+* Correction d’un bogue réseau à l’origine d’une perte de données

@@ -1,0 +1,2 @@
+2.6:
+* Risolto un bug di rete che causava la perdita di dati
