@@ -68,7 +68,6 @@ import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotTest {
-    private static final String SIMPLENOTE_PACKAGE = "com.automattic.simplenote.debug";
     private static final int LAUNCH_TIMEOUT = 5000;
     private static final String NOTE_TITLE = "# Lemon Cake & Blueberry";
 
@@ -229,14 +228,14 @@ public class ScreenshotTest {
 
         // Launch the app
         Context context = ApplicationProvider.getApplicationContext();
-        final Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(SIMPLENOTE_PACKAGE);
+        String packageName = context.getPackageName();
+        final Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         // Clear out any previous instances
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
 
         // Wait for the app to appear
-        device.wait(Until.hasObject(By.pkg(SIMPLENOTE_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
+        device.wait(Until.hasObject(By.pkg(packageName).depth(0)), LAUNCH_TIMEOUT);
     }
 
     // Notes List Screen
