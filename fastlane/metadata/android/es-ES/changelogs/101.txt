@@ -1,8 +1,0 @@
-2.5:
-* Se ha añadido la versión oscura del widget de notas para ver notas y abrirlas en la aplicación desde la pantalla de inicio.
-* Se ha añadido un widget de lista de notas para abrir notas en la aplicación desde la pantalla de inicio.
-* Se ha añadido una barra de herramientas para encontrar términos de búsqueda coincidentes en las notas.
-* Se ha añadido compatibilidad con idiomas y diseños de derecha a izquierda.
-* Se ha añadido la búsqueda a la lista de etiquetas.
-* Hemos solucionado un error que resaltaba incorrectamente los términos de búsqueda en las notas con listas de verificación.
-* Hemos solucionado un error con el título de la nota que hacía que la aplicación se retrasara al editar una nota.

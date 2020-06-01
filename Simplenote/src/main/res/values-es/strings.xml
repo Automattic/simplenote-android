@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-02 00:54:04+0000
+Translation-Revision-Date: 2020-05-05 03:16:06+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
@@ -72,7 +72,7 @@ Language: es
     <string name="simperium_dialog_progress_logging_in">Accediendo…</string>
     <string name="simperium_dialog_message_signup_existing">La dirección de correo electrónico que has introducido ya está asociada a una cuenta de Simplenote.</string>
     <string name="simperium_dialog_message_signup">No se ha podido llevar a cabo el registro con la dirección de correo electrónico y la contraseña facilitadas.</string>
-    <string name="simperium_dialog_message_password">Las contraseñas deben tener un mínimo de %1$d caracteres, sin contar líneas nuevas, espacios ni tabulaciones.</string>
+    <string name="simperium_dialog_message_password_login">Las contraseñas deben tener un mínimo de %1$d caracteres, sin contar líneas nuevas, espacios ni tabulaciones.</string>
     <string name="simperium_dialog_message_network">No hay ninguna red disponible. Conéctate a una red e inténtalo de nuevo.</string>
     <string name="simperium_dialog_message_login">No se ha podido acceder con la dirección de correo electrónico y la contraseña facilitadas.</string>
     <string name="simperium_button_signup">Registrarse</string>
@@ -131,7 +131,6 @@ Language: es
     <string name="rate_us">Puntúanos</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about_hiring">Simplenote está hecha con mucho cariño por la gente de Automattic. ¿Eres desarrollador? Buscamos personal.</string>
     <string name="about">Acerca de Simplenote</string>
     <string name="markdown_show">Mostrar Markdown</string>
     <string name="markdown_hide">Ocultar Markdown</string>

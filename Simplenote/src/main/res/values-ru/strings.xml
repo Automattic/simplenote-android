@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-04-01 00:54:04+0000
+Translation-Revision-Date: 2020-05-13 17:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="simperium_dialog_message_password">Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
+    <string name="simperium_dialog_message_login_reset">Ваш пароль ненадежен, его необходимо сменить. Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?email=%1$s</string>
+    <string name="simperium_button_login_reset">Сброс</string>
+    <string name="link_terms">%1$s%2$s%3$sУсловия предоставления услуг%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sПолитика конфиденциальности%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">Вы разработчик? У нас есть вакансии.</string>
+    <string name="about_hiring_title">Вакансии</string>
+    <string name="about_contribute_title">Принять участие</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">Поиск заметок или меток</string>
     <string name="empty_tags_search">Метки не найдены</string>
     <string name="empty_notes_widget">Нет заметок</string>
@@ -72,7 +84,7 @@ Language: ru
     <string name="simperium_dialog_progress_logging_in">Вход…</string>
     <string name="simperium_dialog_message_signup_existing">Введенный адрес эл. почты уже связан с учетной записью Simplenote.</string>
     <string name="simperium_dialog_message_signup">Не удалось зарегистрировать с указанным адресом эл. почты и паролем.</string>
-    <string name="simperium_dialog_message_password">Пароль должен быть не менее %1$d символов, и не может содержать символы новой строки, пробелы и символы табуляции.</string>
+    <string name="simperium_dialog_message_password_login">Пароль должен быть не менее %1$d символов, и не может содержать символы новой строки, пробелы и символы табуляции.</string>
     <string name="simperium_dialog_message_network">Сети недоступны. Подключитесь к сети и повторите попытку.</string>
     <string name="simperium_dialog_message_login">Не удалось войти с указанным адресом эл. почты и паролем.</string>
     <string name="simperium_button_signup">Регистрация</string>
@@ -123,15 +135,14 @@ Language: ru
     <string name="collaborate">Совместная работа</string>
     <string name="unpublishing">Удаление опубликованной ссылки…</string>
     <string name="unpublish_successful">Общедоступная ссылка удалена.</string>
-    <string name="unpublish_error">Не удалось удалить ссылку…</string>
-    <string name="publish_error">Не удалось создать ссылку…</string>
+    <string name="unpublish_error">Не удалось удалить ссылку.</string>
+    <string name="publish_error">Не удалось создать ссылку.</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
     <string name="no_browser_available">\"Не удалось открыть веб-сайт. Браузер недоступен\".</string>
     <string name="blog">Блог</string>
     <string name="rate_us">Оцените нас</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Магазин Google Play</string>
-    <string name="about_hiring">Приложение Simplenote создано с любовью разработчиками Automattic. Вы разработчик? У нас есть вакансии.</string>
     <string name="about">О приложении Simplenote</string>
     <string name="markdown_show">Показать Markdown</string>
     <string name="markdown_hide">Скрыть Markdown</string>
