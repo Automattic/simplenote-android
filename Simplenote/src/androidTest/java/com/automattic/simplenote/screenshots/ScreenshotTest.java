@@ -164,7 +164,7 @@ public class ScreenshotTest {
 
     // Flows
 
-    private void logoutIfNeeded() throws InterruptedException {
+    private void logoutIfNeeded() {
         if (isViewDisplayed(getViewById(R.id.list_root)) == false) {
             return;
         }
