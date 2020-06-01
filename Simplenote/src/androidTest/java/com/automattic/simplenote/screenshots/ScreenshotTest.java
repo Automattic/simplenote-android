@@ -165,7 +165,7 @@ public class ScreenshotTest {
     // Flows
 
     private void logoutIfNeeded() {
-        if (isViewDisplayed(getViewById(R.id.list_root)) == false) {
+        if (!isViewDisplayed(getViewById(R.id.list_root))) {
             return;
         }
 
@@ -183,7 +183,7 @@ public class ScreenshotTest {
     }
 
     private void enterThenDisablePasscodeIfNeeded() {
-        if (isViewDisplayed(getViewById(R.id.button1)) == false) {
+        if (!isViewDisplayed(getViewById(R.id.button1))) {
             return;
         }
 
