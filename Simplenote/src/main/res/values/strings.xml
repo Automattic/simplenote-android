@@ -230,6 +230,25 @@
     <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
     <string name="passcodelock_prompt_message">Enter your passcode</string>
 
+    <!-- SHORTCUTS -->
+    <string name="action">Action</string>
+    <string name="item_action_note_new" translatable="false">@string/new_note</string>
+    <string name="item_action_open_search">Open Search</string>
+    <string name="item_action_show_history">Show History</string>
+    <string name="item_action_show_information">Show Information</string>
+    <string name="item_action_show_share">Show Share</string>
+    <string name="item_action_toggle_checklist" translatable="false">@string/toggle_checklist</string>
+    <string name="item_action_toggle_list">Toggle List</string>
+    <string name="item_action_toggle_preview">Toggle Preview</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_single_c">C</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_s">S</string>
+
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
     <string name="simperium_button_login_email">Log In with Email</string>

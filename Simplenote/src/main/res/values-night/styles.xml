@@ -33,6 +33,7 @@
         <item name="hintTextColor">@color/text_title_disabled</item>
         <item name="iconTintColor">@color/item_blue_dark</item>
         <item name="isLightTheme">false</item>
+        <item name="keyBackgroundColor">@color/gray_40</item>
         <item name="listBackgroundSelector">@drawable/bg_list_dark</item>
         <item name="listDividerDrawable">@drawable/divider_dark</item>
         <item name="listSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
