@@ -235,11 +235,22 @@
     <string name="item_action_note_new" translatable="false">@string/new_note</string>
     <string name="item_action_open_search">Open Search</string>
     <string name="item_action_show_history">Show History</string>
+    <string name="item_action_show_history_edit_error">Select Edit tab to show history</string>
+    <string name="item_action_show_history_error">Select a note to show history</string>
     <string name="item_action_show_information">Show Information</string>
+    <string name="item_action_show_information_edit_error">Select Edit tab to show information</string>
+    <string name="item_action_show_information_error">Select a note to show information</string>
     <string name="item_action_show_share">Show Share</string>
+    <string name="item_action_show_share_edit_error">Select Edit tab to show share</string>
+    <string name="item_action_show_share_error">Select a note to show share</string>
     <string name="item_action_toggle_checklist" translatable="false">@string/toggle_checklist</string>
+    <string name="item_action_toggle_checklist_edit_error">Select Edit tab to toggle checklist</string>
+    <string name="item_action_toggle_checklist_error">Select a note to toggle checklist</string>
     <string name="item_action_toggle_list">Toggle List</string>
+    <string name="item_action_toggle_list_error">Select a note to toggle list</string>
     <string name="item_action_toggle_preview">Toggle Preview</string>
+    <string name="item_action_toggle_preview_enable_error">Enable markdown to toggle preview</string>
+    <string name="item_action_toggle_preview_error">Select a note to toggle preview</string>
     <string name="key_multiple_ctrl">Ctrl</string>
     <string name="key_multiple_shift">Shift</string>
     <string name="key_single_c">C</string>

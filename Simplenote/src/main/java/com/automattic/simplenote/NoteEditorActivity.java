@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -92,6 +93,14 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         Intent intent = getIntent();
         mNoteId = intent.getStringExtra(NoteEditorFragment.ARG_ITEM_ID);
 
+        try {
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            mNote = notesBucket.get(mNoteId);
+        } catch (BucketObjectMissingException exception) {
+            exception.printStackTrace();
+        }
+
         if (savedInstanceState == null) {
             // Create the note editor fragment
             Bundle arguments = new Bundle();
@@ -119,35 +128,35 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             );
             mViewPager.setPagingEnabled(false);
             mViewPager.addOnPageChangeListener(
-                    new NoteEditorViewPager.OnPageChangeListener() {
-                        @Override
-                        public void onPageSelected(int position) {
-                            if (position == 1) {  // Preview is position 1
-                                DisplayUtils.hideKeyboard(mViewPager);
-                            }
-
-                            try {
-                                Simplenote application = (Simplenote) getApplication();
-                                Bucket<Note> notesBucket = application.getNotesBucket();
-                                mNote = notesBucket.get(mNoteId);
-
-                                if (mNote != null) {
-                                    mNote.setPreviewEnabled(position == 1);  // Preview is position 1
-                                    mNote.save();
-                                }
-                            } catch (BucketObjectMissingException exception) {
-                                exception.printStackTrace();
-                            }
+                new NoteEditorViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        if (position == 1) {  // Preview is position 1
+                            DisplayUtils.hideKeyboard(mViewPager);
                         }
 
-                        @Override
-                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        }
+                        try {
+                            Simplenote application = (Simplenote) getApplication();
+                            Bucket<Note> notesBucket = application.getNotesBucket();
+                            mNote = notesBucket.get(mNoteId);
 
-                        @Override
-                        public void onPageScrollStateChanged(int state) {
+                            if (mNote != null) {
+                                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                                mNote.save();
+                            }
+                        } catch (BucketObjectMissingException exception) {
+                            exception.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                    }
+                }
             );
 
             isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
@@ -251,6 +260,89 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_C:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    if (!isPreviewTabSelected()) {
+                        if (mNoteEditorFragment != null) {
+                            mNoteEditorFragment.insertChecklist();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_toggle_checklist_edit_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_COMMA:
+                if (event.isCtrlPressed()) {
+                    ShortcutDialogFragment.showShortcuts(NoteEditorActivity.this, isPreviewTabSelected());
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_H:
+                if (event.isCtrlPressed()) {
+                    if (!isPreviewTabSelected()) {
+                        if (mNoteEditorFragment != null) {
+                            mNoteEditorFragment.showHistory();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_show_history_edit_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_I:
+                if (event.isCtrlPressed()) {
+                    if (!isPreviewTabSelected()) {
+                        if (mNoteEditorFragment != null) {
+                            mNoteEditorFragment.showInfo();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_show_information_edit_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_P:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    if (mNote != null && mNote.isMarkdownEnabled()) {
+                        togglePreview();
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_toggle_preview_enable_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_S:
+                if (event.isCtrlPressed()) {
+                    if (!isPreviewTabSelected()) {
+                        if (mNoteEditorFragment != null) {
+                            mNoteEditorFragment.shareNote();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_show_share_edit_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
+    }
+
     protected NoteMarkdownFragment getNoteMarkdownFragment() {
         return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getItem(1);
     }
@@ -258,6 +350,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     public void hideTabs() {
         mTabLayout.setVisibility(View.GONE);
         mViewPager.setPagingEnabled(false);
+    }
+
+    private boolean isPreviewTabSelected() {
+        return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == 1;  // Preview is position 1
     }
 
     public void showTabs() {
@@ -363,6 +459,24 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
         setSearchMatchBarVisible(true);
         updateSearchMatchBarStatus();
+    }
+
+    private void togglePreview() {
+        int position = mNote.isPreviewEnabled() ? 0 : 1;  // Edit is position 0, Preview is position 1
+        mViewPager.setCurrentItem(position);
+
+        try {
+            Simplenote application = (Simplenote) getApplication();
+            Bucket<Note> notesBucket = application.getNotesBucket();
+            mNote = notesBucket.get(mNoteId);
+
+            if (mNote != null) {
+                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                mNote.save();
+            }
+        } catch (BucketObjectMissingException exception) {
+            exception.printStackTrace();
+        }
     }
 
     private void updateSearchMatchBarStatus() {

@@ -576,7 +576,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         if (mNote != null) {
-            menu.findItem(R.id.menu_info).setVisible(true);
             MenuItem pinItem = menu.findItem(R.id.menu_pin);
             MenuItem shareItem = menu.findItem(R.id.menu_share);
             MenuItem historyItem = menu.findItem(R.id.menu_history);
@@ -622,7 +621,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onPrepareOptionsMenu(menu);
     }
 
-    private void insertChecklist() {
+    public void insertChecklist() {
         try {
             mContentEditText.insertChecklist();
         } catch (Exception e) {
@@ -674,7 +673,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         );
     }
 
-    private void shareNote() {
+    public void shareNote() {
         if (mNote != null) {
             mContentEditText.clearFocus();
             showShareSheet();
@@ -686,7 +685,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void showHistory() {
+    public void showHistory() {
         if (mNote != null && mNote.getVersion() > 1) {
             mContentEditText.clearFocus();
             mHistoryTimeoutHandler.postDelayed(mHistoryTimeoutRunnable, HISTORY_TIMEOUT);
@@ -696,7 +695,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void showInfo() {
+    public void showInfo() {
         if (mNote != null) {
             mContentEditText.clearFocus();
             saveNote();
@@ -952,6 +951,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public boolean isPlaceholderVisible() {
+        if (mPlaceholderView != null) {
+            return mPlaceholderView.getVisibility() == View.VISIBLE;
+        } else {
+            return false;
+        }
     }
 
     public void setPlaceholderVisible(boolean isVisible) {
