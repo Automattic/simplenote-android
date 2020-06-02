@@ -248,6 +248,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        // Relaunch shortcut dialog for window is maximized or restored (Chrome OS).
+        if (getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null) {
+            ShortcutDialogFragment.showShortcuts(NoteEditorActivity.this, isPreviewTabSelected());
+        }
+
         // If changing to large screen landscape, we finish the activity to go back to
         // NotesActivity with the note selected in the multipane layout.
         if (DisplayUtils.isLargeScreen(this) &&

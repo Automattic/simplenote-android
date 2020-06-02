@@ -1316,8 +1316,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         mDrawerToggle.onConfigurationChanged(newConfig);
+
+        // Relaunch shortcut dialog for window is maximized or restored (Chrome OS).
+        if (getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null) {
+            ShortcutDialogFragment.showShortcuts(NotesActivity.this, false);
+        }
 
         if (DisplayUtils.isLargeScreen(this)) {
             mIsShowingMarkdown = false;
