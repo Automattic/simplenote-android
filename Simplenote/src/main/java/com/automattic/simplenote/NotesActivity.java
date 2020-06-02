@@ -1255,6 +1255,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.setNote(selectedNoteId);
                         }
+
+                        // Relaunch shortcut dialog if it was showing in editor (Chrome OS).
+                        if (data.getBooleanExtra(ShortcutDialogFragment.DIALOG_VISIBLE, false)) {
+                            ShortcutDialogFragment.showShortcuts(NotesActivity.this, false);
+                        }
                     }
                 }
                 break;
