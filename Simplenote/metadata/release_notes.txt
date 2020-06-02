@@ -1,1 +1,1 @@
-* Fixed networking bug causing data loss
+* Updated primary color to new Simplenote blue
