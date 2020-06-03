@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,6 +51,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -208,13 +207,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_view_link:
                     if (mLinkUrl != null) {
                         try {
-                            Uri uri = Uri.parse(mLinkUrl);
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(uri);
-                            startActivity(i);
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                         mode.finish(); // Action picked, so close the CAB
                     }
                     return true;
