@@ -1,8 +1,6 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -217,7 +215,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     return true;
                 case R.id.menu_copy:
                     if (mLinkText != null && getActivity() != null) {
-                        copyToClipboard(mLinkText);
+                        BrowserUtils.copyToClipboard(requireContext(), mLinkText);
                         Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                         mode.finish();
                     }
@@ -523,7 +521,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
-                copyToClipboard(mNote.getPublishedUrl());
+                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
                 Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_history:
@@ -1227,7 +1225,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             .show();
                 }
 
-                copyToClipboard(mNote.getPublishedUrl());
+                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
             } else {
                 if (mHideActionOnSuccess) {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
@@ -1305,15 +1303,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         setPublishedNote(false);
-    }
-
-    private void copyToClipboard(String text) {
-        ClipboardManager clipboard = (ClipboardManager) requireActivity()
-                .getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(getString(R.string.app_name), text);
-        if (clipboard != null) {
-            clipboard.setPrimaryClip(clip);
-        }
     }
 
     private void showShareSheet() {

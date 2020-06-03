@@ -20,7 +20,7 @@ public class BrowserUtils {
         return (intent.resolveActivity(context.getPackageManager()) != null);
     }
 
-    private static void copyToClipboard(Context base, String url) {
+    public static void copyToClipboard(Context base, String url) {
         Context context = new ContextThemeWrapper(base, base.getTheme());
 
         try {
