@@ -45,6 +45,9 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        // Disable animations in order to enter text in the text inputs in the
+        // Espresso tests
+        animationsDisabled = true
     }
 }
 
@@ -62,6 +65,7 @@ buildscript {
 dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.8.47'
+    androidTestImplementation 'androidx.test:core:1.0.0'
     androidTestImplementation 'androidx.annotation:annotation:1.0.0'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
