@@ -716,7 +716,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         editor.apply();
     }
 
-    protected void setMarkdownEnabled(boolean enabled) {
+    private void setMarkdownEnabled(boolean enabled) {
         mIsMarkdownEnabled = enabled;
 
         if (mIsMarkdownEnabled) {
