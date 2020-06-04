@@ -1096,7 +1096,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setText(content);
     }
 
-    protected void saveNote() {
+    private void saveNote() {
         try {
             if (mNote == null || mNotesBucket == null || mContentEditText == null || mIsLoadingNote ||
                 (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
