@@ -43,6 +43,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -227,7 +228,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     return true;
                 case R.id.menu_share:
                     if (mLinkText != null) {
-                        showShareSheet();
+                        showShare(mLinkText);
                         mode.finish();
                     }
                     return true;
@@ -1317,6 +1318,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
         }
+    }
+
+    private void showShare(String text) {
+        startActivity(
+            ShareCompat.IntentBuilder.from(requireActivity())
+                .setText(text)
+                .setType("text/plain")
+                .createChooserIntent()
+        );
     }
 
     private void showShareSheet() {
