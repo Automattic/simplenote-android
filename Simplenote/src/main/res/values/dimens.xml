@@ -40,8 +40,11 @@
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
+    <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_status">16dp</dimen>
+    <dimen name="key_height">32dp</dimen>
+    <dimen name="key_width">28dp</dimen>
     <dimen name="line_spacing">4dp</dimen>
     <dimen name="line_spacing_list">2dp</dimen>
     <dimen name="logo_empty">96dp</dimen>
@@ -58,6 +61,9 @@
     <dimen name="text_content_title">16sp</dimen>
     <dimen name="text_date">14sp</dimen>
     <dimen name="text_empty">16sp</dimen>
+    <dimen name="text_header">14sp</dimen>
+    <dimen name="text_item">16sp</dimen>
+    <dimen name="text_key">14sp</dimen>
     <dimen name="text_tag">14sp</dimen>
     <dimen name="text_suggestion">16sp</dimen>
     <dimen name="text_widget">12sp</dimen>
