@@ -1358,6 +1358,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
         } else {
+            // Show list/sidebar when it was hidden while in landscape orientation.
             if (mNoteListFragment.isHidden()) {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.show(mNoteListFragment);
@@ -1365,6 +1366,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 mIsTabletFullscreen = mNoteListFragment.isHidden();
             }
 
+            // Dismiss all bottom sheet dialogs when going from editor to list view.
             HistoryBottomSheetDialog dialogHistory = (HistoryBottomSheetDialog) getSupportFragmentManager().findFragmentByTag(HistoryBottomSheetDialog.TAG);
 
             if (dialogHistory != null) {
