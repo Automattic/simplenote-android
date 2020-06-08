@@ -30,7 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShareBottomSheetDialog extends BottomSheetDialogBase {
-    private static final String TAG = ShareBottomSheetDialog.class.getSimpleName();
+    public static final String TAG = ShareBottomSheetDialog.class.getSimpleName();
+
     private static final int SHARE_SHEET_COLUMN_COUNT = 3;
 
     private Fragment mFragment;
