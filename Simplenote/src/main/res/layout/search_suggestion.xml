@@ -28,6 +28,8 @@
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="1"
         android:layout_width="0dp"
+        android:paddingBottom="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_medium"
         android:textColor="?attr/noteTitleColor"
         android:textSize="@dimen/text_suggestion"
         tools:text="tag:work"

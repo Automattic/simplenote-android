@@ -39,6 +39,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -127,7 +128,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private boolean mIsPreviewEnabled;
     private boolean mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
+    private MenuItem mChecklistMenuItem;
     private MenuItem mCopyMenuItem;
+    private MenuItem mInformationMenuItem;
     private MenuItem mShareMenuItem;
     private MenuItem mViewLinkMenuItem;
     private String mLinkUrl;
@@ -222,7 +225,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     return true;
                 case R.id.menu_share:
                     if (mLinkText != null) {
-                        showShareSheet();
+                        showShare(mLinkText);
                         mode.finish();
                     }
                     return true;
@@ -517,7 +520,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_checklist:
-                DrawableUtils.startAnimatedVectorDrawable(item.getIcon());
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
@@ -528,7 +530,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 showHistory();
                 return true;
             case R.id.menu_info:
-                DrawableUtils.startAnimatedVectorDrawable(item.getIcon());
                 showInfo();
                 return true;
             case R.id.menu_markdown:
@@ -571,7 +572,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         if (mNote != null) {
-            menu.findItem(R.id.menu_info).setVisible(true);
             MenuItem pinItem = menu.findItem(R.id.menu_pin);
             MenuItem shareItem = menu.findItem(R.id.menu_share);
             MenuItem historyItem = menu.findItem(R.id.menu_history);
@@ -579,7 +579,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
             MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
             MenuItem trashItem = menu.findItem(R.id.menu_trash);
-            MenuItem checklistItem = menu.findItem(R.id.menu_checklist);
+            mChecklistMenuItem = menu.findItem(R.id.menu_checklist);
+            mInformationMenuItem = menu.findItem(R.id.menu_info).setVisible(true);
 
             pinItem.setChecked(mNote.isPinned());
             publishItem.setChecked(mNote.isPublished());
@@ -593,8 +594,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(false);
                 copyLinkItem.setEnabled(false);
                 markdownItem.setEnabled(false);
-                checklistItem.setEnabled(false);
-                DrawableUtils.setMenuItemAlpha(checklistItem, 0.3);  // 0.3 is 30% opacity.
+                mChecklistMenuItem.setEnabled(false);
+                DrawableUtils.setMenuItemAlpha(mChecklistMenuItem, 0.3);  // 0.3 is 30% opacity.
             } else {
                 pinItem.setEnabled(true);
                 shareItem.setEnabled(true);
@@ -602,8 +603,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 publishItem.setEnabled(true);
                 copyLinkItem.setEnabled(mNote.isPublished());
                 markdownItem.setEnabled(true);
-                checklistItem.setEnabled(true);
-                DrawableUtils.setMenuItemAlpha(checklistItem, 1.0);  // 1.0 is 100% opacity.
+                mChecklistMenuItem.setEnabled(true);
+                DrawableUtils.setMenuItemAlpha(mChecklistMenuItem, 1.0);  // 1.0 is 100% opacity.
             }
 
             if (mNote.isDeleted()) {
@@ -617,7 +618,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onPrepareOptionsMenu(menu);
     }
 
-    private void insertChecklist() {
+    public void insertChecklist() {
+        DrawableUtils.startAnimatedVectorDrawable(mChecklistMenuItem.getIcon());
+
         try {
             mContentEditText.insertChecklist();
         } catch (Exception e) {
@@ -669,7 +672,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         );
     }
 
-    private void shareNote() {
+    public void shareNote() {
         if (mNote != null) {
             mContentEditText.clearFocus();
             showShareSheet();
@@ -681,7 +684,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void showHistory() {
+    public void showHistory() {
         if (mNote != null && mNote.getVersion() > 1) {
             mContentEditText.clearFocus();
             mHistoryTimeoutHandler.postDelayed(mHistoryTimeoutRunnable, HISTORY_TIMEOUT);
@@ -691,7 +694,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private void showInfo() {
+    public void showInfo() {
+        DrawableUtils.startAnimatedVectorDrawable(mInformationMenuItem.getIcon());
+
         if (mNote != null) {
             mContentEditText.clearFocus();
             saveNote();
@@ -947,6 +952,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public boolean isPlaceholderVisible() {
+        if (mPlaceholderView != null) {
+            return mPlaceholderView.getVisibility() == View.VISIBLE;
+        } else {
+            return false;
+        }
     }
 
     public void setPlaceholderVisible(boolean isVisible) {
@@ -1305,6 +1318,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         setPublishedNote(false);
     }
 
+    private void showShare(String text) {
+        startActivity(
+            ShareCompat.IntentBuilder.from(requireActivity())
+                .setText(text)
+                .setType("text/plain")
+                .createChooserIntent()
+        );
+    }
     private void showShareSheet() {
         if (isAdded() && mShareBottomSheet != null && !mShareBottomSheet.isAdded()) {
             mShareBottomSheet.show(requireFragmentManager(), mNote);
