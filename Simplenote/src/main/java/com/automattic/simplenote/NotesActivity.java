@@ -1357,6 +1357,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
+        } else if (mNoteListFragment.isHidden()) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(mNoteListFragment);
+            fragmentTransaction.commitNowAllowingStateLoss();
+            mIsTabletFullscreen = mNoteListFragment.isHidden();
         }
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
