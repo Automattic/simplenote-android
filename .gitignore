@@ -44,6 +44,7 @@ Simperium
 fastlane/README.md
 fastlane/report.xml
 fastlane/.env
+fastlane/screenshots
 
 # Configure
 *.bak

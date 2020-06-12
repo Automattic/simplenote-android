@@ -57,6 +57,7 @@ import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.MatchOffsetHighlighter;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
@@ -705,6 +706,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void setMarkdown(boolean isChecked) {
         mIsMarkdownEnabled = isChecked;
+        showMarkdownActionOrTabs();
+        saveNote();
+
+        // Set preference so that next new note will have markdown enabled.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
+        editor.apply();
+    }
+
+    private void setMarkdownEnabled(boolean enabled) {
+        mIsMarkdownEnabled = enabled;
+
+        if (mIsMarkdownEnabled) {
+            loadMarkdownData();
+        }
+    }
+
+    private void showMarkdownActionOrTabs() {
         Activity activity = getActivity();
 
         if (activity instanceof NoteEditorActivity) {
@@ -724,22 +744,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else if (activity instanceof NotesActivity) {
             setMarkdownEnabled(mIsMarkdownEnabled);
             ((NotesActivity) getActivity()).setMarkdownShowing(false);
-        }
-
-        saveNote();
-
-        // Set preference so that next new note will have markdown enabled.
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
-        editor.apply();
-    }
-
-    protected void setMarkdownEnabled(boolean enabled) {
-        mIsMarkdownEnabled = enabled;
-
-        if (mIsMarkdownEnabled) {
-            loadMarkdownData();
         }
     }
 
@@ -779,14 +783,27 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void refreshContent(boolean isNoteUpdate) {
         if (mNote != null) {
             // Restore the cursor position if possible.
-
             int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
-
             mContentEditText.setText(mNote.getContent());
 
             if (isNoteUpdate) {
-                // Save the note so any local changes get synced
+                // Update markdown and preview flags from updated note.
+                mIsMarkdownEnabled = mNote.isMarkdownEnabled();
+                mIsPreviewEnabled = mNote.isPreviewEnabled();
+
+                // Show/Hide action/tabs based on markdown flag.
+                showMarkdownActionOrTabs();
+
+                // Save note so any local changes get synced.
                 mNote.save();
+
+                // Update current note object on large screen devices in landscape orientation.
+                if (DisplayUtils.isLargeScreenLandscape(requireContext())) {
+                    ((NotesActivity) requireActivity()).setCurrentNote(mNote);
+                }
+
+                // Update overflow popup menu.
+                requireActivity().invalidateOptionsMenu();
 
                 if (mContentEditText.hasFocus()
                         && cursorPosition != mContentEditText.getSelectionEnd()
@@ -1079,15 +1096,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setText(content);
     }
 
-    protected void saveNote() {
+    private void saveNote() {
         try {
-            if (mNote == null || mContentEditText == null || mIsLoadingNote ||
+            if (mNote == null || mNotesBucket == null || mContentEditText == null || mIsLoadingNote ||
                 (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
                 return;
             } else {
-                Simplenote application = (Simplenote) requireActivity().getApplication();
-                Bucket<Note> notesBucket = application.getNotesBucket();
-                mNote = notesBucket.get(mNote.getSimperiumKey());
+                mNote = mNotesBucket.get(mNote.getSimperiumKey());
                 mIsPreviewEnabled = mNote.isPreviewEnabled();
             }
 
@@ -1271,6 +1286,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void publishNote() {
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (isAdded()) {
             mPublishingSnackbar = Snackbar.make(mRootView, R.string.publishing, Snackbar.LENGTH_INDEFINITE);
             mPublishingSnackbar.show();
@@ -1280,6 +1300,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void unpublishNote() {
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (isAdded()) {
             mPublishingSnackbar = Snackbar.make(mRootView, R.string.unpublishing, Snackbar.LENGTH_INDEFINITE);
             mPublishingSnackbar.show();
@@ -1333,6 +1358,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {
+                    mNotesBucket = noteBucket;
                     final Note updatedNote = mNotesBucket.get(key);
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
