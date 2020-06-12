@@ -1,16 +1,12 @@
 package com.automattic.simplenote;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,6 +50,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AutoBullet;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -211,19 +208,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_view_link:
                     if (mLinkUrl != null) {
                         try {
-                            Uri uri = Uri.parse(mLinkUrl);
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(uri);
-                            startActivity(i);
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                         mode.finish(); // Action picked, so close the CAB
                     }
                     return true;
                 case R.id.menu_copy:
                     if (mLinkText != null && getActivity() != null) {
-                        copyToClipboard(mLinkText);
+                        BrowserUtils.copyToClipboard(requireContext(), mLinkText);
                         Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                         mode.finish();
                     }
@@ -528,7 +523,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
-                copyToClipboard(mNote.getPublishedUrl());
+                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
                 Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_history:
@@ -1243,7 +1238,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             .show();
                 }
 
-                copyToClipboard(mNote.getPublishedUrl());
+                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
             } else {
                 if (mHideActionOnSuccess) {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
@@ -1323,15 +1318,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         setPublishedNote(false);
     }
 
-    private void copyToClipboard(String text) {
-        ClipboardManager clipboard = (ClipboardManager) requireActivity()
-                .getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(getString(R.string.app_name), text);
-        if (clipboard != null) {
-            clipboard.setPrimaryClip(clip);
-        }
-    }
-
     private void showShare(String text) {
         startActivity(
             ShareCompat.IntentBuilder.from(requireActivity())
@@ -1340,7 +1326,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 .createChooserIntent()
         );
     }
-
     private void showShareSheet() {
         if (isAdded() && mShareBottomSheet != null && !mShareBottomSheet.isAdded()) {
             mShareBottomSheet.show(requireFragmentManager(), mNote);
