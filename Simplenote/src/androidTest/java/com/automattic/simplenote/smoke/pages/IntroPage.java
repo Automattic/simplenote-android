@@ -11,6 +11,10 @@ public class IntroPage extends BasePage {
         return new LoginPage();
     }
 
+    public Boolean isOpened() {
+        return isElementDisplayed(R.id.button_login)
+    }
+
     /**
      * Call the login with other page (current usage is "Log in with WordPress.com")
      * TODO currently forwarded to standart "Log in with email" page

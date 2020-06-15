@@ -8,11 +8,12 @@ import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 
+import com.automattic.simplenote.smoke.support.SupplierIdler;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.hamcrest.Description;
@@ -20,34 +21,45 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.concurrent.TimeoutException;
+import java.util.function.Supplier;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
 public class BasePage {
-    protected static void clickButton(Integer resourceId) {
-        onView(allOf(ViewMatchers.withId(resourceId), isDisplayed())).perform(click());
+    protected void clickButton(Integer resourceId) {
+        onView(allOf(withId(resourceId), isDisplayed())).perform(click());
     }
 
-    protected Boolean isViewDisplayed(ViewInteraction view) {
+    protected void enterTextInCustomInput(Integer resourceId, String text) {
+        getViewById(resourceId)
+                .perform(click())
+                .perform(replaceTextInCustomInput(text))
+                .perform(ViewActions.closeSoftKeyboard());
+    }
+
+    public Boolean isViewDisplayed(ViewInteraction view) {
         try {
-            view.check(ViewAssertions.matches(isDisplayed()));
+            view.check(matches(isDisplayed()));
             return true;
         } catch (Throwable e) {
             return false;
         }
     }
 
-    protected ViewInteraction getViewById(Integer id) {
-        return onView(allOf(ViewMatchers.withId(id), isDisplayed()));
+    public ViewInteraction getViewById(Integer id) {
+        return onView(allOf(withId(id), isDisplayed()));
     }
 
     // Thanks to https://stackoverflow.com/a/47412904/809944
-    public static ViewAction replaceTextInCustomInput(final String text) {
+    private static ViewAction replaceTextInCustomInput(final String text) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -108,6 +120,42 @@ public class BasePage {
                         .build();
             }
         };
+    }
+
+    // WAITERS
+    public static void waitForElementToBeDisplayed(final Integer elementID) {
+        waitForConditionToBeTrue(new Supplier<Boolean>() {
+            @Override
+            public Boolean get() {
+                return isElementDisplayed(elementID);
+            }
+        });
+    }
+
+    public static void waitForConditionToBeTrue(Supplier<Boolean> supplier) {
+        if (supplier.get()) {
+            return;
+        }
+
+        new SupplierIdler(supplier).idleUntilReady();
+    }
+
+    public static boolean isElementDisplayed(Integer elementID) {
+        return isElementDisplayed(visibleElementWithId(elementID));
+    }
+
+    public static boolean isElementDisplayed(ViewInteraction element) {
+        try {
+            element.check(matches(isDisplayed()));
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+
+
+    public static ViewInteraction visibleElementWithId(Integer elementID) {
+        return onView(allOf(withId(elementID), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     protected static Matcher<View> childAtPosition(

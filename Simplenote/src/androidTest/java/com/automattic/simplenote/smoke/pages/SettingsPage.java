@@ -19,7 +19,6 @@ public class SettingsPage extends BasePage {
     }
 
     private void selectSettingsOption(Integer textId, Integer position) {
-        //onView(withId(R.id.preferences_container)).perform(swipeUp());
 
         onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(POSITION_LOGOUT, click()));

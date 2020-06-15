@@ -6,17 +6,19 @@ public class MainPage extends BasePage {
 
     public NavigationMenu navigationMenu;
 
-    public Boolean isOpen() {
-        return isViewDisplayed(getViewById(R.id.list_root));
-    }
-
     public MainPage() {
         navigationMenu = new NavigationMenu();
     }
 
-    public LoginPage logout() {
+    public MainPage isOpened() {
+        waitForElementToBeDisplayed(R.id.menu_search);
+
+        return this;
+    }
+
+    public IntroPage logout() {
         navigationMenu.openSettings().logout();
 
-        return new LoginPage();
+        return new IntroPage();
     }
 }
