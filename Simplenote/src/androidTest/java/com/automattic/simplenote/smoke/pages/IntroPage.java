@@ -12,7 +12,7 @@ public class IntroPage extends BasePage {
     }
 
     public Boolean isOpened() {
-        return isElementDisplayed(R.id.button_login)
+        return isElementDisplayed(R.id.button_login);
     }
 
     /**

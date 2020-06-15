@@ -22,6 +22,6 @@ public class LoginPage extends BasePage {
     }
 
     public Boolean isLoginFailed() {
-        return isElementDisplayed(R.id.alertTitle)
+        return isElementDisplayed(R.id.alertTitle);
     }
 }
