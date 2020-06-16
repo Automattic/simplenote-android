@@ -7,6 +7,7 @@ import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
+import com.automattic.simplenote.smoke.pages.SearchPage;
 import com.automattic.simplenote.smoke.utils.TestUtils;
 
 import org.junit.After;
@@ -21,6 +22,7 @@ public class TestRunner {
     IntroPage introPage = new IntroPage();
     LoginPage loginPage;
     MainPage mainPage = new MainPage();
+    SearchPage searchPage = new SearchPage();
 
     @Before
     public void setUp() {
@@ -53,5 +55,16 @@ public class TestRunner {
         loginPage = introPage.goToLoginWithEmail();
         loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_WRONG_PASSWORD);
         loginPage.checkLoginFailedMessage();
+    }
+
+    @Test
+    public void testSearchingInTheSearchFieldDoesAGlobalSearch() {
+        DataProvider.generateNotes(1);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage.addNewNote(DataProvider.generateNotes(1).get(0));
+        mainPage.openSearchPage().search("Corona");
     }
 }

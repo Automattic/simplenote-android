@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -25,6 +26,7 @@ import java.util.function.Supplier;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -45,6 +47,13 @@ public class BasePage {
                 .perform(ViewActions.closeSoftKeyboard());
     }
 
+    protected void enterText(Integer resourceId, String text) {
+        getViewById(resourceId)
+                .perform(click())
+                .perform(replaceText(text))
+                .perform(ViewActions.closeSoftKeyboard());
+    }
+
     public Boolean isViewDisplayed(ViewInteraction view) {
         try {
             view.check(matches(isDisplayed()));
@@ -56,6 +65,10 @@ public class BasePage {
 
     public ViewInteraction getViewById(Integer id) {
         return onView(allOf(withId(id), isDisplayed()));
+    }
+
+    public void pressBack() {
+        Espresso.pressBack();
     }
 
     // Thanks to https://stackoverflow.com/a/47412904/809944
