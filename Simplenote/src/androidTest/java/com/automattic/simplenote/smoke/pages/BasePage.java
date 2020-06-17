@@ -1,5 +1,7 @@
 package com.automattic.simplenote.smoke.pages;
 
+import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -10,13 +12,16 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 
 import com.automattic.simplenote.smoke.support.SupplierIdler;
+import com.automattic.simplenote.widgets.RobotoMediumTextView;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -33,11 +38,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.StringContains.containsString;
 
 public class BasePage {
     protected void clickButton(Integer resourceId) {
         onView(allOf(withId(resourceId), isDisplayed())).perform(click());
+    }
+
+    protected void clickButton(Integer resourceId, String text) {
+        onView(allOf(withId(resourceId), isDisplayed(), withText(text))).perform(click());
     }
 
     protected void enterTextInCustomInput(Integer resourceId, String text) {
@@ -52,6 +63,11 @@ public class BasePage {
                 .perform(click())
                 .perform(replaceText(text))
                 .perform(ViewActions.closeSoftKeyboard());
+    }
+
+    protected void checkTextOnViews(Integer resourceId, String text) {
+        getViewById(resourceId)
+                .check(matches(withText(containsString("Corona"))));
     }
 
     public Boolean isViewDisplayed(ViewInteraction view) {
@@ -153,6 +169,14 @@ public class BasePage {
         new SupplierIdler(supplier).idleUntilReady();
     }
 
+    public void elementDisplayedWithTextAtPosition(Integer resourseId, String searchParam, Integer position) {
+        onView(
+                allOf(
+                        withText(containsString(searchParam)),
+                        getElementFromMatchAtPosition(withId(resourseId), position)))
+                .check(matches(isDisplayed()));
+    }
+
     public static boolean isElementDisplayed(Integer elementID) {
         return isElementDisplayed(visibleElementWithId(elementID));
     }
@@ -186,6 +210,77 @@ public class BasePage {
                 ViewParent parent = view.getParent();
                 return parent instanceof ViewGroup && parentMatcher.matches(parent)
                         && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
+
+    protected Matcher<View> getElementFromMatchAtPosition(final Matcher<View> matcher, final int position) {
+        return new BaseMatcher<View>() {
+            int counter = 0;
+
+            @Override
+            public boolean matches(final Object item) {
+                if (matcher.matches(item)) {
+                    if (counter == position) {
+                        counter++;
+                        return true;
+                    }
+                    counter++;
+                }
+                return false;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText("Element at hierarchy position " + position);
+            }
+        };
+    }
+
+    /**
+     * Used for matrching colors but there is a problem related to sended color. Should be checked with source code.
+     *
+     * @param matcherColor
+     * @return
+     */
+    public static Matcher<View> textViewTextColorMatcher(final int matcherColor) {
+        return new BoundedMatcher<View, RobotoMediumTextView>(RobotoMediumTextView.class) {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with text color: " + matcherColor);
+            }
+
+            @Override
+            protected boolean matchesSafely(RobotoMediumTextView textView) {
+                return matcherColor == textView.getCurrentTextColor();
+            }
+        };
+    }
+
+    public static Matcher<View> hasTextColor(final int colorResId) {
+        return new BoundedMatcher<View, RobotoMediumTextView>(RobotoMediumTextView.class) {
+            private Context context;
+
+            @Override
+            protected boolean matchesSafely(RobotoMediumTextView textView) {
+                context = textView.getContext();
+                int textViewColor = textView.getCurrentTextColor();
+                int expectedColor;
+                if (Build.VERSION.SDK_INT <= 22) {
+                    expectedColor = context.getResources().getColor(colorResId);
+                } else {
+                    expectedColor = context.getColor(colorResId);
+                }
+                return textViewColor == expectedColor;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                String colorId = String.valueOf(colorResId);
+                if (context != null) {
+                    colorId = context.getResources().getResourceName(colorResId);
+                }
+                description.appendText("has color with ID " + colorId);
             }
         };
     }

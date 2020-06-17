@@ -30,6 +30,8 @@ public class MainPage extends BasePage {
         new NotePage()
                 .enterNewNote(noteDTO)
                 .pressBack();
+        
+        waitForElementToBeDisplayed(R.id.menu_search);
     }
 
     public SearchPage openSearchPage() {

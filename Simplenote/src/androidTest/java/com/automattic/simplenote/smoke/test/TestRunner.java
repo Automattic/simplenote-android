@@ -4,6 +4,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.smoke.data.DataProvider;
+import com.automattic.simplenote.smoke.data.NoteDTO;
 import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
@@ -59,12 +60,17 @@ public class TestRunner {
 
     @Test
     public void testSearchingInTheSearchFieldDoesAGlobalSearch() {
-        DataProvider.generateNotes(1);
+        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
 
         loginPage = introPage.goToLoginWithEmail();
         loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
-        mainPage.addNewNote(DataProvider.generateNotes(1).get(0));
-        mainPage.openSearchPage().search("Corona");
+        String searchParam = noteDTO.getContent().substring(0, 10);
+
+        mainPage.addNewNote(noteDTO);
+        mainPage.openSearchPage().search(searchParam).checkSearchResultsTitleAndContent(searchParam);
+
+        mainPage.logout();
     }
+
 }
