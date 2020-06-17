@@ -4,15 +4,24 @@ import com.automattic.simplenote.R;
 
 public class IntroPage extends BasePage {
 
+    private static final Integer BUTTON_LOGIN = R.id.button_login;
+    private static final Integer BUTTON_EMAIL = R.id.button_email;
+    private static final Integer BUTTON_OTHER = R.id.button_other;
+
+
     public LoginPage goToLoginWithEmail() {
-        clickButton(R.id.button_login);
-        clickButton(R.id.button_email);
+
+        waitForElementToBeDisplayed(BUTTON_LOGIN);
+        clickButton(BUTTON_LOGIN);
+
+        waitForElementToBeDisplayed(BUTTON_EMAIL);
+        clickButton(BUTTON_EMAIL);
 
         return new LoginPage();
     }
 
     public Boolean isOpened() {
-        return isElementDisplayed(R.id.button_login);
+        return isElementDisplayed(BUTTON_LOGIN);
     }
 
     /**
@@ -22,8 +31,8 @@ public class IntroPage extends BasePage {
      * @return fresh Login page
      */
     public LoginPage goToLoginWithWordpress() {
-        clickButton(R.id.button_login);
-        clickButton(R.id.button_other);
+        clickButton(BUTTON_LOGIN);
+        clickButton(BUTTON_OTHER);
 
         return new LoginPage();
     }

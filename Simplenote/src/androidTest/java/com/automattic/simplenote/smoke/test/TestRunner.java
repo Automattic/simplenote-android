@@ -65,12 +65,73 @@ public class TestRunner {
         loginPage = introPage.goToLoginWithEmail();
         loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
-        String searchParam = noteDTO.getContent().substring(0, 10);
+        String searchParam = noteDTO.getContent();
 
         mainPage.addNewNote(noteDTO);
+
         mainPage.openSearchPage().search(searchParam).checkSearchResultsTitleAndContent(searchParam);
 
         mainPage.logout();
     }
 
+    @Test
+    public void testFilterByTagWhenClickingOnTagInTagDrawer() {
+        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage.addNewNote(noteDTO);
+
+        mainPage.selectTagFromDrawer(noteDTO.getTags().get(0)).checkSearchResultsTitleAndContent(noteDTO.getTitle());
+
+        mainPage.logout();
+    }
+
+    @Test
+    public void testViewTrashedNotesByClickingOnTrash() {
+        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openTrashPage()
+                .checkNoteIsTrashed(noteDTO.getTitle());
+
+        mainPage.logout();
+    }
+
+    @Test
+    public void testRestoreNoteFromTrashScreen() {
+        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+//                .addNewNote(noteDTO)
+                .openTrashPage()
+                .openTrashedNote()
+                .restore();
+
+        mainPage.logout();
+    }
+
+    @Test
+    public void testTrashNote() {
+        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .trash()
+                .checkNoteIsNotInTheList(noteDTO);
+
+        mainPage.logout();
+    }
 }

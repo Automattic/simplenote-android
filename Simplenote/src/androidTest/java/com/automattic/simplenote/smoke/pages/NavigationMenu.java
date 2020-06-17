@@ -8,27 +8,71 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class NavigationMenu extends BasePage {
 
+    private static final Integer BUTTON_TAG = R.id.design_menu_item_text;
+    private static final Integer LAYOUT_DRAWER = R.id.drawer_layout;
+    private static final Integer LAYOUT_DESIGN_NAVIGATION_VIEW = R.id.design_navigation_view;
+    private static final Integer LAYOUT_NAVIGATION_VIEW = R.id.navigation_view;
+
+
+    enum NavigationMenuItem {
+        SETTINGS(3),
+        TRASH(2);
+
+        public int getPosition() {
+            return position;
+        }
+
+        private int position;
+
+        NavigationMenuItem(int position) {
+            this.position = position;
+        }
+    }
+
     private void openMenu() {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        waitForElementToBeDisplayed(LAYOUT_DRAWER);
+        onView(withId(LAYOUT_DRAWER)).perform(DrawerActions.open());
     }
 
     public SettingsPage openSettings() {
-
         openMenu();
 
-        onView(
-                allOf(childAtPosition(
-                        allOf(withId(R.id.design_navigation_view),
-                                childAtPosition(
-                                        withId(R.id.navigation_view),
-                                        0)),
-                        3),
-                        isDisplayed())).perform(click());
+        clickDrawerStaticItem(NavigationMenuItem.SETTINGS);
 
         return new SettingsPage();
+    }
+
+    public TrashPage openTrash() {
+        openMenu();
+
+        clickDrawerStaticItem(NavigationMenuItem.TRASH);
+
+        return new TrashPage();
+    }
+
+    /**
+     * Used for clicking static items of the drawer menu for given position
+     */
+    private void clickDrawerStaticItem(NavigationMenuItem navigationMenuItem) {
+        onView(
+                allOf(childAtPosition(
+                        allOf(withId(LAYOUT_DESIGN_NAVIGATION_VIEW),
+                                childAtPosition(
+                                        withId(LAYOUT_NAVIGATION_VIEW),
+                                        0)),
+                        navigationMenuItem.getPosition()),
+                        isDisplayed())).perform(click());
+
+    }
+
+    public void selectTag(String tag) {
+        openMenu();
+
+        onView(allOf(withId(BUTTON_TAG), withText(tag))).perform(click());
     }
 }

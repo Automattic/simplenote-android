@@ -7,11 +7,12 @@ public class SearchPage extends BasePage {
     private static final Integer INPUT_SEARCH = R.id.search_src_text;
     private static final Integer TEXT_NOTE_TITLE = R.id.note_title;
     private static final Integer TEXT_NOTE_CONTENT = R.id.note_content;
-    private static final Integer LIST_NOTES = R.id.list;
+    private static final Integer TEXT_SUGGESTION = R.id.suggestion_text;
+    private static final Integer BUTTON_CLOSE_SEARCH = R.id.search_close_btn;
 
     public SearchPage search(String searchParam) {
         enterText(INPUT_SEARCH, searchParam);
-        clickButton(R.id.suggestion_text, searchParam);
+        clickButton(TEXT_SUGGESTION, searchParam);
         return this;
     }
 
@@ -23,8 +24,14 @@ public class SearchPage extends BasePage {
      */
     public SearchPage checkSearchResultsTitleAndContent(String searchParam) {
 
-        elementDisplayedWithTextAtPosition(TEXT_NOTE_TITLE, searchParam, 0);
-        elementDisplayedWithTextAtPosition(TEXT_NOTE_CONTENT, searchParam, 0);
+        checkElementDisplayedWithTextAtPosition(TEXT_NOTE_TITLE, searchParam, 0);
+        checkElementDisplayedWithTextAtPosition(TEXT_NOTE_CONTENT, searchParam, 0);
+
+        return this;
+    }
+
+    public SearchPage removeCurrentSearchParameter() {
+        clickButton(BUTTON_CLOSE_SEARCH);
 
         return this;
     }

@@ -40,6 +40,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
 public class BasePage {
@@ -169,12 +170,36 @@ public class BasePage {
         new SupplierIdler(supplier).idleUntilReady();
     }
 
-    public void elementDisplayedWithTextAtPosition(Integer resourseId, String searchParam, Integer position) {
-        onView(
+    public void checkElementDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
+        getElementDisplayedWithTextAtPosition(resourceId, searchParam, position)
+                .check(matches(isDisplayed()));
+    }
+
+    public void clickElementDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
+        getElementDisplayedWithTextAtPosition(resourceId, searchParam, position)
+                .perform(click());
+    }
+
+    private ViewInteraction getElementDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
+        return onView(
                 allOf(
                         withText(containsString(searchParam)),
-                        getElementFromMatchAtPosition(withId(resourseId), position)))
+                        getElementFromMatchAtPosition(withId(resourceId), position)));
+
+    }
+
+    public void checkElementNotDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
+        getElementNotDisplayedWithTextAtPosition(resourceId, searchParam, position)
                 .check(matches(isDisplayed()));
+    }
+
+    private ViewInteraction getElementNotDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
+        return onView(
+                not(
+                        allOf(
+                                withText(containsString(searchParam)),
+                                getElementFromMatchAtPosition(withId(resourceId), position))));
+
     }
 
     public static boolean isElementDisplayed(Integer elementID) {

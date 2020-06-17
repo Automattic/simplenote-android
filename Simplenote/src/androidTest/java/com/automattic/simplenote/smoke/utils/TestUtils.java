@@ -22,7 +22,6 @@ public class TestUtils {
 
     // TODO This method should be moved to non static context
     public static void logoutIfNecessary() {
-
         if (!new IntroPage().isOpened() && !new LoginPage().isLoginFailed()) {
             new MainPage().logout();
             TestUtils.giveMeABreak();

@@ -7,12 +7,18 @@ import static androidx.test.espresso.action.ViewActions.click;
 
 public class LoginPage extends BasePage {
 
+    private static final Integer INPUT_EMAIL = R.id.input_email;
+    private static final Integer INPUT_PASSWORD = R.id.input_password;
+    private static final Integer BUTTON_LOGIN = R.id.button;
+    private static final Integer ALERT_LOGIN = R.id.alertTitle;
+
+
     public void login(String email, String password) {
 
-        enterTextInCustomInput(R.id.input_email, email);
-        enterTextInCustomInput(R.id.input_password, password);
+        enterTextInCustomInput(INPUT_EMAIL, email);
+        enterTextInCustomInput(INPUT_PASSWORD, password);
 
-        getViewById(R.id.button).perform(click());
+        getViewById(BUTTON_LOGIN).perform(click());
 
         TestUtils.giveMeABreak();
     }
@@ -22,6 +28,6 @@ public class LoginPage extends BasePage {
     }
 
     public Boolean isLoginFailed() {
-        return isElementDisplayed(R.id.alertTitle);
+        return isElementDisplayed(ALERT_LOGIN);
     }
 }
