@@ -21,7 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.NumberFormat;
 
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
-    private static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
+    public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
     private Fragment mFragment;
     private TextView mCountCharacters;

@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
-    private static final String TAG = HistoryBottomSheetDialog.class.getSimpleName();
+    public static final String TAG = HistoryBottomSheetDialog.class.getSimpleName();
 
     private ArrayList<Note> mNoteRevisionsList;
     private Fragment mFragment;

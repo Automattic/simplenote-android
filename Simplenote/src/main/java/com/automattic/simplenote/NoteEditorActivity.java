@@ -248,7 +248,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        // Relaunch shortcut dialog for window is maximized or restored (Chrome OS).
+        // Relaunch shortcut dialog when window is maximized or restored (Chrome OS).
         if (getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null) {
             ShortcutDialogFragment.showShortcuts(NoteEditorActivity.this, isPreviewTabSelected());
         }

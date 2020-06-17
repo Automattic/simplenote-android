@@ -1323,7 +1323,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
 
-        // Relaunch shortcut dialog for window is maximized or restored (Chrome OS).
+        // Relaunch shortcut dialog when window is maximized or restored (Chrome OS).
         if (getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null) {
             ShortcutDialogFragment.showShortcuts(NotesActivity.this, false);
         }
@@ -1357,11 +1357,33 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
-        } else if (mNoteListFragment.isHidden()) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.show(mNoteListFragment);
-            fragmentTransaction.commitNowAllowingStateLoss();
-            mIsTabletFullscreen = mNoteListFragment.isHidden();
+        } else {
+            // Show list/sidebar when it was hidden while in landscape orientation.
+            if (mNoteListFragment.isHidden()) {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.show(mNoteListFragment);
+                fragmentTransaction.commitNowAllowingStateLoss();
+                mIsTabletFullscreen = mNoteListFragment.isHidden();
+            }
+
+            // Dismiss all bottom sheet dialogs when going from editor to list view.
+            HistoryBottomSheetDialog dialogHistory = (HistoryBottomSheetDialog) getSupportFragmentManager().findFragmentByTag(HistoryBottomSheetDialog.TAG);
+
+            if (dialogHistory != null) {
+                dialogHistory.dismiss();
+            }
+
+            InfoBottomSheetDialog dialogInfo = (InfoBottomSheetDialog) getSupportFragmentManager().findFragmentByTag(InfoBottomSheetDialog.TAG);
+
+            if (dialogInfo != null) {
+                dialogInfo.dismiss();
+            }
+
+            ShareBottomSheetDialog dialogShare = (ShareBottomSheetDialog) getSupportFragmentManager().findFragmentByTag(ShareBottomSheetDialog.TAG);
+
+            if (dialogShare != null) {
+                dialogShare.dismiss();
+            }
         }
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT && mNoteEditorFragment != null) {
