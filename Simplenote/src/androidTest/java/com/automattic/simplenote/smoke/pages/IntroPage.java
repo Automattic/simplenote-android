@@ -26,7 +26,7 @@ public class IntroPage extends BasePage {
 
     /**
      * Call the login with other page (current usage is "Log in with WordPress.com")
-     * TODO currently forwarded to standart "Log in with email" page
+     * TODO currently forwarded to standard "Log in with email" page
      *
      * @return fresh Login page
      */
