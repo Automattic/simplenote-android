@@ -66,11 +66,6 @@ public class BasePage {
                 .perform(ViewActions.closeSoftKeyboard());
     }
 
-    protected void checkTextOnViews(Integer resourceId, String text) {
-        getViewById(resourceId)
-                .check(matches(withText(containsString("Corona"))));
-    }
-
     public Boolean isViewDisplayed(ViewInteraction view) {
         try {
             view.check(matches(isDisplayed()));
