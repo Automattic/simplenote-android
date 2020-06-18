@@ -1,12 +1,9 @@
 package com.automattic.simplenote.smoke.pages;
 
-import androidx.test.espresso.ViewInteraction;
-
 import com.automattic.simplenote.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -60,26 +57,10 @@ public class OptionsMenu extends BasePage {
      * Used for clicking static items of the options menu for given position
      */
     private void clickStaticItem(OptionsMenuItem optionsMenuItem) {
-        ViewInteraction materialTextView = onView(
-                allOf(withId(R.id.title), withText(optionsMenuItem.getMenuText()),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()))
-                .perform(click());
+        onView(allOf(withId(R.id.title), withText(optionsMenuItem.getMenuText()))).perform(click());
     }
 
     private void open() {
-        onView(
-                allOf(withContentDescription(MENU_DESCRIPTION),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.toolbar),
-                                        1),
-                                POSITION_MENU),
-                        isDisplayed()))
-                .perform(click());
+        onView(withContentDescription(MENU_DESCRIPTION)).perform(click());
     }
 }
