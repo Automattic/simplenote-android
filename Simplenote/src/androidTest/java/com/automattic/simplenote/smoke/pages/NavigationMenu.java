@@ -6,7 +6,6 @@ import com.automattic.simplenote.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -20,17 +19,17 @@ public class NavigationMenu extends BasePage {
 
 
     enum NavigationMenuItem {
-        SETTINGS(3),
-        TRASH(2);
+        SETTINGS("Settings"),
+        TRASH("Trash");
 
-        public int getPosition() {
-            return position;
+        public String getTitle() {
+            return title;
         }
 
-        private int position;
+        private String title;
 
-        NavigationMenuItem(int position) {
-            this.position = position;
+        NavigationMenuItem(String title) {
+            this.title = title;
         }
     }
 
@@ -59,15 +58,7 @@ public class NavigationMenu extends BasePage {
      * Used for clicking static items of the drawer menu for given position
      */
     private void clickDrawerStaticItem(NavigationMenuItem navigationMenuItem) {
-        onView(
-                allOf(childAtPosition(
-                        allOf(withId(LAYOUT_DESIGN_NAVIGATION_VIEW),
-                                childAtPosition(
-                                        withId(LAYOUT_NAVIGATION_VIEW),
-                                        0)),
-                        navigationMenuItem.getPosition()),
-                        isDisplayed())).perform(click());
-
+        onView(allOf(withText(navigationMenuItem.getTitle()), withId(BUTTON_TAG))).perform(click());
     }
 
     public void selectTag(String tag) {
