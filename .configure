@@ -1,7 +1,7 @@
 {
   "project_name": "simplenote-android",
-  "branch": "master",
-  "pinned_hash": "a3f517df566f1b9a12cd0b7f9ffeb72301fcfc97",
+  "branch": "feature/simplenote-shared-keystore",
+  "pinned_hash": "9246ed52646647c650fd69d9012db5b620f44b70",
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
@@ -16,6 +16,11 @@
     {
       "file": "android/automattic.jks",
       "destination": "Simplenote/release.jks",
+      "encrypt": false
+    },
+    {
+      "file": "android/debug.keystore",
+      "destination": "~/.android/debug_a8c.keystore",
       "encrypt": true
     }
   ],
