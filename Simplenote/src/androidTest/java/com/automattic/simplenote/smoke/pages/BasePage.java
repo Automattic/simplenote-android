@@ -188,11 +188,6 @@ public class BasePage {
 
     }
 
-    public void checkElementNotDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
-        getElementNotDisplayedWithTextAtPosition(resourceId, searchParam, position)
-                .check(matches(isDisplayed()));
-    }
-
     private ViewInteraction getElementNotDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
         return onView(
                 not(
