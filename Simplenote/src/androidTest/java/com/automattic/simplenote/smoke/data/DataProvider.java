@@ -13,9 +13,14 @@ public class DataProvider {
     public static List<NoteDTO> generateNotes(int size) {
         List<NoteDTO> noteDTOList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            NoteDTO note = new NoteDTO("Corona Days", "Corona Days... People need to support each other on these dooms days!", Arrays.asList("Corona"));
+            NoteDTO note = new NoteDTO("Corona Days " + getUniqueToken(), "Corona Days... People need to support each other on these dooms days!", Arrays.asList("Corona"));
             noteDTOList.add(note);
         }
         return noteDTOList;
+    }
+
+
+    private static String getUniqueToken() {
+        return String.valueOf(System.currentTimeMillis());
     }
 }
