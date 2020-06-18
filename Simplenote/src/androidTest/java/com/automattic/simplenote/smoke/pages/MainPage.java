@@ -1,6 +1,7 @@
 package com.automattic.simplenote.smoke.pages;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.data.NoteDTO;
 import com.automattic.simplenote.smoke.utils.TestUtils;
 
@@ -29,7 +30,7 @@ public class MainPage extends BasePage {
     }
 
     public IntroPage logout() {
-        navigationMenu.openSettings().logout();
+        navigationMenu.openSettings().logout(DataProvider.LOGIN_EMAIL);
 
         return new IntroPage();
     }
