@@ -65,7 +65,7 @@ public class TestRunner {
         loginPage = introPage.goToLoginWithEmail();
         loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
-        String searchParam = noteDTO.getContent();
+        String searchParam = noteDTO.getTitle();
 
         mainPage.addNewNote(noteDTO);
 
