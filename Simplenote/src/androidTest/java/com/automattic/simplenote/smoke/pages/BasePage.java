@@ -263,7 +263,7 @@ public class BasePage {
     }
 
     /**
-     * Used for matrching colors but there is a problem related to sended color. Should be checked with source code.
+     * Used for matching colors but there is a problem related to sended color. Should be checked with source code.
      *
      * @param matcherColor
      * @return
