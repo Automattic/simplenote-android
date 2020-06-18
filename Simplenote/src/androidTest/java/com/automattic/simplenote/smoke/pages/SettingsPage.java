@@ -20,7 +20,7 @@ public class SettingsPage extends BasePage {
     public void logout() {
         selectSettingsOption(TEXT_LOGOUT, POSITION_LOGOUT);
 
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
     }
 
     private void selectSettingsOption(Integer textId, Integer position) {

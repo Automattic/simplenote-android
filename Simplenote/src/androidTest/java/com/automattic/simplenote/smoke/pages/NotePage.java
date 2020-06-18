@@ -21,7 +21,7 @@ public class NotePage extends BasePage {
         for (String tag : noteDTO.getTags()) {
             enterText(INPUT_TAG, tag);
         }
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
         return this;
     }
 

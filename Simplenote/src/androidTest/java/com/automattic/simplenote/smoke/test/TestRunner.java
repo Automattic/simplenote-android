@@ -27,7 +27,7 @@ public class TestRunner {
 
     @Before
     public void setUp() {
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
         TestUtils.logoutIfNecessary();
     }
 
@@ -111,7 +111,7 @@ public class TestRunner {
         loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
         mainPage
-//                .addNewNote(noteDTO)
+                .addNewNote(noteDTO)
                 .openTrashPage()
                 .openTrashedNote()
                 .restore();

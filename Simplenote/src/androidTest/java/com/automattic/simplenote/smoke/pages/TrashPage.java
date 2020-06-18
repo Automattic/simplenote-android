@@ -13,7 +13,7 @@ public class TrashPage extends BasePage {
         clickButton(BUTTON_EMPTY_TRASH);
         clickButton(BUTTON_YES);
 
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
 
         return this;
     }
@@ -27,7 +27,7 @@ public class TrashPage extends BasePage {
 
     // TODO we are looking the position of 0. If other trashed notes consists that could lead to break the test
     public NotePage openTrashedNote() {
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
 
         clickElementDisplayedWithTextAtPosition(R.id.note_title, "Corona", 0);
 

@@ -20,7 +20,7 @@ public class LoginPage extends BasePage {
 
         getViewById(BUTTON_LOGIN).perform(click());
 
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
     }
 
     public void checkLoginFailedMessage() {

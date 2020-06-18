@@ -61,7 +61,7 @@ public class MainPage extends BasePage {
 
     public NotePage openNote(NoteDTO noteDTO) {
         clickElementDisplayedWithTextAtPosition(TEXT_NOTE_TITLE, noteDTO.getTitle(), 0);
-        TestUtils.giveMeABreak();
+        TestUtils.idleForAShortPeriod();
 
         return new NotePage();
     }
