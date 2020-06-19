@@ -1,11 +1,20 @@
 default_platform(:android)
 fastlane_require 'dotenv'
 
+USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
+
+before_all do
+  # Check that the env file exists
+  unless is_ci || File.file?(USER_ENV_FILE_PATH)
+    UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values")
+  end
+end
+
 platform :android do
 ########################################################################
 # Environment
 ########################################################################
-Dotenv.load('~/.simplenoteandroid-env.default')
+Dotenv.load(USER_ENV_FILE_PATH)
 ENV[GHHELPER_REPO="automattic/simplenote-android"]
 ENV["PROJECT_ROOT_FOLDER"]="./"
 ENV["PROJECT_NAME"]="Simplenote"
@@ -302,6 +311,53 @@ SUPPORTED_LOCALES = [
       UI.message("Apk ready: #{apk_name}")
     end
     "#{build_dir}#{apk_name}"
+  end
+
+  #####################################################################################
+  # Screenshots lanes
+  #####################################################################################
+
+  desc "Take screenshots in the app"
+  lane :take_screenshots do |options|
+    package = "com.automattic.simplenote.debug"
+
+    # Reset the app in the emulator, just to avoid possible state related
+    # issues
+    begin
+      adb(command: "shell pm clear #{package}")
+    rescue
+      UI.message("Failed to reset app data on emulator. This can happen when the app is not installed yet.")
+    end
+
+    # We use the screenshots build type for the app APK, which allows us to not
+    # set the special permissions in the debug build type so that it doesn't
+    # deviate from the release one. For the test APK though, we still use the
+    # debug build type, as it's the only testable one, and there's no need to
+    # make a dedicated one for the screenshots.
+    gradle(task: "assemble", build_type: "Screenshots")
+    gradle(task: "assemble", build_type: "DebugAndroidTest")
+
+    capture_android_screenshots(
+      locales: ["en-US"],
+      output_directory: screenshots_directory,
+      clear_previous_screenshots: false,
+      app_package_name: package,
+      app_apk_path: "Simplenote/build/outputs/apk/screenshots/Simplenote-screenshots.apk",
+      tests_apk_path: "Simplenote/build/outputs/apk/androidTest/debug/Simplenote-debug-androidTest.apk",
+      # Because the screenshot tests are together with other UI tests, we need
+      # to specify to run only them and not all of the others.
+      use_tests_in_classes: "com.automattic.simplenote.screenshots.ScreenshotTest",
+      use_timestamp_suffix: false,
+      # Need to use this in order to get access to the screenshots on the
+      # emulator. Also note that you might need to run on a Google API
+      # emulator, that is one without the Play Store. See
+      # https://github.com/fastlane/fastlane/issues/15788#issuecomment-583778278
+      use_adb_root: true
+    )
+  end
+
+  def screenshots_directory
+    File.join(Dir.pwd, "screenshots")
   end
 
   #####################################################################################

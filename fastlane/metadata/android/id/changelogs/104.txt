@@ -1,0 +1,2 @@
+2.6:
+* Memperbaiki bug jaringan yang menyebabkan kehilangan data

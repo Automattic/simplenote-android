@@ -1,3 +1,11 @@
+2.8
+-----
+* Added hotkey shortcuts for devices with hardware keyboards
+
+2.7
+-----
+* Updated primary color to new Simplenote blue
+
 2.6
 -----
 * Fixed networking bug causing data loss

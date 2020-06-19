@@ -105,13 +105,13 @@ html {
 }
 
 .note-detail-markdown a {
-    color: #2271b1;
+    color: #3361cc;
 }
 
 .note-detail-markdown hr {
     border: 0;
     margin: 3.4em 0;
-    color: #2271b1;
+    color: #3361cc;
     height: 1em;
 }
 
@@ -190,4 +190,3 @@ html {
     }
 }
 </style>
-

@@ -28,6 +28,8 @@ config.properties
 *.ipr
 *.iws
 .idea/
+# Android Studio Layout Inspector captures folder
+captures/
 
 # Gradle
 .gradle/
@@ -44,6 +46,7 @@ Simperium
 fastlane/README.md
 fastlane/report.xml
 fastlane/.env
+fastlane/screenshots
 
 # Configure
 *.bak
