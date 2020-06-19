@@ -474,6 +474,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
+            mAutoSaveHandler.post(mAutoSaveRunnable);
         }
 
         if (mPublishTimeoutHandler != null) {
