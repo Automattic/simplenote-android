@@ -3,6 +3,8 @@ package com.automattic.simplenote.models;
 import android.content.Context;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.automattic.simplenote.R;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
@@ -14,12 +16,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Note extends BucketObject {
 
@@ -144,6 +148,15 @@ public class Note extends BucketObject {
         return date;
     }
 
+    public static String numberToDateString(@NonNull Number number) {
+        long milliseconds = new BigDecimal(number.toString()).multiply(new BigDecimal(1000)).longValue();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliseconds);
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+        date.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return date.format(calendar.getTime());
+    }
+
     protected void updateTitleAndPreview() {
         // try to build a title and preview property out of content
         String content = getContent().trim();
@@ -199,12 +212,20 @@ public class Note extends BucketObject {
         return numberToDate((Number) getProperty(CREATION_DATE_PROPERTY));
     }
 
+    public String getCreationDateString() {
+        return numberToDateString((Number) getProperty(CREATION_DATE_PROPERTY));
+    }
+
     public void setCreationDate(Calendar creationDate) {
         setProperty(CREATION_DATE_PROPERTY, creationDate.getTimeInMillis() / 1000);
     }
 
     public Calendar getModificationDate() {
         return numberToDate((Number) getProperty(MODIFICATION_DATE_PROPERTY));
+    }
+
+    public String getModificationDateString() {
+        return numberToDateString((Number) getProperty(MODIFICATION_DATE_PROPERTY));
     }
 
     public void setModificationDate(Calendar modificationDate) {
