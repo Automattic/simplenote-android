@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -22,7 +21,6 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
-import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -40,6 +38,9 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
@@ -221,63 +222,69 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             return;
         }
 
-        Uri uri = resultData.getData();
+        if (resultData.getData() != null) {
+            Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+            Bucket<Note> noteBucket = currentApp.getNotesBucket();
+            JSONObject account = new JSONObject();
+            Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
 
-        Simplenote currentApp = (Simplenote) getActivity().getApplication();
-        Bucket<Note> noteBucket = currentApp.getNotesBucket();
-        Bucket<Tag> tagBucket = currentApp.getTagsBucket();
+            try {
+                JSONArray activeNotes = new JSONArray();
+                JSONArray trashedNotes = new JSONArray();
+                Comparator<String> comparator = new Comparator<String>() {
+                    @Override
+                    public int compare(String text1, String text2) {
+                        return text1.compareToIgnoreCase(text2);
+                    }
+                };
 
-        JSONObject account = new JSONObject();
+                while (cursor.moveToNext()) {
+                    Note note = cursor.getObject();
+                    JSONObject noteJson = new JSONObject();
 
-        Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
+                    noteJson.put("id", note.getSimperiumKey());
+                    noteJson.put("content", note.getContent());
+                    noteJson.put("creationDate", note.getCreationDateString());
+                    noteJson.put("lastModified", note.getModificationDateString());
 
-        try {
-            account.put("user", currentApp.getSimperium().getUser().getEmail());
+                    if (note.isPinned()) {
+                        noteJson.put("pinned", note.isPinned());
+                    }
 
-            JSONArray notes = new JSONArray();
-            while (cursor.moveToNext()) {
-                Note appNote = cursor.getObject();
-                JSONObject note = new JSONObject();
+                    if (note.isMarkdownEnabled()) {
+                        noteJson.put("markdown", note.isMarkdownEnabled());
+                    }
 
-                note.put("id", appNote.getSimperiumKey());
-                note.put("deleted", appNote.isDeleted());
-                note.put("content", appNote.getContent());
-                note.put("publishURL", appNote.getPublishedUrl());
-                note.put("tags", new JSONArray(appNote.getTags()));
-                note.put("systemTags", appNote.getSystemTags());
+                    if (note.getTags().size() > 0) {
+                        List<String> tags = note.getTags();
+                        Collections.sort(tags, comparator);
+                        noteJson.put("tags", new JSONArray(tags));
+                    }
 
-                note.put("version", appNote.getVersion());
+                    if (!note.getPublishedUrl().isEmpty()) {
+                        noteJson.put("publicURL", note.getPublishedUrl());
+                    }
 
-                notes.put(note);
-            }
-            account.put("notes", notes);
-
-            JSONArray tags = new JSONArray();
-            Bucket.ObjectCursor<Tag> tagCursor = tagBucket.allObjects();
-            while (tagCursor.moveToNext()) {
-                Tag appTag = tagCursor.getObject();
-                JSONObject tag = new JSONObject();
-
-                tag.put("id", appTag.getSimperiumKey());
-                tag.put("name", appTag.getName());
-
-                if (null != appTag.getIndex()) {
-                    tag.put("index", appTag.getIndex());
+                    if (note.isDeleted()) {
+                        trashedNotes.put(noteJson);
+                    } else {
+                        activeNotes.put(noteJson);
+                    }
                 }
 
-                tag.put("version", appTag.getVersion());
+                account.put("activeNotes", activeNotes);
+                account.put("trashedNotes", trashedNotes);
 
-                tags.put(tag);
+                ParcelFileDescriptor parcelFileDescriptor = requireContext().getContentResolver().openFileDescriptor(resultData.getData(), "w");
+
+                if (parcelFileDescriptor != null) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+                    fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
+                    parcelFileDescriptor.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            account.put("tags", tags);
-
-            ParcelFileDescriptor pfd = getActivity().getContentResolver().openFileDescriptor(uri, "w");
-            FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor());
-            fileOutputStream.write(account.toString(2).getBytes());
-            pfd.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
