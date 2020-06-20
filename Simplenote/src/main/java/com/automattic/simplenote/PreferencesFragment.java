@@ -126,8 +126,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("application/json");
-                intent.putExtra(Intent.EXTRA_TITLE, "account.json");
-
+                intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.export_file));
                 startActivityForResult(intent, 1);
 
                 return true;
