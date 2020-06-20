@@ -281,10 +281,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
                     fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
                     parcelFileDescriptor.close();
+                    Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
         }
     }
 
