@@ -48,8 +48,8 @@ import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KE
  */
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
         Simperium.OnUserCreatedListener {
-
     private static final String WEB_APP_URL = "https://app.simplenote.com";
+    private static final int REQUEST_EXPORT_DATA = 9001;
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
@@ -127,8 +127,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("application/json");
                 intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.export_file));
-                startActivityForResult(intent, 1);
-
+                startActivityForResult(intent, REQUEST_EXPORT_DATA);
                 return true;
             }
         });
@@ -218,7 +217,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode != 1 || resultCode != Activity.RESULT_OK || resultData == null) {
+        if (requestCode != REQUEST_EXPORT_DATA || resultCode != Activity.RESULT_OK || resultData == null) {
             return;
         }
 
