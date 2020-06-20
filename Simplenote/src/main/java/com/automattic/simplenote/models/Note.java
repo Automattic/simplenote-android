@@ -44,7 +44,7 @@ public class Note extends BucketObject {
     public static final String CREATED_INDEX_NAME = "created";
     public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
-    public static final String PUBLISH_URL = "http://simp.ly/publish/";
+    public static final String PUBLISH_URL = "http://simp.ly/p/";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
     private static final String BLANK_CONTENT = "";
