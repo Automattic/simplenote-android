@@ -17,9 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChecklistUtils {
-    public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
-    public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
-    public static String CHECKED_MARKDOWN = "- [x]";
+    public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\u2A2F\\s]?\\])";
+    public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\u2A2F\\s]?\\])";
+    public static String CHECKED_MARKDOWN = "- [\u2A2F]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
     public static final int CHECKLIST_OFFSET = 3;
 
@@ -63,7 +63,7 @@ public class ChecklistUtils {
             }
 
             CheckableSpan checkableSpan = new CheckableSpan();
-            checkableSpan.setChecked(match.contains("x") || match.contains("X"));
+            checkableSpan.setChecked(match.contains("\u2A2F") || match.contains("x") || match.contains("X"));
             editable.replace(start, end, "\u00A0");
 
             Drawable iconDrawable = ContextCompat.getDrawable(context,
@@ -118,7 +118,7 @@ public class ChecklistUtils {
             }
 
             CheckableSpan checkableSpan = new CheckableSpan();
-            checkableSpan.setChecked(match.contains("x") || match.contains("X"));
+            checkableSpan.setChecked(match.contains("\u2A2F") || match.contains("x") || match.contains("X"));
             editable.replace(start, end, checkableSpan.isChecked() ? "\u2611" : "\u2610");
             editable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             positionAdjustment += (end - start) - 1;

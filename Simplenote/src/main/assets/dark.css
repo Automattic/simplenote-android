@@ -51,6 +51,7 @@ html {
 .note-detail-markdown h1, .note-detail-markdown h2, .note-detail-markdown h3,
 .note-detail-markdown h4, .note-detail-markdown h5, .note-detail-markdown h6,
 .note-detail-markdown #title {
+    unicode-bidi: plaintext;
     line-height: 1.15;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 1.7em 0 1em 0;
@@ -89,6 +90,7 @@ html {
 .note-detail-markdown p, .note-detail-markdown ul, .note-detail-markdown ol,
 .note-detail-markdown blockquote, .note-detail-markdown pre, .note-detail-markdown table,
 .note-detail-markdown code, .note-detail-markdown img {
+    unicode-bidi: plaintext;
     margin-bottom: 1.7em;
     box-sizing: border-box;
 }
@@ -128,9 +130,9 @@ html {
 
 .note-detail-markdown blockquote {
     font-style: italic;
-    border-left: 4px solid currentColor;
-    margin-left: 0;
-    padding-left: 1.7em;
+    border-inline-start: 4px solid currentColor;
+    margin-inline-start: 0;
+    padding-inline-start: 1.7em;
 }
 
 .note-detail-markdown code {
@@ -145,6 +147,7 @@ html {
 }
 
 .note-detail-markdown pre code {
+    unicode-bidi: isolate;
     font-size: 85%;
     color: #616870;
     background: transparent;
@@ -152,6 +155,10 @@ html {
     overflow-x: auto;
     display: block;
     margin-bottom: 0;
+}
+
+.note-detail-markdown p code {
+    unicode-bidi: isolate;
 }
 
 .note-detail-markdown table {
@@ -166,6 +173,7 @@ html {
 }
 
 .note-detail-markdown table th, .note-detail-markdown table td {
+    unicode-bidi: plaintext;
     border: 1px solid #575e65;
     padding: 6px 13px;
 }
