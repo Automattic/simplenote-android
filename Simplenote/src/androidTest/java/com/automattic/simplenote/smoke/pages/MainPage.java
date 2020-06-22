@@ -35,6 +35,10 @@ public class MainPage extends BasePage {
         return new IntroPage();
     }
 
+    public SettingsPage switchShareAnalytics(boolean state) {
+        return navigationMenu.openSettings().shareAnalytics(state);
+    }
+
     public MainPage addNewNote(NoteDTO noteDTO) {
         waitForElementToBeDisplayed(BUTTON_FAB);
 

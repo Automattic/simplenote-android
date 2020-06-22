@@ -134,4 +134,15 @@ public class TestRunner {
 
         mainPage.logout();
     }
+
+    @Test
+    public void testShareAnalytics() {
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .switchShareAnalytics(true)
+                .logout(DataProvider.LOGIN_EMAIL);
+    }
 }
