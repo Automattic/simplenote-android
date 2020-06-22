@@ -115,12 +115,6 @@ if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.ha
               keyAlias = project.keyAlias
               keyPassword = project.keyPassword
           }
-          debug {
-              storeFile = rootProject.file(project.storeFile)
-              storePassword = project.storePassword
-              keyAlias = project.keyAlias
-              keyPassword = project.keyPassword
-          }
       }
     }
     android.buildTypes.release.signingConfig = android.signingConfigs.release
@@ -171,4 +165,17 @@ android.applicationVariants.all { variant ->
     }
     buildConfigField "String", "BUILD", "\"${gitDescribe()}\""
     buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\""
+}
+
+if (project.hasProperty("debugStoreFile")) {
+    def sharedDebugStore = file(project.debugStoreFile.replaceFirst("^~", System.getProperty("user.home")))
+    if (sharedDebugStore.exists()) {
+        android {
+            signingConfigs {
+                debug {
+                    storeFile sharedDebugStore
+                }
+            }
+        }
+    }
 }
