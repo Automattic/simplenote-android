@@ -35,7 +35,7 @@ public class OptionsMenu extends BasePage {
         }
     }
 
-    public void pin() {
+    public void switchPinMode() {
         open();
 
         clickStaticItem(OptionsMenuItem.PIN);

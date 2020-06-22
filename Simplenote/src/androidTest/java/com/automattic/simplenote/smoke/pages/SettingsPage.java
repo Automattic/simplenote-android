@@ -22,8 +22,30 @@ import static org.hamcrest.Matchers.containsString;
 
 public class SettingsPage extends BasePage {
 
+    public enum SortOrder {
+        NEWEST_MODIFIED_DATE("Newest modified date"),
+        OLDEST_MODIFIED_DATE("Oldest modified date"),
+        NEWEST_CREATED_DATE("Newest created date"),
+        OLDEST_CREATED_DATE("Oldest created date"),
+        ALPHABETICALLY_A_Z("Alphabetically, A-Z"),
+        ALPHABETICALLY_Z_A("Alphabetically, Z-A");
+
+        private String itemText;
+
+        public String getItemText() {
+            return itemText;
+        }
+
+        SortOrder(String itemText) {
+            this.itemText = itemText;
+        }
+    }
+
+
+    private static final Integer BUTTON_SORT_ORDER = android.R.id.text1;
     private static final String TEXT_SHARE_ANALYTICS = "Share analytics";
     private static final String TEXT_CONDENSED_NOTES = "Condensed note list";
+    private static final String MENU_SORT_ORDER = "Sort order";
     private static final Integer SWITCH_WIDGET = R.id.switchWidget;
 
     public void logout(String emailAddress) {
@@ -35,6 +57,7 @@ public class SettingsPage extends BasePage {
         TestUtils.idleForAShortPeriod();
     }
 
+
     public SettingsPage switchShareAnalytics(boolean state) {
         switchComponentIfApplicable(state, TEXT_SHARE_ANALYTICS);
 
@@ -45,6 +68,22 @@ public class SettingsPage extends BasePage {
         switchComponentIfApplicable(state, TEXT_CONDENSED_NOTES);
 
         return this;
+    }
+
+    public SettingsPage changeOrder(SortOrder newOrder) {
+        openSortOrderDialog();
+
+        clickButton(BUTTON_SORT_ORDER, newOrder.getItemText());
+        return this;
+    }
+
+    private void openSortOrderDialog() {
+        onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
+                .perform(RecyclerViewActions.actionOnItem(
+                        hasDescendant(withText(MENU_SORT_ORDER)),
+                        click()));
+
+        TestUtils.idleForAShortPeriod();
     }
 
     private void switchComponentIfApplicable(boolean state, String itemFinderText) {

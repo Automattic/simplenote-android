@@ -31,10 +31,15 @@ public class NotePage extends BasePage {
         return new MainPage();
     }
 
-
     public TrashPage restore() {
         optionsMenu.restore();
 
         return new TrashPage();
+    }
+
+    public NotePage switchPinMode() {
+        optionsMenu.switchPinMode();
+
+        return this;
     }
 }

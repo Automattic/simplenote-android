@@ -3,6 +3,7 @@ package com.automattic.simplenote.smoke.pages;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.data.NoteDTO;
+import com.automattic.simplenote.smoke.pages.SettingsPage.SortOrder;
 import com.automattic.simplenote.smoke.utils.TestUtils;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -47,6 +48,10 @@ public class MainPage extends BasePage {
         return navigationMenu.openSettings().switchCondensedMode(state);
     }
 
+    public SettingsPage changeOrder(SortOrder order) {
+        return navigationMenu.openSettings().changeOrder(order);
+    }
+
     public MainPage addNewNote(NoteDTO noteDTO) {
         waitForElementToBeDisplayed(BUTTON_FAB);
 
@@ -75,6 +80,12 @@ public class MainPage extends BasePage {
 
     public MainPage checkNoteContentIsInTheList(String content) {
         onView(allOf(withId(TEXT_NOTE_CONTENT), withText(containsString(content)))).check(matches(isDisplayed()));
+
+        return this;
+    }
+
+    public MainPage checkNoteInTheGivenPosition(String searchParam, int position) {
+        checkElementDisplayedWithTextAtPosition(TEXT_NOTE_TITLE, searchParam, position);
 
         return this;
     }

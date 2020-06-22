@@ -9,6 +9,7 @@ import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
 import com.automattic.simplenote.smoke.pages.SearchPage;
+import com.automattic.simplenote.smoke.pages.SettingsPage.SortOrder;
 import com.automattic.simplenote.smoke.utils.TestUtils;
 
 import org.junit.After;
@@ -179,6 +180,174 @@ public class TestRunner {
 
         mainPage
                 .checkNoteContentIsNotInTheList(noteDTO.getContent().substring(0, 15))
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderAlphabeticallyAZ() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.ALPHABETICALLY_A_Z)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderAlphabeticallyZA() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.ALPHABETICALLY_Z_A)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderOldestModifiedDate() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.OLDEST_MODIFIED_DATE)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderNewestModifiedDate() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.NEWEST_MODIFIED_DATE)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderOldestCreatedDate() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.OLDEST_CREATED_DATE)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .logout();
+    }
+
+    @Test
+    public void testPinnedNotesWhileChangingOrderNewestCreatedDate() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
+                .changeOrder(SortOrder.NEWEST_CREATED_DATE)
+                .pressBack();
+
+        mainPage
+                .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
+                .openNote(noteDTO)
+                .switchPinMode()
+                .pressBack();
+
+        mainPage
                 .logout();
     }
 }
