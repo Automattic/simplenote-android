@@ -130,7 +130,7 @@ public class TestRunner {
                 .addNewNote(noteDTO)
                 .openNote(noteDTO)
                 .trash()
-                .checkNoteIsNotInTheList(noteDTO);
+                .checkNoteTitleIsNotInTheList(noteDTO);
 
         mainPage.logout();
     }
@@ -144,5 +144,41 @@ public class TestRunner {
         mainPage
                 .switchShareAnalytics(true)
                 .logout(DataProvider.LOGIN_EMAIL);
+    }
+
+    @Test
+    public void testCondensedModeOpened() {
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .switchCondensedNoteListMode(false)
+                .pressBack();
+
+        mainPage
+                .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
+                .logout();
+    }
+
+    @Test
+    public void testCondensedModeClosed() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+
+        loginPage = introPage.goToLoginWithEmail();
+        loginPage.login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        mainPage
+                .addNewNote(noteDTO)
+                .switchCondensedNoteListMode(true)
+                .pressBack();
+
+        mainPage
+                .checkNoteContentIsNotInTheList(noteDTO.getContent().substring(0, 15))
+                .logout();
     }
 }

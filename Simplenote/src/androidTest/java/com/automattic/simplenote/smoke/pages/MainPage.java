@@ -7,15 +7,19 @@ import com.automattic.simplenote.smoke.utils.TestUtils;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 
 public class MainPage extends BasePage {
 
     private static final Integer MENU_SEARCH = R.id.menu_search;
     private static final Integer BUTTON_FAB = R.id.fab_button;
     private static final Integer TEXT_NOTE_TITLE = R.id.note_title;
+    private static final Integer TEXT_NOTE_CONTENT = R.id.note_content;
 
     private NavigationMenu navigationMenu;
     private OptionsMenu optionsMenu;
@@ -36,7 +40,11 @@ public class MainPage extends BasePage {
     }
 
     public SettingsPage switchShareAnalytics(boolean state) {
-        return navigationMenu.openSettings().shareAnalytics(state);
+        return navigationMenu.openSettings().switchShareAnalytics(state);
+    }
+
+    public SettingsPage switchCondensedNoteListMode(boolean state) {
+        return navigationMenu.openSettings().switchCondensedMode(state);
     }
 
     public MainPage addNewNote(NoteDTO noteDTO) {
@@ -52,14 +60,21 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage checkNoteIsInTheList(NoteDTO noteDTO) {
-        checkElementDisplayedWithTextAtPosition(TEXT_NOTE_TITLE, noteDTO.getTitle(), 0);
+    public MainPage checkNoteTitleIsNotInTheList(NoteDTO noteDTO) {
+        onView(allOf(withId(TEXT_NOTE_TITLE), withText(noteDTO.getTitle()))).check(doesNotExist());
 
         return this;
     }
 
-    public MainPage checkNoteIsNotInTheList(NoteDTO noteDTO) {
-        onView(allOf(withId(TEXT_NOTE_TITLE), withText(noteDTO.getTitle()))).check(doesNotExist());
+
+    public MainPage checkNoteContentIsNotInTheList(String content) {
+        onView(allOf(withId(TEXT_NOTE_CONTENT), withText(content))).check(doesNotExist());
+
+        return this;
+    }
+
+    public MainPage checkNoteContentIsInTheList(String content) {
+        onView(allOf(withId(TEXT_NOTE_CONTENT), withText(containsString(content)))).check(matches(isDisplayed()));
 
         return this;
     }

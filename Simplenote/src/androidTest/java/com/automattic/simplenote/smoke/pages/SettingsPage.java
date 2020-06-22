@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.containsString;
 public class SettingsPage extends BasePage {
 
     private static final String TEXT_SHARE_ANALYTICS = "Share analytics";
+    private static final String TEXT_CONDENSED_NOTES = "Condensed note list";
     private static final Integer SWITCH_WIDGET = R.id.switchWidget;
 
     public void logout(String emailAddress) {
@@ -34,21 +35,31 @@ public class SettingsPage extends BasePage {
         TestUtils.idleForAShortPeriod();
     }
 
-    public SettingsPage shareAnalytics(boolean state) {
+    public SettingsPage switchShareAnalytics(boolean state) {
+        switchComponentIfApplicable(state, TEXT_SHARE_ANALYTICS);
 
-        scrollOnRecyclerViewForText(TEXT_SHARE_ANALYTICS);
+        return this;
+    }
+
+    public SettingsPage switchCondensedMode(boolean state) {
+        switchComponentIfApplicable(state, TEXT_CONDENSED_NOTES);
+
+        return this;
+    }
+
+    private void switchComponentIfApplicable(boolean state, String itemFinderText) {
+        scrollOnRecyclerViewForText(itemFinderText);
 
         try {
             if (state) {
-                getSwitchComponent(TEXT_SHARE_ANALYTICS).check(matches(isNotChecked())).perform(click());
+                getSwitchComponent(itemFinderText).check(matches(isNotChecked())).perform(click());
             } else {
-                getSwitchComponent(TEXT_SHARE_ANALYTICS).check(matches(isChecked())).perform(click());
+                getSwitchComponent(itemFinderText).check(matches(isChecked())).perform(click());
             }
         } catch (AssertionError e) {
             System.err.println("Given state and the switch components state are same!");
         }
 
-        return this;
     }
 
     private void scrollOnRecyclerViewForText(String searchParam) {
