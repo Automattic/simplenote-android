@@ -5,6 +5,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.data.NoteDTO;
+import com.automattic.simplenote.smoke.data.SignUpDataProvider;
 import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
@@ -18,13 +19,28 @@ import org.junit.Test;
 
 public class TestRunner {
     @Rule
-    public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
+    public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class, true, true);
 
+    private static String email;
+    private static String password;
 
     @Before
     public void init() {
-        TestUtils.idleForAShortPeriod();
-        TestUtils.logoutIfNecessary();
+        TestUtils.logoutIfNecessary(DataProvider.UNKNOWN_EMAIL);
+
+        if (email == null || password == null) {
+
+            email = SignUpDataProvider.generateEmail();
+            password = SignUpDataProvider.generatePassword();
+
+            System.out.println("Email: " + email);
+            System.out.println("Password: " + password);
+
+            new IntroPage()
+                    .openSignUp()
+                    .signUp(email, password)
+                    .logout(email);
+        }
     }
 
     @After
@@ -36,30 +52,30 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .isOpened()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
     public void testLogout() {
 
-        if (!TestUtils.logoutIfNecessary()) {
+        if (!TestUtils.logoutIfNecessary(email)) {
             new IntroPage()
                     .goToLoginWithEmail()
-                    .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                    .login(email, password);
 
             new MainPage()
                     .isOpened()
-                    .logout(DataProvider.LOGIN_EMAIL);
+                    .logout(email);
         }
     }
 
     @Test
     public void testLoginWithWrongPassword() {
-        TestUtils.logoutIfNecessary();
+        TestUtils.logoutIfNecessary(email);
 
         new IntroPage()
                 .goToLoginWithEmail()
@@ -77,7 +93,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .switchCondensedNoteListMode(false)
@@ -92,16 +108,16 @@ public class TestRunner {
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
-    @Test //
+    @Test
     public void testFilterByTagWhenClickingOnTagInTagDrawer() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .switchCondensedNoteListMode(false)
@@ -115,16 +131,16 @@ public class TestRunner {
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
-    @Test//
+    @Test
     public void testViewTrashedNotesByClickingOnTrash() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -134,16 +150,16 @@ public class TestRunner {
                 .checkNoteIsTrashed(noteDTO.getTitle());
 
         new MainPage()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
-    @Test//
+    @Test
     public void testRestoreNoteFromTrashScreen() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -157,7 +173,7 @@ public class TestRunner {
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -166,7 +182,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -175,7 +191,7 @@ public class TestRunner {
                 .checkNoteTitleIsNotInTheList(noteDTO);
 
         new MainPage()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -183,11 +199,11 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .switchShareAnalytics(true)
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -196,7 +212,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -207,7 +223,7 @@ public class TestRunner {
                 .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -217,7 +233,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -228,7 +244,7 @@ public class TestRunner {
                 .checkNoteContentIsNotInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -238,7 +254,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -254,7 +270,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -264,7 +280,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -280,8 +296,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
-
+                .logout(email);
     }
 
     @Test
@@ -291,7 +306,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -307,7 +322,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -317,7 +332,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -333,7 +348,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -343,7 +358,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -359,7 +374,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 
     @Test
@@ -369,7 +384,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -385,6 +400,6 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout(DataProvider.LOGIN_EMAIL);
+                .logout(email);
     }
 }

@@ -16,7 +16,9 @@ public class TrashPage extends BasePage {
 
     public TrashPage emptyTrash() {
         clickButton(BUTTON_EMPTY_TRASH);
-        clickButton(BUTTON_YES);
+        if (isElementDisplayed(BUTTON_YES)) {
+            clickButton(BUTTON_YES);
+        }
 
         TestUtils.idleForAShortPeriod();
 
