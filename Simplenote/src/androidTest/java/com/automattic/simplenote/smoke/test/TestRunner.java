@@ -9,6 +9,7 @@ import com.automattic.simplenote.smoke.data.SignUpDataProvider;
 import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
+import com.automattic.simplenote.smoke.pages.NotePage;
 import com.automattic.simplenote.smoke.pages.SettingsPage.SortOrder;
 import com.automattic.simplenote.smoke.utils.TestUtils;
 
@@ -399,6 +400,50 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
+                .trash()
+                .logout(email);
+    }
+
+    @Test
+    public void testFlipToEditMode() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        new IntroPage()
+                .goToLoginWithEmail()
+                .login(email, password);
+
+        new MainPage()
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .markdown(true)
+                .editMode()
+                .checkPreviewModeDoesNotSelected()
+                .markdown(false);
+
+        new NotePage()
+                .trash()
+                .logout(email);
+    }
+
+    @Test
+    public void testFlipToPreviewMode() {
+
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        new IntroPage()
+                .goToLoginWithEmail()
+                .login(email, password);
+
+        new MainPage()
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .markdown(true)
+                .previewMode()
+                .checkEditModeDoesNotSelected()
+                .markdown(false);
+
+        new NotePage()
                 .trash()
                 .logout(email);
     }

@@ -35,6 +35,11 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.StringContains.containsString;
 
 public class BasePage {
+
+    protected void clickButton(String text) {
+        onView(allOf(withText(text), isDisplayed())).perform(click());
+    }
+
     protected void clickButton(Integer resourceId) {
         onView(allOf(withId(resourceId), isDisplayed())).perform(click());
     }
@@ -117,7 +122,9 @@ public class BasePage {
         return onView(
                 allOf(
                         withText(containsString(searchParam)),
-                        getElementFromMatchAtPosition(withId(resourceId), position)));
+                        getElementFromMatchAtPosition(withId(resourceId), position)
+                )
+        );
 
     }
 
@@ -133,7 +140,6 @@ public class BasePage {
             return false;
         }
     }
-
 
     public static ViewInteraction visibleElementWithId(Integer elementID) {
         return onView(allOf(withId(elementID), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
