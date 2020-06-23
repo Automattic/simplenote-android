@@ -718,7 +718,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (mNoteMarkdownFragment == null) {
                     // Get markdown fragment and update content
                     mNoteMarkdownFragment = editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent(true));
                 }
             } else {
                 editorActivity.hideTabs();
@@ -748,7 +748,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
                 mCss,
-                mContentEditText.getPlainTextContent()
+                mContentEditText.getPlainTextContent(true)
         );
 
         mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
@@ -1112,7 +1112,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mIsPreviewEnabled = mNote.isPreviewEnabled();
             }
 
-            String content = mContentEditText.getPlainTextContent();
+            String content = mContentEditText.getPlainTextContent(false);
             String tagString = getNoteTagsString();
 
             if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
@@ -1402,7 +1402,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (openNote == null || !openNote.getSimperiumKey().equals(note.getSimperiumKey()))
             return;
 
-        note.setContent(mContentEditText.getPlainTextContent());
+        note.setContent(mContentEditText.getPlainTextContent(false));
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
@@ -1569,7 +1569,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 ((NoteEditorActivity) requireActivity()).showTabs();
             }
             // Load markdown in the sibling NoteMarkdownFragment's WebView.
-            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent(true));
         }
     }
 

@@ -240,21 +240,19 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     // Replaces any CheckableSpans with their markdown counterpart (e.g. '- [ ]')
-    public String getPlainTextContent() {
+    public String getPlainTextContent(boolean preview) {
         if (getText() == null) {
             return "";
         }
 
         SpannableStringBuilder content = new SpannableStringBuilder(getText());
         CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
-
+        String checked = preview ? ChecklistUtils.CHECKED_MARKDOWN_PREVIEW : ChecklistUtils.CHECKED_MARKDOWN;
+        String unchecked = ChecklistUtils.UNCHECKED_MARKDOWN;
         for(CheckableSpan span: spans) {
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
-            ((Editable) content).replace(
-                    start,
-                    end,
-                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN : ChecklistUtils.UNCHECKED_MARKDOWN);
+            ((Editable) content).replace(start, end, span.isChecked() ? checked : unchecked);
         }
 
         return content.toString();

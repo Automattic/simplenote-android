@@ -195,7 +195,7 @@ public class MatchOffsetHighlighter implements Runnable {
             mSpannable = mTextView.getEditableText();
             mMatches = matches;
             mIndex = columnIndex;
-            mPlainText = mTextView.getPlainTextContent();
+            mPlainText = mTextView.getPlainTextContent(false);
             start();
         }
     }
