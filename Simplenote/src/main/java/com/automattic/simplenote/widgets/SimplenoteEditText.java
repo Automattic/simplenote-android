@@ -240,23 +240,45 @@ public class SimplenoteEditText extends AppCompatEditText {
     }
 
     // Replaces any CheckableSpans with their markdown counterpart (e.g. '- [ ]')
-    public String getPlainTextContent(boolean preview) {
+    public String getPlainTextContent() {
         if (getText() == null) {
             return "";
         }
 
         SpannableStringBuilder content = new SpannableStringBuilder(getText());
         CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
-        String checked = preview ? ChecklistUtils.CHECKED_MARKDOWN_PREVIEW : ChecklistUtils.CHECKED_MARKDOWN;
-        String unchecked = ChecklistUtils.UNCHECKED_MARKDOWN;
         for(CheckableSpan span: spans) {
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
-            ((Editable) content).replace(start, end, span.isChecked() ? checked : unchecked);
+            ((Editable) content).replace(
+                    start,
+                    end,
+                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN : ChecklistUtils.UNCHECKED_MARKDOWN);
         }
 
         return content.toString();
     }
+
+    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [ ]')
+    public String getPreviewTextContent() {
+        if (getText() == null) {
+            return "";
+        }
+
+        SpannableStringBuilder content = new SpannableStringBuilder(getText());
+        CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
+        for(CheckableSpan span: spans) {
+            int start = content.getSpanStart(span);
+            int end = content.getSpanEnd(span);
+            ((Editable) content).replace(
+                    start,
+                    end,
+                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN_PREVIEW : ChecklistUtils.UNCHECKED_MARKDOWN);
+        }
+
+        return content.toString();
+    }
+
 
     public void processChecklists() {
         if (getText().length() == 0 || getContext() == null) {
