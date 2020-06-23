@@ -60,6 +60,8 @@ public class MainPage extends BasePage {
                 .enterNewNote(noteDTO)
                 .pressBack();
 
+        TestUtils.idleForAShortPeriod();
+
         waitForElementToBeDisplayed(MENU_SEARCH);
 
         return this;

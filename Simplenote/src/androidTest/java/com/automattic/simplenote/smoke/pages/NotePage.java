@@ -18,6 +18,7 @@ public class NotePage extends BasePage {
 
     public NotePage enterNewNote(NoteDTO noteDTO) {
         enterText(INPUT_CONTENT, noteDTO.getTitle() + "\n" + noteDTO.getContent());
+        TestUtils.idleForAShortPeriod();
         for (String tag : noteDTO.getTags()) {
             enterText(INPUT_TAG, tag);
         }
@@ -27,18 +28,21 @@ public class NotePage extends BasePage {
 
     public MainPage trash() {
         optionsMenu.trash();
+        TestUtils.idleForAShortPeriod();
 
         return new MainPage();
     }
 
     public TrashPage restore() {
         optionsMenu.restore();
+        TestUtils.idleForAShortPeriod();
 
         return new TrashPage();
     }
 
     public NotePage switchPinMode() {
         optionsMenu.switchPinMode();
+        TestUtils.idleForAShortPeriod();
 
         return this;
     }

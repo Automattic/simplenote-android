@@ -26,10 +26,10 @@ public class TrashPage extends BasePage {
     }
 
     // TODO we are looking the position of 0. If other trashed notes consists that could lead to break the test
-    public NotePage openTrashedNote() {
+    public NotePage openTrashedNote(String searchParam) {
         TestUtils.idleForAShortPeriod();
 
-        clickElementDisplayedWithTextAtPosition(R.id.note_title, "Corona", 0);
+        clickElementDisplayedWithTextAtPosition(R.id.note_title, searchParam, 0);
 
         return new NotePage();
     }

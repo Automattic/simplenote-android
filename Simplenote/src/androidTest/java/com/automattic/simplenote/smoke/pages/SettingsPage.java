@@ -47,8 +47,14 @@ public class SettingsPage extends BasePage {
     private static final String TEXT_CONDENSED_NOTES = "Condensed note list";
     private static final String MENU_SORT_ORDER = "Sort order";
     private static final Integer SWITCH_WIDGET = R.id.switchWidget;
+    private static final Integer BUTTON_DELETE_NOTES = android.R.id.button1;
 
     public void logout(String emailAddress) {
+
+        if (isElementDisplayed(BUTTON_DELETE_NOTES)) {
+            clickButton(BUTTON_DELETE_NOTES);
+        }
+
         onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
                 .perform(RecyclerViewActions.actionOnItem(
                         hasDescendant(withText(emailAddress)),
@@ -74,6 +80,7 @@ public class SettingsPage extends BasePage {
         openSortOrderDialog();
 
         clickButton(BUTTON_SORT_ORDER, newOrder.getItemText());
+        TestUtils.idleForAShortPeriod();
         return this;
     }
 

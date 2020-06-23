@@ -3,12 +3,10 @@ package com.automattic.simplenote.smoke.pages;
 import androidx.test.espresso.contrib.DrawerActions;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.smoke.utils.TestUtils;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 
 public class NavigationMenu extends BasePage {
 
@@ -58,12 +56,17 @@ public class NavigationMenu extends BasePage {
      * Used for clicking static items of the drawer menu for given position
      */
     private void clickDrawerStaticItem(NavigationMenuItem navigationMenuItem) {
-        onView(allOf(withText(navigationMenuItem.getTitle()), withId(BUTTON_TAG))).perform(click());
+
+        clickButton(BUTTON_TAG, navigationMenuItem.getTitle());
+
+        TestUtils.idleForAShortPeriod();
     }
 
     public void selectTag(String tag) {
         openMenu();
 
-        onView(allOf(withId(BUTTON_TAG), withText(tag))).perform(click());
+        clickButton(BUTTON_TAG, tag);
+
+        TestUtils.idleForAShortPeriod();
     }
 }

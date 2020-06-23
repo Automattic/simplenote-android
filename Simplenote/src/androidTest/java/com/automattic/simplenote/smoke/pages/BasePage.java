@@ -3,8 +3,6 @@ package com.automattic.simplenote.smoke.pages;
 import android.content.Context;
 import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
@@ -24,7 +22,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
@@ -40,7 +37,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
 public class BasePage {
@@ -64,15 +60,6 @@ public class BasePage {
                 .perform(click())
                 .perform(replaceText(text))
                 .perform(ViewActions.closeSoftKeyboard());
-    }
-
-    public Boolean isViewDisplayed(ViewInteraction view) {
-        try {
-            view.check(matches(isDisplayed()));
-            return true;
-        } catch (Throwable e) {
-            return false;
-        }
     }
 
     public ViewInteraction getViewById(Integer id) {
@@ -183,15 +170,6 @@ public class BasePage {
 
     }
 
-    private ViewInteraction getElementNotDisplayedWithTextAtPosition(Integer resourceId, String searchParam, Integer position) {
-        return onView(
-                not(
-                        allOf(
-                                withText(containsString(searchParam)),
-                                getElementFromMatchAtPosition(withId(resourceId), position))));
-
-    }
-
     public static boolean isElementDisplayed(Integer elementID) {
         return isElementDisplayed(visibleElementWithId(elementID));
     }
@@ -208,25 +186,6 @@ public class BasePage {
 
     public static ViewInteraction visibleElementWithId(Integer elementID) {
         return onView(allOf(withId(elementID), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-    }
-
-    protected static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 
     protected Matcher<View> getElementFromMatchAtPosition(final Matcher<View> matcher, final int position) {
