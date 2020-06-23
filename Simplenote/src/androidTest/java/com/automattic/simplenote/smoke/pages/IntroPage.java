@@ -30,7 +30,7 @@ public class IntroPage extends BasePage {
      *
      * @return fresh Login page
      */
-    public LoginPage goToLoginWithWordpress() {
+    public LoginPage goToLoginWithWordPress() {
         clickButton(BUTTON_LOGIN);
         clickButton(BUTTON_OTHER);
 
