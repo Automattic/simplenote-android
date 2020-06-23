@@ -10,6 +10,7 @@ public class DataProvider {
     public static final String UNKNOWN_EMAIL = "@";
     //    public static final String LOGIN_PASSWORD = "12341234";
     public static final String LOGIN_WRONG_PASSWORD = "1234";
+    public static final String RANDOM_SEARCH_PARAMETER = "1234567890abc";
 
     public static List<NoteDTO> generateNotes(int size) {
         List<NoteDTO> noteDTOList = new ArrayList<>();

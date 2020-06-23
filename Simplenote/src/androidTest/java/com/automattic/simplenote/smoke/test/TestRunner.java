@@ -447,4 +447,23 @@ public class TestRunner {
                 .trash()
                 .logout(email);
     }
+
+    @Test
+    public void testCancelSearchAndGoBackToMainPage() {
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
+
+        new IntroPage()
+                .goToLoginWithEmail()
+                .login(email, password);
+
+        new MainPage()
+                .addNewNote(noteDTO)
+                .openSearchPage()
+                .search(DataProvider.RANDOM_SEARCH_PARAMETER)
+                .cancelSearchAndGoBack()
+                .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
+                .openNote(noteDTO)
+                .trash()
+                .logout(email);
+    }
 }

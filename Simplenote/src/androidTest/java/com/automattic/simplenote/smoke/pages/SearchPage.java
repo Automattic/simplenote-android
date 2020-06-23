@@ -1,6 +1,7 @@
 package com.automattic.simplenote.smoke.pages;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.smoke.utils.TestUtils;
 
 public class SearchPage extends BasePage {
 
@@ -30,10 +31,13 @@ public class SearchPage extends BasePage {
         return this;
     }
 
-    public SearchPage removeCurrentSearchParameter() {
+    public MainPage cancelSearchAndGoBack() {
         clickButton(BUTTON_CLOSE_SEARCH);
+        TestUtils.idleForAShortPeriod();
+        pressBack();
+        pressBack();
 
-        return this;
+        return new MainPage();
     }
 
     /*
