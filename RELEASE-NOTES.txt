@@ -1,7 +1,7 @@
 2.8
 -----
 * Added hotkey shortcuts for devices with hardware keyboards
-* Added RTL language rendering support to markdown preview
+* Added right-to-left language support to markdown preview
 
 2.7
 -----
