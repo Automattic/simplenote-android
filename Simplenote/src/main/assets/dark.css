@@ -96,7 +96,7 @@ html {
 }
 
 .note-detail-markdown ul, .note-detail-markdown ol {
-    margin-left: 2em;
+    margin-inline-start: 2em;
 }
 
 .note-detail-markdown img {
