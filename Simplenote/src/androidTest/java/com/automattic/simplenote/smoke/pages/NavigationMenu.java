@@ -18,6 +18,7 @@ public class NavigationMenu extends BasePage {
 
     enum NavigationMenuItem {
         SETTINGS("Settings"),
+        MAIN("All Notes"),
         TRASH("Trash");
 
         public String getTitle() {
@@ -34,6 +35,14 @@ public class NavigationMenu extends BasePage {
     private void openMenu() {
         waitForElementToBeDisplayed(LAYOUT_DRAWER);
         onView(withId(LAYOUT_DRAWER)).perform(DrawerActions.open());
+    }
+
+    public MainPage openMain() {
+        openMenu();
+
+        clickDrawerStaticItem(NavigationMenuItem.MAIN);
+
+        return new MainPage();
     }
 
     public SettingsPage openSettings() {

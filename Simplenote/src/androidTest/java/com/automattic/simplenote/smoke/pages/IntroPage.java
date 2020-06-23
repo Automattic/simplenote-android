@@ -7,7 +7,7 @@ public class IntroPage extends BasePage {
     private static final Integer BUTTON_LOGIN = R.id.button_login;
     private static final Integer BUTTON_EMAIL = R.id.button_email;
     private static final Integer BUTTON_OTHER = R.id.button_other;
-
+    private static final Integer BUTTON_SIGNUP = R.id.button_signup;
 
     public LoginPage goToLoginWithEmail() {
 
@@ -18,6 +18,12 @@ public class IntroPage extends BasePage {
         clickButton(BUTTON_EMAIL);
 
         return new LoginPage();
+    }
+
+    public SignUpPage openSignUp() {
+        clickButton(BUTTON_SIGNUP);
+
+        return new SignUpPage();
     }
 
     public Boolean isOpened() {

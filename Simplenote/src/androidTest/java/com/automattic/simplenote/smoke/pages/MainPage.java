@@ -1,7 +1,6 @@
 package com.automattic.simplenote.smoke.pages;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.data.NoteDTO;
 import com.automattic.simplenote.smoke.pages.SettingsPage.SortOrder;
 import com.automattic.simplenote.smoke.utils.TestUtils;
@@ -34,8 +33,8 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public IntroPage logout() {
-        navigationMenu.openSettings().logout(DataProvider.LOGIN_EMAIL);
+    public IntroPage logout(String loginEmail) {
+        navigationMenu.openSettings().logout(loginEmail);
 
         return new IntroPage();
     }
@@ -105,10 +104,10 @@ public class MainPage extends BasePage {
         return new SearchPage();
     }
 
-    public SearchPage selectTagFromDrawer(String tag) {
+    public MainPage selectTagFromDrawer(String tag) {
         navigationMenu.selectTag(tag);
 
-        return new SearchPage();
+        return new MainPage();
     }
 
     public TrashPage openTrashPage() {

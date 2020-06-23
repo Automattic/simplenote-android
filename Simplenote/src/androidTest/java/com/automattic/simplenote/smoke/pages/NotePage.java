@@ -17,8 +17,8 @@ public class NotePage extends BasePage {
     }
 
     public NotePage enterNewNote(NoteDTO noteDTO) {
-        enterText(INPUT_CONTENT, noteDTO.getTitle() + "\n" + noteDTO.getContent());
         TestUtils.idleForAShortPeriod();
+        enterText(INPUT_CONTENT, noteDTO.getTitle() + "\n" + noteDTO.getContent());
         for (String tag : noteDTO.getTags()) {
             enterText(INPUT_TAG, tag);
         }

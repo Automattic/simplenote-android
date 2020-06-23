@@ -49,16 +49,16 @@ public class SettingsPage extends BasePage {
     private static final Integer SWITCH_WIDGET = R.id.switchWidget;
     private static final Integer BUTTON_DELETE_NOTES = android.R.id.button1;
 
-    public void logout(String emailAddress) {
+    public void logout(String loginEmail) {
+
+        onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
+                .perform(RecyclerViewActions.actionOnItem(
+                        hasDescendant(withText(containsString(loginEmail))),
+                        click()));
 
         if (isElementDisplayed(BUTTON_DELETE_NOTES)) {
             clickButton(BUTTON_DELETE_NOTES);
         }
-
-        onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
-                .perform(RecyclerViewActions.actionOnItem(
-                        hasDescendant(withText(emailAddress)),
-                        click()));
 
         TestUtils.idleForAShortPeriod();
     }

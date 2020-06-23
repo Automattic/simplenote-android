@@ -5,15 +5,12 @@ import android.os.Build;
 import android.view.View;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.espresso.util.HumanReadables;
-import androidx.test.espresso.util.TreeIterables;
 
 import com.automattic.simplenote.smoke.support.SupplierIdler;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
@@ -23,7 +20,6 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -32,7 +28,6 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -86,50 +81,6 @@ public class BasePage {
             @Override
             public void perform(UiController uiController, View view) {
                 ((TextInputLayout) view).getEditText().setText(text);
-            }
-        };
-    }
-
-    protected void waitForViewMatching(final Matcher<View> matcher, final long milliseconds) {
-        onView(isRoot()).perform(waitForViewToBeDisplayed(matcher, milliseconds));
-    }
-
-    public static ViewAction waitForViewToBeDisplayed(final Matcher<View> matcher, final long milliseconds) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return isDisplayed();
-            }
-
-            @Override
-            public String getDescription() {
-                return "Wait for a view matching the given matcher for " + milliseconds + " millis.";
-            }
-
-            @Override
-            public void perform(final UiController uiController, final View view) {
-                uiController.loopMainThreadUntilIdle();
-                final long startTime = System.currentTimeMillis();
-                final long endTime = startTime + milliseconds;
-
-                do {
-                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-                        // found matching view
-                        if (matcher.matches(child)) {
-                            return;
-                        }
-                    }
-
-                    uiController.loopMainThreadForAtLeast(50);
-                }
-                while (System.currentTimeMillis() < endTime);
-
-                // timeout happens
-                throw new PerformException.Builder()
-                        .withActionDescription(this.getDescription())
-                        .withViewDescription(HumanReadables.describe(view))
-                        .withCause(new TimeoutException())
-                        .build();
             }
         };
     }

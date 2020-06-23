@@ -20,11 +20,10 @@ public class TestRunner {
     @Rule
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class);
 
+
     @Before
     public void init() {
         TestUtils.idleForAShortPeriod();
-        //TestUtils.relaunchSimplenote();
-
         TestUtils.logoutIfNecessary();
     }
 
@@ -34,27 +33,34 @@ public class TestRunner {
 
     @Test
     public void testLogin() {
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
-        new MainPage()
-                .isOpened();
-    }
-
-    @Test
-    public void testLogout() {
         new IntroPage()
                 .goToLoginWithEmail()
                 .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
         new MainPage()
                 .isOpened()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
+    }
+
+    @Test
+    public void testLogout() {
+
+        if (!TestUtils.logoutIfNecessary()) {
+            new IntroPage()
+                    .goToLoginWithEmail()
+                    .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+            new MainPage()
+                    .isOpened()
+                    .logout(DataProvider.LOGIN_EMAIL);
+        }
     }
 
     @Test
     public void testLoginWithWrongPassword() {
+        TestUtils.logoutIfNecessary();
+
         new IntroPage()
                 .goToLoginWithEmail()
                 .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_WRONG_PASSWORD);
@@ -67,11 +73,15 @@ public class TestRunner {
     public void testSearchingInTheSearchFieldDoesAGlobalSearch() {
         NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
 
+        String searchParam = noteDTO.getTitle();
+
         new IntroPage()
                 .goToLoginWithEmail()
                 .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
-        String searchParam = noteDTO.getTitle();
+        new MainPage()
+                .switchCondensedNoteListMode(false)
+                .pressBack();
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -82,31 +92,35 @@ public class TestRunner {
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
-    @Test
+    @Test //
     public void testFilterByTagWhenClickingOnTagInTagDrawer() {
-        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
                 .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+
+        new MainPage()
+                .switchCondensedNoteListMode(false)
+                .pressBack();
 
         new MainPage()
                 .addNewNote(noteDTO)
                 .selectTagFromDrawer(noteDTO.getTags().get(0))
-                .checkSearchResultsTitleAndContent(noteDTO.getTitle());
+                .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15));
 
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
-    @Test
+    @Test//
     public void testViewTrashedNotesByClickingOnTrash() {
-        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
@@ -114,18 +128,18 @@ public class TestRunner {
 
         new MainPage()
                 .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .trash()
                 .openTrashPage()
                 .checkNoteIsTrashed(noteDTO.getTitle());
 
         new MainPage()
-                .openNote(noteDTO)
-                .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
-    @Test
+    @Test//
     public void testRestoreNoteFromTrashScreen() {
-        NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
+        NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
                 .goToLoginWithEmail()
@@ -133,14 +147,17 @@ public class TestRunner {
 
         new MainPage()
                 .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .trash()
                 .openTrashPage()
                 .openTrashedNote(noteDTO.getTitle())
-                .restore();
+                .restore()
+                .openMain();
 
         new MainPage()
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -158,7 +175,7 @@ public class TestRunner {
                 .checkNoteTitleIsNotInTheList(noteDTO);
 
         new MainPage()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -190,7 +207,7 @@ public class TestRunner {
                 .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -211,7 +228,7 @@ public class TestRunner {
                 .checkNoteContentIsNotInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -237,7 +254,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -263,7 +280,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
 
     }
 
@@ -290,7 +307,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -316,7 +333,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -342,7 +359,7 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 
     @Test
@@ -368,6 +385,6 @@ public class TestRunner {
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
                 .trash()
-                .logout();
+                .logout(DataProvider.LOGIN_EMAIL);
     }
 }
