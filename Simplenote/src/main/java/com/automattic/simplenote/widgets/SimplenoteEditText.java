@@ -259,7 +259,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         return content.toString();
     }
 
-    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [ ]')
+    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2A2F]')
     public String getPreviewTextContent() {
         if (getText() == null) {
             return "";
