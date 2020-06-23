@@ -194,6 +194,13 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 AndDown.HOEDOWN_HTML_ESCAPE
         );
 
+        // Set auto alignment for lists, tables, and quotes based on language of start.
+        parsedMarkdown = parsedMarkdown
+                .replaceAll("<ol>", "<ol dir=\"auto\">")
+                .replaceAll("<ul>", "<ul dir=\"auto\">")
+                .replaceAll("<table>", "<table dir=\"auto\">")
+                .replaceAll("<blockquote>", "<blockquote dir=\"auto\">");
+
         return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
     }

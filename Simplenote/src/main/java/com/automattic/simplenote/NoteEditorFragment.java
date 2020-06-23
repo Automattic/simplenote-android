@@ -718,7 +718,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (mNoteMarkdownFragment == null) {
                     // Get markdown fragment and update content
                     mNoteMarkdownFragment = editorActivity.getNoteMarkdownFragment();
-                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+                    mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPreviewTextContent());
                 }
             } else {
                 editorActivity.hideTabs();
@@ -748,7 +748,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
                 mCss,
-                mContentEditText.getPlainTextContent()
+                mContentEditText.getPreviewTextContent()
         );
 
         mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
@@ -1569,7 +1569,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 ((NoteEditorActivity) requireActivity()).showTabs();
             }
             // Load markdown in the sibling NoteMarkdownFragment's WebView.
-            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPlainTextContent());
+            mNoteMarkdownFragment.updateMarkdown(mContentEditText.getPreviewTextContent());
         }
     }
 
