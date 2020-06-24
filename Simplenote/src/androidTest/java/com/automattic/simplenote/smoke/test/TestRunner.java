@@ -466,4 +466,24 @@ public class TestRunner {
                 .trash()
                 .logout(email);
     }
+
+    @Test
+    public void testAddedUrlIsLinkified() {
+        NoteDTO noteDTO = DataProvider.generateNotesWithUrl(1).get(0);
+
+        new IntroPage()
+                .goToLoginWithEmail()
+                .login(email, password);
+
+        new MainPage()
+                .addNewNote(noteDTO)
+                .openNote(noteDTO)
+                .focusOnContent()
+                .checkUrlIsLinkified()
+                .closeActionMode();
+
+        new NotePage()
+                .trash()
+                .logout(email);
+    }
 }

@@ -18,6 +18,7 @@ public class NotePage extends BasePage {
     private static final Integer INPUT_TAG = R.id.tag_input;
     private static final String TEXT_BUTTON_EDIT = "EDIT";
     private static final String TEXT_BUTTON_PREVIEW = "PREVIEW";
+    private static final Integer BUTTON_CLOSE_ACTION_MODE = R.id.action_mode_close_button;
 
     private OptionsMenu optionsMenu;
 
@@ -81,6 +82,25 @@ public class NotePage extends BasePage {
                         isSelected()
                 )
         ).check(doesNotExist());
+
+        return this;
+    }
+
+    public NotePage checkUrlIsLinkified() {
+        visibleElementWithId(R.id.action_bar_title);
+        visibleElementWithId(R.id.action_bar_title);
+
+        return this;
+    }
+
+    public NotePage closeActionMode() {
+        clickButton(BUTTON_CLOSE_ACTION_MODE);
+
+        return this;
+    }
+
+    public NotePage focusOnContent() {
+        clickButton(INPUT_CONTENT);
 
         return this;
     }

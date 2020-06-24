@@ -52,14 +52,14 @@ public class BasePage {
         getViewById(resourceId)
                 .perform(click())
                 .perform(replaceTextInCustomInput(text))
-                .perform(ViewActions.closeSoftKeyboard());
+                .perform(closeSoftKeyboard());
     }
 
     protected void enterText(Integer resourceId, String text) {
         getViewById(resourceId)
                 .perform(click())
                 .perform(replaceText(text))
-                .perform(ViewActions.closeSoftKeyboard());
+                .perform(closeSoftKeyboard());
     }
 
     public ViewInteraction getViewById(Integer id) {
@@ -68,6 +68,10 @@ public class BasePage {
 
     public void pressBack() {
         Espresso.pressBack();
+    }
+
+    public ViewAction closeSoftKeyboard() {
+        return ViewActions.closeSoftKeyboard();
     }
 
     // Thanks to https://stackoverflow.com/a/47412904/809944
