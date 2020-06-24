@@ -19,6 +19,7 @@ public class NotePage extends BasePage {
     private static final String TEXT_BUTTON_EDIT = "EDIT";
     private static final String TEXT_BUTTON_PREVIEW = "PREVIEW";
     private static final Integer BUTTON_CLOSE_ACTION_MODE = R.id.action_mode_close_button;
+    private static final Integer TEXT_ACTION_BAR_TITLE = R.id.action_bar_title;
 
     private OptionsMenu optionsMenu;
 
@@ -87,8 +88,7 @@ public class NotePage extends BasePage {
     }
 
     public NotePage checkUrlIsLinkified() {
-        visibleElementWithId(R.id.action_bar_title);
-        visibleElementWithId(R.id.action_bar_title);
+        visibleElementWithId(TEXT_ACTION_BAR_TITLE);
 
         return this;
     }
