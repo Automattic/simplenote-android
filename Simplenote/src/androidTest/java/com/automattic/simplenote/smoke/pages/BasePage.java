@@ -44,6 +44,10 @@ public class BasePage {
         onView(allOf(withId(resourceId), isDisplayed())).perform(click());
     }
 
+    protected void clickButton(Integer resourceId, Integer text) {
+        onView(allOf(withId(resourceId), isDisplayed(), withText(text))).perform(click());
+    }
+
     protected void clickButton(Integer resourceId, String text) {
         onView(allOf(withId(resourceId), isDisplayed(), withText(text))).perform(click());
     }

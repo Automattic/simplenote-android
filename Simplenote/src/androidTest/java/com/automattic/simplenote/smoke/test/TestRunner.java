@@ -80,7 +80,7 @@ public class TestRunner {
 
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_WRONG_PASSWORD);
+                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
 
         new LoginPage()
                 .checkLoginFailedMessage();
@@ -208,7 +208,7 @@ public class TestRunner {
     }
 
     @Test
-    public void testCondensedModeOpened() {
+    public void testCondensedModeClosed() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 
         new IntroPage()
@@ -228,7 +228,7 @@ public class TestRunner {
     }
 
     @Test
-    public void testCondensedModeClosed() {
+    public void testCondensedModeOpened() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
 

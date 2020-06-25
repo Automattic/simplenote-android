@@ -16,10 +16,11 @@ public class NotePage extends BasePage {
 
     private static final Integer INPUT_CONTENT = R.id.note_content;
     private static final Integer INPUT_TAG = R.id.tag_input;
-    private static final String TEXT_BUTTON_EDIT = "EDIT";
-    private static final String TEXT_BUTTON_PREVIEW = "PREVIEW";
     private static final Integer BUTTON_CLOSE_ACTION_MODE = R.id.action_mode_close_button;
     private static final Integer TEXT_ACTION_BAR_TITLE = R.id.action_bar_title;
+
+    private static final Integer TEXT_BUTTON_EDIT = R.string.tab_edit;
+    private static final Integer TEXT_BUTTON_PREVIEW = R.string.tab_preview;
 
     private OptionsMenu optionsMenu;
 
@@ -57,7 +58,7 @@ public class NotePage extends BasePage {
     }
 
     public NotePage editMode() {
-        waitForElementToBeDisplayed(R.id.tag_input);
+        waitForElementToBeDisplayed(INPUT_TAG);
         clickButton(TEXT_BUTTON_EDIT);
 
         return this;

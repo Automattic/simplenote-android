@@ -24,7 +24,7 @@ public class LoginPage extends BasePage {
     }
 
     public void checkLoginFailedMessage() {
-        waitForElementToBeDisplayed(R.id.alertTitle);
+        waitForElementToBeDisplayed(ALERT_LOGIN);
     }
 
     public Boolean isLoginFailed() {

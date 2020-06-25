@@ -12,22 +12,20 @@ public class NavigationMenu extends BasePage {
 
     private static final Integer BUTTON_TAG = R.id.design_menu_item_text;
     private static final Integer LAYOUT_DRAWER = R.id.drawer_layout;
-    private static final Integer LAYOUT_DESIGN_NAVIGATION_VIEW = R.id.design_navigation_view;
-    private static final Integer LAYOUT_NAVIGATION_VIEW = R.id.navigation_view;
 
 
     enum NavigationMenuItem {
-        SETTINGS("Settings"),
-        MAIN("All Notes"),
-        TRASH("Trash");
+        SETTINGS(R.string.settings),
+        MAIN(R.string.all_notes),
+        TRASH(R.string.trash);
 
-        public String getTitle() {
+        public Integer getTitle() {
             return title;
         }
 
-        private String title;
+        private Integer title;
 
-        NavigationMenuItem(String title) {
+        NavigationMenuItem(Integer title) {
             this.title = title;
         }
     }

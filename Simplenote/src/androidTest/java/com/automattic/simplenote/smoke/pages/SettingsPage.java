@@ -23,31 +23,31 @@ import static org.hamcrest.Matchers.containsString;
 public class SettingsPage extends BasePage {
 
     public enum SortOrder {
-        NEWEST_MODIFIED_DATE("Newest modified date"),
-        OLDEST_MODIFIED_DATE("Oldest modified date"),
-        NEWEST_CREATED_DATE("Newest created date"),
-        OLDEST_CREATED_DATE("Oldest created date"),
-        ALPHABETICALLY_A_Z("Alphabetically, A-Z"),
-        ALPHABETICALLY_Z_A("Alphabetically, Z-A");
+        NEWEST_MODIFIED_DATE(R.string.sort_newest_modified),
+        OLDEST_MODIFIED_DATE(R.string.sort_oldest_modified),
+        NEWEST_CREATED_DATE(R.string.sort_newest_created),
+        OLDEST_CREATED_DATE(R.string.sort_oldest_created),
+        ALPHABETICALLY_A_Z(R.string.sort_alphabetical),
+        ALPHABETICALLY_Z_A(R.string.sort_alphabetical_reverse);
 
-        private String itemText;
+        private Integer itemText;
 
-        public String getItemText() {
+        public Integer getItemText() {
             return itemText;
         }
 
-        SortOrder(String itemText) {
+        SortOrder(Integer itemText) {
             this.itemText = itemText;
         }
     }
 
-
     private static final Integer BUTTON_SORT_ORDER = android.R.id.text1;
-    private static final String TEXT_SHARE_ANALYTICS = "Share analytics";
-    private static final String TEXT_CONDENSED_NOTES = "Condensed note list";
-    private static final String MENU_SORT_ORDER = "Sort order";
+    private static final Integer TEXT_SHARE_ANALYTICS = R.string.share_analytics;
+    private static final Integer TEXT_CONDENSED_NOTES = R.string.condensed_note_list;
+    private static final Integer MENU_SORT_ORDER = R.string.sort_order;
     private static final Integer SWITCH_WIDGET = R.id.switchWidget;
     private static final Integer BUTTON_DELETE_NOTES = android.R.id.button1;
+    private static final Integer RECYCLER_VIEW = R.id.recycler_view;
 
     public void logout(String loginEmail) {
 
@@ -85,7 +85,7 @@ public class SettingsPage extends BasePage {
     }
 
     private void openSortOrderDialog() {
-        onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
+        onView(allOf(isDisplayed(), withId(RECYCLER_VIEW)))
                 .perform(RecyclerViewActions.actionOnItem(
                         hasDescendant(withText(MENU_SORT_ORDER)),
                         click()));
@@ -93,14 +93,14 @@ public class SettingsPage extends BasePage {
         TestUtils.idleForAShortPeriod();
     }
 
-    private void switchComponentIfApplicable(boolean state, String itemFinderText) {
-        scrollOnRecyclerViewForText(itemFinderText);
+    private void switchComponentIfApplicable(boolean state, Integer itemFinderTextResourceId) {
+        scrollOnRecyclerViewForText(itemFinderTextResourceId);
 
         try {
             if (state) {
-                getSwitchComponent(itemFinderText).check(matches(isNotChecked())).perform(click());
+                getSwitchComponent(itemFinderTextResourceId).check(matches(isNotChecked())).perform(click());
             } else {
-                getSwitchComponent(itemFinderText).check(matches(isChecked())).perform(click());
+                getSwitchComponent(itemFinderTextResourceId).check(matches(isChecked())).perform(click());
             }
         } catch (AssertionError e) {
             System.err.println("Given state and the switch components state are same!");
@@ -108,16 +108,16 @@ public class SettingsPage extends BasePage {
 
     }
 
-    private void scrollOnRecyclerViewForText(String searchParam) {
-        onView(allOf(isDisplayed(), withId(R.id.recycler_view)))
+    private void scrollOnRecyclerViewForText(Integer searchParamResourceId) {
+        onView(allOf(isDisplayed(), withId(RECYCLER_VIEW)))
                 .perform(RecyclerViewActions.actionOnItem(
-                        hasDescendant(withText(containsString(searchParam))),
+                        hasDescendant(withText(searchParamResourceId)),
                         scrollTo()));
     }
 
-    private ViewInteraction getSwitchComponent(String itemText) {
+    private ViewInteraction getSwitchComponent(Integer itemText) {
         return onView(
-                allOf(withId(SWITCH_WIDGET), withParent(withParent(hasDescendant(withText(containsString(itemText))))))
+                allOf(withId(SWITCH_WIDGET), withParent(withParent(hasDescendant(withText(itemText)))))
         );
     }
 }

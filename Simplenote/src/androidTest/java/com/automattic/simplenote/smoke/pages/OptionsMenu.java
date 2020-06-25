@@ -15,30 +15,30 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 
 public class OptionsMenu extends BasePage {
 
-    private static final Integer POSITION_MENU = 2;
-    private static final String MENU_DESCRIPTION = "More Options";
+    private static final Integer BUTTON_MORE_OPTIONS = R.string.more_options;
+    private static final Integer ITEM_TITLE = R.id.title;
+    private static final Integer CHECKBOX = R.id.checkbox;
 
     enum OptionsMenuItem {
-        PIN("Pin"),
-        MARKDOWN("Markdown"),
-        SHARE("Share"),
-        HISTORY("History"),
-        TRASH("Trash"),
-        RESTORE("Restore"),
-        PUBLISH("Publish"),
-        COPY_LINK("Copy Link");
+        PIN(R.string.pin),
+        MARKDOWN(R.string.markdown),
+        SHARE(R.string.share),
+        HISTORY(R.string.history),
+        TRASH(R.string.trash),
+        RESTORE(R.string.restore),
+        PUBLISH(R.string.publish),
+        COPY_LINK(R.string.copy_link);
 
-        private String menuText;
+        private Integer menuText;
 
-        public String getMenuText() {
+        public Integer getMenuText() {
             return menuText;
         }
 
-        OptionsMenuItem(String menuText) {
+        OptionsMenuItem(Integer menuText) {
             this.menuText = menuText;
         }
     }
@@ -71,12 +71,12 @@ public class OptionsMenu extends BasePage {
      * Used for clicking static items of the options menu for given position
      */
     private void clickStaticItem(OptionsMenuItem optionsMenuItem) {
-        onView(allOf(withId(R.id.title), withText(optionsMenuItem.getMenuText()))).perform(click());
+        onView(allOf(withId(ITEM_TITLE), withText(optionsMenuItem.getMenuText()))).perform(click());
     }
 
     private ViewInteraction getCheckBoxComponent(OptionsMenuItem optionsMenuItem) {
         return onView(
-                allOf(withId(R.id.checkbox), withParent(hasDescendant(withText(containsString(optionsMenuItem.getMenuText())))))
+                allOf(withId(CHECKBOX), withParent(hasDescendant(withText(optionsMenuItem.getMenuText()))))
         );
     }
 
@@ -97,6 +97,8 @@ public class OptionsMenu extends BasePage {
     }
 
     private void open() {
-        onView(withContentDescription(MENU_DESCRIPTION)).perform(click());
+        if (isElementDisplayed(onView(withContentDescription(BUTTON_MORE_OPTIONS)))) {
+            onView(withContentDescription(BUTTON_MORE_OPTIONS)).perform(click());
+        }
     }
 }
