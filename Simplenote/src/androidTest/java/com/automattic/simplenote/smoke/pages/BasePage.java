@@ -36,12 +36,12 @@ import static org.hamcrest.core.StringContains.containsString;
 
 public class BasePage {
 
-    protected void clickButton(String text) {
-        onView(allOf(withText(text), isDisplayed())).perform(click());
-    }
-
     protected void clickButton(Integer resourceId) {
         onView(allOf(withId(resourceId), isDisplayed())).perform(click());
+    }
+
+    protected void clickButtonWithResourceStringId(Integer resourceId) {
+        onView(allOf(withText(resourceId), isDisplayed())).perform(click());
     }
 
     protected void clickButton(Integer resourceId, Integer text) {

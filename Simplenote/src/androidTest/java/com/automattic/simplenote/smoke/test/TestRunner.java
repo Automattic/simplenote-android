@@ -78,7 +78,7 @@ public class TestRunner {
     public void testLoginWithWrongPassword() {
         new IntroPage()
                 .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
+                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_WRONG_PASSWORD);
 
         new LoginPage()
                 .checkLoginFailedMessage();

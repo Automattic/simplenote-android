@@ -52,14 +52,13 @@ public class NotePage extends BasePage {
     }
 
     public NotePage previewMode() {
-        clickButton(TEXT_BUTTON_PREVIEW);
+        clickButtonWithResourceStringId(TEXT_BUTTON_PREVIEW);
 
         return this;
     }
 
     public NotePage editMode() {
-        waitForElementToBeDisplayed(INPUT_TAG);
-        clickButton(TEXT_BUTTON_EDIT);
+        clickButtonWithResourceStringId(TEXT_BUTTON_EDIT);
 
         return this;
     }
@@ -89,7 +88,7 @@ public class NotePage extends BasePage {
     }
 
     public NotePage checkUrlIsLinkified() {
-        visibleElementWithId(TEXT_ACTION_BAR_TITLE);
+        waitForElementToBeDisplayed(TEXT_ACTION_BAR_TITLE);
 
         return this;
     }
