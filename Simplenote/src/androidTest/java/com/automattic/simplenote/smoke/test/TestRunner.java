@@ -76,8 +76,6 @@ public class TestRunner {
 
     @Test
     public void testLoginWithWrongPassword() {
-        TestUtils.logoutIfNecessary(email);
-
         new IntroPage()
                 .goToLoginWithEmail()
                 .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_PASSWORD);
