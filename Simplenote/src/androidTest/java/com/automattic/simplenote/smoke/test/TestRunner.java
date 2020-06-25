@@ -27,7 +27,7 @@ public class TestRunner {
 
     @Before
     public void init() {
-        TestUtils.logoutIfNecessary(DataProvider.UNKNOWN_EMAIL);
+        TestUtils.logoutIfNecessary();
 
         if (email == null || password == null) {
 
@@ -63,7 +63,7 @@ public class TestRunner {
     @Test
     public void testLogout() {
 
-        if (!TestUtils.logoutIfNecessary(email)) {
+        if (!TestUtils.logoutIfNecessary()) {
             new IntroPage()
                     .goToLoginWithEmail()
                     .login(email, password);

@@ -1,5 +1,6 @@
 package com.automattic.simplenote.smoke.utils;
 
+import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.pages.IntroPage;
 import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
@@ -20,10 +21,10 @@ public class TestUtils {
         idleFor(SHORT_PERIOD);
     }
 
-    // TODO This method should be moved to non static context
-    public static boolean logoutIfNecessary(String email) {
+    public static boolean logoutIfNecessary() {
         if (!new IntroPage().isOpened() && !new LoginPage().isLoginFailed()) {
-            new MainPage().logout(email);
+            new MainPage()
+                    .logout(DataProvider.UNKNOWN_EMAIL);
             TestUtils.idleForAShortPeriod();
             return true;
         }
