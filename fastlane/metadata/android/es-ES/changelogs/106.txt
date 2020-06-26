@@ -1,0 +1,2 @@
+2.7:
+* Color principal cambiado al nuevo azul Simplenote

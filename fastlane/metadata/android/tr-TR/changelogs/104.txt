@@ -1,2 +1,0 @@
-2.6:
-* Veri kaybına neden olan ağ hatası düzeltildi

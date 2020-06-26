@@ -1,0 +1,2 @@
+2.7 :
+* Mise à jour de la couleur principale sur le nouveau bleu Simplenote

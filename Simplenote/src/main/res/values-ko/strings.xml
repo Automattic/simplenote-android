@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-05-13 08:54:06+0000
+Translation-Revision-Date: 2020-06-17 08:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
+    <string name="error_network_required">네트워크 연결이 필요합니다. 연결을 확인하고 다시 시도하세요.</string>
     <string name="simperium_dialog_message_password">패스워드 필수 규칙\n\n- 이메일 사용 금지\n- 최소 %1$d글자 이상\n- 줄바꿈 사용 금지\n- 탭 사용 금지</string>
     <string name="simperium_dialog_message_login_reset">비밀번호가 안전하지 않으므로 초기화해야 합니다. 비밀번호 요구 사항은 다음과 같습니다.\n\n- 비밀번호가 이메일과 일치할 수 없음\n- 최소 %1$d자\n- 줄바꿈 없음\n- 탭 없음</string>
-    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?email=%1$s</string>
     <string name="simperium_button_login_reset">재설정</string>
     <string name="link_terms">%1$s%2$s%3$s서비스 이용 약관%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$s개인정보 처리 방침%4$s</string>

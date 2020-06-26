@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-05-05 03:16:05+0000
+Translation-Revision-Date: 2020-06-17 12:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
+    <string name="error_network_required">Bir ağ bağlantısı gereklidir. Lütfen bağlantınızı kontrol edip tekrar deneyin.</string>
     <string name="search">Not ve Etiket Ara</string>
     <string name="empty_tags_search">Etiket bulunamadı</string>
     <string name="empty_notes_widget">Not yok</string>
