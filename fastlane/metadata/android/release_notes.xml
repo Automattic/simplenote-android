@@ -1,68 +1,68 @@
 <ar>
-2.6:
-* تم إصلاح خطأ الشبكة الذي تسبب في فقدان البيانات
+2.7:
+* تم تحديث اللون الأساسي على اللون الأزرق الخاص ببرنامج Simplenote الجديد
 </ar>
 <de-DE>
-2.6:
-* Netzwerkfehler behoben, der zu Datenverlust führte
+2.7:
+* Hauptfarbe in neues Simplenote-Blau geändert
 </de-DE>
 <es-ES>
-2.6:
-* Hemos corregido el error de red que causaba la pérdida de datos
+2.7:
+* Color principal cambiado al nuevo azul Simplenote
 </es-ES>
 <fr-FR>
-2.6 :
-* Correction d’un bogue réseau à l’origine d’une perte de données
+2.7 :
+* Mise à jour de la couleur principale sur le nouveau bleu Simplenote
 </fr-FR>
 <iw-IL>
-2.6:
-* תיקנו באג בהתחברות לרשת שגרם לאובדן נתונים
+2.7:
+* עדכנו את הצבע הראשי לצבע הכחול החדש של Simplenote
 </iw-IL>
 <id>
-2.6:
-* Memperbaiki bug jaringan yang menyebabkan kehilangan data
+2.7:
+* Warna utama diperbarui menjadi biru Simplenote
 </id>
 <it-IT>
-2.6:
-* Risolto un bug di rete che causava la perdita di dati
+2.7:
+*Colori primari aggiornati con un nuovo blu di Simplenote
 </it-IT>
 <ja-JP>
-2.6:
-* データ損失の原因となるネットワークのバグを修正
+2.7:
+* メインカラーを新しい Simplenote ブルーに更新しました
 </ja-JP>
 <ko-KR>
-2.6:
-* 데이터 손실의 원인이 되는 네트워킹 버그가 해결됨
+2.7:
+* 기본 색상을 새로운 Simplenote 파랑으로 업데이트함
 </ko-KR>
 <nl-NL>
-2.6:
-* Netwerkbug die gegevensverlies veroorzaakt opgelost
+2.7:
+* Primaire kleur bijgewerkt naar nieuwe Simplenote-blauw
 </nl-NL>
 <pt-BR>
-2.6:
-* Correção do bug de rede que causava perda de dados
+2.7:
+* Atualização da cor principal para o novo azul do Simplenote
 </pt-BR>
 <ru-RU>
-Версия 2.6:
-* Исправлена сетевая ошибка, приводившая к потере данных.
+Версия 2.7
+* Основной цвет заменен на новый голубой тон приложения Simplenote
 </ru-RU>
 <sv-SE>
-2.6:
-* Åtgärdade ett nätverksfel som orsakade dataförlust
+2.7:
+* Updaterade primärfärgen till den nya Simplenote-blå
 </sv-SE>
 <tr-TR>
-2.6:
-* Veri kaybına neden olan ağ hatası düzeltildi
+2.7:
+* Birincil renk yeni Simplenote mavisi olarak güncellendi
 </tr-TR>
 <zh-CN>
-2.6：
-* 修复了数据丢失导致的网络错误
+2.7：
+* 将主色调更新为新的 Simplenote 蓝色
 </zh-CN>
 <zh-TW>
-2.6：
-* 修正造成資料遺失的網路錯誤
+2.7：
+* 將主要色彩更新為新的 Simplenote 藍
 </zh-TW>
 <en-US>
-2.6:
-* Fixed networking bug causing data loss
+2.7:
+* Updated primary color to new Simplenote blue
 </en-US>

@@ -1,0 +1,2 @@
+2.7:
+* Warna utama diperbarui menjadi biru Simplenote

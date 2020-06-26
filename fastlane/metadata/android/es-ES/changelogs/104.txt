@@ -1,2 +1,0 @@
-2.6:
-* Hemos corregido el error de red que causaba la pérdida de datos

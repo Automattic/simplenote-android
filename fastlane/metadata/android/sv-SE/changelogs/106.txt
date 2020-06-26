@@ -1,0 +1,2 @@
+2.7:
+* Updaterade primärfärgen till den nya Simplenote-blå
