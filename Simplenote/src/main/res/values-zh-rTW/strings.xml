@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-05-05 03:16:04+0000
+Translation-Revision-Date: 2020-06-16 10:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
+    <string name="error_network_required">需要網路連線。請檢查你的連線，然後再試一次。</string>
     <string name="search">搜尋筆記或標籤</string>
     <string name="empty_tags_search">找不到標籤</string>
     <string name="empty_notes_widget">沒有筆記</string>

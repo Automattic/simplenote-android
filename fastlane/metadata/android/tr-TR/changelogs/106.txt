@@ -1,0 +1,2 @@
+2.7:
+* Birincil renk yeni Simplenote mavisi olarak güncellendi

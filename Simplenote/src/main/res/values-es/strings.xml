@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-05-05 03:16:06+0000
+Translation-Revision-Date: 2020-06-17 10:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
+    <string name="error_network_required">Una conexión de red es obligatoria. Comprueba la conexión e inténtalo de nuevo.</string>
     <string name="search">Buscar notas o etiquetas</string>
     <string name="empty_tags_search">No se han encontrado etiquetas</string>
     <string name="empty_notes_widget">No hay notas</string>

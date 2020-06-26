@@ -707,6 +707,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void setMarkdown(boolean isChecked) {
         mIsMarkdownEnabled = isChecked;
+        showMarkdownActionOrTabs();
+        saveNote();
+
+        // Set preference so that next new note will have markdown enabled.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
+        editor.apply();
+    }
+
+    private void setMarkdownEnabled(boolean enabled) {
+        mIsMarkdownEnabled = enabled;
+
+        if (mIsMarkdownEnabled) {
+            loadMarkdownData();
+        }
+    }
+
+    private void showMarkdownActionOrTabs() {
         Activity activity = getActivity();
 
         if (activity instanceof NoteEditorActivity) {
@@ -726,22 +745,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else if (activity instanceof NotesActivity) {
             setMarkdownEnabled(mIsMarkdownEnabled);
             ((NotesActivity) getActivity()).setMarkdownShowing(false);
-        }
-
-        saveNote();
-
-        // Set preference so that next new note will have markdown enabled.
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(PrefUtils.PREF_MARKDOWN_ENABLED, isChecked);
-        editor.apply();
-    }
-
-    protected void setMarkdownEnabled(boolean enabled) {
-        mIsMarkdownEnabled = enabled;
-
-        if (mIsMarkdownEnabled) {
-            loadMarkdownData();
         }
     }
 
@@ -789,8 +792,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mIsMarkdownEnabled = mNote.isMarkdownEnabled();
                 mIsPreviewEnabled = mNote.isPreviewEnabled();
 
-                // Show/Hide tabs based on markdown flag.
-                setMarkdown(mIsMarkdownEnabled);
+                // Show/Hide action/tabs based on markdown flag.
+                showMarkdownActionOrTabs();
 
                 // Save note so any local changes get synced.
                 mNote.save();
@@ -1102,7 +1105,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setText(content);
     }
 
-    protected void saveNote() {
+    private void saveNote() {
         try {
             if (mNote == null || mNotesBucket == null || mContentEditText == null || mIsLoadingNote ||
                 (mHistoryBottomSheet != null && mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing())) {
@@ -1363,6 +1366,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {
+                    mNotesBucket = noteBucket;
                     final Note updatedNote = mNotesBucket.get(key);
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {

@@ -1,0 +1,2 @@
+2.7:
+* Primaire kleur bijgewerkt naar nieuwe Simplenote-blauw

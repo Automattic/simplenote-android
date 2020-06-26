@@ -1,0 +1,2 @@
+2.7:
+* Hauptfarbe in neues Simplenote-Blau geändert
