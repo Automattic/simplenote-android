@@ -7,7 +7,6 @@ import com.automattic.simplenote.smoke.data.DataProvider;
 import com.automattic.simplenote.smoke.data.NoteDTO;
 import com.automattic.simplenote.smoke.data.SignUpDataProvider;
 import com.automattic.simplenote.smoke.pages.IntroPage;
-import com.automattic.simplenote.smoke.pages.LoginPage;
 import com.automattic.simplenote.smoke.pages.MainPage;
 import com.automattic.simplenote.smoke.pages.NotePage;
 import com.automattic.simplenote.smoke.pages.SettingsPage.SortOrder;
@@ -18,7 +17,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class TestRunner {
+public class PageTests {
     @Rule
     public ActivityTestRule<NotesActivity> mActivityTestRule = new ActivityTestRule<>(NotesActivity.class, true, true);
 
@@ -27,61 +26,21 @@ public class TestRunner {
 
     @Before
     public void init() {
-        TestUtils.logoutIfNecessary();
-
         if (email == null || password == null) {
+            TestUtils.logoutIfNecessary();
 
             email = SignUpDataProvider.generateEmail();
             password = SignUpDataProvider.generatePassword();
 
-            System.out.println("Email: " + email);
-            System.out.println("Password: " + password);
-
             new IntroPage()
                     .openSignUp()
-                    .signUp(email, password)
-                    .logout(email);
+                    .signUp(email, password);
         }
     }
 
     @After
     public void tearDown() {
-    }
 
-    @Test
-    public void testLogin() {
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
-
-        new MainPage()
-                .isOpened()
-                .logout(email);
-    }
-
-    @Test
-    public void testLogout() {
-
-        if (!TestUtils.logoutIfNecessary()) {
-            new IntroPage()
-                    .goToLoginWithEmail()
-                    .login(email, password);
-
-            new MainPage()
-                    .isOpened()
-                    .logout(email);
-        }
-    }
-
-    @Test
-    public void testLoginWithWrongPassword() {
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(DataProvider.LOGIN_EMAIL, DataProvider.LOGIN_WRONG_PASSWORD);
-
-        new LoginPage()
-                .checkLoginFailedMessage();
     }
 
     @Test
@@ -89,10 +48,6 @@ public class TestRunner {
         NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
 
         String searchParam = noteDTO.getTitle();
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .switchCondensedNoteListMode(false)
@@ -106,17 +61,12 @@ public class TestRunner {
 
         new MainPage()
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testFilterByTagWhenClickingOnTagInTagDrawer() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .switchCondensedNoteListMode(false)
@@ -129,17 +79,12 @@ public class TestRunner {
 
         new MainPage()
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testViewTrashedNotesByClickingOnTrash() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -147,18 +92,11 @@ public class TestRunner {
                 .trash()
                 .openTrashPage()
                 .checkNoteIsTrashed(noteDTO.getTitle());
-
-        new MainPage()
-                .logout(email);
     }
 
     @Test
     public void testRestoreNoteFromTrashScreen() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -171,17 +109,12 @@ public class TestRunner {
 
         new MainPage()
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testTrashNote() {
         NoteDTO noteDTO = DataProvider.generateNotes(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -189,29 +122,18 @@ public class TestRunner {
                 .trash()
                 .checkNoteTitleIsNotInTheList(noteDTO);
 
-        new MainPage()
-                .logout(email);
     }
 
     @Test
     public void testShareAnalytics() {
 
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
-
         new MainPage()
-                .switchShareAnalytics(true)
-                .logout(email);
+                .switchShareAnalytics(true);
     }
 
     @Test
     public void testCondensedModeClosed() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -221,18 +143,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testCondensedModeOpened() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -242,18 +159,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteContentIsNotInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderAlphabeticallyAZ() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -268,18 +180,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderAlphabeticallyZA() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -294,18 +201,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderOldestModifiedDate() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -320,18 +222,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderNewestModifiedDate() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -346,18 +243,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderOldestCreatedDate() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -372,18 +264,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testPinnedNotesWhileChangingOrderNewestCreatedDate() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -398,18 +285,13 @@ public class TestRunner {
         new MainPage()
                 .checkNoteInTheGivenPosition(noteDTO.getTitle(), 0)
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testFlipToEditMode() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -420,18 +302,13 @@ public class TestRunner {
                 .markdown(false);
 
         new NotePage()
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testFlipToPreviewMode() {
 
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -442,17 +319,12 @@ public class TestRunner {
                 .markdown(false);
 
         new NotePage()
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testCancelSearchAndGoBackToMainPage() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUniqueContent(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -461,17 +333,12 @@ public class TestRunner {
                 .cancelSearchAndGoBack()
                 .checkNoteContentIsInTheList(noteDTO.getContent().substring(0, 15))
                 .openNote(noteDTO)
-                .trash()
-                .logout(email);
+                .trash();
     }
 
     @Test
     public void testAddedUrlIsLinkified() {
         NoteDTO noteDTO = DataProvider.generateNotesWithUrl(1).get(0);
-
-        new IntroPage()
-                .goToLoginWithEmail()
-                .login(email, password);
 
         new MainPage()
                 .addNewNote(noteDTO)
@@ -481,7 +348,6 @@ public class TestRunner {
                 .closeActionMode();
 
         new NotePage()
-                .trash()
-                .logout(email);
+                .trash();
     }
 }
