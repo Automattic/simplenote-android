@@ -37,6 +37,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
     private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
+    private static final String URL_CALIFORNIA = "https://automattic.com/privacy/#california-consumer-privacy-act-ccpa";
     private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
     private static final String URL_PRIVACY = "https://automattic.com/privacy";
     private static final String URL_TERMS = "https://simplenote.com/terms";
@@ -54,6 +55,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
         View hiring = view.findViewById(R.id.about_careers);
         TextView privacy = view.findViewById(R.id.about_privacy);
         TextView terms = view.findViewById(R.id.about_terms);
+        TextView california = view.findViewById(R.id.about_california);
         TextView copyright = view.findViewById(R.id.about_copyright);
 
         String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
@@ -152,6 +154,24 @@ public class AboutFragment extends Fragment implements SpeedListener {
             public void onClick(View v) {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_TERMS)));
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        california.setText(Html.fromHtml(String.format(
+            getResources().getString(R.string.link_california),
+            "<u><span style=\"color:#",
+            colorLink,
+            "\">",
+            "</span></u>"
+        )));
+        california.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_CALIFORNIA)));
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
