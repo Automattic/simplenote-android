@@ -1,1 +1,2 @@
-* Updated primary color to new Simplenote blue
+* Added hotkey shortcuts for devices with hardware keyboards
+* Added right-to-left language support to markdown preview
