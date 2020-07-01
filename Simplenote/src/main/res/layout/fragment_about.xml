@@ -228,6 +228,15 @@
         </LinearLayout>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/about_california"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            tools:text="Privacy Notice for California Users"
+            style="@style/Theme.Simplestyle.About.Link">
+        </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:id="@+id/about_copyright"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
