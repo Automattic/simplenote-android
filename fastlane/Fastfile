@@ -388,7 +388,7 @@ SUPPORTED_LOCALES = [
 
   private_lane :send_strings_for_translation do | options |
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path} && git add #{update_strings_path}strings.xml")
-    sh("git diff-index --quiet HEAD || git commit -m \"Send strings to translation.\"")
+    sh("git diff-index --quiet HEAD || git commit -m \"Update strings file for translation automation\"")
     sh("git push origin HEAD")
   end
 
