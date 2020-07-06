@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name" translatable="false">Simplenote</string>
+    <string name="app_launcher_name" translatable="false">@string/app_name</string>
+    <string name="tag_hint">Add tag&#8230;</string>
+    <string name="settings">Settings</string>
+    <string name="share">Share</string>
+    <string name="new_note">New Note</string>
+    <string name="account">Account</string>
+    <string name="log_in">Log in</string>
+    <string name="log_out">Log out</string>
+    <string name="words">Words</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="rename_tag">Rename Tag</string>
+    <string name="tag_name">Tag name</string>
+    <string name="delete_tag">Delete Tag</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="empty_trash">Empty Trash</string>
+    <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="word">Word</string>
+    <string name="website">Visit simplenote.com</string>
+    <string name="more_info">More Information</string>
+    <string name="note_selected">%d note selected</string>
+    <string name="notes_selected">%d notes selected</string>
+    <string name="note_added">Note added</string>
+    <string name="search">Search Notes or Tags</string>
+    <string name="search_hint">Search notes or tags</string>
+    <string name="search_tags">Search Tags</string>
+    <string name="search_tags_hint">Search tags</string>
+    <string name="notes">Notes</string>
+    <string name="trash">Trash</string>
+    <string name="untagged_notes">Untagged Notes</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="information">Information</string>
+    <string name="tags">Tags</string>
+    <string name="edit">Edit</string>
+    <string name="pin">Pin</string>
+    <string name="toggle_pin">Toggle Pin to Top</string>
+    <string name="pin_to_top">Pin to Top</string>
+    <string name="unpin_from_top">Unpin from Top</string>
+    <string name="created">Created</string>
+    <string name="modified">Modified</string>
+    <string name="tab_edit">Edit</string>
+    <string name="tab_preview">Preview</string>
+    <string name="list_hide">Hide List</string>
+    <string name="list_show">Show List</string>
+    <string name="markdown">Markdown</string>
+    <string name="markdown_hide">Hide Markdown</string>
+    <string name="markdown_show">Show Markdown</string>
+    <string name="character">Character</string>
+    <string name="characters">Characters</string>
+    <string name="logo">Logo</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="more_options">More Options</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="of">of</string>
+
+    <!-- Preferences -->
+    <string name="editor">Editor</string>
+    <string name="condensed_note_list">Condensed note list</string>
+    <string name="sort_order">Sort order</string>
+    <string name="detect_links">Detect links</string>
+    <string name="share_analytics">Share analytics</string>
+    <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
+
+    <!-- Undo -->
+    <string name="undo">Undo</string>
+    <string name="note_deleted">Note trashed.</string>
+    <string name="notes_trashed">Notes trashed.</string>
+
+    <!-- welcome note for new users -->
+    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the blue \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"More Options\" button with the three vertical dots icon while viewing a note and check the \"Pin\" box.\n\nUse tags to help organize your notes. Create a tag in the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping \"Share\" in the \"More Options\" menu while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
+    <string name="confirm_delete_tag">Are you sure you want to delete this tag?</string>
+    <string name="new_note_list">New note&#8230;</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+
+    <!-- Sorting Options -->
+    <string name="sort_newest_modified">Newest modified date</string>
+    <string name="sort_oldest_modified">Oldest modified date</string>
+    <string name="sort_newest_created">Newest created date</string>
+    <string name="sort_oldest_created">Oldest created date</string>
+    <string name="sort_alphabetical">Alphabetically, A-Z</string>
+    <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
+    <string name="sort_search_alphabetically">Alphabetically</string>
+    <string name="sort_search_created">Created</string>
+    <string name="sort_search_modified">Modified</string>
+    <string name="sort_search_reverse_order">Reverse order</string>
+
+    <!-- Editor link options -->
+    <string name="call">Call</string>
+    <string name="email">Email</string>
+    <string name="view_map">View map</string>
+    <string name="view_in_browser">View in Browser</string>
+    <string name="link">Link</string>
+    <string name="link_copied">Link copied!</string>
+    <string name="copy">Copy</string>
+
+    <!-- account setup -->
+    <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
+    <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
+
+    <!-- Themes -->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Dark at night only</string>
+    <string name="theme_system">System default</string>
+    <string name="theme">Theme</string>
+    <string name="version">Version</string>
+
+    <!-- About screen -->
+    <string name="about">About Simplenote</string>
+    <string name="about_copyright">&#169; Automattic %1$d</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_contribute_title">Contribute</string>
+    <string name="about_hiring_title">Careers</string>
+    <string name="about_hiring">Are you a developer? We\'re hiring.</string>
+    <string name="about_play_store">Google Play Store</string>
+    <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
+    <string name="twitter">Twitter</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="blog">Blog</string>
+    <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
+    <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="link_california">%1$s%2$s%3$sPrivacy Notice for California Users%4$s</string>
+    <string name="link_divider">&#183;</string>
+    <string name="link_privacy">%1$s%2$s%3$sPrivacy Policy%4$s</string>
+    <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
+
+    <!-- Unsynced note warnings -->
+    <string name="unsynced_notes">Unsynced notes detected</string>
+    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can verify your synced notes by logging in to app.simplenote.com in a web browser.</string>
+    <string name="visit_web_app">Visit web app</string>
+    <string name="delete_notes">Delete notes</string>
+
+    <!-- Note publishing -->
+    <string name="publish">Publish</string>
+    <string name="unpublish">Remove public link</string>
+    <string name="published">Published</string>
+    <string name="publish_error">Could not create link.</string>
+    <string name="unpublish_error">Could not remove link.</string>
+    <string name="publish_successful">Published. Link copied!</string>
+    <string name="unpublish_successful">Public link removed.</string>
+    <string name="publishing">Publishing&#8230;</string>
+    <string name="unpublishing">Removing public link&#8230;</string>
+    <string name="error_network_required">A network connection is required. Please, check your connection and try again.</string>
+    <string name="retry">Retry</string>
+
+    <string name="collaborate">Collaborate</string>
+    <string name="collaborate_message">Add an email in the tag field to collaborate with other users.</string>
+
+    <!-- Font Sizes -->
+    <string name="font_size">Font size</string>
+    <string name="font_size_extra_small">Extra small</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_size_extra_large">Extra large</string>
+
+    <!-- Widgets -->
+    <string name="note_list_widget_dark">Note List (Dark)</string>
+    <string name="note_list_widget_light">Note List (Light)</string>
+    <string name="note_widget_dark">Note (Dark)</string>
+    <string name="note_widget_light">Note (Light)</string>
+    <string name="loading_note">Loading note&#8230;</string>
+    <string name="loading_notes">Loading notes&#8230;</string>
+    <string name="note_not_found">Note not found</string>
+    <string name="select_note">Select Note</string>
+    <string name="log_in_add_widget">Log in to add this widget</string>
+    <string name="log_in_use_widget">Log in to use widget</string>
+
+    <!-- Android Wear strings, added here to make GlotPress translation easier -->
+    <!-- Note: These need to be manually copied to the Wear app strings -->
+    <string name="noted">Noted</string>
+    <string name="error">Error</string>
+    <string name="restore">Restore</string>
+    <string name="history">History</string>
+    <string name="error_history">Couldn\'t retrieve history.</string>
+    <string name="wordpress_post">WordPress Post</string>
+    <string name="send_post">Post</string>
+    <string name="wordpress_post_draft">Set status to draft</string>
+    <string name="uploading_post">Uploading post</string>
+    <string name="success">Successfully posted note to: %1$s</string>
+    <string name="done">Done</string>
+    <string name="wordpress_connect_summary">To post a note directly to a WordPress site, connect your WordPress.com account.</string>
+    <string name="connect_with_wordpress">Connect</string>
+    <string name="untitled_site">Untitled site</string>
+    <string name="post_to_wordpress">Post to WordPress</string>
+    <string name="select_site">Select a site to post to.</string>
+    <string name="network_error_message">A network error was encountered. Please try again.</string>
+    <string name="reconnect_to_wordpress">Please reconnect to WordPress.com.</string>
+    <string name="wordpress_post_link">Share WordPress Post</string>
+    <string name="could_not_access_site_data">Could not access site data.</string>
+    <string name="empty_note_post">Can\'t post an empty note.</string>
+    <string name="sort_tags_alphabetically">Sort alphabetically</string>
+    <string name="appearance">Appearance</string>
+    <string name="all_notes">All Notes</string>
+    <string name="toggle_checklist">Toggle Checklist</string>
+
+    <string name="description_delete_item">Delete item</string>
+    <string name="description_down">Down</string>
+    <string name="description_sort">Sort</string>
+    <string name="description_up">Up</string>
+
+    <string name="empty_notes_all">Create your first note</string>
+    <string name="empty_notes_search">No notes found</string>
+    <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
+    <string name="empty_notes_trash">Your trash is empty</string>
+    <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_notes_widget">No notes</string>
+    <string name="empty_tags">No tags</string>
+    <string name="empty_tags_search">No tags found</string>
+
+    <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
+
+    <!-- PASSCODE -->
+    <string name="passcode_change_passcode">Change passcode</string>
+    <string name="passcode_enter_old_passcode">Enter your old passcode</string>
+    <string name="passcode_preference_title">Passcode Lock</string>
+    <string name="passcode_re_enter_passcode">Confirm your passcode</string>
+    <string name="passcode_summary">Screenshots are disabled while passcode lock is on</string>
+    <string name="passcode_turn_off">Turn passcode lock off</string>
+    <string name="passcode_turn_on">Turn passcode lock on</string>
+    <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
+    <string name="passcodelock_prompt_message">Enter your passcode</string>
+
+    <!-- SHORTCUTS -->
+    <string name="action">Action</string>
+    <string name="item_action_note_new" translatable="false">@string/new_note</string>
+    <string name="item_action_open_search">Open Search</string>
+    <string name="item_action_show_history">Show History</string>
+    <string name="item_action_show_history_edit_error">Select Edit tab to show history</string>
+    <string name="item_action_show_history_error">Select a note to show history</string>
+    <string name="item_action_show_information">Show Information</string>
+    <string name="item_action_show_information_edit_error">Select Edit tab to show information</string>
+    <string name="item_action_show_information_error">Select a note to show information</string>
+    <string name="item_action_show_share">Show Share</string>
+    <string name="item_action_show_share_edit_error">Select Edit tab to show share</string>
+    <string name="item_action_show_share_error">Select a note to show share</string>
+    <string name="item_action_toggle_checklist" translatable="false">@string/toggle_checklist</string>
+    <string name="item_action_toggle_checklist_edit_error">Select Edit tab to toggle checklist</string>
+    <string name="item_action_toggle_checklist_error">Select a note to toggle checklist</string>
+    <string name="item_action_toggle_list">Toggle List</string>
+    <string name="item_action_toggle_list_error">Select a note to toggle list</string>
+    <string name="item_action_toggle_preview">Toggle Preview</string>
+    <string name="item_action_toggle_preview_enable_error">Enable markdown to toggle preview</string>
+    <string name="item_action_toggle_preview_error">Select a note to toggle preview</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_single_c">C</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_s">S</string>
+
+    <!-- SIMPERIUM -->
+    <string name="simperium_button_login">Log In</string>
+    <string name="simperium_button_login_email">Log In with Email</string>
+    <string name="simperium_button_login_other">Log In with WordPress.com</string>
+    <string name="simperium_button_login_reset">Reset</string>
+    <string name="simperium_button_signup">Sign Up</string>
+    <string name="simperium_dialog_button_copy_url">Copy URL</string>
+    <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
+    <string name="simperium_dialog_message_login">Could not log in with the provided email address and password.</string>
+    <string name="simperium_dialog_message_login_reset">Your password is insecure and must be reset.  The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
+    <string name="simperium_dialog_message_network">There is no network available.  Please, connect to a network and try again.</string>
+    <string name="simperium_dialog_message_password">The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
+    <string name="simperium_dialog_message_password_login">Passwords must be a minimum of %1$d characters excluding new lines, spaces, and tabs.</string>
+    <string name="simperium_dialog_message_signup">Could not sign up with the provided email address and password.</string>
+    <string name="simperium_dialog_message_signup_existing">The email address you entered is already associated with a Simplenote account.</string>
+    <string name="simperium_dialog_progress_logging_in">Logging in&#8230;</string>
+    <string name="simperium_dialog_progress_signing_up">Signing up&#8230;</string>
+    <string name="simperium_dialog_title_error">Error</string>
+    <string name="simperium_dialog_title_error_browser">No Browser Detected</string>
+    <string name="simperium_error_browser">Please, verify a browser is installed and enabled.</string>
+    <string name="simperium_error_browser_copy_failure">URL could not be copied to clipboard</string>
+    <string name="simperium_error_browser_copy_success">URL copied to clipboard</string>
+    <string name="simperium_error_email">Invalid email</string>
+    <string name="simperium_error_password">Invalid password</string>
+    <string name="simperium_footer_login">%1$s%2$s%3$sForgot password?%4$s</string>
+    <string name="simperium_footer_login_url">https://app.simplenote.com/forgot/?email=%1$s</string>
+    <string name="simperium_footer_signup">By creating an account, you agree to our %1$s%2$s%3$sTerms and Conditions%4$s</string>
+    <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
+    <string name="simperium_hint_email">Email</string>
+    <string name="simperium_hint_password">Password</string>
+    <string name="simperium_subtitle">The simplest way to keep notes.</string>
+    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_url">http://simplenote.com</string>
+
+</resources>
