@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,9 +32,15 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
@@ -42,8 +49,8 @@ import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KE
  */
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
         Simperium.OnUserCreatedListener {
-
     private static final String WEB_APP_URL = "https://app.simplenote.com";
+    private static final int REQUEST_EXPORT_DATA = 9001;
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
@@ -110,6 +117,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
+                return true;
+            }
+        });
+
+        findPreference("pref_key_export").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.export_file));
+                startActivityForResult(intent, REQUEST_EXPORT_DATA);
                 return true;
             }
         });
@@ -195,6 +214,83 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         updateAnalyticsSwitchState();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode != REQUEST_EXPORT_DATA || resultCode != Activity.RESULT_OK || resultData == null) {
+            return;
+        }
+
+        if (resultData.getData() != null) {
+            Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+            Bucket<Note> noteBucket = currentApp.getNotesBucket();
+            JSONObject account = new JSONObject();
+            Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
+
+            try {
+                JSONArray activeNotes = new JSONArray();
+                JSONArray trashedNotes = new JSONArray();
+                Comparator<String> comparator = new Comparator<String>() {
+                    @Override
+                    public int compare(String text1, String text2) {
+                        return text1.compareToIgnoreCase(text2);
+                    }
+                };
+
+                while (cursor.moveToNext()) {
+                    Note note = cursor.getObject();
+                    JSONObject noteJson = new JSONObject();
+
+                    noteJson.put("id", note.getSimperiumKey());
+                    noteJson.put("content", note.getContent());
+                    noteJson.put("creationDate", note.getCreationDateString());
+                    noteJson.put("lastModified", note.getModificationDateString());
+
+                    if (note.isPinned()) {
+                        noteJson.put("pinned", note.isPinned());
+                    }
+
+                    if (note.isMarkdownEnabled()) {
+                        noteJson.put("markdown", note.isMarkdownEnabled());
+                    }
+
+                    if (note.getTags().size() > 0) {
+                        List<String> tags = note.getTags();
+                        Collections.sort(tags, comparator);
+                        noteJson.put("tags", new JSONArray(tags));
+                    }
+
+                    if (!note.getPublishedUrl().isEmpty()) {
+                        noteJson.put("publicURL", note.getPublishedUrl());
+                    }
+
+                    if (note.isDeleted()) {
+                        trashedNotes.put(noteJson);
+                    } else {
+                        activeNotes.put(noteJson);
+                    }
+                }
+
+                account.put("activeNotes", activeNotes);
+                account.put("trashedNotes", trashedNotes);
+
+                ParcelFileDescriptor parcelFileDescriptor = requireContext().getContentResolver().openFileDescriptor(resultData.getData(), "w");
+
+                if (parcelFileDescriptor != null) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+                    fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
+                    parcelFileDescriptor.close();
+                    Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
