@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.SpinningImageButton;
@@ -37,6 +38,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
     private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
+    private static final String URL_CALIFORNIA = "https://automattic.com/privacy/#california-consumer-privacy-act-ccpa";
     private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
     private static final String URL_PRIVACY = "https://automattic.com/privacy";
     private static final String URL_TERMS = "https://simplenote.com/terms";
@@ -54,6 +56,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
         View hiring = view.findViewById(R.id.about_careers);
         TextView privacy = view.findViewById(R.id.about_privacy);
         TextView terms = view.findViewById(R.id.about_terms);
+        TextView california = view.findViewById(R.id.about_california);
         TextView copyright = view.findViewById(R.id.about_copyright);
 
         String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
@@ -65,7 +68,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SIMPLENOTE_BLOG_URL)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), SIMPLENOTE_BLOG_URL);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
@@ -76,9 +79,9 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_APP_URI + SIMPLENOTE_TWITTER_HANDLE)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), TWITTER_APP_URI + SIMPLENOTE_TWITTER_HANDLE);
                 } catch (Exception e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_PROFILE_URL + SIMPLENOTE_TWITTER_HANDLE)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), TWITTER_PROFILE_URL + SIMPLENOTE_TWITTER_HANDLE);
                 }
             }
         });
@@ -86,16 +89,22 @@ public class AboutFragment extends Fragment implements SpeedListener {
         store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(PLAY_STORE_URI + requireActivity().getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                String url = PLAY_STORE_URI + requireActivity().getPackageName();
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                goToMarket.addFlags(
+                    Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                );
+
                 try {
-                    startActivity(goToMarket);
+                    if (BrowserUtils.isBrowserInstalled(requireContext())) {
+                        startActivity(goToMarket);
+                    } else {
+                        BrowserUtils.showDialogErrorBrowser(requireContext(), url);
+                    }
                 } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(PLAY_STORE_URL + requireActivity().getPackageName())));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), url);
                 }
             }
         });
@@ -104,7 +113,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_CONTRIBUTE)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), URL_CONTRIBUTE);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
@@ -115,7 +124,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SIMPLENOTE_HIRING_HANDLE)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), SIMPLENOTE_HIRING_HANDLE);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
@@ -133,7 +142,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_PRIVACY)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), URL_PRIVACY);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
@@ -151,7 +160,25 @@ public class AboutFragment extends Fragment implements SpeedListener {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_TERMS)));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), URL_TERMS);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        california.setText(Html.fromHtml(String.format(
+            getResources().getString(R.string.link_california),
+            "<u><span style=\"color:#",
+            colorLink,
+            "\">",
+            "</span></u>"
+        )));
+        california.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL_CALIFORNIA)));
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }

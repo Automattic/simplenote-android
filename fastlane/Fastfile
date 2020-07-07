@@ -319,6 +319,16 @@ SUPPORTED_LOCALES = [
 
   desc "Take screenshots in the app"
   lane :take_screenshots do |options|
+    package = "com.automattic.simplenote.debug"
+
+    # Reset the app in the emulator, just to avoid possible state related
+    # issues
+    begin
+      adb(command: "shell pm clear #{package}")
+    rescue
+      UI.message("Failed to reset app data on emulator. This can happen when the app is not installed yet.")
+    end
+
     # We use the screenshots build type for the app APK, which allows us to not
     # set the special permissions in the debug build type so that it doesn't
     # deviate from the release one. For the test APK though, we still use the
@@ -331,12 +341,13 @@ SUPPORTED_LOCALES = [
       locales: ["en-US"],
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
-      app_package_name: "com.automattic.simplenote.debug",
+      app_package_name: package,
       app_apk_path: "Simplenote/build/outputs/apk/screenshots/Simplenote-screenshots.apk",
       tests_apk_path: "Simplenote/build/outputs/apk/androidTest/debug/Simplenote-debug-androidTest.apk",
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
       use_tests_in_classes: "com.automattic.simplenote.screenshots.ScreenshotTest",
+      use_timestamp_suffix: false,
       # Need to use this in order to get access to the screenshots on the
       # emulator. Also note that you might need to run on a Google API
       # emulator, that is one without the Play Store. See

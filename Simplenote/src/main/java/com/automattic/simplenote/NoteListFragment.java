@@ -515,7 +515,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    private void createNewNote(String label){
+    public void createNewNote(String label){
         if (!isAdded()) return;
 
         addNote();

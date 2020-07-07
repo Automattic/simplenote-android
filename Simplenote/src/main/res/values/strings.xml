@@ -76,7 +76,7 @@
     <string name="notes_trashed">Notes trashed.</string>
 
     <!-- welcome note for new users -->
-    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the blue \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"Info\" button with the \"i\" icon while viewing a note and turn the \"Pin to top\" switch on.\n\nUse tags to help organize your notes. Create a tag in the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping the \"Share\" button with the share icon while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
+    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the blue \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"More Options\" button with the three vertical dots icon while viewing a note and check the \"Pin\" box.\n\nUse tags to help organize your notes. Create a tag in the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping \"Share\" in the \"More Options\" menu while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
     <string name="confirm_delete_tag">Are you sure you want to delete this tag?</string>
     <string name="new_note_list">New note&#8230;</string>
     <string name="open_drawer">Open drawer</string>
@@ -129,6 +129,7 @@
     <string name="blog">Blog</string>
     <string name="no_browser_available">\"Unable to open website. No browser available.\"</string>
     <string name="simplenote_blog_url" translatable="false">simplenote.com/blog</string>
+    <string name="link_california">%1$s%2$s%3$sPrivacy Notice for California Users%4$s</string>
     <string name="link_divider">&#183;</string>
     <string name="link_privacy">%1$s%2$s%3$sPrivacy Policy%4$s</string>
     <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
@@ -230,12 +231,43 @@
     <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
     <string name="passcodelock_prompt_message">Enter your passcode</string>
 
+    <!-- SHORTCUTS -->
+    <string name="action">Action</string>
+    <string name="item_action_note_new" translatable="false">@string/new_note</string>
+    <string name="item_action_open_search">Open Search</string>
+    <string name="item_action_show_history">Show History</string>
+    <string name="item_action_show_history_edit_error">Select Edit tab to show history</string>
+    <string name="item_action_show_history_error">Select a note to show history</string>
+    <string name="item_action_show_information">Show Information</string>
+    <string name="item_action_show_information_edit_error">Select Edit tab to show information</string>
+    <string name="item_action_show_information_error">Select a note to show information</string>
+    <string name="item_action_show_share">Show Share</string>
+    <string name="item_action_show_share_edit_error">Select Edit tab to show share</string>
+    <string name="item_action_show_share_error">Select a note to show share</string>
+    <string name="item_action_toggle_checklist" translatable="false">@string/toggle_checklist</string>
+    <string name="item_action_toggle_checklist_edit_error">Select Edit tab to toggle checklist</string>
+    <string name="item_action_toggle_checklist_error">Select a note to toggle checklist</string>
+    <string name="item_action_toggle_list">Toggle List</string>
+    <string name="item_action_toggle_list_error">Select a note to toggle list</string>
+    <string name="item_action_toggle_preview">Toggle Preview</string>
+    <string name="item_action_toggle_preview_enable_error">Enable markdown to toggle preview</string>
+    <string name="item_action_toggle_preview_error">Select a note to toggle preview</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_single_c">C</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_s">S</string>
+
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
     <string name="simperium_button_login_email">Log In with Email</string>
     <string name="simperium_button_login_other">Log In with WordPress.com</string>
     <string name="simperium_button_login_reset">Reset</string>
     <string name="simperium_button_signup">Sign Up</string>
+    <string name="simperium_dialog_button_copy_url">Copy URL</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="simperium_dialog_message_login">Could not log in with the provided email address and password.</string>
     <string name="simperium_dialog_message_login_reset">Your password is insecure and must be reset.  The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
@@ -247,6 +279,10 @@
     <string name="simperium_dialog_progress_logging_in">Logging in&#8230;</string>
     <string name="simperium_dialog_progress_signing_up">Signing up&#8230;</string>
     <string name="simperium_dialog_title_error">Error</string>
+    <string name="simperium_dialog_title_error_browser">No Browser Detected</string>
+    <string name="simperium_error_browser">Please, verify a browser is installed and enabled.</string>
+    <string name="simperium_error_browser_copy_failure">URL could not be copied to clipboard</string>
+    <string name="simperium_error_browser_copy_success">URL copied to clipboard</string>
     <string name="simperium_error_email">Invalid email</string>
     <string name="simperium_error_password">Invalid password</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sForgot password?%4$s</string>
@@ -257,5 +293,6 @@
     <string name="simperium_hint_password">Password</string>
     <string name="simperium_subtitle">The simplest way to keep notes.</string>
     <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_url">http://simplenote.com</string>
 
 </resources>

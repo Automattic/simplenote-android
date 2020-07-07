@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class ChecklistUtils {
     public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
+    public static String CHECKED_MARKDOWN_PREVIEW = "- [\u2A2F]";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
     public static final int CHECKLIST_OFFSET = 3;

@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
@@ -98,7 +98,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://simplenote.com")));
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), "http://simplenote.com");
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
@@ -213,7 +213,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private DialogInterface.OnClickListener loadWebAppClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(WEB_APP_URL)));
+            BrowserUtils.launchBrowserOrShowError(requireContext(), WEB_APP_URL);
         }
     };
 

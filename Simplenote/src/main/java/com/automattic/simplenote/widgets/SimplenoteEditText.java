@@ -247,7 +247,6 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         SpannableStringBuilder content = new SpannableStringBuilder(getText());
         CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
-
         for(CheckableSpan span: spans) {
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
@@ -259,6 +258,27 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         return content.toString();
     }
+
+    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2A2F]')
+    public String getPreviewTextContent() {
+        if (getText() == null) {
+            return "";
+        }
+
+        SpannableStringBuilder content = new SpannableStringBuilder(getText());
+        CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
+        for(CheckableSpan span: spans) {
+            int start = content.getSpanStart(span);
+            int end = content.getSpanEnd(span);
+            ((Editable) content).replace(
+                    start,
+                    end,
+                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN_PREVIEW : ChecklistUtils.UNCHECKED_MARKDOWN);
+        }
+
+        return content.toString();
+    }
+
 
     public void processChecklists() {
         if (getText().length() == 0 || getContext() == null) {
