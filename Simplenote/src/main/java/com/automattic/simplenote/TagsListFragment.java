@@ -44,6 +44,7 @@ import com.simperium.client.Query;
 import java.lang.ref.SoftReference;
 import java.util.List;
 
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 
 public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
@@ -361,7 +362,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
                         }
 
                         final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
-                        final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
+                        final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
                             deleteTag(tag);
                         } else if (tagCount > 0) {
@@ -465,7 +466,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
         public void onBindViewHolder(@NonNull ViewHolder holder, Cursor cursor) {
             Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
             holder.tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
+            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
 
             if (tagCount > 0) {
                 holder.tagCountTextView.setText(String.valueOf(tagCount));

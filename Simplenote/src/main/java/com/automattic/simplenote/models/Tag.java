@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+
 public class Tag extends BucketObject {
 
     private static final String BUCKET_NAME = "tag";
@@ -106,7 +108,7 @@ public class Tag extends BucketObject {
     }
 
     public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket) {
-        return notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()).execute();
+        return notesBucket.query().where(TAGS_PROPERTY, ComparisonType.LIKE, getSimperiumKey()).execute();
     }
 
     public static class Schema extends BucketSchema<Tag> {
