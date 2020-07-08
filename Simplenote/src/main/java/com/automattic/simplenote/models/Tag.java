@@ -77,13 +77,13 @@ public class Tag extends BucketObject {
         }
     }
 
-    public void renameTo(String name, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
-        if (!getSimperiumKey().equals(TagUtils.hashTag(name))) {
+    public void renameTo(String tagOld, String tagNew, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
+        if (!getSimperiumKey().equals(TagUtils.hashTag(tagNew))) {
             // create a new tag with the value as the key/name
             //noinspection unchecked
-            TagUtils.createTag((Bucket<Tag>) getBucket(), name, index);
+            TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
             // get all the notes from tag, remove the item
-            ObjectCursor<Note> notesCursor = findNotes(notesBucket);
+            ObjectCursor<Note> notesCursor = findNotes(notesBucket, tagOld);
 
             while (notesCursor.moveToNext()) {
                 Note note = notesCursor.getObject();
@@ -94,7 +94,7 @@ public class Tag extends BucketObject {
                 for (String tag : tags) {
                     // if it's this tag, add the new tag
                     if (getSimperiumKey().equals(TagUtils.hashTag(tag))) {
-                        newTags.add(name);
+                        newTags.add(tagNew);
                     } else {
                         newTags.add(tag);
                     }
@@ -106,14 +106,14 @@ public class Tag extends BucketObject {
 
             notesCursor.close();
             delete();
-        } else if (!getName().equals(name)) {
-            setName(name);
+        } else if (!getName().equals(tagNew)) {
+            setName(tagNew);
             save();
         }
     }
 
-    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket) {
-        return notesBucket.query().where(TAGS_PROPERTY, ComparisonType.LIKE, getSimperiumKey()).execute();
+    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket, String name) {
+        return notesBucket.query().where(TAGS_PROPERTY, ComparisonType.LIKE, name).execute();
     }
 
     public static class Schema extends BucketSchema<Tag> {

@@ -64,7 +64,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                     int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
 
                     try {
-                        mTag.renameTo(tagNew, index, mBucketNote);
+                        mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
                         AnalyticsTracker.track(
                             AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
                             AnalyticsTracker.CATEGORY_TAG,

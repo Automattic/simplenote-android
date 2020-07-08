@@ -323,7 +323,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
             Tag tag = removedTags[0];
 
             if (tag != null) {
-                Bucket.ObjectCursor<Note> cursor = tag.findNotes(fragment.mNotesBucket);
+                Bucket.ObjectCursor<Note> cursor = tag.findNotes(fragment.mNotesBucket, tag.getName());
 
                 while (cursor.moveToNext()) {
                     Note note = cursor.getObject();
