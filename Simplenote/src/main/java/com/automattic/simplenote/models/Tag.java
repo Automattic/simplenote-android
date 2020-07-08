@@ -1,5 +1,6 @@
 package com.automattic.simplenote.models;
 
+import com.automattic.simplenote.utils.TagUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObject;
@@ -76,33 +77,33 @@ public class Tag extends BucketObject {
         }
     }
 
-    public void renameTo(String name, Bucket<Note> notesBucket)
-            throws BucketObjectNameInvalid {
-        String key = name.toLowerCase();
-        if (!getSimperiumKey().equals(key)) {
+    public void renameTo(String name, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
+        if (!getSimperiumKey().equals(TagUtils.hashTag(name))) {
             // create a new tag with the value as the key/name
             //noinspection unchecked
-            Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
-            newTag.setName(name);
-            newTag.save();
+            TagUtils.createTag((Bucket<Tag>) getBucket(), name, index);
             // get all the notes from tag, remove the item
             ObjectCursor<Note> notesCursor = findNotes(notesBucket);
+
             while (notesCursor.moveToNext()) {
                 Note note = notesCursor.getObject();
                 List<String> tags = new ArrayList<>(note.getTags());
                 List<String> newTags = new ArrayList<>(tags.size());
+
                 // iterate and do a case insensitive comparison on each tag
                 for (String tag : tags) {
                     // if it's this tag, add the new tag
-                    if (tag.toLowerCase().equals(getSimperiumKey())) {
+                    if (getSimperiumKey().equals(TagUtils.hashTag(tag))) {
                         newTags.add(name);
                     } else {
                         newTags.add(tag);
                     }
                 }
+
                 note.setTags(newTags);
                 note.save();
             }
+
             notesCursor.close();
             delete();
         } else if (!getName().equals(name)) {
