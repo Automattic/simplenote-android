@@ -64,6 +64,10 @@ public class Tag extends BucketObject {
         return (Integer) getProperty(INDEX_PROPERTY);
     }
 
+    public boolean hasIndex() {
+        return getProperty(INDEX_PROPERTY) != null;
+    }
+
     public void setIndex(Integer tagIndex) {
         if (tagIndex == null) {
             getProperties().remove("index");

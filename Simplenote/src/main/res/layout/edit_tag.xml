@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingEnd="@dimen/padding_extra_large"
+    android:paddingStart="@dimen/padding_extra_large"
+    android:paddingTop="@dimen/padding_large">
 
-    <com.automattic.simplenote.widgets.SimplenoteEditText
-        android:id="@+id/tag_name_edit"
-        android:layout_width="fill_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_tag_name"
         android:layout_height="wrap_content"
-        android:hint="@string/tag_name"/>
+        android:layout_marginBottom="@dimen/margin_default_quarter"
+        android:layout_marginEnd="@dimen/margin_default_quarter"
+        android:layout_marginStart="@dimen/margin_default_quarter"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_width="match_parent"
+        android:hint="@string/tag_name"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textEmailAddress"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
