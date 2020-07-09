@@ -1,5 +1,6 @@
 2.9
 -----
+* Fixed a bug with duplicate tags and special characters in tag names
  
 2.8
 -----
