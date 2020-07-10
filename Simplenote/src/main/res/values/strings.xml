@@ -139,7 +139,7 @@
     <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
 
     <!-- Unsynced note warnings -->
-    <string name="unsynced_notes">Unsynced notes detected</string>
+    <string name="unsynced_notes">Unsynced Notes</string>
     <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can export the unsynced notes for safekeeping.</string>
     <string name="export_unsynced_notes">Export unsynced notes</string>
     <string name="delete_notes">Delete notes</string>
