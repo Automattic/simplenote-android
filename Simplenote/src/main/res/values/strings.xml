@@ -140,8 +140,8 @@
 
     <!-- Unsynced note warnings -->
     <string name="unsynced_notes">Unsynced notes detected</string>
-    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can verify your synced notes by logging in to app.simplenote.com in a web browser.</string>
-    <string name="visit_web_app">Visit web app</string>
+    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can export the unsynced notes for safekeeping.</string>
+    <string name="export_unsynced_notes">Export unsynced notes</string>
     <string name="delete_notes">Delete notes</string>
 
     <!-- Note publishing -->
