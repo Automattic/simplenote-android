@@ -142,7 +142,7 @@
     <string name="unsynced_notes">Unsynced Notes</string>
     <string name="unsynced_notes_message">Logging out will delete any unsynced notes.</string>
     <string name="export_unsynced_notes">Export unsynced notes</string>
-    <string name="delete_notes">Delete notes</string>
+    <string name="log_out_anyway">Log out anyway</string>
 
     <!-- Note publishing -->
     <string name="publish">Publish</string>

@@ -444,7 +444,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 new AlertDialog.Builder(new ContextThemeWrapper(fragment.requireContext(), R.style.Dialog))
                     .setTitle(R.string.unsynced_notes)
                     .setMessage(R.string.unsynced_notes_message)
-                    .setPositiveButton(R.string.delete_notes,
+                    .setPositiveButton(R.string.log_out_anyway,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
