@@ -61,6 +61,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SimplenoteMovementMethod;
 import com.automattic.simplenote.utils.SpaceTokenizer;
+import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
@@ -982,7 +983,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (!hasFocus) {
             String tags = getNoteTagsString().trim();
 
-            if (mTagInput.getText().toString().trim().length() > 0) {
+            if (mTagInput.getText().toString().trim().length() > 0
+                && TagUtils.hashTagValid(mTagInput.getText().toString().trim())) {
                 onTagAdded(mTagInput.getText().toString());
             } else if (tags.length() > 0) {
                 setChips(tags);
