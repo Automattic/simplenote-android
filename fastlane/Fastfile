@@ -64,7 +64,9 @@ SUPPORTED_LOCALES = [
     android_update_release_notes(new_version: new_version)
     setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
     setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
-    
+
+    update_strings_for_translation_automation()
+
     android_tag_build()
     get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
   end
@@ -363,6 +365,9 @@ SUPPORTED_LOCALES = [
   #####################################################################################
   # Private lanes
   #####################################################################################
+  main_strings_path = "./Simplenote/src/main/res/values/strings.xml"
+  update_strings_path = "./fastlane/resources/values/"
+
   private_lane :delete_old_changelogs do | options |
     Dir.glob("./metadata/android/*/").each do | folder |
       Dir["#{folder}changelogs/*"].each do | file |
@@ -379,6 +384,12 @@ SUPPORTED_LOCALES = [
       f.puts(File.open(en_release_notes_path).read)
       f.puts("</en-US>")
     }
+  end
+
+  private_lane :update_strings_for_translation_automation do | options |
+    sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path} && git add #{update_strings_path}strings.xml")
+    sh("git diff-index --quiet HEAD || git commit -m \"Update strings file for translation automation\"")
+    sh("git push origin HEAD")
   end
 
 end
