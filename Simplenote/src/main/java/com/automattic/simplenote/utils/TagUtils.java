@@ -14,6 +14,8 @@ import java.text.Normalizer;
 import java.util.Locale;
 
 public class TagUtils {
+    private static int MAXIMUM_LENGTH_ENCODED_HASH = 256;
+
     /**
      * Create a tag with the @param key and @param name in the @param bucket.
      *
@@ -65,6 +67,25 @@ public class TagUtils {
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
             return name;
+        }
+    }
+
+    /**
+     * Determine if the hashed tag @param name is valid after normalizing, lowercasing, and encoding.
+     *
+     * @param name      {@link String} to hash as the tag kay.
+     *
+     * @return          {@link boolean} true if hashed value is valid; false otherwise.
+     */
+    public static boolean hashTagValid(String name) {
+        try {
+            String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
+            String lowercased = normalized.toLowerCase(Locale.US);
+            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.toString()).replace("*", "%2A").replace("+", "%20");
+            return encoded.length() <= MAXIMUM_LENGTH_ENCODED_HASH;
+        } catch (UnsupportedEncodingException e) {
+            // TODO: Handle encoding exception with a custom UTF-8 encoder.
+            return false;
         }
     }
 }
