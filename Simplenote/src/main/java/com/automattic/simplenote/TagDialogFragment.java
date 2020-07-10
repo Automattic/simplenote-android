@@ -23,6 +23,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -103,12 +104,15 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         if (isTagNameValid()) {
             mButtonPositive.setEnabled(true);
             mEditTextLayout.setError(null);
-        } else if (isTagNameInvalidSpaces()) {
-            mButtonPositive.setEnabled(false);
-            mEditTextLayout.setError(getString(R.string.rename_tag_error_spaces));
         } else if (isTagNameInvalidEmpty()) {
             mButtonPositive.setEnabled(false);
             mEditTextLayout.setError(getString(R.string.rename_tag_error_empty));
+        } else if (isTagNameInvalidLength()) {
+            mButtonPositive.setEnabled(false);
+            mEditTextLayout.setError(getString(R.string.rename_tag_error_length));
+        } else if (isTagNameInvalidSpaces()) {
+            mButtonPositive.setEnabled(false);
+            mEditTextLayout.setError(getString(R.string.rename_tag_error_spaces));
         }
     }
 
@@ -121,32 +125,32 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     }
 
     private boolean isTagNameValid() {
-        return !isTagNameInvalidSpaces() && !isTagNameInvalidEmpty();
-    }
-
-    private boolean isTagNameInvalidSpaces() {
-        return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(" ");
+        return !isTagNameInvalidSpaces() && !isTagNameInvalidLength() && !isTagNameInvalidEmpty();
     }
 
     private boolean isTagNameInvalidEmpty() {
         return mEditTextTag.getText() != null && mEditTextTag.getText().toString().isEmpty();
     }
 
+    private boolean isTagNameInvalidLength() {
+        return mEditTextTag.getText() != null && !TagUtils.hashTagValid(mEditTextTag.getText().toString());
+    }
+
+    private boolean isTagNameInvalidSpaces() {
+        return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(" ");
+    }
+
     private void showDialogErrorRename() {
         final AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
             .setTitle(R.string.error)
-            .setMessage(
-                HtmlCompat.fromHtml(String.format(
+            .setMessage(HtmlCompat.fromHtml(String.format(
                 getString(R.string.rename_tag_message),
                 getString(R.string.rename_tag_message_email),
                 "<span style=\"color:#",
-                Integer.toHexString(
-                    ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent) & 0xffffff
-                ),
+                Integer.toHexString(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent) & 0xffffff),
                 "\">",
                 "</span>"
-                ))
-            )
+            )))
             .setPositiveButton(android.R.string.ok, null)
             .show();
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
