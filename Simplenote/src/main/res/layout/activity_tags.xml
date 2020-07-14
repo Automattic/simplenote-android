@@ -11,10 +11,26 @@
         layout="@layout/toolbar">
     </include>
 
-    <FrameLayout
-        android:id="@+id/tags_container"
+    <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-    </FrameLayout>
+
+        <com.automattic.simplenote.widgets.EmptyViewRecyclerView
+            android:id="@+id/list"
+            android:background="@android:color/transparent"
+            android:divider="?attr/listDividerDrawable"
+            android:dividerHeight="@dimen/divider_height"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical">
+        </com.automattic.simplenote.widgets.EmptyViewRecyclerView>
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/empty_view">
+        </include>
+
+    </RelativeLayout>
 
 </LinearLayout>
