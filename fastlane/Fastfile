@@ -61,6 +61,9 @@ SUPPORTED_LOCALES = [
    
     android_bump_version_release()
     new_version = android_get_app_version()
+    extract_release_notes_for_version(version: new_version, 
+      release_notes_file_path:"#{ENV["PROJECT_ROOT_FOLDER"]}RELEASE-NOTES.txt", 
+      extracted_notes_file_path:release_notes_path)
     android_update_release_notes(new_version: new_version)
     setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
     setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
@@ -390,6 +393,22 @@ SUPPORTED_LOCALES = [
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path} && git add #{update_strings_path}strings.xml")
     sh("git diff-index --quiet HEAD || git commit -m \"Update strings file for translation automation\"")
     sh("git push origin HEAD")
+  end
+
+  #####################################################################################
+  # Utils
+  #####################################################################################
+  def release_notes_path
+    "#{ENV["PROJECT_ROOT_FOLDER"]}Simplenote/metadata/release_notes.txt"
+  end
+
+  def universal_apk_name(version)
+    "simplenote-#{version["name"]}.apk"
+  end
+
+  def universal_apk_file_path(version)
+    project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
+    File.join(project_root, "build", universal_apk_name(version))
   end
 
 end
