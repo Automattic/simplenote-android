@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -66,6 +67,21 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     public TagsMultiAutoCompleteTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (TagUtils.hashTagValid(getText().toString())) {
+                notifyTagsChanged();
+            } else {
+                showDialogErrorLength();
+            }
+
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
     }
 
     @Override
