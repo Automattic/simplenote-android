@@ -99,6 +99,10 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
         if (TagUtils.hashTagValid(text)) {
             notifyTagsChanged();
         } else {
+            removeTextChangedListener(mTextWatcher);
+            setText(getText().toString().trim());
+            setSelection(getText().length());
+            addTextChangedListener(mTextWatcher);
             showDialogErrorLength();
         }
     }
