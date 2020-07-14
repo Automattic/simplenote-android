@@ -23,7 +23,7 @@ import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
     private OnTagAddedListener mTagAddedListener;
-    private TextWatcher textWatcher = new TextWatcher() {
+    private TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {
@@ -75,7 +75,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
 
     public void init() {
         setOnItemClickListener(this);
-        addTextChangedListener(textWatcher);
+        addTextChangedListener(mTextWatcher);
     }
 
     public void notifyTagsChanged() {
