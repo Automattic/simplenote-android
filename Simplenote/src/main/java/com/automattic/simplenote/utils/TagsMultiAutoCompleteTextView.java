@@ -41,11 +41,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (count >= 1 && s.charAt(start) == SPACE) {
-                if (TagUtils.hashTagValid(s.toString())) {
-                    notifyTagsChanged();
-                } else {
-                    showDialogErrorLength();
-                }
+                saveTagOrShowError(s.toString());
             }
         }
     };
@@ -72,12 +68,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-            if (TagUtils.hashTagValid(getText().toString())) {
-                notifyTagsChanged();
-            } else {
-                showDialogErrorLength();
-            }
-
+            saveTagOrShowError(getText().toString());
             return true;
         } else {
             return super.dispatchKeyEvent(event);
@@ -101,6 +92,14 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     public void notifyTagsChanged(String tag) {
         if (mTagAddedListener != null) {
             mTagAddedListener.onTagAdded(tag);
+        }
+    }
+
+    private void saveTagOrShowError(String text) {
+        if (TagUtils.hashTagValid(text)) {
+            notifyTagsChanged();
+        } else {
+            showDialogErrorLength();
         }
     }
 
