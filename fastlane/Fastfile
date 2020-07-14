@@ -156,6 +156,7 @@ SUPPORTED_LOCALES = [
   desc "Updates store metadata and runs the release checks"
   lane :finalize_release do | options |
     android_finalize_prechecks(options)
+    configure_apply(force: is_ci)
     hotfix = android_current_branch_is_hotfix
     android_update_metadata(options) unless hotfix
     android_bump_version_final_release() unless hotfix
