@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,12 +37,13 @@ import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.Query;
 
 import java.lang.ref.SoftReference;
 import java.util.List;
 
+import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 
 public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
@@ -323,7 +323,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
             Tag tag = removedTags[0];
 
             if (tag != null) {
-                Bucket.ObjectCursor<Note> cursor = tag.findNotes(fragment.mNotesBucket);
+                Bucket.ObjectCursor<Note> cursor = tag.findNotes(fragment.mNotesBucket, tag.getName());
 
                 while (cursor.moveToNext()) {
                     Note note = cursor.getObject();
@@ -361,7 +361,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
                         }
 
                         final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
-                        final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
+                        final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
                         if (tagCount == 0) {
                             deleteTag(tag);
                         } else if (tagCount > 0) {
@@ -403,38 +403,13 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
                     return;
                 }
 
-                final AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.Dialog));
-                LinearLayout alertView = (LinearLayout) requireActivity().getLayoutInflater().inflate(R.layout.edit_tag, null);
-
-                final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
-
-                final EditText tagNameEditText = alertView.findViewById(R.id.tag_name_edit);
-                tagNameEditText.setText(tag.getName());
-                tagNameEditText.setSelection(tagNameEditText.length());
-                alert.setView(alertView);
-                alert.setTitle(R.string.rename_tag);
-                alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String value = tagNameEditText.getText().toString().trim();
-                        try {
-                            tag.renameTo(value, mNotesBucket);
-                            AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
-                                    AnalyticsTracker.CATEGORY_TAG,
-                                    "tag_alert_edit_box"
-                            );
-                        } catch (BucketObjectNameInvalid e) {
-                            android.util.Log.e(Simplenote.TAG, "Unable to rename tag", e);
-                            // TODO: show user a message that new tag name is not ok
-                        }
-                    }
-                });
-                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing
-                    }
-                });
-                alert.show();
+                //noinspection unchecked
+                TagDialogFragment dialog = new TagDialogFragment(
+                    ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject(),
+                    mNotesBucket,
+                    mTagsBucket
+                );
+                dialog.show(requireActivity().getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
             }
 
             private void deleteTag(Tag tag) {
@@ -465,7 +440,7 @@ public class TagsListFragment extends Fragment implements Bucket.Listener<Tag> {
         public void onBindViewHolder(@NonNull ViewHolder holder, Cursor cursor) {
             Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
             holder.tagTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where("tags", Query.ComparisonType.EQUAL_TO, tag.getName()).count();
+            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
 
             if (tagCount > 0) {
                 holder.tagCountTextView.setText(String.valueOf(tagCount));
