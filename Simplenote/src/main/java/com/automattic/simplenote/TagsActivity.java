@@ -304,15 +304,15 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     }
 
     private static class RemoveTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
-        private SoftReference<TagsActivity> mTagsListFragmentReference;
+        private SoftReference<TagsActivity> mTagsActivityReference;
 
         private RemoveTagFromNotesTask(TagsActivity context) {
-            mTagsListFragmentReference = new SoftReference<>(context);
+            mTagsActivityReference = new SoftReference<>(context);
         }
 
         @Override
         protected Void doInBackground(Tag... removedTags) {
-            TagsActivity activity = mTagsListFragmentReference.get();
+            TagsActivity activity = mTagsActivityReference.get();
             Tag tag = removedTags[0];
 
             if (tag != null) {
