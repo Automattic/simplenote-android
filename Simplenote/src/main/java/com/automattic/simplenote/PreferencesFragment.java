@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -51,6 +52,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Simperium.OnUserCreatedListener {
     private static final String WEB_APP_URL = "https://app.simplenote.com";
     private static final int REQUEST_EXPORT_DATA = 9001;
+    private static final int REQUEST_EXPORT_UNSYNCED = 9002;
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
@@ -218,78 +220,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode != REQUEST_EXPORT_DATA || resultCode != Activity.RESULT_OK || resultData == null) {
+        if (resultCode != Activity.RESULT_OK || resultData == null) {
             return;
         }
 
-        if (resultData.getData() != null) {
-            Simplenote currentApp = (Simplenote) requireActivity().getApplication();
-            Bucket<Note> noteBucket = currentApp.getNotesBucket();
-            JSONObject account = new JSONObject();
-            Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
-
-            try {
-                JSONArray activeNotes = new JSONArray();
-                JSONArray trashedNotes = new JSONArray();
-                Comparator<String> comparator = new Comparator<String>() {
-                    @Override
-                    public int compare(String text1, String text2) {
-                        return text1.compareToIgnoreCase(text2);
-                    }
-                };
-
-                while (cursor.moveToNext()) {
-                    Note note = cursor.getObject();
-                    JSONObject noteJson = new JSONObject();
-
-                    noteJson.put("id", note.getSimperiumKey());
-                    noteJson.put("content", note.getContent());
-                    noteJson.put("creationDate", note.getCreationDateString());
-                    noteJson.put("lastModified", note.getModificationDateString());
-
-                    if (note.isPinned()) {
-                        noteJson.put("pinned", note.isPinned());
-                    }
-
-                    if (note.isMarkdownEnabled()) {
-                        noteJson.put("markdown", note.isMarkdownEnabled());
-                    }
-
-                    if (note.getTags().size() > 0) {
-                        List<String> tags = note.getTags();
-                        Collections.sort(tags, comparator);
-                        noteJson.put("tags", new JSONArray(tags));
-                    }
-
-                    if (!note.getPublishedUrl().isEmpty()) {
-                        noteJson.put("publicURL", note.getPublishedUrl());
-                    }
-
-                    if (note.isDeleted()) {
-                        trashedNotes.put(noteJson);
-                    } else {
-                        activeNotes.put(noteJson);
-                    }
-                }
-
-                account.put("activeNotes", activeNotes);
-                account.put("trashedNotes", trashedNotes);
-
-                ParcelFileDescriptor parcelFileDescriptor = requireContext().getContentResolver().openFileDescriptor(resultData.getData(), "w");
-
-                if (parcelFileDescriptor != null) {
-                    FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
-                    fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
-                    parcelFileDescriptor.close();
-                    Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
-            }
-        } else {
+        if (resultData.getData() == null) {
             Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        switch (requestCode) {
+            case REQUEST_EXPORT_DATA:
+                exportData(resultData.getData(), false);
+                break;
+            case REQUEST_EXPORT_UNSYNCED:
+                exportData(resultData.getData(), true);
+                break;
         }
     }
 
@@ -298,20 +244,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         super.onPause();
         mPreferencesBucket.stop();
     }
-
-    private DialogInterface.OnClickListener logOutClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            logOut();
-        }
-    };
-
-    private DialogInterface.OnClickListener loadWebAppClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            BrowserUtils.launchBrowserOrShowError(requireContext(), WEB_APP_URL);
-        }
-    };
 
     private boolean hasUnsyncedNotes() {
         Simplenote application = (Simplenote) getActivity().getApplication();
@@ -397,6 +329,79 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
     }
 
+    private void exportData(Uri uri, boolean isUnsyncedNotes) {
+        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+        Bucket<Note> noteBucket = currentApp.getNotesBucket();
+        JSONObject account = new JSONObject();
+        Bucket.ObjectCursor<Note> cursor = noteBucket.allObjects();
+
+        try {
+            JSONArray activeNotes = new JSONArray();
+            JSONArray trashedNotes = new JSONArray();
+            Comparator<String> comparator = new Comparator<String>() {
+                @Override
+                public int compare(String text1, String text2) {
+                    return text1.compareToIgnoreCase(text2);
+                }
+            };
+
+            while (cursor.moveToNext()) {
+                Note note = cursor.getObject();
+
+                if (isUnsyncedNotes && !note.isNew() && !note.isModified()) {
+                    continue;
+                }
+
+                JSONObject noteJson = new JSONObject();
+
+                noteJson.put("id", note.getSimperiumKey());
+                noteJson.put("content", note.getContent());
+                noteJson.put("creationDate", note.getCreationDateString());
+                noteJson.put("lastModified", note.getModificationDateString());
+
+                if (note.isPinned()) {
+                    noteJson.put("pinned", note.isPinned());
+                }
+
+                if (note.isMarkdownEnabled()) {
+                    noteJson.put("markdown", note.isMarkdownEnabled());
+                }
+
+                if (note.getTags().size() > 0) {
+                    List<String> tags = note.getTags();
+                    Collections.sort(tags, comparator);
+                    noteJson.put("tags", new JSONArray(tags));
+                }
+
+                if (!note.getPublishedUrl().isEmpty()) {
+                    noteJson.put("publicURL", note.getPublishedUrl());
+                }
+
+                if (note.isDeleted()) {
+                    trashedNotes.put(noteJson);
+                } else {
+                    activeNotes.put(noteJson);
+                }
+            }
+
+            account.put("activeNotes", activeNotes);
+            account.put("trashedNotes", trashedNotes);
+
+            ParcelFileDescriptor parcelFileDescriptor = requireContext().getContentResolver().openFileDescriptor(uri, "w");
+
+            if (parcelFileDescriptor != null) {
+                FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+                fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
+                parcelFileDescriptor.close();
+                Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void updateAnalyticsSwitchState() {
         try {
             Preferences prefs = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY);
@@ -428,7 +433,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         @Override
         protected void onPostExecute(Boolean hasUnsyncedNotes) {
-            PreferencesFragment fragment = mPreferencesFragmentReference.get();
+            final PreferencesFragment fragment = mPreferencesFragmentReference.get();
 
             if (fragment == null) {
                 return;
@@ -437,12 +442,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             // Safety first! Check if any notes are unsynced and warn the user if so.
             if (hasUnsyncedNotes) {
                 new AlertDialog.Builder(new ContextThemeWrapper(fragment.requireContext(), R.style.Dialog))
-                        .setTitle(R.string.unsynced_notes)
-                        .setMessage(R.string.unsynced_notes_message)
-                        .setPositiveButton(R.string.delete_notes, fragment.logOutClickListener)
-                        .setNeutralButton(R.string.visit_web_app, fragment.loadWebAppClickListener)
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
+                    .setTitle(R.string.unsynced_notes)
+                    .setMessage(R.string.unsynced_notes_message)
+                    .setPositiveButton(R.string.log_out_anyway,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                fragment.logOut();
+                            }
+                        }
+                    )
+                    .setNeutralButton(R.string.export_unsynced_notes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                intent.setType("application/json");
+                                intent.putExtra(Intent.EXTRA_TITLE, fragment.getString(R.string.export_file));
+                                fragment.startActivityForResult(intent, REQUEST_EXPORT_UNSYNCED);
+                            }
+                        }
+                    )
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
             } else {
                 fragment.logOut();
             }

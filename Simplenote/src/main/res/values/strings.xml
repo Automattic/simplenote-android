@@ -145,10 +145,10 @@
     <string name="link_terms">%1$s%2$s%3$sTerms of Service%4$s</string>
 
     <!-- Unsynced note warnings -->
-    <string name="unsynced_notes">Unsynced notes detected</string>
-    <string name="unsynced_notes_message">Logging out will delete any unsynced notes. You can verify your synced notes by logging in to app.simplenote.com in a web browser.</string>
-    <string name="visit_web_app">Visit web app</string>
-    <string name="delete_notes">Delete notes</string>
+    <string name="unsynced_notes">Unsynced Notes</string>
+    <string name="unsynced_notes_message">Logging out will delete any unsynced notes.</string>
+    <string name="export_unsynced_notes">Export unsynced notes</string>
+    <string name="log_out_anyway">Log out anyway</string>
 
     <!-- Note publishing -->
     <string name="publish">Publish</string>
