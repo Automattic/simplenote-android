@@ -170,7 +170,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
 
@@ -343,9 +343,8 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
 
                 mTitle = itemView.findViewById(R.id.tag_name);
                 mCount = itemView.findViewById(R.id.tag_count);
-
-                ImageButton deleteButton = itemView.findViewById(R.id.tag_trash);
-                deleteButton.setOnClickListener(
+                ImageButton buttonDelete = itemView.findViewById(R.id.tag_trash);
+                buttonDelete.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -377,7 +376,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                         }
                     }
                 );
-                deleteButton.setOnLongClickListener(
+                buttonDelete.setOnLongClickListener(
                     new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
