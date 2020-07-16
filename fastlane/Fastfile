@@ -61,6 +61,9 @@ SUPPORTED_LOCALES = [
    
     android_bump_version_release()
     new_version = android_get_app_version()
+    extract_release_notes_for_version(version: new_version, 
+      release_notes_file_path:"#{ENV["PROJECT_ROOT_FOLDER"]}RELEASE-NOTES.txt", 
+      extracted_notes_file_path:release_notes_path)
     android_update_release_notes(new_version: new_version)
     setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
     setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
@@ -176,11 +179,12 @@ SUPPORTED_LOCALES = [
   # This lane builds the app it for both internal and external distribution 
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_pre_releases [skip_confirm:<skip confirm>]
+  # bundle exec fastlane build_pre_releases [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
   #
   # Example:
   # bundle exec fastlane build_pre_releases 
-  # bundle exec fastlane build_pre_releases skip_confirm:true 
+  # bundle exec fastlane build_pre_releases skip_confirm:true
+  # bundle exec fastlane build_pre_releases create_release:true 
   #####################################################################################
   desc "Builds and updates for distribution"
   lane :build_pre_releases do | options |
@@ -189,7 +193,7 @@ SUPPORTED_LOCALES = [
       beta: true,
       final: false)
     android_build_preflight()
-    build_beta(skip_prechecks: true, skip_confirm: options[:skip_confirm])
+    build_beta(skip_prechecks: true, skip_confirm: options[:skip_confirm], create_release: options[:create_release])
   end
 
   #####################################################################################
@@ -198,11 +202,12 @@ SUPPORTED_LOCALES = [
   # This lane builds the app it for internal testing  
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_beta [skip_confirm:<skip confirm>]
+  # bundle exec fastlane build_beta [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
   #
   # Example:
   # bundle exec fastlane build_beta 
   # bundle exec fastlane build_beta skip_confirm:true 
+  # bundle exec fastlane build_beta create_release:true 
   #####################################################################################
   desc "Builds and updates for distribution"
   lane :build_beta do | options |
@@ -212,6 +217,10 @@ SUPPORTED_LOCALES = [
     # Create the file names
     version=android_get_release_version()
     build_apk(version: version, flavor:"Vanilla")
+
+    if (options[:create_release])
+      create_gh_release(version: version)
+    end
   end
 
   #####################################################################################
@@ -220,11 +229,12 @@ SUPPORTED_LOCALES = [
   # This lane builds the final release of the app and uploads it 
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_release [skip_confirm:<skip confirm>]
+  # bundle exec fastlane build_release [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
   #
   # Example:
   # bundle exec fastlane build_release 
   # bundle exec fastlane build_release skip_confirm:true 
+  # bundle exec fastlane build_release create_release:true 
   #####################################################################################
   desc "Builds and updates for distribution"
   lane :build_release do | options |
@@ -237,6 +247,10 @@ SUPPORTED_LOCALES = [
     # Create the file names
     version=android_get_release_version()
     build_apk(version: version, flavor:"Vanilla")
+
+    if (options[:create_release])
+      create_gh_release(version: version)
+    end
   end
 
 ########################################################################
@@ -391,6 +405,32 @@ SUPPORTED_LOCALES = [
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path} && git add #{update_strings_path}strings.xml")
     sh("git diff-index --quiet HEAD || git commit -m \"Update strings file for translation automation\"")
     sh("git push origin HEAD")
+  end
+
+  private_lane :create_gh_release do | options |
+    version = options[:version]
+    apk_file_path = universal_apk_file_path(version)
+    create_release(repository:GHHELPER_REPO, 
+      version: version["name"], 
+      release_notes_file_path:release_notes_path,
+      release_assets:"#{apk_file_path}"
+    )
+  end
+
+  #####################################################################################
+  # Utils
+  #####################################################################################
+  def release_notes_path
+    "#{ENV["PROJECT_ROOT_FOLDER"]}Simplenote/metadata/release_notes.txt"
+  end
+
+  def universal_apk_name(version)
+    "simplenote-#{version["name"]}.apk"
+  end
+
+  def universal_apk_file_path(version)
+    project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
+    File.join(project_root, "build", universal_apk_name(version))
   end
 
 end
