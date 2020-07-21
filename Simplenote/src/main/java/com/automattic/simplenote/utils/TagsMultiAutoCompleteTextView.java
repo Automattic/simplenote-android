@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -23,7 +24,7 @@ import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
     private OnTagAddedListener mTagAddedListener;
-    private TextWatcher textWatcher = new TextWatcher() {
+    private TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {
@@ -40,11 +41,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (count >= 1 && s.charAt(start) == SPACE) {
-                if (TagUtils.hashTagValid(s.toString())) {
-                    notifyTagsChanged();
-                } else {
-                    showDialogErrorLength();
-                }
+                saveTagOrShowError(s.toString());
             }
         }
     };
@@ -69,13 +66,23 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     }
 
     @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            saveTagOrShowError(getText().toString());
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         notifyTagsChanged();
     }
 
     public void init() {
         setOnItemClickListener(this);
-        addTextChangedListener(textWatcher);
+        addTextChangedListener(mTextWatcher);
     }
 
     public void notifyTagsChanged() {
@@ -85,6 +92,18 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     public void notifyTagsChanged(String tag) {
         if (mTagAddedListener != null) {
             mTagAddedListener.onTagAdded(tag);
+        }
+    }
+
+    private void saveTagOrShowError(String text) {
+        if (TagUtils.hashTagValid(text)) {
+            notifyTagsChanged();
+        } else {
+            removeTextChangedListener(mTextWatcher);
+            setText(getText().toString().trim());
+            setSelection(getText().length());
+            addTextChangedListener(mTextWatcher);
+            showDialogErrorLength();
         }
     }
 
