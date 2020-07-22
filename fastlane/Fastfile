@@ -297,21 +297,52 @@ SUPPORTED_LOCALES = [
   end 
 
   #####################################################################################
-  # build_bundle
+  # build_and_upload_beta
   # -----------------------------------------------------------------------------------
-  # This lane builds an app bundle
+  # This lane builds the apk and uploads it to the beta channel
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_bundle [skip_confirm:<skip confirm>]
+  # bundle exec fastlane build_and_upload_apk version:<version>
+  #  [skip_confirm:<skip confirm>] 
   #####################################################################################
-  desc "Builds an app bundle"
-  lane :build_apk do | options |
+  desc "Builds an app apk and upload to the beta channel"
+  lane :build_and_upload_beta do | options |
+    build_and_upload_apk(version: options[:version], skip_confirm: options[:skip_confirm], upload_track: "beta")
+  end
+
+  #####################################################################################
+  # build_and_upload_release
+  # -----------------------------------------------------------------------------------
+  # This lane builds the apk and uploads it to the production channel
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_and_upload_apk version:<version>
+  #  [skip_confirm:<skip confirm>] 
+  #####################################################################################
+  desc "Builds an app apk and upload to the production channel"
+  lane :build_and_upload_beta do | options |
+    build_and_upload_apk(version: options[:version], skip_confirm: options[:skip_confirm], upload_track: "production")
+  end
+
+  #####################################################################################
+  # build_and_upload_apk
+  # -----------------------------------------------------------------------------------
+  # This lane builds and uploads an app apk 
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_and_upload_apk version:<version>
+  #  [updload_track:<upload_track: [production | beta]>] 
+  #  [skip_confirm:<skip confirm>] 
+  #####################################################################################
+  desc "Builds an app apk and upload it"
+  lane :build_and_upload_apk do | options |
     # Create the file names
     version=options[:version]
     apk_name="simplenote-#{version["name"]}.apk"
     orign_file="Simplenote-release.apk"
     output_dir="Simplenote/build/outputs/apk/release/"
     build_dir="build/"
+    upload_track=options[:upload_track]
 
     # Build
     Dir.chdir(".") do
@@ -327,7 +358,27 @@ SUPPORTED_LOCALES = [
       sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
       UI.message("Apk ready: #{apk_name}")
     end
-    "#{build_dir}#{apk_name}"
+
+    version=android_get_release_version()
+
+    project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
+    apk_file_path = File.join(project_root, "#{build_dir}", "#{apk_name}")
+
+    UI.error("Unable to find a build artifact at #{apk_file_path}") unless File.exist? apk_file_path
+
+    upload_to_play_store(
+      package_name: 'com.automattic.simplenote',
+      aab: apk_file_path,
+      track: upload_track,
+      release_status: 'draft',
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      json_key: './google-upload-credentials.json',
+    ) unless upload_track.blank?
+  
+    return apk_file_path
   end
 
   #####################################################################################
