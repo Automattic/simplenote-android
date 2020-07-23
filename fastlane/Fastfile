@@ -216,7 +216,7 @@ SUPPORTED_LOCALES = [
 
     # Create the file names
     version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"Beta")
+    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"beta")
 
     if (options[:create_release])
       create_gh_release(version: version)
@@ -246,7 +246,7 @@ SUPPORTED_LOCALES = [
     
     # Create the file names
     version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"Production")
+    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"production")
 
     if (options[:create_release])
       create_gh_release(version: version)
