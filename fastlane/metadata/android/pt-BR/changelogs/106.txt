@@ -1,2 +1,0 @@
-2.7:
-* Atualização da cor principal para o novo azul do Simplenote

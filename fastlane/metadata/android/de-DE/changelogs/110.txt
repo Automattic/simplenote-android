@@ -1,0 +1,3 @@
+2,8:
+* Hotkey-Tastaturkürzel für Geräte mit Hardware-Tastaturen hinzugefügt
+* Unterstützung für Rechts-nach-Links-Sprachen für Markdown-Vorschau hinzugefügt

@@ -1,0 +1,3 @@
+2.8:
+* Pintasan hotkey tambahan untuk perangkat dengan keyboard perangkat keras
+* Menambahkan dukungan bahasa kanan-ke-kiri untuk pratinjau markdown
