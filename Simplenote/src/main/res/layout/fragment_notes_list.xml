@@ -57,6 +57,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_button"
+        android:contentDescription="@string/new_note"
         android:layout_gravity="end|bottom"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_large"
