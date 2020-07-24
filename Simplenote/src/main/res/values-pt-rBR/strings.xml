@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-15 20:54:04+0000
+Translation-Revision-Date: 2020-07-16 18:33:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL copiado para a área de transferência</string>
+    <string name="simperium_error_browser_copy_failure">Não foi possível copiar o URL para a área de transferência</string>
+    <string name="simperium_error_browser">Verifique que um navegador está instalado e ativado.</string>
+    <string name="simperium_dialog_title_error_browser">Nenhum navegador detectado</string>
+    <string name="simperium_dialog_button_copy_url">Copiar URL</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="item_action_toggle_preview_error">Selecione uma nota para alternar a visualização</string>
+    <string name="item_action_toggle_preview_enable_error">Habilitar markdown para alternar a visualização</string>
+    <string name="item_action_toggle_preview">Alternar visualização</string>
+    <string name="item_action_toggle_list_error">Selecione uma nota para alternar a lista</string>
+    <string name="item_action_toggle_list">Alternar lista</string>
+    <string name="item_action_toggle_checklist_error">Selecione uma nota para alternar a lista de tarefas</string>
+    <string name="item_action_toggle_checklist_edit_error">Selecione a aba Editar para alternar a lista de tarefas</string>
+    <string name="item_action_show_share_error">Selecione uma nota para exibir o compartilhamento</string>
+    <string name="item_action_show_share_edit_error">Selecione a aba Editar para exibir o compartilhamento</string>
+    <string name="item_action_show_share">Exibir compartilhamento</string>
+    <string name="item_action_show_information_error">Selecione uma nota para exibir as informações</string>
+    <string name="item_action_show_information_edit_error">Selecione a aba Editar para exibir as informações</string>
+    <string name="item_action_show_information">Exibir informações</string>
+    <string name="item_action_show_history_error">Selecione uma nota para exibir o histórico</string>
+    <string name="item_action_show_history_edit_error">Selecione a aba Editar para exibir o histórico</string>
+    <string name="item_action_show_history">Exibir histórico</string>
+    <string name="item_action_open_search">Abrir pesquisa</string>
+    <string name="action">Ação</string>
+    <string name="link_california">%1$s%2$s%3$sAviso de privacidade para os usuários da California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">É necessária uma conexão de rede. Verifique sua conexão e tente novamente.</string>
     <string name="simperium_dialog_message_password">Os requisitos de senha são:\n\n- A senha não pode ser a mesma que o endereço de e-mail\n- Mínimo de %1$d caracteres\n- Sem quebra de linha\n- Sem tabs</string>
