@@ -55,7 +55,6 @@ Language: zh_CN
     <string name="sort_search_modified">修改时间</string>
     <string name="sort_search_created">创建时间</string>
     <string name="sort_search_alphabetically">按字母顺序</string>
-    <string name="welcome_note">欢迎使用 Simplenote Android！\n打开此笔记以获取说明。\n\n要创建新笔记，请点击带加号图标的蓝色“新建笔记”按钮。\n\n要搜索您的笔记，请点击带有放大镜图标的“搜索”按钮，并输入任意文本。Simplenote 将在输入文本时显示最近的搜索和建议的搜索。提交搜索后，将显示与输入文本匹配的笔记。\n\n要获取至关重要的笔记？将其固定在笔记列表的顶部。您有两种方法可以固定笔记长按列表中的笔记并点击带有钉子图标的“固定在顶部”按钮。查看笔记时，点击带有“i”图标的“信息”按钮，然后开启“固定在顶部”。\n\n使用标签来帮助整理笔记。在笔记底部的“添加标签…”字段中创建标签。您也可以添加电子邮件地址，并将其用作标签，以便与他人分享笔记。\n\n在查看笔记时，点击共享图标上的“共享”按钮，即可轻松与其他 Android 应用程序共享笔记。\n\n已删除的笔记会进入回收站。您可以根据需要将其还原，也可以清空回收站，以将其永久删除。\n\n您可以通过 Web 及其他设备访问自己的笔记。转至 http://simplenote.com，开始使用。\n\n衷心希望您喜欢使用 Simplenote！</string>
     <string name="search_hint">搜索备注或标签</string>
     <string name="log_out">注销</string>
     <string name="log_in">登录</string>

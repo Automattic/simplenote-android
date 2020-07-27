@@ -1,68 +1,85 @@
 <ar>
-2.7:
-* تم تحديث اللون الأساسي على اللون الأزرق الخاص ببرنامج Simplenote الجديد
+2.8:
+* تمت إضافة اختصارات مفاتيح التشغيل السريعة إلى الأجهزة المزوَّدة بلوحات مفاتيح الأجهزة
+* تمت إضافة دعم اللغة من اليمين إلى اليسار لمعاينة الضبط
 </ar>
 <de-DE>
-2.7:
-* Hauptfarbe in neues Simplenote-Blau geändert
+2,8:
+* Hotkey-Tastaturkürzel für Geräte mit Hardware-Tastaturen hinzugefügt
+* Unterstützung für Rechts-nach-Links-Sprachen für Markdown-Vorschau hinzugefügt
 </de-DE>
 <es-ES>
-2.7:
-* Color principal cambiado al nuevo azul Simplenote
+2.8:
+* Hemos añadido atajos de teclado para dispositivos con hardware de teclado
+* Hemos añadido la compatibilidad con idiomas que se leen de derecha a izquierda con la vista previa de Markdown
 </es-ES>
 <fr-FR>
-2.7 :
-* Mise à jour de la couleur principale sur le nouveau bleu Simplenote
+2.8 :
+* Ajout de raccourcis pour les appareils avec un clavier matériel
+* Ajout de la prise en charge des langues s’écrivant de droite à gauche pour l’aperçu Markdown
 </fr-FR>
 <iw-IL>
-2.7:
-* עדכנו את הצבע הראשי לצבע הכחול החדש של Simplenote
+2.8:
+* הוספנו קיצורי דרך של מקשים מהירים במקלדות חומרה
+* הוספנו תמיכה בשפות עם כיווניות מימין לשמאל בתצוגה מקדימה של Markdown
 </iw-IL>
 <id>
-2.7:
-* Warna utama diperbarui menjadi biru Simplenote
+2.8:
+* Pintasan hotkey tambahan untuk perangkat dengan keyboard perangkat keras
+* Menambahkan dukungan bahasa kanan-ke-kiri untuk pratinjau markdown
 </id>
 <it-IT>
-2.7:
-*Colori primari aggiornati con un nuovo blu di Simplenote
+2.8:
+* Aggiunti tasti di scelta rapida (tasti di scelta) per dispositivi con tastiere hardware
+* Aggiunto supporto per lingue scritte da destra a sinistra per la visualizzazione in anteprima Markdown
 </it-IT>
 <ja-JP>
-2.7:
-* メインカラーを新しい Simplenote ブルーに更新しました
+2.8:
+* ハードウェアキーボードが搭載されたデバイス向けにホットキーショートカットを追加
+* マークダウンプレビュー用に、右から左に書く言語のサポートを追加
 </ja-JP>
 <ko-KR>
-2.7:
-* 기본 색상을 새로운 Simplenote 파랑으로 업데이트함
+2.8:
+* 하드웨어 키보드가 연결된 기기의 핫키 단축키 추가됨
+* 마크다운 미리보기를 위한 오른쪽에서 왼쪽으로 읽는 언어 지원 추가됨
 </ko-KR>
 <nl-NL>
-2.7:
-* Primaire kleur bijgewerkt naar nieuwe Simplenote-blauw
+2.8:
+* Sneltoetsen toegevoegd voor apparaten met hardware-toetsenborden
+* Ondersteuning voor talen die van rechts naar links lezen toegevoegd aan voorbeeldweergave van markdown
 </nl-NL>
 <pt-BR>
-2.7:
-* Atualização da cor principal para o novo azul do Simplenote
+2.8:
+* Adição de atalhos de teclado para dispositivos com teclado físico
+* Adição de suporte a idiomas escritos da direita para a esquerda (RTL) na visualização de Markdown
 </pt-BR>
 <ru-RU>
-Версия 2.7
-* Основной цвет заменен на новый голубой тон приложения Simplenote
+2.8:
+* Добавлены горячие клавиши для устройств с аппаратными клавиатурами
+* Предварительный просмотр разметки теперь возможен для языков с написанием справа налево
 </ru-RU>
 <sv-SE>
-2.7:
-* Updaterade primärfärgen till den nya Simplenote-blå
+2,8:
+* Lade till kortkommandon för enheter med fysiska tangentbord
+* Lade till stöd för höger till vänster-språk för Markdown-förhandsgranskning
 </sv-SE>
 <tr-TR>
-2.7:
-* Birincil renk yeni Simplenote mavisi olarak güncellendi
+2,8:
+* Donanım klavyeli cihazlar için kısayol tuşu kısayolları eklendi *
+* İşaretleme önizlemesine sağdan sola dil desteği eklendi
 </tr-TR>
 <zh-CN>
-2.7：
-* 将主色调更新为新的 Simplenote 蓝色
+2.8：
+* 为带有硬件键盘的设备添加了热键快捷方式
+* 为 Markdown 预览添加了从右到左的语言支持
 </zh-CN>
 <zh-TW>
-2.7：
-* 將主要色彩更新為新的 Simplenote 藍
+2.8：
+* 為配備硬體鍵盤的裝置新增快速鍵捷徑
+* 為 Markdown 預覽新增從右至左語言支援
 </zh-TW>
 <en-US>
-2.7:
-* Updated primary color to new Simplenote blue
+2.8:
+* Added hotkey shortcuts for devices with hardware keyboards
+* Added right-to-left language support to markdown preview
 </en-US>

@@ -1,0 +1,3 @@
+2.8:
+* Adição de atalhos de teclado para dispositivos com teclado físico
+* Adição de suporte a idiomas escritos da direita para a esquerda (RTL) na visualização de Markdown

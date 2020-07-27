@@ -1,0 +1,3 @@
+2,8:
+* Lade till kortkommandon för enheter med fysiska tangentbord
+* Lade till stöd för höger till vänster-språk för Markdown-förhandsgranskning

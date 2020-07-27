@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 13:54:04+0000
+Translation-Revision-Date: 2020-07-12 18:48:55+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL kopierad till urklipp</string>
+    <string name="simperium_error_browser_copy_failure">URL kunde inte kopieras till urklipp</string>
+    <string name="simperium_error_browser">Kontrollera att en webbläsare är installerad och aktiverad.</string>
+    <string name="simperium_dialog_title_error_browser">Ingen webbläsare upptäckt</string>
+    <string name="simperium_dialog_button_copy_url">Kopiera URL</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="item_action_toggle_preview_error">Välj en anteckning för att slå på/av förhandsgranskning</string>
+    <string name="item_action_toggle_preview">Slå på/av förhandsgranskning</string>
+    <string name="item_action_toggle_list">Slå på/av lista</string>
+    <string name="item_action_show_information_error">Välj en anteckning för att visa information</string>
+    <string name="item_action_show_information_edit_error">Välj redigeringsflik för att visa information</string>
+    <string name="item_action_show_information">Visa information</string>
+    <string name="item_action_show_history_error">Välj en anteckning för att visa historik</string>
+    <string name="item_action_show_history_edit_error">Välj redigeringsflik för att visa historik</string>
+    <string name="item_action_show_history">Visa historik</string>
+    <string name="item_action_open_search">Öppna sök</string>
+    <string name="action">Åtgärd</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">En nätverksanslutning krävs. Kontrollera anslutningen och försök igen.</string>
     <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
@@ -66,7 +91,6 @@ Language: sv_SE
     <string name="sort_search_modified">Modified</string>
     <string name="sort_search_created">Skapad</string>
     <string name="sort_search_alphabetically">Alfabetiskt</string>
-    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på den blå knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på Info-knappen med i-ikonen när du visar en anteckning och aktivera Fäst överst-knappen.\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett i fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på Dela-knappen med dela-ikonen när du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
