@@ -72,10 +72,11 @@
         <item name="buttonBarNegativeButtonStyle">@style/Dialog.Button</item>
         <item name="buttonBarNeutralButtonStyle">@style/Dialog.Button</item>
         <item name="buttonBarPositiveButtonStyle">@style/Dialog.Button</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
     </style>
 
     <style name="Dialog.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">@color/accent_text_button_disabled_selector</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

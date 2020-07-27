@@ -1,5 +1,6 @@
 package com.automattic.simplenote.models;
 
+import com.automattic.simplenote.utils.TagUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
 import com.simperium.client.BucketObject;
@@ -13,6 +14,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 
 public class Tag extends BucketObject {
 
@@ -62,6 +65,10 @@ public class Tag extends BucketObject {
         return (Integer) getProperty(INDEX_PROPERTY);
     }
 
+    public boolean hasIndex() {
+        return getProperty(INDEX_PROPERTY) != null;
+    }
+
     public void setIndex(Integer tagIndex) {
         if (tagIndex == null) {
             getProperties().remove("index");
@@ -70,43 +77,43 @@ public class Tag extends BucketObject {
         }
     }
 
-    public void renameTo(String name, Bucket<Note> notesBucket)
-            throws BucketObjectNameInvalid {
-        String key = name.toLowerCase();
-        if (!getSimperiumKey().equals(key)) {
+    public void renameTo(String tagOld, String tagNew, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
+        if (!getSimperiumKey().equals(TagUtils.hashTag(tagNew))) {
             // create a new tag with the value as the key/name
             //noinspection unchecked
-            Tag newTag = ((Bucket<Tag>) getBucket()).newObject(key);
-            newTag.setName(name);
-            newTag.save();
+            TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
             // get all the notes from tag, remove the item
-            ObjectCursor<Note> notesCursor = findNotes(notesBucket);
+            ObjectCursor<Note> notesCursor = findNotes(notesBucket, tagOld);
+
             while (notesCursor.moveToNext()) {
                 Note note = notesCursor.getObject();
                 List<String> tags = new ArrayList<>(note.getTags());
                 List<String> newTags = new ArrayList<>(tags.size());
+
                 // iterate and do a case insensitive comparison on each tag
                 for (String tag : tags) {
                     // if it's this tag, add the new tag
-                    if (tag.toLowerCase().equals(getSimperiumKey())) {
-                        newTags.add(name);
+                    if (getSimperiumKey().equals(TagUtils.hashTag(tag))) {
+                        newTags.add(tagNew);
                     } else {
                         newTags.add(tag);
                     }
                 }
+
                 note.setTags(newTags);
                 note.save();
             }
+
             notesCursor.close();
             delete();
-        } else if (!getName().equals(name)) {
-            setName(name);
+        } else if (!getName().equals(tagNew)) {
+            setName(tagNew);
             save();
         }
     }
 
-    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket) {
-        return notesBucket.query().where("tags", ComparisonType.LIKE, getSimperiumKey()).execute();
+    public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket, String name) {
+        return notesBucket.query().where(TAGS_PROPERTY, ComparisonType.LIKE, name).execute();
     }
 
     public static class Schema extends BucketSchema<Tag> {
