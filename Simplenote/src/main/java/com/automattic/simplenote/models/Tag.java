@@ -92,8 +92,8 @@ public class Tag extends BucketObject {
 
                 // iterate and do a case insensitive comparison on each tag
                 for (String tag : tags) {
-                    // if it's this tag, add the new tag
-                    if (getSimperiumKey().equals(TagUtils.hashTag(tag))) {
+                    // Add new tag if it's this tag and note doesn't already have same tag.
+                    if (getSimperiumKey().equals(TagUtils.hashTag(tag)) && !tags.contains(tagNew)) {
                         newTags.add(tagNew);
                     } else {
                         newTags.add(tag);
