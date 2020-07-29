@@ -95,7 +95,8 @@ public class Tag extends BucketObject {
                     // Add new tag if it's this tag and note doesn't already have same tag.
                     if (getSimperiumKey().equals(TagUtils.hashTag(tag)) && !tags.contains(tagNew)) {
                         newTags.add(tagNew);
-                    } else {
+                    // Add tag if it's not old tag to be deleted.
+                    } else if (!tag.equals(tagOld)) {
                         newTags.add(tag);
                     }
                 }
