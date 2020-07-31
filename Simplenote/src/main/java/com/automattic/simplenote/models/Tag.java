@@ -12,8 +12,10 @@ import com.simperium.client.Query.ComparisonType;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 
@@ -78,7 +80,9 @@ public class Tag extends BucketObject {
     }
 
     public void renameTo(String tagOld, String tagNew, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
-        if (!getSimperiumKey().equals(TagUtils.hashTag(tagNew))) {
+        String tagHash = getSimperiumKey();
+
+        if (!tagHash.equals(TagUtils.hashTag(tagNew))) {
             // create a new tag with the value as the key/name
             //noinspection unchecked
             TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
@@ -89,15 +93,24 @@ public class Tag extends BucketObject {
                 Note note = notesCursor.getObject();
                 List<String> tags = new ArrayList<>(note.getTags());
                 List<String> newTags = new ArrayList<>(tags.size());
+                List<String> tagHashes = new ArrayList<>();
+                Set<String> tagSet = new HashSet<>();
 
-                // iterate and do a case insensitive comparison on each tag
+                // Create list and set of hashed tag to compare.
                 for (String tag : tags) {
+                    String hash = TagUtils.hashTag(tag);
+                    tagHashes.add(hash);
+                    tagSet.add(hash);
+                }
+
+                // Go through all note's tags and compare hashed tags.
+                for (int i = 0; i < tags.size(); i++) {
                     // Add new tag if it's this tag and note doesn't already have same tag.
-                    if (getSimperiumKey().equals(TagUtils.hashTag(tag)) && !tags.contains(tagNew)) {
+                    if (tagHash.equals(tagHashes.get(i)) && !tagSet.contains(tagHashes.get(i))) {
                         newTags.add(tagNew);
                     // Add tag if it's not old tag to be deleted.
-                    } else if (!tag.equals(tagOld)) {
-                        newTags.add(tag);
+                    } else if (!tags.get(i).equals(tagOld)) {
+                        newTags.add(tags.get(i));
                     }
                 }
 
