@@ -83,9 +83,6 @@ public class Tag extends BucketObject {
         String tagHash = getSimperiumKey();
 
         if (!tagHash.equals(TagUtils.hashTag(tagNew))) {
-            // create a new tag with the value as the key/name
-            //noinspection unchecked
-            TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
             // get all the notes from tag, remove the item
             ObjectCursor<Note> notesCursor = findNotes(notesBucket, tagOld);
 
@@ -112,6 +109,12 @@ public class Tag extends BucketObject {
                     } else if (!tags.get(i).equals(tagOld)) {
                         newTags.add(tags.get(i));
                     }
+                }
+
+                // Create new tag if note doesn't already have same tag.
+                if (!tagSet.contains(tagHash)) {
+                    //noinspection unchecked
+                    TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
                 }
 
                 note.setTags(newTags);
