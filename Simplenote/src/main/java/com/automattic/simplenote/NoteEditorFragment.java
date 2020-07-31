@@ -440,7 +440,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagInput.setOnTagAddedListener(this);
 
         if (mContentEditText != null) {
-            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(getActivity()));
+            mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
 
             if (mContentEditText.hasFocus()) {
                 showSoftKeyboard();
