@@ -351,6 +351,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
+        mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
