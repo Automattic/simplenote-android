@@ -3,19 +3,19 @@ package com.automattic.simplenote;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
+
 /**
- * Abstract class to apply {@link R.style#Theme_Simplestyle} theme to activities extending from it.
- * Override {@link ThemedAppCompatActivity#mThemeId} in extended activity to apply another theme.
+ * Abstract class to apply theme based on {@link PrefUtils#PREF_STYLE}
+ * to any {@link AppCompatActivity} that extends it.
  */
 abstract public class ThemedAppCompatActivity extends AppCompatActivity {
-    protected @StyleRes int mThemeId = R.style.Theme_Simplestyle;
-    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(mThemeId);
+        setTheme(ThemeUtils.getStyle(ThemedAppCompatActivity.this));
     }
 }
