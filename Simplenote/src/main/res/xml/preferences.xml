@@ -17,7 +17,8 @@
             android:entryValues="@array/array_sort_order_values"
             android:key="pref_key_sort_order"
             android:summary="%s"
-            android:title="@string/sort_order"/>
+            android:title="@string/sort_order"
+            tools:summary="@string/sort_newest_modified"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -31,19 +32,24 @@
     <PreferenceCategory
         android:key="pref_key_appearance_preferences"
         android:title="@string/appearance">
+
         <ListPreference
+            android:key="pref_key_theme"
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
-            android:key="pref_key_theme"
             android:summary="%s"
-            android:title="@string/theme"/>
+            android:title="@string/theme"
+            tools:summary="@string/theme_system">
+        </ListPreference>
+
         <Preference
             android:key="pref_key_style"
             android:summary="%s"
             android:title="@string/style"
             tools:summary="@string/style_classic">
         </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -54,7 +60,8 @@
             android:entryValues="@array/array_font_size_values"
             android:key="pref_key_font_size"
             android:summary="%s"
-            android:title="@string/font_size"/>
+            android:title="@string/font_size"
+            tools:summary="@string/font_size_normal"/>
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_key_detect_links"
