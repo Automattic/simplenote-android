@@ -117,6 +117,18 @@
     <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
     <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
+    <!-- Styles -->
+    <string name="style">Style</string>
+    <string name="style_black">Black</string>
+    <string name="style_classic">Classic</string>
+    <string name="style_default">Default</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Aliquam erat volutpat. Pellentesque ut odio suscipit.</string>
+    <string name="style_publication">Publication</string>
+    <string name="style_search">Search Styles</string>
+    <string name="style_search_hint">Search styles</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_mono">Mono</string>
+
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>

@@ -158,6 +158,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        final Preference stylePreference = findPreference(PrefUtils.PREF_STYLE);
+        stylePreference.setSummary(
+            PrefUtils.isPremium(requireContext()) ?
+                PrefUtils.getStyleName(requireContext()) :
+                PrefUtils.getStyleNameDefault(requireContext())
+        );
+        stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
+
         final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

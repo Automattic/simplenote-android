@@ -56,6 +56,15 @@ public class PrefUtils {
     // boolean, allow notes to preview markdown
     public static final String PREF_MARKDOWN_ENABLED = "pref_key_markdown_enabled";
 
+    // boolean, determines if premium account
+    public static final String PREF_PREMIUM = "pref_key_premium";
+
+    // string. determines style to use
+    public static final String PREF_STYLE = "pref_key_style";
+
+    // string. index style to use
+    public static final String PREF_STYLE_INDEX = "pref_key_style_index";
+
     // string. determines theme to use
     public static final String PREF_THEME = "pref_key_theme";
 
@@ -140,6 +149,83 @@ public class PrefUtils {
         }
 
         return BuildConfig.VERSION_NAME;
+    }
+
+    public static boolean isPremium(Context context) {
+        return getPrefs(context).getBoolean(PREF_PREMIUM, true);
+    }
+
+    public static void setIsPremium(Context context, boolean isPremium) {
+        getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
+    }
+
+    public static String getStyleName(Context context) {
+        switch (getStyleIndex(context)) {
+            case ThemeUtils.STYLE_BLACK:
+                return context.getString(R.string.style_black);
+            case ThemeUtils.STYLE_CLASSIC:
+                return context.getString(R.string.style_classic);
+            case ThemeUtils.STYLE_MONO:
+                return context.getString(R.string.style_mono);
+            case ThemeUtils.STYLE_PUBLICATION:
+                return context.getString(R.string.style_publication);
+            case ThemeUtils.STYLE_SEPIA:
+                return context.getString(R.string.style_sepia);
+            default:
+                return context.getString(R.string.style_default);
+        }
+    }
+
+    public static String getStyleNameDefault(Context context) {
+        return context.getString(R.string.style_default);
+    }
+
+    public static int getStyleIndex(Context context) {
+        return getPrefs(context).getInt(PREF_STYLE_INDEX, getStyleIndexDefault(context));
+    }
+
+    public static int getStyleIndexDefault(Context context) {
+        String[] styles = context.getResources().getStringArray(R.array.array_style_values);
+
+        for (int i = 0; i < styles.length; i++) {
+            if (styles[i].equalsIgnoreCase(context.getString(R.string.style_default))) {
+                return i;
+            }
+        }
+
+        return 0;  // Default color scheme index is 0 in array_style_values.
+    }
+
+    private static int[] getStyleIndexes(Context context) {
+        return context.getResources().getIntArray(R.array.array_style_values);
+    }
+
+    private static String[] getStyleNames(Context context) {
+        return context.getResources().getStringArray(R.array.array_style_names);
+    }
+
+    private static int[] getStyles(Context context) {
+        return context.getResources().getIntArray(R.array.array_style_names);
+    }
+
+    public static void setStyle(Context context, int style) {
+        getPrefs(context).edit().putInt(PREF_STYLE, style).apply();
+        int[] styles = getStyles(context);
+
+        for (int i = 0; i < styles.length; i++) {
+            if (styles[i] == style) {
+                setStyleIndex(context, getStyleIndexes(context)[i]);
+                setStyleName(context, getStyleNames(context)[i]);
+            }
+        }
+    }
+
+    public static void setStyleIndex(Context context, int index) {
+        getPrefs(context).edit().putInt(PREF_STYLE_INDEX, index).apply();
+    }
+
+    private static void setStyleName(Context context, String name) {
+        getPrefs(context).edit().putString(PREF_STYLE, name).apply();
     }
 
     public static int getFontSize(Context context) {

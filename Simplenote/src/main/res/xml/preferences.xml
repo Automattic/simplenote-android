@@ -38,6 +38,12 @@
             android:key="pref_key_theme"
             android:summary="%s"
             android:title="@string/theme"/>
+        <Preference
+            android:key="pref_key_style"
+            android:summary="%s"
+            android:title="@string/style"
+            tools:summary="@string/style_classic">
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory

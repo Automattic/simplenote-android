@@ -20,14 +20,19 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
+    public static final int STYLE_BLACK = 4;
+    public static final int STYLE_CLASSIC = 5;
+    public static final int STYLE_DEFAULT = 0;
+    public static final int STYLE_MONO = 2;
+    public static final int STYLE_PUBLICATION = 1;
+    public static final int STYLE_SEPIA = 3;
 
-    // theme constants
-    private static final int THEME_LIGHT = 0;
-    private static final int THEME_DARK = 1;
-    public static final int THEME_AUTO = 2;
-    private static final int THEME_SYSTEM = 3;
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
+    private static final int THEME_AUTO = 2;
+    private static final int THEME_DARK = 1;
+    private static final int THEME_LIGHT = 0;
+    private static final int THEME_SYSTEM = 3;
 
     public static void setTheme(Activity activity) {
             // if we have a data uri that sets the theme let's do it here
