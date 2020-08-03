@@ -42,6 +42,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
@@ -192,8 +193,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
-        int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
-        requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));
+        requireActivity().getWindow().setStatusBarColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
         return true;
     }
 
