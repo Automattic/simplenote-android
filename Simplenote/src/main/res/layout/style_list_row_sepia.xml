@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg_list_style_sepia"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding_small"
+    android:layout_marginEnd="@dimen/padding_large"
+    android:layout_marginStart="@dimen/padding_large"
+    android:layout_marginTop="@dimen/padding_small"
+    android:layout_width="match_parent"
+    android:padding="@dimen/padding_large"
+    style="@style/Style.Sepia">
+
+    <com.automattic.simplenote.widgets.RobotoMediumTextView
+        android:id="@+id/preview_title"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_width="match_parent"
+        android:maxLines="1"
+        android:textColor="@color/text_title_light"
+        android:textStyle="bold"
+        tools:text="@string/style_sepia">
+    </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/preview_content"
+        android:ellipsize="end"
+        android:layout_below="@id/preview_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:maxLines="2"
+        android:text="@string/style_preview"
+        android:textColor="@color/text_content_light">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+    <ImageView
+        android:id="@+id/preview_locked"
+        android:background="@drawable/bg_style_background_locked"
+        android:contentDescription="@string/description_locked"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/icon_locked"
+        android:layout_width="@dimen/icon_locked"
+        android:padding="@dimen/padding_medium"
+        android:src="@drawable/ic_lock_24dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+    </ImageView>
+
+</RelativeLayout>

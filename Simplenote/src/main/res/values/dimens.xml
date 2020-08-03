@@ -38,10 +38,13 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="cell_widget_double">80dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="corner_radius_half">2dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
+    <dimen name="icon_locked">48dp</dimen>
+    <dimen name="icon_locked_half">24dp</dimen>
     <dimen name="icon_status">16dp</dimen>
     <dimen name="key_height">32dp</dimen>
     <dimen name="key_width">28dp</dimen>
@@ -51,6 +54,7 @@
     <dimen name="minimum_height_about">72dp</dimen>
     <dimen name="minimum_target">48dp</dimen>
     <dimen name="sort_switch_width">40dp</dimen>
+    <dimen name="style_stroke">2dp</dimen>
     <dimen name="tag_input_height">56dp</dimen>
     <dimen name="text_about_app">24sp</dimen>
     <dimen name="text_about_subtitle">14sp</dimen>

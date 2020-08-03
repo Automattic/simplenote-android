@@ -43,14 +43,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
-        Simperium.OnUserCreatedListener {
-    private static final String WEB_APP_URL = "https://app.simplenote.com";
+public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+    public static final String WEB_APP_URL = "https://app.simplenote.com";
+
     private static final int REQUEST_EXPORT_DATA = 9001;
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
 
@@ -167,6 +168,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(requireContext(), StyleActivity.class));
                 return true;
             }
         });
@@ -233,7 +235,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (resultCode != Activity.RESULT_OK || resultData == null) {
+        if (resultCode != RESULT_OK || resultData == null) {
             return;
         }
 
