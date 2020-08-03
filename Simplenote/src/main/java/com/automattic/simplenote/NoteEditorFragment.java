@@ -364,9 +364,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
             mMarkdown = mRootView.findViewById(R.id.markdown);
-            mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+            mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);

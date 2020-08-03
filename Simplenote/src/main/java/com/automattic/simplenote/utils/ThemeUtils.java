@@ -110,6 +110,23 @@ public class ThemeUtils {
         return context.getColor(colorResId);
     }
 
+    public static String getCssFromStyle(Context context) {
+        boolean isLight = isLightTheme(context);
+
+        switch (PrefUtils.getStyleIndex(context)) {
+            case STYLE_BLACK:
+                return isLight ? "light.css" : "dark_black.css";
+            case STYLE_SEPIA:
+                return isLight ? "light_sepia.css" : "dark_sepia.css";
+            case STYLE_CLASSIC:
+            case STYLE_MONO:
+            case STYLE_PUBLICATION:
+            case STYLE_DEFAULT:
+            default:
+                return isLight ? "light.css" : "dark.css";
+        }
+    }
+
     public static int getStyle(Context context) {
         if (PrefUtils.getStyleName(context).isEmpty() || !PrefUtils.isPremium(context)) {
             return R.style.Style_Default;

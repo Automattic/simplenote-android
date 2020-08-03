@@ -81,9 +81,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
+        mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
         mMarkdown = layout.findViewById(R.id.markdown);
         return layout;
