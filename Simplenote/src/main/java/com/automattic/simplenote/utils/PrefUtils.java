@@ -167,8 +167,6 @@ public class PrefUtils {
                 return context.getString(R.string.style_mono);
             case ThemeUtils.STYLE_PUBLICATION:
                 return context.getString(R.string.style_publication);
-            case ThemeUtils.STYLE_SEPIA:
-                return context.getString(R.string.style_sepia);
             default:
                 return context.getString(R.string.style_default);
         }

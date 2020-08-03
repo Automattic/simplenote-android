@@ -24,7 +24,6 @@ public class ThemeUtils {
     public static final int STYLE_DEFAULT = 0;
     public static final int STYLE_MONO = 2;
     public static final int STYLE_PUBLICATION = 1;
-    public static final int STYLE_SEPIA = 3;
 
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
@@ -113,8 +112,6 @@ public class ThemeUtils {
         boolean isLight = isLightTheme(context);
 
         switch (PrefUtils.getStyleIndex(context)) {
-            case STYLE_SEPIA:
-                return isLight ? "light_sepia.css" : "dark_sepia.css";
             case STYLE_CLASSIC:
             case STYLE_MONO:
             case STYLE_PUBLICATION:
@@ -135,8 +132,6 @@ public class ThemeUtils {
                     return R.style.Style_Mono;
                 case STYLE_PUBLICATION:
                     return R.style.Style_Publication;
-                case STYLE_SEPIA:
-                    return R.style.Style_Sepia;
                 case STYLE_DEFAULT:
                 default:
                     return R.style.Style_Default;
