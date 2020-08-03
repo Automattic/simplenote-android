@@ -3,7 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_list_style_black"
+    android:background="@drawable/bg_list_style_default"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/padding_small"
     android:layout_marginEnd="@dimen/padding_large"
