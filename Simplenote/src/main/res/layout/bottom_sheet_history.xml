@@ -6,8 +6,7 @@
     android:id="@+id/history_view"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/history_loading_view"
@@ -58,7 +57,7 @@
             android:layout_width="match_parent"
             android:paddingBottom="@dimen/padding_small"
             android:paddingTop="@dimen/padding_extra_large"
-            android:thumbTint="@color/blue">
+            android:thumbTint="?attr/colorAccent">
         </SeekBar>
 
         <LinearLayout
