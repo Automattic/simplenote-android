@@ -135,7 +135,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
+        final ListPreference themePreference = findPreference(PrefUtils.PREF_THEME);
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -171,7 +171,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
+        final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -186,7 +186,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Preference versionPref = findPreference("pref_key_build");
         versionPref.setSummary(PrefUtils.versionInfo());
 
-        SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) findPreference("pref_key_condensed_note_list");
+        SwitchPreferenceCompat switchPreference = findPreference("pref_key_condensed_note_list");
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -211,7 +211,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
         analyticsSummaryPreference.setSummary(HtmlCompat.fromHtml(formattedSummary));
 
-        mAnalyticsSwitch = (SwitchPreferenceCompat)findPreference("pref_key_analytics_switch");
+        mAnalyticsSwitch = findPreference("pref_key_analytics_switch");
         mAnalyticsSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
