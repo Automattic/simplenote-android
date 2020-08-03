@@ -8,6 +8,7 @@
     <color name="blue_light">@color/simplenote_blue_0</color>
     <color name="gray">@color/gray_50</color>
     <color name="green">@color/green_50</color>
+    <color name="orange">@color/orange_50</color>
     <color name="red">@color/red_50</color>
     <color name="yellow">@color/yellow_20</color>
 
@@ -109,6 +110,18 @@
     <color name="green_80">#00450c</color>
     <color name="green_90">#003008</color>
     <color name="green_100">#001c05</color>
+    <color name="orange_0">#f5ece6</color>
+    <color name="orange_5">#f7dcc6</color>
+    <color name="orange_10">#ffbf86</color>
+    <color name="orange_20">#faa754</color>
+    <color name="orange_30">#e68b28</color>
+    <color name="orange_40">#d67709</color>
+    <color name="orange_50">#b26200</color>
+    <color name="orange_60">#8a4d00</color>
+    <color name="orange_70">#704000</color>
+    <color name="orange_80">#543100</color>
+    <color name="orange_90">#361f00</color>
+    <color name="orange_100">#1f1200</color>
     <color name="red_0">#f7ebec</color>
     <color name="red_5">#facfd2</color>
     <color name="red_10">#ffabaf</color>
