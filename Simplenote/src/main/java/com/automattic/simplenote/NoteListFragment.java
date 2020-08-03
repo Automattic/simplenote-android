@@ -327,7 +327,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(mSortOrder.getContext(), mSortOrder, Gravity.START);
+                Context context = ThemeUtils.isLightTheme(requireContext()) && ThemeUtils.getStyle(requireContext()) == R.style.Style_Sepia ?
+                    new ContextThemeWrapper(requireContext(), R.style.ToolbarTheme_Popup_Sepia) :
+                    mSortOrder.getContext();
+                PopupMenu popup = new PopupMenu(context, mSortOrder, Gravity.START);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.search_sort, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
