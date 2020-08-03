@@ -173,6 +173,7 @@
         <item name="listBackgroundSelector">@drawable/bg_list_mono</item>
         <item name="listSearchHighlightBackgroundColor">@color/gray_60</item>
         <item name="listSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="styleFontFamily">monospace</item>
     </style>
 
     <style name="Style.Publication" parent="Theme.Simplestyle">
@@ -189,6 +190,7 @@
         <item name="listBackgroundSelector">@drawable/bg_list_publication</item>
         <item name="listSearchHighlightBackgroundColor">@color/red_60</item>
         <item name="listSearchHighlightForegroundColor">@color/red_5</item>
+        <item name="styleFontFamily">serif</item>
     </style>
 
     <style name="Style.Sepia" parent="Theme.Simplestyle">

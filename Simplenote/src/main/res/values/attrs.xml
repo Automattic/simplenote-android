@@ -40,4 +40,6 @@
 
     <attr name="drawerBackgroundColor" format="reference|color"/>
 
+    <attr name="styleFontFamily" format="reference|string"/>
+
 </resources>
