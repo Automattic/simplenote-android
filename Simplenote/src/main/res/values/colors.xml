@@ -23,16 +23,6 @@
     <color name="background_dark_12">#37393b</color>
     <color name="background_dark_16">#3a3c3e</color>
     <color name="background_dark_24">#3d3f41</color>
-    <color name="background_dark_black_0">#000000</color>
-    <color name="background_dark_black_1">#000000</color>
-    <color name="background_dark_black_2">#242628</color>
-    <color name="background_dark_black_3">#27292b</color>
-    <color name="background_dark_black_4">#2a2c2e</color>
-    <color name="background_dark_black_6">#2f3133</color>
-    <color name="background_dark_black_8">#323436</color>
-    <color name="background_dark_black_12">#37393b</color>
-    <color name="background_dark_black_16">#3a3c3e</color>
-    <color name="background_dark_black_24">#3d3f41</color>
     <color name="background_dark_sepia_0">#1c1a17</color>
     <color name="background_dark_sepia_1">#23211f</color>
     <color name="background_dark_sepia_2">#282624</color>

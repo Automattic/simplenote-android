@@ -161,8 +161,6 @@ public class PrefUtils {
 
     public static String getStyleName(Context context) {
         switch (getStyleIndex(context)) {
-            case ThemeUtils.STYLE_BLACK:
-                return context.getString(R.string.style_black);
             case ThemeUtils.STYLE_CLASSIC:
                 return context.getString(R.string.style_classic);
             case ThemeUtils.STYLE_MONO:

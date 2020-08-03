@@ -26,7 +26,6 @@
         <item>@string/style_publication</item>
         <item>@string/style_mono</item>
         <item>@string/style_sepia</item>
-        <item>@string/style_black</item>
         <item>@string/style_classic</item>
     </string-array>
 
@@ -35,7 +34,6 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
         <item>5</item>
     </string-array>
 

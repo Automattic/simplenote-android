@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
-import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MONO;
@@ -167,13 +166,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
         @Override
         public StyleHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             switch (type) {
-                case STYLE_BLACK:
-                    return new StyleHolder(LayoutInflater.from(
-                        new ContextThemeWrapper(
-                            parent.getContext(),
-                            R.style.Style_Black)
-                        ).inflate(R.layout.style_list_row_black, parent, false)
-                    );
                 case STYLE_CLASSIC:
                     return new StyleHolder(LayoutInflater.from(
                         new ContextThemeWrapper(
@@ -215,8 +207,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
 
         private @ColorRes int getLinkColorFromStyle(int position) {
             switch (position) {
-                case STYLE_BLACK:
-                    return ThemeUtils.isLightTheme(StyleActivity.this) ? android.R.color.black : android.R.color.white;
                 case STYLE_CLASSIC:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.simplenote_blue_50 : R.color.simplenote_blue_20;
                 case STYLE_PUBLICATION:
