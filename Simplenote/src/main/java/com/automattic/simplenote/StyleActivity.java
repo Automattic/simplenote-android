@@ -184,10 +184,10 @@ public class StyleActivity extends ThemedAppCompatActivity {
         private @ColorRes int getLinkColorFromStyle(int position) {
             switch (position) {
                 case STYLE_CLASSIC:
-                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.simplenote_blue_50 : R.color.simplenote_blue_20;
+                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.blue_50 : R.color.blue_20;
                 case STYLE_DEFAULT:
                 default:
-                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.blue_50 : R.color.blue_20;
+                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.simplenote_blue_50 : R.color.simplenote_blue_20;
             }
         }
 
