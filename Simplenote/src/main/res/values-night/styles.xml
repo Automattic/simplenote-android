@@ -116,7 +116,7 @@
 
     <style name="Style.Classic" parent="Theme.Simplestyle">
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
-        <item name="actionModeTextColor">@color/item_default_dark</item>
+        <item name="actionModeTextColor">@color/item_classic_dark</item>
         <item name="colorAccent">@color/item_classic_dark</item>
         <item name="colorPrimary">@color/blue_50</item>
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
