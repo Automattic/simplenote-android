@@ -22,7 +22,6 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 public class ThemeUtils {
     public static final int STYLE_CLASSIC = 5;
     public static final int STYLE_DEFAULT = 0;
-    public static final int STYLE_PUBLICATION = 1;
 
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
@@ -112,7 +111,6 @@ public class ThemeUtils {
 
         switch (PrefUtils.getStyleIndex(context)) {
             case STYLE_CLASSIC:
-            case STYLE_PUBLICATION:
             case STYLE_DEFAULT:
             default:
                 return isLight ? "light.css" : "dark.css";
@@ -126,8 +124,6 @@ public class ThemeUtils {
             switch (PrefUtils.getStyleIndex(context)) {
                 case STYLE_CLASSIC:
                     return R.style.Style_Classic;
-                case STYLE_PUBLICATION:
-                    return R.style.Style_Publication;
                 case STYLE_DEFAULT:
                 default:
                     return R.style.Style_Default;

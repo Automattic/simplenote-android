@@ -364,21 +364,4 @@
     <style name="Style.Default" parent="Theme.Simplestyle">
     </style>
 
-    <style name="Style.Publication" parent="Theme.Simplestyle">
-        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
-        <item name="actionModeTextColor">@color/item_publication_light</item>
-        <item name="colorAccent">@color/item_publication_light</item>
-        <item name="colorPrimary">@color/red</item>
-        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
-        <item name="editorSearchHighlightBackgroundColor">@color/red_5</item>
-        <item name="editorSearchHighlightForegroundColor">@color/red_60</item>
-        <item name="fabColor">@color/item_publication_light</item>
-        <item name="fabIconColor">@android:color/white</item>
-        <item name="iconTintColor">@color/item_publication_light</item>
-        <item name="listBackgroundSelector">@drawable/bg_list_publication</item>
-        <item name="listSearchHighlightBackgroundColor">@color/red_5</item>
-        <item name="listSearchHighlightForegroundColor">@color/red_60</item>
-        <item name="styleFontFamily">serif</item>
-    </style>
-
 </resources>

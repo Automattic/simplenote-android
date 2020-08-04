@@ -163,8 +163,6 @@ public class PrefUtils {
         switch (getStyleIndex(context)) {
             case ThemeUtils.STYLE_CLASSIC:
                 return context.getString(R.string.style_classic);
-            case ThemeUtils.STYLE_PUBLICATION:
-                return context.getString(R.string.style_publication);
             default:
                 return context.getString(R.string.style_default);
         }

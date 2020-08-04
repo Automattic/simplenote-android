@@ -23,13 +23,11 @@
 
     <string-array name="array_style_names">
         <item>@string/style_default</item>
-        <item>@string/style_publication</item>
         <item>@string/style_classic</item>
     </string-array>
 
     <string-array name="array_style_values" translatable="false">
         <item>0</item>
-        <item>1</item>
         <item>5</item>
     </string-array>
 
