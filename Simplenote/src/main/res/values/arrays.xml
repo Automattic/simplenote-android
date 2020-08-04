@@ -28,7 +28,7 @@
 
     <string-array name="array_style_values" translatable="false">
         <item>0</item>
-        <item>5</item>
+        <item>1</item>
     </string-array>
 
     <string-array name="array_theme_names" tools:ignore="InconsistentArrays">

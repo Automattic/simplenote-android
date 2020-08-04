@@ -20,7 +20,7 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
-    public static final int STYLE_CLASSIC = 5;
+    public static final int STYLE_CLASSIC = 1;
     public static final int STYLE_DEFAULT = 0;
 
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
