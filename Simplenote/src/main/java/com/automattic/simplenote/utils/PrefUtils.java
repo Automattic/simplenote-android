@@ -19,6 +19,8 @@ import com.simperium.client.Query;
 import java.lang.annotation.Retention;
 
 import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @SuppressWarnings("unused")
@@ -58,9 +60,6 @@ public class PrefUtils {
 
     // boolean, determines if premium account
     public static final String PREF_PREMIUM = "pref_key_premium";
-
-    // string. determines style to use
-    public static final String PREF_STYLE = "pref_key_style";
 
     // string. index style to use
     public static final String PREF_STYLE_INDEX = "pref_key_style_index";
@@ -159,65 +158,30 @@ public class PrefUtils {
         getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
     }
 
-    public static String getStyleName(Context context) {
-        switch (getStyleIndex(context)) {
-            case ThemeUtils.STYLE_CLASSIC:
-                return context.getString(R.string.style_classic);
-            default:
-                return context.getString(R.string.style_default);
-        }
+    public static int getStyleIndexSelected(Context context) {
+        return getPrefs(context).getInt(PREF_STYLE_INDEX, STYLE_DEFAULT);
     }
 
     public static String getStyleNameDefault(Context context) {
         return context.getString(R.string.style_default);
     }
 
-    public static int getStyleIndex(Context context) {
-        return getPrefs(context).getInt(PREF_STYLE_INDEX, getStyleIndexDefault(context));
-    }
-
-    public static int getStyleIndexDefault(Context context) {
-        String[] styles = context.getResources().getStringArray(R.array.array_style_values);
-
-        for (int i = 0; i < styles.length; i++) {
-            if (styles[i].equalsIgnoreCase(context.getString(R.string.style_default))) {
-                return i;
-            }
+    public static String getStyleNameFromIndex(Context context, int index) {
+        switch (index) {
+            case STYLE_CLASSIC:
+                return context.getString(R.string.style_classic);
+            case STYLE_DEFAULT:
+            default:
+                return context.getString(R.string.style_default);
         }
-
-        return 0;  // Default color scheme index is 0 in array_style_values.
     }
 
-    private static int[] getStyleIndexes(Context context) {
-        return context.getResources().getIntArray(R.array.array_style_values);
-    }
-
-    private static String[] getStyleNames(Context context) {
-        return context.getResources().getStringArray(R.array.array_style_names);
-    }
-
-    private static int[] getStyles(Context context) {
-        return context.getResources().getIntArray(R.array.array_style_names);
-    }
-
-    public static void setStyle(Context context, int style) {
-        getPrefs(context).edit().putInt(PREF_STYLE, style).apply();
-        int[] styles = getStyles(context);
-
-        for (int i = 0; i < styles.length; i++) {
-            if (styles[i] == style) {
-                setStyleIndex(context, getStyleIndexes(context)[i]);
-                setStyleName(context, getStyleNames(context)[i]);
-            }
-        }
+    public static String getStyleNameFromIndexSelected(Context context) {
+        return getStyleNameFromIndex(context, getStyleIndexSelected(context));
     }
 
     public static void setStyleIndex(Context context, int index) {
         getPrefs(context).edit().putInt(PREF_STYLE_INDEX, index).apply();
-    }
-
-    private static void setStyleName(Context context, String name) {
-        getPrefs(context).edit().putString(PREF_STYLE, name).apply();
     }
 
     public static int getFontSize(Context context) {

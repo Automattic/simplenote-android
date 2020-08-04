@@ -159,10 +159,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        final Preference stylePreference = findPreference(PrefUtils.PREF_STYLE);
+        final Preference stylePreference = findPreference("pref_key_style");
         stylePreference.setSummary(
             PrefUtils.isPremium(requireContext()) ?
-                PrefUtils.getStyleName(requireContext()) :
+                PrefUtils.getStyleNameFromIndexSelected(requireContext()) :
                 PrefUtils.getStyleNameDefault(requireContext())
         );
         stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

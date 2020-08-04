@@ -29,10 +29,10 @@ import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_ARRAY;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 
@@ -59,9 +59,14 @@ public class StyleActivity extends ThemedAppCompatActivity {
         }
 
         mIsPremium = PrefUtils.isPremium(StyleActivity.this);
+        List<String> styles = new ArrayList<>(STYLE_ARRAY.length);
+
+        for (int i = 0; i < STYLE_ARRAY.length; i++) {
+            styles.add(PrefUtils.getStyleNameFromIndex(StyleActivity.this, i));
+        }
 
         EmptyViewRecyclerView list = findViewById(R.id.list);
-        list.setAdapter(new StyleAdapter(Arrays.asList(getResources().getStringArray(R.array.array_style_names))));
+        list.setAdapter(new StyleAdapter(styles));
         list.setLayoutManager(new LinearLayoutManager(StyleActivity.this));
     }
 
@@ -110,7 +115,7 @@ public class StyleActivity extends ThemedAppCompatActivity {
 
         public StyleAdapter(List<String> styles) {
             this.mStyles = new ArrayList<>(styles);
-            mSelectedPosition = mIsPremium ? PrefUtils.getStyleIndex(StyleActivity.this) : PrefUtils.getStyleIndexDefault(StyleActivity.this);
+            mSelectedPosition = mIsPremium ? PrefUtils.getStyleIndexSelected(StyleActivity.this) : STYLE_DEFAULT;
         }
 
         @Override
@@ -126,7 +131,7 @@ public class StyleActivity extends ThemedAppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final StyleHolder holder, final int position) {
             String style = mStyles.get(position);
-            holder.mLocked.setVisibility(mIsPremium || position == PrefUtils.getStyleIndexDefault(StyleActivity.this) ? View.GONE : View.VISIBLE);
+            holder.mLocked.setVisibility(mIsPremium || position == STYLE_DEFAULT ? View.GONE : View.VISIBLE);
             holder.mTitle.setText(style);
             holder.mContent.setText(Html.fromHtml(String.format(
                 getResources().getString(R.string.style_preview),

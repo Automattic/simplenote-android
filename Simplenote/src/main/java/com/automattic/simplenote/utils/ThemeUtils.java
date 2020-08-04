@@ -23,6 +23,11 @@ public class ThemeUtils {
     public static final int STYLE_CLASSIC = 1;
     public static final int STYLE_DEFAULT = 0;
 
+    public static final int[] STYLE_ARRAY = {
+        STYLE_DEFAULT,
+        STYLE_CLASSIC
+    };
+
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
     private static final int THEME_AUTO = 2;
@@ -109,7 +114,7 @@ public class ThemeUtils {
     public static String getCssFromStyle(Context context) {
         boolean isLight = isLightTheme(context);
 
-        switch (PrefUtils.getStyleIndex(context)) {
+        switch (PrefUtils.getStyleIndexSelected(context)) {
             case STYLE_CLASSIC:
             case STYLE_DEFAULT:
             default:
@@ -118,10 +123,10 @@ public class ThemeUtils {
     }
 
     public static int getStyle(Context context) {
-        if (PrefUtils.getStyleName(context).isEmpty() || !PrefUtils.isPremium(context)) {
+        if (PrefUtils.getStyleNameFromIndexSelected(context).isEmpty() || !PrefUtils.isPremium(context)) {
             return R.style.Style_Default;
         } else {
-            switch (PrefUtils.getStyleIndex(context)) {
+            switch (PrefUtils.getStyleIndexSelected(context)) {
                 case STYLE_CLASSIC:
                     return R.style.Style_Classic;
                 case STYLE_DEFAULT:

@@ -9,7 +9,7 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 /**
- * Abstract class to apply theme based on {@link PrefUtils#PREF_STYLE}
+ * Abstract class to apply theme based on {@link PrefUtils#PREF_STYLE_INDEX}
  * to any {@link AppCompatActivity} that extends it.
  */
 abstract public class ThemedAppCompatActivity extends AppCompatActivity {
