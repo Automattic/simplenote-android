@@ -35,7 +35,6 @@ import java.util.List;
 import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
-import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MONO;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_PUBLICATION;
 
 public class StyleActivity extends ThemedAppCompatActivity {
@@ -172,13 +171,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
                             R.style.Style_Classic)
                         ).inflate(R.layout.style_list_row_classic, parent, false)
                     );
-                case STYLE_MONO:
-                    return new StyleHolder(LayoutInflater.from(
-                        new ContextThemeWrapper(
-                            parent.getContext(),
-                            R.style.Style_Mono)
-                        ).inflate(R.layout.style_list_row_mono, parent, false)
-                    );
                 case STYLE_PUBLICATION:
                     return new StyleHolder(LayoutInflater.from(
                         new ContextThemeWrapper(
@@ -203,8 +195,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.simplenote_blue_50 : R.color.simplenote_blue_20;
                 case STYLE_PUBLICATION:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.red_50 : R.color.red_20;
-                case STYLE_MONO:
-                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.gray_50 : R.color.gray_20;
                 case STYLE_DEFAULT:
                 default:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.blue_50 : R.color.blue_20;
