@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:maxLines="1"
         android:textColor="@color/text_title_light"
+        android:textSize="@dimen/text_content_title"
         android:textStyle="bold"
         tools:text="@string/style_default">
     </com.automattic.simplenote.widgets.RobotoMediumTextView>

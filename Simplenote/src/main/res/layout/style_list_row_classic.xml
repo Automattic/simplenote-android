@@ -20,6 +20,7 @@
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_width="match_parent"
         android:maxLines="1"
+        android:textSize="@dimen/text_content_title"
         android:textStyle="bold"
         tools:text="@string/style_classic">
     </com.automattic.simplenote.widgets.RobotoMediumTextView>
