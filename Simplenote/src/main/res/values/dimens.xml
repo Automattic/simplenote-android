@@ -54,7 +54,8 @@
     <dimen name="minimum_height_about">72dp</dimen>
     <dimen name="minimum_target">48dp</dimen>
     <dimen name="sort_switch_width">40dp</dimen>
-    <dimen name="style_stroke">2dp</dimen>
+    <dimen name="style_stroke">1dp</dimen>
+    <dimen name="style_stroke_activated">2dp</dimen>
     <dimen name="tag_input_height">56dp</dimen>
     <dimen name="text_about_app">24sp</dimen>
     <dimen name="text_about_subtitle">14sp</dimen>

@@ -13,7 +13,7 @@
 
     <stroke
         android:color="?attr/colorAccent"
-        android:width="@dimen/style_stroke">
+        android:width="@dimen/style_stroke_activated">
     </stroke>
 
 </shape>
