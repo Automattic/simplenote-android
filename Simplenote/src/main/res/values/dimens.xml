@@ -38,7 +38,6 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="cell_widget_double">80dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
-    <dimen name="corner_radius_half">2dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="header_height">48dp</dimen>
