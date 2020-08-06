@@ -20,11 +20,13 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
-    public static final int STYLE_CLASSIC = 1;
+    public static final int STYLE_BLACK = 1;
+    public static final int STYLE_CLASSIC = 2;
     public static final int STYLE_DEFAULT = 0;
 
     public static final int[] STYLE_ARRAY = {
         STYLE_DEFAULT,
+        STYLE_BLACK,
         STYLE_CLASSIC
     };
 
@@ -115,6 +117,8 @@ public class ThemeUtils {
         boolean isLight = isLightTheme(context);
 
         switch (PrefUtils.getStyleIndexSelected(context)) {
+            case STYLE_BLACK:
+                return isLight ? "light.css" : "dark_black.css";
             case STYLE_CLASSIC:
             case STYLE_DEFAULT:
             default:
@@ -127,6 +131,8 @@ public class ThemeUtils {
             return R.style.Style_Default;
         } else {
             switch (PrefUtils.getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return R.style.Style_Black;
                 case STYLE_CLASSIC:
                     return R.style.Style_Classic;
                 case STYLE_DEFAULT:

@@ -119,6 +119,7 @@
 
     <!-- Styles -->
     <string name="style">Style</string>
+    <string name="style_black">Black</string>
     <string name="style_classic">Classic</string>
     <string name="style_default">Default</string>
     <string name="style_dialog_locked_message">This style is locked. Premium membership is required to unlock it. Would you like to change your membership?</string>

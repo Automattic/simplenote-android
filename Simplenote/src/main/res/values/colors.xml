@@ -23,6 +23,16 @@
     <color name="background_dark_12">#37393b</color>
     <color name="background_dark_16">#3a3c3e</color>
     <color name="background_dark_24">#3d3f41</color>
+    <color name="background_dark_black_0">#000000</color>
+    <color name="background_dark_black_1">#000000</color>
+    <color name="background_dark_black_2">#242628</color>
+    <color name="background_dark_black_3">#27292b</color>
+    <color name="background_dark_black_4">#2a2c2e</color>
+    <color name="background_dark_black_6">#2f3133</color>
+    <color name="background_dark_black_8">#323436</color>
+    <color name="background_dark_black_12">#37393b</color>
+    <color name="background_dark_black_16">#3a3c3e</color>
+    <color name="background_dark_black_24">#3d3f41</color>
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
@@ -40,6 +50,8 @@
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
+    <color name="background_list_black_activated">@color/gray_10</color>
+    <color name="background_list_black_ripple">@color/gray_5</color>
     <color name="background_list_classic_activated">@color/blue_5</color>
     <color name="background_list_classic_ripple">@color/blue_0</color>
     <color name="background_list_default">@color/background_light_highlight</color>
@@ -66,6 +78,8 @@
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
     <color name="style_locked">#99000000</color>
+    <color name="style_preview_black_content">@android:color/black</color>
+    <color name="style_preview_black_title">@android:color/black</color>
     <color name="style_preview_default_content">@color/text_content_light</color>
     <color name="style_preview_default_title">@color/text_title_light</color>
     <color name="style_stroke_dark">@color/gray_70</color>

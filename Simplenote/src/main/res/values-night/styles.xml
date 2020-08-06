@@ -114,6 +114,34 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="Style.Black" parent="Theme.Simplestyle">
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_0</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.White</item>
+        <item name="actionModeTextColor">@color/item_black_dark</item>
+        <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
+        <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
+        <item name="colorAccent">@color/item_black_dark</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="drawerBackgroundColor">@color/background_dark_0</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/gray_10</item>
+        <item name="editorSearchHighlightForegroundColor">@android:color/black</item>
+        <item name="emptyImageColor">@color/empty_dark_black</item>
+        <item name="fabColor">@color/background_dark_0</item>
+        <item name="fabIconColor">@android:color/white</item>
+        <item name="iconTintColor">@color/item_black_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_black</item>
+        <item name="listSearchHighlightBackgroundColor">@color/gray_10</item>
+        <item name="listSearchHighlightForegroundColor">@android:color/black</item>
+        <item name="mainBackgroundColor">@android:color/black</item>
+        <item name="noteEditorTextColor">@color/gray_0</item>
+        <item name="tagChipShadowColor">@android:color/black</item>
+        <item name="toolbarColor">@color/background_dark_0</item>
+    </style>
+
     <style name="Style.Classic" parent="Theme.Simplestyle">
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
         <item name="actionModeTextColor">@color/item_classic_dark</item>
