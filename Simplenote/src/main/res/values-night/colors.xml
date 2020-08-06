@@ -3,6 +3,8 @@
 <resources>
 
     <!-- SEMANTIC -->
+    <color name="background_list_classic_activated">@color/blue_70</color>
+    <color name="background_list_classic_ripple">@color/blue_60</color>
     <color name="background_list_default">@color/background_dark_highlight</color>
     <color name="style_preview_black_content">@android:color/white</color>
     <color name="style_preview_black_title">@android:color/white</color>

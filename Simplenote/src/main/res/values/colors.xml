@@ -40,6 +40,8 @@
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
+    <color name="background_list_classic_activated">@color/blue_5</color>
+    <color name="background_list_classic_ripple">@color/blue_0</color>
     <color name="background_list_default">@color/background_light_highlight</color>
     <color name="chip_dark_checked_off">#24ffffff</color>
     <color name="chip_dark_checked_on">#33ffffff</color>
