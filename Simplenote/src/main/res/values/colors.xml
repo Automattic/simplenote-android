@@ -63,6 +63,8 @@
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
     <color name="style_locked">#99000000</color>
+    <color name="style_preview_default_content">@color/text_content_light</color>
+    <color name="style_preview_default_title">@color/text_title_light</color>
     <color name="style_stroke_dark">@color/gray_70</color>
     <color name="style_stroke_light">@color/gray_5</color>
     <color name="text_blue_dark">@color/simplenote_blue_10</color>

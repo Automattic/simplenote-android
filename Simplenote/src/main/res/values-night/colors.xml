@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- SEMANTIC -->
+    <color name="style_preview_default_content">@color/text_content_dark</color>
+    <color name="style_preview_default_title">@color/text_title_dark</color>
+
+</resources>

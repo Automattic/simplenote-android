@@ -29,7 +29,7 @@
             android:layout_marginBottom="@dimen/padding_small"
             android:layout_width="match_parent"
             android:maxLines="1"
-            android:textColor="@color/text_title_light"
+            android:textColor="@color/style_preview_default_title"
             android:textSize="@dimen/text_content_title"
             android:textStyle="bold"
             tools:text="@string/style_default">
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:maxLines="2"
             android:text="@string/style_preview"
-            android:textColor="@color/text_content_light">
+            android:textColor="@color/style_preview_default_content">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <ImageView
