@@ -117,6 +117,14 @@
     <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
     <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
 
+    <!-- Styles -->
+    <string name="style">Style</string>
+    <string name="style_classic">Classic</string>
+    <string name="style_default">Default</string>
+    <string name="style_dialog_locked_message">This style is locked. Premium membership is required to unlock it. Would you like to change your membership?</string>
+    <string name="style_dialog_locked_title">Style Locked</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Aliquam erat volutpat. Pellentesque ut odio suscipit.</string>
+
     <!-- Themes -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
@@ -216,6 +224,7 @@
 
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
+    <string name="description_locked">Locked</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
 

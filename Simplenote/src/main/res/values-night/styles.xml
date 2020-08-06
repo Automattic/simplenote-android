@@ -13,12 +13,12 @@
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="actionModeTextColor">@color/item_blue_dark</item>
+        <item name="actionModeTextColor">@color/item_default_dark</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
-        <item name="chipCheckedOnBackgroundColor">@color/gray_70</item>
-        <item name="chipCheckedOffBackgroundColor">@color/gray_60</item>
+        <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
+        <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
         <item name="chipTextColor">@color/text_chip_dark</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_dark</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/background_dark</item>
         <item name="dividerColor">@color/divider_dark</item>
@@ -28,13 +28,13 @@
         <item name="editorSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
         <item name="emptyImageColor">@color/empty_dark</item>
-        <item name="fabColor">@color/item_blue_dark</item>
+        <item name="fabColor">@color/item_default_dark</item>
         <item name="fabIconColor">@color/gray_100</item>
         <item name="hintTextColor">@color/text_title_disabled</item>
-        <item name="iconTintColor">@color/item_blue_dark</item>
+        <item name="iconTintColor">@color/item_default_dark</item>
         <item name="isLightTheme">false</item>
         <item name="keyBackgroundColor">@color/gray_40</item>
-        <item name="listBackgroundSelector">@drawable/bg_list_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_default</item>
         <item name="listDividerDrawable">@drawable/divider_dark</item>
         <item name="listSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
         <item name="listSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
@@ -54,7 +54,7 @@
     </style>
 
     <style name="CloseButtonStyle" parent="Widget.AppCompat.ActionButton.CloseMode">
-        <item name="tint">@color/item_blue_dark</item>
+        <item name="tint">@color/item_default_dark</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -75,22 +75,19 @@
         <item name="android:windowBackground">@color/blue</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
-        <item name="colorControlHighlight">@color/item_blue_dark</item>
-        <item name="colorPrimary">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_dark</item>
+        <item name="colorControlHighlight">@color/item_default_dark</item>
+        <item name="colorPrimary">@color/item_default_dark</item>
         <item name="colorPrimaryDark">@color/blue</item>
         <item name="toolbarColor">@color/blue</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">@color/background_dark_16</item>
-        <item name="android:navigationBarColor">@color/background_dark_16</item>
+        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
+        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.Simplestyle.BottomSheetDialog">
@@ -115,6 +112,23 @@
 
     <style name="Theme.Simplestyle.BottomSheetDialogText" parent="Theme.Simplestyle.BottomSheetDialog">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Style.Classic" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_classic_dark</item>
+        <item name="colorAccent">@color/item_classic_dark</item>
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="fabColor">@color/item_classic_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_classic_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_classic</item>
+        <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="toolbarIconColor">@color/item_classic_dark</item>
     </style>
 
     <style name="ToolbarTheme.Popup" parent="ThemeOverlay.MaterialComponents">

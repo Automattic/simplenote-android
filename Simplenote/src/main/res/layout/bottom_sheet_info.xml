@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
+    android:orientation="vertical">
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:layout_height="wrap_content"

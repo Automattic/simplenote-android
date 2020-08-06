@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_parent_view"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/toolbar">
+    </include>
+
+    <com.automattic.simplenote.widgets.EmptyViewRecyclerView
+        android:id="@+id/list"
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:divider="?attr/listDividerDrawable"
+        android:dividerHeight="@dimen/divider_height"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/style_list_row_default">
+    </com.automattic.simplenote.widgets.EmptyViewRecyclerView>
+
+</LinearLayout>

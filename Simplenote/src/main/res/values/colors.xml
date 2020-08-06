@@ -8,6 +8,7 @@
     <color name="blue_light">@color/simplenote_blue_0</color>
     <color name="gray">@color/gray_50</color>
     <color name="green">@color/green_50</color>
+    <color name="orange">@color/orange_50</color>
     <color name="red">@color/red_50</color>
     <color name="yellow">@color/yellow_20</color>
 
@@ -39,15 +40,31 @@
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
+    <color name="chip_dark_checked_off">#24ffffff</color>
+    <color name="chip_dark_checked_on">#33ffffff</color>
+    <color name="chip_light_checked_off">#24000000</color>
+    <color name="chip_light_checked_on">#33000000</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_60</color>
+    <color name="empty_dark_black">#484848</color>
     <color name="empty_light">@color/gray_5</color>
-    <color name="item_blue_dark">@color/simplenote_blue_20</color>
-    <color name="item_blue_light">@color/simplenote_blue_50</color>
+    <color name="item_black_dark">@android:color/white</color>
+    <color name="item_black_light">@android:color/black</color>
+    <color name="item_classic_dark">@color/blue_20</color>
+    <color name="item_classic_light">@color/blue_50</color>
+    <color name="item_default_dark">@color/simplenote_blue_20</color>
+    <color name="item_default_light">@color/simplenote_blue_50</color>
+    <color name="item_mono_dark">@color/gray_20</color>
+    <color name="item_mono_light">@color/gray_50</color>
+    <color name="item_publication_dark">@color/red_20</color>
+    <color name="item_publication_light">@color/red_50</color>
     <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
+    <color name="style_locked">#99000000</color>
+    <color name="style_stroke_dark">@color/gray_70</color>
+    <color name="style_stroke_light">@color/gray_5</color>
     <color name="text_blue_dark">@color/simplenote_blue_10</color>
     <color name="text_blue_light">@color/simplenote_blue_60</color>
     <color name="text_body_dark">@color/gray_10</color>
@@ -72,7 +89,7 @@
     <color name="text_subtitle">@color/gray_100</color>
     <color name="text_title">@color/gray_100</color>
 
-    <!-- STUDIO 2.3.0 -->
+    <!-- STUDIO 2.3.1 -->
     <color name="blue_0">#e9eff5</color>
     <color name="blue_5">#c5d9ed</color>
     <color name="blue_10">#9ec2e6</color>
@@ -109,6 +126,18 @@
     <color name="green_80">#00450c</color>
     <color name="green_90">#003008</color>
     <color name="green_100">#001c05</color>
+    <color name="orange_0">#f5ece6</color>
+    <color name="orange_5">#f7dcc6</color>
+    <color name="orange_10">#ffbf86</color>
+    <color name="orange_20">#faa754</color>
+    <color name="orange_30">#e68b28</color>
+    <color name="orange_40">#d67709</color>
+    <color name="orange_50">#b26200</color>
+    <color name="orange_60">#8a4d00</color>
+    <color name="orange_70">#704000</color>
+    <color name="orange_80">#543100</color>
+    <color name="orange_90">#361f00</color>
+    <color name="orange_100">#1f1200</color>
     <color name="red_0">#f7ebec</color>
     <color name="red_5">#facfd2</color>
     <color name="red_10">#ffabaf</color>

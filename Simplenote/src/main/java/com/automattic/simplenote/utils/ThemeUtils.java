@@ -20,14 +20,20 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
+    public static final int STYLE_CLASSIC = 1;
+    public static final int STYLE_DEFAULT = 0;
 
-    // theme constants
-    private static final int THEME_LIGHT = 0;
-    private static final int THEME_DARK = 1;
-    public static final int THEME_AUTO = 2;
-    private static final int THEME_SYSTEM = 3;
+    public static final int[] STYLE_ARRAY = {
+        STYLE_DEFAULT,
+        STYLE_CLASSIC
+    };
+
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
     private static final String URI_SEGMENT_THEME = "theme";
+    private static final int THEME_AUTO = 2;
+    private static final int THEME_DARK = 1;
+    private static final int THEME_LIGHT = 0;
+    private static final int THEME_SYSTEM = 3;
 
     public static void setTheme(Activity activity) {
             // if we have a data uri that sets the theme let's do it here
@@ -103,5 +109,30 @@ public class ThemeUtils {
         int colorResId = typedArray.getResourceId(0, android.R.color.black);
         typedArray.recycle();
         return context.getColor(colorResId);
+    }
+
+    public static String getCssFromStyle(Context context) {
+        boolean isLight = isLightTheme(context);
+
+        switch (PrefUtils.getStyleIndexSelected(context)) {
+            case STYLE_CLASSIC:
+            case STYLE_DEFAULT:
+            default:
+                return isLight ? "light.css" : "dark.css";
+        }
+    }
+
+    public static int getStyle(Context context) {
+        if (PrefUtils.getStyleNameFromIndexSelected(context).isEmpty() || !PrefUtils.isPremium(context)) {
+            return R.style.Style_Default;
+        } else {
+            switch (PrefUtils.getStyleIndexSelected(context)) {
+                case STYLE_CLASSIC:
+                    return R.style.Style_Classic;
+                case STYLE_DEFAULT:
+                default:
+                    return R.style.Style_Default;
+            }
+        }
     }
 }
