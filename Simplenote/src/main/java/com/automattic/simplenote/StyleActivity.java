@@ -173,7 +173,7 @@ public class StyleActivity extends ThemedAppCompatActivity {
                         new ContextThemeWrapper(
                             parent.getContext(),
                             R.style.Style_Classic)
-                        ).inflate(R.layout.style_list_row_classic, parent, false)
+                        ).inflate(R.layout.style_list_row_default, parent, false)
                     );
                 case STYLE_DEFAULT:
                 default:
