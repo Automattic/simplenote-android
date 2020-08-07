@@ -26,8 +26,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/item_blue_light</item>
-        <item name="colorControlHighlight">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_light</item>
+        <item name="colorControlHighlight">@color/item_default_dark</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="toolbarColor">@color/blue</item>
@@ -40,9 +40,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
-        <item name="colorAccent">@color/item_blue_light</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.MaterialComponents.Light.NoActionBar">

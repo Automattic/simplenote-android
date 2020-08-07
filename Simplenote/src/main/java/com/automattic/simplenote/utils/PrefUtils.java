@@ -19,6 +19,8 @@ import com.simperium.client.Query;
 import java.lang.annotation.Retention;
 
 import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @SuppressWarnings("unused")
@@ -55,6 +57,12 @@ public class PrefUtils {
 
     // boolean, allow notes to preview markdown
     public static final String PREF_MARKDOWN_ENABLED = "pref_key_markdown_enabled";
+
+    // boolean, determines if premium account
+    public static final String PREF_PREMIUM = "pref_key_premium";
+
+    // string. index style to use
+    public static final String PREF_STYLE_INDEX = "pref_key_style_index";
 
     // string. determines theme to use
     public static final String PREF_THEME = "pref_key_theme";
@@ -140,6 +148,40 @@ public class PrefUtils {
         }
 
         return BuildConfig.VERSION_NAME;
+    }
+
+    public static boolean isPremium(Context context) {
+        return getPrefs(context).getBoolean(PREF_PREMIUM, true);
+    }
+
+    public static void setIsPremium(Context context, boolean isPremium) {
+        getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
+    }
+
+    public static int getStyleIndexSelected(Context context) {
+        return getPrefs(context).getInt(PREF_STYLE_INDEX, STYLE_DEFAULT);
+    }
+
+    public static String getStyleNameDefault(Context context) {
+        return context.getString(R.string.style_default);
+    }
+
+    public static String getStyleNameFromIndex(Context context, int index) {
+        switch (index) {
+            case STYLE_CLASSIC:
+                return context.getString(R.string.style_classic);
+            case STYLE_DEFAULT:
+            default:
+                return context.getString(R.string.style_default);
+        }
+    }
+
+    public static String getStyleNameFromIndexSelected(Context context) {
+        return getStyleNameFromIndex(context, getStyleIndexSelected(context));
+    }
+
+    public static void setStyleIndex(Context context, int index) {
+        getPrefs(context).edit().putInt(PREF_STYLE_INDEX, index).apply();
     }
 
     public static int getFontSize(Context context) {

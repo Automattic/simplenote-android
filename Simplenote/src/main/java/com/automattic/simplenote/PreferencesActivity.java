@@ -17,19 +17,12 @@ import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class PreferencesActivity extends ThemedAppCompatActivity {
-    private static final String EXTRA_THEME_CHANGED = "themeChanged";
-
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
-    private boolean mIsThemeChanged;
 
     @Override
     public void onBackPressed() {
-        if (mIsThemeChanged) {
-            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-        } else {
-            super.onBackPressed();
-        }
+        NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
     }
 
     @Override
@@ -66,10 +59,6 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
             mPreferencesFragment = (PreferencesFragment) fragmentManager.findFragmentByTag(preferencesTag);
             mPasscodePreferenceFragment = (PasscodePreferenceFragmentCompat) fragmentManager.findFragmentByTag(passcodeTag);
         }
-
-        if (getIntent().getExtras() != null && getIntent().hasExtra(EXTRA_THEME_CHANGED)) {
-            mIsThemeChanged = getIntent().getExtras().getBoolean(EXTRA_THEME_CHANGED, false);
-        }
     }
 
     @Override
@@ -89,12 +78,7 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (mIsThemeChanged) {
-                NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-            } else {
-                finish();
-            }
-
+            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -111,7 +95,6 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     public void recreate() {
         Intent intent = new Intent(PreferencesActivity.this, PreferencesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(EXTRA_THEME_CHANGED, true);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
