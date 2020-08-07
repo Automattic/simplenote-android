@@ -3,8 +3,8 @@
 <resources>
 
     <!-- SEMANTIC -->
-    <color name="background_list_black_activated">@color/gray_80</color>
-    <color name="background_list_black_ripple">@color/gray_70</color>
+    <color name="background_list_black_activated">@color/background_dark_black_8</color>
+    <color name="background_list_black_ripple">@color/background_dark_black_2</color>
     <color name="background_list_classic_activated">@color/blue_70</color>
     <color name="background_list_classic_ripple">@color/blue_60</color>
     <color name="background_list_default">@color/background_dark_highlight</color>
