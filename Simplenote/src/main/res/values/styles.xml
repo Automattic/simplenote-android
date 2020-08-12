@@ -56,6 +56,7 @@
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/black</item>
+        <item name="sheetBackgroundColor">@color/background_light</item>
         <item name="styleFontFamily">sans-serif</item>
         <item name="toolbarColor">@color/background_light</item>
         <item name="toolbarIconColor">@color/gray_50</item>
@@ -124,7 +125,7 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/sheetBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>

@@ -8,6 +8,7 @@
     <attr name="notePreviewColor" format="reference|color"/>
     <attr name="noteEditorTextColor" format="reference|color"/>
     <attr name="mainBackgroundColor" format="reference|color"/>
+    <attr name="sheetBackgroundColor" format="reference|color"/>
     <attr name="dividerColor" format="reference|color"/>
     <attr name="iconTintColor" format="reference|color"/>
     <attr name="hintTextColor" format="reference|color"/>

@@ -47,6 +47,7 @@
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
+        <item name="sheetBackgroundColor">@color/background_dark_8</item>
         <item name="toolbarColor">@color/background_dark_4</item>
         <item name="toolbarIconColor">@color/gray_20</item>
         <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup</item>
@@ -83,8 +84,8 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
-        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/sheetBackgroundColor</item>
+        <item name="android:navigationBarColor">?attr/sheetBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
@@ -138,6 +139,7 @@
         <item name="listSearchHighlightForegroundColor">@android:color/black</item>
         <item name="mainBackgroundColor">@android:color/black</item>
         <item name="noteEditorTextColor">@color/gray_0</item>
+        <item name="sheetBackgroundColor">@color/background_dark_black_8</item>
         <item name="tagChipShadowColor">@android:color/black</item>
         <item name="toolbarColor">@color/background_dark_0</item>
     </style>
