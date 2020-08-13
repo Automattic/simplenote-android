@@ -64,6 +64,9 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
             views.setViewVisibility(R.id.note_published, note.isPublished() ? View.VISIBLE : View.GONE);
             views.setViewVisibility(R.id.note_status, note.isPinned() || note.isPublished() ? View.VISIBLE : View.GONE);
 
+            boolean isCondensed = PrefUtils.getBoolPref(mContext, PrefUtils.PREF_CONDENSED_LIST, false);
+            views.setViewVisibility(R.id.note_content, isCondensed ? View.GONE : View.VISIBLE);
+
             // Create intent to navigate to note editor on note list item click
             Intent intent = new Intent(mContext, NoteEditorActivity.class);
             intent.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_NOTE_TAPPED);
