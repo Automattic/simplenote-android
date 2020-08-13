@@ -1120,7 +1120,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
-                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY && event.getAction() == MotionEvent.ACTION_DOWN) {
                         showPopupMenuAtPosition(view, position);
                         return true;
                     }
