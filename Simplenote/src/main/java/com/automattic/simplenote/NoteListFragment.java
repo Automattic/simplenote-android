@@ -1348,7 +1348,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             return;
         }
 
-        final Note note = mNotesAdapter.getItem(position);
+        final Note note = mNotesAdapter.getItem(position + mList.getHeaderViewsCount());
         if (note == null) {
             return;
         }
