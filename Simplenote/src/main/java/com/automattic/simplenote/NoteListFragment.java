@@ -42,6 +42,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
 import androidx.preference.PreferenceManager;
@@ -326,7 +327,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(mSortOrder.getContext(), mSortOrder, Gravity.START);
+                Context context = ThemeUtils.getStyle(requireContext()) == R.style.Style_Sepia ?
+                        new ContextThemeWrapper(requireContext(), R.style.ToolbarTheme_Popup_Sepia) :
+                        mSortOrder.getContext();
+                PopupMenu popup = new PopupMenu(context, mSortOrder, Gravity.START);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.search_sort, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

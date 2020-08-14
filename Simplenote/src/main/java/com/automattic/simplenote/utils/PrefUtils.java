@@ -22,6 +22,7 @@ import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_SEPIA;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @SuppressWarnings("unused")
@@ -173,6 +174,8 @@ public class PrefUtils {
                 return context.getString(R.string.style_black);
             case STYLE_CLASSIC:
                 return context.getString(R.string.style_classic);
+            case STYLE_SEPIA:
+                return context.getString(R.string.style_sepia);
             case STYLE_DEFAULT:
             default:
                 return context.getString(R.string.style_default);
