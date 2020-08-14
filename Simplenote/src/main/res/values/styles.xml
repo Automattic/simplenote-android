@@ -56,6 +56,7 @@
         <item name="pinIconSelector">@drawable/bg_pin_selector_light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/black</item>
+        <item name="sheetBackgroundColor">@color/background_light</item>
         <item name="styleFontFamily">sans-serif</item>
         <item name="toolbarColor">@color/background_light</item>
         <item name="toolbarIconColor">@color/gray_50</item>
@@ -73,6 +74,10 @@
 
     <style name="CloseButtonStyle.Accent" parent="@style/CloseButtonStyle">
         <item name="tint">?attr/colorAccent</item>
+    </style>
+
+    <style name="CloseButtonStyle.White" parent="@style/CloseButtonStyle">
+        <item name="tint">@android:color/white</item>
     </style>
 
     <style name="Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
@@ -120,7 +125,7 @@
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/sheetBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
@@ -342,6 +347,22 @@
         <item name="android:maxLines">1</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_item</item>
+    </style>
+
+    <style name="Style.Black" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_black_light</item>
+        <item name="colorAccent">@color/item_black_light</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@android:color/black</item>
+        <item name="editorSearchHighlightForegroundColor">@android:color/white</item>
+        <item name="fabColor">@color/item_black_light</item>
+        <item name="fabIconColor">@android:color/white</item>
+        <item name="iconTintColor">@color/item_black_light</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_black</item>
+        <item name="listSearchHighlightBackgroundColor">@android:color/black</item>
+        <item name="listSearchHighlightForegroundColor">@android:color/white</item>
     </style>
 
     <style name="Style.Classic" parent="Theme.Simplestyle">

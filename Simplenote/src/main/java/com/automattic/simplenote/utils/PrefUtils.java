@@ -19,6 +19,7 @@ import com.simperium.client.Query;
 import java.lang.annotation.Retention;
 
 import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -168,6 +169,8 @@ public class PrefUtils {
 
     public static String getStyleNameFromIndex(Context context, int index) {
         switch (index) {
+            case STYLE_BLACK:
+                return context.getString(R.string.style_black);
             case STYLE_CLASSIC:
                 return context.getString(R.string.style_classic);
             case STYLE_DEFAULT:

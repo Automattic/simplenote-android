@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_list_style_default"
+    android:background="@drawable/bg_list_style_black"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/padding_small"
     android:layout_marginEnd="@dimen/padding_large"
@@ -13,7 +13,7 @@
     android:layout_width="match_parent"
     app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="0dp"
-    style="@style/Style.Default">
+    style="@style/Style.Black">
 
     <RelativeLayout
         android:background="@drawable/bg_list_style_default"
@@ -29,10 +29,10 @@
             android:layout_marginBottom="@dimen/padding_small"
             android:layout_width="match_parent"
             android:maxLines="1"
-            android:textColor="@color/text_title_dark"
+            android:textColor="@color/style_preview_black_title"
             android:textSize="@dimen/text_content_title"
             android:textStyle="bold"
-            tools:text="@string/style_default">
+            tools:text="@string/style_black">
         </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:maxLines="2"
             android:text="@string/style_preview"
-            android:textColor="@color/text_content_dark">
+            android:textColor="@color/style_preview_black_content">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
         <ImageView
