@@ -161,6 +161,23 @@
         <item name="toolbarIconColor">@color/item_classic_dark</item>
     </style>
 
+    <style name="Style.Mono" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_mono_dark</item>
+        <item name="colorAccent">@color/item_mono_dark</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="fabColor">@color/item_mono_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_mono_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_mono</item>
+        <item name="listSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="styleFontFamily">monospace</item>
+    </style>
+
     <style name="Style.Sepia" parent="Theme.Simplestyle">
         <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
         <item name="android:windowBackground">@color/background_dark_sepia</item>
