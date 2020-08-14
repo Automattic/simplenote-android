@@ -33,16 +33,6 @@
     <color name="background_dark_black_12">#37393b</color>
     <color name="background_dark_black_16">#3a3c3e</color>
     <color name="background_dark_black_24">#3d3f41</color>
-    <color name="background_dark_sepia_0">#1c1a17</color>
-    <color name="background_dark_sepia_1">#23211f</color>
-    <color name="background_dark_sepia_2">#282624</color>
-    <color name="background_dark_sepia_3">#2b2927</color>
-    <color name="background_dark_sepia_4">#2d2b29</color>
-    <color name="background_dark_sepia_6">#33302e</color>
-    <color name="background_dark_sepia_8">#343230</color>
-    <color name="background_dark_sepia_12">#393735</color>
-    <color name="background_dark_sepia_16">#3f3d3b</color>
-    <color name="background_dark_sepia_24">#42403e</color>
 
     <!-- PASSCODE -->
     <color name="passcodelock_background">@color/blue</color>
@@ -58,18 +48,13 @@
     <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
-    <color name="background_dark_highlight_sepia">@color/background_dark_sepia_8</color>
-    <color name="background_dark_sepia">@color/background_dark_sepia_1</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
-    <color name="background_light_sepia">#fdf9f2</color>
     <color name="background_list_black_activated">@color/gray_10</color>
     <color name="background_list_black_ripple">@color/gray_5</color>
     <color name="background_list_classic_activated">@color/blue_5</color>
     <color name="background_list_classic_ripple">@color/blue_0</color>
     <color name="background_list_default">@color/background_light_highlight</color>
-    <color name="background_list_sepia_activated">@color/orange_5</color>
-    <color name="background_list_sepia_ripple">@color/orange_0</color>
     <color name="chip_dark_checked_off">#24ffffff</color>
     <color name="chip_dark_checked_on">#33ffffff</color>
     <color name="chip_light_checked_off">#24000000</color>
@@ -78,9 +63,7 @@
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_60</color>
     <color name="empty_dark_black">#484848</color>
-    <color name="empty_dark_sepia">@color/background_dark_sepia_12</color>
     <color name="empty_light">@color/gray_5</color>
-    <color name="empty_light_sepia">#d5d0ca</color>
     <color name="item_black_dark">@android:color/white</color>
     <color name="item_black_light">@android:color/black</color>
     <color name="item_classic_dark">@color/blue_20</color>
@@ -91,8 +74,6 @@
     <color name="item_mono_light">@color/gray_50</color>
     <color name="item_publication_dark">@color/red_20</color>
     <color name="item_publication_light">@color/red_50</color>
-    <color name="item_sepia_dark">@color/orange_20</color>
-    <color name="item_sepia_light">@color/orange_50</color>
     <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
