@@ -111,6 +111,7 @@
     <string name="view_in_browser">View in Browser</string>
     <string name="link">Link</string>
     <string name="link_copied">Link copied!</string>
+    <string name="link_copied_failure">Link could not be copied.</string>
     <string name="copy">Copy</string>
 
     <!-- account setup -->
@@ -156,7 +157,8 @@
     <string name="published">Published</string>
     <string name="publish_error">Could not create link.</string>
     <string name="unpublish_error">Could not remove link.</string>
-    <string name="publish_successful">Published. Link copied!</string>
+    <string name="publish_successful">Published.</string>
+    <string name="publish_successful_link">Published. Link copied!</string>
     <string name="unpublish_successful">Public link removed.</string>
     <string name="publishing">Publishing&#8230;</string>
     <string name="unpublishing">Removing public link&#8230;</string>
