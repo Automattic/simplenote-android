@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ShareCompat;
@@ -216,19 +217,26 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                         mode.finish(); // Action picked, so close the CAB
                     }
+
                     return true;
                 case R.id.menu_copy:
                     if (mLinkText != null && getActivity() != null) {
-                        BrowserUtils.copyToClipboard(requireContext(), mLinkText);
-                        Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                        if (BrowserUtils.copyToClipboard(requireContext(), mLinkText)) {
+                            Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(mRootView, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
+                        }
+
                         mode.finish();
                     }
+
                     return true;
                 case R.id.menu_share:
                     if (mLinkText != null) {
                         showShare(mLinkText);
                         mode.finish();
                     }
+
                     return true;
                 default:
                     return false;
@@ -526,8 +534,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 insertChecklist();
                 return true;
             case R.id.menu_copy:
-                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
-                Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                if (BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl())) {
+                    Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mRootView, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
+                }
+
                 return true;
             case R.id.menu_history:
                 showHistory();
@@ -1227,25 +1239,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                if (mHideActionOnSuccess) {
-                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
-                            .show();
+                @StringRes int text;
+
+                if (BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl())) {
+                    text = R.string.publish_successful_link;
                 } else {
-                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
-                            .setAction(
-                                R.string.undo,
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        mHideActionOnSuccess = true;
-                                        unpublishNote();
-                                    }
-                                }
-                            )
-                            .show();
+                    text = R.string.publish_successful;
                 }
 
-                BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl());
+                if (mHideActionOnSuccess) {
+                    Snackbar.make(mRootView, text, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mRootView, text, Snackbar.LENGTH_LONG)
+                        .setAction(
+                            R.string.undo,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mHideActionOnSuccess = true;
+                                    unpublishNote();
+                                }
+                            }
+                        )
+                        .show();
+                }
             } else {
                 if (mHideActionOnSuccess) {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)

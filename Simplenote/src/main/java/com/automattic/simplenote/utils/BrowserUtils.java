@@ -20,7 +20,7 @@ public class BrowserUtils {
         return (intent.resolveActivity(context.getPackageManager()) != null);
     }
 
-    public static void copyToClipboard(Context base, String url) {
+    public static boolean copyToClipboard(Context base, String url) {
         Context context = new ContextThemeWrapper(base, base.getTheme());
 
         try {
@@ -29,11 +29,12 @@ public class BrowserUtils {
 
             if (clipboard != null) {
                 clipboard.setPrimaryClip(clip);
+                return true;
+            } else {
+                return false;
             }
-
-            Toast.makeText(context, R.string.simperium_error_browser_copy_success, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(context, R.string.simperium_error_browser_copy_failure, Toast.LENGTH_SHORT).show();
+            return  false;
         }
     }
 
@@ -54,7 +55,11 @@ public class BrowserUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        copyToClipboard(context, url);
+                        if (copyToClipboard(context, url)) {
+                            Toast.makeText(context, R.string.simperium_error_browser_copy_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, R.string.simperium_error_browser_copy_failure, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             )
