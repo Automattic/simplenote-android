@@ -185,6 +185,13 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
             mNote = note;
             requireActivity().invalidateOptionsMenu();
         }
+
+        AppLog.add(
+            Type.SYNC,
+            "Saved note callback (Title: " + note.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
+        );
     }
 
     public void updateMarkdown(String text) {

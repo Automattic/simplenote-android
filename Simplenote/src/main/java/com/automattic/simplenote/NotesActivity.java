@@ -47,6 +47,7 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -1666,6 +1667,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 getResources().getInteger(R.integer.time_animation)
             );
         }
+
+        AppLog.add(
+            Type.SYNC,
+            "Saved note callback (Title: " + note.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
+        );
     }
 
     @Override
