@@ -87,6 +87,7 @@ public class Simplenote extends Application {
         CrashUtils.setCurrentUser(mSimperium.getUser());
 
         AppLog.add(Type.DEVICE, getDeviceInfo());
+        AppLog.add(Type.ACCOUNT, getAccountInfo());
     }
 
     @SuppressWarnings("unused")
@@ -106,6 +107,13 @@ public class Simplenote extends Application {
         } catch (BucketObjectMissingException e) {
             return true;
         }
+    }
+
+    private String getAccountInfo() {
+        String email = "Email: " + (mSimperium != null && mSimperium.getUser() != null ? mSimperium.getUser().getEmail() : "?");
+        String notes = "Notes: " + (mNotesBucket != null ? mNotesBucket.count() : "?");
+        String tags = "Tags: " + (mTagsBucket != null ? mTagsBucket.count() : "?");
+        return email + "\n" + notes + "\n" + tags + "\n\n";
     }
 
     private String getDeviceInfo() {
