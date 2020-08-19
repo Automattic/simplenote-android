@@ -20,6 +20,7 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.commonsware.cwac.anddown.AndDown;
@@ -160,6 +161,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
     }
 
     @Override

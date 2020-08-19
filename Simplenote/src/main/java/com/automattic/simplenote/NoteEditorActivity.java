@@ -21,7 +21,10 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
@@ -72,6 +75,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));
         setContentView(R.layout.activity_note_editor);
 
         // No title, please.
@@ -225,6 +229,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     protected void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));
     }
 
     @Override

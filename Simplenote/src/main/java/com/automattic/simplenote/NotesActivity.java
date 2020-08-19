@@ -46,6 +46,7 @@ import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -176,6 +177,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
         setContentView(R.layout.activity_notes);
 
         mFragmentsContainer = findViewById(R.id.note_fragment_container);
