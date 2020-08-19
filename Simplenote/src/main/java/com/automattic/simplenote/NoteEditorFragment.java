@@ -1171,7 +1171,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 AppLog.add(
                     Type.SYNC,
-                    "Saved note locally (Title: " + mNote.getTitle() +
+                    "Saved note locally in NoteEditorFragment (Title: " + mNote.getTitle() +
                         " / Characters: " + NoteUtils.getCharactersCount(content) +
                         " / Words: " + NoteUtils.getWordCount(content) + ")"
                 );
@@ -1447,7 +1447,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         AppLog.add(
             Type.SYNC,
-            "Saved note callback (Title: " + note.getTitle() +
+            "Saved note callback in NoteEditorFragment (Title: " + note.getTitle() +
                 " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
         );

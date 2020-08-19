@@ -1670,7 +1670,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         AppLog.add(
             Type.SYNC,
-            "Saved note callback (Title: " + note.getTitle() +
+            "Saved note callback in NotesActivity (Title: " + note.getTitle() +
                 " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
         );
