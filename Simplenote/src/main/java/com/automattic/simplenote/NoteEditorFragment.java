@@ -295,6 +295,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Created (NoteEditorFragment)");
         mInfoBottomSheet = new InfoBottomSheetDialog(this);
         mShareBottomSheet = new ShareBottomSheetDialog(this, this);
         mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
@@ -501,6 +502,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mHighlighter.stop();
         saveNote();
+        AppLog.add(Type.SCREEN, "Paused (NoteEditorFragment)");
     }
 
     @Override
@@ -509,6 +511,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mNotesBucket.removeListener(this);
         mNotesBucket.stop();
         AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
+        AppLog.add(Type.SCREEN, "Destroyed (NoteEditorFragment)");
     }
 
     @Override

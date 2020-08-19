@@ -73,6 +73,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        AppLog.add(Type.SCREEN, "Created (NoteMarkdownFragment)");
         mNotesBucket = ((Simplenote) requireActivity().getApplication()).getNotesBucket();
 
         // Load note if we were passed an ID.
@@ -153,6 +154,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         mNotesBucket.removeListener(this);
         mNotesBucket.stop();
         AppLog.add(Type.SYNC, "Stopped note bucket (NoteMarkdownFragment)");
+        AppLog.add(Type.SCREEN, "Destroyed (NoteMarkdownFragment)");
     }
 
     @Override
@@ -162,6 +164,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Resumed (NoteMarkdownFragment)");
     }
 
     @Override

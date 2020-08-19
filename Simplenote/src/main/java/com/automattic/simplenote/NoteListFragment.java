@@ -255,6 +255,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Created (NoteListFragment)");
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
     }
@@ -566,6 +567,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
         mBucketPreferences.stop();
+        AppLog.add(Type.SCREEN, "Paused (NoteListFragment)");
     }
 
     @Override

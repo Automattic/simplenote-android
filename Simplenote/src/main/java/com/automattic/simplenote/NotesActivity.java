@@ -178,6 +178,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         super.onCreate(savedInstanceState);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
+        AppLog.add(Type.SCREEN, "Created (NotesActivity)");
         setContentView(R.layout.activity_notes);
 
         mFragmentsContainer = findViewById(R.id.note_fragment_container);
@@ -351,6 +352,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNotesBucket.removeOnDeleteObjectListener(this);
         mNotesBucket.stop();
         AppLog.add(Type.SYNC, "Stopped note bucket (NotesActivity)");
+        AppLog.add(Type.SCREEN, "Paused (NotesActivity)");
     }
 
     @Override
