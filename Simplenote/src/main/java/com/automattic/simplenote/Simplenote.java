@@ -182,6 +182,7 @@ public class Simplenote extends Application {
                         "application_closed"
                 );
                 AnalyticsTracker.flush();
+                AppLog.add(Type.ACTION, "App closed");
             } else {
                 mIsInBackground = false;
             }
@@ -207,6 +208,7 @@ public class Simplenote extends Application {
                 );
 
                 mIsInBackground = false;
+                AppLog.add(Type.ACTION, "App opened");
             }
         }
 

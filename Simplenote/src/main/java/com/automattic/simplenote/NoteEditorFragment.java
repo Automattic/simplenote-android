@@ -394,6 +394,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             mIsFromWidget = arguments.getBoolean(ARG_IS_FROM_WIDGET);
+
+            if (mIsFromWidget) {
+                AppLog.add(Type.ACTION, "Opened from widget (NoteEditorFragment)");
+            } else {
+                AppLog.add(Type.ACTION, "Opened from list (NoteEditorFragment)");
+            }
+
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null) {
             // Restore selected note when in dual pane mode
@@ -581,6 +588,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 deleteNote();
                 return true;
             case android.R.id.home:
+                AppLog.add(Type.ACTION, "Tapped back arrow in app bar (NoteEditorFragment)");
                 if (!isAdded()) {
                     return false;
                 }
@@ -977,6 +985,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
+        AppLog.add(
+            Type.ACTION,
+            "Edited note (Title: " + mNote.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(mNote.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(mNote.getContent()) + ")"
+        );
         new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 

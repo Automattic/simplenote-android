@@ -219,6 +219,12 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
