@@ -88,6 +88,7 @@ public class Simplenote extends Application {
 
         AppLog.add(Type.DEVICE, getDeviceInfo());
         AppLog.add(Type.ACCOUNT, getAccountInfo());
+        AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
     }
 
     @SuppressWarnings("unused")
@@ -186,6 +187,7 @@ public class Simplenote extends Application {
 
         @Override
         public void onConfigurationChanged(Configuration newConfig) {
+            AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
         }
 
         @Override
