@@ -281,7 +281,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         application.getPreferencesBucket().reset();
 
         application.getNotesBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (PreferencesFragment)");
         application.getTagsBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped tag bucket (PreferencesFragment)");
         application.getPreferencesBucket().stop();
 
         AnalyticsTracker.track(

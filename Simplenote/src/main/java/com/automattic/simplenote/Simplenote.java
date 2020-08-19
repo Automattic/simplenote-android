@@ -161,10 +161,12 @@ public class Simplenote extends Application {
 
                         if (mNotesBucket != null) {
                             mNotesBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped note bucket (Simplenote)");
                         }
 
                         if (mTagsBucket != null) {
                             mTagsBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped tag bucket (Simplenote)");
                         }
 
                         if (mPreferencesBucket != null) {

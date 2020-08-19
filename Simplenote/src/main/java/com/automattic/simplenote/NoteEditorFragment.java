@@ -50,6 +50,8 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ContextUtils;
@@ -444,6 +446,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onResume() {
         super.onResume();
         mNotesBucket.start();
+        AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
         mTagInput.setOnTagAddedListener(this);
 
@@ -504,6 +507,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onDestroy();
         mNotesBucket.removeListener(this);
         mNotesBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
     }
 
     @Override
@@ -1146,6 +1150,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     CATEGORY_NOTE,
                     "editor_save"
                 );
+
+                AppLog.add(
+                    Type.SYNC,
+                    "Saved note (Title: " + mNote.getTitle() +
+                        " / Characters: " + NoteUtils.getCharactersCount(content) +
+                        " / Words: " + NoteUtils.getWordCount(content) + ")"
+                );
             }
         } catch (BucketObjectMissingException exception) {
             exception.printStackTrace();
@@ -1413,6 +1424,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mIsPaused) {
             mNotesBucket.removeListener(this);
             mNotesBucket.stop();
+            AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
         }
     }
 
@@ -1470,6 +1482,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (fragment.mNote != null) {
                     fragment.mIsMarkdownEnabled = fragment.mNote.isMarkdownEnabled();
                     fragment.mIsPreviewEnabled = fragment.mNote.isPreviewEnabled();
+                    AppLog.add(
+                        Type.SYNC,
+                        "Loaded note (Title: " + fragment.mNote.getTitle() +
+                            " / Characters: " + NoteUtils.getCharactersCount(fragment.mNote.getContent()) +
+                            " / Words: " + NoteUtils.getWordCount(fragment.mNote.getContent()) + ")"
+                    );
                 }
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store

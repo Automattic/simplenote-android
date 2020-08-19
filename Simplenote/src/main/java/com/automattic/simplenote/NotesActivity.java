@@ -40,6 +40,8 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -290,7 +292,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         disableScreenshotsIfLocked(this);
 
         mNotesBucket.start();
+        AppLog.add(Type.SYNC, "Started note bucket (NotesActivity)");
         mTagsBucket.start();
+        AppLog.add(Type.SYNC, "Started tag bucket (NotesActivity)");
 
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
@@ -338,11 +342,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         super.onPause();  // Always call the superclass method first
         mTagsBucket.removeListener(mTagsMenuUpdater);
         mTagsBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped tag bucket (NotesActivity)");
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
         mNotesBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (NotesActivity)");
     }
 
     @Override

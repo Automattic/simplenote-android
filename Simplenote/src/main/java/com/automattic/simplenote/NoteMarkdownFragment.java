@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NoteUtils;
@@ -149,12 +151,14 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         super.onDestroy();
         mNotesBucket.removeListener(this);
         mNotesBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (NoteMarkdownFragment)");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mNotesBucket.start();
+        AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
     }
 
