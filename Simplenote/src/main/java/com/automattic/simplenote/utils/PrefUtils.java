@@ -131,15 +131,21 @@ public class PrefUtils {
     }
 
     public static CharSequence versionInfo() {
+        String version;
 
         if (BuildConfig.DEBUG) {
-            String info = "<strong>" + BuildConfig.VERSION_NAME + "</strong> " +
-                    BuildConfig.BUILD_TYPE + " (Build " + BuildConfig.VERSION_CODE + ")" +
-                    "\n<em>" + BuildConfig.BUILD_HASH + "</em>";
-            return HtmlCompat.fromHtml(info);
+            version =
+                BuildConfig.VERSION_NAME +
+                " (" + BuildConfig.VERSION_CODE + ") " +
+                BuildConfig.BUILD_TYPE +
+                " (" + BuildConfig.BUILD_HASH + ")";
+        } else {
+            version =
+                BuildConfig.VERSION_NAME +
+                " (" + BuildConfig.VERSION_CODE + ")";
         }
 
-        return BuildConfig.VERSION_NAME;
+        return version;
     }
 
     public static int getFontSize(Context context) {
