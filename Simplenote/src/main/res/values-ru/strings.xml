@@ -1,11 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 10:54:03+0000
+Translation-Revision-Date: 2020-08-06 18:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="log_out_anyway">Все равно выйти</string>
+    <string name="export_unsynced_notes">Экспортировать несинхронизированные заметки</string>
+    <string name="unsynced_notes_message">При выходе из учётной записи все несинхронизированные заметки будут удалены.</string>
+    <string name="unsynced_notes">Несинхронизированные заметки</string>
+    <string name="export_setting">Экспортировать данные</string>
+    <string name="export_message_success">Данные сохранены в файл</string>
+    <string name="export_message_failure">Не удалось сохранить данные</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">Слишком длинная метка. Выберите более короткое имя. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
+    <string name="rename_tag_message">При переименовании метки произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
+    <string name="rename_tag_error_spaces">Метки не могут содержать пробелы</string>
+    <string name="rename_tag_error_length">Слишком длинная метка</string>
+    <string name="rename_tag_error_empty">Метка не может быть пустой</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL-адрес скопирован в буфер обмена</string>
+    <string name="simperium_error_browser_copy_failure">Невозможно скопировать URL-адрес в буфер обмена</string>
+    <string name="simperium_error_browser">Убедитесь, что браузер установлен и работает.</string>
+    <string name="simperium_dialog_title_error_browser">Браузер не обнаружен</string>
+    <string name="simperium_dialog_button_copy_url">Копировать URL</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">М</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="item_action_toggle_preview_error">Выберите заметку, чтобы включить предварительный просмотр</string>
+    <string name="item_action_toggle_preview_enable_error">Включить разметку Markdown, чтобы перейти к предварительному просмотру</string>
+    <string name="item_action_toggle_preview">Включить предварительный просмотр</string>
+    <string name="item_action_toggle_list_error">Выберите заметку, чтобы включить список</string>
+    <string name="item_action_toggle_list">Включить список</string>
+    <string name="item_action_toggle_checklist_error">Выберите заметку, чтобы включить контрольный список</string>
+    <string name="item_action_toggle_checklist_edit_error">Выберите вкладку \"Правка\", чтобы включить контрольный список</string>
+    <string name="item_action_show_share_error">Выберите заметку, чтобы показать список отправки</string>
+    <string name="item_action_show_share_edit_error">Выберите вкладку \"Правка\", чтобы показать список отправки</string>
+    <string name="item_action_show_share">Показать список отправки</string>
+    <string name="item_action_show_information_error">Выберите примечание, чтобы показать сведения</string>
+    <string name="item_action_show_information_edit_error">Выберите вкладку «Правка» , чтобы показать сведения</string>
+    <string name="item_action_show_information">Показать сведения</string>
+    <string name="item_action_show_history_error">Выберите заметку, чтобы показать историю</string>
+    <string name="item_action_show_history_edit_error">Выберите вкладку «Правка», чтобы показать историю</string>
+    <string name="item_action_show_history">Показать историю</string>
+    <string name="item_action_open_search">Открыть поиск</string>
+    <string name="action">Действие</string>
+    <string name="link_california">%1$s%2$s%3$sЗаявление о защите конфиденциальности для пользователей из Калифорнии%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Требуется подключение к сети. Проверьте подключение и повторите попытку.</string>
     <string name="simperium_dialog_message_password">Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
@@ -61,11 +107,11 @@ Language: ru
     <string name="description_sort">Сортировать</string>
     <string name="description_down">Вниз</string>
     <string name="description_delete_item">Удалить элемент</string>
-    <string name="unsynced_notes_message">При выходе из учётной записи все несинхронизированные заметки будут удалены. Чтобы убедиться, что заметки синхронизированы, войдите в систему на сайте app.simplenote.com в веб-браузере.</string>
     <string name="sort_search_reverse_order">В обратном порядке</string>
     <string name="sort_search_modified">Изменено</string>
     <string name="sort_search_created">Создано</string>
     <string name="sort_search_alphabetically">По алфавиту</string>
+    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите синюю кнопку \"Новая заметка\" со значком плюса.\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку «Дополнительно» с тремя вертикальными точками во время просмотра заметки и поставьте флажок «Закрепить».\n\nУпорядочьте заметки с помощью меток. Метку можно создать в поле \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать «Поделиться» в меню «Дополнительно» при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
     <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
     <string name="log_in">Войти</string>
@@ -126,9 +172,6 @@ Language: ru
     <string name="logo">Логотип</string>
     <string name="unpin_from_top">Открепить сверху</string>
     <string name="untagged_notes">Заметки без меток</string>
-    <string name="delete_notes">Удалить записи</string>
-    <string name="visit_web_app">Зайти в веб-приложение</string>
-    <string name="unsynced_notes">Обнаружены несинхронизированные заметки</string>
     <string name="wpcom_log_in_error_unverified">Активируйте учётную запись WordPress.com по электронной почте и повторите попытку.</string>
     <string name="wpcom_log_in_error_generic">Не удалось войти в систему WordPress.com. Повторите попытку.</string>
     <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>

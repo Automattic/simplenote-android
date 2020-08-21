@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 14:54:04+0000
+Translation-Revision-Date: 2020-08-06 18:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="log_out_anyway">בכל זאת אני רוצה להתנתק</string>
+    <string name="export_unsynced_notes">לייצא את הפתקים שלא סונכרנו</string>
+    <string name="unsynced_notes_message">יציאה מהמערכת תמחק את כל הפתקים שלא סונכרנו.</string>
+    <string name="unsynced_notes">פתקים שלא סונכרנו</string>
+    <string name="export_setting">לייצא את הנתונים</string>
+    <string name="export_message_success">התונים נשמרו בקובץ</string>
+    <string name="export_message_failure">לא ניתן היה לשמור את הנתונים</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">התגית ארוכה מדי. עליך לנסות שוב עם שם קצר יותר. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב-⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="rename_tag_message">אירעה שגיאה במהלך שינוי השם של התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב-⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="rename_tag_error_spaces">התגית לא יכולה לכלול רווחים.</string>
+    <string name="rename_tag_error_length">התגית ארוכה מדי</string>
+    <string name="rename_tag_error_empty">תגיות לא יכולות להיות ריקות</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">כתובת ה-URL הועתקה ללוח</string>
+    <string name="simperium_error_browser_copy_failure">לא ניתן היה להעתיק את כתובת ה-URL ללוח</string>
+    <string name="simperium_error_browser">עליך לוודא שהדפדפן הותקן והופעל.</string>
+    <string name="simperium_dialog_title_error_browser">לא אותר דפדפן</string>
+    <string name="simperium_dialog_button_copy_url">להעתיק כתובת URL</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="item_action_toggle_preview_error">יש לבחור פתק כדי לשנות את התצוגה המקדימה</string>
+    <string name="item_action_toggle_preview_enable_error">יש לאפשר Markdown כדי לשנות את התצוגה המקדימה</string>
+    <string name="item_action_toggle_preview">לשנות את התצוגה המקדימה</string>
+    <string name="item_action_toggle_list_error">יש לבחור פתק כדי לשנות את הרשימה</string>
+    <string name="item_action_toggle_list">לשנות רשימה</string>
+    <string name="item_action_toggle_checklist_error">יש לבחור פתק כדי לשנות את רשימת המשימות</string>
+    <string name="item_action_toggle_checklist_edit_error">יש לבחור את הלשונית \'לערוך\' כדי לשנות את רשימת המשימות</string>
+    <string name="item_action_show_share_error">יש לבחור פתק כדי להציג את השיתוף</string>
+    <string name="item_action_show_share_edit_error">יש לבחור את הלשונית \'לערוך\' כדי להציג את השיתוף</string>
+    <string name="item_action_show_share">להציג את השיתוף</string>
+    <string name="item_action_show_information_error">יש לבחור פתק כדי להציג מידע</string>
+    <string name="item_action_show_information_edit_error">יש לבחור את הלשונית \'לערוך\' כדי להציג מידע</string>
+    <string name="item_action_show_information">להציג מידע</string>
+    <string name="item_action_show_history_error">יש לבחור פתק כדי להציג היסטוריה</string>
+    <string name="item_action_show_history_edit_error">יש לבחור את הלשונית \'לערוך\' כדי להציג היסטוריה</string>
+    <string name="item_action_show_history">להציג היסטוריה</string>
+    <string name="item_action_open_search">לפתוח חיפוש</string>
+    <string name="action">פעולה</string>
+    <string name="link_california">%1$s%2$s⁦%3$s⁩הצהרת פרטיות למשתמשים מקליפורניה⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">נדרש חיבור פעיל לרשת. יש לבדוק את החיבור ולנסות שוב.</string>
+    <string name="simperium_dialog_message_password">הדרישות לסיסמה הן:\n\n- הסיסמה לא יכולה להיות כתובת האימייל\n- לפחות %1$d תווים\n- ללא שורות חדשות\n- ללא סימני Tab</string>
+    <string name="simperium_dialog_message_login_reset">הסיסמה שלך לא מאובטחת ועליך לאפס אותה. הדרישות לסיסמה הן:\n\n- הסיסמה לא יכולה להיות כתובת האימייל\n- לפחות %1$d תווים\n- ללא שורות חדשות\n- ללא סימני Tab</string>
+    <string name="simperium_button_login_reset">איפוס</string>
+    <string name="link_terms">%1$s%2$s%3$sתנאי השימוש%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sהצהרת הפרטיות%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">האם יש לך ניסיון בפיתוח? אנחנו מחפשים עובדים.</string>
+    <string name="about_hiring_title">אפשרויות קריירה</string>
+    <string name="about_contribute_title">שיתוף</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">‎© Automattic %1$d‎</string>
     <string name="search">לחפש פתקים או תגיות</string>
     <string name="empty_tags_search">לא נמצאו תגיות</string>
     <string name="empty_notes_widget">אין פתקים</string>
@@ -50,11 +107,11 @@ Language: he_IL
     <string name="description_sort">מיון</string>
     <string name="description_down">למטה</string>
     <string name="description_delete_item">למחוק את הפריט</string>
-    <string name="unsynced_notes_message">יציאה מהמערכת תמחק את כל הפתקים שלא סונכרנו. אפשר לאמת אילו פתקים סונכרנו על ידי כניסה למערכת בכתובת app.simplenote.com דרך דפדפן רשת כלשהו.</string>
     <string name="sort_search_reverse_order">להפוך את הסדר</string>
     <string name="sort_search_modified">בהתאמה</string>
     <string name="sort_search_created">נוצר</string>
     <string name="sort_search_alphabetically">סדר אלפביתי</string>
+    <string name="welcome_note">ברוכים הבאים אל Simplenote Android!\nיש לפתוח את הפתק להוראות.\n\nכדי ליצור פתק חדש, יש להקיש על הכפתור \'פתק חדש\' עם סמל הפלוס (+).\n\nכדי לבצע חיפוש בפתקים שלך, יש להקיש על הכפתור \'חיפוש\' עם הסמל של זכוכית המגדלת ולהזין טקסט. השירות של Simplenote יציג לך את החיפושים האחרונים שביצעת תחילה והצעות לחיפושים בעת ההקלדה. פתקים שתואמים לטקסט שהוזן יוצגו לאחר שהבקשה לחיפוש נשלחה.\n\nיש לך פתק חשוב? ניתן לנעוץ אותו בראש הרשימה של הפתקים. אפשר לנעוץ פתק בשתי דרכים. על ידי לחיצה ארוכה על הפתק ברשימה והקשה על הכפתור \'הצמדה לראש העמוד\' עם סמל הנעץ. על ידי הקשה על הכפתור \'אפשרויות נוספות\' עם הסמל של שלוש הנקודות האנכיות כאשר צופים בפתק ולסמן את התיבה \'לנעוץ\'.\n\nניתן להשתמש בתגיות כדי לארגן את הפתקים שלך ביעילות. יש ליצור את התגית בשדה \'להוסיף תגית…\' בתחתית הפתק. אפשר גם להוסיף כתובת אימייל כתגית כדי לשתף פתק עם מישהו.\n\nאפשר לשתף פתקים באפליקציות אחרות של Android על ידי הקשה על הכפתור \'שיתוף\' בתפריט \'אפשרויות נוספות\' כאשר צופים בפתק.\n\nפתקים שנמחקו מועברים לפח. אפשר לשחזר את הפריטים כרצונך או לרוקן את הפח כדי למחוק אותם לצמיתות.\n\nאפשר לגשת לפתקים שלך ברשת ובמכשירים האחרים שלך. יש לעבור לכתובת http://simplenote.com כדי להתחיל.\n\nאנחנו מקווים שהשירות של Simplenote מוצא חן בעינך!</string>
     <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
     <string name="log_in">התחברות</string>
@@ -115,9 +172,6 @@ Language: he_IL
     <string name="logo">לוגו</string>
     <string name="unpin_from_top">הסרת הנעץ מהראש הדף</string>
     <string name="untagged_notes">הסרת התגיות מהערות</string>
-    <string name="delete_notes">מחיקת הפתקים</string>
-    <string name="visit_web_app">מעבר לאפליקציית הרשת</string>
-    <string name="unsynced_notes">נמצאו פתקים שלא סונכרנו</string>
     <string name="wpcom_log_in_error_unverified">יש להפעיל את החשבון שלך ב-WordPress.com באמצעות האימייל ולנסות שוב.</string>
     <string name="wpcom_log_in_error_generic">לא ניתן היה להתחבר עם WordPress.com. יש לנסות שוב.</string>
     <string name="collaborate_message">הוספת אימייל בשדה \'תגית\' לצורך שיתוף פעולה בעריכה עם משתמשים אחרים.</string>
