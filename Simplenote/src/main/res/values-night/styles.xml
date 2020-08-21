@@ -185,7 +185,7 @@
         <item name="actionModeTextColor">@color/item_publication_dark</item>
         <item name="colorAccent">@color/item_publication_dark</item>
         <item name="colorPrimary">@color/red</item>
-        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
         <item name="editorSearchHighlightBackgroundColor">@color/red_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/red_5</item>
         <item name="fabColor">@color/item_publication_dark</item>
