@@ -168,7 +168,7 @@
         <item name="actionModeTextColor">@color/item_mono_dark</item>
         <item name="colorAccent">@color/item_mono_dark</item>
         <item name="colorPrimary">@color/gray</item>
-        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
         <item name="editorSearchHighlightBackgroundColor">@color/gray_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/gray_5</item>
         <item name="fabColor">@color/item_mono_dark</item>
