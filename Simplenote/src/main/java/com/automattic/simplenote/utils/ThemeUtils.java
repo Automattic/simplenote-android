@@ -20,13 +20,15 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
-    public static final int STYLE_BLACK = 2;
-    public static final int STYLE_CLASSIC = 3;
+    public static final int STYLE_BLACK = 3;
+    public static final int STYLE_CLASSIC = 4;
     public static final int STYLE_DEFAULT = 0;
-    public static final int STYLE_SEPIA = 1;
+    public static final int STYLE_MONO = 1;
+    public static final int STYLE_SEPIA = 2;
 
     public static final int[] STYLE_ARRAY = {
         STYLE_DEFAULT,
+        STYLE_MONO,
         STYLE_SEPIA,
         STYLE_BLACK,
         STYLE_CLASSIC
@@ -125,6 +127,7 @@ public class ThemeUtils {
                 return isLight ? "light_sepia.css" : "dark_sepia.css";
             case STYLE_CLASSIC:
             case STYLE_DEFAULT:
+            case STYLE_MONO:
             default:
                 return isLight ? "light.css" : "dark.css";
         }
@@ -139,6 +142,8 @@ public class ThemeUtils {
                     return R.style.Style_Black;
                 case STYLE_CLASSIC:
                     return R.style.Style_Classic;
+                case STYLE_MONO:
+                    return R.style.Style_Mono;
                 case STYLE_SEPIA:
                     return R.style.Style_Sepia;
                 case STYLE_DEFAULT:

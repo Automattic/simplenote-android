@@ -3,6 +3,7 @@
 <resources>
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:alertDialogTheme">@style/Dialog</item>
         <item name="android:navigationBarColor">@color/background_dark</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -14,6 +15,7 @@
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
         <item name="actionModeTextColor">@color/item_default_dark</item>
+        <item name="alertDialogTheme">@style/Dialog</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
         <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
         <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
@@ -159,6 +161,23 @@
         <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
         <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
         <item name="toolbarIconColor">@color/item_classic_dark</item>
+    </style>
+
+    <style name="Style.Mono" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_mono_dark</item>
+        <item name="colorAccent">@color/item_mono_dark</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="fabColor">@color/item_mono_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_mono_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_mono</item>
+        <item name="listSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="styleFontFamily">monospace</item>
     </style>
 
     <style name="Style.Sepia" parent="Theme.Simplestyle">
