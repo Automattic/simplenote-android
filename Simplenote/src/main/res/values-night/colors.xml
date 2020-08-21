@@ -9,6 +9,8 @@
     <color name="background_list_classic_ripple">@color/blue_60</color>
     <color name="background_list_mono_activated">@color/background_dark_highlight</color>
     <color name="background_list_mono_ripple">@color/background_dark_highlight</color>
+    <color name="background_list_publication_activated">@color/background_dark_highlight</color>
+    <color name="background_list_publication_ripple">@color/background_dark_highlight</color>
     <color name="background_list_sepia_activated">@color/background_dark_highlight_sepia</color>
     <color name="background_list_sepia_ripple">@color/background_dark_highlight_sepia</color>
     <color name="background_list_default">@color/background_dark_highlight</color>
