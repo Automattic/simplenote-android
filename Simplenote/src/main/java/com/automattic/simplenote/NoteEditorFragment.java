@@ -987,7 +987,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         AppLog.add(
             Type.ACTION,
-            "Edited note (Title: " + mNote.getTitle() +
+            "Edited note (ID: " + mNote.getSimperiumKey() +
+                " / Title: " + mNote.getTitle() +
                 " / Characters: " + NoteUtils.getCharactersCount(mNote.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(mNote.getContent()) + ")"
         );
@@ -1171,7 +1172,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 AppLog.add(
                     Type.SYNC,
-                    "Saved note locally in NoteEditorFragment (Title: " + mNote.getTitle() +
+                    "Saved note locally in NoteEditorFragment (ID: " + mNote.getSimperiumKey() +
+                        " / Title: " + mNote.getTitle() +
                         " / Characters: " + NoteUtils.getCharactersCount(content) +
                         " / Words: " + NoteUtils.getWordCount(content) + ")"
                 );
@@ -1447,7 +1449,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         AppLog.add(
             Type.SYNC,
-            "Saved note callback in NoteEditorFragment (Title: " + note.getTitle() +
+            "Saved note callback in NoteEditorFragment (ID: " + note.getSimperiumKey() +
+                " / Title: " + note.getTitle() +
                 " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
         );
@@ -1509,7 +1512,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     fragment.mIsPreviewEnabled = fragment.mNote.isPreviewEnabled();
                     AppLog.add(
                         Type.SYNC,
-                        "Loaded note (Title: " + fragment.mNote.getTitle() +
+                        "Loaded note (ID: " + fragment.mNote.getSimperiumKey() +
+                            " / Title: " + fragment.mNote.getTitle() +
                             " / Characters: " + NoteUtils.getCharactersCount(fragment.mNote.getContent()) +
                             " / Words: " + NoteUtils.getWordCount(fragment.mNote.getContent()) + ")"
                     );

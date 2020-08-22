@@ -188,7 +188,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
         AppLog.add(
             Type.SYNC,
-            "Saved note callback in NoteMarkdownFragment (Title: " + note.getTitle() +
+            "Saved note callback in NoteMarkdownFragment (ID: " + note.getSimperiumKey() +
+                " / Title: " + note.getTitle() +
                 " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
         );
