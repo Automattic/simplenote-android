@@ -1,0 +1,2 @@
+2.9:
+* Hemos corregido un problema con las etiquetas duplicadas y los caracteres especiales en los nombres de las etiquetas

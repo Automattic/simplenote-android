@@ -1,3 +1,0 @@
-2.8 :
-* Ajout de raccourcis pour les appareils avec un clavier matériel
-* Ajout de la prise en charge des langues s’écrivant de droite à gauche pour l’aperçu Markdown
