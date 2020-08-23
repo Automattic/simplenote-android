@@ -1,0 +1,2 @@
+2.9:
+* Corretto un bug con tag duplicati e caratteri speciali nei nomi dei tag

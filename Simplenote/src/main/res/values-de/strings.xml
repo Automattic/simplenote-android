@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 14:54:04+0000
+Translation-Revision-Date: 2020-08-06 18:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="log_out_anyway">Trotzdem abmelden</string>
+    <string name="export_unsynced_notes">Nicht synchronisierte Notizen exportieren</string>
+    <string name="unsynced_notes_message">Beim Abmelden werden alle nicht synchronisierten Notizen gelöscht.</string>
+    <string name="unsynced_notes">Nicht synchronisierte Notizen</string>
+    <string name="export_setting">Daten exportieren</string>
+    <string name="export_message_success">Daten in Datei gespeichert</string>
+    <string name="export_message_failure">Daten konnten nicht gespeichert werden</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">Die Schlagwortlänge ist zu lang. Versuche es bitte noch einmal mit einem kürzeren Namen. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
+    <string name="rename_tag_message">Beim Umbenennen des Schlagworts ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
+    <string name="rename_tag_error_spaces">Schlagwörter dürfen keine Leerzeichen enthalten</string>
+    <string name="rename_tag_error_length">Schlagwortlänge ist zu lang</string>
+    <string name="rename_tag_error_empty">Schlagwörter dürfen nicht leer sein</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL in Zwischenablage kopiert</string>
+    <string name="simperium_error_browser_copy_failure">URL konnte nicht in die Zwischenablage kopiert werden</string>
+    <string name="simperium_error_browser">Bitte vergewissere dich, dass ein Browser installiert und aktiviert ist.</string>
+    <string name="simperium_dialog_title_error_browser">Kein Browser gefunden</string>
+    <string name="simperium_dialog_button_copy_url">URL kopieren</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Strg</string>
+    <string name="item_action_toggle_preview_error">Wähle eine Notiz aus, um die Vorschau umzuschalten.</string>
+    <string name="item_action_toggle_preview_enable_error">Aktiviere Markdown, um die Vorschau umzuschalten.</string>
+    <string name="item_action_toggle_preview">Vorschau umschalten</string>
+    <string name="item_action_toggle_list_error">Wähle eine Notiz aus, um die Liste umzuschalten.</string>
+    <string name="item_action_toggle_list">Liste umschalten</string>
+    <string name="item_action_toggle_checklist_error">Wähle eine Notiz aus, um die Checkliste umzuschalten.</string>
+    <string name="item_action_toggle_checklist_edit_error">Wähle den Tab „Bearbeiten“ aus, um die Checkliste umzuschalten.</string>
+    <string name="item_action_show_share_error">Wähle eine Notiz aus, um die Teilen-Funktion anzuzeigen.</string>
+    <string name="item_action_show_share_edit_error">Wähle den Tab „Bearbeiten“ aus, um die Teilen-Funktion anzuzeigen.</string>
+    <string name="item_action_show_share">Teilen-Funktion anzeigen</string>
+    <string name="item_action_show_information_error">Wähle eine Notiz aus, um Informationen anzuzeigen.</string>
+    <string name="item_action_show_information_edit_error">Wähle den Tab „Bearbeiten“ aus, um Informationen anzuzeigen.</string>
+    <string name="item_action_show_information">Informationen anzeigen</string>
+    <string name="item_action_show_history_error">Wähle eine Notiz aus, um den Verlauf anzuzeigen.</string>
+    <string name="item_action_show_history_edit_error">Wähle den Tab „Bearbeiten“ aus, um den Verlauf anzuzeigen.</string>
+    <string name="item_action_show_history">Verlauf anzeigen</string>
+    <string name="item_action_open_search">Suche öffnen</string>
+    <string name="action">Aktion</string>
+    <string name="link_california">%1$s%2$s%3$sDatenschutzhinweis für Benutzer in Kalifornien%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Eine Netzwerkverbindung ist erforderlich. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="simperium_dialog_message_password">Das Passwort muss folgende Anforderungen erfüllen:\n\n– Das Passwort darf nicht der E-Mail entsprechen.\n– Das Passwort muss mindestens aus %1$d Zeichen bestehen.\n– Es dürfen keine neuen Zeilen verwendet werden.\n– Es dürfen keine Tabs verwendet werden.</string>
+    <string name="simperium_dialog_message_login_reset">Dein Passwort ist nicht sicher und muss zurückgesetzt werden. Das Passwort muss folgende Anforderungen erfüllen:\n\n– Das Passwort darf nicht der E-Mail entsprechen.\n– Das Passwort muss mindestens aus %1$d Zeichen bestehen.\n– Es dürfen keine neuen Zeilen verwendet werden.\n– Es dürfen keine Tabs verwendet werden.</string>
+    <string name="simperium_button_login_reset">Zurücksetzen</string>
+    <string name="link_terms">%1$s%2$s%3$sGeschäftsbedingungen%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sDatenschutzerklärung%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">Bist du Entwickler? Wir stellen weitere Mitarbeiter ein.</string>
+    <string name="about_hiring_title">Jobs</string>
+    <string name="about_contribute_title">Beitragen</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">Notizen oder Schlagwörter durchsuchen</string>
     <string name="empty_tags_search">Keine Schlagwörter gefunden</string>
     <string name="empty_notes_widget">Keine Notizen</string>
@@ -50,12 +107,11 @@ Language: de
     <string name="description_sort">Sortieren</string>
     <string name="description_down">Ab</string>
     <string name="description_delete_item">Element löschen</string>
-    <string name="unsynced_notes_message">Beim Abmelden werden alle nicht synchronisierten Notizen gelöscht. Du kannst überprüfen, ob deine Notizen synchronisiert wurden, indem du dich in einem Webbrowser unter app.simplenote.com anmeldest.</string>
     <string name="sort_search_reverse_order">Reihenfolge umkehren</string>
     <string name="sort_search_modified">Geändert</string>
     <string name="sort_search_created">Erstellt</string>
     <string name="sort_search_alphabetically">Alphabetisch</string>
-    <string name="welcome_note">Willkommen bei Simplenote Android!\nIn dieser Notiz findest du Anweisungen.\n\nTippe zum Erstellen einer neuen Notiz auf den blauen Button „Neue Notiz“ mit dem Plus-Icon.\n\nWenn du deine Notizen durchsuchen willst, tippe auf den Button „Suchen“ mit dem Lupensymbol und gib einen Text ein. Simplenote zeigt dir anfangs die letzten Suchen an und macht Suchvorschläge, wenn du Text eingibst. Notizen, die mit dem eingegebenen Text übereinstimmen, werden nach dem Absenden der Suche angezeigt.\n\nHast du eine äußerst wichtige Notiz? Hefte sie an den Anfang der Notizenliste. Zum Anheften von Notizen gibt es zwei Möglichkeiten. Halte die Notiz in der Liste lange gedrückt und tippe auf den Button „An Anfang heften“ mit dem Anheften-Icon. Tippe in der Notizenansicht auf den Button „Info“ mit dem „i“-Icon und aktiviere die Option „An Anfang heften“.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Füge im Feld „Schlagwort hinzufügen …“ am Ende einer Notiz ein Schlagwort hinzu. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nNotizen lassen sich mühelos an andere Android-Apps weitergeben, indem du in der Notizenansicht auf den Button „Teilen“ mit dem Teilen-Icon tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
+    <string name="welcome_note">Willkommen bei Simplenote Android!\nIn dieser Notiz findest du Anweisungen.\n\nTippe zum Erstellen einer neuen Notiz auf den blauen Button „Neue Notiz“ mit dem Plus-Icon.\n\nWenn du deine Notizen durchsuchen willst, tippe auf den Button „Suchen“ mit dem Lupensymbol und gib einen Text ein. Simplenote zeigt dir anfangs die letzten Suchen an und macht Suchvorschläge, wenn du Text eingibst. Notizen, die mit dem eingegebenen Text übereinstimmen, werden nach dem Absenden der Suche angezeigt.\n\nHast du eine äußerst wichtige Notiz? Hefte sie an den Anfang der Notizenliste. Zum Anheften von Notizen gibt es zwei Möglichkeiten. Halte die Notiz in der Liste lange gedrückt und tippe auf den Button „An Anfang heften“ mit dem Anheften-Icon. Tippe in der Notiz auf den Button „Weitere Optionen“ mit dem Icon mit drei vertikalen Punkten und aktiviere das Kontrollkästchen „Anheften“.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Füge im Feld „Schlagwort hinzufügen …“ am Ende einer Notiz ein Schlagwort hinzu. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nDu kannst deine Notizen ganz einfach mit anderen Android-Apps teilen, indem du in der Notiz im Menü „Weitere Optionen“ auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
     <string name="search_hint">Notizen oder Schlagwörter suchen</string>
     <string name="log_out">Abmelden</string>
     <string name="log_in">Anmelden</string>
@@ -116,9 +172,6 @@ Language: de
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Von oben lösen</string>
     <string name="untagged_notes">Nicht markierte Notizen</string>
-    <string name="delete_notes">Notizen löschen</string>
-    <string name="visit_web_app">Web-App aufrufen</string>
-    <string name="unsynced_notes">Nicht synchronisierte Notizen entdeckt</string>
     <string name="wpcom_log_in_error_unverified">Aktiviere dein WordPress.com-Konto per E-Mail und versuche es erneut.</string>
     <string name="wpcom_log_in_error_generic">Anmeldung mit WordPress.com fehlgeschlagen. Bitte versuche es erneut.</string>
     <string name="collaborate_message">Füge im Feld „Schlagwort“ eine E-Mail-Adresse für die Zusammenarbeit mit anderen Benutzern hinzu.</string>

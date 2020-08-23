@@ -7,9 +7,6 @@ Language: cy_GB
 -->
 <resources>
     <string name="notes">Nodiadau</string>
-    <string name="delete_notes">Dileu nodiadau</string>
-    <string name="visit_web_app">Ewch i ap gwe</string>
-    <string name="unsynced_notes">Nodiadau heb eu cydweddu wedi&amp;#39;u canfod</string>
     <string name="wpcom_log_in_error_generic">Methu mewngofnodi gyda WordPress.com. Ceisiwch eto, os gwelwch yn dda.</string>
     <string name="wpcom_log_in_error_unverified">Gweithredwch eich cyfrif WordPress.com trwy e-bost a cheisiwch eto.</string>
     <string name="collaborate_message">Ychwanegwch e-bost yn y maes tag i gydweithio â defnyddwyr eraill.</string>

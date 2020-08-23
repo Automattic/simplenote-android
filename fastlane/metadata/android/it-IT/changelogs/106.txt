@@ -1,2 +1,0 @@
-2.7:
-*Colori primari aggiornati con un nuovo blu di Simplenote
