@@ -50,6 +50,8 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AutoBullet;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ContextUtils;
@@ -292,6 +294,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Created (NoteEditorFragment)");
         mInfoBottomSheet = new InfoBottomSheetDialog(this);
         mShareBottomSheet = new ShareBottomSheetDialog(this, this);
         mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
@@ -390,6 +394,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             mIsFromWidget = arguments.getBoolean(ARG_IS_FROM_WIDGET);
+
+            if (mIsFromWidget) {
+                AppLog.add(Type.ACTION, "Opened from widget (NoteEditorFragment)");
+            } else {
+                AppLog.add(Type.ACTION, "Opened from list (NoteEditorFragment)");
+            }
+
             new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
         } else if (DisplayUtils.isLargeScreenLandscape(getActivity()) && savedInstanceState != null) {
             // Restore selected note when in dual pane mode
@@ -444,6 +455,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onResume() {
         super.onResume();
         mNotesBucket.start();
+        AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
         mTagInput.setOnTagAddedListener(this);
 
@@ -497,6 +509,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mHighlighter.stop();
         saveNote();
+        AppLog.add(Type.SCREEN, "Paused (NoteEditorFragment)");
     }
 
     @Override
@@ -504,6 +517,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onDestroy();
         mNotesBucket.removeListener(this);
         mNotesBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
+        AppLog.add(Type.SCREEN, "Destroyed (NoteEditorFragment)");
     }
 
     @Override
@@ -573,6 +588,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 deleteNote();
                 return true;
             case android.R.id.home:
+                AppLog.add(Type.ACTION, "Tapped back arrow in app bar (NoteEditorFragment)");
                 if (!isAdded()) {
                     return false;
                 }
@@ -969,6 +985,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
+        AppLog.add(
+            Type.ACTION,
+            "Edited note (ID: " + mNote.getSimperiumKey() +
+                " / Title: " + mNote.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(mNote.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(mNote.getContent()) + ")"
+        );
         new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -1145,6 +1168,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     EDITOR_NOTE_EDITED,
                     CATEGORY_NOTE,
                     "editor_save"
+                );
+
+                AppLog.add(
+                    Type.SYNC,
+                    "Saved note locally in NoteEditorFragment (ID: " + mNote.getSimperiumKey() +
+                        " / Title: " + mNote.getTitle() +
+                        " / Characters: " + NoteUtils.getCharactersCount(content) +
+                        " / Words: " + NoteUtils.getWordCount(content) + ")"
                 );
             }
         } catch (BucketObjectMissingException exception) {
@@ -1413,7 +1444,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mIsPaused) {
             mNotesBucket.removeListener(this);
             mNotesBucket.stop();
+            AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
         }
+
+        AppLog.add(
+            Type.SYNC,
+            "Saved note callback in NoteEditorFragment (ID: " + note.getSimperiumKey() +
+                " / Title: " + note.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
+        );
     }
 
     @Override
@@ -1470,6 +1510,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 if (fragment.mNote != null) {
                     fragment.mIsMarkdownEnabled = fragment.mNote.isMarkdownEnabled();
                     fragment.mIsPreviewEnabled = fragment.mNote.isPreviewEnabled();
+                    AppLog.add(
+                        Type.SYNC,
+                        "Loaded note (ID: " + fragment.mNote.getSimperiumKey() +
+                            " / Title: " + fragment.mNote.getTitle() +
+                            " / Characters: " + NoteUtils.getCharactersCount(fragment.mNote.getContent()) +
+                            " / Words: " + NoteUtils.getWordCount(fragment.mNote.getContent()) + ")"
+                    );
                 }
             } catch (BucketObjectMissingException e) {
                 // See if the note is in the object store
