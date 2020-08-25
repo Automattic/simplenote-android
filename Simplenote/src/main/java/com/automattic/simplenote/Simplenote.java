@@ -9,6 +9,12 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
@@ -22,12 +28,15 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 
 import org.wordpress.passcodelock.AppLockManager;
+
+import java.util.concurrent.TimeUnit;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
@@ -211,6 +220,7 @@ public class Simplenote extends Application {
 
                 mIsInBackground = false;
                 AppLog.add(Type.ACTION, "App opened");
+                WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_SYNC);
             }
         }
 
@@ -224,6 +234,21 @@ public class Simplenote extends Application {
 
         @Override
         public void onActivityPaused(Activity activity) {
+            PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
+                SyncWorker.class,
+                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                TimeUnit.MILLISECONDS
+            )
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
+                .setInitialDelay(TEN_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
+                .addTag(TAG_SYNC)
+                .build();
+            WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
+                TAG_SYNC,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                syncWorkRequest
+            );
         }
 
         @Override
