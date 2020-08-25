@@ -70,6 +70,8 @@
     <color name="background_list_default">@color/background_light_highlight</color>
     <color name="background_list_mono_activated">@color/gray_5</color>
     <color name="background_list_mono_ripple">@color/gray_0</color>
+    <color name="background_list_publication_activated">@color/red_5</color>
+    <color name="background_list_publication_ripple">@color/red_0</color>
     <color name="background_list_sepia_activated">@color/orange_5</color>
     <color name="background_list_sepia_ripple">@color/orange_0</color>
     <color name="chip_dark_checked_off">#24ffffff</color>
