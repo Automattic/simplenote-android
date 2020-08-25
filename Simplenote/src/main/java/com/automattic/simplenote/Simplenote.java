@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
@@ -7,6 +8,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.work.BackoffPolicy;
@@ -209,6 +211,7 @@ public class Simplenote extends Application {
         }
 
         // ActivityLifeCycle callbacks
+        @SuppressLint("LongLogTag")
         @Override
         public void onActivityResumed(Activity activity) {
             if (mIsInBackground) {
@@ -221,6 +224,7 @@ public class Simplenote extends Application {
                 mIsInBackground = false;
                 AppLog.add(Type.ACTION, "App opened");
                 WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_SYNC);
+                Log.d("Simplenote.onActivityResumed", "Stopped worker");
             }
         }
 
@@ -232,6 +236,7 @@ public class Simplenote extends Application {
         public void onActivityStarted(Activity activity) {
         }
 
+        @SuppressLint("LongLogTag")
         @Override
         public void onActivityPaused(Activity activity) {
             PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
@@ -249,6 +254,7 @@ public class Simplenote extends Application {
                 ExistingPeriodicWorkPolicy.REPLACE,
                 syncWorkRequest
             );
+            Log.d("Simplenote.onActivityPaused", "Started worker");
         }
 
         @Override

@@ -3,6 +3,7 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -35,6 +36,7 @@ public class SyncWorker extends Worker {
         mBucketNote.start();
         mBucketTag.start();
         mBucketPreference.start();
+        Log.d("SyncWorker.doWork", "Started buckets");
 
         new Handler(Looper.getMainLooper()).postDelayed(
             new Runnable() {
@@ -52,6 +54,8 @@ public class SyncWorker extends Worker {
                         if (mBucketPreference != null) {
                             mBucketPreference.stop();
                         }
+
+                        Log.d("SyncWorker.doWork", "Stopped buckets");
                     }
                 }
             },
@@ -67,5 +71,6 @@ public class SyncWorker extends Worker {
         mBucketNote.stop();
         mBucketTag.stop();
         mBucketPreference.stop();
+        Log.d("SyncWorker.onStopped", "Stopped buckets");
     }
 }
