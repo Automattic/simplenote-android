@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
@@ -202,7 +203,7 @@ public class Simplenote extends Application {
         }
 
         @Override
-        public void onConfigurationChanged(Configuration newConfig) {
+        public void onConfigurationChanged(@NonNull Configuration newConfig) {
             AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
         }
 
@@ -213,7 +214,7 @@ public class Simplenote extends Application {
         // ActivityLifeCycle callbacks
         @SuppressLint("LongLogTag")
         @Override
-        public void onActivityResumed(Activity activity) {
+        public void onActivityResumed(@NonNull Activity activity) {
             if (mIsInBackground) {
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.APPLICATION_OPENED,
@@ -229,16 +230,16 @@ public class Simplenote extends Application {
         }
 
         @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
         }
 
         @Override
-        public void onActivityStarted(Activity activity) {
+        public void onActivityStarted(@NonNull Activity activity) {
         }
 
         @SuppressLint("LongLogTag")
         @Override
-        public void onActivityPaused(Activity activity) {
+        public void onActivityPaused(@NonNull Activity activity) {
             PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
                 SyncWorker.class,
                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
@@ -258,15 +259,15 @@ public class Simplenote extends Application {
         }
 
         @Override
-        public void onActivityStopped(Activity activity) {
+        public void onActivityStopped(@NonNull Activity activity) {
         }
 
         @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
         }
 
         @Override
-        public void onActivityDestroyed(Activity activity) {
+        public void onActivityDestroyed(@NonNull Activity activity) {
         }
     }
 }
