@@ -40,16 +40,18 @@ public class SyncWorker extends Worker {
             new Runnable() {
                 @Override
                 public void run() {
-                    if (mBucketNote != null) {
-                        mBucketNote.stop();
-                    }
+                    if (((Simplenote) getApplicationContext()).isInBackground()) {
+                        if (mBucketNote != null) {
+                            mBucketNote.stop();
+                        }
 
-                    if (mBucketTag != null) {
-                        mBucketTag.stop();
-                    }
+                        if (mBucketTag != null) {
+                            mBucketTag.stop();
+                        }
 
-                    if (mBucketPreference != null) {
-                        mBucketPreference.stop();
+                        if (mBucketPreference != null) {
+                            mBucketPreference.stop();
+                        }
                     }
                 }
             },

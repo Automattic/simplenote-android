@@ -32,22 +32,23 @@ import org.wordpress.passcodelock.AppLockManager;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 public class Simplenote extends Application {
-
-    private static final int TEN_SECONDS_MILLIS = 10000;
-
-    // log tag
-    public static final String TAG = "Simplenote";
-
-    // intent IDs
-    public static final int INTENT_PREFERENCES = 1;
-    public static final int INTENT_EDIT_NOTE = 2;
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String TAG = "Simplenote";
+    public static final int INTENT_EDIT_NOTE = 2;
+    public static final int INTENT_PREFERENCES = 1;
+    public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
+    public static final int TEN_SECONDS_MILLIS = 10 * 1000;  // 10 seconds
+
     private static final String AUTH_PROVIDER = "simplenote.com";
-    private Simperium mSimperium;
+    private static final String TAG_SYNC = "sync";
+
+    private static Bucket<Preferences> mPreferencesBucket;
+
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
-    private static Bucket<Preferences> mPreferencesBucket;
+    private Simperium mSimperium;
+    private boolean mIsInBackground = true;
 
     public void onCreate() {
         super.onCreate();
@@ -141,10 +142,11 @@ public class Simplenote extends Application {
         return mPreferencesBucket;
     }
 
-    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks,
-            ComponentCallbacks2 {
-        private boolean mIsInBackground = true;
+    public boolean isInBackground() {
+        return mIsInBackground;
+    }
 
+    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
