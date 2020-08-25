@@ -23,6 +23,7 @@ import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MONO;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_PUBLICATION;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_SEPIA;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
@@ -179,6 +180,8 @@ public class PrefUtils {
                 return context.getString(R.string.style_sepia);
             case STYLE_MONO:
                 return context.getString(R.string.style_mono);
+            case STYLE_PUBLICATION:
+                return context.getString(R.string.style_publication);
             case STYLE_DEFAULT:
             default:
                 return context.getString(R.string.style_default);
