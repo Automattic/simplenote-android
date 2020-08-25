@@ -1,0 +1,2 @@
+2.9:
+* Åtgärdade en bugg med duplicerade etiketter och specialtecken i etikettnamn

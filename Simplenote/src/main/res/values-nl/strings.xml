@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 15:54:04+0000
+Translation-Revision-Date: 2020-08-06 18:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="log_out_anyway">Toch uitloggen</string>
+    <string name="export_unsynced_notes">Niet-gesynchroniseerde notities exporteren</string>
+    <string name="unsynced_notes_message">Door uit te loggen, worden niet-gesynchroniseerde notities verwijderd.</string>
+    <string name="unsynced_notes">Niet-gesynchroniseerde notities</string>
+    <string name="export_setting">Gegevens exporteren</string>
+    <string name="export_message_success">Gegevens opgeslagen in bestand</string>
+    <string name="export_message_failure">Gegevens konden niet worden opgeslagen</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">De tag is te lang. Probeer het opnieuw met een kortere naam. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
+    <string name="rename_tag_message">Fout opgetreden bij het hernoemen van de tag. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
+    <string name="rename_tag_error_spaces">Tags mogen geen spaties bevatten</string>
+    <string name="rename_tag_error_length">Tag te lang</string>
+    <string name="rename_tag_error_empty">Tags mogen niet leeg zijn</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL gekopieerd naar klembord</string>
+    <string name="simperium_error_browser_copy_failure">URL kon niet gekopieerd worden naar klembord</string>
+    <string name="simperium_error_browser">Verifieer of er een browser is geïnstalleerd en ingesteld.</string>
+    <string name="simperium_dialog_title_error_browser">Geen browser gevonden</string>
+    <string name="simperium_dialog_button_copy_url">URL kopiëren</string>
+    <string name="key_single_s">S</string>
+    <string name="key_single_p">P</string>
+    <string name="key_single_l">L</string>
+    <string name="key_single_i">I</string>
+    <string name="key_single_h">H</string>
+    <string name="key_single_c">C</string>
+    <string name="key_multiple_shift">Shift</string>
+    <string name="key_multiple_ctrl">Ctrl</string>
+    <string name="item_action_toggle_preview_error">Selecteer een notitie om voorbeeldweergave in/uit te schakelen</string>
+    <string name="item_action_toggle_preview_enable_error">Snelle stijl inschakelen voor in-/uitschakelen voorbeeldweergave</string>
+    <string name="item_action_toggle_preview">Voorbeeldweergave in-/uitschakelen</string>
+    <string name="item_action_toggle_list_error">Selecteer een notitie om lijst in/uit te schakelen</string>
+    <string name="item_action_toggle_list">Lijst in-/uitschakelen</string>
+    <string name="item_action_toggle_checklist_error">Selecteer een notitie om checklist in/uit te schakelen</string>
+    <string name="item_action_toggle_checklist_edit_error">Selecteer het tabblad Bewerken om checklist in/uit te schakelen</string>
+    <string name="item_action_show_share_error">Selecteer een notitie om delen weer te geven</string>
+    <string name="item_action_show_share_edit_error">Selecteer het tabblad Bewerken om delen weer te geven</string>
+    <string name="item_action_show_share">Delen weergeven</string>
+    <string name="item_action_show_information_error">Selecteer een notitie om informatie weer te geven</string>
+    <string name="item_action_show_information_edit_error">Selecteer het tabblad Bewerken om informatie weer te geven</string>
+    <string name="item_action_show_information">Informatie weergeven</string>
+    <string name="item_action_show_history_error">Selecteer een notitie om geschiedenis weer te geven</string>
+    <string name="item_action_show_history_edit_error">Selecteer het tabblad Bewerken om geschiedenis weer te geven</string>
+    <string name="item_action_show_history">Geschiedenis weergeven</string>
+    <string name="item_action_open_search">Zoeken openen</string>
+    <string name="action">Actie</string>
+    <string name="link_california">%1$s%2$s%3$sPrivacyverklaring voor gebruikers in Californië%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Een netwerkverbinding is vereist. Controleer je verbinding en probeer het nogmaals.</string>
+    <string name="simperium_dialog_message_password">De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
+    <string name="simperium_dialog_message_login_reset">Je wachtwoord is onveilig en moet opnieuw worden ingesteld. De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
+    <string name="simperium_button_login_reset">Resetten</string>
+    <string name="link_terms">%1$s%2$s%3$sServicevoorwaarden%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sPrivacybeleid%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">Ben je ontwikkelaar? Wij zijn op zoek naar nieuwe collega\'s.</string>
+    <string name="about_hiring_title">Carrières</string>
+    <string name="about_contribute_title">Bijdragen</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">Notities of tags zoeken</string>
     <string name="empty_tags_search">Geen tags gevonden</string>
     <string name="empty_notes_widget">Geen notities</string>
@@ -50,11 +107,11 @@ Language: nl
     <string name="description_sort">Sorteren</string>
     <string name="description_down">Omlaag</string>
     <string name="description_delete_item">Item verwijderen</string>
-    <string name="unsynced_notes_message">Door uit te loggen, worden gesynchroniseerde notities verwijderd. Je kunt je gesynchroniseerde notities verifiëren door in te loggen op app.simplenote.com via een webbrowser.</string>
     <string name="sort_search_reverse_order">Omgekeerde volgorde</string>
     <string name="sort_search_modified">Aangepast</string>
     <string name="sort_search_created">Aangemaakt</string>
     <string name="sort_search_alphabetically">Alfabetisch</string>
+    <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de blauwe knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wilt zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kunt een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag aan in het veld \'Tag toevoegen…\' onderaan een notitie. Je kunt ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kunt ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kunt je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
@@ -115,9 +172,6 @@ Language: nl
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Losmaken van bovenzijde</string>
     <string name="untagged_notes">Niet-getagde notities</string>
-    <string name="delete_notes">Notities verwijderen</string>
-    <string name="visit_web_app">Web-app bezoeken</string>
-    <string name="unsynced_notes">Ongesynchroniseerde notities gedetecteerd</string>
     <string name="wpcom_log_in_error_unverified">Activeer je WordPress.com-account via e-mail en probeer het nogmaals.</string>
     <string name="wpcom_log_in_error_generic">Kan niet inloggen via WordPress.com. Probeer het nog eens.</string>
     <string name="collaborate_message">Voeg een e-mail toe aan het tag-veld om met andere gebruikers samen te werken.</string>

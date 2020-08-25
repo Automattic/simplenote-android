@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.app.ShareCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -22,6 +23,8 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -185,9 +188,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        Preference versionPref = findPreference("pref_key_build");
-        versionPref.setSummary(PrefUtils.versionInfo());
-
         SwitchPreferenceCompat switchPreference = findPreference("pref_key_condensed_note_list");
         switchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -231,6 +231,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         updateAnalyticsSwitchState();
+
+        findPreference("pref_key_logs").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(
+                    ShareCompat.IntentBuilder.from(requireActivity())
+                        .setText(AppLog.get())
+                        .setType("text/plain")
+                        .createChooserIntent()
+                );
+                return true;
+            }
+        });
     }
 
     @Override
@@ -283,7 +296,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         application.getPreferencesBucket().reset();
 
         application.getNotesBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (PreferencesFragment)");
         application.getTagsBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped tag bucket (PreferencesFragment)");
         application.getPreferencesBucket().stop();
 
         AnalyticsTracker.track(

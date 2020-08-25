@@ -1,85 +1,68 @@
 <ar>
-2.8:
-* تمت إضافة اختصارات مفاتيح التشغيل السريعة إلى الأجهزة المزوَّدة بلوحات مفاتيح الأجهزة
-* تمت إضافة دعم اللغة من اليمين إلى اليسار لمعاينة الضبط
+2.9:
+* تم إصلاح خطأ بخصوص الوسوم والأحرف الخاصة المكرَّرة الموجودة في أسماء الوسوم
 </ar>
 <de-DE>
-2,8:
-* Hotkey-Tastaturkürzel für Geräte mit Hardware-Tastaturen hinzugefügt
-* Unterstützung für Rechts-nach-Links-Sprachen für Markdown-Vorschau hinzugefügt
+2.9:
+* Fehler mit doppelten Schlagwörtern und Sonderzeichen in Schlagwortnamen behoben
 </de-DE>
 <es-ES>
-2.8:
-* Hemos añadido atajos de teclado para dispositivos con hardware de teclado
-* Hemos añadido la compatibilidad con idiomas que se leen de derecha a izquierda con la vista previa de Markdown
+2.9:
+* Hemos corregido un problema con las etiquetas duplicadas y los caracteres especiales en los nombres de las etiquetas
 </es-ES>
 <fr-FR>
-2.8 :
-* Ajout de raccourcis pour les appareils avec un clavier matériel
-* Ajout de la prise en charge des langues s’écrivant de droite à gauche pour l’aperçu Markdown
+2.9 :
+* Correction d’un bogue relatif à des étiquettes en double et des caractères spéciaux dans les noms d’étiquettes
 </fr-FR>
 <iw-IL>
-2.8:
-* הוספנו קיצורי דרך של מקשים מהירים במקלדות חומרה
-* הוספנו תמיכה בשפות עם כיווניות מימין לשמאל בתצוגה מקדימה של Markdown
+2.9
+* תיקנו באג בתגיות כפולות ובתווים מיוחדים בשמות התגיות
 </iw-IL>
 <id>
-2.8:
-* Pintasan hotkey tambahan untuk perangkat dengan keyboard perangkat keras
-* Menambahkan dukungan bahasa kanan-ke-kiri untuk pratinjau markdown
+2,9:
+* Memperbaiki bug dengan tag duplikat dan karakter khusus dalam nama tag
 </id>
 <it-IT>
-2.8:
-* Aggiunti tasti di scelta rapida (tasti di scelta) per dispositivi con tastiere hardware
-* Aggiunto supporto per lingue scritte da destra a sinistra per la visualizzazione in anteprima Markdown
+2.9:
+* Corretto un bug con tag duplicati e caratteri speciali nei nomi dei tag
 </it-IT>
 <ja-JP>
-2.8:
-* ハードウェアキーボードが搭載されたデバイス向けにホットキーショートカットを追加
-* マークダウンプレビュー用に、右から左に書く言語のサポートを追加
+2.9:
+* 重複タグとタグ名の特殊文字のバグを修正
 </ja-JP>
 <ko-KR>
-2.8:
-* 하드웨어 키보드가 연결된 기기의 핫키 단축키 추가됨
-* 마크다운 미리보기를 위한 오른쪽에서 왼쪽으로 읽는 언어 지원 추가됨
+2.9:
+* 중복 태그 및 태그 이름 내 특수 문자 관련 버그 해결됨
 </ko-KR>
 <nl-NL>
-2.8:
-* Sneltoetsen toegevoegd voor apparaten met hardware-toetsenborden
-* Ondersteuning voor talen die van rechts naar links lezen toegevoegd aan voorbeeldweergave van markdown
+2.9:
+* Bug opgelost met dubbele tags en speciale tekens in tagnamen
 </nl-NL>
 <pt-BR>
-2.8:
-* Adição de atalhos de teclado para dispositivos com teclado físico
-* Adição de suporte a idiomas escritos da direita para a esquerda (RTL) na visualização de Markdown
+2.9:
+* Correção de um erro  com tags duplicadas e caracteres especiais em nomes de tags.
 </pt-BR>
 <ru-RU>
-2.8:
-* Добавлены горячие клавиши для устройств с аппаратными клавиатурами
-* Предварительный просмотр разметки теперь возможен для языков с написанием справа налево
+2.9:
+* Исправлена ошибка, из-за которой дублировались метки и в их названиях появлялись специальные символы
 </ru-RU>
 <sv-SE>
-2,8:
-* Lade till kortkommandon för enheter med fysiska tangentbord
-* Lade till stöd för höger till vänster-språk för Markdown-förhandsgranskning
+2.9:
+* Åtgärdade en bugg med duplicerade etiketter och specialtecken i etikettnamn
 </sv-SE>
 <tr-TR>
-2,8:
-* Donanım klavyeli cihazlar için kısayol tuşu kısayolları eklendi *
-* İşaretleme önizlemesine sağdan sola dil desteği eklendi
+2,9:
+* Yinelenen etikletler ve etiket adlarındaki özel karakterlerle ilgili bir hata düzeltildi
 </tr-TR>
 <zh-CN>
-2.8：
-* 为带有硬件键盘的设备添加了热键快捷方式
-* 为 Markdown 预览添加了从右到左的语言支持
+2.9：
+* 修复了重复标签和标签名称中的特殊字符的错误
 </zh-CN>
 <zh-TW>
-2.8：
-* 為配備硬體鍵盤的裝置新增快速鍵捷徑
-* 為 Markdown 預覽新增從右至左語言支援
+2.9：
+* 修正重複標籤和標籤名稱內特殊字元的錯誤
 </zh-TW>
 <en-US>
-2.8:
-* Added hotkey shortcuts for devices with hardware keyboards
-* Added right-to-left language support to markdown preview
+2.9:
+* Fixed a bug with duplicate tags and special characters in tag names
 </en-US>

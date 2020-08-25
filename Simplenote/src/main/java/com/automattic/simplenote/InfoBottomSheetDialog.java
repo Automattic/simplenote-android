@@ -15,10 +15,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.text.NumberFormat;
 
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
@@ -68,19 +67,10 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public void show(FragmentManager manager, Note note) {
         if (mFragment.isAdded()) {
             showNow(manager, TAG);
-            mCountCharacters.setText(getCharactersCount(note.getContent()));
-            mCountWords.setText(getWordCount(note.getContent()));
+            mCountCharacters.setText(NoteUtils.getCharactersCount(note.getContent()));
+            mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
             mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
         }
-    }
-
-    private String getWordCount(String content) {
-        int words = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
-        return NumberFormat.getInstance().format(words);
-    }
-
-    private String getCharactersCount(String content) {
-        return NumberFormat.getInstance().format(content.length());
     }
 }

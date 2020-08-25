@@ -1,0 +1,2 @@
+2.9:
+* Fehler mit doppelten Schlagwörtern und Sonderzeichen in Schlagwortnamen behoben
