@@ -13,6 +13,7 @@ import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.simperium.client.Bucket;
 
 import static com.automattic.simplenote.Simplenote.TEN_SECONDS_MILLIS;
@@ -33,9 +34,23 @@ public class SyncWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        mBucketNote.start();
-        mBucketTag.start();
-        mBucketPreference.start();
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(getApplicationContext()));
+
+        if (mBucketNote != null) {
+            mBucketNote.start();
+            AppLog.add(Type.SYNC, "Started note bucket (SyncWorker)");
+        }
+
+        if (mBucketTag != null) {
+            mBucketTag.start();
+            AppLog.add(Type.SYNC, "Started tag bucket (SyncWorker)");
+        }
+
+        if (mBucketPreference != null) {
+            mBucketPreference.start();
+            AppLog.add(Type.SYNC, "Started preference bucket (SyncWorker)");
+        }
+
         Log.d("SyncWorker.doWork", "Started buckets");
 
         new Handler(Looper.getMainLooper()).postDelayed(
@@ -45,14 +60,17 @@ public class SyncWorker extends Worker {
                     if (((Simplenote) getApplicationContext()).isInBackground()) {
                         if (mBucketNote != null) {
                             mBucketNote.stop();
+                            AppLog.add(Type.SYNC, "Stopped note bucket (SyncWorker)");
                         }
 
                         if (mBucketTag != null) {
                             mBucketTag.stop();
+                            AppLog.add(Type.SYNC, "Stopped tag bucket (SyncWorker)");
                         }
 
                         if (mBucketPreference != null) {
                             mBucketPreference.stop();
+                            AppLog.add(Type.SYNC, "Stopped preference bucket (SyncWorker)");
                         }
 
                         Log.d("SyncWorker.doWork", "Stopped buckets");
@@ -68,9 +86,22 @@ public class SyncWorker extends Worker {
     @Override
     public void onStopped() {
         super.onStopped();
-        mBucketNote.stop();
-        mBucketTag.stop();
-        mBucketPreference.stop();
+
+        if (mBucketNote != null) {
+            mBucketNote.stop();
+            AppLog.add(Type.SYNC, "Stopped note bucket (SyncWorker)");
+        }
+
+        if (mBucketTag != null) {
+            mBucketTag.stop();
+            AppLog.add(Type.SYNC, "Stopped tag bucket (SyncWorker)");
+        }
+
+        if (mBucketPreference != null) {
+            mBucketPreference.stop();
+            AppLog.add(Type.SYNC, "Stopped preference bucket (SyncWorker)");
+        }
+
         Log.d("SyncWorker.onStopped", "Stopped buckets");
     }
 }
