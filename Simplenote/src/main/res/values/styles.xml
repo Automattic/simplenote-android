@@ -385,6 +385,30 @@
     <style name="Style.Default" parent="Theme.Simplestyle">
     </style>
 
+    <style name="Style.Matrix" parent="Theme.Simplestyle">
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="actionModeBackgroundColor">@color/background_light</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_matrix_light</item>
+        <item name="colorAccent">@color/item_matrix_light</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_light</item>
+        <item name="drawerBackgroundColor">@color/background_light</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/green_5</item>
+        <item name="editorSearchHighlightForegroundColor">@color/green_60</item>
+        <item name="emptyImageColor">@color/empty_light</item>
+        <item name="fabColor">@color/item_matrix_light</item>
+        <item name="fabIconColor">@android:color/white</item>
+        <item name="iconTintColor">@color/item_matrix_light</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_matrix</item>
+        <item name="listSearchHighlightBackgroundColor">@color/green_5</item>
+        <item name="listSearchHighlightForegroundColor">@color/green_60</item>
+        <item name="mainBackgroundColor">@color/background_light</item>
+        <item name="toolbarColor">@color/background_light</item>
+        <item name="styleFontFamily">monospace</item>
+    </style>
+
     <style name="Style.Mono" parent="Theme.Simplestyle">
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
         <item name="actionModeTextColor">@color/item_mono_light</item>

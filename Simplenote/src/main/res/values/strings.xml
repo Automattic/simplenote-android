@@ -126,6 +126,7 @@
     <string name="style_default">Default</string>
     <string name="style_dialog_locked_message">This style is locked. Premium membership is required to unlock it. Would you like to change your membership?</string>
     <string name="style_dialog_locked_title">Style Locked</string>
+    <string name="style_matrix">Matrix</string>
     <string name="style_mono">Mono</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Aliquam erat volutpat. Pellentesque ut odio suscipit.</string>
     <string name="style_publication">Publication</string>

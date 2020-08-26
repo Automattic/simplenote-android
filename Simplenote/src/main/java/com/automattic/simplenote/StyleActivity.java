@@ -36,6 +36,7 @@ import static com.automattic.simplenote.utils.ThemeUtils.STYLE_ARRAY;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MATRIX;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MONO;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_PUBLICATION;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_SEPIA;
@@ -186,12 +187,12 @@ public class StyleActivity extends ThemedAppCompatActivity {
                             R.style.Style_Classic)
                         ).inflate(R.layout.style_list_row_default, parent, false)
                     );
-                case STYLE_SEPIA:
+                case STYLE_MATRIX:
                     return new StyleHolder(LayoutInflater.from(
                         new ContextThemeWrapper(
                             parent.getContext(),
-                            R.style.Style_Sepia)
-                        ).inflate(R.layout.style_list_row_sepia, parent, false)
+                            R.style.Style_Matrix)
+                        ).inflate(R.layout.style_list_row_matrix, parent, false)
                     );
                 case STYLE_MONO:
                     return new StyleHolder(LayoutInflater.from(
@@ -206,6 +207,13 @@ public class StyleActivity extends ThemedAppCompatActivity {
                             parent.getContext(),
                             R.style.Style_Publication)
                         ).inflate(R.layout.style_list_row_publication, parent, false)
+                    );
+                case STYLE_SEPIA:
+                    return new StyleHolder(LayoutInflater.from(
+                        new ContextThemeWrapper(
+                            parent.getContext(),
+                            R.style.Style_Sepia)
+                        ).inflate(R.layout.style_list_row_sepia, parent, false)
                     );
                 case STYLE_DEFAULT:
                 default:
@@ -224,12 +232,14 @@ public class StyleActivity extends ThemedAppCompatActivity {
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? android.R.color.black : android.R.color.white;
                 case STYLE_CLASSIC:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.blue_50 : R.color.blue_20;
-                case STYLE_SEPIA:
-                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.orange_50 : R.color.orange_20;
+                case STYLE_MATRIX:
+                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.green_50 : R.color.green_20;
                 case STYLE_MONO:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.gray_50 : R.color.gray_20;
                 case STYLE_PUBLICATION:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.red_50 : R.color.red_20;
+                case STYLE_SEPIA:
+                    return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.orange_50 : R.color.orange_20;
                 case STYLE_DEFAULT:
                 default:
                     return ThemeUtils.isLightTheme(StyleActivity.this) ? R.color.simplenote_blue_50 : R.color.simplenote_blue_20;

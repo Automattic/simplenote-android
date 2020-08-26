@@ -59,6 +59,7 @@
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
     <color name="background_dark_highlight_sepia">@color/background_dark_sepia_8</color>
+    <color name="background_dark_matrix">@color/background_dark_black_1</color>
     <color name="background_dark_sepia">@color/background_dark_sepia_1</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
@@ -68,6 +69,8 @@
     <color name="background_list_classic_activated">@color/blue_5</color>
     <color name="background_list_classic_ripple">@color/blue_0</color>
     <color name="background_list_default">@color/background_light_highlight</color>
+    <color name="background_list_matrix_activated">@color/green_5</color>
+    <color name="background_list_matrix_ripple">@color/green_0</color>
     <color name="background_list_mono_activated">@color/gray_5</color>
     <color name="background_list_mono_ripple">@color/gray_0</color>
     <color name="background_list_publication_activated">@color/red_5</color>
@@ -91,6 +94,8 @@
     <color name="item_classic_light">@color/blue_50</color>
     <color name="item_default_dark">@color/simplenote_blue_20</color>
     <color name="item_default_light">@color/simplenote_blue_50</color>
+    <color name="item_matrix_dark">@color/green_20</color>
+    <color name="item_matrix_light">@color/green_50</color>
     <color name="item_mono_dark">@color/gray_20</color>
     <color name="item_mono_light">@color/gray_50</color>
     <color name="item_publication_dark">@color/red_20</color>

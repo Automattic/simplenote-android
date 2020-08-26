@@ -163,6 +163,31 @@
         <item name="toolbarIconColor">@color/item_classic_dark</item>
     </style>
 
+    <style name="Style.Matrix" parent="Theme.Simplestyle">
+        <item name="android:windowBackground">@color/background_dark_matrix</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_matrix</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_matrix_dark</item>
+        <item name="colorAccent">@color/item_matrix_dark</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_dark_matrix</item>
+        <item name="drawerBackgroundColor">@color/background_dark_0</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/green_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/green_5</item>
+        <item name="emptyImageColor">@color/empty_dark_black</item>
+        <item name="fabColor">@color/item_matrix_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_matrix_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_matrix</item>
+        <item name="listSearchHighlightBackgroundColor">@color/green_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/green_5</item>
+        <item name="mainBackgroundColor">@color/background_dark_matrix</item>
+        <item name="sheetBackgroundColor">@color/background_dark_black_8</item>
+        <item name="styleFontFamily">monospace</item>
+        <item name="toolbarColor">@color/background_dark_matrix</item>
+    </style>
+
     <style name="Style.Mono" parent="Theme.Simplestyle">
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
         <item name="actionModeTextColor">@color/item_mono_dark</item>
