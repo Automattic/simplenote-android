@@ -171,7 +171,7 @@
         <item name="colorAccent">@color/item_matrix_dark</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/background_dark_matrix</item>
-        <item name="drawerBackgroundColor">@color/background_dark_matrix</item>
+        <item name="drawerBackgroundColor">@color/background_dark_0</item>
         <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
         <item name="editorSearchHighlightBackgroundColor">@color/green_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/green_5</item>
