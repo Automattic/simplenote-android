@@ -60,6 +60,14 @@
         <item name="tint">@color/item_default_dark</item>
     </style>
 
+    <style name="Dialog.Black" parent="Dialog">
+        <item name="android:colorBackground">@color/background_dark_black_8</item>
+    </style>
+
+    <style name="Dialog.Sepia" parent="Dialog">
+        <item name="android:colorBackground">@color/background_dark_sepia_8</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">?attr/toolbarIconColor</item>
         <item name="spinBars">true</item>
@@ -118,11 +126,13 @@
     </style>
 
     <style name="Style.Black" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="actionModeBackgroundColor">@color/background_dark_0</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.White</item>
         <item name="actionModeTextColor">@color/item_black_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Black</item>
         <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
         <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
         <item name="colorAccent">@color/item_black_dark</item>
@@ -164,10 +174,12 @@
     </style>
 
     <style name="Style.Matrix" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Black</item>
         <item name="android:windowBackground">@color/background_dark_matrix</item>
         <item name="actionModeBackgroundColor">@color/background_dark_matrix</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
         <item name="actionModeTextColor">@color/item_matrix_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Black</item>
         <item name="colorAccent">@color/item_matrix_dark</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/background_dark_matrix</item>
@@ -223,11 +235,13 @@
     </style>
 
     <style name="Style.Sepia" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Sepia</item>
         <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
         <item name="android:windowBackground">@color/background_dark_sepia</item>
         <item name="actionModeBackgroundColor">@color/background_dark_sepia_4</item>
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
         <item name="actionModeTextColor">@color/item_sepia_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Sepia</item>
         <item name="chipCheckedOnBackgroundColor">@color/background_dark_sepia_24</item>
         <item name="chipCheckedOffBackgroundColor">@color/background_dark_sepia_8</item>
         <item name="colorAccent">@color/item_sepia_dark</item>
