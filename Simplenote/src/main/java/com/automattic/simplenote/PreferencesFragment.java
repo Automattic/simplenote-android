@@ -173,6 +173,16 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        final Preference membershipPreference = findPreference("pref_key_membership");
+
+        if (PrefUtils.isPremium(requireContext())) {
+            membershipPreference.setLayoutResource(R.layout.preference_default);
+            membershipPreference.setSummary(R.string.membership_premium);
+        } else {
+            membershipPreference.setLayoutResource(R.layout.preference_button);
+            membershipPreference.setSummary(R.string.membership_free);
+        }
+
         final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

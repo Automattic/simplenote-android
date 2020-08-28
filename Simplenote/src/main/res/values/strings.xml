@@ -67,6 +67,10 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>
+    <string name="membership">Membership</string>
+    <string name="membership_free">Free</string>
+    <string name="membership_free_upgrade">Upgrade</string>
+    <string name="membership_premium">Premium</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
