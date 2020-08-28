@@ -3,17 +3,21 @@ package com.automattic.simplenote;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
+import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class PreferencesActivity extends ThemedAppCompatActivity {
@@ -98,5 +102,13 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
+    }
+
+    public void openBrowserForMembership(View view) {
+        try {
+            BrowserUtils.launchBrowserOrShowError(PreferencesActivity.this, WEB_APP_URL);
+        } catch (Exception e) {
+            Toast.makeText(PreferencesActivity.this, R.string.no_browser_available, Toast.LENGTH_LONG).show();
+        }
     }
 }
