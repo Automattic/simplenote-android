@@ -1,10 +1,10 @@
-3.0
+2.10
 -----
- 
+
 2.9
 -----
 * Fixed a bug with duplicate tags and special characters in tag names
- 
+
 2.8
 -----
 * Added hotkey shortcuts for devices with hardware keyboards
