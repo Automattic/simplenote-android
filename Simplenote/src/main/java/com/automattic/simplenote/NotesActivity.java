@@ -1534,6 +1534,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
+            getNoteListFragment().setEmptyListButton(
+                mSearchView != null && mSearchView.getQuery() != null ?
+                    getString(R.string.empty_notes_search_button, mSearchView.getQuery().toString()) :
+                    getString(R.string.empty_notes_search_button_default)
+            );
+
             if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
                 getNoteListFragment().setEmptyListImage(-1);
             } else {
@@ -1542,6 +1548,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
         } else if (mSelectedTag != null) {
+            getNoteListFragment().setEmptyListButton("");
+
             if (mSelectedTag.id == ALL_NOTES_ID) {
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
@@ -1561,6 +1569,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
             }
         } else {
+            getNoteListFragment().setEmptyListButton("");
             getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
         }

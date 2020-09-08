@@ -68,6 +68,7 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.automattic.simplenote.widgets.RobotoRegularTextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
@@ -138,6 +139,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucketTag;
     private ActionMode mActionMode;
     private View mRootView;
+    private RobotoRegularTextView mEmptyViewButton;
     private ImageView mEmptyViewImage;
     private TextView mEmptyViewText;
     private View mDividerLine;
@@ -289,6 +291,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
+        mEmptyViewButton = emptyView.findViewById(R.id.button);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
         setEmptyListImage(R.drawable.ic_notes_24dp);
@@ -577,6 +580,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
+    }
+
+    public void setEmptyListButton(String message) {
+        if (mEmptyViewButton != null) {
+            if (!message.isEmpty()) {
+                mEmptyViewButton.setVisibility(View.VISIBLE);
+                mEmptyViewButton.setText(message);
+            } else {
+                mEmptyViewButton.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void setEmptyListImage(@DrawableRes int image) {
