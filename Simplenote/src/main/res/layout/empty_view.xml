@@ -44,7 +44,7 @@
         android:padding="@dimen/padding_small"
         android:text="@string/empty_notes_search_button"
         android:textColor="?attr/colorAccent"
-        android:textSize="@dimen/text_empty"
+        android:textSize="@dimen/text_empty_button"
         android:visibility="gone"
         tools:visibility="visible">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
