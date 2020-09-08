@@ -1539,13 +1539,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     getString(R.string.empty_notes_search_button, mSearchView.getQuery().toString()) :
                     getString(R.string.empty_notes_search_button_default)
             );
-
-            if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
-                getNoteListFragment().setEmptyListImage(-1);
-            } else {
-                getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
-            }
-
+            getNoteListFragment().setEmptyListImage(-1);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
         } else if (mSelectedTag != null) {
             getNoteListFragment().setEmptyListButton("");
