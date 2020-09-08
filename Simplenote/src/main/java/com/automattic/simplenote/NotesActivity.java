@@ -639,11 +639,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     public void createNewNote(View view) {
         getNoteListFragment().createNewNote(
-            mSearchView != null && mSearchView.getQuery() != null ?
-                mSearchView.getQuery().toString() :
-                "",
-            "new_note_search"
+            isSearchQueryNotNull() ? mSearchView.getQuery().toString() : "", "new_note_search"
         );
+    }
+
+    private boolean isSearchQueryNotNull() {
+        return mSearchView != null && mSearchView.getQuery() != null;
     }
 
     private void setSelectedTagActive() {
@@ -1154,7 +1155,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
-            if (mSearchView != null && mSearchView.getQuery() != null) {
+            if (isSearchQueryNotNull()) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
 
@@ -1541,7 +1542,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
             getNoteListFragment().setEmptyListButton(
-                mSearchView != null && mSearchView.getQuery() != null ?
+                isSearchQueryNotNull() ?
                     getString(R.string.empty_notes_search_button, mSearchView.getQuery().toString()) :
                     getString(R.string.empty_notes_search_button_default)
             );
