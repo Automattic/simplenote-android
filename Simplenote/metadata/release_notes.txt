@@ -1,4 +1,3 @@
 * Added improvements for devices with hardware keyboards
 * Added support for screen readers when adding a new note
-* Fixed an issue with font size resizing when swiping
 * Added condensed list option for widget
