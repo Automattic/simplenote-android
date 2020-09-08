@@ -83,6 +83,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SEARCH;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.RECENT_SEARCH_TAPPED;
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -1265,6 +1267,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 @Override
                 public void onClick(View view) {
                     ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
+
+                    if (holder.mViewType == HISTORY) {
+                        AnalyticsTracker.track(
+                            RECENT_SEARCH_TAPPED,
+                            CATEGORY_SEARCH,
+                            "recent_search_tapped"
+                        );
+                    }
                 }
             });
         }
