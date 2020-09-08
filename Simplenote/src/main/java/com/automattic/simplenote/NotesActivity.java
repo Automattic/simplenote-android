@@ -637,6 +637,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         startActivity(new Intent(NotesActivity.this, TagsActivity.class));
     }
 
+    public void createNewNote(View view) {
+    }
+
     private void setSelectedTagActive() {
         if (mSelectedTag == null) {
             mSelectedTag = mTagsAdapter.getDefaultItem();
