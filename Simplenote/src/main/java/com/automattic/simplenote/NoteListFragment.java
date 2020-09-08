@@ -283,7 +283,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
-            createNewNote("new_note_shortcut");
+            createNewNote("", "new_note_shortcut");
         }
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -307,7 +307,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewNote("action_bar_button");
+                createNewNote("", "action_bar_button");
             }
         });
         mFloatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -523,14 +523,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    public void createNewNote(String label){
-        if (!isAdded()) return;
+    public void createNewNote(String title, String label){
+        if (!isAdded()) {
+            return;
+        }
 
-        addNote();
+        addNote(title);
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                label
+            AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+            AnalyticsTracker.CATEGORY_NOTE,
+            label
         );
     }
 
@@ -774,25 +776,29 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return matcher.replaceAll("");
     }
 
-    public void addNote() {
-
+    public void addNote(String title) {
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity) requireActivity();
-        if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
+
+        if (!DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             notesActivity.stopListeningToNotesBucket();
+        }
 
         // Create & save new note
         Simplenote simplenote = (Simplenote) requireActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
         final Note note = notesBucket.newObject();
+        note.setContent(title);
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
             String tagName = notesActivity.getSelectedTag().name;
-            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes)))
+
+            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes))) {
                 note.setTagString(tagName);
+            }
         }
 
         note.save();

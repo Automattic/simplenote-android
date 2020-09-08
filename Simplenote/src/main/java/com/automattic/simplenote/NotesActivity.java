@@ -289,7 +289,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     "note_list_widget"
                 );
                 intent.removeExtra(KEY_LIST_WIDGET_CLICK);
-                getNoteListFragment().addNote();
+                getNoteListFragment().addNote("");
             }
         }
 
@@ -638,6 +638,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     public void createNewNote(View view) {
+        getNoteListFragment().createNewNote(
+            mSearchView != null && mSearchView.getQuery() != null ?
+                mSearchView.getQuery().toString() :
+                "",
+            "new_note_search"
+        );
     }
 
     private void setSelectedTagActive() {
@@ -1459,7 +1465,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             case KeyEvent.KEYCODE_I:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
-                    getNoteListFragment().createNewNote("keyboard_shortcut");
+                    getNoteListFragment().createNewNote("", "keyboard_shortcut");
                     return true;
                 } else if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
