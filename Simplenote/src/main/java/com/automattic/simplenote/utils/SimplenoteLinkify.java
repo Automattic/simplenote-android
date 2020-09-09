@@ -8,9 +8,10 @@ import android.widget.TextView;
 import java.util.regex.Pattern;
 
 public class SimplenoteLinkify {
-
-    static public final String SIMPLENOTE_SCHEME = "simplenote";
-    static public final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile("simplenote://preferences/[^\\s]*");
+    public static final String SIMPLENOTE_SCHEME = "simplenote://";
+    public static final String SIMPLENOTE_LINK_PREFIX = SIMPLENOTE_SCHEME + "note/";
+    public static final String SIMPLENOTE_LINK_ID = "([a-zA-Z0-9_\\.\\-%@]{1,256})";
+    public static final Pattern SIMPLENOTE_LINK_PATTERN = Pattern.compile(SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID);
 
     // Works the same as Linkify.addLinks, but doesn't set movement method
     public static boolean addLinks(TextView text, int mask) {
