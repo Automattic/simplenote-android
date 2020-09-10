@@ -34,6 +34,7 @@ public class Note extends BucketObject {
     public static final String PUBLISHED_TAG = "published";
     public static final String NEW_LINE = "\n";
     public static final String CONTENT_PROPERTY = "content";
+    public static final String KEY_PROPERTY = "key";
     public static final String TAGS_PROPERTY = "tags";
     public static final String SYSTEM_TAGS_PROPERTY = "systemTags";
     public static final String CREATION_DATE_PROPERTY = "creationDate";
