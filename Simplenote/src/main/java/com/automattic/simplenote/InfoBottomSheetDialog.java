@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reference;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -55,8 +56,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mReferences = infoView.findViewById(R.id.references);
 
         if (getDialog() != null) {
-            // Set peek height to full height of view (i.e. set STATE_EXPANDED) to avoid buttons
-            // being off screen when bottom sheet is shown.
+            // Set peek height to half height of screen.
             getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
                 public void onShow(DialogInterface dialogInterface) {
@@ -64,8 +64,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                     FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
 
                     if (bottomSheet != null) {
-                        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
+                        behavior.setPeekHeight(DisplayUtils.getDisplayPixelSize(requireContext()).y / 2);
+                        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         behavior.setSkipCollapsed(true);
                     }
                 }
