@@ -37,4 +37,12 @@ public class SimplenoteLinkify {
             return false;
         }
     }
+
+    public static String getNoteLink(String id) {
+        return "(" + SIMPLENOTE_LINK_PREFIX + id + ")";
+    }
+
+    public static String getNoteLinkWithTitle(String title, String id) {
+        return "[" + title + "]" + getNoteLink(id);
+    }
 }
