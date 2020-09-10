@@ -113,7 +113,7 @@
     <!-- Editor link options -->
     <string name="call">Call</string>
     <string name="email">Email</string>
-    <string name="view_map">View map</string>
+    <string name="view_map">View Map</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="link">Link</string>
     <string name="link_copied">Link copied!</string>
