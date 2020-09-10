@@ -230,7 +230,7 @@ PLATFORMS
 
 DEPENDENCIES
   bigdecimal (~> 1.4)!
-  fastlane (~> 2.158)!
+  fastlane (~> 2)!
   fastlane-plugin-wpmreleasetoolkit!
   nokogiri!
 
