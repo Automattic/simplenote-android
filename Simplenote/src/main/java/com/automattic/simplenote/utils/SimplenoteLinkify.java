@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.automattic.simplenote.NoteEditorActivity;
 import com.automattic.simplenote.NoteEditorFragment;
+import com.automattic.simplenote.NotesActivity;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Note;
@@ -63,14 +64,24 @@ public class SimplenoteLinkify {
 
         try {
             Note note = bucket.get(id);
-            Intent intent = new Intent(activity, NoteEditorActivity.class);
-            intent.putExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false);
-            intent.putExtra(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
-            intent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
-            intent.putExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            activity.startActivity(intent);
-            activity.finish();
+
+            if (activity instanceof NotesActivity) {
+                ((NotesActivity) activity).selectDefaultTag();
+                ((NotesActivity) activity).onNoteSelected(note.getSimperiumKey(), null, note.isMarkdownEnabled(), note.isPreviewEnabled());
+                ((NotesActivity) activity).scrollToSelectedNote(note.getSimperiumKey());
+            } else if (activity instanceof NoteEditorActivity) {
+                Intent intent = new Intent(activity, NoteEditorActivity.class);
+                intent.putExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false);
+                intent.putExtra(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+                intent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+                intent.putExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
+                activity.finish();
+            } else {
+                Toast.makeText(activity, R.string.open_note_error, Toast.LENGTH_SHORT).show();
+                Log.d("openNote", "Activity is not NotesActivity nor NoteEditorActivity");
+            }
         } catch (BucketObjectMissingException e) {
             Toast.makeText(activity, R.string.open_note_error, Toast.LENGTH_SHORT).show();
             Log.d("openNote", activity.getString(R.string.open_note_error));

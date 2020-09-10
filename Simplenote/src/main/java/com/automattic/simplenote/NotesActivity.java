@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -1162,6 +1163,41 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             CATEGORY_USER,
             "account_created_from_login_activity"
         );
+    }
+
+    public void selectDefaultTag() {
+        mSelectedTag = mTagsAdapter.getDefaultItem();
+        MenuItem selectedMenuItem = mNavigationMenu.findItem((int) mSelectedTag.id);
+
+        if (selectedMenuItem != null) {
+            mSelectedTag = mTagsAdapter.getTagFromItem(selectedMenuItem);
+        } else {
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
+
+        checkEmptyListText(mSearchMenuItem != null && mSearchMenuItem.isActionViewExpanded());
+
+        if (mNoteListFragment.isHidden()) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(mNoteListFragment);
+            fragmentTransaction.commitNowAllowingStateLoss();
+        }
+
+        getNoteListFragment().refreshList();
+        setSelectedTagActive();
+    }
+
+    public void scrollToSelectedNote(String id) {
+        if (mNoteListFragment != null && mNoteListFragment.getListAdapter() != null) {
+            ListAdapter listAdapter = mNoteListFragment.getListAdapter();
+            ListView listView = mNoteListFragment.getListView();
+
+            for (int i = 0; i < listAdapter.getCount(); i++) {
+                if (((Note) listAdapter.getItem(i + listView.getHeaderViewsCount())).getSimperiumKey().equals(id)) {
+                    listView.smoothScrollToPosition(i);
+                }
+            }
+        }
     }
 
     public void onUserStatusChange(User.Status status) {
