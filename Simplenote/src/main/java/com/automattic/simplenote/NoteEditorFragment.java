@@ -251,7 +251,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Called when the user exits the action mode
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
+            if (mActionMode != null) {
+                mActionMode.setSubtitle("");
+                mActionMode = null;
+            }
+
             new Handler().postDelayed(
                 new Runnable() {
                     @Override
