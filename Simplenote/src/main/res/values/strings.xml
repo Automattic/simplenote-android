@@ -70,6 +70,9 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>
+    <string name="references">Referenced In</string>
+    <string name="references_one">%1$d Reference, Last modified %2$s</string>
+    <string name="references_other">%1$d References, Last modified %2$s</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
