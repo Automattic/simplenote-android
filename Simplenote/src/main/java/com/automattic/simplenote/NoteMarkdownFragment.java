@@ -8,7 +8,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuCompat;
@@ -28,6 +30,8 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
+
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<Note> {
     public static final String ARG_ITEM_ID = "item_id";
@@ -84,11 +88,27 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
         mMarkdown = layout.findViewById(R.id.markdown);
+        mMarkdown.setWebViewClient(
+            new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                    String url = request.getUrl().toString();
+
+                    if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                        SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                    } else {
+                        BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                    }
+
+                    return true;
+                }
+            }
+        );
+        mCss = ThemeUtils.isLightTheme(requireContext())
+            ? ContextUtils.readCssFile(requireContext(), "light.css")
+            : ContextUtils.readCssFile(requireContext(), "dark.css");
         return layout;
     }
 

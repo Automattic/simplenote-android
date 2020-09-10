@@ -29,7 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
@@ -383,9 +385,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
             mMarkdown = mRootView.findViewById(R.id.markdown);
+            mMarkdown.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                        String url = request.getUrl().toString();
+
+                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                        }
+
+                        return true;
+                    }
+                }
+            );
             mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);
