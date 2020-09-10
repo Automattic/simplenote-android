@@ -1,9 +1,21 @@
 package com.automattic.simplenote.utils;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.automattic.simplenote.NoteEditorActivity;
+import com.automattic.simplenote.NoteEditorFragment;
+import com.automattic.simplenote.R;
+import com.automattic.simplenote.Simplenote;
+import com.automattic.simplenote.models.Note;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import java.util.regex.Pattern;
 
@@ -44,5 +56,24 @@ public class SimplenoteLinkify {
 
     public static String getNoteLinkWithTitle(String title, String id) {
         return "[" + title + "]" + getNoteLink(id);
+    }
+
+    public static void openNote(Activity activity, String id) {
+        Bucket<Note> bucket = ((Simplenote) activity.getApplication()).getNotesBucket();
+
+        try {
+            Note note = bucket.get(id);
+            Intent intent = new Intent(activity, NoteEditorActivity.class);
+            intent.putExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false);
+            intent.putExtra(NoteEditorFragment.ARG_ITEM_ID, note.getSimperiumKey());
+            intent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, note.isMarkdownEnabled());
+            intent.putExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, note.isPreviewEnabled());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            activity.startActivity(intent);
+            activity.finish();
+        } catch (BucketObjectMissingException e) {
+            Toast.makeText(activity, R.string.open_note_error, Toast.LENGTH_SHORT).show();
+            Log.d("openNote", activity.getString(R.string.open_note_error));
+        }
     }
 }

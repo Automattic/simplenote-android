@@ -65,6 +65,8 @@
     <string name="copy_link">Copy Link</string>
     <string name="copy_link_internal">Copy Internal Link</string>
     <string name="more_options">More Options</string>
+    <string name="open_note">Open Note</string>
+    <string name="open_note_error">Note could not be found</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>

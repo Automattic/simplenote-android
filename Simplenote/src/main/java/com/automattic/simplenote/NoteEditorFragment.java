@@ -67,7 +67,6 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -88,6 +87,7 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_N
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -138,12 +138,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
+    private Drawable mBrowserIcon;
     private Drawable mCallIcon;
     private Drawable mCopyIcon;
     private Drawable mEmailIcon;
+    private Drawable mLinkIcon;
     private Drawable mMapIcon;
     private Drawable mShareIcon;
-    private Drawable mBrowserIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
@@ -209,10 +210,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             switch (item.getItemId()) {
                 case R.id.menu_view_link:
                     if (mLinkUrl != null) {
-                        try {
-                            BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (mLinkUrl.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            SimplenoteLinkify.openNote(requireActivity(), mLinkUrl.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            try {
+                                BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         mode.finish(); // Action picked, so close the CAB
@@ -301,6 +306,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
+        mLinkIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_note_24dp, R.attr.actionModeTextColor);
         mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
         mBrowserIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_browser_24dp, R.attr.actionModeTextColor);
         mCopyIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_copy_24dp, R.attr.actionModeTextColor);
@@ -1214,6 +1220,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (mLinkUrl.startsWith("geo:")) {
                 mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
+            } else if (mLinkUrl.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                mViewLinkMenuItem.setIcon(mLinkIcon);
+                mViewLinkMenuItem.setTitle(getString(R.string.open_note));
             } else {
                 mViewLinkMenuItem.setIcon(mBrowserIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
@@ -1380,13 +1389,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    /**
-     * Simperium listeners
-     */
-
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-
     }
 
     @Override
