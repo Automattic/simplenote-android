@@ -63,6 +63,7 @@
     <string name="characters">Characters</string>
     <string name="logo">Logo</string>
     <string name="copy_link">Copy Link</string>
+    <string name="copy_link_internal">Copy Internal Link</string>
     <string name="more_options">More Options</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>

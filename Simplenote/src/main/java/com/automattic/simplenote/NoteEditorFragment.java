@@ -541,6 +541,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
 
                 return true;
+            case R.id.menu_copy_internal:
+                if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
+                    Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mRootView, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
+                }
+
+                return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
