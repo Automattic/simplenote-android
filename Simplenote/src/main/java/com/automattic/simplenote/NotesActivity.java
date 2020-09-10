@@ -41,10 +41,14 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.NetworkUtils;
+import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
@@ -175,6 +179,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
+        AppLog.add(Type.SCREEN, "Created (NotesActivity)");
         setContentView(R.layout.activity_notes);
 
         mFragmentsContainer = findViewById(R.id.note_fragment_container);
@@ -291,7 +297,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         disableScreenshotsIfLocked(this);
 
         mNotesBucket.start();
+        AppLog.add(Type.SYNC, "Started note bucket (NotesActivity)");
         mTagsBucket.start();
+        AppLog.add(Type.SYNC, "Started tag bucket (NotesActivity)");
 
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
@@ -339,11 +347,14 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         super.onPause();  // Always call the superclass method first
         mTagsBucket.removeListener(mTagsMenuUpdater);
         mTagsBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped tag bucket (NotesActivity)");
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
         mNotesBucket.stop();
+        AppLog.add(Type.SYNC, "Stopped note bucket (NotesActivity)");
+        AppLog.add(Type.SCREEN, "Paused (NotesActivity)");
     }
 
     @Override
@@ -1692,6 +1703,14 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 getResources().getInteger(R.integer.time_animation)
             );
         }
+
+        AppLog.add(
+            Type.SYNC,
+            "Saved note callback in NotesActivity (ID: " + note.getSimperiumKey() +
+                " / Title: " + note.getTitle() +
+                " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
+                " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
+        );
     }
 
     @Override

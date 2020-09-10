@@ -1,3 +1,0 @@
-2,8:
-* Donanım klavyeli cihazlar için kısayol tuşu kısayolları eklendi *
-* İşaretleme önizlemesine sağdan sola dil desteği eklendi

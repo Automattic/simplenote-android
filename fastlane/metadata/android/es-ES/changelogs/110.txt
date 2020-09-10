@@ -1,3 +1,0 @@
-2.8:
-* Hemos añadido atajos de teclado para dispositivos con hardware de teclado
-* Hemos añadido la compatibilidad con idiomas que se leen de derecha a izquierda con la vista previa de Markdown
