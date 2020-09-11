@@ -26,7 +26,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.simperium.client.Bucket;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,15 +87,6 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
             getReferences(note);
         }
-    }
-
-    private String getWordCount(String content) {
-        int words = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
-        return NumberFormat.getInstance().format(words);
-    }
-
-    private String getCharactersCount(String content) {
-        return NumberFormat.getInstance().format(content.length());
     }
 
     private void getReferences(Note note) {
