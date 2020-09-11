@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:padding="@dimen/padding_medium"
-    android:maxLines="1"
     android:textAppearance="@android:style/TextAppearance.Medium"
     android:textSize="@dimen/text_content_title"
     tools:text="Tag Name">
