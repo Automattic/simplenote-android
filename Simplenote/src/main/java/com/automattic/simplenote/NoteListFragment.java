@@ -68,6 +68,7 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.automattic.simplenote.widgets.RobotoRegularTextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
@@ -140,6 +141,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucketTag;
     private ActionMode mActionMode;
     private View mRootView;
+    private RobotoRegularTextView mEmptyViewButton;
     private ImageView mEmptyViewImage;
     private TextView mEmptyViewText;
     private View mDividerLine;
@@ -283,7 +285,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
-            createNewNote("new_note_shortcut");
+            createNewNote("", "new_note_shortcut");
         }
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -291,6 +293,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
+        mEmptyViewButton = emptyView.findViewById(R.id.button);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
         setEmptyListImage(R.drawable.ic_notes_24dp);
@@ -306,7 +309,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewNote("action_bar_button");
+                createNewNote("", "action_bar_button");
             }
         });
         mFloatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -522,14 +525,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    public void createNewNote(String label){
-        if (!isAdded()) return;
+    public void createNewNote(String title, String label){
+        if (!isAdded()) {
+            return;
+        }
 
-        addNote();
+        addNote(title);
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                label
+            AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+            AnalyticsTracker.CATEGORY_NOTE,
+            label
         );
     }
 
@@ -579,6 +584,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
+    }
+
+    public void setEmptyListButton(String message) {
+        if (mEmptyViewButton != null) {
+            if (!message.isEmpty()) {
+                mEmptyViewButton.setVisibility(View.VISIBLE);
+                mEmptyViewButton.setText(message);
+            } else {
+                mEmptyViewButton.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void setEmptyListImage(@DrawableRes int image) {
@@ -762,25 +778,29 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return matcher.replaceAll("");
     }
 
-    public void addNote() {
-
+    public void addNote(String title) {
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity) requireActivity();
-        if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
+
+        if (!DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             notesActivity.stopListeningToNotesBucket();
+        }
 
         // Create & save new note
         Simplenote simplenote = (Simplenote) requireActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
         final Note note = notesBucket.newObject();
+        note.setContent(title);
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
             String tagName = notesActivity.getSelectedTag().name;
-            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes)))
+
+            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes))) {
                 note.setTagString(tagName);
+            }
         }
 
         note.save();
