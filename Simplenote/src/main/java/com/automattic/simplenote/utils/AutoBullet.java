@@ -8,9 +8,11 @@ import com.automattic.simplenote.widgets.CheckableSpan;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.automattic.simplenote.utils.ChecklistUtils.CHAR_BULLET;
+import static com.automattic.simplenote.utils.ChecklistUtils.CHAR_NO_BREAK_SPACE;
+
 public class AutoBullet {
-    // \u2022 is the unicode bullet character
-    private static final String PATTERN_BULLET = "^([\\s]*)([-*+\u2022\u00A0])[\\s]+(.*)$";
+    private static final String PATTERN_BULLET = "^([\\s]*)([-*+" + CHAR_BULLET + CHAR_NO_BREAK_SPACE + "])[\\s]+(.*)$";
     private static final String STR_LINE_BREAK = System.getProperty("line.separator");
     private static final String STR_SPACE = " ";
 
