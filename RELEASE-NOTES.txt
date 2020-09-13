@@ -1,5 +1,6 @@
 2.11
 -----
+* Fixed a bug with toggling tab-indented checkboxes [#1148]
 
 2.10
 -----
