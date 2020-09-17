@@ -29,7 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
@@ -90,6 +92,7 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_N
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -140,12 +143,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mLinkUrl;
     private String mLinkText;
     private MatchOffsetHighlighter mHighlighter;
+    private Drawable mBrowserIcon;
     private Drawable mCallIcon;
     private Drawable mCopyIcon;
     private Drawable mEmailIcon;
+    private Drawable mLinkIcon;
     private Drawable mMapIcon;
     private Drawable mShareIcon;
-    private Drawable mBrowserIcon;
     private MatchOffsetHighlighter.SpanFactory mMatchHighlighter;
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
@@ -210,11 +214,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_view_link:
-                    if (mLinkUrl != null) {
-                        try {
-                            BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    if (mLinkText != null) {
+                        if (mLinkText.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            try {
+                                BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         mode.finish(); // Action picked, so close the CAB
@@ -248,7 +256,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Called when the user exits the action mode
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
+            if (mActionMode != null) {
+                mActionMode.setSubtitle("");
+                mActionMode = null;
+            }
+
             new Handler().postDelayed(
                 new Runnable() {
                     @Override
@@ -305,6 +317,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
+        mLinkIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_note_24dp, R.attr.actionModeTextColor);
         mMapIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_map_24dp, R.attr.actionModeTextColor);
         mBrowserIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_browser_24dp, R.attr.actionModeTextColor);
         mCopyIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_copy_24dp, R.attr.actionModeTextColor);
@@ -377,9 +390,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
             mMarkdown = mRootView.findViewById(R.id.markdown);
+            mMarkdown.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                        String url = request.getUrl().toString();
+
+                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                        }
+
+                        return true;
+                    }
+                }
+            );
             mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
         }
 
         mTagInput.setAdapter(mAutocompleteAdapter);
@@ -550,6 +579,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return true;
             case R.id.menu_copy:
                 if (BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl())) {
+                    Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mRootView, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
+                }
+
+                return true;
+            case R.id.menu_copy_internal:
+                if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
                     Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 } else {
                     Snackbar.make(mRootView, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
@@ -1188,16 +1225,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onSelectionChanged(int selStart, int selEnd) {
         mCurrentCursorPosition = selEnd;
+
         if (selStart == selEnd) {
             Editable noteContent = mContentEditText.getText();
-            if (noteContent == null)
+
+            if (noteContent == null) {
                 return;
+            }
 
             URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
+
             if (urlSpans.length > 0) {
                 URLSpan urlSpan = urlSpans[0];
                 mLinkUrl = urlSpan.getURL();
                 mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
+
                 if (mActionMode != null) {
                     mActionMode.setSubtitle(mLinkText);
                     updateMenuItems();
@@ -1207,6 +1249,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
                     mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
+
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
@@ -1237,6 +1280,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (mLinkUrl.startsWith("geo:")) {
                 mViewLinkMenuItem.setIcon(mMapIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_map));
+            } else if (mLinkUrl.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                mViewLinkMenuItem.setIcon(mLinkIcon);
+                mViewLinkMenuItem.setTitle(getString(R.string.open_note));
             } else {
                 mViewLinkMenuItem.setIcon(mBrowserIcon);
                 mViewLinkMenuItem.setTitle(getString(R.string.view_in_browser));
@@ -1403,13 +1449,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    /**
-     * Simperium listeners
-     */
-
     @Override
     public void onDeleteObject(Bucket<Note> noteBucket, Note note) {
-
     }
 
     @Override
