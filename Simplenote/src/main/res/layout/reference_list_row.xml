@@ -6,7 +6,6 @@
     android:background="?attr/selectableItemBackground"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/note_list_item_padding_bottom"
     android:paddingEnd="@dimen/padding_small"
     android:paddingStart="@dimen/padding_small"
