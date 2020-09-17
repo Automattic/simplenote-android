@@ -8,7 +8,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuCompat;
@@ -18,16 +20,21 @@ import androidx.fragment.app.FragmentActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ContextUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.NoteUtils;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.commonsware.cwac.anddown.AndDown;
+import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
+
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<Note> {
     public static final String ARG_ITEM_ID = "item_id";
@@ -85,17 +92,40 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
         View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
         mMarkdown = layout.findViewById(R.id.markdown);
+        mMarkdown.setWebViewClient(
+            new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                    String url = request.getUrl().toString();
+
+                    if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                        SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                    } else {
+                        BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                    }
+
+                    return true;
+                }
+            }
+        );
+        mCss = ThemeUtils.isLightTheme(requireContext())
+            ? ContextUtils.readCssFile(requireContext(), "light.css")
+            : ContextUtils.readCssFile(requireContext(), "dark.css");
         return layout;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (!isAdded()) {
+                    return false;
+                }
+
+                requireActivity().finish();
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -103,12 +133,17 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
                 deleteNote();
                 return true;
-            case android.R.id.home:
+            case R.id.menu_copy_internal:
                 if (!isAdded()) {
                     return false;
                 }
 
-                requireActivity().finish();
+                if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
+                    Snackbar.make(mMarkdown, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mMarkdown, R.string.link_copied_failure, Snackbar.LENGTH_SHORT).show();
+                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -133,6 +168,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         MenuItem publishItem = menu.findItem(R.id.menu_publish);
         MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
         MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+        MenuItem copyLinkInternalItem = menu.findItem(R.id.menu_copy_internal);
 
         if (mNote != null) {
             pinItem.setChecked(mNote.isPinned());
@@ -144,6 +180,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         publishItem.setEnabled(false);
         copyLinkItem.setEnabled(false);
         markdownItem.setEnabled(false);
+        copyLinkInternalItem.setEnabled(true);
 
         super.onPrepareOptionsMenu(menu);
     }

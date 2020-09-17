@@ -56,6 +56,7 @@ import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -64,6 +65,7 @@ import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -187,8 +189,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setItemChecked(position, true);
-        if (mActionMode == null)
+
+        if (mActionMode == null) {
             requireActivity().startActionMode(this);
+        }
+
         return true;
     }
 
@@ -212,8 +217,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (getListView().getCheckedItemIds().length > 0) {
-
             switch (item.getItemId()) {
+                case R.id.menu_link:
+                    BrowserUtils.copyToClipboard(requireContext(), getSelectedNoteLinks());
+                    mode.finish();
+                    break;
                 case R.id.menu_trash:
                     new TrashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
@@ -222,7 +230,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     break;
             }
         }
+
         return false;
+    }
+
+    private String getSelectedNoteLinks() {
+        SparseBooleanArray checkedPositions = getListView().getCheckedItemPositions();
+        StringBuilder links = new StringBuilder();
+
+        for (int i = 0; i < checkedPositions.size(); i++) {
+            if (checkedPositions.valueAt(i)) {
+                Note note = mNotesAdapter.getItem(checkedPositions.keyAt(i));
+                links.append(SimplenoteLinkify.getNoteLinkWithTitle(note.getTitle(), note.getSimperiumKey())).append("\n");
+            }
+        }
+
+        return links.toString();
     }
 
     @Override
@@ -249,10 +272,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
         int checkedCount = getListView().getCheckedItemCount();
-        if (checkedCount == 0)
+
+        if (checkedCount == 0) {
             actionMode.setTitle("");
-        else
+        } else {
             actionMode.setTitle(getResources().getQuantityString(R.plurals.selected_notes, checkedCount, checkedCount));
+        }
+
+        actionMode.invalidate();
     }
 
     @Override

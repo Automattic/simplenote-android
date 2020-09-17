@@ -1,112 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
-
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="@dimen/padding_large"
-        android:text="@string/information"
-        android:textColor="?attr/notePreviewColor"
-        style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+    android:layout_width="match_parent">
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
         <com.automattic.simplenote.widgets.RobotoRegularTextView
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/modified"
+            android:layout_width="match_parent"
+            android:padding="@dimen/padding_large"
+            android:text="@string/information"
+            android:textColor="?attr/notePreviewColor"
             style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
         </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/date_time_modified"
+        <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            tools:text="Jan 13, 2020, 22:21"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/modified"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/date_time_modified"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Jan 13, 2020, 22:21"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/created"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/date_time_created"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Jan 13, 2020, 17:30"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/words"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/count_words"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="123"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/characters"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/count_characters"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="4,567"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/references_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/divider"
+                android:background="?attr/dividerColor"
+                android:layout_height="1dp"
+                android:layout_width="match_parent">
+            </View>
+
+            <com.automattic.simplenote.widgets.RobotoMediumTextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="@dimen/padding_large"
+                android:text="@string/references"
+                android:textStyle="bold"
+                android:textColor="?attr/colorAccent">
+            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/references"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                tools:listitem="@layout/reference_list_row">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/created"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/date_time_created"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            tools:text="Jan 13, 2020, 17:30"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/words"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/count_words"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            tools:text="123"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/characters"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:id="@+id/count_characters"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            tools:text="4,567"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
