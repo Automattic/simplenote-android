@@ -214,12 +214,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_view_link:
-                    if (mLinkUrl != null) {
-                        if (mLinkUrl.startsWith(SIMPLENOTE_LINK_PREFIX)) {
-                            SimplenoteLinkify.openNote(requireActivity(), mLinkUrl.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                    if (mLinkText != null) {
+                        if (mLinkText.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             try {
-                                BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkUrl);
+                                BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -1225,16 +1225,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onSelectionChanged(int selStart, int selEnd) {
         mCurrentCursorPosition = selEnd;
+
         if (selStart == selEnd) {
             Editable noteContent = mContentEditText.getText();
-            if (noteContent == null)
+
+            if (noteContent == null) {
                 return;
+            }
 
             URLSpan[] urlSpans = noteContent.getSpans(selStart, selStart, URLSpan.class);
+
             if (urlSpans.length > 0) {
                 URLSpan urlSpan = urlSpans[0];
                 mLinkUrl = urlSpan.getURL();
                 mLinkText = noteContent.subSequence(noteContent.getSpanStart(urlSpan), noteContent.getSpanEnd(urlSpan)).toString();
+
                 if (mActionMode != null) {
                     mActionMode.setSubtitle(mLinkText);
                     updateMenuItems();
@@ -1244,6 +1249,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Show the Contextual Action Bar
                 if (getActivity() != null) {
                     mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
+
                     if (mActionMode != null) {
                         mActionMode.setSubtitle(mLinkText);
                     }
