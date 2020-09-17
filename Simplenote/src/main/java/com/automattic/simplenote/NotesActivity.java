@@ -1206,6 +1206,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             for (int i = 0; i < listAdapter.getCount(); i++) {
                 if (((Note) listAdapter.getItem(i + listView.getHeaderViewsCount())).getSimperiumKey().equals(id)) {
                     listView.smoothScrollToPosition(i);
+                    break;
                 }
             }
         }
