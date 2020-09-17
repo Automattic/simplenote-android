@@ -40,7 +40,8 @@ public class AutoBullet {
                     editable.replace(prevParagraphStart, newCursorPosition, "");
                 } else {
                     // We can add a new checkbox!
-                    editable.insert(newCursorPosition, metadata.leadingWhitespace + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
+                    String leadingWhitespace = metadata.leadingWhitespace != null ? metadata.leadingWhitespace : "";
+                    editable.insert(newCursorPosition, leadingWhitespace + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
                 }
 
                 return;
