@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-09-08 11:32:16+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="more">Mehr</string>
     <string name="log_out_anyway">Trotzdem abmelden</string>
     <string name="export_unsynced_notes">Nicht synchronisierte Notizen exportieren</string>
     <string name="unsynced_notes_message">Beim Abmelden werden alle nicht synchronisierten Notizen gelöscht.</string>
@@ -75,7 +76,6 @@ Language: de
     <string name="note_list_widget_dark">Notizenliste (dunkel)</string>
     <string name="retry">Erneut versuchen</string>
     <string name="publishing">Veröffentlichen …</string>
-    <string name="publish_successful">Veröffentlicht. Link kopiert!</string>
     <string name="link_copied">Link kopiert!</string>
     <string name="of">von</string>
     <string name="next">Weiter</string>
@@ -186,7 +186,6 @@ Language: de
     <string name="rate_us">Bewerte uns</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Über Simplenote</string>
     <string name="markdown_show">Markdown anzeigen</string>
     <string name="markdown_hide">Markdown ausblenden</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +206,6 @@ Language: de
     <string name="note_added">Notiz hinzugefügt</string>
     <string name="published">Veröffentlicht</string>
     <string name="publish">Veröffentlichen</string>
-    <string name="version">Version</string>
     <string name="theme">Theme</string>
     <string name="theme_dark">Dunkel</string>
     <string name="theme_light">Hell</string>
@@ -242,8 +240,6 @@ Language: de
     <string name="today">Heute</string>
     <string name="trash">Papierkorb</string>
     <string name="sort_order">Sortierung</string>
-    <string name="more_info">Weitere Informationen</string>
-    <string name="website">Gehe zu simplenote.com</string>
     <string name="word">Wort</string>
     <string name="character">Zeichen</string>
     <string name="no">Nein</string>

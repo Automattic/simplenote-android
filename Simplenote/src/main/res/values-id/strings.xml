@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-09-08 11:32:16+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="more">Lainnya</string>
     <string name="log_out_anyway">Tetap keluar</string>
     <string name="export_unsynced_notes">Ekspor catatan yang tidak disinkronkan</string>
     <string name="unsynced_notes_message">Catatan yang tidak disinkronkan akan dihapus saat Anda keluar.</string>
@@ -75,7 +76,6 @@ Language: id
     <string name="note_list_widget_dark">Daftar Catatan (Gelap)</string>
     <string name="retry">Coba lagi</string>
     <string name="publishing">Memublikasikan…</string>
-    <string name="publish_successful">Dipublikasikan. Tautan disalin!</string>
     <string name="link_copied">Tautan disalin!</string>
     <string name="of">dari</string>
     <string name="next">Selanjutnya</string>
@@ -186,7 +186,6 @@ Language: id
     <string name="rate_us">Beri Rating</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Tentang Simplenote</string>
     <string name="markdown_show">Tampilkan Markdown</string>
     <string name="markdown_hide">Sembunyikan Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +206,6 @@ Language: id
     <string name="note_added">Penambahan catatan</string>
     <string name="published">Diterbitkan</string>
     <string name="publish">Terbitkan</string>
-    <string name="version">Versi</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Gelap</string>
     <string name="theme_light">Terang</string>
@@ -242,8 +240,6 @@ Language: id
     <string name="today">Hari ini</string>
     <string name="trash">Sampah</string>
     <string name="sort_order">Urutkan</string>
-    <string name="more_info">Informasi Selengkapnya</string>
-    <string name="website">Kunjungi simplenote.com</string>
     <string name="word">Kata</string>
     <string name="character">Karakter</string>
     <string name="no">Tidak</string>
