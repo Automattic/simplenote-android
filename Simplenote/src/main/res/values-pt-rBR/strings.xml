@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-07 14:50:48+0000
+Translation-Revision-Date: 2020-09-08 17:30:28+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="publish_successful">Publicada.</string>
+    <string name="about">Sobre</string>
+    <string name="link_copied_failure">Não foi possível copiar o link.</string>
+    <string name="send_logs">Enviar logs</string>
+    <string name="more">Mais</string>
+    <string name="website">Visitar site</string>
     <string name="log_out_anyway">Sair mesmo assim</string>
     <string name="export_unsynced_notes">Exportar notas não sincronizadas</string>
     <string name="unsynced_notes_message">Sair excluirá todas as notas não sincronizadas.</string>
@@ -75,7 +81,7 @@ Language: pt_BR
     <string name="note_list_widget_dark">Lista de anotações (Escura)</string>
     <string name="retry">Tentar novamente</string>
     <string name="publishing">Publicando…</string>
-    <string name="publish_successful">Publicação realizada. Link copiado!</string>
+    <string name="publish_successful_link">Publicação realizada. Link copiado!</string>
     <string name="link_copied">Link copiado!</string>
     <string name="of">de</string>
     <string name="next">Próximo</string>
@@ -186,7 +192,6 @@ Language: pt_BR
     <string name="rate_us">Classifique-nos</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Sobre o Simplenote</string>
     <string name="markdown_show">Exibir Markdown</string>
     <string name="markdown_hide">Ocultar Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +212,6 @@ Language: pt_BR
     <string name="note_added">Anotação adicionada</string>
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
-    <string name="version">Versão</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Escuro</string>
     <string name="theme_light">Claro</string>
@@ -242,8 +246,6 @@ Language: pt_BR
     <string name="today">Hoje</string>
     <string name="trash">Lixeira</string>
     <string name="sort_order">Organizar</string>
-    <string name="more_info">Mais Informações</string>
-    <string name="website">Acesse simplenote.com</string>
     <string name="word">Palavras</string>
     <string name="character">Caractere</string>
     <string name="no">Não</string>

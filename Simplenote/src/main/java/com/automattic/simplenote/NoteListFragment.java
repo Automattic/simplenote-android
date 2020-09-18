@@ -54,10 +54,13 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
@@ -251,6 +254,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Created (NoteListFragment)");
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
     }
@@ -562,6 +567,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
         mBucketPreferences.stop();
+        AppLog.add(Type.SCREEN, "Paused (NoteListFragment)");
     }
 
     @Override
@@ -1120,7 +1126,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
-                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY && event.getAction() == MotionEvent.ACTION_DOWN) {
                         showPopupMenuAtPosition(view, position);
                         return true;
                     }
@@ -1348,7 +1354,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             return;
         }
 
-        final Note note = mNotesAdapter.getItem(position);
+        final Note note = mNotesAdapter.getItem(position + mList.getHeaderViewsCount());
         if (note == null) {
             return;
         }

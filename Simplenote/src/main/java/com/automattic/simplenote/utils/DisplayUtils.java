@@ -31,6 +31,24 @@ public class DisplayUtils {
         return size;
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public static String getDisplaySizeAndOrientation(Context context) {
+        boolean isLarge = isLarge(context) || isXLarge(context);
+        boolean isLandscape = isLandscape(context);
+
+        if (isLarge && isLandscape) {
+            return "Large, landscape";
+        } else if (isLarge && !isLandscape) {
+            return "Large, portrait";
+        } else if (!isLarge && isLandscape) {
+            return "Small, landscape";
+        } else if (!isLarge && !isLandscape) {
+            return "Small, portrait";
+        } else {
+            return "Unknown";
+        }
+    }
+
     public static int dpToPx(Context context, int dp) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics());

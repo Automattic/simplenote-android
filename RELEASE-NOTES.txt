@@ -1,10 +1,16 @@
-3.0
+2.11
 -----
- 
+
+2.10
+-----
+* Added improvements for devices with hardware keyboards
+* Added support for screen readers when adding a new note
+* Added condensed list option for widget
+
 2.9
 -----
 * Fixed a bug with duplicate tags and special characters in tag names
- 
+
 2.8
 -----
 * Added hotkey shortcuts for devices with hardware keyboards

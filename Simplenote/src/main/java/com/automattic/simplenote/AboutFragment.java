@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.SpinningImageButton;
 import com.automattic.simplenote.widgets.SpinningImageButton.SpeedListener;
@@ -60,7 +61,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
         TextView copyright = view.findViewById(R.id.about_copyright);
 
         String colorLink = Integer.toHexString(ContextCompat.getColor(requireContext(), R.color.blue_5) & 0xffffff);
-        version.setText(String.format("%s %s", getString(R.string.version), BuildConfig.VERSION_NAME));
+        version.setText(PrefUtils.versionInfo());
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         copyright.setText(String.format(Locale.getDefault(), getString(R.string.about_copyright), thisYear));
 
