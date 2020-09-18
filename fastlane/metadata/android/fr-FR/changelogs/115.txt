@@ -1,0 +1,4 @@
+2.10 :
+* Améliorations ajoutées pour les appareils avec clavier physique
+* Prise en charge des lecteurs d'écran lors de l'ajout d'une nouvelle note
+* Ajout de l'option de liste condensée pour le widget

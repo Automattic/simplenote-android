@@ -1,0 +1,4 @@
+2.10:
+* Aggiunti miglioramenti per i dispositivi con tastiere hardware
+* Aggiunto il supporto per i lettori di schermo quando si aggiunge una nuova nota
+* Aggiunta l'opzione di elenco ridotto per widget
