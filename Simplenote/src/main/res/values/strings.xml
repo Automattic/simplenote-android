@@ -272,14 +272,14 @@
     <string name="item_action_toggle_preview">Toggle Preview</string>
     <string name="item_action_toggle_preview_enable_error">Enable markdown to toggle preview</string>
     <string name="item_action_toggle_preview_error">Select a note to toggle preview</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_single_c">C</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_s">S</string>
+    <string name="key_multiple_ctrl" translatable="false">Ctrl</string>
+    <string name="key_multiple_shift" translatable="false">Shift</string>
+    <string name="key_single_c" translatable="false">C</string>
+    <string name="key_single_h" translatable="false">H</string>
+    <string name="key_single_i" translatable="false">I</string>
+    <string name="key_single_l" translatable="false">L</string>
+    <string name="key_single_p" translatable="false">P</string>
+    <string name="key_single_s" translatable="false">S</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>
