@@ -1,7 +1,6 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Editable;
-import android.text.TextUtils;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 
@@ -30,12 +29,11 @@ public class AutoBullet {
             prevParagraphStart++; // ++ because we don't actually include the previous linebreak
             String prevParagraph = noteContent.substring(prevParagraphStart, prevParagraphEnd);
             BulletMetadata metadata = extractBulletMetadata(prevParagraph);
-
             // See if there's a CheckableSpan in the previous line
             CheckableSpan[] checkableSpans = editable.getSpans(prevParagraphStart, prevParagraphEnd, CheckableSpan.class);
 
             if (checkableSpans.length > 0) {
-                if (TextUtils.isEmpty(prevParagraph.trim())) {
+                if (prevParagraph.trim().equalsIgnoreCase(String.valueOf(CHAR_NO_BREAK_SPACE))) {
                     // Empty checklist item, remove and place cursor at start of line
                     editable.replace(prevParagraphStart, newCursorPosition, "");
                 } else {
