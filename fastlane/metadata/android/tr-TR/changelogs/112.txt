@@ -1,2 +1,0 @@
-2,9:
-* Yinelenen etikletler ve etiket adlarındaki özel karakterlerle ilgili bir hata düzeltildi

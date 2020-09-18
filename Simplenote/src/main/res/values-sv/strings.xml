@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-19 11:54:04+0000
+Translation-Revision-Date: 2020-09-08 13:17:12+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="publish_successful">Publicerat.</string>
+    <string name="about">Om</string>
+    <string name="link_copied_failure">Länk kunde inte kopieras.</string>
+    <string name="send_logs">Skicka loggar</string>
+    <string name="more">Mer</string>
+    <string name="website">Besök webbplats</string>
     <string name="log_out_anyway">Logga ut ändå</string>
     <string name="export_unsynced_notes">Exportera osynkroniserade anteckningar</string>
     <string name="unsynced_notes_message">Vid utloggning kommer alla osynkroniserade anteckningar att tas bort.</string>
@@ -75,7 +81,7 @@ Language: sv_SE
     <string name="note_list_widget_dark">Anteckningslista (mörk)</string>
     <string name="retry">Försök igen</string>
     <string name="publishing">Publicerar…</string>
-    <string name="publish_successful">Publicerat. Länk kopierad!</string>
+    <string name="publish_successful_link">Publicerat. Länk kopierad!</string>
     <string name="link_copied">Länk kopierad!</string>
     <string name="of">av</string>
     <string name="next">Nästa</string>
@@ -186,7 +192,6 @@ Language: sv_SE
     <string name="rate_us">Betygsätt oss</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Om Simplenote</string>
     <string name="markdown_show">Visa Markdown</string>
     <string name="markdown_hide">Dölj Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +212,6 @@ Language: sv_SE
     <string name="note_added">Anteckning tillagd</string>
     <string name="published">Publicerad</string>
     <string name="publish">Publicera</string>
-    <string name="version">Version</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Mörk</string>
     <string name="theme_light">Ljus</string>
@@ -242,8 +246,6 @@ Language: sv_SE
     <string name="today">Idag</string>
     <string name="trash">Papperskorg</string>
     <string name="sort_order">Sorteringsordning</string>
-    <string name="more_info">Mer information</string>
-    <string name="website">Besök simplenote.com</string>
     <string name="word">Ord</string>
     <string name="character">Tecken</string>
     <string name="no">Nej</string>

@@ -1,0 +1,4 @@
+2.10:
+* Lade till förbättringar för enheter med maskinvarutangentbord
+* Lade till stöd för skärmläsare vid tillägg av en ny anteckning
+* Lade till komprimerat listalternativ för widget
