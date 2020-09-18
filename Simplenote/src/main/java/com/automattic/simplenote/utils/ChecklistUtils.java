@@ -17,12 +17,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChecklistUtils {
+    public static final char CHAR_BALLOT_BOX = '\u2610';
+    public static final char CHAR_BALLOT_BOX_CHECK = '\u2611';
+    public static final char CHAR_BULLET = '\u2022';
+    public static final char CHAR_NO_BREAK_SPACE = '\u00a0';
+    public static final char CHAR_VECTOR_CROSS_PRODUCT = '\u2a2f';
+    public static final int CHECKLIST_OFFSET = 3;
+
     public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
-    public static String CHECKED_MARKDOWN_PREVIEW = "- [\u2A2F]";
+    public static String CHECKED_MARKDOWN_PREVIEW = "- [" + CHAR_VECTOR_CROSS_PRODUCT + "]";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
-    public static final int CHECKLIST_OFFSET = 3;
 
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
@@ -65,7 +71,7 @@ public class ChecklistUtils {
 
             CheckableSpan checkableSpan = new CheckableSpan();
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
-            editable.replace(start, end, "\u00A0");
+            editable.replace(start, end, String.valueOf(CHAR_NO_BREAK_SPACE));
 
             Drawable iconDrawable = ContextCompat.getDrawable(context,
                     checkableSpan.isChecked()
@@ -120,7 +126,7 @@ public class ChecklistUtils {
 
             CheckableSpan checkableSpan = new CheckableSpan();
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
-            editable.replace(start, end, checkableSpan.isChecked() ? "\u2611" : "\u2610");
+            editable.replace(start, end, checkableSpan.isChecked() ? String.valueOf(CHAR_BALLOT_BOX_CHECK) : String.valueOf(CHAR_BALLOT_BOX));
             editable.setSpan(checkableSpan, start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             positionAdjustment += (end - start) - 1;
         }
