@@ -1,5 +1,8 @@
 2.11
 -----
+* Added linking between notes [#1145]
+* Fixed a bug with toggling tab-indented checkboxes [#1148]
+* Fixed adding or editing a tag on Android 6 [https://github.com/Automattic/simplenote-android/pull/1157]
 
 2.10
 -----
