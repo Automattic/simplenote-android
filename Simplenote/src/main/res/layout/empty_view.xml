@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -26,6 +27,26 @@
         android:textColor="?attr/notePreviewColor"
         android:text="@string/empty_notes_all"
         android:textSize="@dimen/text_empty">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/button"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_large"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_width="wrap_content"
+        android:onClick="createNewNote"
+        android:padding="@dimen/padding_small"
+        android:text="@string/empty_notes_search_button"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/text_empty_button"
+        android:visibility="gone"
+        tools:visibility="visible">
     </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
 </LinearLayout>

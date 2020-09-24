@@ -1,2 +1,0 @@
-2.9 :
-* Correction d’un bogue relatif à des étiquettes en double et des caractères spéciaux dans les noms d’étiquettes

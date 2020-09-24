@@ -1,2 +1,0 @@
-2.9:
-* Bug opgelost met dubbele tags en speciale tekens in tagnamen

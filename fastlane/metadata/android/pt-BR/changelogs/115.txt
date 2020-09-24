@@ -1,0 +1,4 @@
+2.10:
+* Implantamos melhorias para dispositivos com teclado físico
+* Adicionamos suporte para leitores de tela ao criar uma nova nota.
+* Adição da opção de lista condensada para o widget

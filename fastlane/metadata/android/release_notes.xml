@@ -1,68 +1,66 @@
-<ar>
-2.9:
-* تم إصلاح خطأ بخصوص الوسوم والأحرف الخاصة المكرَّرة الموجودة في أسماء الوسوم
-</ar>
-<de-DE>
-2.9:
-* Fehler mit doppelten Schlagwörtern und Sonderzeichen in Schlagwortnamen behoben
-</de-DE>
 <es-ES>
-2.9:
-* Hemos corregido un problema con las etiquetas duplicadas y los caracteres especiales en los nombres de las etiquetas
+2.10:
+* Hemos añadido mejoras para dispositivos con teclados físicos
+* Hemos añadido compatibilidad para lectores de pantalla al añadir una nota nueva
+* Hemos añadido una opción de lista condensada para el widget
 </es-ES>
 <fr-FR>
-2.9 :
-* Correction d’un bogue relatif à des étiquettes en double et des caractères spéciaux dans les noms d’étiquettes
+2.10 :
+* Améliorations ajoutées pour les appareils avec clavier physique
+* Prise en charge des lecteurs d'écran lors de l'ajout d'une nouvelle note
+* Ajout de l'option de liste condensée pour le widget
 </fr-FR>
 <iw-IL>
-2.9
-* תיקנו באג בתגיות כפולות ובתווים מיוחדים בשמות התגיות
+2.10:
+* הוספנו שיפורים למכשירים עם מקלדות חיצוניות
+* הוספנו תמיכה לקוראי מסכים כאשר מוסיפים פתק חדש
+* הוספנו אפשרות של רשימה מצומצמת לווידג'ט
 </iw-IL>
-<id>
-2,9:
-* Memperbaiki bug dengan tag duplikat dan karakter khusus dalam nama tag
-</id>
 <it-IT>
-2.9:
-* Corretto un bug con tag duplicati e caratteri speciali nei nomi dei tag
+2.10:
+* Aggiunti miglioramenti per i dispositivi con tastiere hardware
+* Aggiunto il supporto per i lettori di schermo quando si aggiunge una nuova nota
+* Aggiunta l'opzione di elenco ridotto per widget
 </it-IT>
 <ja-JP>
-2.9:
-* 重複タグとタグ名の特殊文字のバグを修正
+2.10:
+* ハードウェアキーボードが搭載されたデバイス向けの機能を改善
+* 新しいメモを追加するときのスクリーンリーダーのサポートを追加
+* ウィジェット用に要約リストのオプションを追加
 </ja-JP>
 <ko-KR>
-2.9:
-* 중복 태그 및 태그 이름 내 특수 문자 관련 버그 해결됨
+2.10:
+* 하드웨어 키보드가 있는 기기에 개선 사항을 추가했습니다.
+* 새로운 노트를 추가할 때 화면 리더 지원을 추가했습니다.
+* 위젯에 압축된 목록 옵션을 추가했습니다.
 </ko-KR>
-<nl-NL>
-2.9:
-* Bug opgelost met dubbele tags en speciale tekens in tagnamen
-</nl-NL>
 <pt-BR>
-2.9:
-* Correção de um erro  com tags duplicadas e caracteres especiais em nomes de tags.
+2.10:
+* Implantamos melhorias para dispositivos com teclado físico
+* Adicionamos suporte para leitores de tela ao criar uma nova nota.
+* Adição da opção de lista condensada para o widget
 </pt-BR>
 <ru-RU>
-2.9:
-* Исправлена ошибка, из-за которой дублировались метки и в их названиях появлялись специальные символы
+2.10:
+* Добавлены улучшения для устройств с подключаемыми клавиатурами
+* Добавлена поддержка чтения экрана при добавлении новой заметки
+* Добавлена возможность свернуть список виджетов
 </ru-RU>
 <sv-SE>
-2.9:
-* Åtgärdade en bugg med duplicerade etiketter och specialtecken i etikettnamn
+2.10:
+* Lade till förbättringar för enheter med maskinvarutangentbord
+* Lade till stöd för skärmläsare vid tillägg av en ny anteckning
+* Lade till komprimerat listalternativ för widget
 </sv-SE>
-<tr-TR>
-2,9:
-* Yinelenen etikletler ve etiket adlarındaki özel karakterlerle ilgili bir hata düzeltildi
-</tr-TR>
-<zh-CN>
-2.9：
-* 修复了重复标签和标签名称中的特殊字符的错误
-</zh-CN>
 <zh-TW>
-2.9：
-* 修正重複標籤和標籤名稱內特殊字元的錯誤
+2.10：
+* 針對使用硬體鍵盤的裝置提供改善功能
+* 增添新增備註時螢幕閱讀器的支援
+* 新增小工具的緊密清單選項
 </zh-TW>
 <en-US>
-2.9:
-* Fixed a bug with duplicate tags and special characters in tag names
+2.10:
+* Added improvements for devices with hardware keyboards
+* Added support for screen readers when adding a new note
+* Added condensed list option for widget
 </en-US>

@@ -11,17 +11,20 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
-msgctxt "release_note_029"
+msgctxt "release_note_0211"
 msgid ""
-"2.9:\n"
-"* Fixed a bug with duplicate tags and special characters in tag names\n"
+"2.11:\n"
+"* Added linking between notes\n"
+"* Fixed a bug with toggling tab-indented checkboxes\n"
+"\n"
 msgstr ""
 
-msgctxt "release_note_028"
+msgctxt "release_note_0210"
 msgid ""
-"2.8:\n"
-"* Added hotkey shortcuts for devices with hardware keyboards\n"
-"* Added right-to-left language support to markdown preview\n"
+"2.10:\n"
+"* Added improvements for devices with hardware keyboards\n"
+"* Added support for screen readers when adding a new note\n"
+"* Added condensed list option for widget\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!

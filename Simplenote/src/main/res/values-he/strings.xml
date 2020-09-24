@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-09-16 14:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="publish_successful">פורסם.</string>
+    <string name="about">אודות</string>
+    <string name="link_copied_failure">לא ניתן היה להעתיק את הקישור.</string>
+    <string name="send_logs">לשלוח יומנים</string>
+    <string name="more">עוד</string>
+    <string name="website">לעבור לאתר</string>
     <string name="log_out_anyway">בכל זאת אני רוצה להתנתק</string>
     <string name="export_unsynced_notes">לייצא את הפתקים שלא סונכרנו</string>
     <string name="unsynced_notes_message">יציאה מהמערכת תמחק את כל הפתקים שלא סונכרנו.</string>
@@ -75,7 +81,7 @@ Language: he_IL
     <string name="note_list_widget_dark">רשימת פתקים (כהה)</string>
     <string name="retry">יש לנסות שנית</string>
     <string name="publishing">מפרסם…</string>
-    <string name="publish_successful">פורסם. הקישור הועתק!</string>
+    <string name="publish_successful_link">פורסם. הקישור הועתק!</string>
     <string name="link_copied">הקישור הועתק!</string>
     <string name="of">מתוך</string>
     <string name="next">הבא</string>
@@ -186,7 +192,6 @@ Language: he_IL
     <string name="rate_us">נשמח לקבל ממך דירוג</string>
     <string name="twitter">טוויטר</string>
     <string name="about_play_store">חנות Google Play</string>
-    <string name="about">אודות Simplenote</string>
     <string name="markdown_show">הצגת Markdown</string>
     <string name="markdown_hide">הסתרת Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +212,6 @@ Language: he_IL
     <string name="note_added">הפתק נוסף</string>
     <string name="published">פורסם</string>
     <string name="publish">לפרסם</string>
-    <string name="version">גרסה</string>
     <string name="theme">עיצוב</string>
     <string name="theme_dark">כהה</string>
     <string name="theme_light">בהיר</string>
@@ -242,8 +246,6 @@ Language: he_IL
     <string name="today">היום</string>
     <string name="trash">פח אשפה</string>
     <string name="sort_order">מיון לפי</string>
-    <string name="more_info">מידע נוסף</string>
-    <string name="website">לבקר ב-simplenote.com</string>
     <string name="word">מילה</string>
     <string name="character">תו</string>
     <string name="no">לא</string>

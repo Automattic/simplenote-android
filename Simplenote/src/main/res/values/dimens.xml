@@ -64,7 +64,8 @@
     <dimen name="text_content">14sp</dimen>
     <dimen name="text_content_title">16sp</dimen>
     <dimen name="text_date">14sp</dimen>
-    <dimen name="text_empty">16sp</dimen>
+    <dimen name="text_empty">20sp</dimen>
+    <dimen name="text_empty_button">16sp</dimen>
     <dimen name="text_header">14sp</dimen>
     <dimen name="text_item">16sp</dimen>
     <dimen name="text_key">14sp</dimen>

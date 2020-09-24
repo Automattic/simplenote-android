@@ -64,10 +64,16 @@
     <string name="characters">Characters</string>
     <string name="logo">Logo</string>
     <string name="copy_link">Copy Link</string>
+    <string name="copy_link_internal">Copy Internal Link</string>
     <string name="more_options">More Options</string>
+    <string name="open_note">Open Note</string>
+    <string name="open_note_error">Note could not be found</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>
+    <string name="references">Referenced In</string>
+    <string name="references_one">%1$d Reference, Last modified %2$s</string>
+    <string name="references_other">%1$d References, Last modified %2$s</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
@@ -108,7 +114,7 @@
     <!-- Editor link options -->
     <string name="call">Call</string>
     <string name="email">Email</string>
-    <string name="view_map">View map</string>
+    <string name="view_map">View Map</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="link">Link</string>
     <string name="link_copied">Link copied!</string>
@@ -237,6 +243,8 @@
 
     <string name="empty_notes_all">Create your first note</string>
     <string name="empty_notes_search">No notes found</string>
+    <string name="empty_notes_search_button">Create a new note titled \"%1$s\"</string>
+    <string name="empty_notes_search_button_default">Create a new note</string>
     <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
     <string name="empty_notes_trash">Your trash is empty</string>
     <string name="empty_notes_untagged">Create an untagged note</string>
