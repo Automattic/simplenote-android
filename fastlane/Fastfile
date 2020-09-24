@@ -131,11 +131,11 @@ SUPPORTED_LOCALES = [
   # This lane updates the release branch for a new hotix release.
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version:<version>]
+  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version_name:<version>]
   #
   # Example:
-  # bundle exec fastlane new_hotfix_release version:10.6.1
-  # bundle exec fastlane new_hotfix_release skip_confirm:true version:10.6.1
+  # bundle exec fastlane new_hotfix_release version_name:10.6.1
+  # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
   #####################################################################################
   desc "Creates a new hotfix branch from the given tag"
   lane :new_hotfix_release do | options |
