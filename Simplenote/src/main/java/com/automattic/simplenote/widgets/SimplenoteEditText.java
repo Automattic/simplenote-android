@@ -49,11 +49,11 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
 
         // When an internote link title is being edited, don't show an autocomplete popup.
-        if (matcherEdit.find()) {
+        if (matcherEdit.lookingAt()) {
             String substringEdit = substringCursor.substring(0, matcherEdit.end());
             Matcher matcherFull = INTERNOTE_LINK_PATTERN.matcher(substringEdit);
 
-            if (!matcherFull.find()) {
+            if (!matcherFull.lookingAt()) {
                 return false;
             }
         }
