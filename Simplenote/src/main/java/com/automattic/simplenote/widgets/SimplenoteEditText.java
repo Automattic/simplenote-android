@@ -35,8 +35,8 @@ import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
-    private static final Pattern INTERNOTE_LINK_PATTERN = Pattern.compile("(\\[)([^]]+)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
+    private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
 
     private LinkTokenizer mTokenizer;
@@ -51,7 +51,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         // When an internote link title is being edited, don't show an autocomplete popup.
         if (matcherEdit.lookingAt()) {
             String substringEdit = substringCursor.substring(0, matcherEdit.end());
-            Matcher matcherFull = INTERNOTE_LINK_PATTERN.matcher(substringEdit);
+            Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
 
             if (!matcherFull.lookingAt()) {
                 return false;
