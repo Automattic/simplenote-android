@@ -116,6 +116,9 @@
         <item name="colorPrimaryDark">@color/blue_50</item>
     </style>
 
+    <style name="Theme.Simplestyle.BottomSheetDialog.Default" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+    </style>
+
     <style name="Theme.Simplestyle.BottomSheetDialog.Matrix" parent="@style/Theme.Simplestyle.BottomSheetDialog">
         <item name="colorAccent">@color/item_matrix_dark</item>
         <item name="colorPrimary">@color/green</item>

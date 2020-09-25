@@ -156,7 +156,7 @@ public class ThemeUtils {
                 return R.style.Theme_Simplestyle_BottomSheetDialog_Sepia;
             case STYLE_DEFAULT:
             default:
-                return R.style.Theme_Simplestyle_BottomSheetDialog;
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Default;
         }
     }
 
