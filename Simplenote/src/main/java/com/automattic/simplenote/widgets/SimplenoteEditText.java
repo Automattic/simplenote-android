@@ -35,8 +35,8 @@ import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
-    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN = Pattern.compile("(\\[)([^]]+)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
+    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
 
     private LinkTokenizer mTokenizer;
