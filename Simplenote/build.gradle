@@ -32,7 +32,7 @@ android {
         } else {
             versionName "2.11-rc-1"
         }
-        versionCode 116
+        versionCode 118
         minSdkVersion 23
         targetSdkVersion 29
 
