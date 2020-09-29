@@ -35,6 +35,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
     private static final String PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
     private static final String PLAY_STORE_URI = "market://details?id=";
     private static final String SIMPLENOTE_BLOG_URL = "https://simplenote.com/blog";
+    private static final String SIMPLENOTE_HELP_URL = "https://simplenote.com/help";
     private static final String SIMPLENOTE_HIRING_HANDLE = "https://automattic.com/work-with-us/";
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
@@ -52,6 +53,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
         TextView version = view.findViewById(R.id.about_version);
         View blog = view.findViewById(R.id.about_blog);
         View twitter = view.findViewById(R.id.about_twitter);
+        View help = view.findViewById(R.id.about_help);
         View store = view.findViewById(R.id.about_store);
         View contribute = view.findViewById(R.id.about_contribute);
         View hiring = view.findViewById(R.id.about_careers);
@@ -87,6 +89,16 @@ public class AboutFragment extends Fragment implements SpeedListener {
             }
         });
 
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), SIMPLENOTE_HELP_URL);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

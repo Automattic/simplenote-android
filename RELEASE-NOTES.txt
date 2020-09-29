@@ -1,6 +1,7 @@
 2.12
 -----
- 
+* Added a link to help in settings [https://github.com/Automattic/simplenote-android/pull/1155]
+
 2.11
 -----
 * Added linking between notes [#1145]
