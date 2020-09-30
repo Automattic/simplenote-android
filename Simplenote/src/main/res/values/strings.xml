@@ -74,6 +74,7 @@
     <string name="references">Referenced In</string>
     <string name="references_one">%1$d Reference, Last modified %2$s</string>
     <string name="references_other">%1$d References, Last modified %2$s</string>
+    <string name="settings_item_get_help">Get help</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
@@ -141,6 +142,8 @@
     <string name="about_hiring">Are you a developer? We\'re hiring.</string>
     <string name="about_play_store">Google Play Store</string>
     <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
+    <string name="about_help_summary">FAQ or contact us</string>
+    <string name="about_help_title">Get Help</string>
     <string name="twitter">Twitter</string>
     <string name="rate_us">Rate Us</string>
     <string name="blog">Blog</string>
