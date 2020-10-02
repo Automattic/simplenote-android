@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-16 14:54:03+0000
+Translation-Revision-Date: 2020-09-30 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="empty_notes_search_button_default">ליצור פתק חדש</string>
+    <string name="empty_notes_search_button">ליצור פתק חדש עם הכותרת \"⁦%1$s⁩\"</string>
+    <string name="references_other">⁦%1$d⁩ סימוכין, תאריך עריכה אחרון ⁦%2$s⁩</string>
+    <string name="references_one">⁦%1$d⁩ סימוכין, תאריך עריכה אחרון ⁦%2$s⁩</string>
+    <string name="references">סימוכין בפתק</string>
+    <string name="open_note_error">לא ניתן היה למצוא את הפתק</string>
+    <string name="open_note">לפתוח את הפתק</string>
+    <string name="copy_link_internal">להעתיק קישור פנימי</string>
     <string name="publish_successful">פורסם.</string>
     <string name="about">אודות</string>
     <string name="link_copied_failure">לא ניתן היה להעתיק את הקישור.</string>

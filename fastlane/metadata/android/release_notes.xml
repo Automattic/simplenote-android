@@ -1,66 +1,54 @@
 <es-ES>
-2.10:
-* Hemos añadido mejoras para dispositivos con teclados físicos
-* Hemos añadido compatibilidad para lectores de pantalla al añadir una nota nueva
-* Hemos añadido una opción de lista condensada para el widget
+2.11:
+* Se ha añadido la vinculación entre notas
+* Se ha corregido un error con las casillas de activación de pestañas con sangría
+
 </es-ES>
 <fr-FR>
-2.10 :
-* Améliorations ajoutées pour les appareils avec clavier physique
-* Prise en charge des lecteurs d'écran lors de l'ajout d'une nouvelle note
-* Ajout de l'option de liste condensée pour le widget
+2.11 :
+* Ajout d’une liaison entre les notes
+* Résolution d’un bogue avec le basculement des cases à cocher en retrait de tabulation
+
 </fr-FR>
 <iw-IL>
-2.10:
-* הוספנו שיפורים למכשירים עם מקלדות חיצוניות
-* הוספנו תמיכה לקוראי מסכים כאשר מוסיפים פתק חדש
-* הוספנו אפשרות של רשימה מצומצמת לווידג'ט
+2.11:
+* הוספנו אפשרות לקישור בין פתקים
+* תיקנו באג בשינוי של תיבות הסימון שמיועדות ללשוניות
+
 </iw-IL>
 <it-IT>
-2.10:
-* Aggiunti miglioramenti per i dispositivi con tastiere hardware
-* Aggiunto il supporto per i lettori di schermo quando si aggiunge una nuova nota
-* Aggiunta l'opzione di elenco ridotto per widget
+2.11:
+* Aggiunto collegamento tra le note
+* Corretto un bug relativo alla disattivazione delle caselle di controllo con rientri di tabulazione
+
 </it-IT>
-<ja-JP>
-2.10:
-* ハードウェアキーボードが搭載されたデバイス向けの機能を改善
-* 新しいメモを追加するときのスクリーンリーダーのサポートを追加
-* ウィジェット用に要約リストのオプションを追加
-</ja-JP>
-<ko-KR>
-2.10:
-* 하드웨어 키보드가 있는 기기에 개선 사항을 추가했습니다.
-* 새로운 노트를 추가할 때 화면 리더 지원을 추가했습니다.
-* 위젯에 압축된 목록 옵션을 추가했습니다.
-</ko-KR>
 <pt-BR>
-2.10:
-* Implantamos melhorias para dispositivos com teclado físico
-* Adicionamos suporte para leitores de tela ao criar uma nova nota.
-* Adição da opção de lista condensada para o widget
+2.11:
+* Incluído vínculo entre anotações
+* Bug ao marcar/desmarcar caixas de seleção com tabulação corrigido
+
 </pt-BR>
 <ru-RU>
-2.10:
-* Добавлены улучшения для устройств с подключаемыми клавиатурами
-* Добавлена поддержка чтения экрана при добавлении новой заметки
-* Добавлена возможность свернуть список виджетов
+2.11:
+* Добавлена возможность связывать заметки внутренними ссылками.
+* Исправлена ошибка проставления флажков в полях, сдвинутых с помощью клавиши табуляции.
+
 </ru-RU>
 <sv-SE>
-2.10:
-* Lade till förbättringar för enheter med maskinvarutangentbord
-* Lade till stöd för skärmläsare vid tillägg av en ny anteckning
-* Lade till komprimerat listalternativ för widget
+2.11:
+* Länkning mellan anteckningar har lagts till
+* Åtgärdade ett fel rörande växling av flik-indragna kryssrutor
+
 </sv-SE>
 <zh-TW>
-2.10：
-* 針對使用硬體鍵盤的裝置提供改善功能
-* 增添新增備註時螢幕閱讀器的支援
-* 新增小工具的緊密清單選項
+2.11：
+* 新增筆記間的連結
+* 修復切換 Tab 鍵縮排核取方塊的錯誤
+
 </zh-TW>
 <en-US>
-2.10:
-* Added improvements for devices with hardware keyboards
-* Added support for screen readers when adding a new note
-* Added condensed list option for widget
+2.11:
+* Added linking between notes
+* Fixed a bug with toggling tab-indented checkboxes
+
 </en-US>

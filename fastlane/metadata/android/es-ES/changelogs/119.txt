@@ -1,0 +1,4 @@
+2.11:
+* Se ha añadido la vinculación entre notas
+* Se ha corregido un error con las casillas de activación de pestañas con sangría
+

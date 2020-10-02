@@ -1,0 +1,4 @@
+2.11:
+* Incluído vínculo entre anotações
+* Bug ao marcar/desmarcar caixas de seleção com tabulação corrigido
+

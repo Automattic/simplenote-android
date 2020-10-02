@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 12:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="publish_successful">تم النشر.</string>
+    <string name="about">نبذة عن</string>
+    <string name="link_copied_failure">تعذَّر نسخ الرابط.</string>
+    <string name="send_logs">إرسال السجلات</string>
     <string name="more">المزيد</string>
+    <string name="website">زيارة موقع الويب</string>
     <string name="log_out_anyway">تسجيل الخروج على أي حال</string>
     <string name="export_unsynced_notes">تصدير ملحوظات غير متزامنة</string>
     <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملحوظات غير متزامنة.</string>
@@ -76,6 +81,7 @@ Language: ar
     <string name="note_list_widget_dark">قائمة الملحوظات (غامق)</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="publishing">جارٍ النشر…</string>
+    <string name="publish_successful_link">تم النشر. تم نسخ الرابط!</string>
     <string name="link_copied">تم نسخ الرابط!</string>
     <string name="of">من</string>
     <string name="next">التالي</string>
