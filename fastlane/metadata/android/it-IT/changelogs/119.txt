@@ -1,0 +1,4 @@
+2.11:
+* Aggiunto collegamento tra le note
+* Corretto un bug relativo alla disattivazione delle caselle di controllo con rientri di tabulazione
+

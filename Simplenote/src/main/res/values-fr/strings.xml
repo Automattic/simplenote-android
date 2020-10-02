@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-16 10:54:04+0000
+Translation-Revision-Date: 2020-09-30 08:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="empty_notes_search_button_default">Créer une nouvelle note</string>
+    <string name="empty_notes_search_button">Créer une nouvelle note intitulée « %1$s »</string>
+    <string name="references_other">%1$d Références, dernière modification %2$s</string>
+    <string name="references_one">%1$d Référence, dernière modification %2$s</string>
+    <string name="references">Référencé dans</string>
+    <string name="open_note_error">Note introuvable</string>
+    <string name="open_note">Ouvrir la note</string>
+    <string name="copy_link_internal">Copier le lien interne</string>
     <string name="publish_successful">Publié.</string>
     <string name="about">À propos</string>
     <string name="link_copied_failure">Impossible de copier le lien.</string>

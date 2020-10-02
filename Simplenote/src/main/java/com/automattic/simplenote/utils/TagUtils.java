@@ -62,7 +62,7 @@ public class TagUtils {
         try {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
-            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.toString());
+            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name());
             return encoded.replace("*", "%2A").replace("+", "%20");
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
@@ -81,7 +81,7 @@ public class TagUtils {
         try {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
-            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.toString()).replace("*", "%2A").replace("+", "%20");
+            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name()).replace("*", "%2A").replace("+", "%20");
             return encoded.length() <= MAXIMUM_LENGTH_ENCODED_HASH;
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
