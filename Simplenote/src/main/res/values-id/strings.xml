@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 08:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="publish_successful">Dipublikasikan.</string>
+    <string name="about">Tentang</string>
+    <string name="link_copied_failure">Tautan tidak dapat disalin.</string>
+    <string name="send_logs">Kirim log</string>
     <string name="more">Lainnya</string>
+    <string name="website">Kunjungi situs web</string>
     <string name="log_out_anyway">Tetap keluar</string>
     <string name="export_unsynced_notes">Ekspor catatan yang tidak disinkronkan</string>
     <string name="unsynced_notes_message">Catatan yang tidak disinkronkan akan dihapus saat Anda keluar.</string>
@@ -76,6 +81,7 @@ Language: id
     <string name="note_list_widget_dark">Daftar Catatan (Gelap)</string>
     <string name="retry">Coba lagi</string>
     <string name="publishing">Memublikasikan…</string>
+    <string name="publish_successful_link">Dipublikasikan. Tautan disalin!</string>
     <string name="link_copied">Tautan disalin!</string>
     <string name="of">dari</string>
     <string name="next">Selanjutnya</string>

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 12:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="publish_successful">已发布。</string>
+    <string name="about">关于</string>
+    <string name="link_copied_failure">无法复制链接。</string>
+    <string name="send_logs">发送日志</string>
     <string name="more">更多</string>
+    <string name="website">访问网站</string>
     <string name="log_out_anyway">仍然注销</string>
     <string name="export_unsynced_notes">导出未同步的笔记</string>
     <string name="unsynced_notes_message">注销会删除所有未同步的笔记。</string>
@@ -76,6 +81,7 @@ Language: zh_CN
     <string name="note_list_widget_dark">备注列表（深色）</string>
     <string name="retry">重试</string>
     <string name="publishing">正在发布…</string>
+    <string name="publish_successful_link">已发布。 链接已复制！</string>
     <string name="link_copied">链接已复制！</string>
     <string name="of">/</string>
     <string name="next">下一步</string>
