@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-17 08:54:03+0000
+Translation-Revision-Date: 2020-10-01 08:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="empty_notes_search_button_default">建立新筆記</string>
+    <string name="empty_notes_search_button">建立標題為「%1$s」的新筆記</string>
+    <string name="references_other">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references_one">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references">參考位置</string>
+    <string name="open_note_error">找不到筆記</string>
+    <string name="open_note">開啟筆記</string>
+    <string name="copy_link_internal">複製內部連結</string>
     <string name="publish_successful">已發表。</string>
     <string name="about">關於</string>
     <string name="link_copied_failure">無法複製連結。</string>

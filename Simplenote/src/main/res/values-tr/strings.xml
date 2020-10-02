@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 14:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="publish_successful">Yayımlandı.</string>
+    <string name="about">Hakkında</string>
+    <string name="link_copied_failure">Bağlantı kopyalanamadı.</string>
+    <string name="send_logs">Günlükleri gönder</string>
     <string name="more">Daha Fazla</string>
+    <string name="website">Web sitesini ziyaret et</string>
     <string name="log_out_anyway">Yine de çıkış yap</string>
     <string name="export_unsynced_notes">Senkronize edilmemiş notları dışa aktar</string>
     <string name="unsynced_notes_message">Oturumu kapattığınızda, senkronize edilmemiş tüm notlar silinir.</string>
@@ -76,6 +81,7 @@ Language: tr
     <string name="note_list_widget_dark">Not Listesi (Koyu)</string>
     <string name="retry">Tekrar dene</string>
     <string name="publishing">Yayımlanıyor…</string>
+    <string name="publish_successful_link">Yayımlandı. Bağlantı kopyalandı!</string>
     <string name="link_copied">Bağlantı kopyalandı!</string>
     <string name="of">,</string>
     <string name="next">Sonraki</string>
