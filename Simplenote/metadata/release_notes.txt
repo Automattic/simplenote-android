@@ -1,4 +1,3 @@
-
-* Added autocomplete to the editor when adding a link between notes [https://github.com/Automattic/simplenote-android/pull/1161]
-* Added a link to help in settings [https://github.com/Automattic/simplenote-android/pull/1155]
+* Added autocomplete to the editor when adding a link between notes
+* Added a link to help in settings
 
