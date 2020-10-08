@@ -3,6 +3,7 @@
 
 2.11.1
 -----
+* Fixed switching between apps causing data loss [https://github.com/Automattic/simplenote-android/pull/1170]
 
 2.11
 -----
