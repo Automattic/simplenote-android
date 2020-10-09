@@ -483,6 +483,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        mIsPaused = false;
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
