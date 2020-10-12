@@ -1414,7 +1414,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 unpublishNote();
                             }
                         }
-                    ).show();
+                    )
+                    .show();
             } else {
                 Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
                     .setAction(
@@ -1426,7 +1427,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 publishNote();
                             }
                         }
-                    ).show();
+                    )
+                    .show();
             }
         }
 
