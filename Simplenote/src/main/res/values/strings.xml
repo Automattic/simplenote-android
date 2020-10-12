@@ -164,13 +164,12 @@
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not create link.</string>
-    <string name="unpublish_error">Could not remove link.</string>
-    <string name="publish_successful">Published.</string>
-    <string name="publish_successful_link">Published. Link copied!</string>
-    <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing&#8230;</string>
-    <string name="unpublishing">Removing public link&#8230;</string>
+    <string name="publish_error">Could not publish note.</string>
+    <string name="unpublish_error">Could not unpublish note.</string>
+    <string name="publish_successful">Note published.</string>
+    <string name="unpublish_successful">Note unpublished.</string>
+    <string name="publishing">Publishing note&#8230;</string>
+    <string name="unpublishing">Unpublishing note&#8230;</string>
     <string name="error_network_required">A network connection is required. Please, check your connection and try again.</string>
     <string name="retry">Retry</string>
 
