@@ -1386,40 +1386,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             } else {
                 if (mHideActionOnSuccess) {
-                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
-                            .show();
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG).show();
                 } else {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
-                            .setAction(
-                                R.string.undo,
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        mHideActionOnSuccess = true;
-                                        publishNote();
-                                    }
-                                }
-                            )
-                            .show();
-                }
-            }
-        } else {
-            if (mNote.isPublished()) {
-                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
                         .setAction(
-                            R.string.retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mHideActionOnSuccess = true;
-                                    unpublishNote();
-                                }
-                            }
-                        ).show();
-            } else {
-                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
-                        .setAction(
-                            R.string.retry,
+                            R.string.undo,
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1427,7 +1398,35 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                     publishNote();
                                 }
                             }
-                        ).show();
+                        )
+                        .show();
+                }
+            }
+        } else {
+            if (mNote.isPublished()) {
+                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        R.string.retry,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mHideActionOnSuccess = true;
+                                unpublishNote();
+                            }
+                        }
+                    ).show();
+            } else {
+                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        R.string.retry,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mHideActionOnSuccess = true;
+                                publishNote();
+                            }
+                        }
+                    ).show();
             }
         }
 
