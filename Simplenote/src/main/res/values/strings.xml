@@ -118,7 +118,7 @@
     <string name="view_map">View Map</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="link">Link</string>
-    <string name="link_copied">Link copied!</string>
+    <string name="link_copied">Link copied.</string>
     <string name="link_copied_failure">Link could not be copied.</string>
     <string name="copy">Copy</string>
 
