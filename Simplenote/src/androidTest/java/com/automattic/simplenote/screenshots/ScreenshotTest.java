@@ -2,6 +2,7 @@ package com.automattic.simplenote.screenshots;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -109,7 +110,11 @@ public class ScreenshotTest {
 
         Screengrab.screenshot("note");
 
-        dismissNoteEditor();
+        // On the tablet, the editor is side-by-side the notes list by default. We only need to
+        // dismiss it when running on the phone.
+        if (isPhone()) {
+            dismissNoteEditor();
+        }
 
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
@@ -522,5 +527,15 @@ public class ScreenshotTest {
                         .build();
             }
         };
+    }
+
+    // Modified from https://stackoverflow.com/a/30270939/809944
+    private boolean isPhone() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.mActivityTestRule.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float widthDp = displayMetrics.widthPixels / displayMetrics.density;
+        float heightDp = displayMetrics.heightPixels / displayMetrics.density;
+        float screenSw = Math.min(widthDp, heightDp);
+        return screenSw < 600;
     }
 }
