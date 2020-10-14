@@ -131,16 +131,31 @@ SUPPORTED_LOCALES = [
   # This lane updates the release branch for a new hotix release.
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version:<version>]
+  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version_name:<version>]
   #
   # Example:
-  # bundle exec fastlane new_hotfix_release version:10.6.1
-  # bundle exec fastlane new_hotfix_release skip_confirm:true version:10.6.1
+  # bundle exec fastlane new_hotfix_release version_name:10.6.1
+  # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
   #####################################################################################
   desc "Creates a new hotfix branch from the given tag"
   lane :new_hotfix_release do | options |
     prev_ver = android_hotfix_prechecks(version_name: options[:version_name], skip_confirm: options[:skip_confirm])
     android_bump_version_hotfix(previous_version_name: prev_ver, version_name: options[:version_name], version_code: options[:version_code])
+  end
+
+  #####################################################################################
+  # finalize_hotfix_release
+  # -----------------------------------------------------------------------------------
+  # This lane finalizes the hotfix release.
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane finalize_hotfix_release
+  #
+  # Example:
+  # bundle exec fastlane finalize_hotfix_release
+  #####################################################################################
+  desc "Finalizes a hotfix release by tagging the build"
+  lane :finalize_hotfix_release do | options |
     android_tag_build(tag_alpha: false)
   end
 
