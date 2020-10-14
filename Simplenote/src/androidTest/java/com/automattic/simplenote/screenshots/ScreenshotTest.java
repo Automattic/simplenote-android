@@ -69,7 +69,7 @@ import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotTest {
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String NOTE_TITLE = "# Lemon Cake & Blueberry";
+    private static final String NOTE_TITLE = "Lemon Cake & Blueberry";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
