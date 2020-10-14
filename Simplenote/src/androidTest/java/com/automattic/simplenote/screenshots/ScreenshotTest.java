@@ -128,6 +128,12 @@ public class ScreenshotTest {
 
         dismissSettings();
 
+        // On the tablet, at this point of the flow, there is no note selected. That would make for
+        // an "empty" screenshot. Select one note to make it more interesting.
+        if (!isPhone()) {
+            selectNoteFromNotesList();
+        }
+
         Screengrab.screenshot("notes-list");
 
         loadSideMenuFromNotesList();
