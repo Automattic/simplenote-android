@@ -12,15 +12,6 @@
         android:orientation="vertical"
         android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
 
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:padding="@dimen/padding_large"
-            android:text="@string/information"
-            android:textColor="?attr/notePreviewColor"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
