@@ -1,6 +1,10 @@
 default_platform(:android)
 fastlane_require 'dotenv'
 
+unless FastlaneCore::Helper.bundler?
+  UI.user_error!('Please run fastlane via `bundle exec`')
+end
+
 USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
 
 before_all do
