@@ -787,7 +787,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void clearMarkdown() {
-        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
+        }
     }
 
     protected void hideMarkdown() {
@@ -886,11 +888,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
-                mCss,
-                mContentEditText.getPreviewTextContent()
+            mCss,
+            mContentEditText.getPreviewTextContent()
         );
 
-        mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
+        }
     }
 
     public void setNote(String noteID, String matchOffsets) {
