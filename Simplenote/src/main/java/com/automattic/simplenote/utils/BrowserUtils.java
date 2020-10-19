@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.ContextThemeWrapper;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,15 @@ public class BrowserUtils {
     public static boolean isBrowserInstalled(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.simperium_url)));
         return (intent.resolveActivity(context.getPackageManager()) != null);
+    }
+
+    public static boolean isWebViewInstalled(Context context) {
+        try {
+            new WebView(context);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
     }
 
     public static boolean copyToClipboard(Context base, String url) {
