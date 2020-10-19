@@ -92,27 +92,43 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
-        mMarkdown = layout.findViewById(R.id.markdown);
-        mMarkdown.setWebViewClient(
-            new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
-                    String url = request.getUrl().toString();
+        View layout;
 
-                    if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
-                        SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                    } else {
-                        BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+        if (BrowserUtils.isWebViewInstalled(requireContext())) {
+            layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
+            mMarkdown = layout.findViewById(R.id.markdown);
+            mMarkdown.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                        String url = request.getUrl().toString();
+
+                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                        }
+
+                        return true;
                     }
-
-                    return true;
                 }
-            }
-        );
-        mCss = ThemeUtils.isLightTheme(requireContext())
-            ? ContextUtils.readCssFile(requireContext(), "light.css")
-            : ContextUtils.readCssFile(requireContext(), "dark.css");
+            );
+            mCss = ThemeUtils.isLightTheme(requireContext())
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
+        } else {
+            layout = inflater.inflate(R.layout.fragment_note_error, container, false);
+            layout.findViewById(R.id.error).setVisibility(View.VISIBLE);
+            layout.findViewById(R.id.button).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW);
+                    }
+                }
+            );
+        }
+
         return layout;
     }
 

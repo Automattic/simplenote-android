@@ -16,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.automattic.simplenote.R;
 
 public class BrowserUtils {
+    public static final String URL_WEB_VIEW = "https://play.google.com/store/apps/details?id=com.google.android.webview";
+
     public static boolean isBrowserInstalled(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.simperium_url)));
         return (intent.resolveActivity(context.getPackageManager()) != null);

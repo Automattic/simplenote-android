@@ -75,6 +75,8 @@
     <string name="references_one">%1$d Reference, Last modified %2$s</string>
     <string name="references_other">%1$d References, Last modified %2$s</string>
     <string name="settings_item_get_help">Get help</string>
+    <string name="web_view_error">A web view must be installed on your device to preview markdown.</string>
+    <string name="web_view_error_button">Go to WebView app</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
