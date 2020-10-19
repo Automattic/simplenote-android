@@ -793,12 +793,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void hideMarkdown() {
-        mMarkdown.setVisibility(View.INVISIBLE);
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown != null) {
+            mMarkdown.setVisibility(View.INVISIBLE);
+        } else {
+            mError.setVisibility(View.INVISIBLE);
+        }
     }
 
     protected void showMarkdown() {
         loadMarkdownData();
-        mMarkdown.setVisibility(View.VISIBLE);
+
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown != null) {
+            mMarkdown.setVisibility(View.VISIBLE);
+        } else {
+            mError.setVisibility(View.VISIBLE);
+        }
 
         new Handler().postDelayed(
             new Runnable() {
