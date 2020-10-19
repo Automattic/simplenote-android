@@ -173,12 +173,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        // Disable share and delete actions until note is loaded.
-        if (mIsLoadingNote) {
-            menu.findItem(R.id.menu_trash).setEnabled(false);
-        } else {
-            menu.findItem(R.id.menu_trash).setEnabled(true);
-        }
+        // Disable trash action until note is loaded.
+        menu.findItem(R.id.menu_trash).setEnabled(!mIsLoadingNote);
 
         MenuItem pinItem = menu.findItem(R.id.menu_pin);
         MenuItem publishItem = menu.findItem(R.id.menu_publish);
