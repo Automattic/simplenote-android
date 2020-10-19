@@ -213,6 +213,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     @Override
     public void onResume() {
         super.onResume();
+        checkWebView();
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
@@ -246,6 +247,14 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 " / Characters: " + NoteUtils.getCharactersCount(note.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(note.getContent()) + ")"
         );
+    }
+
+    private void checkWebView() {
+        // When a WebView is installed and mMarkdown is null, a WebView was not installed when the
+        // fragment was created.  So, open the note again to show the markdown preview.
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown == null) {
+            SimplenoteLinkify.openNote(requireActivity(), mNote.getSimperiumKey());
+        }
     }
 
     public void updateMarkdown(String text) {
