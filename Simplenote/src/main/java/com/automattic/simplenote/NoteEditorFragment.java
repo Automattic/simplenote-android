@@ -551,6 +551,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        checkWebView();
         mIsPaused = false;
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
@@ -563,6 +564,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mContentEditText.hasFocus()) {
                 showSoftKeyboard();
             }
+        }
+    }
+
+    private void checkWebView() {
+        // When a WebView is installed and mMarkdown is null on a large landscape device, a WebView
+        // was not installed when the fragment was created.  So, recreate the activity to refresh
+        // the editor view.
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown == null &&
+            DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            requireActivity().recreate();
         }
     }
 
