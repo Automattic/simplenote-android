@@ -2,17 +2,17 @@
 
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:clipToPadding="false"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:padding="@dimen/padding_small"
-    android:scrollbarStyle="outsideOverlay"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:scrollbarStyle="outsideOverlay">
 
     <WebView
         android:id="@+id/markdown"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:scrollbars="none">
     </WebView>
 
