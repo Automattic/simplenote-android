@@ -249,7 +249,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     }
 
     public void updateMarkdown(String text) {
-        mMarkdown.loadDataWithBaseURL(null, getMarkdownFormattedContent(mCss, text), "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL(null, getMarkdownFormattedContent(mCss, text), "text/html", "utf-8", null);
+        }
     }
 
     public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
