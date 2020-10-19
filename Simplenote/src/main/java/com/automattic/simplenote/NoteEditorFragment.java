@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebResourceRequest;
@@ -155,6 +156,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
+    private LinearLayout mError;
+    private NoteMarkdownFragment mNoteMarkdownFragment;
+    private String mCss;
+    private WebView mMarkdown;
     private boolean mIsPaused;
     private boolean mIsFromWidget;
 
@@ -293,9 +298,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             });
         }
     };
-    private NoteMarkdownFragment mNoteMarkdownFragment;
-    private String mCss;
-    private WebView mMarkdown;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -441,26 +443,41 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
-            mMarkdown = mRootView.findViewById(R.id.markdown);
-            mMarkdown.setWebViewClient(
-                new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
-                        String url = request.getUrl().toString();
 
-                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
-                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                        } else {
-                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+            if (BrowserUtils.isWebViewInstalled(requireContext())) {
+                ((ViewStub) mRootView.findViewById(R.id.stub_webview)).inflate();
+                mMarkdown = mRootView.findViewById(R.id.markdown);
+                mMarkdown.setWebViewClient(
+                    new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                            String url = request.getUrl().toString();
+
+                            if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                                SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                            } else {
+                                BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                            }
+
+                            return true;
                         }
-
-                        return true;
                     }
-                }
-            );
-            mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
+                );
+                mCss = ThemeUtils.isLightTheme(requireContext())
+                    ? ContextUtils.readCssFile(requireContext(), "light.css")
+                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+            } else {
+                ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
+                mError = mRootView.findViewById(R.id.error);
+                mRootView.findViewById(R.id.button).setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW);
+                        }
+                    }
+                );
+            }
         }
 
         Bundle arguments = getArguments();

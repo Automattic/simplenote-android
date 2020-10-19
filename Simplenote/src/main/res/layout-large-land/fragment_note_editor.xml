@@ -128,20 +128,19 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <ViewStub
+            android:id="@+id/stub_error"
+            android:layout="@layout/fragment_note_error"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp">
+            android:layout_width="match_parent">
+        </ViewStub>
 
-            <WebView
-                android:id="@+id/markdown"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:visibility="invisible">
-            </WebView>
-
-        </FrameLayout>
+        <ViewStub
+            android:id="@+id/stub_webview"
+            android:layout="@layout/fragment_note_webview"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+        </ViewStub>
 
     </FrameLayout>
 
