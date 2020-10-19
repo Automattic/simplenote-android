@@ -918,20 +918,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     public void setNote(String noteID, String matchOffsets) {
-        if (mAutoSaveHandler != null)
+        if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
-
-        mPlaceholderView.setVisibility(View.GONE);
-
-        if (matchOffsets != null) {
-            mMatchOffsets = matchOffsets;
-        } else {
-            mMatchOffsets = null;
         }
 
-
+        mPlaceholderView.setVisibility(View.GONE);
+        mMatchOffsets = matchOffsets;
         saveNote();
-
         new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
