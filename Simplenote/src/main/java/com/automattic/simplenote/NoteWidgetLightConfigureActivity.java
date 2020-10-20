@@ -72,7 +72,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
 
         // Get widget information
         mWidgetManager = AppWidgetManager.getInstance(NoteWidgetLightConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_light);
+        mRemoteViews = new RemoteViews(getPackageName(), PrefUtils.getLayoutWidget(NoteWidgetLightConfigureActivity.this, true));
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
