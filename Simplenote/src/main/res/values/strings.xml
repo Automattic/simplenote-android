@@ -74,6 +74,7 @@
     <string name="references">Referenced In</string>
     <string name="references_one">%1$d Reference, Last modified %2$s</string>
     <string name="references_other">%1$d References, Last modified %2$s</string>
+    <string name="settings_item_get_help">Get help</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
@@ -117,7 +118,7 @@
     <string name="view_map">View Map</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="link">Link</string>
-    <string name="link_copied">Link copied!</string>
+    <string name="link_copied">Link copied.</string>
     <string name="link_copied_failure">Link could not be copied.</string>
     <string name="copy">Copy</string>
 
@@ -154,6 +155,8 @@
     <string name="about_hiring">Are you a developer? We\'re hiring.</string>
     <string name="about_play_store">Google Play Store</string>
     <string name="about_twitter_handle" translatable="false">\@simplenoteapp</string>
+    <string name="about_help_summary">FAQ or contact us</string>
+    <string name="about_help_title">Get Help</string>
     <string name="twitter">Twitter</string>
     <string name="rate_us">Rate Us</string>
     <string name="blog">Blog</string>
@@ -174,13 +177,12 @@
     <string name="publish">Publish</string>
     <string name="unpublish">Remove public link</string>
     <string name="published">Published</string>
-    <string name="publish_error">Could not create link.</string>
-    <string name="unpublish_error">Could not remove link.</string>
-    <string name="publish_successful">Published.</string>
-    <string name="publish_successful_link">Published. Link copied!</string>
-    <string name="unpublish_successful">Public link removed.</string>
-    <string name="publishing">Publishing&#8230;</string>
-    <string name="unpublishing">Removing public link&#8230;</string>
+    <string name="publish_error">Could not publish note.</string>
+    <string name="unpublish_error">Could not unpublish note.</string>
+    <string name="publish_successful">Note published.</string>
+    <string name="unpublish_successful">Note unpublished.</string>
+    <string name="publishing">Publishing note&#8230;</string>
+    <string name="unpublishing">Unpublishing note&#8230;</string>
     <string name="error_network_required">A network connection is required. Please, check your connection and try again.</string>
     <string name="retry">Retry</string>
 
@@ -286,14 +288,14 @@
     <string name="item_action_toggle_preview">Toggle Preview</string>
     <string name="item_action_toggle_preview_enable_error">Enable markdown to toggle preview</string>
     <string name="item_action_toggle_preview_error">Select a note to toggle preview</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_single_c">C</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_s">S</string>
+    <string name="key_multiple_ctrl" translatable="false">Ctrl</string>
+    <string name="key_multiple_shift" translatable="false">Shift</string>
+    <string name="key_single_c" translatable="false">C</string>
+    <string name="key_single_h" translatable="false">H</string>
+    <string name="key_single_i" translatable="false">I</string>
+    <string name="key_single_l" translatable="false">L</string>
+    <string name="key_single_p" translatable="false">P</string>
+    <string name="key_single_s" translatable="false">S</string>
 
     <!-- SIMPERIUM -->
     <string name="simperium_button_login">Log In</string>

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="publish_successful">Gepubliceerd.</string>
+    <string name="about">Over</string>
+    <string name="link_copied_failure">Link kon niet gekopieerd worden.</string>
+    <string name="send_logs">Logs verzenden</string>
     <string name="more">Meer</string>
+    <string name="website">Naar website</string>
     <string name="log_out_anyway">Toch uitloggen</string>
     <string name="export_unsynced_notes">Niet-gesynchroniseerde notities exporteren</string>
     <string name="unsynced_notes_message">Door uit te loggen, worden niet-gesynchroniseerde notities verwijderd.</string>
@@ -76,6 +81,7 @@ Language: nl
     <string name="note_list_widget_dark">Lijst met notities (donker)</string>
     <string name="retry">Opnieuw proberen</string>
     <string name="publishing">Bezig met publiceren …</string>
+    <string name="publish_successful_link">Gepubliceerd. Link gekopieerd!</string>
     <string name="link_copied">Link gekopieerd!</string>
     <string name="of">van</string>
     <string name="next">Volgende</string>

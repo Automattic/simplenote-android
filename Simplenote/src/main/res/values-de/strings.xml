@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 11:32:16+0000
+Translation-Revision-Date: 2020-09-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="publish_successful">Veröffentlicht.</string>
+    <string name="about">Über</string>
+    <string name="link_copied_failure">Link konnte nicht kopiert werden.</string>
+    <string name="send_logs">Protokolle senden</string>
     <string name="more">Mehr</string>
+    <string name="website">Website besuchen</string>
     <string name="log_out_anyway">Trotzdem abmelden</string>
     <string name="export_unsynced_notes">Nicht synchronisierte Notizen exportieren</string>
     <string name="unsynced_notes_message">Beim Abmelden werden alle nicht synchronisierten Notizen gelöscht.</string>
@@ -76,6 +81,7 @@ Language: de
     <string name="note_list_widget_dark">Notizenliste (dunkel)</string>
     <string name="retry">Erneut versuchen</string>
     <string name="publishing">Veröffentlichen …</string>
+    <string name="publish_successful_link">Veröffentlicht. Link kopiert!</string>
     <string name="link_copied">Link kopiert!</string>
     <string name="of">von</string>
     <string name="next">Weiter</string>

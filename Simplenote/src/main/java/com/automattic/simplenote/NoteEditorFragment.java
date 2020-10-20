@@ -39,7 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ShareCompat;
@@ -107,6 +106,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
     public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     public static final String ARG_PREVIEW_ENABLED = "preview_enabled";
+
     private static final String STATE_NOTE_ID = "state_note_id";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
@@ -129,7 +129,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mPublishTimeoutHandler;
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
-    private CursorAdapter mAutocompleteAdapter;
+    private CursorAdapter mLinkAutocompleteAdapter;
+    private CursorAdapter mTagAutocompleteAdapter;
     private boolean mIsLoadingNote;
     private boolean mIsMarkdownEnabled;
     private boolean mIsPreviewEnabled;
@@ -328,12 +329,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mMatchHighlighter = new TextHighlighter(requireActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
+        mTagAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 Activity activity = (Activity) context;
                 if (activity == null) return null;
-                return activity.getLayoutInflater().inflate(R.layout.tag_autocomplete_list_item, null);
+                return activity.getLayoutInflater().inflate(R.layout.autocomplete_list_item, null);
             }
 
             @Override
@@ -364,6 +365,54 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         };
 
+        mLinkAutocompleteAdapter = new CursorAdapter(getContext(), null, 0x0) {
+            private Activity mActivity = requireActivity();
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                ((TextView) view).setText(convertToString(cursor));
+            }
+
+            @Override
+            public CharSequence convertToString(Cursor cursor) {
+                return cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            }
+
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                return mActivity.getLayoutInflater().inflate(R.layout.autocomplete_list_item, null);
+            }
+
+            @Override
+            public Cursor runQueryOnBackgroundThread(CharSequence filter) {
+                if (filter == null) {
+                    return null;
+                }
+
+                Simplenote application = (Simplenote) mActivity.getApplication();
+                Query<Note> query = application.getNotesBucket().query();
+                query.include(Note.PINNED_INDEX_NAME);
+                query.include(Note.TITLE_INDEX_NAME);
+                query.where(Note.TITLE_INDEX_NAME, Query.ComparisonType.LIKE, String.format("%%%s%%", filter));
+                PrefUtils.sortNoteQuery(query, requireContext(), true);
+                Cursor cursor = query.execute();
+
+                final int heightAutocomplete = DisplayUtils.dpToPx(requireContext(), cursor.getCount() * 48);
+                final int heightDisplay = DisplayUtils.getDisplayPixelSize(requireContext()).y;
+                final int heightDropdown = Math.min(heightDisplay / 4, heightAutocomplete);
+
+                mActivity.runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            mContentEditText.setDropDownHeight(heightDropdown);
+                        }
+                    }
+                );
+                return cursor;
+            }
+        };
+
         WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
@@ -376,9 +425,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
+        mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
+        mContentEditText.setAdapter(mLinkAutocompleteAdapter);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
+        mTagInput.setAdapter(mTagAutocompleteAdapter);
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
         mTagPadding = mRootView.findViewById(R.id.tag_padding);
@@ -408,7 +460,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         }
 
-        mTagInput.setAdapter(mAutocompleteAdapter);
         Bundle arguments = getArguments();
 
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
@@ -480,6 +531,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        mIsPaused = false;
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
@@ -1313,18 +1365,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (isSuccess && isAdded()) {
             if (mNote.isPublished()) {
-                @StringRes int text;
-
-                if (BrowserUtils.copyToClipboard(requireContext(), mNote.getPublishedUrl())) {
-                    text = R.string.publish_successful_link;
-                } else {
-                    text = R.string.publish_successful;
-                }
-
                 if (mHideActionOnSuccess) {
-                    Snackbar.make(mRootView, text, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG).show();
                 } else {
-                    Snackbar.make(mRootView, text, Snackbar.LENGTH_LONG)
+                    Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
                         .setAction(
                             R.string.undo,
                             new View.OnClickListener() {
@@ -1339,40 +1383,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             } else {
                 if (mHideActionOnSuccess) {
-                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
-                            .show();
+                    Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG).show();
                 } else {
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
-                            .setAction(
-                                R.string.undo,
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        mHideActionOnSuccess = true;
-                                        publishNote();
-                                    }
-                                }
-                            )
-                            .show();
-                }
-            }
-        } else {
-            if (mNote.isPublished()) {
-                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
                         .setAction(
-                            R.string.retry,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mHideActionOnSuccess = true;
-                                    unpublishNote();
-                                }
-                            }
-                        ).show();
-            } else {
-                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
-                        .setAction(
-                            R.string.retry,
+                            R.string.undo,
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1380,7 +1395,37 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                     publishNote();
                                 }
                             }
-                        ).show();
+                        )
+                        .show();
+                }
+            }
+        } else {
+            if (mNote.isPublished()) {
+                Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        R.string.retry,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mHideActionOnSuccess = true;
+                                unpublishNote();
+                            }
+                        }
+                    )
+                    .show();
+            } else {
+                Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        R.string.retry,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mHideActionOnSuccess = true;
+                                publishNote();
+                            }
+                        }
+                    )
+                    .show();
             }
         }
 

@@ -146,6 +146,12 @@
         </Preference>
 
         <Preference
+            android:key="pref_key_help"
+            android:persistent="false"
+            android:title="@string/settings_item_get_help">
+        </Preference>
+
+        <Preference
             android:key="pref_key_logs"
             android:persistent="false"
             android:title="@string/send_logs">

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-08 13:17:12+0000
+Translation-Revision-Date: 2020-09-30 09:54:49+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="empty_notes_search_button_default">Skapa en ny anteckning</string>
+    <string name="empty_notes_search_button">Skapa en ny anteckning med titeln \"%1$s\"</string>
+    <string name="references_other">%1$d Referenser, senast ändrade %2$s</string>
+    <string name="references_one">%1$d Referens, senast ändrad %2$s</string>
+    <string name="references">Refereras i</string>
+    <string name="open_note_error">Anteckning kunde inte hittas</string>
+    <string name="open_note">Öppna anteckning</string>
+    <string name="copy_link_internal">Kopiera intern länk</string>
     <string name="publish_successful">Publicerat.</string>
     <string name="about">Om</string>
     <string name="link_copied_failure">Länk kunde inte kopieras.</string>

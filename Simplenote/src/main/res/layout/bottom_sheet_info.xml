@@ -11,17 +11,9 @@
         android:layout_width="match_parent"
         android:orientation="vertical">
 
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:padding="@dimen/padding_large"
-            android:text="@string/information"
-            android:textColor="?attr/notePreviewColor"
-            style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
-
         <LinearLayout
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="match_parent"
             android:orientation="horizontal">
 
@@ -91,6 +83,7 @@
 
         <LinearLayout
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_small"
             android:layout_width="match_parent"
             android:orientation="horizontal">
 
@@ -127,6 +120,7 @@
 
             <com.automattic.simplenote.widgets.RobotoMediumTextView
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_small"
                 android:layout_width="match_parent"
                 android:padding="@dimen/padding_large"
                 android:text="@string/references"
@@ -137,6 +131,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/references"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_small"
                 android:layout_width="match_parent"
                 tools:listitem="@layout/reference_list_row">
             </androidx.recyclerview.widget.RecyclerView>
