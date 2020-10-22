@@ -325,10 +325,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             mShouldSelectNewNote = false;
         }
 
-        if (mIsShowingMarkdown) {
-            setMarkdownShowing(false);
-        }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
             if (mIsTabletFullscreen) {

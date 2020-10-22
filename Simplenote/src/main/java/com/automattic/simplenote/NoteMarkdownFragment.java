@@ -92,27 +92,43 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        View layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
-        mMarkdown = layout.findViewById(R.id.markdown);
-        mMarkdown.setWebViewClient(
-            new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
-                    String url = request.getUrl().toString();
+        View layout;
 
-                    if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
-                        SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                    } else {
-                        BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+        if (BrowserUtils.isWebViewInstalled(requireContext())) {
+            layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
+            mMarkdown = layout.findViewById(R.id.markdown);
+            mMarkdown.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                        String url = request.getUrl().toString();
+
+                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                        } else {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                        }
+
+                        return true;
                     }
-
-                    return true;
                 }
-            }
-        );
-        mCss = ThemeUtils.isLightTheme(requireContext())
-            ? ContextUtils.readCssFile(requireContext(), "light.css")
-            : ContextUtils.readCssFile(requireContext(), "dark.css");
+            );
+            mCss = ThemeUtils.isLightTheme(requireContext())
+                ? ContextUtils.readCssFile(requireContext(), "light.css")
+                : ContextUtils.readCssFile(requireContext(), "dark.css");
+        } else {
+            layout = inflater.inflate(R.layout.fragment_note_error, container, false);
+            layout.findViewById(R.id.error).setVisibility(View.VISIBLE);
+            layout.findViewById(R.id.button).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW);
+                    }
+                }
+            );
+        }
+
         return layout;
     }
 
@@ -157,12 +173,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        // Disable share and delete actions until note is loaded.
-        if (mIsLoadingNote) {
-            menu.findItem(R.id.menu_trash).setEnabled(false);
-        } else {
-            menu.findItem(R.id.menu_trash).setEnabled(true);
-        }
+        // Disable trash action until note is loaded.
+        menu.findItem(R.id.menu_trash).setEnabled(!mIsLoadingNote);
 
         MenuItem pinItem = menu.findItem(R.id.menu_pin);
         MenuItem publishItem = menu.findItem(R.id.menu_publish);
@@ -197,6 +209,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     @Override
     public void onResume() {
         super.onResume();
+        checkWebView();
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
@@ -232,8 +245,18 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         );
     }
 
+    private void checkWebView() {
+        // When a WebView is installed and mMarkdown is null, a WebView was not installed when the
+        // fragment was created.  So, open the note again to show the markdown preview.
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown == null) {
+            SimplenoteLinkify.openNote(requireActivity(), mNote.getSimperiumKey());
+        }
+    }
+
     public void updateMarkdown(String text) {
-        mMarkdown.loadDataWithBaseURL(null, getMarkdownFormattedContent(mCss, text), "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL(null, getMarkdownFormattedContent(mCss, text), "text/html", "utf-8", null);
+        }
     }
 
     public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
