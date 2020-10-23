@@ -170,6 +170,7 @@ public class Simplenote extends Application {
 
                         if (mPreferencesBucket != null) {
                             mPreferencesBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped preference bucket (Simplenote)");
                         }
                     }
                 }, TEN_SECONDS_MILLIS);
