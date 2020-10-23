@@ -209,6 +209,15 @@ public class Simplenote extends Application {
                 mIsInBackground = false;
                 AppLog.add(Type.ACTION, "App opened");
             }
+
+            String activitySimpleName = activity.getClass().getSimpleName();
+
+            mPreferencesBucket.start();
+            AppLog.add(Type.SYNC, "Started preference bucket (" + activitySimpleName + ")");
+            mNotesBucket.start();
+            AppLog.add(Type.SYNC, "Started note bucket (" + activitySimpleName + ")");
+            mTagsBucket.start();
+            AppLog.add(Type.SYNC, "Started tag bucket (" + activitySimpleName + ")");
         }
 
         @Override
