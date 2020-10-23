@@ -79,7 +79,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         simperium.setUserStatusChangeListener(this);
         simperium.setOnUserCreatedListener(this);
         mPreferencesBucket = currentApp.getPreferencesBucket();
-        mPreferencesBucket.start();
 
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (simperium.needsAuthorization()) {
@@ -262,12 +261,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 exportData(resultData.getData(), true);
                 break;
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPreferencesBucket.stop();
     }
 
     private boolean hasUnsyncedNotes() {

@@ -600,7 +600,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnDeleteObjectListener(this);
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
-        mBucketPreferences.stop();
         AppLog.add(Type.SCREEN, "Paused (NoteListFragment)");
     }
 

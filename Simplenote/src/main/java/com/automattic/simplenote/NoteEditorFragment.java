@@ -553,8 +553,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onResume();
         checkWebView();
         mIsPaused = false;
-        mNotesBucket.start();
-        AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
         mTagInput.setOnTagAddedListener(this);
 
@@ -625,8 +623,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onDestroy() {
         super.onDestroy();
         mNotesBucket.removeListener(this);
-        mNotesBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
         AppLog.add(Type.SCREEN, "Destroyed (NoteEditorFragment)");
     }
 
@@ -1563,8 +1559,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
         if (mIsPaused) {
             mNotesBucket.removeListener(this);
-            mNotesBucket.stop();
-            AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
         }
 
         AppLog.add(

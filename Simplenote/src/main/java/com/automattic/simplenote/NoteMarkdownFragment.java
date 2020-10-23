@@ -201,8 +201,6 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public void onDestroy() {
         super.onDestroy();
         mNotesBucket.removeListener(this);
-        mNotesBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (NoteMarkdownFragment)");
         AppLog.add(Type.SCREEN, "Destroyed (NoteMarkdownFragment)");
     }
 
@@ -210,8 +208,6 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public void onResume() {
         super.onResume();
         checkWebView();
-        mNotesBucket.start();
-        AppLog.add(Type.SYNC, "Started note bucket (NoteMarkdownFragment)");
         mNotesBucket.addListener(this);
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
         AppLog.add(Type.SCREEN, "Resumed (NoteMarkdownFragment)");

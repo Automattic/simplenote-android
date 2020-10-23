@@ -174,9 +174,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         super.onResume();
         disableScreenshotsIfLocked(this);
 
-        mNotesBucket.start();
-        mTagsBucket.start();
-
         mTagsBucket.addOnNetworkChangeListener(this);
         mTagsBucket.addOnSaveObjectListener(this);
         mTagsBucket.addOnDeleteObjectListener(this);
@@ -189,9 +186,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsBucket.removeOnNetworkChangeListener(this);
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
-
-        mNotesBucket.stop();
-        mTagsBucket.stop();
     }
 
     public void checkEmptyList() {
