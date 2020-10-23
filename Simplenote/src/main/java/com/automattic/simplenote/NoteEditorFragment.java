@@ -554,6 +554,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         checkWebView();
         mIsPaused = false;
         mNotesBucket.addListener(this);
+        AppLog.add(Type.SYNC, "Added note bucket listener (NoteEditorFragment)");
         mTagInput.setOnTagAddedListener(this);
 
         if (mContentEditText != null) {
@@ -623,6 +624,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onDestroy() {
         super.onDestroy();
         mNotesBucket.removeListener(this);
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NoteEditorFragment)");
         AppLog.add(Type.SCREEN, "Destroyed (NoteEditorFragment)");
     }
 
@@ -1559,6 +1561,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
         if (mIsPaused) {
             mNotesBucket.removeListener(this);
+            AppLog.add(Type.SYNC, "Removed note bucket listener (NoteEditorFragment)");
         }
 
         AppLog.add(

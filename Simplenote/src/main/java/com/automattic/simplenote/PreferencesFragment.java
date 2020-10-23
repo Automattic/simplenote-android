@@ -290,6 +290,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         application.getTagsBucket().stop();
         AppLog.add(Type.SYNC, "Stopped tag bucket (PreferencesFragment)");
         application.getPreferencesBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped preference bucket (PreferencesFragment)");
 
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.USER_SIGNED_OUT,
