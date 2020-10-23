@@ -1535,8 +1535,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {
-                    mNotesBucket = noteBucket;
-                    final Note updatedNote = mNotesBucket.get(key);
+                    final Note updatedNote = noteBucket.get(key);
+
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
