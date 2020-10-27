@@ -28,6 +28,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
@@ -143,7 +144,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return LayoutInflater.from(context).inflate(R.layout.note_list_row, parent, false);
+            return LayoutInflater.from(context).inflate(PrefUtils.getLayoutWidgetListItem(context, ThemeUtils.isLightTheme(context)), parent, false);
         }
 
         @Override

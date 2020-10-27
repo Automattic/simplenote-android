@@ -33,7 +33,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_list_widget_light);
+        RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidgetList(context, true));
 
         if (((Simplenote) context.getApplicationContext()).getSimperium().getUser().getStatus().equals(User.Status.AUTHORIZED)) {
             resizeWidget(context, newOptions, views);
@@ -100,7 +100,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
     }
 
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_list_widget_light);
+        RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidgetList(context, true));
         resizeWidget(context, appWidgetOptions, views);
 
         // Verify user authentication

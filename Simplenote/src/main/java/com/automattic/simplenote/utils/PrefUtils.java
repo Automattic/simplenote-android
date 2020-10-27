@@ -192,6 +192,50 @@ public class PrefUtils {
         }
     }
 
+    public static int getLayoutWidgetList(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return isLight ? R.layout.note_list_widget_light_black : R.layout.note_list_widget_dark_black;
+                case STYLE_CLASSIC:
+                    return isLight ? R.layout.note_list_widget_light_classic : R.layout.note_list_widget_dark_classic;
+                case STYLE_MATRIX:
+                    return isLight ? R.layout.note_list_widget_light_matrix : R.layout.note_list_widget_dark_matrix;
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_list_widget_light_mono : R.layout.note_list_widget_dark_mono;
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_list_widget_light_publication : R.layout.note_list_widget_dark_publication;
+                case STYLE_SEPIA:
+                    return isLight ? R.layout.note_list_widget_light_sepia : R.layout.note_list_widget_dark_sepia;
+                case STYLE_DEFAULT:
+                default:
+                    return isLight ? R.layout.note_list_widget_light_default : R.layout.note_list_widget_dark_default;
+            }
+        } else {
+            return isLight ? R.layout.note_list_widget_light_default : R.layout.note_list_widget_dark_default;
+        }
+    }
+
+    public static int getLayoutWidgetListItem(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_list_widget_item_light_serif : R.layout.note_list_widget_item_dark_serif;
+                case STYLE_MATRIX:
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_list_widget_item_light_monospace : R.layout.note_list_widget_item_dark_monospace;
+                case STYLE_BLACK:
+                case STYLE_CLASSIC:
+                case STYLE_DEFAULT:
+                case STYLE_SEPIA:
+                default:
+                    return isLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+            }
+        } else {
+            return isLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+        }
+    }
+
     public static int getStyleIndexSelected(Context context) {
         return getPrefs(context).getInt(PREF_STYLE_INDEX, STYLE_DEFAULT);
     }
