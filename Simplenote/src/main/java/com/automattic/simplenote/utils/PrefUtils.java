@@ -169,6 +169,29 @@ public class PrefUtils {
         getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
     }
 
+    public static int getLayoutWidget(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark_black;
+                case STYLE_MATRIX:
+                    return isLight ? R.layout.note_widget_light_mono : R.layout.note_widget_dark_matrix;
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_widget_light_mono : R.layout.note_widget_dark_mono;
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_widget_light_publication : R.layout.note_widget_dark_publication;
+                case STYLE_SEPIA:
+                    return isLight ? R.layout.note_widget_light_sepia : R.layout.note_widget_dark_sepia;
+                case STYLE_CLASSIC:
+                case STYLE_DEFAULT:
+                default:
+                    return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark;
+            }
+        } else {
+            return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark;
+        }
+    }
+
     public static int getStyleIndexSelected(Context context) {
         return getPrefs(context).getInt(PREF_STYLE_INDEX, STYLE_DEFAULT);
     }

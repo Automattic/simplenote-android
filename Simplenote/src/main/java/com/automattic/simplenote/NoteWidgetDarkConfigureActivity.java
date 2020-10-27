@@ -72,7 +72,7 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
 
         // Get widget information
         mWidgetManager = AppWidgetManager.getInstance(NoteWidgetDarkConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_dark);
+        mRemoteViews = new RemoteViews(getPackageName(), PrefUtils.getLayoutWidget(NoteWidgetDarkConfigureActivity.this, false));
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
