@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebResourceRequest;
@@ -155,6 +156,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mMatchOffsets;
     private int mCurrentCursorPosition;
     private HistoryBottomSheetDialog mHistoryBottomSheet;
+    private LinearLayout mError;
+    private NoteMarkdownFragment mNoteMarkdownFragment;
+    private String mCss;
+    private WebView mMarkdown;
     private boolean mIsPaused;
     private boolean mIsFromWidget;
 
@@ -292,9 +297,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             });
         }
     };
-    private NoteMarkdownFragment mNoteMarkdownFragment;
-    private String mCss;
-    private WebView mMarkdown;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -440,24 +442,41 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
             requireActivity().invalidateOptionsMenu();
-            mMarkdown = mRootView.findViewById(R.id.markdown);
-            mMarkdown.setWebViewClient(
-                new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
-                        String url = request.getUrl().toString();
 
-                        if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
-                            SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                        } else {
-                            BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+            if (BrowserUtils.isWebViewInstalled(requireContext())) {
+                ((ViewStub) mRootView.findViewById(R.id.stub_webview)).inflate();
+                mMarkdown = mRootView.findViewById(R.id.markdown);
+                mMarkdown.setWebViewClient(
+                    new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
+                            String url = request.getUrl().toString();
+
+                            if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                                SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
+                            } else {
+                                BrowserUtils.launchBrowserOrShowError(requireContext(), url);
+                            }
+
+                            return true;
                         }
-
-                        return true;
                     }
-                }
-            );
-            mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
+                );
+                mCss = ThemeUtils.isLightTheme(requireContext())
+                    ? ContextUtils.readCssFile(requireContext(), "light.css")
+                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+            } else {
+                ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
+                mError = mRootView.findViewById(R.id.error);
+                mRootView.findViewById(R.id.button).setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW);
+                        }
+                    }
+                );
+            }
         }
 
         Bundle arguments = getArguments();
@@ -531,10 +550,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        checkWebView();
         mIsPaused = false;
-        mNotesBucket.start();
-        AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);
+        AppLog.add(Type.SYNC, "Added note bucket listener (NoteEditorFragment)");
         mTagInput.setOnTagAddedListener(this);
 
         if (mContentEditText != null) {
@@ -543,6 +562,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mContentEditText.hasFocus()) {
                 showSoftKeyboard();
             }
+        }
+    }
+
+    private void checkWebView() {
+        // When a WebView is installed and mMarkdown is null on a large landscape device, a WebView
+        // was not installed when the fragment was created.  So, recreate the activity to refresh
+        // the editor view.
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown == null &&
+            DisplayUtils.isLargeScreenLandscape(requireContext())) {
+            requireActivity().recreate();
         }
     }
 
@@ -594,8 +623,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onDestroy() {
         super.onDestroy();
         mNotesBucket.removeListener(this);
-        mNotesBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NoteEditorFragment)");
         AppLog.add(Type.SCREEN, "Destroyed (NoteEditorFragment)");
     }
 
@@ -767,16 +795,27 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     protected void clearMarkdown() {
-        mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL("file:///android_asset/", mCss + "", "text/html", "utf-8", null);
+        }
     }
 
     protected void hideMarkdown() {
-        mMarkdown.setVisibility(View.INVISIBLE);
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown != null) {
+            mMarkdown.setVisibility(View.INVISIBLE);
+        } else {
+            mError.setVisibility(View.INVISIBLE);
+        }
     }
 
     protected void showMarkdown() {
         loadMarkdownData();
-        mMarkdown.setVisibility(View.VISIBLE);
+
+        if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown != null) {
+            mMarkdown.setVisibility(View.VISIBLE);
+        } else {
+            mError.setVisibility(View.VISIBLE);
+        }
 
         new Handler().postDelayed(
             new Runnable() {
@@ -866,28 +905,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void loadMarkdownData() {
         String formattedContent = NoteMarkdownFragment.getMarkdownFormattedContent(
-                mCss,
-                mContentEditText.getPreviewTextContent()
+            mCss,
+            mContentEditText.getPreviewTextContent()
         );
 
-        mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
+        if (mMarkdown != null) {
+            mMarkdown.loadDataWithBaseURL(null, formattedContent, "text/html", "utf-8", null);
+        }
     }
 
     public void setNote(String noteID, String matchOffsets) {
-        if (mAutoSaveHandler != null)
+        if (mAutoSaveHandler != null) {
             mAutoSaveHandler.removeCallbacks(mAutoSaveRunnable);
-
-        mPlaceholderView.setVisibility(View.GONE);
-
-        if (matchOffsets != null) {
-            mMatchOffsets = matchOffsets;
-        } else {
-            mMatchOffsets = null;
         }
 
-
+        mPlaceholderView.setVisibility(View.GONE);
+        mMatchOffsets = matchOffsets;
         saveNote();
-
         new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
@@ -1500,8 +1534,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (changeType == Bucket.ChangeType.MODIFY) {
             if (getNote() != null && getNote().getSimperiumKey().equals(key)) {
                 try {
-                    mNotesBucket = noteBucket;
-                    final Note updatedNote = mNotesBucket.get(key);
+                    final Note updatedNote = noteBucket.get(key);
+
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -1526,8 +1560,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onSaveObject(Bucket<Note> noteBucket, Note note) {
         if (mIsPaused) {
             mNotesBucket.removeListener(this);
-            mNotesBucket.stop();
-            AppLog.add(Type.SYNC, "Stopped note bucket (NoteEditorFragment)");
+            AppLog.add(Type.SYNC, "Removed note bucket listener (NoteEditorFragment)");
         }
 
         AppLog.add(

@@ -595,6 +595,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.addOnDeleteObjectListener(this);
         mBucketPreferences.addOnNetworkChangeListener(this);
         mBucketPreferences.addOnSaveObjectListener(this);
+        AppLog.add(Type.SYNC, "Added preference bucket listener (NoteListFragment)");
     }
 
     @Override
@@ -603,7 +604,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnDeleteObjectListener(this);
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
-        mBucketPreferences.stop();
+        AppLog.add(Type.SYNC, "Removed preference bucket listener (NoteListFragment)");
         AppLog.add(Type.SCREEN, "Paused (NoteListFragment)");
     }
 

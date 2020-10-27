@@ -296,15 +296,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         disableScreenshotsIfLocked(this);
 
-        mNotesBucket.start();
-        AppLog.add(Type.SYNC, "Started note bucket (NotesActivity)");
-        mTagsBucket.start();
-        AppLog.add(Type.SYNC, "Started tag bucket (NotesActivity)");
-
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
         mNotesBucket.addOnDeleteObjectListener(this);
+        AppLog.add(Type.SYNC, "Added note bucket listener (NotesActivity)");
         mTagsBucket.addListener(mTagsMenuUpdater);
+        AppLog.add(Type.SYNC, "Added tag bucket listener (NotesActivity)");
 
         updateNavigationDrawerItems();
 
@@ -325,10 +322,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             mShouldSelectNewNote = false;
         }
 
-        if (mIsShowingMarkdown) {
-            setMarkdownShowing(false);
-        }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
             if (mIsTabletFullscreen) {
@@ -346,14 +339,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     protected void onPause() {
         super.onPause();  // Always call the superclass method first
         mTagsBucket.removeListener(mTagsMenuUpdater);
-        mTagsBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped tag bucket (NotesActivity)");
+        AppLog.add(Type.SYNC, "Removed tag bucket listener (NotesActivity)");
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
-        mNotesBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (NotesActivity)");
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NotesActivity)");
         AppLog.add(Type.SCREEN, "Paused (NotesActivity)");
     }
 
@@ -1627,6 +1618,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NotesActivity)");
     }
 
     // Returns the appropriate view to show the undo bar within

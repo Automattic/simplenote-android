@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -174,12 +175,10 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         super.onResume();
         disableScreenshotsIfLocked(this);
 
-        mNotesBucket.start();
-        mTagsBucket.start();
-
         mTagsBucket.addOnNetworkChangeListener(this);
         mTagsBucket.addOnSaveObjectListener(this);
         mTagsBucket.addOnDeleteObjectListener(this);
+        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)");
     }
 
     @Override
@@ -189,9 +188,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsBucket.removeOnNetworkChangeListener(this);
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
-
-        mNotesBucket.stop();
-        mTagsBucket.stop();
+        AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)");
     }
 
     public void checkEmptyList() {
