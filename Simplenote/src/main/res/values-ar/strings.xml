@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-18 12:54:04+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="about_help_title">إحصل على المساعدة</string>
+    <string name="about_help_summary">الأسئلة المتداولة أو اتصل بنا</string>
+    <string name="settings_item_get_help">الحصول على مساعدة</string>
+    <string name="empty_notes_search_button_default">إنشاء ملاحظة جديدة</string>
+    <string name="empty_notes_search_button">إنشاء ملحوظة جديدة بعنوان \"⁦%1$s⁩\"</string>
+    <string name="references_other">⁦%1$d⁩ المراجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references_one">⁦%1$d⁩ المرجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references">تمت الإشارة في</string>
+    <string name="open_note_error">تعذر العثور على الملحوظة</string>
+    <string name="open_note">فتح الملحوظة</string>
+    <string name="copy_link_internal">نسخ الرابط الداخلي</string>
     <string name="publish_successful">تم النشر.</string>
     <string name="about">نبذة عن</string>
     <string name="link_copied_failure">تعذَّر نسخ الرابط.</string>
@@ -31,14 +42,6 @@ Language: ar
     <string name="simperium_error_browser">يُرجى التحقُّق من تثبيت المتصفح وتمكينه.</string>
     <string name="simperium_dialog_title_error_browser">لم يتم اكتشاف أي متصفح</string>
     <string name="simperium_dialog_button_copy_url">نسخ عنوان URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">تحديد ملحوظة لتبديل المعاينة</string>
     <string name="item_action_toggle_preview_enable_error">تمكين الضبط لتبديل المعاينة</string>
     <string name="item_action_toggle_preview">تبديل المعاينة</string>

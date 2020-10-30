@@ -107,6 +107,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_MATCH_OFFSETS = "match_offsets";
     public static final String ARG_MARKDOWN_ENABLED = "markdown_enabled";
     public static final String ARG_PREVIEW_ENABLED = "preview_enabled";
+
     private static final String STATE_NOTE_ID = "state_note_id";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
@@ -129,7 +130,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private Handler mPublishTimeoutHandler;
     private Handler mHistoryTimeoutHandler;
     private LinearLayout mPlaceholderView;
-    private CursorAdapter mAutocompleteAdapter;
+    private CursorAdapter mLinkAutocompleteAdapter;
+    private CursorAdapter mTagAutocompleteAdapter;
     private boolean mIsLoadingNote;
     private boolean mIsMarkdownEnabled;
     private boolean mIsPreviewEnabled;
@@ -329,12 +331,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mMatchHighlighter = new TextHighlighter(requireActivity(),
                 R.attr.editorSearchHighlightForegroundColor, R.attr.editorSearchHighlightBackgroundColor);
-        mAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
+        mTagAutocompleteAdapter = new CursorAdapter(getActivity(), null, 0x0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 Activity activity = (Activity) context;
                 if (activity == null) return null;
-                return activity.getLayoutInflater().inflate(R.layout.tag_autocomplete_list_item, null);
+                return activity.getLayoutInflater().inflate(R.layout.autocomplete_list_item, null);
             }
 
             @Override
@@ -365,6 +367,54 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         };
 
+        mLinkAutocompleteAdapter = new CursorAdapter(getContext(), null, 0x0) {
+            private Activity mActivity = requireActivity();
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                ((TextView) view).setText(convertToString(cursor));
+            }
+
+            @Override
+            public CharSequence convertToString(Cursor cursor) {
+                return cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            }
+
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                return mActivity.getLayoutInflater().inflate(R.layout.autocomplete_list_item, null);
+            }
+
+            @Override
+            public Cursor runQueryOnBackgroundThread(CharSequence filter) {
+                if (filter == null) {
+                    return null;
+                }
+
+                Simplenote application = (Simplenote) mActivity.getApplication();
+                Query<Note> query = application.getNotesBucket().query();
+                query.include(Note.PINNED_INDEX_NAME);
+                query.include(Note.TITLE_INDEX_NAME);
+                query.where(Note.TITLE_INDEX_NAME, Query.ComparisonType.LIKE, String.format("%%%s%%", filter));
+                PrefUtils.sortNoteQuery(query, requireContext(), true);
+                Cursor cursor = query.execute();
+
+                final int heightAutocomplete = DisplayUtils.dpToPx(requireContext(), cursor.getCount() * 48);
+                final int heightDisplay = DisplayUtils.getDisplayPixelSize(requireContext()).y;
+                final int heightDropdown = Math.min(heightDisplay / 4, heightAutocomplete);
+
+                mActivity.runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            mContentEditText.setDropDownHeight(heightDropdown);
+                        }
+                    }
+                );
+                return cursor;
+            }
+        };
+
         WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
     }
 
@@ -377,9 +427,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
+        mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
+        mContentEditText.setAdapter(mLinkAutocompleteAdapter);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
+        mTagInput.setAdapter(mTagAutocompleteAdapter);
         mTagInput.setOnFocusChangeListener(this);
         mTagChips = mRootView.findViewById(R.id.tag_chips);
         mTagPadding = mRootView.findViewById(R.id.tag_padding);
@@ -411,7 +464,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 : ContextUtils.readCssFile(requireContext(), "dark.css");
         }
 
-        mTagInput.setAdapter(mAutocompleteAdapter);
         Bundle arguments = getArguments();
 
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
@@ -483,6 +535,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onResume() {
         super.onResume();
+        mIsPaused = false;
         mNotesBucket.start();
         AppLog.add(Type.SYNC, "Started note bucket (NoteEditorFragment)");
         mNotesBucket.addListener(this);

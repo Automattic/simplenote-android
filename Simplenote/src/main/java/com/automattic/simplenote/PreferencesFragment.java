@@ -106,6 +106,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        findPreference("pref_key_help").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), "https://simplenote.com/help");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                }
+                return true;
+            }
+        });
+
         findPreference("pref_key_website").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

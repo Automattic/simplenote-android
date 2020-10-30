@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-01 11:54:04+0000
+Translation-Revision-Date: 2020-10-19 12:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="about_help_title">Richiedi supporto</string>
+    <string name="about_help_summary">FAQ o contattaci</string>
+    <string name="settings_item_get_help">Richiedi supporto</string>
     <string name="empty_notes_search_button_default">Crea una nuova nota</string>
     <string name="empty_notes_search_button">Crea una nuova nota intitolata \"%1$s\"</string>
     <string name="references_other">%1$d Riferimenti, ultima modifica %2$s</string>
@@ -39,14 +42,6 @@ Language: it
     <string name="simperium_error_browser">Verifica che un browser sia installato e abilitato.</string>
     <string name="simperium_dialog_title_error_browser">Nessun browser rilevato</string>
     <string name="simperium_dialog_button_copy_url">Copia URL</string>
-    <string name="key_single_s">D</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Maiusc</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Seleziona una nota per attivare/disattivare l\'anteprima</string>
     <string name="item_action_toggle_preview_enable_error">Abilita markdown per attivare/disattivare l\'anteprima</string>
     <string name="item_action_toggle_preview">Attiva/Disattiva anteprima</string>

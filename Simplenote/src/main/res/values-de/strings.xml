@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-18 11:54:04+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="about_help_title">Hilfe bekommen</string>
+    <string name="about_help_summary">FAQ oder Kontakt</string>
+    <string name="settings_item_get_help">Hilfe erhalten</string>
+    <string name="empty_notes_search_button_default">Neue Notiz erstellen</string>
+    <string name="empty_notes_search_button">Neue Notiz mit dem Titel „%1$s“ erstellen</string>
+    <string name="references_other">%1$d Referenzen, zuletzt geändert %2$s</string>
+    <string name="references_one">%1$d Referenz, zuletzt geändert %2$s</string>
+    <string name="references">Referenziert in</string>
+    <string name="open_note_error">Notiz konnte nicht gefunden werden</string>
+    <string name="open_note">Notiz öffnen</string>
+    <string name="copy_link_internal">Internen Link kopieren</string>
     <string name="publish_successful">Veröffentlicht.</string>
     <string name="about">Über</string>
     <string name="link_copied_failure">Link konnte nicht kopiert werden.</string>
@@ -31,14 +42,6 @@ Language: de
     <string name="simperium_error_browser">Bitte vergewissere dich, dass ein Browser installiert und aktiviert ist.</string>
     <string name="simperium_dialog_title_error_browser">Kein Browser gefunden</string>
     <string name="simperium_dialog_button_copy_url">URL kopieren</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Strg</string>
     <string name="item_action_toggle_preview_error">Wähle eine Notiz aus, um die Vorschau umzuschalten.</string>
     <string name="item_action_toggle_preview_enable_error">Aktiviere Markdown, um die Vorschau umzuschalten.</string>
     <string name="item_action_toggle_preview">Vorschau umschalten</string>

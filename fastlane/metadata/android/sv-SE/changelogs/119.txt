@@ -1,4 +1,0 @@
-2.11:
-* Länkning mellan anteckningar har lagts till
-* Åtgärdade ett fel rörande växling av flik-indragna kryssrutor
-
