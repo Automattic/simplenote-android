@@ -1,0 +1,4 @@
+2.12:
+* Adicionado preenchimento automático ao editor para quando um link é incluso entre anotações
+* Adicionado um link para obter ajuda nas configurações
+
