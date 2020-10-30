@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-18 14:54:03+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="about_help_title">Yardım Alın</string>
+    <string name="about_help_summary">SSS veya bize ulaşın</string>
+    <string name="settings_item_get_help">Yardım alın</string>
+    <string name="empty_notes_search_button_default">Yeni not oluştur</string>
+    <string name="empty_notes_search_button">\"%1$s\" başlıklı yeni bir not oluşturun</string>
+    <string name="references_other">%1$d Referanslar, Son değiştirme tarihi %2$s</string>
+    <string name="references_one">%1$d Referans, Son değiştirme tarihi %2$s</string>
+    <string name="references">Referans Verildiği Yer</string>
+    <string name="open_note_error">Not bulunamadı</string>
+    <string name="open_note">Notu Aç</string>
+    <string name="copy_link_internal">Dahili Bağlantıyı Kopyala</string>
     <string name="publish_successful">Yayımlandı.</string>
     <string name="about">Hakkında</string>
     <string name="link_copied_failure">Bağlantı kopyalanamadı.</string>
@@ -31,14 +42,6 @@ Language: tr
     <string name="simperium_error_browser">Lütfen bir tarayıcının kurulu ve etkin olduğunu doğrulayın.</string>
     <string name="simperium_dialog_title_error_browser">Tarayıcı Algılanmadı</string>
     <string name="simperium_dialog_button_copy_url">Adresi kopyala</string>
-    <string name="key_single_s">P</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Önizlemeyi açmak/kapatmak için bir not seçin</string>
     <string name="item_action_toggle_preview_enable_error">Önizlemeyi açmak/kapatmak için işaretlemeyi etkinleştir</string>
     <string name="item_action_toggle_preview">Önizlemeyi Aç/Kapat</string>

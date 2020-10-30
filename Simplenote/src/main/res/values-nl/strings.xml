@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-18 11:54:04+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="about_help_title">Ontvang hulp</string>
+    <string name="about_help_summary">Veelgestelde vragen of neem contact met ons op</string>
+    <string name="settings_item_get_help">Ontvang hulp</string>
+    <string name="empty_notes_search_button_default">Een nieuwe notitie maken</string>
+    <string name="empty_notes_search_button">Een nieuwe notitie maken met de titel \'%1$s\'</string>
+    <string name="references_other">%1$d Verwijzingen, laatst aangepast %2$s</string>
+    <string name="references_one">%1$d Verwijzing, laatst aangepast %2$s</string>
+    <string name="references">Naar verwezen in</string>
+    <string name="open_note_error">Kan notitie niet vinden</string>
+    <string name="open_note">Notitie openen</string>
+    <string name="copy_link_internal">Interne link kopiëren</string>
     <string name="publish_successful">Gepubliceerd.</string>
     <string name="about">Over</string>
     <string name="link_copied_failure">Link kon niet gekopieerd worden.</string>
@@ -31,14 +42,6 @@ Language: nl
     <string name="simperium_error_browser">Verifieer of er een browser is geïnstalleerd en ingesteld.</string>
     <string name="simperium_dialog_title_error_browser">Geen browser gevonden</string>
     <string name="simperium_dialog_button_copy_url">URL kopiëren</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Selecteer een notitie om voorbeeldweergave in/uit te schakelen</string>
     <string name="item_action_toggle_preview_enable_error">Snelle stijl inschakelen voor in-/uitschakelen voorbeeldweergave</string>
     <string name="item_action_toggle_preview">Voorbeeldweergave in-/uitschakelen</string>
