@@ -1,11 +1,16 @@
 2.13
 -----
- 
+
 2.12
 -----
 
 * Added autocomplete to the editor when adding a link between notes [https://github.com/Automattic/simplenote-android/pull/1161]
 * Added a link to help in settings [https://github.com/Automattic/simplenote-android/pull/1155]
+
+2.11.1
+-----
+* Fixed switching between apps causing data loss [https://github.com/Automattic/simplenote-android/pull/1170]
+
 
 2.11
 -----
