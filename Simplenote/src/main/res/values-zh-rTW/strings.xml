@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-01 08:54:03+0000
+Translation-Revision-Date: 2020-10-16 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="about_help_title">取得協助</string>
+    <string name="about_help_summary">常見問題集或與我們聯絡</string>
+    <string name="settings_item_get_help">取得協助</string>
     <string name="empty_notes_search_button_default">建立新筆記</string>
     <string name="empty_notes_search_button">建立標題為「%1$s」的新筆記</string>
     <string name="references_other">%1$d 參考資料 (上次修改) %2$s</string>
@@ -39,14 +42,6 @@ Language: zh_TW
     <string name="simperium_error_browser">請確認瀏覽器已安裝並啟用。</string>
     <string name="simperium_dialog_title_error_browser">未偵測到任何瀏覽器</string>
     <string name="simperium_dialog_button_copy_url">複製網址</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">選擇筆記以切換預覽</string>
     <string name="item_action_toggle_preview_enable_error">啟用 markdown 以切換預覽</string>
     <string name="item_action_toggle_preview">切換預覽</string>

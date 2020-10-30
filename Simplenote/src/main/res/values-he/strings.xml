@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-30 15:54:03+0000
+Translation-Revision-Date: 2020-10-15 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="about_help_title">לקבלת עזרה</string>
+    <string name="about_help_summary">שאלות נפוצות או יצירת קשר</string>
+    <string name="settings_item_get_help">לקבלת עזרה</string>
     <string name="empty_notes_search_button_default">ליצור פתק חדש</string>
     <string name="empty_notes_search_button">ליצור פתק חדש עם הכותרת \"⁦%1$s⁩\"</string>
     <string name="references_other">⁦%1$d⁩ סימוכין, תאריך עריכה אחרון ⁦%2$s⁩</string>
@@ -39,14 +42,6 @@ Language: he_IL
     <string name="simperium_error_browser">עליך לוודא שהדפדפן הותקן והופעל.</string>
     <string name="simperium_dialog_title_error_browser">לא אותר דפדפן</string>
     <string name="simperium_dialog_button_copy_url">להעתיק כתובת URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">יש לבחור פתק כדי לשנות את התצוגה המקדימה</string>
     <string name="item_action_toggle_preview_enable_error">יש לאפשר Markdown כדי לשנות את התצוגה המקדימה</string>
     <string name="item_action_toggle_preview">לשנות את התצוגה המקדימה</string>
