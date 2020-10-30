@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-30 08:54:03+0000
+Translation-Revision-Date: 2020-10-14 16:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="about_help_title">Obtenir de l’aide</string>
+    <string name="about_help_summary">FAQ ou nous contacter</string>
+    <string name="settings_item_get_help">Obtenir de l’aide</string>
     <string name="empty_notes_search_button_default">Créer une nouvelle note</string>
     <string name="empty_notes_search_button">Créer une nouvelle note intitulée « %1$s »</string>
     <string name="references_other">%1$d Références, dernière modification %2$s</string>
@@ -39,14 +42,6 @@ Language: fr
     <string name="simperium_error_browser">Veuillez vérifier qu’un navigateur est installé et activé.</string>
     <string name="simperium_dialog_title_error_browser">Aucun navigateur détecté</string>
     <string name="simperium_dialog_button_copy_url">Copier l’URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Maj</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Sélectionner une note pour ouvrir/fermer l’aperçu</string>
     <string name="item_action_toggle_preview_enable_error">Activer Markdown pour ouvrir/fermer l’aperçu</string>
     <string name="item_action_toggle_preview">Ouvrir/fermer l’aperçu</string>

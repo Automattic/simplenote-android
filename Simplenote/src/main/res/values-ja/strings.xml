@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-17 08:54:03+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="about_help_title">ヘルプ</string>
+    <string name="about_help_summary">FAQ またはお問い合わせ</string>
+    <string name="settings_item_get_help">ヘルプ</string>
+    <string name="empty_notes_search_button_default">新規メモを作成</string>
+    <string name="empty_notes_search_button">「%1$s」の件名で新規メモを作成</string>
+    <string name="references_other">%1$d 参照 (最終更新日) %2$s</string>
+    <string name="references_one">%1$d 参照 (最終更新日) %2$s</string>
+    <string name="references">参照先</string>
+    <string name="open_note_error">メモが見つかりません</string>
+    <string name="open_note">メモを開く</string>
+    <string name="copy_link_internal">内部リンクをコピー</string>
     <string name="publish_successful">公開済み。</string>
     <string name="about">このサイトについて</string>
     <string name="link_copied_failure">リンクをコピーできませんでした。</string>
@@ -31,14 +42,6 @@ Language: ja_JP
     <string name="simperium_error_browser">ブラウザーがインストールされており有効なことをご確認ください。</string>
     <string name="simperium_dialog_title_error_browser">ブラウザーが検出されませんでした</string>
     <string name="simperium_dialog_button_copy_url">URL をコピー</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">プレビューを切り替えるメモを選択します</string>
     <string name="item_action_toggle_preview_enable_error">プレビューを切り替えるには Markdown を有効にします</string>
     <string name="item_action_toggle_preview">プレビューを切り替える</string>

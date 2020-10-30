@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-17 08:54:03+0000
+Translation-Revision-Date: 2020-10-19 08:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="about_help_title">도움말</string>
+    <string name="about_help_summary">FAQ 또는 문의</string>
+    <string name="settings_item_get_help">도움말</string>
+    <string name="empty_notes_search_button_default">새 메모 만들기</string>
+    <string name="empty_notes_search_button">\"%1$s\" 제목으로 새 메모 만들기</string>
+    <string name="references_other">%1$d 참조, 마지막으로 수정된 날짜 %2$s</string>
+    <string name="references_one">%1$d 참조, 마지막으로 수정된 날짜 %2$s</string>
+    <string name="references">참조</string>
+    <string name="open_note_error">메모를 찾을 수 없습니다.</string>
+    <string name="open_note">메모 열기</string>
+    <string name="copy_link_internal">내부 링크 복사</string>
     <string name="publish_successful">발행되었습니다.</string>
     <string name="about">정보</string>
     <string name="link_copied_failure">링크를 복사할 수 없습니다.</string>
@@ -31,14 +42,6 @@ Language: ko_KR
     <string name="simperium_error_browser">브라우저가 설치 후 활성화되어 있는지 확인하세요.</string>
     <string name="simperium_dialog_title_error_browser">감지된 브라우저가 없습니다.</string>
     <string name="simperium_dialog_button_copy_url">URL 복사</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">미리보기를 전환하려면 메모를 선택하세요.</string>
     <string name="item_action_toggle_preview_enable_error">미리보기를 전환하려면 마크다운을 활성화하세요.</string>
     <string name="item_action_toggle_preview">미리보기 전환</string>
