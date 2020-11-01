@@ -1,3 +1,2 @@
-
-* Fixed crashing on devices with no web view installed [https://github.com/Automattic/simplenote-android/pull/1182]
+* Fixed crashing on devices with no web view installed
 
