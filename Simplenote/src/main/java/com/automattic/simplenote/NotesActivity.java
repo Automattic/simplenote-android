@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -289,21 +290,18 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     "note_list_widget"
                 );
                 intent.removeExtra(KEY_LIST_WIDGET_CLICK);
-                getNoteListFragment().addNote();
+                getNoteListFragment().addNote("");
             }
         }
 
         disableScreenshotsIfLocked(this);
 
-        mNotesBucket.start();
-        AppLog.add(Type.SYNC, "Started note bucket (NotesActivity)");
-        mTagsBucket.start();
-        AppLog.add(Type.SYNC, "Started tag bucket (NotesActivity)");
-
         mNotesBucket.addOnNetworkChangeListener(this);
         mNotesBucket.addOnSaveObjectListener(this);
         mNotesBucket.addOnDeleteObjectListener(this);
+        AppLog.add(Type.SYNC, "Added note bucket listener (NotesActivity)");
         mTagsBucket.addListener(mTagsMenuUpdater);
+        AppLog.add(Type.SYNC, "Added tag bucket listener (NotesActivity)");
 
         updateNavigationDrawerItems();
 
@@ -324,10 +322,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             mShouldSelectNewNote = false;
         }
 
-        if (mIsShowingMarkdown) {
-            setMarkdownShowing(false);
-        }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(DisplayUtils.isLargeScreenLandscape(this)) {
             if (mIsTabletFullscreen) {
@@ -345,14 +339,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     protected void onPause() {
         super.onPause();  // Always call the superclass method first
         mTagsBucket.removeListener(mTagsMenuUpdater);
-        mTagsBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped tag bucket (NotesActivity)");
+        AppLog.add(Type.SYNC, "Removed tag bucket listener (NotesActivity)");
 
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
-        mNotesBucket.stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (NotesActivity)");
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NotesActivity)");
         AppLog.add(Type.SCREEN, "Paused (NotesActivity)");
     }
 
@@ -635,6 +627,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     public void launchEditTags(View view) {
         startActivity(new Intent(NotesActivity.this, TagsActivity.class));
+    }
+
+    public void createNewNote(View view) {
+        getNoteListFragment().createNewNote(
+            isSearchQueryNotNull() ? mSearchView.getQuery().toString() : "", "new_note_search"
+        );
+    }
+
+    private boolean isSearchQueryNotNull() {
+        return mSearchView != null && mSearchView.getQuery() != null;
     }
 
     private void setSelectedTagActive() {
@@ -1145,7 +1147,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
-            if (mSearchView != null && mSearchView.getQuery() != null) {
+            if (isSearchQueryNotNull()) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
 
@@ -1173,6 +1175,42 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             CATEGORY_USER,
             "account_created_from_login_activity"
         );
+    }
+
+    public void selectDefaultTag() {
+        mSelectedTag = mTagsAdapter.getDefaultItem();
+        MenuItem selectedMenuItem = mNavigationMenu.findItem((int) mSelectedTag.id);
+
+        if (selectedMenuItem != null) {
+            mSelectedTag = mTagsAdapter.getTagFromItem(selectedMenuItem);
+        } else {
+            mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
+
+        checkEmptyListText(mSearchMenuItem != null && mSearchMenuItem.isActionViewExpanded());
+
+        if (mNoteListFragment.isHidden()) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(mNoteListFragment);
+            fragmentTransaction.commitNowAllowingStateLoss();
+        }
+
+        getNoteListFragment().refreshList();
+        setSelectedTagActive();
+    }
+
+    public void scrollToSelectedNote(String id) {
+        if (mNoteListFragment != null && mNoteListFragment.getListAdapter() != null) {
+            ListAdapter listAdapter = mNoteListFragment.getListAdapter();
+            ListView listView = mNoteListFragment.getListView();
+
+            for (int i = 0; i < listAdapter.getCount(); i++) {
+                if (((Note) listAdapter.getItem(i + listView.getHeaderViewsCount())).getSimperiumKey().equals(id)) {
+                    listView.smoothScrollToPosition(i);
+                    break;
+                }
+            }
+        }
     }
 
     public void onUserStatusChange(User.Status status) {
@@ -1456,7 +1494,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             case KeyEvent.KEYCODE_I:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
-                    getNoteListFragment().createNewNote("keyboard_shortcut");
+                    getNoteListFragment().createNewNote("", "keyboard_shortcut");
                     return true;
                 } else if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
@@ -1531,14 +1569,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     public void checkEmptyListText(boolean isSearch) {
         if (isSearch) {
-            if (DisplayUtils.isLandscape(this) && !DisplayUtils.isLargeScreen(this)) {
-                getNoteListFragment().setEmptyListImage(-1);
-            } else {
-                getNoteListFragment().setEmptyListImage(R.drawable.ic_search_24dp);
-            }
-
+            getNoteListFragment().setEmptyListButton(
+                isSearchQueryNotNull() ?
+                    getString(R.string.empty_notes_search_button, mSearchView.getQuery().toString()) :
+                    getString(R.string.empty_notes_search_button_default)
+            );
+            getNoteListFragment().setEmptyListImage(-1);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_search));
         } else if (mSelectedTag != null) {
+            getNoteListFragment().setEmptyListButton("");
+
             if (mSelectedTag.id == ALL_NOTES_ID) {
                 getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
@@ -1558,6 +1598,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_tag, mSelectedTag.name));
             }
         } else {
+            getNoteListFragment().setEmptyListButton("");
             getNoteListFragment().setEmptyListImage(R.drawable.ic_notes_24dp);
             getNoteListFragment().setEmptyListMessage(getString(R.string.empty_notes_all));
         }
@@ -1577,6 +1618,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNotesBucket.removeOnNetworkChangeListener(this);
         mNotesBucket.removeOnSaveObjectListener(this);
         mNotesBucket.removeOnDeleteObjectListener(this);
+        AppLog.add(Type.SYNC, "Removed note bucket listener (NotesActivity)");
     }
 
     // Returns the appropriate view to show the undo bar within

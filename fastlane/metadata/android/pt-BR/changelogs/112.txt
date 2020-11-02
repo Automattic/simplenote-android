@@ -1,2 +1,0 @@
-2.9:
-* Correção de um erro  com tags duplicadas e caracteres especiais em nomes de tags.

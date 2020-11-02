@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-10-19 12:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="about_help_title">Richiedi supporto</string>
+    <string name="about_help_summary">FAQ o contattaci</string>
+    <string name="settings_item_get_help">Richiedi supporto</string>
+    <string name="empty_notes_search_button_default">Crea una nuova nota</string>
+    <string name="empty_notes_search_button">Crea una nuova nota intitolata \"%1$s\"</string>
+    <string name="references_other">%1$d Riferimenti, ultima modifica %2$s</string>
+    <string name="references_one">%1$d Riferimento, ultima modifica %2$s</string>
+    <string name="references">Riferimento in</string>
+    <string name="open_note_error">Impossibile trovare la nota</string>
+    <string name="open_note">Apri nota</string>
+    <string name="copy_link_internal">Copia link interno</string>
+    <string name="publish_successful">Pubblicazione completata.</string>
+    <string name="about">Informazioni</string>
+    <string name="link_copied_failure">Il link non può essere copiato.</string>
+    <string name="send_logs">Invia log</string>
+    <string name="more">Altro</string>
+    <string name="website">Visita il sito web</string>
     <string name="log_out_anyway">Disconnettiti comunque</string>
     <string name="export_unsynced_notes">Esporta note non sincronizzate</string>
     <string name="unsynced_notes_message">La disconnessione causerà l’eliminazione di tutte le note non sincronizzate.</string>
@@ -25,14 +42,6 @@ Language: it
     <string name="simperium_error_browser">Verifica che un browser sia installato e abilitato.</string>
     <string name="simperium_dialog_title_error_browser">Nessun browser rilevato</string>
     <string name="simperium_dialog_button_copy_url">Copia URL</string>
-    <string name="key_single_s">D</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Maiusc</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Seleziona una nota per attivare/disattivare l\'anteprima</string>
     <string name="item_action_toggle_preview_enable_error">Abilita markdown per attivare/disattivare l\'anteprima</string>
     <string name="item_action_toggle_preview">Attiva/Disattiva anteprima</string>
@@ -75,7 +84,7 @@ Language: it
     <string name="note_list_widget_dark">Elenco delle note (scuro)</string>
     <string name="retry">Riprova</string>
     <string name="publishing">Pubblicazione in corso…</string>
-    <string name="publish_successful">Pubblicazione completata. Link copiato.</string>
+    <string name="publish_successful_link">Pubblicazione completata. Link copiato.</string>
     <string name="link_copied">Link copiato.</string>
     <string name="of">di</string>
     <string name="next">Successivo</string>
@@ -186,7 +195,6 @@ Language: it
     <string name="rate_us">Valutaci</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Informazioni su Simplenote</string>
     <string name="markdown_show">Mostra Markdown</string>
     <string name="markdown_hide">Nascondi Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: it
     <string name="note_added">Nota aggiunta</string>
     <string name="published">Pubblicata</string>
     <string name="publish">Pubblica</string>
-    <string name="version">Versione</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Scuro</string>
     <string name="theme_light">Chiaro</string>
@@ -242,8 +249,6 @@ Language: it
     <string name="today">Oggi</string>
     <string name="trash">Cestino</string>
     <string name="sort_order">Ordina per</string>
-    <string name="more_info">Maggiori informazioni</string>
-    <string name="website">Visita simplenote.com</string>
     <string name="word">Parole</string>
     <string name="character">Carattere</string>
     <string name="no">No</string>

@@ -79,7 +79,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         simperium.setUserStatusChangeListener(this);
         simperium.setOnUserCreatedListener(this);
         mPreferencesBucket = currentApp.getPreferencesBucket();
-        mPreferencesBucket.start();
 
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
         if (simperium.needsAuthorization()) {
@@ -101,6 +100,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     startActivityForResult(loginIntent, Simperium.SIGNUP_SIGNIN_REQUEST);
                 } else {
                     new LogOutTask(PreferencesFragment.this).execute();
+                }
+                return true;
+            }
+        });
+
+        findPreference("pref_key_help").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    BrowserUtils.launchBrowserOrShowError(requireContext(), "https://simplenote.com/help");
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
                 }
                 return true;
             }
@@ -252,12 +263,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPreferencesBucket.stop();
-    }
-
     private boolean hasUnsyncedNotes() {
         Simplenote application = (Simplenote) getActivity().getApplication();
         Bucket<Note> notesBucket = application.getNotesBucket();
@@ -285,6 +290,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         application.getTagsBucket().stop();
         AppLog.add(Type.SYNC, "Stopped tag bucket (PreferencesFragment)");
         application.getPreferencesBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped preference bucket (PreferencesFragment)");
 
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.USER_SIGNED_OUT,

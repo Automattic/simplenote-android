@@ -9,6 +9,7 @@ import java.util.Map;
 public final class AnalyticsTracker {
     private static final List<Tracker> TRACKERS = new ArrayList<>();
     public static String CATEGORY_NOTE = "note";
+    public static String CATEGORY_SEARCH = "search";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
     public static String CATEGORY_WIDGET = "widget";
@@ -154,7 +155,8 @@ public final class AnalyticsTracker {
         NOTE_WIDGET_LAST_DELETED,
         NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED,
         NOTE_WIDGET_NOTE_TAPPED,
-        NOTE_WIDGET_SIGN_IN_TAPPED
+        NOTE_WIDGET_SIGN_IN_TAPPED,
+        RECENT_SEARCH_TAPPED
     }
 
     public interface Tracker {

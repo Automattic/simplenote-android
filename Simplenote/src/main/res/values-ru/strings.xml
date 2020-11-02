@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-10-16 10:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="about_help_title">Справка</string>
+    <string name="about_help_summary">«Часто задаваемые вопросы» или «Свяжитесь с нами»</string>
+    <string name="settings_item_get_help">Справка</string>
+    <string name="empty_notes_search_button_default">Создать заметку</string>
+    <string name="empty_notes_search_button">Создайте новую заметку \"%1$s\"</string>
+    <string name="references_other">%1$d Упомянутые, последнее изменение %2$s</string>
+    <string name="references_one">%1$d Упоминание, последнее изменение %2$s</string>
+    <string name="references">Упоминание в</string>
+    <string name="open_note_error">Не удалось зайти заметку</string>
+    <string name="open_note">Открыть заметку</string>
+    <string name="copy_link_internal">Скопировать внутреннюю ссылку</string>
+    <string name="publish_successful">Опубликовано.</string>
+    <string name="about">О нас</string>
+    <string name="link_copied_failure">Не удалось скопировать ссылку.</string>
+    <string name="send_logs">Отправить журналы</string>
+    <string name="more">Больше</string>
+    <string name="website">Перейти на сайт</string>
     <string name="log_out_anyway">Все равно выйти</string>
     <string name="export_unsynced_notes">Экспортировать несинхронизированные заметки</string>
     <string name="unsynced_notes_message">При выходе из учётной записи все несинхронизированные заметки будут удалены.</string>
@@ -25,14 +42,6 @@ Language: ru
     <string name="simperium_error_browser">Убедитесь, что браузер установлен и работает.</string>
     <string name="simperium_dialog_title_error_browser">Браузер не обнаружен</string>
     <string name="simperium_dialog_button_copy_url">Копировать URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">М</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Выберите заметку, чтобы включить предварительный просмотр</string>
     <string name="item_action_toggle_preview_enable_error">Включить разметку Markdown, чтобы перейти к предварительному просмотру</string>
     <string name="item_action_toggle_preview">Включить предварительный просмотр</string>
@@ -75,7 +84,7 @@ Language: ru
     <string name="note_list_widget_dark">Список заметок (темная версия)</string>
     <string name="retry">Повторить попытку</string>
     <string name="publishing">Публикация…</string>
-    <string name="publish_successful">Опубликовано. Ссылка скопирована!</string>
+    <string name="publish_successful_link">Опубликовано. Ссылка скопирована!</string>
     <string name="link_copied">Ссылка скопирована!</string>
     <string name="of">из</string>
     <string name="next">Вперед</string>
@@ -186,7 +195,6 @@ Language: ru
     <string name="rate_us">Оцените нас</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Магазин Google Play</string>
-    <string name="about">О приложении Simplenote</string>
     <string name="markdown_show">Показать Markdown</string>
     <string name="markdown_hide">Скрыть Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: ru
     <string name="note_added">Добавлена заметка</string>
     <string name="published">Опубликовано</string>
     <string name="publish">Опубликовать</string>
-    <string name="version">Версия</string>
     <string name="theme">Тема оформления</string>
     <string name="theme_dark">Темная</string>
     <string name="theme_light">Светлая</string>
@@ -242,8 +249,6 @@ Language: ru
     <string name="today">Сегодня</string>
     <string name="trash">Корзина</string>
     <string name="sort_order">Порядок сортировки</string>
-    <string name="more_info">Больше информации</string>
-    <string name="website">Посетить simplenote.com</string>
     <string name="word">Слово</string>
     <string name="character">Символ</string>
     <string name="no">Нет</string>

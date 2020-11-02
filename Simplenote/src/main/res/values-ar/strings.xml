@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 17:54:48+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="about_help_title">إحصل على المساعدة</string>
+    <string name="about_help_summary">الأسئلة المتداولة أو اتصل بنا</string>
+    <string name="settings_item_get_help">الحصول على مساعدة</string>
+    <string name="empty_notes_search_button_default">إنشاء ملاحظة جديدة</string>
+    <string name="empty_notes_search_button">إنشاء ملحوظة جديدة بعنوان \"⁦%1$s⁩\"</string>
+    <string name="references_other">⁦%1$d⁩ المراجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references_one">⁦%1$d⁩ المرجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references">تمت الإشارة في</string>
+    <string name="open_note_error">تعذر العثور على الملحوظة</string>
+    <string name="open_note">فتح الملحوظة</string>
+    <string name="copy_link_internal">نسخ الرابط الداخلي</string>
+    <string name="publish_successful">تم النشر.</string>
+    <string name="about">نبذة عن</string>
+    <string name="link_copied_failure">تعذَّر نسخ الرابط.</string>
+    <string name="send_logs">إرسال السجلات</string>
+    <string name="more">المزيد</string>
+    <string name="website">زيارة موقع الويب</string>
     <string name="log_out_anyway">تسجيل الخروج على أي حال</string>
     <string name="export_unsynced_notes">تصدير ملحوظات غير متزامنة</string>
     <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملحوظات غير متزامنة.</string>
@@ -25,14 +42,6 @@ Language: ar
     <string name="simperium_error_browser">يُرجى التحقُّق من تثبيت المتصفح وتمكينه.</string>
     <string name="simperium_dialog_title_error_browser">لم يتم اكتشاف أي متصفح</string>
     <string name="simperium_dialog_button_copy_url">نسخ عنوان URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">تحديد ملحوظة لتبديل المعاينة</string>
     <string name="item_action_toggle_preview_enable_error">تمكين الضبط لتبديل المعاينة</string>
     <string name="item_action_toggle_preview">تبديل المعاينة</string>
@@ -75,7 +84,7 @@ Language: ar
     <string name="note_list_widget_dark">قائمة الملحوظات (غامق)</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="publishing">جارٍ النشر…</string>
-    <string name="publish_successful">تم النشر. تم نسخ الرابط!</string>
+    <string name="publish_successful_link">تم النشر. تم نسخ الرابط!</string>
     <string name="link_copied">تم نسخ الرابط!</string>
     <string name="of">من</string>
     <string name="next">التالي</string>
@@ -186,7 +195,6 @@ Language: ar
     <string name="rate_us">صنّفنا</string>
     <string name="twitter">تويتر</string>
     <string name="about_play_store">متجر Google Play</string>
-    <string name="about">نبذة عن Simplenote</string>
     <string name="markdown_show">إظهار الضبط</string>
     <string name="markdown_hide">إخفاء الضبط</string>
     <string name="markdown">الضبط</string>
@@ -207,7 +215,6 @@ Language: ar
     <string name="note_added">تمت إضافة ملاحظة</string>
     <string name="published">منشور</string>
     <string name="publish">نشر</string>
-    <string name="version">النسخة</string>
     <string name="theme">قالب</string>
     <string name="theme_dark">داكن</string>
     <string name="theme_light">فاتح</string>
@@ -242,8 +249,6 @@ Language: ar
     <string name="today">اليوم</string>
     <string name="trash">سلة المهملات</string>
     <string name="sort_order">ترتيب الفرز</string>
-    <string name="more_info">المزيد من المعلومات</string>
-    <string name="website">تفضل بزيارة simplenote.com</string>
     <string name="word">الكلمة</string>
     <string name="character">حرف</string>
     <string name="no">لا</string>

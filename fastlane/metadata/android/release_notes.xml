@@ -1,68 +1,102 @@
 <ar>
-2.9:
-* تم إصلاح خطأ بخصوص الوسوم والأحرف الخاصة المكرَّرة الموجودة في أسماء الوسوم
+2.12:
+تمت إضافة ميزة الإكمال التلقائي إلى المحرِّر عند إضافة رابط بين الملحوظات
+* تمت إضافة رابط للمساعدة على الإعدادات
+
 </ar>
 <de-DE>
-2.9:
-* Fehler mit doppelten Schlagwörtern und Sonderzeichen in Schlagwortnamen behoben
+2.12:
+* Automatische Vervollständigung zum Editor hinzugefügt, wenn ein Link zwischen Notizen hinzugefügt wird
+* Hilfreichen Link in „Einstellungen“ hinzugefügt
+
 </de-DE>
 <es-ES>
-2.9:
-* Hemos corregido un problema con las etiquetas duplicadas y los caracteres especiales en los nombres de las etiquetas
+2.12:
+* Se ha añadido la función Autocompletar al editor al añadir un enlace entre notas.
+* Se ha añadido un enlace a la ayuda de Ajustes.
+
 </es-ES>
 <fr-FR>
-2.9 :
-* Correction d’un bogue relatif à des étiquettes en double et des caractères spéciaux dans les noms d’étiquettes
+2.12 :
+* Ajout de la saisie semi-automatique à l’éditeur lors de l’ajout d’un lien entre des notes
+* Ajout d’un lien d’aide dans les réglages
+
 </fr-FR>
 <iw-IL>
-2.9
-* תיקנו באג בתגיות כפולות ובתווים מיוחדים בשמות התגיות
+2.12:
+* הוספנו אפשרות להשלמה אוטומטית בעורך כאשר מוסיפים קישור בין פתקים
+* הוספנו קישור לעזרה ב'הגדרות'
+
 </iw-IL>
 <id>
-2,9:
-* Memperbaiki bug dengan tag duplikat dan karakter khusus dalam nama tag
+2,12:
+* Menambahkan fitur pelengkapan otomatis pada editor saat menambahkan link di antara catatan
+* Menambahkan link untuk bantuan pada pengaturan
+
 </id>
 <it-IT>
-2.9:
-* Corretto un bug con tag duplicati e caratteri speciali nei nomi dei tag
+2.12:
+* Aggiunto il completamento automatico all'editor quando viene aggiunto un link tra le note
+* Aggiunto un link di supporto nelle impostazioni
+
 </it-IT>
 <ja-JP>
-2.9:
-* 重複タグとタグ名の特殊文字のバグを修正
+2.12:
+* ノートの間にリンクを追加する際に、エディターに自動入力を追加しました
+* 「設定」の「ヘルプ」へのリンクを追加しました
+
 </ja-JP>
 <ko-KR>
-2.9:
-* 중복 태그 및 태그 이름 내 특수 문자 관련 버그 해결됨
+2.12:
+* 메모 사이에 링크를 추가할 때 편집기에 자동 완성 기능 추가됨
+* 설정에 유용한 링크 추가됨
+
 </ko-KR>
 <nl-NL>
-2.9:
-* Bug opgelost met dubbele tags en speciale tekens in tagnamen
+2.12:
+* Automatisch aanvullen toegevoegd wanneer een koppeling tussen notities wordt aangemaakt
+* Link toegevoegd voor hulp bij instellingen
+
 </nl-NL>
 <pt-BR>
-2.9:
-* Correção de um erro  com tags duplicadas e caracteres especiais em nomes de tags.
+2.12:
+* Adicionado preenchimento automático ao editor para quando um link é incluso entre anotações
+* Adicionado um link para obter ajuda nas configurações
+
 </pt-BR>
 <ru-RU>
-2.9:
-* Исправлена ошибка, из-за которой дублировались метки и в их названиях появлялись специальные символы
+2.12:
+* В редактор добавлена функция автозаполнения для вставки ссылки из одной заметки на другую
+* На страницу «Настройки» добавлена ссылка на Справку
+
 </ru-RU>
 <sv-SE>
-2.9:
-* Åtgärdade en bugg med duplicerade etiketter och specialtecken i etikettnamn
+2.12:
+* Automatiskt slutförande när en länk läggs till mellan anteckningar har lagts till i redigeraren
+* En hjälplänk har lagts till i inställningarna
+
 </sv-SE>
 <tr-TR>
-2,9:
-* Yinelenen etikletler ve etiket adlarındaki özel karakterlerle ilgili bir hata düzeltildi
+2,12:
+* Notlar arasına bağlantı eklerken yardımcı olması için düzenleyiciye otomatik tamamlama işlevi eklendi
+* Yardım için ayarlara bir bağlantı eklendi
+
 </tr-TR>
 <zh-CN>
-2.9：
-* 修复了重复标签和标签名称中的特殊字符的错误
+2.12：
+* 在编辑器中添加了在注释之间添加链接时自动完成的功能
+* 在设置中添加了帮助链接
+
 </zh-CN>
 <zh-TW>
-2.9：
-* 修正重複標籤和標籤名稱內特殊字元的錯誤
+2.12：
+* 編輯器新增自動完成功能，在筆記之間新增連結時便會自動填入資訊
+* 在設定中新增協助連結
+
 </zh-TW>
 <en-US>
-2.9:
-* Fixed a bug with duplicate tags and special characters in tag names
+2.12:
+* Added autocomplete to the editor when adding a link between notes
+* Added a link to help in settings
+
 </en-US>

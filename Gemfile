@@ -3,6 +3,8 @@
 source "https://rubygems.org" do
   gem 'fastlane', '~> 2'
   gem 'nokogiri'
+  # See https://stackoverflow.com/a/60491254/809944
+  gem 'bigdecimal', '~> 1.4'
 end
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:10+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="about_help_title">Yardım Alın</string>
+    <string name="about_help_summary">SSS veya bize ulaşın</string>
+    <string name="settings_item_get_help">Yardım alın</string>
+    <string name="empty_notes_search_button_default">Yeni not oluştur</string>
+    <string name="empty_notes_search_button">\"%1$s\" başlıklı yeni bir not oluşturun</string>
+    <string name="references_other">%1$d Referanslar, Son değiştirme tarihi %2$s</string>
+    <string name="references_one">%1$d Referans, Son değiştirme tarihi %2$s</string>
+    <string name="references">Referans Verildiği Yer</string>
+    <string name="open_note_error">Not bulunamadı</string>
+    <string name="open_note">Notu Aç</string>
+    <string name="copy_link_internal">Dahili Bağlantıyı Kopyala</string>
+    <string name="publish_successful">Yayımlandı.</string>
+    <string name="about">Hakkında</string>
+    <string name="link_copied_failure">Bağlantı kopyalanamadı.</string>
+    <string name="send_logs">Günlükleri gönder</string>
+    <string name="more">Daha Fazla</string>
+    <string name="website">Web sitesini ziyaret et</string>
     <string name="log_out_anyway">Yine de çıkış yap</string>
     <string name="export_unsynced_notes">Senkronize edilmemiş notları dışa aktar</string>
     <string name="unsynced_notes_message">Oturumu kapattığınızda, senkronize edilmemiş tüm notlar silinir.</string>
@@ -25,14 +42,6 @@ Language: tr
     <string name="simperium_error_browser">Lütfen bir tarayıcının kurulu ve etkin olduğunu doğrulayın.</string>
     <string name="simperium_dialog_title_error_browser">Tarayıcı Algılanmadı</string>
     <string name="simperium_dialog_button_copy_url">Adresi kopyala</string>
-    <string name="key_single_s">P</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Önizlemeyi açmak/kapatmak için bir not seçin</string>
     <string name="item_action_toggle_preview_enable_error">Önizlemeyi açmak/kapatmak için işaretlemeyi etkinleştir</string>
     <string name="item_action_toggle_preview">Önizlemeyi Aç/Kapat</string>
@@ -75,7 +84,7 @@ Language: tr
     <string name="note_list_widget_dark">Not Listesi (Koyu)</string>
     <string name="retry">Tekrar dene</string>
     <string name="publishing">Yayımlanıyor…</string>
-    <string name="publish_successful">Yayımlandı. Bağlantı kopyalandı!</string>
+    <string name="publish_successful_link">Yayımlandı. Bağlantı kopyalandı!</string>
     <string name="link_copied">Bağlantı kopyalandı!</string>
     <string name="of">,</string>
     <string name="next">Sonraki</string>
@@ -186,7 +195,6 @@ Language: tr
     <string name="rate_us">Bizi Değerlendirin</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Simplenote Hakkında</string>
     <string name="markdown_show">Markdown’ı Göster</string>
     <string name="markdown_hide">Markdown’ı Gizle</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: tr
     <string name="note_added">Not eklendi</string>
     <string name="published">Yayınlandı</string>
     <string name="publish">Yayınla</string>
-    <string name="version">Sürüm</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Koyu</string>
     <string name="theme_light">Açık</string>
@@ -242,8 +249,6 @@ Language: tr
     <string name="today">Bugün</string>
     <string name="trash">Çöp Kutusu</string>
     <string name="sort_order">Sıralama</string>
-    <string name="more_info">Daha Fazla Bilgi</string>
-    <string name="website">simplenote.com sitesine gidin</string>
     <string name="word">Sözcük</string>
     <string name="character">Karakter</string>
     <string name="no">Hayır</string>

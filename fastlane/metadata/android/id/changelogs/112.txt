@@ -1,2 +1,0 @@
-2,9:
-* Memperbaiki bug dengan tag duplikat dan karakter khusus dalam nama tag

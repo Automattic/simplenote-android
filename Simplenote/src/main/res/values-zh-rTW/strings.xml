@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:09+0000
+Translation-Revision-Date: 2020-10-16 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="about_help_title">取得協助</string>
+    <string name="about_help_summary">常見問題集或與我們聯絡</string>
+    <string name="settings_item_get_help">取得協助</string>
+    <string name="empty_notes_search_button_default">建立新筆記</string>
+    <string name="empty_notes_search_button">建立標題為「%1$s」的新筆記</string>
+    <string name="references_other">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references_one">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references">參考位置</string>
+    <string name="open_note_error">找不到筆記</string>
+    <string name="open_note">開啟筆記</string>
+    <string name="copy_link_internal">複製內部連結</string>
+    <string name="publish_successful">已發表。</string>
+    <string name="about">關於</string>
+    <string name="link_copied_failure">無法複製連結。</string>
+    <string name="send_logs">傳送記錄</string>
+    <string name="more">更多</string>
+    <string name="website">造訪網站</string>
     <string name="log_out_anyway">仍要登出</string>
     <string name="export_unsynced_notes">匯出未同步的筆記</string>
     <string name="unsynced_notes_message">登出將會刪除任何尚未同步的筆記。</string>
@@ -25,14 +42,6 @@ Language: zh_TW
     <string name="simperium_error_browser">請確認瀏覽器已安裝並啟用。</string>
     <string name="simperium_dialog_title_error_browser">未偵測到任何瀏覽器</string>
     <string name="simperium_dialog_button_copy_url">複製網址</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">選擇筆記以切換預覽</string>
     <string name="item_action_toggle_preview_enable_error">啟用 markdown 以切換預覽</string>
     <string name="item_action_toggle_preview">切換預覽</string>
@@ -75,7 +84,7 @@ Language: zh_TW
     <string name="note_list_widget_dark">筆記清單 (深色)</string>
     <string name="retry">重試</string>
     <string name="publishing">正在發表…</string>
-    <string name="publish_successful">已發表。已複製連結！</string>
+    <string name="publish_successful_link">已發表。 已複製連結！</string>
     <string name="link_copied">已複製連結！</string>
     <string name="of">的</string>
     <string name="next">下一篇</string>
@@ -186,7 +195,6 @@ Language: zh_TW
     <string name="rate_us">幫我們評分</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play 商店</string>
-    <string name="about">關於 Simplenote</string>
     <string name="markdown_show">顯示 Markdown</string>
     <string name="markdown_hide">隱藏 Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: zh_TW
     <string name="note_added">已新增筆記</string>
     <string name="published">已發表</string>
     <string name="publish">發表</string>
-    <string name="version">版本</string>
     <string name="theme">佈景主題</string>
     <string name="theme_dark">深色系</string>
     <string name="theme_light">淡色系</string>
@@ -242,8 +249,6 @@ Language: zh_TW
     <string name="today">今天</string>
     <string name="trash">垃圾桶</string>
     <string name="sort_order">排序</string>
-    <string name="more_info">更多資訊</string>
-    <string name="website">造訪 simplenote.com</string>
     <string name="word">字</string>
     <string name="character">字元</string>
     <string name="no">否</string>

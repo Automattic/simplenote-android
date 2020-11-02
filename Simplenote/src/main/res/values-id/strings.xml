@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-06 18:54:04+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="about_help_title">Dapatkan Bantuan</string>
+    <string name="about_help_summary">FAQ atau hubungi kami</string>
+    <string name="settings_item_get_help">Dapatkan bantuan</string>
+    <string name="empty_notes_search_button_default">Buat catatan baru</string>
+    <string name="empty_notes_search_button">Buat catatan baru berjudul \"%1$s\"</string>
+    <string name="references_other">%1$d Referensi, Terakhir diubah %2$s</string>
+    <string name="references_one">%1$d Referensi, Terakhir diubah %2$s</string>
+    <string name="references">Dirujuk di</string>
+    <string name="open_note_error">Catatan tidak ditemukan</string>
+    <string name="open_note">Buka Catatan</string>
+    <string name="copy_link_internal">Salin Tautan Internal</string>
+    <string name="publish_successful">Dipublikasikan.</string>
+    <string name="about">Tentang</string>
+    <string name="link_copied_failure">Tautan tidak dapat disalin.</string>
+    <string name="send_logs">Kirim log</string>
+    <string name="more">Lainnya</string>
+    <string name="website">Kunjungi situs web</string>
     <string name="log_out_anyway">Tetap keluar</string>
     <string name="export_unsynced_notes">Ekspor catatan yang tidak disinkronkan</string>
     <string name="unsynced_notes_message">Catatan yang tidak disinkronkan akan dihapus saat Anda keluar.</string>
@@ -25,14 +42,6 @@ Language: id
     <string name="simperium_error_browser">Harap pastikan perambah sudah terinstal dan diaktifkan.</string>
     <string name="simperium_dialog_title_error_browser">Perambah Tidak Ditemukan</string>
     <string name="simperium_dialog_button_copy_url">Salin URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Pilih catatan untuk mengalihkan pratinjau</string>
     <string name="item_action_toggle_preview_enable_error">Aktifkan markdown untuk mengalihkan pratinjau</string>
     <string name="item_action_toggle_preview">Alihkan Pratinjau</string>
@@ -75,7 +84,7 @@ Language: id
     <string name="note_list_widget_dark">Daftar Catatan (Gelap)</string>
     <string name="retry">Coba lagi</string>
     <string name="publishing">Memublikasikan…</string>
-    <string name="publish_successful">Dipublikasikan. Tautan disalin!</string>
+    <string name="publish_successful_link">Dipublikasikan. Tautan disalin!</string>
     <string name="link_copied">Tautan disalin!</string>
     <string name="of">dari</string>
     <string name="next">Selanjutnya</string>
@@ -186,7 +195,6 @@ Language: id
     <string name="rate_us">Beri Rating</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Tentang Simplenote</string>
     <string name="markdown_show">Tampilkan Markdown</string>
     <string name="markdown_hide">Sembunyikan Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: id
     <string name="note_added">Penambahan catatan</string>
     <string name="published">Diterbitkan</string>
     <string name="publish">Terbitkan</string>
-    <string name="version">Versi</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Gelap</string>
     <string name="theme_light">Terang</string>
@@ -242,8 +249,6 @@ Language: id
     <string name="today">Hari ini</string>
     <string name="trash">Sampah</string>
     <string name="sort_order">Urutkan</string>
-    <string name="more_info">Informasi Selengkapnya</string>
-    <string name="website">Kunjungi simplenote.com</string>
     <string name="word">Kata</string>
     <string name="character">Karakter</string>
     <string name="no">Tidak</string>

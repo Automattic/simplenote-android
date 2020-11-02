@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-08-19 11:54:04+0000
+Translation-Revision-Date: 2020-10-05 13:03:48+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="about_help_title">Skaffa hjälp</string>
+    <string name="about_help_summary">Vanliga frågor eller kontakta oss</string>
+    <string name="settings_item_get_help">Skaffa hjälp</string>
+    <string name="empty_notes_search_button_default">Skapa en ny anteckning</string>
+    <string name="empty_notes_search_button">Skapa en ny anteckning med titeln \"%1$s\"</string>
+    <string name="references_other">%1$d Referenser, senast ändrade %2$s</string>
+    <string name="references_one">%1$d Referens, senast ändrad %2$s</string>
+    <string name="references">Refereras i</string>
+    <string name="open_note_error">Anteckning kunde inte hittas</string>
+    <string name="open_note">Öppna anteckning</string>
+    <string name="copy_link_internal">Kopiera intern länk</string>
+    <string name="publish_successful">Publicerat.</string>
+    <string name="about">Om</string>
+    <string name="link_copied_failure">Länk kunde inte kopieras.</string>
+    <string name="send_logs">Skicka loggar</string>
+    <string name="more">Mer</string>
+    <string name="website">Besök webbplats</string>
     <string name="log_out_anyway">Logga ut ändå</string>
     <string name="export_unsynced_notes">Exportera osynkroniserade anteckningar</string>
     <string name="unsynced_notes_message">Vid utloggning kommer alla osynkroniserade anteckningar att tas bort.</string>
@@ -25,14 +42,6 @@ Language: sv_SE
     <string name="simperium_error_browser">Kontrollera att en webbläsare är installerad och aktiverad.</string>
     <string name="simperium_dialog_title_error_browser">Ingen webbläsare upptäckt</string>
     <string name="simperium_dialog_button_copy_url">Kopiera URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Välj en anteckning för att slå på/av förhandsgranskning</string>
     <string name="item_action_toggle_preview_enable_error">Aktivera markdown för att växla förhandsgranskning</string>
     <string name="item_action_toggle_preview">Slå på/av förhandsgranskning</string>
@@ -75,7 +84,7 @@ Language: sv_SE
     <string name="note_list_widget_dark">Anteckningslista (mörk)</string>
     <string name="retry">Försök igen</string>
     <string name="publishing">Publicerar…</string>
-    <string name="publish_successful">Publicerat. Länk kopierad!</string>
+    <string name="publish_successful_link">Publicerat. Länk kopierad!</string>
     <string name="link_copied">Länk kopierad!</string>
     <string name="of">av</string>
     <string name="next">Nästa</string>
@@ -186,7 +195,6 @@ Language: sv_SE
     <string name="rate_us">Betygsätt oss</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Om Simplenote</string>
     <string name="markdown_show">Visa Markdown</string>
     <string name="markdown_hide">Dölj Markdown</string>
     <string name="markdown">Markdown</string>
@@ -207,7 +215,6 @@ Language: sv_SE
     <string name="note_added">Anteckning tillagd</string>
     <string name="published">Publicerad</string>
     <string name="publish">Publicera</string>
-    <string name="version">Version</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Mörk</string>
     <string name="theme_light">Ljus</string>
@@ -242,8 +249,6 @@ Language: sv_SE
     <string name="today">Idag</string>
     <string name="trash">Papperskorg</string>
     <string name="sort_order">Sorteringsordning</string>
-    <string name="more_info">Mer information</string>
-    <string name="website">Besök simplenote.com</string>
     <string name="word">Ord</string>
     <string name="character">Tecken</string>
     <string name="no">Nej</string>

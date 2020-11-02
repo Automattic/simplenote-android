@@ -36,6 +36,12 @@
         </item>
 
         <item
+            android:id="@+id/menu_copy_internal"
+            android:title="@string/copy_link_internal"
+            app:showAsAction="never">
+        </item>
+
+        <item
             android:id="@+id/menu_share"
             android:title="@string/share"
             app:showAsAction="never">

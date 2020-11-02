@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/selectableItemBackground"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingBottom="@dimen/note_list_item_padding_bottom"
+    android:paddingEnd="@dimen/padding_small"
+    android:paddingStart="@dimen/padding_small"
+    android:paddingTop="@dimen/note_list_item_padding_top">
+
+    <TextView
+        android:id="@+id/reference_title"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_width="match_parent"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="?attr/noteTitleColor"
+        android:textSize="@dimen/text_content_title"
+        android:textStyle="italic"
+        tools:text="Internote Link References">
+    </TextView>
+
+    <TextView
+        android:id="@+id/reference_subtitle"
+        android:ellipsize="end"
+        android:layout_below="@id/reference_title"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_extra_extra_small"
+        android:layout_width="match_parent"
+        android:lineSpacingExtra="@dimen/line_spacing_list"
+        android:maxLines="1"
+        android:textColor="?attr/notePreviewColor"
+        android:textSize="@dimen/text_content"
+        tools:text="5 References, Last modified 08/24/2020">
+    </TextView>
+
+</RelativeLayout>

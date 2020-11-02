@@ -82,7 +82,6 @@ public class Simplenote extends Application {
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
-            mPreferencesBucket.start();
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -159,6 +158,8 @@ public class Simplenote extends Application {
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
+        private boolean mIsInBackground = true;
+
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
@@ -185,6 +186,7 @@ public class Simplenote extends Application {
 
                         if (mPreferencesBucket != null) {
                             mPreferencesBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped preference bucket (Simplenote)");
                         }
                     }
                 }, TEN_SECONDS_MILLIS);
@@ -211,7 +213,7 @@ public class Simplenote extends Application {
         public void onLowMemory() {
         }
 
-        // ActivityLifeCycle callbacks
+        // ActivityLifecycleCallbacks
         @SuppressLint("LongLogTag")
         @Override
         public void onActivityResumed(@NonNull Activity activity) {
@@ -227,6 +229,15 @@ public class Simplenote extends Application {
                 WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_SYNC);
                 Log.d("Simplenote.onActivityResumed", "Stopped worker");
             }
+
+            String activitySimpleName = activity.getClass().getSimpleName();
+
+            mPreferencesBucket.start();
+            AppLog.add(Type.SYNC, "Started preference bucket (" + activitySimpleName + ")");
+            mNotesBucket.start();
+            AppLog.add(Type.SYNC, "Started note bucket (" + activitySimpleName + ")");
+            mTagsBucket.start();
+            AppLog.add(Type.SYNC, "Started tag bucket (" + activitySimpleName + ")");
         }
 
         @Override

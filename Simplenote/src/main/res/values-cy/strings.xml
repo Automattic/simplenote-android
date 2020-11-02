@@ -21,7 +21,6 @@ Language: cy_GB
     <string name="rate_us">Cyfraddwch ni</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Ynghylch Simplenote</string>
     <string name="markdown_show">Dangos Markdown</string>
     <string name="markdown_hide">Cuddio Markdown</string>
     <string name="markdown">Markdown</string>
@@ -40,7 +39,6 @@ Language: cy_GB
     <string name="noted">Crëwyd nodyn</string>
     <string name="tags">Tagiau</string>
     <string name="edit">Golygu</string>
-    <string name="version">Fersiwn</string>
     <string name="publish">Cyhoeddi</string>
     <string name="published">Cyhoeddwyd</string>
     <string name="note_selected">%d nodyn wedi eu dewis</string>
@@ -86,8 +84,6 @@ Language: cy_GB
     <string name="yes">Ydw</string>
     <string name="no">Na</string>
     <string name="word">Geiriau</string>
-    <string name="website">Mynd i simplenote.com</string>
-    <string name="more_info">Rhagor o Wybodaeth</string>
     <string name="sort_order">Trefn didoli</string>
     <string name="trash">Sbwriel</string>
     <string name="today">Heddiw</string>

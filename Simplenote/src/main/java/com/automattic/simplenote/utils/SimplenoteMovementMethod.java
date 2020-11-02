@@ -10,12 +10,13 @@ import com.automattic.simplenote.widgets.CheckableSpan;
 
 // Only allows onClick events for CheckableSpans
 public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
-
     private static SimplenoteMovementMethod mInstance;
 
     public static SimplenoteMovementMethod getInstance() {
-        if (mInstance == null)
+        if (mInstance == null) {
             mInstance = new SimplenoteMovementMethod();
+        }
+
         return mInstance;
     }
 
@@ -40,7 +41,7 @@ public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
             off = lineStart;
         }
 
-        CheckableSpan[] checkableSpans = buffer.getSpans(off, off + 1, CheckableSpan.class);
+        CheckableSpan[] checkableSpans = buffer.getSpans(off, off, CheckableSpan.class);
 
         if (checkableSpans.length != 0) {
             switch (event.getAction()) {
