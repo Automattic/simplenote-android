@@ -1,0 +1,4 @@
+2.12:
+* Se ha añadido la función Autocompletar al editor al añadir un enlace entre notas.
+* Se ha añadido un enlace a la ayuda de Ajustes.
+

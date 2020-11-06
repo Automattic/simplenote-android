@@ -1,4 +1,0 @@
-2.11 :
-* Ajout d’une liaison entre les notes
-* Résolution d’un bogue avec le basculement des cases à cocher en retrait de tabulation
-

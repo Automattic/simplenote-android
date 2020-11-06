@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-09-30 09:54:49+0000
+Translation-Revision-Date: 2020-10-05 13:03:48+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="about_help_title">Skaffa hjälp</string>
+    <string name="about_help_summary">Vanliga frågor eller kontakta oss</string>
+    <string name="settings_item_get_help">Skaffa hjälp</string>
     <string name="empty_notes_search_button_default">Skapa en ny anteckning</string>
     <string name="empty_notes_search_button">Skapa en ny anteckning med titeln \"%1$s\"</string>
     <string name="references_other">%1$d Referenser, senast ändrade %2$s</string>
@@ -39,14 +42,6 @@ Language: sv_SE
     <string name="simperium_error_browser">Kontrollera att en webbläsare är installerad och aktiverad.</string>
     <string name="simperium_dialog_title_error_browser">Ingen webbläsare upptäckt</string>
     <string name="simperium_dialog_button_copy_url">Kopiera URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Välj en anteckning för att slå på/av förhandsgranskning</string>
     <string name="item_action_toggle_preview_enable_error">Aktivera markdown för att växla förhandsgranskning</string>
     <string name="item_action_toggle_preview">Slå på/av förhandsgranskning</string>
