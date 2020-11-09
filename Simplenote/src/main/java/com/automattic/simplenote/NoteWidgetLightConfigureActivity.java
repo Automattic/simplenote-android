@@ -105,7 +105,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
         PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this, true);
         ObjectCursor<Note> cursor = query.execute();
 
-        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, R.style.Theme_Transparent);
+        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, PrefUtils.getStyleWidgetDialog(NoteWidgetLightConfigureActivity.this));
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         @SuppressLint("InflateParams")
         final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
