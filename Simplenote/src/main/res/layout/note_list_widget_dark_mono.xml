@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_layout"
-    android:background="@drawable/note_widget_background_light"
+    android:background="@drawable/note_widget_background_dark"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -12,12 +12,13 @@
     <TextView
         android:id="@+id/widget_text"
         android:ellipsize="end"
+        android:fontFamily="monospace"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:maxLines="2"
         android:text="@string/loading_notes"
-        android:textColor="@color/text_title_light"
+        android:textColor="@color/text_title_dark"
         android:textSize="@dimen/text_widget"
         tools:visibility="gone">
     </TextView>
@@ -33,13 +34,13 @@
         android:paddingBottom="@dimen/note_list_item_padding_bottom_button_widget"
         android:scrollbarStyle="outsideOverlay"
         android:visibility="gone"
-        tools:listitem="@layout/note_list_widget_item_light"
+        tools:listitem="@layout/note_list_widget_item_dark_monospace"
         tools:visibility="visible">
     </ListView>
 
     <ImageView
         android:id="@+id/widget_button"
-        android:background="@drawable/bg_ripple_oval_blue_light"
+        android:background="@drawable/bg_ripple_oval_mono_dark"
         android:clickable="true"
         android:contentDescription="@string/new_note"
         android:focusable="true"
@@ -50,8 +51,9 @@
         android:layout_width="@dimen/minimum_target"
         android:padding="@dimen/padding_medium"
         android:src="@drawable/ic_add_24dp"
-        android:tint="@android:color/white"
-        android:visibility="gone">
+        android:tint="@color/gray_100"
+        android:visibility="gone"
+        tools:visibility="visible">
     </ImageView>
 
 </RelativeLayout>

@@ -47,7 +47,7 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-        @LayoutRes int layout = mIsLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+        @LayoutRes int layout = PrefUtils.getLayoutWidgetListItem(mContext, mIsLight);
         RemoteViews views = new RemoteViews(mContext.getPackageName(), layout);
 
         if (mCursor.moveToPosition(position)) {
