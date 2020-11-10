@@ -52,6 +52,27 @@ public class TagUtils {
     }
 
     /**
+     * Get the canonical representation of a tag from the hashed value of the lexical variation.
+     *
+     * @param bucket    {@link Bucket<Tag>} in which to get tag.
+     * @param lexical   {@link String} lexical variation of tag.
+     *
+     * @return          {@link String} canonical of tag if exists; lexical variation otherwise.
+     */
+    public static String getCanonicalFromLexical(Bucket<Tag> bucket, String lexical) {
+        String hashed = hashTag(lexical);
+
+        try {
+            Tag tag = bucket.getObject(hashed);
+            Log.d("getCanonicalFromLexical", "Tag " + "\"" + hashed + "\"" + " does exist");
+            return tag.getName();
+        } catch (BucketObjectMissingException e) {
+            Log.d("getCanonicalFromLexical", "Tag " + "\"" + hashed + "\"" + " does not exist");
+            return lexical;
+        }
+    }
+
+    /**
      * Hash the tag @param name with normalizing, lowercasing, and encoding.
      *
      * @param name      {@link String} to hash as the tag kay.
