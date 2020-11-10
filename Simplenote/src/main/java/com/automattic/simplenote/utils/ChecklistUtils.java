@@ -81,7 +81,7 @@ public class ChecklistUtils {
                     : isList ? R.drawable.ic_checkbox_list_unchecked_24px : R.drawable.ic_checkbox_editor_unchecked_24px
             );
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
-            int iconSize = DisplayUtils.getChecklistIconSize(context);
+            int iconSize = DisplayUtils.getChecklistIconSize(context, isList);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
             CenteredImageSpan imageSpan = new CenteredImageSpan(context, iconDrawable);

@@ -93,7 +93,7 @@ public class DisplayUtils {
     }
 
     // Returns the proper size for a checklist drawable (font size + a bit)
-    public static int getChecklistIconSize(Context context) {
+    public static int getChecklistIconSize(Context context, boolean isList) {
         if (context == null) {
             return 18;
         }
