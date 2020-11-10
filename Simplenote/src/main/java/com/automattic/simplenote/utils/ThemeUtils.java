@@ -99,9 +99,13 @@ public class ThemeUtils {
     }
 
     public static int getColorFromAttribute(@NonNull Context context, @AttrRes int attribute) {
+        return context.getColor(getColorResourceFromAttribute(context, attribute));
+    }
+
+    public static int getColorResourceFromAttribute(@NonNull Context context, @AttrRes int attribute) {
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{attribute});
         int colorResId = typedArray.getResourceId(0, android.R.color.black);
         typedArray.recycle();
-        return context.getColor(colorResId);
+        return colorResId;
     }
 }

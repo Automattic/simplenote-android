@@ -24,6 +24,7 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.LinkTokenizer;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
@@ -347,10 +348,11 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         try {
             ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    getContext(),
-                    getText(),
-                    ChecklistUtils.CHECKLIST_REGEX_LINES,
-                    R.color.text_title_disabled);
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
