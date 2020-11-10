@@ -73,10 +73,12 @@ public class ChecklistUtils {
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
             editable.replace(start, end, String.valueOf(CHAR_NO_BREAK_SPACE));
 
-            Drawable iconDrawable = ContextCompat.getDrawable(context,
-                    checkableSpan.isChecked()
-                            ? R.drawable.ic_checkbox_checked_24px
-                            : R.drawable.ic_checkbox_unchecked_24px);
+            Drawable iconDrawable = ContextCompat.getDrawable(
+                context,
+                checkableSpan.isChecked()
+                    ? R.drawable.ic_checkbox_list_checked_24px
+                    : R.drawable.ic_checkbox_list_unchecked_24px
+            );
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
             int iconSize = DisplayUtils.getChecklistIconSize(context);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
