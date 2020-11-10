@@ -351,7 +351,8 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
                 getContext(),
                 getText(),
                 ChecklistUtils.CHECKLIST_REGEX_LINES,
-                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent)
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent),
+                false
             );
         } catch (Exception e) {
             e.printStackTrace();
