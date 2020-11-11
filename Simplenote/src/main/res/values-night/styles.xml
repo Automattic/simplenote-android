@@ -60,6 +60,14 @@
         <item name="tint">@color/item_default_dark</item>
     </style>
 
+    <style name="Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:colorBackground">@color/background_dark_24</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Dialog.Button</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+    </style>
+
     <style name="Dialog.Black" parent="Dialog">
         <item name="android:colorBackground">@color/background_dark_black_8</item>
     </style>
