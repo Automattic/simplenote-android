@@ -69,7 +69,7 @@
     </style>
 
     <style name="Dialog.Black" parent="Dialog">
-        <item name="android:colorBackground">@color/background_dark_black_8</item>
+        <item name="android:colorBackground">@color/background_dark_black_24</item>
     </style>
 
     <style name="Dialog.Sepia" parent="Dialog">
