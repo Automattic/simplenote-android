@@ -73,7 +73,7 @@
     </style>
 
     <style name="Dialog.Sepia" parent="Dialog">
-        <item name="android:colorBackground">@color/background_dark_sepia_8</item>
+        <item name="android:colorBackground">@color/background_dark_sepia_24</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
