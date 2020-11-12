@@ -26,6 +26,8 @@ public class ChecklistUtils {
 
     public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
+    public static String CHECKLIST_REGEX_LINES_CHECKED = "^(\\s+)?(-[ \\t]+\\[[xX]?\\])";
+    public static String CHECKLIST_REGEX_LINES_UNCHECKED = "^(\\s+)?(-[ \\t]+\\[[\\s]?\\])";
     public static String CHECKED_MARKDOWN_PREVIEW = "- [" + CHAR_VECTOR_CROSS_PRODUCT + "]";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";

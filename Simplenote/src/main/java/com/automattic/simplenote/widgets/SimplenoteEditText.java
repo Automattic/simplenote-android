@@ -161,7 +161,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
             Context context = getContext();
             // ImageSpans are static, so we need to remove the old one and replace :|
             @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24px : R.drawable.ic_checkbox_editor_unchecked_24px;
-            Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, R.attr.colorAccent);
+            Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, checkableSpan.isChecked() ? R.attr.colorAccent : R.attr.notePreviewColor);
             int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
             final CenteredImageSpan newImageSpan = new CenteredImageSpan(context, iconDrawable);
@@ -350,8 +350,15 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
             ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
                 getText(),
-                ChecklistUtils.CHECKLIST_REGEX_LINES,
+                ChecklistUtils.CHECKLIST_REGEX_LINES_CHECKED,
                 ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent),
+                false
+            );
+            ChecklistUtils.addChecklistSpansForRegexAndColor(
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_UNCHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.notePreviewColor),
                 false
             );
         } catch (Exception e) {
