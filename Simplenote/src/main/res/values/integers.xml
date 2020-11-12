@@ -3,7 +3,7 @@
 <resources>
 
     <integer name="default_font_size">16</integer>
-    <integer name="default_font_size_checkbox_extra">16</integer>
+    <integer name="default_font_size_checkbox_extra">12</integer>
     <integer name="time_animation">400</integer> <!-- @android:integer/config_mediumAnimTime -->
     <integer name="time_animation_eighth">50</integer>
     <integer name="time_animation_eighth_quintuple">250</integer>
