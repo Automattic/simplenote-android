@@ -160,7 +160,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         if (imageSpans.length > 0) {
             Context context = getContext();
             // ImageSpans are static, so we need to remove the old one and replace :|
-            @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24px : R.drawable.ic_checkbox_editor_unchecked_24px;
+            @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24dp : R.drawable.ic_checkbox_editor_unchecked_24dp;
             Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, checkableSpan.isChecked() ? R.attr.colorAccent : R.attr.notePreviewColor);
             int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
