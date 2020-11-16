@@ -99,6 +99,48 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
+        <item name="colorAccent">@color/item_default_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Black" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_black_dark</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Classic" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_classic_dark</item>
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="colorPrimaryDark">@color/blue_50</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Default" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Matrix" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_matrix_dark</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_dark_matrix</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Mono" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_mono_dark</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/gray</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Publication" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_publication_dark</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Sepia" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_sepia_dark</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/background_dark_sepia_1</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.Simplestyle.BottomSheetDialog">

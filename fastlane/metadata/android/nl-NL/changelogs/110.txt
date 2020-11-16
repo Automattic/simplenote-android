@@ -1,3 +1,0 @@
-2.8:
-* Sneltoetsen toegevoegd voor apparaten met hardware-toetsenborden
-* Ondersteuning voor talen die van rechts naar links lezen toegevoegd aan voorbeeldweergave van markdown

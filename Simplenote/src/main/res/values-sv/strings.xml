@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-07-12 18:48:55+0000
+Translation-Revision-Date: 2020-10-05 13:03:48+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="about_help_title">Skaffa hjälp</string>
+    <string name="about_help_summary">Vanliga frågor eller kontakta oss</string>
+    <string name="settings_item_get_help">Skaffa hjälp</string>
+    <string name="empty_notes_search_button_default">Skapa en ny anteckning</string>
+    <string name="empty_notes_search_button">Skapa en ny anteckning med titeln \"%1$s\"</string>
+    <string name="references_other">%1$d Referenser, senast ändrade %2$s</string>
+    <string name="references_one">%1$d Referens, senast ändrad %2$s</string>
+    <string name="references">Refereras i</string>
+    <string name="open_note_error">Anteckning kunde inte hittas</string>
+    <string name="open_note">Öppna anteckning</string>
+    <string name="copy_link_internal">Kopiera intern länk</string>
+    <string name="publish_successful">Publicerat.</string>
+    <string name="about">Om</string>
+    <string name="link_copied_failure">Länk kunde inte kopieras.</string>
+    <string name="send_logs">Skicka loggar</string>
+    <string name="more">Mer</string>
+    <string name="website">Besök webbplats</string>
+    <string name="log_out_anyway">Logga ut ändå</string>
+    <string name="export_unsynced_notes">Exportera osynkroniserade anteckningar</string>
+    <string name="unsynced_notes_message">Vid utloggning kommer alla osynkroniserade anteckningar att tas bort.</string>
+    <string name="unsynced_notes">Osynkroniserade anteckningar</string>
+    <string name="export_setting">Exportera data</string>
+    <string name="export_message_success">Data sparad till fil</string>
+    <string name="export_message_failure">Data kunde inte sparas</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">Etiketten är för lång. Försök igen med ett kortare namn. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
+    <string name="rename_tag_message">Ett fel uppstod när etikettens namn skulle ändras. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
+    <string name="rename_tag_error_spaces">Etiketter får inte innehålla blanksteg</string>
+    <string name="rename_tag_error_length">Etiketten är för lång</string>
+    <string name="rename_tag_error_empty">Etiketter får inte vara tomma</string>
     <string name="simperium_url">http://simplenote.com</string>
     <string name="simperium_error_browser_copy_success">URL kopierad till urklipp</string>
     <string name="simperium_error_browser_copy_failure">URL kunde inte kopieras till urklipp</string>
     <string name="simperium_error_browser">Kontrollera att en webbläsare är installerad och aktiverad.</string>
     <string name="simperium_dialog_title_error_browser">Ingen webbläsare upptäckt</string>
     <string name="simperium_dialog_button_copy_url">Kopiera URL</string>
-    <string name="key_single_s">S</string>
-    <string name="key_single_p">P</string>
-    <string name="key_single_l">L</string>
-    <string name="key_single_i">I</string>
-    <string name="key_single_h">H</string>
-    <string name="key_single_c">C</string>
-    <string name="key_multiple_shift">Shift</string>
-    <string name="key_multiple_ctrl">Ctrl</string>
     <string name="item_action_toggle_preview_error">Välj en anteckning för att slå på/av förhandsgranskning</string>
+    <string name="item_action_toggle_preview_enable_error">Aktivera markdown för att växla förhandsgranskning</string>
     <string name="item_action_toggle_preview">Slå på/av förhandsgranskning</string>
+    <string name="item_action_toggle_list_error">Välj en anteckning för att slå på/av lista</string>
     <string name="item_action_toggle_list">Slå på/av lista</string>
+    <string name="item_action_toggle_checklist_error">Välj en anteckning för att växla checklista</string>
+    <string name="item_action_toggle_checklist_edit_error">Välj fliken Redigera för att växla checklista</string>
+    <string name="item_action_show_share_error">Välj en anteckning för att visa dela</string>
+    <string name="item_action_show_share_edit_error">Välj redigeringsflik för att visa dela</string>
+    <string name="item_action_show_share">Visa dela</string>
     <string name="item_action_show_information_error">Välj en anteckning för att visa information</string>
     <string name="item_action_show_information_edit_error">Välj redigeringsflik för att visa information</string>
     <string name="item_action_show_information">Visa information</string>
@@ -31,6 +60,7 @@ Language: sv_SE
     <string name="item_action_show_history">Visa historik</string>
     <string name="item_action_open_search">Öppna sök</string>
     <string name="action">Åtgärd</string>
+    <string name="link_california">%1$s%2$s%3$sIntegritetsnotis för användare i Kalifornien%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">En nätverksanslutning krävs. Kontrollera anslutningen och försök igen.</string>
     <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
@@ -54,7 +84,7 @@ Language: sv_SE
     <string name="note_list_widget_dark">Anteckningslista (mörk)</string>
     <string name="retry">Försök igen</string>
     <string name="publishing">Publicerar…</string>
-    <string name="publish_successful">Publicerat. Länk kopierad!</string>
+    <string name="publish_successful_link">Publicerat. Länk kopierad!</string>
     <string name="link_copied">Länk kopierad!</string>
     <string name="of">av</string>
     <string name="next">Nästa</string>
@@ -86,11 +116,11 @@ Language: sv_SE
     <string name="description_sort">Sortera</string>
     <string name="description_down">Ner</string>
     <string name="description_delete_item">Ta bort objekt</string>
-    <string name="unsynced_notes_message">Om du loggar ut tas osynkroniserade anteckningar bort. Du kan verifiera dina synkroniserade anteckningar genom att logga in på app.simplenote.com i en webbläsare.</string>
     <string name="sort_search_reverse_order">Omvänd ordning</string>
     <string name="sort_search_modified">Modified</string>
     <string name="sort_search_created">Skapad</string>
     <string name="sort_search_alphabetically">Alfabetiskt</string>
+    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på den blå knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett i fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
@@ -151,9 +181,6 @@ Language: sv_SE
     <string name="logo">Logga</string>
     <string name="unpin_from_top">Ta bort från topp</string>
     <string name="untagged_notes">Omärkta anteckningar</string>
-    <string name="delete_notes">Ta bort anteckningar</string>
-    <string name="visit_web_app">Besök webbapp</string>
-    <string name="unsynced_notes">Osynkroniserade anteckningar upptäckta</string>
     <string name="wpcom_log_in_error_unverified">Aktivera ditt WordPress.com-konto via e-post och försök igen.</string>
     <string name="wpcom_log_in_error_generic">Kunde inte logga in med WordPress.com. Försök igen.</string>
     <string name="collaborate_message">Lägg till en e-post i etikettfältet för att samarbeta med andra användare.</string>
@@ -168,7 +195,6 @@ Language: sv_SE
     <string name="rate_us">Betygsätt oss</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Om Simplenote</string>
     <string name="markdown_show">Visa Markdown</string>
     <string name="markdown_hide">Dölj Markdown</string>
     <string name="markdown">Markdown</string>
@@ -189,7 +215,6 @@ Language: sv_SE
     <string name="note_added">Anteckning tillagd</string>
     <string name="published">Publicerad</string>
     <string name="publish">Publicera</string>
-    <string name="version">Version</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Mörk</string>
     <string name="theme_light">Ljus</string>
@@ -224,8 +249,6 @@ Language: sv_SE
     <string name="today">Idag</string>
     <string name="trash">Papperskorg</string>
     <string name="sort_order">Sorteringsordning</string>
-    <string name="more_info">Mer information</string>
-    <string name="website">Besök simplenote.com</string>
     <string name="word">Ord</string>
     <string name="character">Tecken</string>
     <string name="no">Nej</string>

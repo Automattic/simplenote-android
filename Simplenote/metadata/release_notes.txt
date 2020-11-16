@@ -1,1 +1,2 @@
-* Fixed a bug with duplicate tags and special characters in tag names
+* Fixed crashing on devices with no web view installed
+

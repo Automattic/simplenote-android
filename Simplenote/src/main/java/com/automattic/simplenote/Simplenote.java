@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -16,7 +18,10 @@ import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -65,7 +70,6 @@ public class Simplenote extends Application {
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
-            mPreferencesBucket.start();
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -81,6 +85,10 @@ public class Simplenote extends Application {
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
         CrashUtils.setCurrentUser(mSimperium.getUser());
+
+        AppLog.add(Type.DEVICE, getDeviceInfo());
+        AppLog.add(Type.ACCOUNT, getAccountInfo());
+        AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
     }
 
     @SuppressWarnings("unused")
@@ -102,6 +110,21 @@ public class Simplenote extends Application {
         }
     }
 
+    private String getAccountInfo() {
+        String email = "Email: " + (mSimperium != null && mSimperium.getUser() != null ? mSimperium.getUser().getEmail() : "?");
+        String notes = "Notes: " + (mNotesBucket != null ? mNotesBucket.count() : "?");
+        String tags = "Tags: " + (mTagsBucket != null ? mTagsBucket.count() : "?");
+        return email + "\n" + notes + "\n" + tags + "\n\n";
+    }
+
+    private String getDeviceInfo() {
+        String architecture = Build.DEVICE != null && Build.DEVICE.matches(".+_cheets|cheets_.+") ? "Chrome OS " : "Android ";
+        String device = "Device: " + Build.MANUFACTURER + " " + Build.MODEL + " (" + Build.DEVICE + ")";
+        String system = "System: " + architecture + Build.VERSION.RELEASE + " (" + Build.VERSION.SDK_INT + ")";
+        String app = "App: Simplenote " + PrefUtils.versionInfo();
+        return device + "\n" + system + "\n" + app + "\n\n";
+    }
+
     public Simperium getSimperium() {
         return mSimperium;
     }
@@ -118,8 +141,7 @@ public class Simplenote extends Application {
         return mPreferencesBucket;
     }
 
-    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks,
-            ComponentCallbacks2 {
+    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
         private boolean mIsInBackground = true;
 
         // ComponentCallbacks
@@ -138,14 +160,17 @@ public class Simplenote extends Application {
 
                         if (mNotesBucket != null) {
                             mNotesBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped note bucket (Simplenote)");
                         }
 
                         if (mTagsBucket != null) {
                             mTagsBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped tag bucket (Simplenote)");
                         }
 
                         if (mPreferencesBucket != null) {
                             mPreferencesBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped preference bucket (Simplenote)");
                         }
                     }
                 }, TEN_SECONDS_MILLIS);
@@ -157,22 +182,24 @@ public class Simplenote extends Application {
                         "application_closed"
                 );
                 AnalyticsTracker.flush();
+                AppLog.add(Type.ACTION, "App closed");
             } else {
                 mIsInBackground = false;
             }
         }
 
         @Override
-        public void onConfigurationChanged(Configuration newConfig) {
+        public void onConfigurationChanged(@NonNull Configuration newConfig) {
+            AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
         }
 
         @Override
         public void onLowMemory() {
         }
 
-        // ActivityLifeCycle callbacks
+        // ActivityLifecycleCallbacks
         @Override
-        public void onActivityResumed(Activity activity) {
+        public void onActivityResumed(@NonNull Activity activity) {
             if (mIsInBackground) {
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.APPLICATION_OPENED,
@@ -181,31 +208,41 @@ public class Simplenote extends Application {
                 );
 
                 mIsInBackground = false;
+                AppLog.add(Type.ACTION, "App opened");
             }
+
+            String activitySimpleName = activity.getClass().getSimpleName();
+
+            mPreferencesBucket.start();
+            AppLog.add(Type.SYNC, "Started preference bucket (" + activitySimpleName + ")");
+            mNotesBucket.start();
+            AppLog.add(Type.SYNC, "Started note bucket (" + activitySimpleName + ")");
+            mTagsBucket.start();
+            AppLog.add(Type.SYNC, "Started tag bucket (" + activitySimpleName + ")");
         }
 
         @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
         }
 
         @Override
-        public void onActivityStarted(Activity activity) {
+        public void onActivityStarted(@NonNull Activity activity) {
         }
 
         @Override
-        public void onActivityPaused(Activity activity) {
+        public void onActivityPaused(@NonNull Activity activity) {
         }
 
         @Override
-        public void onActivityStopped(Activity activity) {
+        public void onActivityStopped(@NonNull Activity activity) {
         }
 
         @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
         }
 
         @Override
-        public void onActivityDestroyed(Activity activity) {
+        public void onActivityDestroyed(@NonNull Activity activity) {
         }
     }
 }

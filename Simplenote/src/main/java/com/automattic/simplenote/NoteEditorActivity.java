@@ -21,7 +21,10 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
@@ -49,6 +52,8 @@ import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 public class NoteEditorActivity extends ThemedAppCompatActivity {
     private static final String STATE_MATCHES_INDEX = "MATCHES_INDEX";
     private static final String STATE_MATCHES_LOCATIONS = "MATCHES_LOCATIONS";
+    private static final int INDEX_TAB_EDIT = 0;
+    private static final int INDEX_TAB_PREVIEW = 1;
 
     private ImageButton mButtonPrevious;
     private ImageButton mButtonNext;
@@ -72,6 +77,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));
+        AppLog.add(Type.SCREEN, "Created (NoteEditorActivity)");
         setContentView(R.layout.activity_note_editor);
 
         // No title, please.
@@ -131,7 +138,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 new NoteEditorViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageSelected(int position) {
-                        if (position == 1) {  // Preview is position 1
+                        if (position == INDEX_TAB_PREVIEW) {
                             DisplayUtils.hideKeyboard(mViewPager);
                         }
 
@@ -141,7 +148,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                             mNote = notesBucket.get(mNoteId);
 
                             if (mNote != null) {
-                                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                                mNote.setPreviewEnabled(position == INDEX_TAB_PREVIEW);
                                 mNote.save();
                             }
                         } catch (BucketObjectMissingException exception) {
@@ -214,29 +221,40 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+
         if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
             AppLockManager.getInstance().getAppLock().setExemptActivities(null);
         }
+
+        AppLog.add(Type.SCREEN, "Paused (NoteEditorActivity)");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));
+        AppLog.add(Type.SCREEN, "Resumed (NoteEditorActivity)");
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(0).isAdded()) {
-            getSupportFragmentManager()
-                    .putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(0));
+        if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT).isAdded()) {
+            getSupportFragmentManager().putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT));
         }
-        if (mNoteEditorFragmentPagerAdapter.getCount() > 1 && mNoteEditorFragmentPagerAdapter.getItem(1).isAdded()) {
-            getSupportFragmentManager()
-                    .putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(1));
+
+        if (mNoteEditorFragmentPagerAdapter.getCount() > 1 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW).isAdded()) {
+            getSupportFragmentManager().putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW));
         }
+
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
         outState.putBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
         outState.putInt(STATE_MATCHES_INDEX, mSearchMatchIndex);
@@ -360,7 +378,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     }
 
     private boolean isPreviewTabSelected() {
-        return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == 1;  // Preview is position 1
+        return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == INDEX_TAB_PREVIEW;
     }
 
     public void showTabs() {
@@ -469,7 +487,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     }
 
     private void togglePreview() {
-        int position = mNote.isPreviewEnabled() ? 0 : 1;  // Edit is position 0, Preview is position 1
+        int position = mNote.isPreviewEnabled() ? INDEX_TAB_EDIT : INDEX_TAB_PREVIEW;
         mViewPager.setCurrentItem(position);
 
         try {
@@ -478,7 +496,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             mNote = notesBucket.get(mNoteId);
 
             if (mNote != null) {
-                mNote.setPreviewEnabled(position == 1);  // Preview is position 1
+                mNote.setPreviewEnabled(position == INDEX_TAB_PREVIEW);
                 mNote.save();
             }
         } catch (BucketObjectMissingException exception) {

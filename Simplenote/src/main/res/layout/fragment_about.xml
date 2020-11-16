@@ -110,6 +110,32 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/about_help"
+            style="@style/Theme.Simplestyle.About.Row">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/about_help_title"
+                android:layout_toStartOf="@+id/about_help_arrow"
+                android:text="@string/about_help_title"
+                style="@style/Theme.Simplestyle.About.Title">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_below="@id/about_help_title"
+                android:layout_toStartOf="@+id/about_help_arrow"
+                android:text="@string/about_help_summary"
+                style="@style/Theme.Simplestyle.About.Subtitle">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <ImageView
+                android:id="@+id/about_help_arrow"
+                android:importantForAccessibility="no"
+                style="@style/Theme.Simplestyle.About.Arrow">
+            </ImageView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/about_store"
             style="@style/Theme.Simplestyle.About.Row">
 

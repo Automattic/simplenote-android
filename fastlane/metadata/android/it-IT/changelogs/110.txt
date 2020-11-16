@@ -1,3 +1,0 @@
-2.8:
-* Aggiunti tasti di scelta rapida (tasti di scelta) per dispositivi con tastiere hardware
-* Aggiunto supporto per lingue scritte da destra a sinistra per la visualizzazione in anteprima Markdown

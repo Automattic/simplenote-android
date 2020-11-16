@@ -1,0 +1,4 @@
+2.12:
+* Aggiunto il completamento automatico all'editor quando viene aggiunto un link tra le note
+* Aggiunto un link di supporto nelle impostazioni
+

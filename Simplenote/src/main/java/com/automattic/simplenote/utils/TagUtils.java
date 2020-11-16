@@ -52,6 +52,27 @@ public class TagUtils {
     }
 
     /**
+     * Get the canonical representation of a tag from the hashed value of the lexical variation.
+     *
+     * @param bucket    {@link Bucket<Tag>} in which to get tag.
+     * @param lexical   {@link String} lexical variation of tag.
+     *
+     * @return          {@link String} canonical of tag if exists; lexical variation otherwise.
+     */
+    public static String getCanonicalFromLexical(Bucket<Tag> bucket, String lexical) {
+        String hashed = hashTag(lexical);
+
+        try {
+            Tag tag = bucket.getObject(hashed);
+            Log.d("getCanonicalFromLexical", "Tag " + "\"" + hashed + "\"" + " does exist");
+            return tag.getName();
+        } catch (BucketObjectMissingException e) {
+            Log.d("getCanonicalFromLexical", "Tag " + "\"" + hashed + "\"" + " does not exist");
+            return lexical;
+        }
+    }
+
+    /**
      * Hash the tag @param name with normalizing, lowercasing, and encoding.
      *
      * @param name      {@link String} to hash as the tag kay.
@@ -62,7 +83,7 @@ public class TagUtils {
         try {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
-            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.toString());
+            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name());
             return encoded.replace("*", "%2A").replace("+", "%20");
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
@@ -81,7 +102,7 @@ public class TagUtils {
         try {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
-            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.toString()).replace("*", "%2A").replace("+", "%20");
+            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name()).replace("*", "%2A").replace("+", "%20");
             return encoded.length() <= MAXIMUM_LENGTH_ENCODED_HASH;
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.

@@ -28,6 +28,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
@@ -72,7 +73,7 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
 
         // Get widget information
         mWidgetManager = AppWidgetManager.getInstance(NoteWidgetDarkConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_dark);
+        mRemoteViews = new RemoteViews(getPackageName(), PrefUtils.getLayoutWidget(NoteWidgetDarkConfigureActivity.this, false));
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -143,7 +144,7 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return LayoutInflater.from(context).inflate(R.layout.note_list_row, parent, false);
+            return LayoutInflater.from(context).inflate(PrefUtils.getLayoutWidgetListItem(context, ThemeUtils.isLightTheme(context)), parent, false);
         }
 
         @Override

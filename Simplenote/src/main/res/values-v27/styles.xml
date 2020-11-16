@@ -66,6 +66,9 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
+        <item name="colorAccent">@color/item_default_light</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.Passcode" parent="@style/Theme.MaterialComponents.Light.NoActionBar">

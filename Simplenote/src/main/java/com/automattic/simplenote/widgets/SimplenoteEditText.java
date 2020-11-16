@@ -11,22 +11,63 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
 
-import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 import androidx.core.content.ContextCompat;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.LinkTokenizer;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class SimplenoteEditText extends AppCompatEditText {
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_ID;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
+
+public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
+    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
+    private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
+    private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
+
+    private LinkTokenizer mTokenizer;
     private List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
-    private final int CHECKBOX_LENGTH = 2; // One CheckableSpan + a space character
+
+    @Override
+    public boolean enoughToFilter() {
+        String substringCursor = getText().toString().substring(getSelectionEnd());
+        Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
+
+        // When an internote link title is being edited, don't show an autocomplete popup.
+        if (matcherEdit.lookingAt()) {
+            String substringEdit = substringCursor.substring(0, matcherEdit.end());
+            Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
+
+            if (!matcherFull.lookingAt()) {
+                return false;
+            }
+        }
+
+        Editable text = getText();
+        int end = getSelectionEnd();
+
+        if (end < 0) {
+            return false;
+        }
+
+        int start = mTokenizer.findTokenStart(text, end);
+        return start > 0 && end - start >= 1;
+    }
 
     public interface OnCheckboxToggledListener {
         void onCheckboxToggled();
@@ -35,20 +76,41 @@ public class SimplenoteEditText extends AppCompatEditText {
     public SimplenoteEditText(Context context) {
         super(context);
         listeners = new ArrayList<>();
+        setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
+        setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
+        setLinkTokenizer();
     }
 
     public void addOnSelectionChangedListener(OnSelectionChangedListener o) {
         listeners.add(o);
+    }
+
+    private void setLinkTokenizer() {
+        mTokenizer = new LinkTokenizer();
+        setOnItemClickListener(this);
+        setTokenizer(mTokenizer);
+        setThreshold(1);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        @SuppressWarnings("unchecked")
+        Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
+        String key = cursor.getString(cursor.getColumnIndex(Note.KEY_PROPERTY)).replace("note", "");
+        String text = SimplenoteLinkify.getNoteLink(key);
+        int start = Math.max(getSelectionStart(), 0);
+        int end = Math.max(getSelectionEnd(), 0);
+        getEditableText().replace(Math.min(start, end), Math.max(start, end), text, 0, text.length());
     }
 
     @Override
@@ -256,7 +318,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         return content.toString();
     }
 
-    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2A2F]')
+    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2a2f]')
     public String getPreviewTextContent() {
         if (getText() == null) {
             return "";

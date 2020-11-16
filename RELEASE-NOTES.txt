@@ -1,10 +1,40 @@
-3.0
+2.14
 -----
  
+2.13
+-----
+
+* Fixed crashing on devices with no web view installed [https://github.com/Automattic/simplenote-android/pull/1182]
+
+2.12
+-----
+
+* Added autocomplete to the editor when adding a link between notes [https://github.com/Automattic/simplenote-android/pull/1161]
+* Added a link to help in settings [https://github.com/Automattic/simplenote-android/pull/1155]
+
+2.11.1
+-----
+* Fixed switching between apps causing data loss [https://github.com/Automattic/simplenote-android/pull/1170]
+
+2.11
+-----
+* Added linking between notes [#1145]
+* Fixed a bug with toggling tab-indented checkboxes [#1148]
+
+2.10.1
+-----
+* Fixed adding or editing a tag on Android 6 [https://github.com/Automattic/simplenote-android/pull/1157]
+
+2.10
+-----
+* Added improvements for devices with hardware keyboards
+* Added support for screen readers when adding a new note
+* Added condensed list option for widget
+
 2.9
 -----
 * Fixed a bug with duplicate tags and special characters in tag names
- 
+
 2.8
 -----
 * Added hotkey shortcuts for devices with hardware keyboards
