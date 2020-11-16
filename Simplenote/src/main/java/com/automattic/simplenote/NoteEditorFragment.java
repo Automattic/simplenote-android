@@ -430,6 +430,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
         mTagInput = mRootView.findViewById(R.id.tag_input);
+        mTagInput.setBucketTag(((Simplenote) requireActivity().getApplication()).getTagsBucket());
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
         mTagInput.setAdapter(mTagAutocompleteAdapter);

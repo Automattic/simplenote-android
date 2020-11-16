@@ -17,12 +17,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.models.Tag;
+import com.simperium.client.Bucket;
 
 import java.util.Objects;
 
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
+    private Bucket<Tag> mBucketTag;
     private OnTagAddedListener mTagAddedListener;
     private TextWatcher mTextWatcher = new TextWatcher() {
         @Override
@@ -86,7 +89,9 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     }
 
     public void notifyTagsChanged() {
-        notifyTagsChanged(getText().toString());
+        String lexical = getText().toString().trim();
+        String canonical = TagUtils.getCanonicalFromLexical(mBucketTag, lexical);
+        notifyTagsChanged(canonical);
     }
 
     public void notifyTagsChanged(String tag) {
@@ -105,6 +110,10 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
             addTextChangedListener(mTextWatcher);
             showDialogErrorLength();
         }
+    }
+
+    public void setBucketTag(Bucket<Tag> bucket) {
+        mBucketTag = bucket;
     }
 
     public void setOnTagAddedListener(OnTagAddedListener listener) {
