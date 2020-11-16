@@ -24,6 +24,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class Note extends BucketObject {
 
@@ -34,6 +38,7 @@ public class Note extends BucketObject {
     public static final String PUBLISHED_TAG = "published";
     public static final String NEW_LINE = "\n";
     public static final String CONTENT_PROPERTY = "content";
+    public static final String KEY_PROPERTY = "key";
     public static final String TAGS_PROPERTY = "tags";
     public static final String SYSTEM_TAGS_PROPERTY = "systemTags";
     public static final String CREATION_DATE_PROPERTY = "creationDate";
@@ -132,6 +137,37 @@ public class Note extends BucketObject {
         }
 
         return retVal;
+    }
+
+    private static int getReferenceCount(String key, String content) {
+        Pattern pattern = Pattern.compile(SIMPLENOTE_LINK_PREFIX + key);
+        Matcher matcher = pattern.matcher(content);
+        int count = 0;
+
+        while (matcher.find()) {
+            count++;
+        }
+
+        return count;
+    }
+
+    public static List<Reference> getReferences(Bucket<Note> bucket, String key) {
+        List<Reference> references = new ArrayList<>();
+        Bucket.ObjectCursor<Note> cursor = Note.search(bucket, SIMPLENOTE_LINK_PREFIX + key).execute();
+
+        while (cursor.moveToNext()) {
+            Note note = cursor.getObject();
+            references.add(
+                new Reference(
+                    note.getSimperiumKey(),
+                    note.getTitle(),
+                    note.getModificationDate(),
+                    getReferenceCount(key, note.getContent())
+                )
+            );
+        }
+
+        return references;
     }
 
     public static Calendar numberToDate(Number time) {

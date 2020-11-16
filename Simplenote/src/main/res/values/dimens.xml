@@ -10,6 +10,7 @@
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_extra_large">20dp</dimen>
     <dimen name="padding_extra_extra_large">24dp</dimen>
+    <dimen name="padding_error">48dp</dimen>
     <dimen name="padding_suggestion">40dp</dimen>
 
     <!-- http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing -->
@@ -65,7 +66,8 @@
     <dimen name="text_content">14sp</dimen>
     <dimen name="text_content_title">16sp</dimen>
     <dimen name="text_date">14sp</dimen>
-    <dimen name="text_empty">16sp</dimen>
+    <dimen name="text_empty">20sp</dimen>
+    <dimen name="text_empty_button">16sp</dimen>
     <dimen name="text_header">14sp</dimen>
     <dimen name="text_item">16sp</dimen>
     <dimen name="text_key">14sp</dimen>

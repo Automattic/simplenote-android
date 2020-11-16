@@ -1,11 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-17 08:54:04+0000
+Translation-Revision-Date: 2020-10-19 08:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="about_help_title">도움말</string>
+    <string name="about_help_summary">FAQ 또는 문의</string>
+    <string name="settings_item_get_help">도움말</string>
+    <string name="empty_notes_search_button_default">새 메모 만들기</string>
+    <string name="empty_notes_search_button">\"%1$s\" 제목으로 새 메모 만들기</string>
+    <string name="references_other">%1$d 참조, 마지막으로 수정된 날짜 %2$s</string>
+    <string name="references_one">%1$d 참조, 마지막으로 수정된 날짜 %2$s</string>
+    <string name="references">참조</string>
+    <string name="open_note_error">메모를 찾을 수 없습니다.</string>
+    <string name="open_note">메모 열기</string>
+    <string name="copy_link_internal">내부 링크 복사</string>
+    <string name="publish_successful">발행되었습니다.</string>
+    <string name="about">정보</string>
+    <string name="link_copied_failure">링크를 복사할 수 없습니다.</string>
+    <string name="send_logs">로그 보내기</string>
+    <string name="more">더</string>
+    <string name="website">웹사이트 방문</string>
+    <string name="log_out_anyway">로그아웃</string>
+    <string name="export_unsynced_notes">동기화되지 않은 메모 내보내기</string>
+    <string name="unsynced_notes_message">로그아웃하면 동기화되지 않은 모든 메모가 삭제됩니다.</string>
+    <string name="unsynced_notes">동기화되지 않은 메모</string>
+    <string name="export_setting">데이터 내보내기</string>
+    <string name="export_message_success">데이터를 파일에 저장했습니다.</string>
+    <string name="export_message_failure">데이터를 저장할 수 없습니다.</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">태그 길이가 너무 깁니다. 이름 길이를 줄여 다시 시도해 보세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
+    <string name="rename_tag_message">태그 이름을 변경하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
+    <string name="rename_tag_error_spaces">태그에 공백을 입력할 수 없습니다.</string>
+    <string name="rename_tag_error_length">태그 길이가 너무 깁니다.</string>
+    <string name="rename_tag_error_empty">태그를 비워둘 수 없습니다.</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL이 클립보드에 복사되었습니다.</string>
+    <string name="simperium_error_browser_copy_failure">URL을 클립보드에 복사할 수 없습니다.</string>
+    <string name="simperium_error_browser">브라우저가 설치 후 활성화되어 있는지 확인하세요.</string>
+    <string name="simperium_dialog_title_error_browser">감지된 브라우저가 없습니다.</string>
+    <string name="simperium_dialog_button_copy_url">URL 복사</string>
+    <string name="item_action_toggle_preview_error">미리보기를 전환하려면 메모를 선택하세요.</string>
+    <string name="item_action_toggle_preview_enable_error">미리보기를 전환하려면 마크다운을 활성화하세요.</string>
+    <string name="item_action_toggle_preview">미리보기 전환</string>
+    <string name="item_action_toggle_list_error">목록을 전환하려면 메모를 선택하세요.</string>
+    <string name="item_action_toggle_list">목록 전환</string>
+    <string name="item_action_toggle_checklist_error">체크리스트를 전환하려면 메모를 선택하세요.</string>
+    <string name="item_action_toggle_checklist_edit_error">체크리스트를 전환하려면 편집 탭을 선택하세요.</string>
+    <string name="item_action_show_share_error">공유를 표시하려면 메모를 선택하세요.</string>
+    <string name="item_action_show_share_edit_error">공유를 표시하려면 편집 탭을 선택하세요.</string>
+    <string name="item_action_show_share">공유 표시</string>
+    <string name="item_action_show_information_error">정보를 표시하려면 메모를 선택하세요.</string>
+    <string name="item_action_show_information_edit_error">정보를 표시하려면 편집 탭을 선택하세요.</string>
+    <string name="item_action_show_information">정보 표시</string>
+    <string name="item_action_show_history_error">기록을 표시하려면 메모를 선택하세요.</string>
+    <string name="item_action_show_history_edit_error">기록을 표시하려면 편집 탭을 선택하세요.</string>
+    <string name="item_action_show_history">기록 표시</string>
+    <string name="item_action_open_search">검색 열기</string>
+    <string name="action">작업</string>
+    <string name="link_california">%1$s%2$s%3$s캘리포니아 사용자를 위한 개인정보 공지%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">네트워크 연결이 필요합니다. 연결을 확인하고 다시 시도하세요.</string>
     <string name="simperium_dialog_message_password">패스워드 필수 규칙\n\n- 이메일 사용 금지\n- 최소 %1$d글자 이상\n- 줄바꿈 사용 금지\n- 탭 사용 금지</string>
@@ -29,7 +84,7 @@ Language: ko_KR
     <string name="note_list_widget_dark">메모 목록(어둡게)</string>
     <string name="retry">다시 시도</string>
     <string name="publishing">발행 중…</string>
-    <string name="publish_successful">발행되었습니다. 링크가 복사되었습니다!</string>
+    <string name="publish_successful_link">발행되었습니다. 링크가 복사되었습니다!</string>
     <string name="link_copied">링크가 복사되었습니다!</string>
     <string name="of">/</string>
     <string name="next">다음</string>
@@ -61,11 +116,11 @@ Language: ko_KR
     <string name="description_sort">정렬</string>
     <string name="description_down">아래로</string>
     <string name="description_delete_item">항목 삭제</string>
-    <string name="unsynced_notes_message">로그아웃하면 동기화되지 않은 모든 메모가 삭제됩니다. 웹 브라우저에서 app.simplenote.com에 로그인하여 동기화된 메모를 확인할 수 있습니다.</string>
     <string name="sort_search_reverse_order">순서 바꾸기</string>
     <string name="sort_search_modified">수정됨</string>
     <string name="sort_search_created">생성됨</string>
     <string name="sort_search_alphabetically">알파벳순</string>
+    <string name="welcome_note">Simplenote Android를 시작합니다.\n지침을 보려면 이 메모를 여세요.\n\n새 메모를 만들려면 더하기 아이콘이 있는 파란색 \"새 메모\" 버튼을 누릅니다.\n\n메모를 검색하려면 돋보기 아이콘이 있는 \"검색\" 버튼을 누르고 텍스트를 입력하세요. Simplenote는 텍스트를 입력하는 동안 처음에 최근 검색 내역과 제안 검색 내역을 보여줍니다. 검색이 제출되면 입력한 텍스트와 일치하는 메모가 표시됩니다.\n\n정말 중요한 메모가 있나요? 메모 목록 맨 위에 고정하세요. 두 가지 방법으로 메모를 고정할 수 있습니다. 목록에서 메모를 길게 누르고 핀 아이콘이 있는 \"상단에 고정\" 버튼을 누릅니다. 메모를 확인하면서 세로로 된 세 점 아이콘이 있는 \"추가 옵션\" 버튼을 누르고 \"고정\" 상자를 선택하세요.\n\n태그를 이용하면 메모를 손쉽게 정리할 수 있습니다. 메모 하단의 \"태그 추가…\" 필드에 태그를 만듭니다. 이메일 주소를 태그로 추가해서 다른 사람과 메모를 공유할 수도 있습니다.\n\n메모를 확인하면서 \"추가 옵션\" 메뉴의 \"공유\"를 눌러 다른 Android 앱과 메모를 간편하게 공유할 수 있습니다.\n\n삭제된 메모는 휴지통으로 이동합니다. 원하는 경우 삭제한 메모를 복구하거나 휴지통을 비워 영원히 제거할 수 있습니다.\n\n웹과 다른 기기에서 메모를 확인할 수 있습니다. 시작하려면 http://simplenote.com으로 이동하세요.\n\nSimplenote를 유용하게 활용하시기 바랍니다.</string>
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
     <string name="log_in">로그인</string>
@@ -126,9 +181,6 @@ Language: ko_KR
     <string name="logo">로고</string>
     <string name="unpin_from_top">위에서 고정 취소</string>
     <string name="untagged_notes">태그 없는 메모</string>
-    <string name="delete_notes">메모 삭제</string>
-    <string name="visit_web_app">웹 앱 방문</string>
-    <string name="unsynced_notes">동기화되지 않은 메모 감지됨</string>
     <string name="wpcom_log_in_error_unverified">이메일을 통해 워드프레스닷컴 계정을 활성화하고 다시 시도하세요.</string>
     <string name="wpcom_log_in_error_generic">워드프레스닷컴으로 로그인할 수 없습니다. 다시 시도하세요.</string>
     <string name="collaborate_message">다른 시용자와 협업하려면 태그 필그에서 이메일을 추가하세요.</string>
@@ -143,7 +195,6 @@ Language: ko_KR
     <string name="rate_us">평가하기</string>
     <string name="twitter">트위터</string>
     <string name="about_play_store">Google Play 스토어</string>
-    <string name="about">Simplenote 정보</string>
     <string name="markdown_show">마크다운 보이기</string>
     <string name="markdown_hide">마크다운 숨기기</string>
     <string name="markdown">마크다운</string>
@@ -164,7 +215,6 @@ Language: ko_KR
     <string name="note_added">메모가 추가됨</string>
     <string name="published">게시됨</string>
     <string name="publish">게시</string>
-    <string name="version">버전</string>
     <string name="theme">테마</string>
     <string name="theme_dark">어두움</string>
     <string name="theme_light">밝음</string>
@@ -199,8 +249,6 @@ Language: ko_KR
     <string name="today">오늘</string>
     <string name="trash">휴지통</string>
     <string name="sort_order">정렬 순서</string>
-    <string name="more_info">추가 정보</string>
-    <string name="website">simplenote.com 방문</string>
     <string name="word">단어</string>
     <string name="character">문자</string>
     <string name="no">아니요</string>

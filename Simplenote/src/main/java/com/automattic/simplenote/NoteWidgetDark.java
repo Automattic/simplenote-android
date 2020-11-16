@@ -51,7 +51,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_dark);
+        RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidget(context, false));
         resizeWidget(newOptions, views);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -98,7 +98,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
 
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         // Get widget views
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_dark);
+        RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidget(context, false));
         resizeWidget(appWidgetOptions, views);
 
         // Verify user authentication

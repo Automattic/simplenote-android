@@ -1,17 +1,17 @@
 package com.automattic.simplenote.utils;
 
 import android.text.Editable;
-import android.text.TextUtils;
 
 import com.automattic.simplenote.widgets.CheckableSpan;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AutoBullet {
+import static com.automattic.simplenote.utils.ChecklistUtils.CHAR_BULLET;
+import static com.automattic.simplenote.utils.ChecklistUtils.CHAR_NO_BREAK_SPACE;
 
-    // \u2022 is the unicode bullet character
-    private static final String PATTERN_BULLET = "^([\\s]*)([-*+\u2022])[\\s]+(.*)$";
+public class AutoBullet {
+    private static final String PATTERN_BULLET = "^([\\s]*)([-*+" + CHAR_BULLET + CHAR_NO_BREAK_SPACE + "])[\\s]+(.*)$";
     private static final String STR_LINE_BREAK = System.getProperty("line.separator");
     private static final String STR_SPACE = " ";
 
@@ -27,42 +27,29 @@ public class AutoBullet {
             int prevParagraphEnd = newCursorPosition - 1;
             int prevParagraphStart = noteContent.lastIndexOf(STR_LINE_BREAK, prevParagraphEnd - 1);
             prevParagraphStart++; // ++ because we don't actually include the previous linebreak
-
             String prevParagraph = noteContent.substring(prevParagraphStart, prevParagraphEnd);
-
             BulletMetadata metadata = extractBulletMetadata(prevParagraph);
-
             // See if there's a CheckableSpan in the previous line
             CheckableSpan[] checkableSpans = editable.getSpans(prevParagraphStart, prevParagraphEnd, CheckableSpan.class);
+
             if (checkableSpans.length > 0) {
-                if (TextUtils.isEmpty(prevParagraph.trim())) {
+                if (prevParagraph.trim().equalsIgnoreCase(String.valueOf(CHAR_NO_BREAK_SPACE))) {
                     // Empty checklist item, remove and place cursor at start of line
                     editable.replace(prevParagraphStart, newCursorPosition, "");
                 } else {
                     // We can add a new checkbox!
-                    int spanStart = editable.getSpanStart(checkableSpans[0]);
-                    int spacesBeforeSpan = spanStart - prevParagraphStart;
-                    String spaces = new String(new char[spacesBeforeSpan]).replace('\0', ' ');
-                    editable.insert(newCursorPosition, spaces + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
+                    String leadingWhitespace = metadata.leadingWhitespace != null ? metadata.leadingWhitespace : "";
+                    editable.insert(newCursorPosition, leadingWhitespace + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
                 }
+
                 return;
             }
 
             if (metadata.isBullet) {
-                String bullet;
-
                 if (!metadata.isEmptyBullet) {
-                    bullet = buildBullet(metadata);
-                    editable.insert(newCursorPosition, bullet);
+                    editable.insert(newCursorPosition, buildBullet(metadata));
                 } else {
-                    if (metadata.numSpacesPrefixed > 0) {
-                        metadata.numSpacesPrefixed -= 1;
-                        bullet = buildBullet(metadata);
-                    } else {
-                        bullet = "";
-                    }
-
-                    editable.replace(prevParagraphStart, newCursorPosition, bullet);
+                    editable.replace(prevParagraphStart, newCursorPosition, "");
                 }
             }
         }
@@ -73,13 +60,7 @@ public class AutoBullet {
     }
 
     private static String buildBullet(BulletMetadata metadata) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < metadata.numSpacesPrefixed; i++) {
-            sb.append(STR_SPACE);
-        }
-        sb.append(metadata.bulletChar);
-        sb.append(STR_SPACE);
-        return sb.toString();
+        return metadata.leadingWhitespace + metadata.bulletChar + STR_SPACE;
     }
 
     private static BulletMetadata extractBulletMetadata(String input) {
@@ -90,7 +71,7 @@ public class AutoBullet {
 
         if (matcher.find()) {
             metadata.isBullet = true;
-            metadata.numSpacesPrefixed = matcher.group(1).length();
+            metadata.leadingWhitespace = matcher.group(1);
             metadata.bulletChar = matcher.group(2);
             metadata.isEmptyBullet = matcher.group(3).trim().isEmpty();
         }
@@ -99,9 +80,9 @@ public class AutoBullet {
     }
 
     private static class BulletMetadata {
-        boolean isBullet = false;
-        int numSpacesPrefixed;
         String bulletChar;
+        String leadingWhitespace;
+        boolean isBullet = false;
         boolean isEmptyBullet = false;
     }
 }

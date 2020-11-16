@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.IconResizer;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.ShareButtonAdapter;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -75,6 +77,11 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             mPublishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                        Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     mListener.onSharePublishClicked();
                 }
             });
@@ -82,6 +89,11 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
             mUnpublishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                        Toast.makeText(requireContext(), R.string.error_network_required, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     mListener.onShareUnpublishClicked();
                 }
             });
