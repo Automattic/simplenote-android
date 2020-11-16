@@ -144,7 +144,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/more_info">
+        android:title="@string/more">
 
         <Preference
             android:key="pref_key_about"
@@ -153,16 +153,21 @@
         </Preference>
 
         <Preference
-            android:key="pref_key_website"
+            android:key="pref_key_help"
             android:persistent="false"
-            android:title="@string/website">
+            android:title="@string/settings_item_get_help">
         </Preference>
 
         <Preference
-            android:key="pref_key_build"
+            android:key="pref_key_logs"
             android:persistent="false"
-            android:selectable="false"
-            android:title="@string/version">
+            android:title="@string/send_logs">
+        </Preference>
+
+        <Preference
+            android:key="pref_key_website"
+            android:persistent="false"
+            android:title="@string/website">
         </Preference>
 
     </PreferenceCategory>

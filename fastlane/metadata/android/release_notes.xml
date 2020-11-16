@@ -1,85 +1,102 @@
 <ar>
-2.8:
-* تمت إضافة اختصارات مفاتيح التشغيل السريعة إلى الأجهزة المزوَّدة بلوحات مفاتيح الأجهزة
-* تمت إضافة دعم اللغة من اليمين إلى اليسار لمعاينة الضبط
+2.12:
+تمت إضافة ميزة الإكمال التلقائي إلى المحرِّر عند إضافة رابط بين الملحوظات
+* تمت إضافة رابط للمساعدة على الإعدادات
+
 </ar>
 <de-DE>
-2,8:
-* Hotkey-Tastaturkürzel für Geräte mit Hardware-Tastaturen hinzugefügt
-* Unterstützung für Rechts-nach-Links-Sprachen für Markdown-Vorschau hinzugefügt
+2.12:
+* Automatische Vervollständigung zum Editor hinzugefügt, wenn ein Link zwischen Notizen hinzugefügt wird
+* Hilfreichen Link in „Einstellungen“ hinzugefügt
+
 </de-DE>
 <es-ES>
-2.8:
-* Hemos añadido atajos de teclado para dispositivos con hardware de teclado
-* Hemos añadido la compatibilidad con idiomas que se leen de derecha a izquierda con la vista previa de Markdown
+2.12:
+* Se ha añadido la función Autocompletar al editor al añadir un enlace entre notas.
+* Se ha añadido un enlace a la ayuda de Ajustes.
+
 </es-ES>
 <fr-FR>
-2.8 :
-* Ajout de raccourcis pour les appareils avec un clavier matériel
-* Ajout de la prise en charge des langues s’écrivant de droite à gauche pour l’aperçu Markdown
+2.12 :
+* Ajout de la saisie semi-automatique à l’éditeur lors de l’ajout d’un lien entre des notes
+* Ajout d’un lien d’aide dans les réglages
+
 </fr-FR>
 <iw-IL>
-2.8:
-* הוספנו קיצורי דרך של מקשים מהירים במקלדות חומרה
-* הוספנו תמיכה בשפות עם כיווניות מימין לשמאל בתצוגה מקדימה של Markdown
+2.12:
+* הוספנו אפשרות להשלמה אוטומטית בעורך כאשר מוסיפים קישור בין פתקים
+* הוספנו קישור לעזרה ב'הגדרות'
+
 </iw-IL>
 <id>
-2.8:
-* Pintasan hotkey tambahan untuk perangkat dengan keyboard perangkat keras
-* Menambahkan dukungan bahasa kanan-ke-kiri untuk pratinjau markdown
+2,12:
+* Menambahkan fitur pelengkapan otomatis pada editor saat menambahkan link di antara catatan
+* Menambahkan link untuk bantuan pada pengaturan
+
 </id>
 <it-IT>
-2.8:
-* Aggiunti tasti di scelta rapida (tasti di scelta) per dispositivi con tastiere hardware
-* Aggiunto supporto per lingue scritte da destra a sinistra per la visualizzazione in anteprima Markdown
+2.12:
+* Aggiunto il completamento automatico all'editor quando viene aggiunto un link tra le note
+* Aggiunto un link di supporto nelle impostazioni
+
 </it-IT>
 <ja-JP>
-2.8:
-* ハードウェアキーボードが搭載されたデバイス向けにホットキーショートカットを追加
-* マークダウンプレビュー用に、右から左に書く言語のサポートを追加
+2.12:
+* ノートの間にリンクを追加する際に、エディターに自動入力を追加しました
+* 「設定」の「ヘルプ」へのリンクを追加しました
+
 </ja-JP>
 <ko-KR>
-2.8:
-* 하드웨어 키보드가 연결된 기기의 핫키 단축키 추가됨
-* 마크다운 미리보기를 위한 오른쪽에서 왼쪽으로 읽는 언어 지원 추가됨
+2.12:
+* 메모 사이에 링크를 추가할 때 편집기에 자동 완성 기능 추가됨
+* 설정에 유용한 링크 추가됨
+
 </ko-KR>
 <nl-NL>
-2.8:
-* Sneltoetsen toegevoegd voor apparaten met hardware-toetsenborden
-* Ondersteuning voor talen die van rechts naar links lezen toegevoegd aan voorbeeldweergave van markdown
+2.12:
+* Automatisch aanvullen toegevoegd wanneer een koppeling tussen notities wordt aangemaakt
+* Link toegevoegd voor hulp bij instellingen
+
 </nl-NL>
 <pt-BR>
-2.8:
-* Adição de atalhos de teclado para dispositivos com teclado físico
-* Adição de suporte a idiomas escritos da direita para a esquerda (RTL) na visualização de Markdown
+2.12:
+* Adicionado preenchimento automático ao editor para quando um link é incluso entre anotações
+* Adicionado um link para obter ajuda nas configurações
+
 </pt-BR>
 <ru-RU>
-2.8:
-* Добавлены горячие клавиши для устройств с аппаратными клавиатурами
-* Предварительный просмотр разметки теперь возможен для языков с написанием справа налево
+2.12:
+* В редактор добавлена функция автозаполнения для вставки ссылки из одной заметки на другую
+* На страницу «Настройки» добавлена ссылка на Справку
+
 </ru-RU>
 <sv-SE>
-2,8:
-* Lade till kortkommandon för enheter med fysiska tangentbord
-* Lade till stöd för höger till vänster-språk för Markdown-förhandsgranskning
+2.12:
+* Automatiskt slutförande när en länk läggs till mellan anteckningar har lagts till i redigeraren
+* En hjälplänk har lagts till i inställningarna
+
 </sv-SE>
 <tr-TR>
-2,8:
-* Donanım klavyeli cihazlar için kısayol tuşu kısayolları eklendi *
-* İşaretleme önizlemesine sağdan sola dil desteği eklendi
+2,12:
+* Notlar arasına bağlantı eklerken yardımcı olması için düzenleyiciye otomatik tamamlama işlevi eklendi
+* Yardım için ayarlara bir bağlantı eklendi
+
 </tr-TR>
 <zh-CN>
-2.8：
-* 为带有硬件键盘的设备添加了热键快捷方式
-* 为 Markdown 预览添加了从右到左的语言支持
+2.12：
+* 在编辑器中添加了在注释之间添加链接时自动完成的功能
+* 在设置中添加了帮助链接
+
 </zh-CN>
 <zh-TW>
-2.8：
-* 為配備硬體鍵盤的裝置新增快速鍵捷徑
-* 為 Markdown 預覽新增從右至左語言支援
+2.12：
+* 編輯器新增自動完成功能，在筆記之間新增連結時便會自動填入資訊
+* 在設定中新增協助連結
+
 </zh-TW>
 <en-US>
-2.8:
-* Added hotkey shortcuts for devices with hardware keyboards
-* Added right-to-left language support to markdown preview
+2.12:
+* Added autocomplete to the editor when adding a link between notes
+* Added a link to help in settings
+
 </en-US>

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.ContextThemeWrapper;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,12 +16,23 @@ import androidx.appcompat.app.AlertDialog;
 import com.automattic.simplenote.R;
 
 public class BrowserUtils {
+    public static final String URL_WEB_VIEW = "https://play.google.com/store/apps/details?id=com.google.android.webview";
+
     public static boolean isBrowserInstalled(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.simperium_url)));
         return (intent.resolveActivity(context.getPackageManager()) != null);
     }
 
-    public static void copyToClipboard(Context base, String url) {
+    public static boolean isWebViewInstalled(Context context) {
+        try {
+            new WebView(context);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
+    public static boolean copyToClipboard(Context base, String url) {
         Context context = new ContextThemeWrapper(base, base.getTheme());
 
         try {
@@ -29,11 +41,12 @@ public class BrowserUtils {
 
             if (clipboard != null) {
                 clipboard.setPrimaryClip(clip);
+                return true;
+            } else {
+                return false;
             }
-
-            Toast.makeText(context, R.string.simperium_error_browser_copy_success, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(context, R.string.simperium_error_browser_copy_failure, Toast.LENGTH_SHORT).show();
+            return  false;
         }
     }
 
@@ -54,7 +67,11 @@ public class BrowserUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        copyToClipboard(context, url);
+                        if (copyToClipboard(context, url)) {
+                            Toast.makeText(context, R.string.simperium_error_browser_copy_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, R.string.simperium_error_browser_copy_failure, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             )

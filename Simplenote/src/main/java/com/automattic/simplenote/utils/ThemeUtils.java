@@ -9,6 +9,7 @@ import android.net.Uri;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
@@ -136,6 +137,26 @@ public class ThemeUtils {
             case STYLE_PUBLICATION:
             default:
                 return isLight ? "light.css" : "dark.css";
+        }
+    }
+
+    public static @StyleRes int getThemeFromStyle(Context context) {
+        switch (PrefUtils.getStyleIndexSelected(context)) {
+            case STYLE_BLACK:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Black;
+            case STYLE_CLASSIC:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Classic;
+            case STYLE_MATRIX:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Matrix;
+            case STYLE_MONO:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Mono;
+            case STYLE_PUBLICATION:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Publication;
+            case STYLE_SEPIA:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Sepia;
+            case STYLE_DEFAULT:
+            default:
+                return R.style.Theme_Simplestyle_BottomSheetDialog_Default;
         }
     }
 

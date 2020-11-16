@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-17 11:54:04+0000
+Translation-Revision-Date: 2020-10-16 15:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="about_help_title">إحصل على المساعدة</string>
+    <string name="about_help_summary">الأسئلة المتداولة أو اتصل بنا</string>
+    <string name="settings_item_get_help">الحصول على مساعدة</string>
+    <string name="empty_notes_search_button_default">إنشاء ملاحظة جديدة</string>
+    <string name="empty_notes_search_button">إنشاء ملحوظة جديدة بعنوان \"⁦%1$s⁩\"</string>
+    <string name="references_other">⁦%1$d⁩ المراجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references_one">⁦%1$d⁩ المرجع، وتاريخ آخر تعديل ⁦%2$s⁩</string>
+    <string name="references">تمت الإشارة في</string>
+    <string name="open_note_error">تعذر العثور على الملحوظة</string>
+    <string name="open_note">فتح الملحوظة</string>
+    <string name="copy_link_internal">نسخ الرابط الداخلي</string>
+    <string name="publish_successful">تم النشر.</string>
+    <string name="about">نبذة عن</string>
+    <string name="link_copied_failure">تعذَّر نسخ الرابط.</string>
+    <string name="send_logs">إرسال السجلات</string>
+    <string name="more">المزيد</string>
+    <string name="website">زيارة موقع الويب</string>
+    <string name="log_out_anyway">تسجيل الخروج على أي حال</string>
+    <string name="export_unsynced_notes">تصدير ملحوظات غير متزامنة</string>
+    <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملحوظات غير متزامنة.</string>
+    <string name="unsynced_notes">ملحوظات غير متزامنة</string>
+    <string name="export_setting">تصدير بيانات</string>
+    <string name="export_message_success">تم حفظ البيانات في الملف</string>
+    <string name="export_message_failure">يتعذر حفظ البيانات</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">الوسم طويل للغاية. يُرجى المحاولة مرة أخرى باسم أقصر. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
+    <string name="rename_tag_message">حدث خطأ في أثناء إعادة تسمية الوسم. يُرجى المحاولة مرة أخرى. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
+    <string name="rename_tag_error_spaces">يتعذر أن تحتوي الوسوم على مسافات</string>
+    <string name="rename_tag_error_length">الوسم طويل للغاية.</string>
+    <string name="rename_tag_error_empty">يتعذر أن تكون الوسوم فارغة</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">تم نسخ عنوان URL إلى الحافظة</string>
+    <string name="simperium_error_browser_copy_failure">تعذر نسخ عنوان URL إلى الحافظة</string>
+    <string name="simperium_error_browser">يُرجى التحقُّق من تثبيت المتصفح وتمكينه.</string>
+    <string name="simperium_dialog_title_error_browser">لم يتم اكتشاف أي متصفح</string>
+    <string name="simperium_dialog_button_copy_url">نسخ عنوان URL</string>
+    <string name="item_action_toggle_preview_error">تحديد ملحوظة لتبديل المعاينة</string>
+    <string name="item_action_toggle_preview_enable_error">تمكين الضبط لتبديل المعاينة</string>
+    <string name="item_action_toggle_preview">تبديل المعاينة</string>
+    <string name="item_action_toggle_list_error">تحديد ملحوظة لتبديل القائمة</string>
+    <string name="item_action_toggle_list">تبديل القائمة</string>
+    <string name="item_action_toggle_checklist_error">تحديد ملحوظة لتبديل قائمة الاختيار</string>
+    <string name="item_action_toggle_checklist_edit_error">تحديد علامة تبويب \"التحرير\" لتبديل قائمة الاختيار</string>
+    <string name="item_action_show_share_error">تحديد ملحوظة لعرض المشاركة</string>
+    <string name="item_action_show_share_edit_error">تحديد علامة تبويب \"التحرير\" لعرض المشاركة</string>
+    <string name="item_action_show_share">عرض المشاركة</string>
+    <string name="item_action_show_information_error">تحديد ملحوظة لعرض المعلومات</string>
+    <string name="item_action_show_information_edit_error">تحديد علامة تبويب \"التحرير\" لعرض المعلومات</string>
+    <string name="item_action_show_information">عرض المعلومات</string>
+    <string name="item_action_show_history_error">تحديد ملحوظة لعرض المحفوظات</string>
+    <string name="item_action_show_history_edit_error">تحديد علامة تبويب \"التحرير\" لعرض المحفوظات</string>
+    <string name="item_action_show_history">عرض المحفوظات</string>
+    <string name="item_action_open_search">فتح البحث</string>
+    <string name="action">الإجراء</string>
+    <string name="link_california">%1$s%2$s⁦%3$s⁩إشعار الخصوصية الخاص بالمستخدمين في كاليفورنيا⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">يلزم وجود اتصال بالشبكة. يرجى التحقُّق من اتصالك والمحاولة مرة أخرى.</string>
+    <string name="simperium_dialog_message_password">فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n- %1$d من الأحرف بحد أدنى\n- لا توجد خطوط جديدة\n- لا توجد علامات تبويب</string>
+    <string name="simperium_dialog_message_login_reset">كلمة مرورك غير آمنة وتجب إعادة تعيينها. فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n- %1$d من الأحرف بحد أدنى\n- لا توجد خطوط جديدة\n- لا توجد علامات تبويب</string>
+    <string name="simperium_button_login_reset">إعادة تعيين</string>
+    <string name="link_terms">%1$s%2$s%3$sشروط الخدمة%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sسياسة الخصوصية%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">هل أنت مطوِّر؟ نحن نبحث عن مطورين لتعيينهم لدينا.</string>
+    <string name="about_hiring_title">مِهن</string>
+    <string name="about_contribute_title">مساهمة</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">حقوق الطبع والنشر محفوظة © لصالح شركة Automattic%1$d</string>
     <string name="search">البحث عن الملحوظات أو الوسوم</string>
     <string name="empty_tags_search">لم يتم العثور على وسوم</string>
     <string name="empty_notes_widget">لا توجد ملحوظات</string>
@@ -18,7 +84,7 @@ Language: ar
     <string name="note_list_widget_dark">قائمة الملحوظات (غامق)</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="publishing">جارٍ النشر…</string>
-    <string name="publish_successful">تم النشر. تم نسخ الرابط!</string>
+    <string name="publish_successful_link">تم النشر. تم نسخ الرابط!</string>
     <string name="link_copied">تم نسخ الرابط!</string>
     <string name="of">من</string>
     <string name="next">التالي</string>
@@ -50,11 +116,11 @@ Language: ar
     <string name="description_sort">فرز</string>
     <string name="description_down">أسفل</string>
     <string name="description_delete_item">حذف العنصر</string>
-    <string name="unsynced_notes_message">سيؤدي تسجيل الخروج إلى حذف أي ملحوظات غير متزامنة. يمكنك التحقق من ملحوظاتك المتزامنة عن طريق تسجيل الدخول إلى app.simplenote.com في متصفح الويب.</string>
     <string name="sort_search_reverse_order">عكس الترتيب</string>
     <string name="sort_search_modified">معدَّل</string>
     <string name="sort_search_created">تاريخ الإنشاء</string>
     <string name="sort_search_alphabetically">أبجديًا</string>
+    <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذه الملحوظة للحصول على الإرشادات.\n\nلإنشاء ملحوظة جديدة، انقر على زر \"إضافة ملحوظة\" الأزرق مع أيقونة \"الإضافة\".\n\nللبحث عن ملحوظاتك، انقر على زر \"بحث\" مع أيقونة العدسة المكبِّرة وأدخل أي نص. سيعرض برنامج Simplenote مبدئيًا عمليات البحث الأخيرة وعمليات البحث المقترحة عند إدخال نص. ستظهر الملحوظات التي تتطابق مع النص الذي تم إدخاله بمجرد إرسال البحث.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ قم بتثبيتها في الجزء العلوي من قائمة الملحوظات. يمكنك تثبيت الملحوظة بطريقتين. اضغط ضغطًا مطولاً على الملحوظة الموجودة في القائمة وانقر على زر \"تثبيت في الأعلى\" مع أيقونة التثبيت. اضغط على زر \"مزيد من الخيارات\" المتمثِّل في أيقونة النقاط الرأسية الثلاث في أثناء عرض ملحوظة، وحدِّد مربع \"التثبيت\".\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. أنشئ وسمًا في حقل \"إضافة وسم…\" في أسفل الملحوظة. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على \"مشاركة\" في قائمة \"مزيد من الخيارات\" في أثناء عرض الملحوظة.\n\nتظهر الملحوظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
     <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="log_in">تسجيل الدخول</string>
@@ -115,9 +181,6 @@ Language: ar
     <string name="logo">الشعار</string>
     <string name="unpin_from_top">إلغاء التثبيت من الأعلى</string>
     <string name="untagged_notes">ملحوظات غير مميزة</string>
-    <string name="delete_notes">حذف الملاحظات</string>
-    <string name="visit_web_app">زيارة تطبيق الويب</string>
-    <string name="unsynced_notes">تم الكشف عن ملاحظات غير متزامنة</string>
     <string name="wpcom_log_in_error_unverified">يمكنك تفعيل حسابك على ووردبريس.كوم من خلال البريد الإلكتروني والمحاولة مجددًا.</string>
     <string name="wpcom_log_in_error_generic">تعذر تسجيل الدخول باستخدام ووردبريس.كوم. يُرجى المحاولة مجددًا.</string>
     <string name="collaborate_message">إضافة بريد إلكتروني في حقل العلامة للتعاون مع مستخدمين آخرين.</string>
@@ -132,7 +195,6 @@ Language: ar
     <string name="rate_us">صنّفنا</string>
     <string name="twitter">تويتر</string>
     <string name="about_play_store">متجر Google Play</string>
-    <string name="about">نبذة عن Simplenote</string>
     <string name="markdown_show">إظهار الضبط</string>
     <string name="markdown_hide">إخفاء الضبط</string>
     <string name="markdown">الضبط</string>
@@ -153,7 +215,6 @@ Language: ar
     <string name="note_added">تمت إضافة ملاحظة</string>
     <string name="published">منشور</string>
     <string name="publish">نشر</string>
-    <string name="version">النسخة</string>
     <string name="theme">قالب</string>
     <string name="theme_dark">داكن</string>
     <string name="theme_light">فاتح</string>
@@ -188,8 +249,6 @@ Language: ar
     <string name="today">اليوم</string>
     <string name="trash">سلة المهملات</string>
     <string name="sort_order">ترتيب الفرز</string>
-    <string name="more_info">المزيد من المعلومات</string>
-    <string name="website">تفضل بزيارة simplenote.com</string>
     <string name="word">الكلمة</string>
     <string name="character">حرف</string>
     <string name="no">لا</string>

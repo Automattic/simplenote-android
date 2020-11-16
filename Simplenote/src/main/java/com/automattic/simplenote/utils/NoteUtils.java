@@ -7,10 +7,10 @@ import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class NoteUtils {
-
     public static void setNotePin(Note note, boolean isPinned) {
         if (note != null && isPinned != note.isPinned()) {
             note.setPinned(isPinned);
@@ -43,5 +43,14 @@ public class NoteUtils {
                     "trash_menu_item"
             );
         }
+    }
+
+    public static String getCharactersCount(String content) {
+        return NumberFormat.getInstance().format(content.length());
+    }
+
+    public static String getWordCount(String content) {
+        int words = (content.trim().length() == 0) ? 0 : content.trim().split("([\\W]+)").length;
+        return NumberFormat.getInstance().format(words);
     }
 }

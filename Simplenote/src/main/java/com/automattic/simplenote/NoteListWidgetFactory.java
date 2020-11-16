@@ -47,7 +47,7 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-        @LayoutRes int layout = mIsLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+        @LayoutRes int layout = PrefUtils.getLayoutWidgetListItem(mContext, mIsLight);
         RemoteViews views = new RemoteViews(mContext.getPackageName(), layout);
 
         if (mCursor.moveToPosition(position)) {
@@ -63,6 +63,9 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
             views.setViewVisibility(R.id.note_pinned, note.isPinned() ? View.VISIBLE : View.GONE);
             views.setViewVisibility(R.id.note_published, note.isPublished() ? View.VISIBLE : View.GONE);
             views.setViewVisibility(R.id.note_status, note.isPinned() || note.isPublished() ? View.VISIBLE : View.GONE);
+
+            boolean isCondensed = PrefUtils.getBoolPref(mContext, PrefUtils.PREF_CONDENSED_LIST, false);
+            views.setViewVisibility(R.id.note_content, isCondensed ? View.GONE : View.VISIBLE);
 
             // Create intent to navigate to note editor on note list item click
             Intent intent = new Intent(mContext, NoteEditorActivity.class);
