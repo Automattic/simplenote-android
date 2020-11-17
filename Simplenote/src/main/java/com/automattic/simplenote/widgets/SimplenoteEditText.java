@@ -14,8 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
-import androidx.core.content.ContextCompat;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Note;
@@ -24,6 +24,7 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.LinkTokenizer;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
@@ -157,15 +158,13 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         final ImageSpan[] imageSpans = editable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
+            Context context = getContext();
             // ImageSpans are static, so we need to remove the old one and replace :|
-            Drawable iconDrawable = ContextCompat.getDrawable(getContext(),
-                    checkableSpan.isChecked()
-                            ? R.drawable.ic_checkbox_checked_24px
-                            : R.drawable.ic_checkbox_unchecked_24px);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.text_title_disabled);
-            int iconSize = DisplayUtils.getChecklistIconSize(getContext());
+            @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24dp : R.drawable.ic_checkbox_editor_unchecked_24dp;
+            Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, checkableSpan.isChecked() ? R.attr.colorAccent : R.attr.notePreviewColor);
+            int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            final CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
+            final CenteredImageSpan newImageSpan = new CenteredImageSpan(context, iconDrawable);
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
@@ -349,10 +348,19 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         try {
             ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    getContext(),
-                    getText(),
-                    ChecklistUtils.CHECKLIST_REGEX_LINES,
-                    R.color.text_title_disabled);
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_CHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent),
+                false
+            );
+            ChecklistUtils.addChecklistSpansForRegexAndColor(
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_UNCHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.notePreviewColor),
+                false
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
