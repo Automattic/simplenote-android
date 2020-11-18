@@ -173,10 +173,12 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
             titleTextView.setText(title);
             SpannableStringBuilder snippetSpan = new SpannableStringBuilder(snippet);
             snippetSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    context,
-                    snippetSpan,
-                    ChecklistUtils.CHECKLIST_REGEX,
-                    R.color.text_title_disabled);
+                context,
+                snippetSpan,
+                ChecklistUtils.CHECKLIST_REGEX,
+                R.color.text_title_disabled,
+                true
+            );
             contentTextView.setText(snippetSpan);
 
             view.setOnClickListener(new View.OnClickListener() {
