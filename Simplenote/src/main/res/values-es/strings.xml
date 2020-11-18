@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-17 10:54:04+0000
+Translation-Revision-Date: 2020-10-15 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="about_help_title">Obtener ayuda</string>
+    <string name="about_help_summary">Consulta las preguntas frecuentes o contacta con nosotros</string>
+    <string name="settings_item_get_help">Obtener ayuda</string>
+    <string name="empty_notes_search_button_default">Crear una nota</string>
+    <string name="empty_notes_search_button">Crear una nota titulada \"%1$s\"</string>
+    <string name="references_other">%1$d Referencias, última modificación %2$s</string>
+    <string name="references_one">%1$d Referencia, última modificación %2$s</string>
+    <string name="references">Con referencia en</string>
+    <string name="open_note_error">No se ha podido encontrar la nota</string>
+    <string name="open_note">Abrir nota</string>
+    <string name="copy_link_internal">Copiar enlace interno</string>
+    <string name="publish_successful">Se ha publicado.</string>
+    <string name="about">Acerca de</string>
+    <string name="link_copied_failure">No se ha podido copiar el enlace.</string>
+    <string name="send_logs">Enviar registros</string>
+    <string name="more">Más</string>
+    <string name="website">Visitar el sitio web</string>
+    <string name="log_out_anyway">Cerrar la sesión de todos modos</string>
+    <string name="export_unsynced_notes">Exportar las notas no sincronizadas</string>
+    <string name="unsynced_notes_message">Si cierras sesión, se eliminarán las notas no sincronizadas.</string>
+    <string name="unsynced_notes">Notas no sincronizadas</string>
+    <string name="export_setting">Exportar datos</string>
+    <string name="export_message_success">Los datos se han guardado en el archivo</string>
+    <string name="export_message_failure">No se han podido guardar los datos</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">La etiqueta es demasiado larga. Vuelve a intentarlo con un nombre más corto. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
+    <string name="rename_tag_message">Se ha producido un error al cambiar el nombre a la etiqueta. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
+    <string name="rename_tag_error_spaces">Las etiquetas no pueden contener espacios</string>
+    <string name="rename_tag_error_length">La etiqueta es demasiado larga</string>
+    <string name="rename_tag_error_empty">Las etiquetas no pueden estar vacías</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">URL copiada en el portapapeles</string>
+    <string name="simperium_error_browser_copy_failure">La URL no se ha podido copiar en el portapapeles</string>
+    <string name="simperium_error_browser">Comprueba que hay un navegador instalado y activado.</string>
+    <string name="simperium_dialog_title_error_browser">No se ha detectado ningún navegador</string>
+    <string name="simperium_dialog_button_copy_url">Copiar URL</string>
+    <string name="item_action_toggle_preview_error">Selecciona una nota para activar/desactivar la vista previa</string>
+    <string name="item_action_toggle_preview_enable_error">Habilita Markdown para activar/desactivar la vista previa</string>
+    <string name="item_action_toggle_preview">Activar/Desactivar vista previa</string>
+    <string name="item_action_toggle_list_error">Selecciona una nota para activar/desactivar la lista</string>
+    <string name="item_action_toggle_list">Activar/Desactivar lista</string>
+    <string name="item_action_toggle_checklist_error">Selecciona una nota para activar/desactivar la lista de verificación</string>
+    <string name="item_action_toggle_checklist_edit_error">Selecciona Editar pestaña para activar/desactivar la lista de verificación</string>
+    <string name="item_action_show_share_error">Selecciona una nota para mostrar las opciones para compartir</string>
+    <string name="item_action_show_share_edit_error">Selecciona Editar pestaña para mostrar las opciones para compartir</string>
+    <string name="item_action_show_share">Mostrar opciones para compartir</string>
+    <string name="item_action_show_information_error">Selecciona una nota para mostrar información</string>
+    <string name="item_action_show_information_edit_error">Selecciona Editar pestaña para mostrar información</string>
+    <string name="item_action_show_information">Mostrar información</string>
+    <string name="item_action_show_history_error">Selecciona una nota para mostrar el historial</string>
+    <string name="item_action_show_history_edit_error">Selecciona Editar pestaña para mostrar el historial</string>
+    <string name="item_action_show_history">Mostrar historial</string>
+    <string name="item_action_open_search">Abrir búsqueda</string>
+    <string name="action">Acción</string>
+    <string name="link_california">%1$s%2$s%3$sAviso de privacidad para usuarios de California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Una conexión de red es obligatoria. Comprueba la conexión e inténtalo de nuevo.</string>
+    <string name="simperium_dialog_message_password">Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener saltos de línea\n- No puede contener espacios</string>
+    <string name="simperium_dialog_message_login_reset">Tu contraseña no es segura y debes cambiarla. Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener saltos de línea\n- No puede contener espacios</string>
+    <string name="simperium_button_login_reset">Restablecer</string>
+    <string name="link_terms">%1$s%2$s%3$sCondiciones del servicio%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$sPolítica de privacidad%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">¿Eres desarrollador? Buscamos personal.</string>
+    <string name="about_hiring_title">Empleos</string>
+    <string name="about_contribute_title">Contribuir</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">Buscar notas o etiquetas</string>
     <string name="empty_tags_search">No se han encontrado etiquetas</string>
     <string name="empty_notes_widget">No hay notas</string>
@@ -18,7 +84,7 @@ Language: es
     <string name="note_list_widget_dark">Lista de notas (Oscuro)</string>
     <string name="retry">Reintentar</string>
     <string name="publishing">Publicando…</string>
-    <string name="publish_successful">Se ha publicado. ¡El enlace se ha copiado!</string>
+    <string name="publish_successful_link">Se ha publicado. ¡El enlace se ha copiado!</string>
     <string name="link_copied">¡El enlace se ha copiado!</string>
     <string name="of">de</string>
     <string name="next">Siguiente</string>
@@ -50,12 +116,11 @@ Language: es
     <string name="description_sort">Ordenar</string>
     <string name="description_down">Bajar</string>
     <string name="description_delete_item">Eliminar artículo</string>
-    <string name="unsynced_notes_message">Si cierras sesión, se eliminarán las notas no sincronizadas. Inicia sesión en app.simplenote.com en un navegador web para verificar tus notas sincronizadas.</string>
     <string name="sort_search_reverse_order">Orden inverso</string>
     <string name="sort_search_modified">Modificado</string>
     <string name="sort_search_created">Creado</string>
     <string name="sort_search_alphabetically">Alfabéticamente</string>
-    <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre esta nota para leer las instrucciones.\n\nPara crear una nota nueva, toca el botón azul \"Añadir nota\" con el icono Más.\n\nPara buscar en tus notas, toca el botón \"Buscar\" con el icono de la lupa e introduce el texto que quieras. Simplenote mostrará primero tus búsquedas recientes y las sugerencias de búsqueda mientras escribes. Las notas que coincidan con el texto introducido se mostrarán una vez que hayas validado la búsqueda.\n\n¿Tienes una nota muy importante? Fíjala en la parte superior de la lista de notas. Puedes fijar una nota de dos maneras. Pulsa prolongadamente en la nota de la lista y toca el botón \"Anclar en la parte superior\" con el botón de fijar. Toca el botón \"Información\" con el icono \"i\" mientras visualizas una nota y activa el interruptor \"Anclar en la parte superior\".\n\nUsa las etiquetas para organizar las notas fácilmente. Crea una etiqueta en el campo \"Añadir una etiqueta…\" en la parte inferior de una nota. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nComparte las notas con otras aplicaciones para Android solo con tocar el botón \"Compartir\" con el icono de compartir mientras visualizas una nota.\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
+    <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre esta nota para leer las instrucciones.\n\nPara crear una nota nueva, toca el botón azul \"Añadir nota\" con el icono Más.\n\nPara buscar en tus notas, toca el botón \"Buscar\" con el icono de la lupa e introduce el texto que quieras. Simplenote mostrará primero tus búsquedas recientes y las sugerencias de búsqueda mientras escribes. Las notas que coincidan con el texto introducido se mostrarán una vez que hayas validado la búsqueda.\n\n¿Tienes una nota muy importante? Fíjala en la parte superior de la lista de notas. Puedes fijar una nota de dos maneras. Pulsa prolongadamente en la nota de la lista y toca el botón \"Anclar en la parte superior\" con el botón de fijar. Mientras visualizas una nota, toca el botón \"Más opciones\" del icono con tres puntos en vertical y marca la casilla \"Anclar\".\n\nUsa las etiquetas para organizar las notas fácilmente. Crea una etiqueta en el campo \"Añadir una etiqueta…\" en la parte inferior de una nota. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nMientras visualizas una nota, comparte las notas con otras aplicaciones para Android solo con tocar \"Compartir\" en el menú \"Más opciones\".\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
     <string name="search_hint">Buscar notas o etiquetas</string>
     <string name="log_out">Salir</string>
     <string name="log_in">Acceder</string>
@@ -116,9 +181,6 @@ Language: es
     <string name="logo">Logotipo</string>
     <string name="unpin_from_top">Quitar de la parte superior</string>
     <string name="untagged_notes">Notas sin etiquetar</string>
-    <string name="delete_notes">Eliminar notas</string>
-    <string name="visit_web_app">Visitar aplicación web</string>
-    <string name="unsynced_notes">Se han detectado notas sin sincronizar</string>
     <string name="wpcom_log_in_error_unverified">Activa tu cuenta de WordPress.com mediante correo electrónico e inténtalo de nuevo.</string>
     <string name="wpcom_log_in_error_generic">No se ha podido acceder con WordPress.com. Inténtalo de nuevo.</string>
     <string name="collaborate_message">Añade una dirección de correo electrónico en el campo de la etiqueta para colaborar con otros usuarios</string>
@@ -133,7 +195,6 @@ Language: es
     <string name="rate_us">Puntúanos</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
-    <string name="about">Acerca de Simplenote</string>
     <string name="markdown_show">Mostrar Markdown</string>
     <string name="markdown_hide">Ocultar Markdown</string>
     <string name="markdown">Markdown</string>
@@ -154,7 +215,6 @@ Language: es
     <string name="note_added">Se ha añadido una nota</string>
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
-    <string name="version">Versión</string>
     <string name="theme">Tema</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_light">Claro</string>
@@ -189,8 +249,6 @@ Language: es
     <string name="today">Hoy</string>
     <string name="trash">Papelera</string>
     <string name="sort_order">Criterio de ordenación</string>
-    <string name="more_info">Más información</string>
-    <string name="website">Visita simplenote.com</string>
     <string name="word">Palabra</string>
     <string name="character">Carácter</string>
     <string name="no">No</string>

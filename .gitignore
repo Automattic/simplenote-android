@@ -47,6 +47,7 @@ fastlane/README.md
 fastlane/report.xml
 fastlane/.env
 fastlane/screenshots
+google-upload-credentials.json
 
 # Configure
 *.bak

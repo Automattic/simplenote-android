@@ -298,33 +298,33 @@
     <style name="Shortcut.Key.Multiple" parent="TextAppearance.AppCompat">
         <item name="android:background">@drawable/bg_key</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginLeft">@dimen/padding_small</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginStart">@dimen/padding_small</item>
         <item name="android:minWidth">@dimen/key_width</item>
-        <item name="android:paddingLeft">@dimen/padding_small</item>
-        <item name="android:paddingRight">@dimen/padding_small</item>
+        <item name="android:paddingEnd">@dimen/padding_small</item>
+        <item name="android:paddingStart">@dimen/padding_small</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">@dimen/text_key</item>
-        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="Shortcut.Key.Single" parent="TextAppearance.AppCompat">
         <item name="android:background">@drawable/bg_key</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginLeft">@dimen/padding_small</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginStart">@dimen/padding_small</item>
         <item name="android:minWidth">@dimen/key_width</item>
-        <item name="android:paddingLeft">@dimen/padding_small</item>
-        <item name="android:paddingRight">@dimen/padding_small</item>
+        <item name="android:paddingEnd">@dimen/padding_small</item>
+        <item name="android:paddingStart">@dimen/padding_small</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">@dimen/text_key</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_alignParentRight">true</item>
     </style>
 
     <style name="Shortcut.Header" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/padding_extra_extra_large</item>
-        <item name="android:layout_marginRight">@dimen/padding_extra_extra_large</item>
+        <item name="android:layout_marginEnd">@dimen/padding_extra_extra_large</item>
+        <item name="android:layout_marginStart">@dimen/padding_extra_extra_large</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:textSize">@dimen/text_header</item>
@@ -333,10 +333,10 @@
     <style name="Shortcut.Item" parent="TextAppearance.AppCompat">
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_alignParentStart">true</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_item</item>
-        <item name="android:layout_alignParentLeft">true</item>
     </style>
 
 </resources>

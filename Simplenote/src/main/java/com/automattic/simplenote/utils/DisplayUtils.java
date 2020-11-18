@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.automattic.simplenote.R;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -29,6 +32,24 @@ public class DisplayUtils {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static String getDisplaySizeAndOrientation(Context context) {
+        boolean isLarge = isLarge(context) || isXLarge(context);
+        boolean isLandscape = isLandscape(context);
+
+        if (isLarge && isLandscape) {
+            return "Large, landscape";
+        } else if (isLarge && !isLandscape) {
+            return "Large, portrait";
+        } else if (!isLarge && isLandscape) {
+            return "Small, landscape";
+        } else if (!isLarge && !isLandscape) {
+            return "Small, portrait";
+        } else {
+            return "Unknown";
+        }
     }
 
     public static int dpToPx(Context context, int dp) {
@@ -74,12 +95,18 @@ public class DisplayUtils {
         return dpToPx(context, 48);
     }
 
-    // Returns the proper size for a checklist drawable (font size + a bit)
-    public static int getChecklistIconSize(Context context) {
-        if (context == null) {
-            return 18;
-        }
-        return DisplayUtils.dpToPx(context, PrefUtils.getFontSize(context)) + DisplayUtils.dpToPx(context, 6);
+    /**
+     * Get the size of the checkbox drawable.
+     *
+     * @param context   {@link Context} from which to determine size of font plus checkbox extra.
+     * @param isList    {@link Boolean} if checkbox is in list to determine size.
+     *
+     * @return          {@link Integer} value of checkbox in pixels.
+     */
+    public static int getChecklistIconSize(@NonNull Context context, boolean isList) {
+        int extra = context.getResources().getInteger(R.integer.default_font_size_checkbox_extra);
+        int size = PrefUtils.getFontSize(context);
+        return DisplayUtils.dpToPx(context, isList ? size : size + extra);
     }
 
     // Disable screenshots if app PIN lock is on

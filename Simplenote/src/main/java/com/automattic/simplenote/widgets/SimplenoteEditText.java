@@ -11,22 +11,64 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
 
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.LinkTokenizer;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.ThemeUtils;
+import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class SimplenoteEditText extends AppCompatEditText {
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_ID;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
+
+public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
+    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
+    private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
+    private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
+
+    private LinkTokenizer mTokenizer;
     private List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
-    private final int CHECKBOX_LENGTH = 2; // One CheckableSpan + a space character
+
+    @Override
+    public boolean enoughToFilter() {
+        String substringCursor = getText().toString().substring(getSelectionEnd());
+        Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
+
+        // When an internote link title is being edited, don't show an autocomplete popup.
+        if (matcherEdit.lookingAt()) {
+            String substringEdit = substringCursor.substring(0, matcherEdit.end());
+            Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
+
+            if (!matcherFull.lookingAt()) {
+                return false;
+            }
+        }
+
+        Editable text = getText();
+        int end = getSelectionEnd();
+
+        if (end < 0) {
+            return false;
+        }
+
+        int start = mTokenizer.findTokenStart(text, end);
+        return start > 0 && end - start >= 1;
+    }
 
     public interface OnCheckboxToggledListener {
         void onCheckboxToggled();
@@ -36,22 +78,43 @@ public class SimplenoteEditText extends AppCompatEditText {
         super(context);
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
+        setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
+        setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
         setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
+        setLinkTokenizer();
     }
 
     public void addOnSelectionChangedListener(OnSelectionChangedListener o) {
         listeners.add(o);
+    }
+
+    private void setLinkTokenizer() {
+        mTokenizer = new LinkTokenizer();
+        setOnItemClickListener(this);
+        setTokenizer(mTokenizer);
+        setThreshold(1);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        @SuppressWarnings("unchecked")
+        Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
+        String key = cursor.getString(cursor.getColumnIndex(Note.KEY_PROPERTY)).replace("note", "");
+        String text = SimplenoteLinkify.getNoteLink(key);
+        int start = Math.max(getSelectionStart(), 0);
+        int end = Math.max(getSelectionEnd(), 0);
+        getEditableText().replace(Math.min(start, end), Math.max(start, end), text, 0, text.length());
     }
 
     @Override
@@ -95,15 +158,13 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         final ImageSpan[] imageSpans = editable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
+            Context context = getContext();
             // ImageSpans are static, so we need to remove the old one and replace :|
-            Drawable iconDrawable = ContextCompat.getDrawable(getContext(),
-                    checkableSpan.isChecked()
-                            ? R.drawable.ic_checkbox_checked_24px
-                            : R.drawable.ic_checkbox_unchecked_24px);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.text_title_disabled);
-            int iconSize = DisplayUtils.getChecklistIconSize(getContext());
+            @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24dp : R.drawable.ic_checkbox_editor_unchecked_24dp;
+            Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, checkableSpan.isChecked() ? R.attr.colorAccent : R.attr.notePreviewColor);
+            int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            final CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
+            final CenteredImageSpan newImageSpan = new CenteredImageSpan(context, iconDrawable);
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
@@ -259,7 +320,7 @@ public class SimplenoteEditText extends AppCompatEditText {
         return content.toString();
     }
 
-    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2A2F]')
+    // Replaces any CheckableSpans with their markdown preview counterpart (e.g. '- [\u2a2f]')
     public String getPreviewTextContent() {
         if (getText() == null) {
             return "";
@@ -287,10 +348,19 @@ public class SimplenoteEditText extends AppCompatEditText {
 
         try {
             ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    getContext(),
-                    getText(),
-                    ChecklistUtils.CHECKLIST_REGEX_LINES,
-                    R.color.text_title_disabled);
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_CHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent),
+                false
+            );
+            ChecklistUtils.addChecklistSpansForRegexAndColor(
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_UNCHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.notePreviewColor),
+                false
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }

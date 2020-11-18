@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-16 10:54:03+0000
+Translation-Revision-Date: 2020-10-16 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="about_help_title">取得協助</string>
+    <string name="about_help_summary">常見問題集或與我們聯絡</string>
+    <string name="settings_item_get_help">取得協助</string>
+    <string name="empty_notes_search_button_default">建立新筆記</string>
+    <string name="empty_notes_search_button">建立標題為「%1$s」的新筆記</string>
+    <string name="references_other">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references_one">%1$d 參考資料 (上次修改) %2$s</string>
+    <string name="references">參考位置</string>
+    <string name="open_note_error">找不到筆記</string>
+    <string name="open_note">開啟筆記</string>
+    <string name="copy_link_internal">複製內部連結</string>
+    <string name="publish_successful">已發表。</string>
+    <string name="about">關於</string>
+    <string name="link_copied_failure">無法複製連結。</string>
+    <string name="send_logs">傳送記錄</string>
+    <string name="more">更多</string>
+    <string name="website">造訪網站</string>
+    <string name="log_out_anyway">仍要登出</string>
+    <string name="export_unsynced_notes">匯出未同步的筆記</string>
+    <string name="unsynced_notes_message">登出將會刪除任何尚未同步的筆記。</string>
+    <string name="unsynced_notes">未同步的筆記</string>
+    <string name="export_setting">匯出資料</string>
+    <string name="export_message_success">資料已儲存至檔案</string>
+    <string name="export_message_failure">無法儲存資料</string>
+    <string name="export_file">simplenote.json</string>
+    <string name="rename_tag_message_length">標籤過長。 請改用較短的名稱再試一次。 如果問題持續發生，請聯絡我們尋求協助：%1$s%2$s%3$s%4$s%5$s。</string>
+    <string name="rename_tag_message">重新命名標籤時發生錯誤。 請再試一次。 如果問題持續發生，請聯絡我們尋求協助：%1$s%2$s%3$s%4$s%5$s。</string>
+    <string name="rename_tag_error_spaces">標籤不可包含空格</string>
+    <string name="rename_tag_error_length">標籤過長</string>
+    <string name="rename_tag_error_empty">標籤不能為空白</string>
+    <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_error_browser_copy_success">網址已複製到剪貼簿</string>
+    <string name="simperium_error_browser_copy_failure">網址無法複製到剪貼簿</string>
+    <string name="simperium_error_browser">請確認瀏覽器已安裝並啟用。</string>
+    <string name="simperium_dialog_title_error_browser">未偵測到任何瀏覽器</string>
+    <string name="simperium_dialog_button_copy_url">複製網址</string>
+    <string name="item_action_toggle_preview_error">選擇筆記以切換預覽</string>
+    <string name="item_action_toggle_preview_enable_error">啟用 markdown 以切換預覽</string>
+    <string name="item_action_toggle_preview">切換預覽</string>
+    <string name="item_action_toggle_list_error">選擇筆記以切換清單</string>
+    <string name="item_action_toggle_list">切換清單</string>
+    <string name="item_action_toggle_checklist_error">選擇筆記以切換檢查清單</string>
+    <string name="item_action_toggle_checklist_edit_error">選擇「編輯」頁籤以切換檢查清單</string>
+    <string name="item_action_show_share_error">選擇筆記以顯示分享</string>
+    <string name="item_action_show_share_edit_error">選擇「編輯」頁籤以顯示分享</string>
+    <string name="item_action_show_share">顯示分享</string>
+    <string name="item_action_show_information_error">選擇筆記以顯示資訊</string>
+    <string name="item_action_show_information_edit_error">選擇「編輯」頁籤以顯示資訊</string>
+    <string name="item_action_show_information">顯示資訊</string>
+    <string name="item_action_show_history_error">選擇筆記以顯示記錄</string>
+    <string name="item_action_show_history_edit_error">選擇「編輯」頁籤以顯示記錄</string>
+    <string name="item_action_show_history">顯示記錄</string>
+    <string name="item_action_open_search">開啟搜尋</string>
+    <string name="action">動作</string>
+    <string name="link_california">%1$s%2$s%3$s加州使用者的隱私權聲明%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">需要網路連線。請檢查你的連線，然後再試一次。</string>
+    <string name="simperium_dialog_message_password">密碼設定要求如下：\n\n- 密碼不能和電子郵件地址相同\n- 長度至少為 %1$d 個字元\n- 不可換行\n- 不含定位字元</string>
+    <string name="simperium_dialog_message_login_reset">你的密碼不安全，必須重設。密碼設定要求如下：\n\n- 密碼不能和電子郵件地址相同\n- 長度至少為 %1$d 個字元\n- 不可換行\n- 不含定位字元</string>
+    <string name="simperium_button_login_reset">重設</string>
+    <string name="link_terms">%1$s%2$s%3$s服務條款%4$s</string>
+    <string name="link_privacy">%1$s%2$s%3$s隱私權政策%4$s</string>
+    <string name="link_divider">·</string>
+    <string name="about_hiring">請問你是開發人員嗎？我們在招募人才。</string>
+    <string name="about_hiring_title">工作機會</string>
+    <string name="about_contribute_title">參與</string>
+    <string name="about_contribute_subtitle">github.com</string>
+    <string name="about_copyright">© Automattic %1$d</string>
     <string name="search">搜尋筆記或標籤</string>
     <string name="empty_tags_search">找不到標籤</string>
     <string name="empty_notes_widget">沒有筆記</string>
@@ -18,7 +84,7 @@ Language: zh_TW
     <string name="note_list_widget_dark">筆記清單 (深色)</string>
     <string name="retry">重試</string>
     <string name="publishing">正在發表…</string>
-    <string name="publish_successful">已發表。已複製連結！</string>
+    <string name="publish_successful_link">已發表。 已複製連結！</string>
     <string name="link_copied">已複製連結！</string>
     <string name="of">的</string>
     <string name="next">下一篇</string>
@@ -50,12 +116,11 @@ Language: zh_TW
     <string name="description_sort">排序</string>
     <string name="description_down">向下</string>
     <string name="description_delete_item">刪除項目</string>
-    <string name="unsynced_notes_message">登出將會刪除任何尚未同步的筆記。登入 app.simplenote.com 即可驗證已同步的筆記。</string>
     <string name="sort_search_reverse_order">反向排序</string>
     <string name="sort_search_modified">修改時間</string>
     <string name="sort_search_created">建立時間</string>
     <string name="sort_search_alphabetically">依字母順序</string>
-    <string name="welcome_note">歡迎使用 Simplenote Android！\n請開啟此筆記查看說明。\n\n點選附有加號圖示的藍色「新筆記」按鈕，即可建立新的筆記。\n\n若要搜尋筆記，請點選附有放大鏡圖示的「搜尋」按鈕，然後輸入文字。Simplenote 一開始會顯示你最近搜尋的內容，並會在你輸入文字時提供建議搜尋項目。送出搜尋項目後，畫面會顯示與輸入文字相符的筆記。\n\n有很重要的筆記？將它釘選至筆記清單最上方。釘選筆記有兩種方法。長按清單中的筆記，接著點選附有圖釘圖示的「釘選至最上方」按鈕。檢視筆記時點選附有「i」圖示的「資訊」按鈕，然後切換啟用「釘選至最上方」選項。\n\n使用標籤可協助你整理筆記。你可以在筆記底部的「新增標籤…」欄位中建立標籤。你也可以加上電子郵件地址做為標籤，以便與某人分享筆記。\n\n檢視筆記時，點選附有分享圖示的「分享」按鈕，即可與其他 Android 應用程式輕鬆分享筆記。\n\n刪除的筆記會移至垃圾桶。若有需要，你可以還原筆記；也可以清空垃圾桶，永遠刪除它們。\n\n你可以在網路和其他裝置上存取你的筆記。只需前往 http://simplenote.com 即可開始使用。\n\n希望你喜歡 Simplenote！</string>
+    <string name="welcome_note">歡迎使用 Simplenote Android！\n請開啟此筆記查看說明。\n\n點選附有加號圖示的藍色「新筆記」按鈕，即可建立新的筆記。\n\n若要搜尋筆記，請點選附有放大鏡圖示的「搜尋」按鈕，然後輸入文字。 Simplenote 一開始會顯示你最近搜尋的內容，並會在你輸入文字時提供建議搜尋項目。 送出搜尋項目後，畫面會顯示與輸入文字相符的筆記。\n\n有很重要的筆記？ 將它釘選至筆記清單最上方。 釘選筆記有兩種方法。 長按清單中的筆記，接著點選附有圖釘圖示的「釘選至最上方」按鈕。 檢視筆記時，點選「更多選項」按鈕 (上面有垂直三個點的圖示)，然後勾選「釘選」方塊。\n\n使用標籤可協助你整理筆記。 你可以在筆記底部的「新增標籤…」欄位中建立標籤。 你也可以加上電子郵件地址做為標籤，以便與某人分享筆記。\n\n檢視筆記時，點選「更多選項」選單中的「分享」，即可與其他 Android 應用程式輕鬆分享筆記。\n\n刪除的筆記會移至垃圾桶。 若有需要，你可以還原筆記；也可以清空垃圾桶，永遠刪除它們。\n\n你可以在網路和其他裝置上存取你的筆記。 只需前往 http://simplenote.com 即可開始使用。\n\n希望你喜歡 Simplenote！</string>
     <string name="search_hint">搜尋筆記或標籤</string>
     <string name="log_out">登出</string>
     <string name="log_in">登入</string>
@@ -116,9 +181,6 @@ Language: zh_TW
     <string name="logo">標誌</string>
     <string name="unpin_from_top">取消熱門釘選</string>
     <string name="untagged_notes">取消標籤備註</string>
-    <string name="delete_notes">刪除備註</string>
-    <string name="visit_web_app">前往網頁應用程式</string>
-    <string name="unsynced_notes">偵測到尚未同步的備註</string>
     <string name="wpcom_log_in_error_unverified">請透過電子郵件啟用你的 WordPress.com 帳號，並再試一次。</string>
     <string name="wpcom_log_in_error_generic">無法透過 WordPress.com 登入。請再試一次。</string>
     <string name="collaborate_message">在標籤欄位中新增電子郵件，以和其他使用者協作。</string>
@@ -133,7 +195,6 @@ Language: zh_TW
     <string name="rate_us">幫我們評分</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play 商店</string>
-    <string name="about">關於 Simplenote</string>
     <string name="markdown_show">顯示 Markdown</string>
     <string name="markdown_hide">隱藏 Markdown</string>
     <string name="markdown">Markdown</string>
@@ -154,7 +215,6 @@ Language: zh_TW
     <string name="note_added">已新增筆記</string>
     <string name="published">已發表</string>
     <string name="publish">發表</string>
-    <string name="version">版本</string>
     <string name="theme">佈景主題</string>
     <string name="theme_dark">深色系</string>
     <string name="theme_light">淡色系</string>
@@ -189,8 +249,6 @@ Language: zh_TW
     <string name="today">今天</string>
     <string name="trash">垃圾桶</string>
     <string name="sort_order">排序</string>
-    <string name="more_info">更多資訊</string>
-    <string name="website">造訪 simplenote.com</string>
     <string name="word">字</string>
     <string name="character">字元</string>
     <string name="no">否</string>

@@ -2,6 +2,7 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clipToPadding="false"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -24,18 +25,9 @@
         <RelativeLayout
             android:id="@+id/shortcut_note_new"
             android:layout_height="?android:listPreferredItemHeightSmall"
-            android:layout_width="match_parent"
             android:layout_marginEnd="@dimen/padding_extra_extra_large"
-            android:layout_marginStart="@dimen/padding_extra_extra_large">
-
-            <TextView
-                android:id="@+id/shortcut_note_new_text"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/shortcut_note_new_key_first"
-                android:layout_width="wrap_content"
-                android:text="@string/item_action_note_new"
-                style="@style/Shortcut.Item">
-            </TextView>
+            android:layout_marginStart="@dimen/padding_extra_extra_large"
+            android:layout_width="match_parent">
 
             <TextView
                 android:id="@+id/shortcut_note_new_key_third"
@@ -63,23 +55,24 @@
                 style="@style/Shortcut.Key.Multiple">
             </TextView>
 
+            <TextView
+                android:id="@+id/shortcut_note_new_text"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/shortcut_note_new_key_first"
+                android:layout_width="wrap_content"
+                android:text="@string/item_action_note_new"
+                tools:ignore="RelativeOverlap"
+                style="@style/Shortcut.Item">
+            </TextView>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/shortcut_open_search"
             android:layout_height="?android:listPreferredItemHeightSmall"
-            android:layout_width="match_parent"
             android:layout_marginEnd="@dimen/padding_extra_extra_large"
-            android:layout_marginStart="@dimen/padding_extra_extra_large">
-
-            <TextView
-                android:id="@+id/shortcut_open_search_text"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/shortcut_open_search_key_first"
-                android:layout_width="wrap_content"
-                android:text="@string/item_action_open_search"
-                style="@style/Shortcut.Item">
-            </TextView>
+            android:layout_marginStart="@dimen/padding_extra_extra_large"
+            android:layout_width="match_parent">
 
             <TextView
                 android:id="@+id/shortcut_open_search_key_third"
@@ -105,6 +98,16 @@
                 android:layout_width="wrap_content"
                 android:text="@string/key_multiple_ctrl"
                 style="@style/Shortcut.Key.Multiple">
+            </TextView>
+
+            <TextView
+                android:id="@+id/shortcut_open_search_text"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/shortcut_open_search_key_first"
+                android:layout_width="wrap_content"
+                android:text="@string/item_action_open_search"
+                tools:ignore="RelativeOverlap"
+                style="@style/Shortcut.Item">
             </TextView>
 
         </RelativeLayout>

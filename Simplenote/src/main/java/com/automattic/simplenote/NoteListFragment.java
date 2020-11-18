@@ -54,17 +54,23 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Suggestion;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DateTimeUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SearchSnippetFormatter;
 import com.automattic.simplenote.utils.SearchTokenizer;
+import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.automattic.simplenote.widgets.RobotoRegularTextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.simperium.client.Bucket;
@@ -80,6 +86,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SEARCH;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.RECENT_SEARCH_TAPPED;
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -135,6 +143,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private Bucket<Tag> mBucketTag;
     private ActionMode mActionMode;
     private View mRootView;
+    private RobotoRegularTextView mEmptyViewButton;
     private ImageView mEmptyViewImage;
     private TextView mEmptyViewText;
     private View mDividerLine;
@@ -180,8 +189,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setItemChecked(position, true);
-        if (mActionMode == null)
+
+        if (mActionMode == null) {
             requireActivity().startActionMode(this);
+        }
+
         return true;
     }
 
@@ -205,8 +217,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (getListView().getCheckedItemIds().length > 0) {
-
             switch (item.getItemId()) {
+                case R.id.menu_link:
+                    BrowserUtils.copyToClipboard(requireContext(), getSelectedNoteLinks());
+                    mode.finish();
+                    break;
                 case R.id.menu_trash:
                     new TrashNotesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     break;
@@ -215,7 +230,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     break;
             }
         }
+
         return false;
+    }
+
+    private String getSelectedNoteLinks() {
+        SparseBooleanArray checkedPositions = getListView().getCheckedItemPositions();
+        StringBuilder links = new StringBuilder();
+
+        for (int i = 0; i < checkedPositions.size(); i++) {
+            if (checkedPositions.valueAt(i)) {
+                Note note = mNotesAdapter.getItem(checkedPositions.keyAt(i));
+                links.append(SimplenoteLinkify.getNoteLinkWithTitle(note.getTitle(), note.getSimperiumKey())).append("\n");
+            }
+        }
+
+        return links.toString();
     }
 
     @Override
@@ -242,15 +272,21 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
         int checkedCount = getListView().getCheckedItemCount();
-        if (checkedCount == 0)
+
+        if (checkedCount == 0) {
             actionMode.setTitle("");
-        else
+        } else {
             actionMode.setTitle(getResources().getQuantityString(R.plurals.selected_notes, checkedCount, checkedCount));
+        }
+
+        actionMode.invalidate();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
+        AppLog.add(Type.SCREEN, "Created (NoteListFragment)");
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
     }
@@ -276,7 +312,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (ACTION_NEW_NOTE.equals(notesActivity.getIntent().getAction()) &&
                 !notesActivity.userIsUnauthorized()){
             //if user tap on "app shortcut", create a new note
-            createNewNote("new_note_shortcut");
+            createNewNote("", "new_note_shortcut");
         }
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -284,6 +320,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
         emptyView.setVisibility(View.GONE);
+        mEmptyViewButton = emptyView.findViewById(R.id.button);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
         setEmptyListImage(R.drawable.ic_notes_24dp);
@@ -299,7 +336,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewNote("action_bar_button");
+                createNewNote("", "action_bar_button");
             }
         });
         mFloatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -515,14 +552,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
     }
 
-    public void createNewNote(String label){
-        if (!isAdded()) return;
+    public void createNewNote(String title, String label){
+        if (!isAdded()) {
+            return;
+        }
 
-        addNote();
+        addNote(title);
         AnalyticsTracker.track(
-                AnalyticsTracker.Stat.LIST_NOTE_CREATED,
-                AnalyticsTracker.CATEGORY_NOTE,
-                label
+            AnalyticsTracker.Stat.LIST_NOTE_CREATED,
+            AnalyticsTracker.CATEGORY_NOTE,
+            label
         );
     }
 
@@ -553,6 +592,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.addOnDeleteObjectListener(this);
         mBucketPreferences.addOnNetworkChangeListener(this);
         mBucketPreferences.addOnSaveObjectListener(this);
+        AppLog.add(Type.SYNC, "Added preference bucket listener (NoteListFragment)");
     }
 
     @Override
@@ -561,7 +601,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mBucketPreferences.removeOnDeleteObjectListener(this);
         mBucketPreferences.removeOnNetworkChangeListener(this);
         mBucketPreferences.removeOnSaveObjectListener(this);
-        mBucketPreferences.stop();
+        AppLog.add(Type.SYNC, "Removed preference bucket listener (NoteListFragment)");
+        AppLog.add(Type.SCREEN, "Paused (NoteListFragment)");
     }
 
     @Override
@@ -571,6 +612,17 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
+    }
+
+    public void setEmptyListButton(String message) {
+        if (mEmptyViewButton != null) {
+            if (!message.isEmpty()) {
+                mEmptyViewButton.setVisibility(View.VISIBLE);
+                mEmptyViewButton.setText(message);
+            } else {
+                mEmptyViewButton.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void setEmptyListImage(@DrawableRes int image) {
@@ -754,25 +806,29 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return matcher.replaceAll("");
     }
 
-    public void addNote() {
-
+    public void addNote(String title) {
         // Prevents jarring 'New note...' from showing in the list view when creating a new note
         NotesActivity notesActivity = (NotesActivity) requireActivity();
-        if (!DisplayUtils.isLargeScreenLandscape(notesActivity))
+
+        if (!DisplayUtils.isLargeScreenLandscape(notesActivity)) {
             notesActivity.stopListeningToNotesBucket();
+        }
 
         // Create & save new note
         Simplenote simplenote = (Simplenote) requireActivity().getApplication();
         Bucket<Note> notesBucket = simplenote.getNotesBucket();
         final Note note = notesBucket.newObject();
+        note.setContent(title);
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
         note.setMarkdownEnabled(PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_MARKDOWN_ENABLED, false));
 
         if (notesActivity.getSelectedTag() != null && notesActivity.getSelectedTag().name != null) {
             String tagName = notesActivity.getSelectedTag().name;
-            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes)))
+
+            if (!tagName.equals(getString(R.string.all_notes)) && !tagName.equals(getString(R.string.trash)) && !tagName.equals(getString(R.string.untagged_notes))) {
                 note.setTagString(tagName);
+            }
         }
 
         note.save();
@@ -1067,10 +1123,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             } else {
                 SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
                 titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                        getContext(),
-                        titleChecklistString,
-                        ChecklistUtils.CHECKLIST_REGEX,
-                        ThemeUtils.getThemeTextColorId(getContext()));
+                    getContext(),
+                    titleChecklistString,
+                    ChecklistUtils.CHECKLIST_REGEX,
+                    ThemeUtils.getThemeTextColorId(getContext()),
+                    true
+                );
                 holder.mTitle.setText(titleChecklistString);
             }
 
@@ -1107,10 +1165,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.mContent.setText(contentPreview);
                     SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
                     checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                            getContext(),
-                            checklistString,
-                            ChecklistUtils.CHECKLIST_REGEX,
-                            R.color.text_title_disabled);
+                        getContext(),
+                        checklistString,
+                        ChecklistUtils.CHECKLIST_REGEX,
+                        R.color.text_title_disabled,
+                        true
+                    );
                     holder.mContent.setText(checklistString);
                 }
             }
@@ -1120,7 +1180,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
-                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY && event.getAction() == MotionEvent.ACTION_DOWN) {
                         showPopupMenuAtPosition(view, position);
                         return true;
                     }
@@ -1259,6 +1319,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 @Override
                 public void onClick(View view) {
                     ((NotesActivity) requireActivity()).submitSearch(holder.mSuggestionText.getText().toString());
+
+                    if (holder.mViewType == HISTORY) {
+                        AnalyticsTracker.track(
+                            RECENT_SEARCH_TAPPED,
+                            CATEGORY_SEARCH,
+                            "recent_search_tapped"
+                        );
+                    }
                 }
             });
         }
@@ -1348,7 +1416,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             return;
         }
 
-        final Note note = mNotesAdapter.getItem(position);
+        final Note note = mNotesAdapter.getItem(position + mList.getHeaderViewsCount());
         if (note == null) {
             return;
         }
