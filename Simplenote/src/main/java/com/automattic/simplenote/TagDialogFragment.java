@@ -64,6 +64,10 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                     String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
                     int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
 
+                    if (TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew)) {
+                        return;
+                    }
+
                     try {
                         mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
                         AnalyticsTracker.track(
