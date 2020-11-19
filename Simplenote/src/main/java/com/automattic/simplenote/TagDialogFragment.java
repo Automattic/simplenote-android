@@ -70,17 +70,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                         return;
                     }
 
-                    try {
-                        mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
-                        AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
-                            AnalyticsTracker.CATEGORY_TAG,
-                            "tag_alert_edit_box"
-                        );
-                    } catch (BucketObjectNameInvalid e) {
-                        Log.e(Simplenote.TAG, "Unable to rename tag", e);
-                        showDialogErrorRename();
-                    }
+                    tryToRenameTag(tagNew, index);
                 }
             }
         );
@@ -156,17 +146,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
-                                AnalyticsTracker.CATEGORY_TAG,
-                                "tag_alert_edit_box"
-                            );
-                        } catch (BucketObjectNameInvalid e) {
-                            Log.e(Simplenote.TAG, "Unable to rename tag", e);
-                            showDialogErrorRename();
-                        }
+                        tryToRenameTag(tagNew, index);
                     }
                 }
             )
@@ -187,5 +167,19 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
             .setPositiveButton(android.R.string.ok, null)
             .show();
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void tryToRenameTag(String tagNew, int index) {
+        try {
+            mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
+            AnalyticsTracker.track(
+                AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
+                AnalyticsTracker.CATEGORY_TAG,
+                "tag_alert_edit_box"
+            );
+        } catch (BucketObjectNameInvalid e) {
+            Log.e(Simplenote.TAG, "Unable to rename tag", e);
+            showDialogErrorRename();
+        }
     }
 }
