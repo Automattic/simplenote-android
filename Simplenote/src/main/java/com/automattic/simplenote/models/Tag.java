@@ -112,9 +112,10 @@ public class Tag extends BucketObject {
                 }
 
                 // Create new tag if note doesn't already have same tag.
-                if (!tagSet.contains(tagHash)) {
+                if (!tagSet.contains(TagUtils.hashTag(tagNew))) {
                     //noinspection unchecked
                     TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
+                    newTags.add(tagNew);
                 }
 
                 note.setTags(newTags);
