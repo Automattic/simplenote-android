@@ -139,7 +139,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     private void showDialogErrorConflict(String canonical, String tagOld, final String tagNew, final int index) {
         new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
             .setTitle(R.string.dialog_tag_conflict_title)
-            .setMessage(getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical, tagOld))
+            .setMessage(getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical))
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(
                 R.string.dialog_tag_conflict_button_positive,
