@@ -3,6 +3,10 @@
 <resources>
 
     <!-- MARGIN/PADDING -->
+    <dimen name="padding_dialog">24dp</dimen>
+    <dimen name="padding_dialog_eighth">4dp</dimen>
+    <dimen name="padding_dialog_half">12dp</dimen>
+    <dimen name="padding_dialog_quarter">8dp</dimen>
     <dimen name="padding_extra_extra_small">2dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
@@ -41,6 +45,7 @@
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="cell_widget_double">80dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="corner_radius_dialog">2dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="elevation_button">6dp</dimen>

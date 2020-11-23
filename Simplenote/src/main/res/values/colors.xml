@@ -37,8 +37,10 @@
     <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
+    <color name="background_dark_navigation">#0c0d0e</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
+    <color name="background_light_navigation">#666666</color>
     <color name="divider_dark">@color/gray_60</color>
     <color name="divider_light">@color/gray_5</color>
     <color name="empty_dark">@color/gray_60</color>

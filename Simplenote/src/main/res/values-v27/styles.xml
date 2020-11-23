@@ -52,4 +52,12 @@
         <item name="android:windowLightNavigationBar">false</item>
     </style>
 
+    <style name="Theme.Transparent.Dialog" parent="Theme.Transparent">
+        <item name="android:navigationBarColor">@color/background_light_navigation</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

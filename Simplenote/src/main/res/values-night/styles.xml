@@ -117,6 +117,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="Theme.Transparent.Dialog" parent="Theme.Transparent">
+        <item name="android:navigationBarColor">@color/background_dark_navigation</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+    </style>
+
     <style name="ToolbarTheme.Popup" parent="ThemeOverlay.MaterialComponents">
         <item name="android:backgroundTint">@color/background_dark_8</item>
     </style>

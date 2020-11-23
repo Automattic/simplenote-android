@@ -26,9 +26,9 @@
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.NoteEditorActivity"
-            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
-            android:windowSoftInputMode="stateHidden">
+            android:name="com.automattic.simplenote.AddTagActivity"
+            android:theme="@style/Theme.Transparent.Dialog"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity
@@ -81,6 +81,12 @@
 
             </intent-filter>
 
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.NoteEditorActivity"
+            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
+            android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
