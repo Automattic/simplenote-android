@@ -3,6 +3,7 @@ package com.automattic.simplenote;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
@@ -52,6 +54,8 @@ import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class TagsActivity extends ThemedAppCompatActivity implements Bucket.Listener<Tag> {
+    private static final int REQUEST_ADD_TAG = 9000;
+
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
@@ -219,6 +223,15 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
         AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
+            refreshTags();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void checkEmptyList() {
