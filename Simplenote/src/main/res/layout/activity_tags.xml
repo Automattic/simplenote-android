@@ -20,10 +20,12 @@
         <com.automattic.simplenote.widgets.EmptyViewRecyclerView
             android:id="@+id/list"
             android:background="@android:color/transparent"
+            android:clipToPadding="false"
             android:divider="?attr/listDividerDrawable"
             android:dividerHeight="@dimen/divider_height"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:paddingBottom="@dimen/padding_list_bottom"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical">
         </com.automattic.simplenote.widgets.EmptyViewRecyclerView>
