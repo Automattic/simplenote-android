@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -38,6 +39,7 @@ import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
+import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
@@ -53,6 +55,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
+    private ImageButton mButtonAdd;
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
     private String mSearchQuery;
@@ -88,6 +91,33 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mEmptyViewText = emptyView.findViewById(R.id.text);
         checkEmptyList();
         mTagsList.setEmptyView(emptyView);
+
+        mButtonAdd = findViewById(R.id.button_add);
+        mButtonAdd.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
+                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
+                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
+                    startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+                }
+            }
+        );
+        mButtonAdd.setOnLongClickListener(
+            new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (v.isHapticFeedbackEnabled()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+
+                    Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+        );
 
         refreshTags();
     }
