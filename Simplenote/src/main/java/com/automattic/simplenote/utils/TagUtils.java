@@ -42,12 +42,8 @@ public class TagUtils {
      * @param name      {@link String} to use creating the tag.
      */
     public static void createTagIfMissing(Bucket<Tag> bucket, String name) throws BucketObjectNameInvalid {
-        try {
-            bucket.getObject(hashTag(name));
-            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " already exists");
-        } catch (BucketObjectMissingException e) {
+        if (isTagMissing(bucket, name)) {
             createTag(bucket, name, bucket.count());
-            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " does not exist");
         }
     }
 
@@ -107,6 +103,25 @@ public class TagUtils {
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
             return false;
+        }
+    }
+
+    /**
+     * Determine if the tag with @param name is missing from @param bucket or not.
+     *
+     * @param bucket    {@link Bucket<Tag>} in which to create the tag.
+     * @param name      {@link String} to use creating the tag.
+     *
+     * @return          {@link Boolean} true if tag is missing; false otherwise.
+     */
+    public static boolean isTagMissing(Bucket<Tag> bucket, String name) {
+        try {
+            bucket.getObject(hashTag(name));
+            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " already exists");
+            return false;
+        } catch (BucketObjectMissingException e) {
+            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " does not exist");
+            return true;
         }
     }
 }
