@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -20,6 +21,7 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.widgets.MorphCircleToRectangle;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -70,6 +72,17 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
 
         if (mTagInput != null) {
             mTagInput.addTextChangedListener(this);
+
+            new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        mTagInput.requestFocus();
+                        DisplayUtils.showKeyboard(mTagInput);
+                    }
+                },
+                MorphCircleToRectangle.DURATION
+            );
         }
 
         mButtonNegative = findViewById(R.id.button_negative);

@@ -133,4 +133,20 @@ public class DisplayUtils {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    /**
+     * Shows the keyboard for the given {@link View}.  Since a {@link InputMethodManager} flag is
+     * used, the keyboard is implicitly shown regardless of the user request.
+     */
+    public static void showKeyboard(@Nullable final View view) {
+        if (view == null) {
+            return;
+        }
+
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (inputMethodManager != null) {
+            inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
 }
