@@ -50,6 +50,7 @@
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="elevation_button">6dp</dimen>
     <dimen name="elevation_raise">6dp</dimen>
+    <dimen name="empty_width_maximum">312dp</dimen>
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_status">16dp</dimen>
