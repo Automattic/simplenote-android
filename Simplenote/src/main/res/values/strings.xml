@@ -90,6 +90,9 @@
     <string name="share_analytics">Share analytics</string>
     <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
 
+    <!-- Tags -->
+    <string name="add_tag">Add Tag</string>
+
     <!-- Undo -->
     <string name="undo">Undo</string>
     <string name="note_deleted">Note trashed.</string>
