@@ -21,22 +21,22 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
-    public static final int STYLE_BLACK = 5;
-    public static final int STYLE_CLASSIC = 6;
+    public static final int STYLE_BLACK = 2;
+    public static final int STYLE_CLASSIC = 1;
     public static final int STYLE_DEFAULT = 0;
-    public static final int STYLE_MONO = 3;
-    public static final int STYLE_PUBLICATION = 2;
-    public static final int STYLE_MATRIX = 1;
-    public static final int STYLE_SEPIA = 4;
+    public static final int STYLE_MONO = 4;
+    public static final int STYLE_PUBLICATION = 5;
+    public static final int STYLE_MATRIX = 3;
+    public static final int STYLE_SEPIA = 6;
 
     public static final int[] STYLE_ARRAY = {
         STYLE_DEFAULT,
-        STYLE_MATRIX,
-        STYLE_PUBLICATION,
-        STYLE_MONO,
-        STYLE_SEPIA,
+        STYLE_CLASSIC,
         STYLE_BLACK,
-        STYLE_CLASSIC
+        STYLE_MATRIX,
+        STYLE_MONO,
+        STYLE_PUBLICATION,
+        STYLE_SEPIA
     };
 
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
