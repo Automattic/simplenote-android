@@ -256,7 +256,7 @@
     <string name="empty_notes_search_button_default">Create a new note</string>
     <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
     <string name="empty_notes_trash">Your trash is empty</string>
-    <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_notes_untagged">No untagged notes</string>
     <string name="empty_notes_widget">No notes</string>
     <string name="empty_tags">No tags</string>
     <string name="empty_tags_search">No tags found</string>
