@@ -106,9 +106,9 @@ public class StyleActivity extends ThemedAppCompatActivity {
         new AlertDialog.Builder(new ContextThemeWrapper(StyleActivity.this, R.style.Dialog))
             .setTitle(R.string.style_dialog_locked_title)
             .setMessage(R.string.style_dialog_locked_message)
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(
-                R.string.yes,
+                R.string.style_dialog_locked_button_positive,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
