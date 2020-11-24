@@ -20,8 +20,8 @@ img {
 html {
     margin: 0;
     padding: 0;
-    background: #23211f;
-    color: #dbdee0;
+    background: #FFFFFF;
+    color: #2d3034;
     text-rendering: optimizeLegibility;
 }
 
@@ -107,13 +107,13 @@ html {
 }
 
 .note-detail-markdown a {
-    color: #faa754;
+    color: #646970;
 }
 
 .note-detail-markdown hr {
     border: 0;
     margin: 3.4em 0;
-    color: #faa754;
+    color: #646970;
     height: 1em;
 }
 
@@ -136,7 +136,7 @@ html {
 }
 
 .note-detail-markdown code {
-    color: #84878a;
+    color: #899199;
 }
 
 .note-detail-markdown pre {
@@ -169,12 +169,12 @@ html {
 }
 
 .note-detail-markdown table tr:nth-child(2n) {
-    background-color: #383d41;
+    background-color: #f6f7f8;
 }
 
 .note-detail-markdown table th, .note-detail-markdown table td {
     unicode-bidi: plaintext;
-    border: 1px solid #575e65;
+    border: 1px solid #c0c4c8;
     padding: 6px 13px;
 }
 

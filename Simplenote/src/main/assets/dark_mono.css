@@ -20,7 +20,7 @@ img {
 html {
     margin: 0;
     padding: 0;
-    background: #23211f;
+    background: #1f2123;
     color: #dbdee0;
     text-rendering: optimizeLegibility;
 }
@@ -107,13 +107,13 @@ html {
 }
 
 .note-detail-markdown a {
-    color: #faa754;
+    color: #a7aaad;
 }
 
 .note-detail-markdown hr {
     border: 0;
     margin: 3.4em 0;
-    color: #faa754;
+    color: #a7aaad;
     height: 1em;
 }
 
