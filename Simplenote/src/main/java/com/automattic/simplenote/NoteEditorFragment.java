@@ -463,9 +463,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
                     }
                 );
-                mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+                mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
             } else {
                 ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
                 mError = mRootView.findViewById(R.id.error);

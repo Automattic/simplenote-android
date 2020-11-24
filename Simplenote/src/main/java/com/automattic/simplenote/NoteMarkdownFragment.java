@@ -113,9 +113,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                     }
                 }
             );
-            mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
+            mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         } else {
             layout = inflater.inflate(R.layout.fragment_note_error, container, false);
             layout.findViewById(R.id.error).setVisibility(View.VISIBLE);

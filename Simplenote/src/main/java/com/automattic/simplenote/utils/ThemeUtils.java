@@ -131,16 +131,20 @@ public class ThemeUtils {
 
         switch (PrefUtils.getStyleIndexSelected(context)) {
             case STYLE_BLACK:
+                return isLight ? "light_black.css" : "dark_black.css";
+            case STYLE_CLASSIC:
+                return isLight ? "light_classic.css" : "dark_classic.css";
             case STYLE_MATRIX:
-                return isLight ? "light.css" : "dark_black.css";
+                return isLight ? "light_matrix.css" : "dark_matrix.css";
+            case STYLE_MONO:
+                return isLight ? "light_mono.css" : "dark_mono.css";
+            case STYLE_PUBLICATION:
+                return isLight ? "light_publication.css" : "dark_publication.css";
             case STYLE_SEPIA:
                 return isLight ? "light_sepia.css" : "dark_sepia.css";
-            case STYLE_CLASSIC:
             case STYLE_DEFAULT:
-            case STYLE_MONO:
-            case STYLE_PUBLICATION:
             default:
-                return isLight ? "light.css" : "dark.css";
+                return isLight ? "light_default.css" : "dark_default.css";
         }
     }
 
