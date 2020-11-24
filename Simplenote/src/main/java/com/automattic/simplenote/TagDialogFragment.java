@@ -62,6 +62,11 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
             new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
+
+                    if (tagNew.equals(mTagOld)) {
+                        return;
+                    }
+
                     int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
 
                     if (TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew)) {
