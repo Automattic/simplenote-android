@@ -222,6 +222,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_view_link:
                     if (mLinkText != null) {
                         if (mLinkText.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_editor"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             try {
@@ -455,6 +460,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             String url = request.getUrl().toString();
 
                             if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                    AnalyticsTracker.CATEGORY_LINK,
+                                    "internote_link_tapped_editor"
+                                );
                                 SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                             } else {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), url);

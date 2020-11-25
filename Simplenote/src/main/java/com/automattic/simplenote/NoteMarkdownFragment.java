@@ -105,6 +105,11 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                         String url = request.getUrl().toString();
 
                         if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_markdown"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             BrowserUtils.launchBrowserOrShowError(requireContext(), url);
@@ -254,6 +259,11 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         // When a WebView is installed and mMarkdown is null, a WebView was not installed when the
         // fragment was created.  So, open the note again to show the markdown preview.
         if (BrowserUtils.isWebViewInstalled(requireContext()) && mMarkdown == null) {
+            AnalyticsTracker.track(
+                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                AnalyticsTracker.CATEGORY_LINK,
+                "internote_link_tapped_markdown"
+            );
             SimplenoteLinkify.openNote(requireActivity(), mNote.getSimperiumKey());
         }
     }
