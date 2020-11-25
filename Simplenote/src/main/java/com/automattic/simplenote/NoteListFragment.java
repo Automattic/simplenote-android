@@ -219,6 +219,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (getListView().getCheckedItemIds().length > 0) {
             switch (item.getItemId()) {
                 case R.id.menu_link:
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                        AnalyticsTracker.CATEGORY_LINK,
+                        "internote_link_copied_list"
+                    );
                     BrowserUtils.copyToClipboard(requireContext(), getSelectedNoteLinks());
                     mode.finish();
                     break;

@@ -665,6 +665,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 return true;
             case R.id.menu_copy_internal:
+                AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                    AnalyticsTracker.CATEGORY_LINK,
+                    "internote_link_copied_editor"
+                );
                 if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
                     Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 } else {
