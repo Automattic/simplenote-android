@@ -105,7 +105,7 @@
     <color name="ripple_overlay">#44000000</color>
     <color name="status_negative">@color/red</color>
     <color name="status_positive">@color/green</color>
-    <color name="style_locked_background">#99000000</color>
+    <color name="style_locked_background">#cc000000</color>
     <color name="style_locked_icon">#ffffffff</color>
     <color name="style_preview_black_content">@android:color/black</color>
     <color name="style_preview_black_title">@android:color/black</color>
