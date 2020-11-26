@@ -59,6 +59,7 @@
             android:layout_width="@dimen/icon_locked"
             android:padding="@dimen/padding_medium"
             android:src="@drawable/ic_lock_24dp"
+            android:tint="@color/style_locked_icon"
             android:visibility="gone"
             tools:visibility="visible">
         </ImageView>
