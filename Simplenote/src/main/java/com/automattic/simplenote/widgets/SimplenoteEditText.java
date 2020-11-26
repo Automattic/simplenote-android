@@ -18,6 +18,7 @@ import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
@@ -108,6 +109,11 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.INTERNOTE_LINK_CREATED,
+            AnalyticsTracker.CATEGORY_LINK,
+            "internote_link_created"
+        );
         @SuppressWarnings("unchecked")
         Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
         String key = cursor.getString(cursor.getColumnIndex(Note.KEY_PROPERTY)).replace("note", "");
