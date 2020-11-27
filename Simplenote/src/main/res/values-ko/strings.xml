@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-19 08:54:03+0000
+Translation-Revision-Date: 2020-11-13 13:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="unpublishing">메모 공개 취소 중…</string>
+    <string name="unpublish_successful">메모 공개가 취소되었습니다.</string>
+    <string name="web_view_error_button">WebView 앱으로 이동</string>
+    <string name="web_view_error">마크다운을 미리 보려면 기기에 웹 보기를 설치해야 합니다.</string>
     <string name="about_help_title">도움말</string>
     <string name="about_help_summary">FAQ 또는 문의</string>
     <string name="settings_item_get_help">도움말</string>
@@ -17,7 +21,7 @@ Language: ko_KR
     <string name="open_note_error">메모를 찾을 수 없습니다.</string>
     <string name="open_note">메모 열기</string>
     <string name="copy_link_internal">내부 링크 복사</string>
-    <string name="publish_successful">발행되었습니다.</string>
+    <string name="publish_successful">메모가 공개되었습니다.</string>
     <string name="about">정보</string>
     <string name="link_copied_failure">링크를 복사할 수 없습니다.</string>
     <string name="send_logs">로그 보내기</string>
@@ -83,8 +87,6 @@ Language: ko_KR
     <string name="note_list_widget_light">메모 목록(밝게)</string>
     <string name="note_list_widget_dark">메모 목록(어둡게)</string>
     <string name="retry">다시 시도</string>
-    <string name="publishing">발행 중…</string>
-    <string name="publish_successful_link">발행되었습니다. 링크가 복사되었습니다!</string>
     <string name="link_copied">링크가 복사되었습니다!</string>
     <string name="of">/</string>
     <string name="next">다음</string>
@@ -185,10 +187,7 @@ Language: ko_KR
     <string name="wpcom_log_in_error_generic">워드프레스닷컴으로 로그인할 수 없습니다. 다시 시도하세요.</string>
     <string name="collaborate_message">다른 시용자와 협업하려면 태그 필그에서 이메일을 추가하세요.</string>
     <string name="collaborate">협업</string>
-    <string name="unpublishing">공개 링크를 삭제하는 중…</string>
-    <string name="unpublish_successful">공개 링크가 제거되었습니다.</string>
-    <string name="unpublish_error">링크를 삭제할 수 없습니다.</string>
-    <string name="publish_error">링크를 생성할 수 없습니다.</string>
+    <string name="publishing">메모 공개 중…</string>
     <string name="unpublish">공개 링크 제거</string>
     <string name="no_browser_available">\"웹사이트를 열 수 없습니다. 브라우저를 사용할 수 없습니다.\"</string>
     <string name="blog">블로그</string>
@@ -213,6 +212,8 @@ Language: ko_KR
     <string name="font_size_small">작게</string>
     <string name="font_size_extra_small">더 작게</string>
     <string name="note_added">메모가 추가됨</string>
+    <string name="unpublish_error">메모 게시를 취소할 수 없습니다.</string>
+    <string name="publish_error">메모를 게시할 수 없습니다.</string>
     <string name="published">게시됨</string>
     <string name="publish">게시</string>
     <string name="theme">테마</string>

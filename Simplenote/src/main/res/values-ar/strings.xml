@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 13:54:03+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="unpublishing">جارٍ إلغاء نشر الملحوظة…</string>
+    <string name="unpublish_successful">تم إلغاء نشر الملحوظة.</string>
+    <string name="web_view_error_button">الانتقال إلى تطبيق WebView</string>
+    <string name="web_view_error">يجب تثبيت عرض الويب على جهازك لمعاينة الضبط.</string>
     <string name="about_help_title">إحصل على المساعدة</string>
     <string name="about_help_summary">الأسئلة المتداولة أو اتصل بنا</string>
     <string name="settings_item_get_help">الحصول على مساعدة</string>
@@ -17,7 +21,7 @@ Language: ar
     <string name="open_note_error">تعذر العثور على الملحوظة</string>
     <string name="open_note">فتح الملحوظة</string>
     <string name="copy_link_internal">نسخ الرابط الداخلي</string>
-    <string name="publish_successful">تم النشر.</string>
+    <string name="publish_successful">تم نشر الملحوظة.</string>
     <string name="about">نبذة عن</string>
     <string name="link_copied_failure">تعذَّر نسخ الرابط.</string>
     <string name="send_logs">إرسال السجلات</string>
@@ -83,8 +87,6 @@ Language: ar
     <string name="note_list_widget_light">قائمة الملحوظات (فاتح)</string>
     <string name="note_list_widget_dark">قائمة الملحوظات (غامق)</string>
     <string name="retry">إعادة المحاولة</string>
-    <string name="publishing">جارٍ النشر…</string>
-    <string name="publish_successful_link">تم النشر. تم نسخ الرابط!</string>
     <string name="link_copied">تم نسخ الرابط!</string>
     <string name="of">من</string>
     <string name="next">التالي</string>
@@ -185,10 +187,7 @@ Language: ar
     <string name="wpcom_log_in_error_generic">تعذر تسجيل الدخول باستخدام ووردبريس.كوم. يُرجى المحاولة مجددًا.</string>
     <string name="collaborate_message">إضافة بريد إلكتروني في حقل العلامة للتعاون مع مستخدمين آخرين.</string>
     <string name="collaborate">تعاون</string>
-    <string name="unpublishing">جارٍ إزالة الرابط العام…</string>
-    <string name="unpublish_successful">تمت إزالة الرابط العام.</string>
-    <string name="unpublish_error">تعذر إزالة الرابط.</string>
-    <string name="publish_error">تعذر إنشاء الرابط.</string>
+    <string name="publishing">جارٍ نشر الملحوظة…</string>
     <string name="unpublish">إزالة الرابط العام</string>
     <string name="no_browser_available">\"يتعذر فتح موقع الويب. لا يتوفر متصفح.\"</string>
     <string name="blog">المدونة</string>
@@ -213,6 +212,8 @@ Language: ar
     <string name="font_size_small">صغير</string>
     <string name="font_size_extra_small">صغير جدًا</string>
     <string name="note_added">تمت إضافة ملاحظة</string>
+    <string name="unpublish_error">تعذر إلغاء نشر الملاحظة</string>
+    <string name="publish_error">تعذر نشر الملاحظة</string>
     <string name="published">منشور</string>
     <string name="publish">نشر</string>
     <string name="theme">قالب</string>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-19 12:54:04+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="unpublishing">Annullamento della pubblicazione della nota in corso…</string>
+    <string name="unpublish_successful">Pubblicazione della nota annullata.</string>
+    <string name="web_view_error_button">Vai all\'app di visualizzazione web</string>
+    <string name="web_view_error">Per visualizzare in anteprima il markdown, è necessaria l\'installazione sul dispositivo di una funzionalità di visualizzazione web.</string>
     <string name="about_help_title">Richiedi supporto</string>
     <string name="about_help_summary">FAQ o contattaci</string>
     <string name="settings_item_get_help">Richiedi supporto</string>
@@ -17,7 +21,7 @@ Language: it
     <string name="open_note_error">Impossibile trovare la nota</string>
     <string name="open_note">Apri nota</string>
     <string name="copy_link_internal">Copia link interno</string>
-    <string name="publish_successful">Pubblicazione completata.</string>
+    <string name="publish_successful">Nota pubblicata.</string>
     <string name="about">Informazioni</string>
     <string name="link_copied_failure">Il link non può essere copiato.</string>
     <string name="send_logs">Invia log</string>
@@ -83,8 +87,6 @@ Language: it
     <string name="note_list_widget_light">Elenco delle note (chiaro)</string>
     <string name="note_list_widget_dark">Elenco delle note (scuro)</string>
     <string name="retry">Riprova</string>
-    <string name="publishing">Pubblicazione in corso…</string>
-    <string name="publish_successful_link">Pubblicazione completata. Link copiato.</string>
     <string name="link_copied">Link copiato.</string>
     <string name="of">di</string>
     <string name="next">Successivo</string>
@@ -185,10 +187,7 @@ Language: it
     <string name="wpcom_log_in_error_generic">Non è stato possibile accedere con WordPress.com. Riprova.</string>
     <string name="collaborate_message">Aggiungi un\'e-mail nel campo di tag per collaborare con altri utenti.</string>
     <string name="collaborate">Collabora</string>
-    <string name="unpublishing">Rimozione del link pubblico in corso…</string>
-    <string name="unpublish_successful">Link pubblico rimosso.</string>
-    <string name="unpublish_error">Impossibile rimuovere il link.</string>
-    <string name="publish_error">Impossibile creare il link.</string>
+    <string name="publishing">Pubblicazione della nota in corso…</string>
     <string name="unpublish">Rimuovi link pubblico</string>
     <string name="no_browser_available">\"Impossibile aprire il sito web. Nessun browser disponibile.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: it
     <string name="font_size_small">Piccolo</string>
     <string name="font_size_extra_small">Molto piccolo</string>
     <string name="note_added">Nota aggiunta</string>
+    <string name="unpublish_error">Non è stato possibile annullare la pubblicazione della nota</string>
+    <string name="publish_error">Non è stato possibile pubblicare la nota</string>
     <string name="published">Pubblicata</string>
     <string name="publish">Pubblica</string>
     <string name="theme">Tema</string>

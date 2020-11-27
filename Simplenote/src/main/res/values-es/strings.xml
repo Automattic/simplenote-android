@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-15 14:54:04+0000
+Translation-Revision-Date: 2020-11-13 13:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="unpublishing">Anulando la publicación de la nota…</string>
+    <string name="unpublish_successful">Se ha anulado la publicación de la nota.</string>
+    <string name="web_view_error_button">Ir a la aplicación WebView</string>
+    <string name="web_view_error">Para tener una vista previa de Markdown, necesitas tener instalada la versión web en tu dispositivo.</string>
     <string name="about_help_title">Obtener ayuda</string>
     <string name="about_help_summary">Consulta las preguntas frecuentes o contacta con nosotros</string>
     <string name="settings_item_get_help">Obtener ayuda</string>
@@ -17,7 +21,7 @@ Language: es
     <string name="open_note_error">No se ha podido encontrar la nota</string>
     <string name="open_note">Abrir nota</string>
     <string name="copy_link_internal">Copiar enlace interno</string>
-    <string name="publish_successful">Se ha publicado.</string>
+    <string name="publish_successful">La nota se ha publicado.</string>
     <string name="about">Acerca de</string>
     <string name="link_copied_failure">No se ha podido copiar el enlace.</string>
     <string name="send_logs">Enviar registros</string>
@@ -83,8 +87,6 @@ Language: es
     <string name="note_list_widget_light">Lista de notas (Claro)</string>
     <string name="note_list_widget_dark">Lista de notas (Oscuro)</string>
     <string name="retry">Reintentar</string>
-    <string name="publishing">Publicando…</string>
-    <string name="publish_successful_link">Se ha publicado. ¡El enlace se ha copiado!</string>
     <string name="link_copied">¡El enlace se ha copiado!</string>
     <string name="of">de</string>
     <string name="next">Siguiente</string>
@@ -185,10 +187,7 @@ Language: es
     <string name="wpcom_log_in_error_generic">No se ha podido acceder con WordPress.com. Inténtalo de nuevo.</string>
     <string name="collaborate_message">Añade una dirección de correo electrónico en el campo de la etiqueta para colaborar con otros usuarios</string>
     <string name="collaborate">Colaborar</string>
-    <string name="unpublishing">Eliminando el enlace público…</string>
-    <string name="unpublish_successful">El enlace público se ha eliminado.</string>
-    <string name="unpublish_error">No se ha podido eliminar el enlace.</string>
-    <string name="publish_error">No se ha podido crear el enlace.</string>
+    <string name="publishing">Publicando la nota…</string>
     <string name="unpublish">Eliminar el enlace público</string>
     <string name="no_browser_available">\"No se puede abrir el sitio web. No hay ningún navegador disponible.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: es
     <string name="font_size_small">Pequeño</string>
     <string name="font_size_extra_small">Muy pequeño</string>
     <string name="note_added">Se ha añadido una nota</string>
+    <string name="unpublish_error">No publicar</string>
+    <string name="publish_error">No publicar</string>
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
     <string name="theme">Tema</string>
