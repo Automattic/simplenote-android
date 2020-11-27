@@ -1,0 +1,3 @@
+2.13:
+* Krascher på enheter som inte har någon webbvy installerad har åtgärdats
+
