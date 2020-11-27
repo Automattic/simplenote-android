@@ -1,5 +1,10 @@
+2.14
+-----
+ 
 2.13
 -----
+
+* Fixed crashing on devices with no web view installed [https://github.com/Automattic/simplenote-android/pull/1182]
 
 2.12
 -----
@@ -10,7 +15,6 @@
 2.11.1
 -----
 * Fixed switching between apps causing data loss [https://github.com/Automattic/simplenote-android/pull/1170]
-
 
 2.11
 -----

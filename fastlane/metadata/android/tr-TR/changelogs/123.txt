@@ -1,4 +1,0 @@
-2,12:
-* Notlar arasına bağlantı eklerken yardımcı olması için düzenleyiciye otomatik tamamlama işlevi eklendi
-* Yardım için ayarlara bir bağlantı eklendi
-

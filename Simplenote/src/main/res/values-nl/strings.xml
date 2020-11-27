@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 13:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="unpublishing">Notitie wordt verwijderd</string>
+    <string name="unpublish_successful">Notitie verwijderd.</string>
+    <string name="web_view_error_button">Ga naar WebView-app</string>
+    <string name="web_view_error">Er moet een webversie op je apparaat geïnstalleerd zijn om een voorbeeld van de markdown weer te geven.</string>
     <string name="about_help_title">Ontvang hulp</string>
     <string name="about_help_summary">Veelgestelde vragen of neem contact met ons op</string>
     <string name="settings_item_get_help">Ontvang hulp</string>
@@ -17,7 +21,7 @@ Language: nl
     <string name="open_note_error">Kan notitie niet vinden</string>
     <string name="open_note">Notitie openen</string>
     <string name="copy_link_internal">Interne link kopiëren</string>
-    <string name="publish_successful">Gepubliceerd.</string>
+    <string name="publish_successful">Notitie gepubliceerd.</string>
     <string name="about">Over</string>
     <string name="link_copied_failure">Link kon niet gekopieerd worden.</string>
     <string name="send_logs">Logs verzenden</string>
@@ -83,8 +87,6 @@ Language: nl
     <string name="note_list_widget_light">Lijst met notities (licht)</string>
     <string name="note_list_widget_dark">Lijst met notities (donker)</string>
     <string name="retry">Opnieuw proberen</string>
-    <string name="publishing">Bezig met publiceren …</string>
-    <string name="publish_successful_link">Gepubliceerd. Link gekopieerd!</string>
     <string name="link_copied">Link gekopieerd!</string>
     <string name="of">van</string>
     <string name="next">Volgende</string>
@@ -185,10 +187,7 @@ Language: nl
     <string name="wpcom_log_in_error_generic">Kan niet inloggen via WordPress.com. Probeer het nog eens.</string>
     <string name="collaborate_message">Voeg een e-mail toe aan het tag-veld om met andere gebruikers samen te werken.</string>
     <string name="collaborate">Samenwerken</string>
-    <string name="unpublishing">Openbare link wordt verwijderd…</string>
-    <string name="unpublish_successful">Openbare link verwijderd.</string>
-    <string name="unpublish_error">Kon link niet verwijderen.</string>
-    <string name="publish_error">Kon link niet aanmaken.</string>
+    <string name="publishing">Notitie wordt gepubliceerd</string>
     <string name="unpublish">Openbare link verwijderen</string>
     <string name="no_browser_available">\"Website openen mislukt. Geen browser beschikbaar.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: nl
     <string name="font_size_small">Klein</string>
     <string name="font_size_extra_small">Extra klein</string>
     <string name="note_added">Notitie toegevoegd</string>
+    <string name="unpublish_error">Kan notitie niet verwijderen</string>
+    <string name="publish_error">Kan notitie niet publiceren</string>
     <string name="published">Gepubliceerd</string>
     <string name="publish">Publiceren</string>
     <string name="theme">Thema</string>

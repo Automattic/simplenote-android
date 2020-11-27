@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-06-12 10:47:28+0000
+Translation-Revision-Date: 2020-11-06 10:53:41+0000
 Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;
 Generator: GlotPress/2.4.0-alpha
 Language: cy_GB
@@ -11,10 +11,7 @@ Language: cy_GB
     <string name="wpcom_log_in_error_unverified">Gweithredwch eich cyfrif WordPress.com trwy e-bost a cheisiwch eto.</string>
     <string name="collaborate_message">Ychwanegwch e-bost yn y maes tag i gydweithio â defnyddwyr eraill.</string>
     <string name="collaborate">Cydweithio</string>
-    <string name="unpublishing">Dileu cyswllt cyhoeddus …</string>
-    <string name="unpublish_successful">Dileu dolen gyhoeddus.</string>
-    <string name="publish_error">Methu creu dolen.</string>
-    <string name="unpublish_error">Methu dileu\'r ddolen.</string>
+    <string name="publishing">Nodyn cyhoeddi …</string>
     <string name="unpublish">Dileu dolen gyhoeddus</string>
     <string name="no_browser_available">&amp;quot;Methu agor gwefan. Dim porwr ar gael.&amp;quot;</string>
     <string name="blog">Blog</string>
@@ -41,6 +38,8 @@ Language: cy_GB
     <string name="edit">Golygu</string>
     <string name="publish">Cyhoeddi</string>
     <string name="published">Cyhoeddwyd</string>
+    <string name="publish_error">Methu cyhoeddi nodyn</string>
+    <string name="unpublish_error">Methu dad-gyhoeddi\'r nodyn</string>
     <string name="note_selected">%d nodyn wedi eu dewis</string>
     <string name="notes_selected">%d nodyn wedi eu dewis</string>
     <string name="notes_trashed">Dilëwyd nodau.</string>

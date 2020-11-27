@@ -1,3 +1,2 @@
-* Added autocomplete to the editor when adding a link between notes
-* Added a link to help in settings
+* Fixed crashing on devices with no web view installed
 
