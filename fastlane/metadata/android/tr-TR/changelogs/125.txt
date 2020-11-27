@@ -1,0 +1,3 @@
+2.13:
+* Web görünümü yüklü olmayan cihazlarda çökme düzeltildi
+

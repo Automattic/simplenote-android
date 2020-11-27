@@ -1,4 +1,0 @@
-2.12 :
-* Ajout de la saisie semi-automatique à l’éditeur lors de l’ajout d’un lien entre des notes
-* Ajout d’un lien d’aide dans les réglages
-

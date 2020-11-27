@@ -1,0 +1,3 @@
+2.13:
+* Crashen verholpen op apparaten waarop geen webversie was geïnstalleerd
+

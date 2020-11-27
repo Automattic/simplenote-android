@@ -1,0 +1,3 @@
+2.13 :
+* Incident résolu sur les appareils sans affichage Web
+

@@ -1,4 +1,0 @@
-2.12:
-* Automatische Vervollständigung zum Editor hinzugefügt, wenn ein Link zwischen Notizen hinzugefügt wird
-* Hilfreichen Link in „Einstellungen“ hinzugefügt
-
