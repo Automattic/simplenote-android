@@ -1,2 +1,1 @@
-* Fixed crashing on devices with no web view installed
-
+ 
