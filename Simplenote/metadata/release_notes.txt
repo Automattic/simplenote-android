@@ -1,1 +1,3 @@
  
+* Updated checkbox target size for easier tapping
+* Updated adding tags to avoid duplicates
