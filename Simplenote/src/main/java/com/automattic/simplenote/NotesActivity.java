@@ -630,6 +630,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     public void createNewNote(View view) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.SEARCH_EMPTY_TAPPED,
+            AnalyticsTracker.CATEGORY_SEARCH,
+            "search_empty_tapped_new_note"
+        );
         getNoteListFragment().createNewNote(
             isSearchQueryNotNull() ? mSearchView.getQuery().toString() : "", "new_note_search"
         );
