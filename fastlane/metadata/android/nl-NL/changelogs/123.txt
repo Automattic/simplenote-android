@@ -1,4 +1,0 @@
-2.12:
-* Automatisch aanvullen toegevoegd wanneer een koppeling tussen notities wordt aangemaakt
-* Link toegevoegd voor hulp bij instellingen
-

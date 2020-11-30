@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 10:54:04+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="unpublishing">Отмена публикации заметки…</string>
+    <string name="unpublish_successful">Публикация заметки отменена.</string>
+    <string name="web_view_error_button">Перейти в приложение WebView</string>
+    <string name="web_view_error">Для просмотра разметки необходимо установить WebView на вашем устройстве.</string>
     <string name="about_help_title">Справка</string>
     <string name="about_help_summary">«Часто задаваемые вопросы» или «Свяжитесь с нами»</string>
     <string name="settings_item_get_help">Справка</string>
@@ -17,7 +21,7 @@ Language: ru
     <string name="open_note_error">Не удалось зайти заметку</string>
     <string name="open_note">Открыть заметку</string>
     <string name="copy_link_internal">Скопировать внутреннюю ссылку</string>
-    <string name="publish_successful">Опубликовано.</string>
+    <string name="publish_successful">Заметка опубликована.</string>
     <string name="about">О нас</string>
     <string name="link_copied_failure">Не удалось скопировать ссылку.</string>
     <string name="send_logs">Отправить журналы</string>
@@ -83,8 +87,6 @@ Language: ru
     <string name="note_list_widget_light">Список заметок (светлая версия)</string>
     <string name="note_list_widget_dark">Список заметок (темная версия)</string>
     <string name="retry">Повторить попытку</string>
-    <string name="publishing">Публикация…</string>
-    <string name="publish_successful_link">Опубликовано. Ссылка скопирована!</string>
     <string name="link_copied">Ссылка скопирована!</string>
     <string name="of">из</string>
     <string name="next">Вперед</string>
@@ -185,10 +187,7 @@ Language: ru
     <string name="wpcom_log_in_error_generic">Не удалось войти в систему WordPress.com. Повторите попытку.</string>
     <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>
     <string name="collaborate">Совместная работа</string>
-    <string name="unpublishing">Удаление опубликованной ссылки…</string>
-    <string name="unpublish_successful">Общедоступная ссылка удалена.</string>
-    <string name="unpublish_error">Не удалось удалить ссылку.</string>
-    <string name="publish_error">Не удалось создать ссылку.</string>
+    <string name="publishing">Публикация заметки…</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
     <string name="no_browser_available">\"Не удалось открыть веб-сайт. Браузер недоступен\".</string>
     <string name="blog">Блог</string>
@@ -213,6 +212,8 @@ Language: ru
     <string name="font_size_small">Маленький</string>
     <string name="font_size_extra_small">Очень маленький</string>
     <string name="note_added">Добавлена заметка</string>
+    <string name="unpublish_error">Не получилось отменить публикацию</string>
+    <string name="publish_error">Не получилось опубликовать заметку</string>
     <string name="published">Опубликовано</string>
     <string name="publish">Опубликовать</string>
     <string name="theme">Тема оформления</string>

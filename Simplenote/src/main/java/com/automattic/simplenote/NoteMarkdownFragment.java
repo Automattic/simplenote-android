@@ -17,6 +17,7 @@ import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
@@ -104,6 +105,11 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                         String url = request.getUrl().toString();
 
                         if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_markdown"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             BrowserUtils.launchBrowserOrShowError(requireContext(), url);
@@ -148,6 +154,12 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 deleteNote();
                 return true;
             case R.id.menu_copy_internal:
+                AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                    AnalyticsTracker.CATEGORY_LINK,
+                    "internote_link_copied_markdown"
+                );
+
                 if (!isAdded()) {
                     return false;
                 }

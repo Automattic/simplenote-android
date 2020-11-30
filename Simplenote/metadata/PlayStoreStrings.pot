@@ -11,18 +11,18 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0214"
+msgid ""
+"2.14:\n"
+"\n"
+"* Updated checkbox target size for easier tapping\n"
+"* Updated adding tags to avoid duplicates\n"
+msgstr ""
+
 msgctxt "release_note_0213"
 msgid ""
 "2.13:\n"
 "* Fixed crashing on devices with no web view installed\n"
-"\n"
-msgstr ""
-
-msgctxt "release_note_0212"
-msgid ""
-"2.12:\n"
-"* Added autocomplete to the editor when adding a link between notes\n"
-"* Added a link to help in settings\n"
 "\n"
 msgstr ""
 

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-05 13:03:48+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="unpublishing">Avpublicerar anteckning …</string>
+    <string name="unpublish_successful">Anteckning inte publicerad.</string>
+    <string name="web_view_error_button">Gå till WebView-appen</string>
+    <string name="web_view_error">Du måste ha en webbvy installerad på din enhet för att förhandsgranska markdown.</string>
     <string name="about_help_title">Skaffa hjälp</string>
     <string name="about_help_summary">Vanliga frågor eller kontakta oss</string>
     <string name="settings_item_get_help">Skaffa hjälp</string>
@@ -17,7 +21,7 @@ Language: sv_SE
     <string name="open_note_error">Anteckning kunde inte hittas</string>
     <string name="open_note">Öppna anteckning</string>
     <string name="copy_link_internal">Kopiera intern länk</string>
-    <string name="publish_successful">Publicerat.</string>
+    <string name="publish_successful">Anteckning publicerad.</string>
     <string name="about">Om</string>
     <string name="link_copied_failure">Länk kunde inte kopieras.</string>
     <string name="send_logs">Skicka loggar</string>
@@ -83,8 +87,6 @@ Language: sv_SE
     <string name="note_list_widget_light">Anteckningslista (ljus)</string>
     <string name="note_list_widget_dark">Anteckningslista (mörk)</string>
     <string name="retry">Försök igen</string>
-    <string name="publishing">Publicerar…</string>
-    <string name="publish_successful_link">Publicerat. Länk kopierad!</string>
     <string name="link_copied">Länk kopierad!</string>
     <string name="of">av</string>
     <string name="next">Nästa</string>
@@ -185,10 +187,7 @@ Language: sv_SE
     <string name="wpcom_log_in_error_generic">Kunde inte logga in med WordPress.com. Försök igen.</string>
     <string name="collaborate_message">Lägg till en e-post i etikettfältet för att samarbeta med andra användare.</string>
     <string name="collaborate">Samarbeta</string>
-    <string name="unpublishing">Tar bort offentlig länk…</string>
-    <string name="unpublish_successful">Offentlig länk borttagen.</string>
-    <string name="unpublish_error">Kunde inte ta bort länk.</string>
-    <string name="publish_error">Kunde inte skapa länk.</string>
+    <string name="publishing">Publicerar anteckning …</string>
     <string name="unpublish">Ta bort offentlig länk</string>
     <string name="no_browser_available">\"Kunde inte öppna webbplats. Ingen webbläsare tillgänglig.\"</string>
     <string name="blog">Blogg</string>
@@ -213,6 +212,8 @@ Language: sv_SE
     <string name="font_size_small">Liten</string>
     <string name="font_size_extra_small">Extra liten</string>
     <string name="note_added">Anteckning tillagd</string>
+    <string name="unpublish_error">Kunde inte ta bort publicerad anteckning</string>
+    <string name="publish_error">Kunde inte publicera anteckning</string>
     <string name="published">Publicerad</string>
     <string name="publish">Publicera</string>
     <string name="theme">Tema</string>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-14 08:54:04+0000
+Translation-Revision-Date: 2020-11-13 13:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="unpublishing">正在取消发布笔记…</string>
+    <string name="unpublish_successful">已取消发布笔记。</string>
+    <string name="web_view_error_button">转到 WebView 应用</string>
+    <string name="web_view_error">必须在设备上安装 Web 视图才能预览 markdown。</string>
     <string name="about_help_title">获取帮助</string>
     <string name="about_help_summary">常见问题解答或与我们联系</string>
     <string name="settings_item_get_help">获取帮助</string>
@@ -17,7 +21,7 @@ Language: zh_CN
     <string name="open_note_error">找不到笔记</string>
     <string name="open_note">打开笔记</string>
     <string name="copy_link_internal">复制内部链接</string>
-    <string name="publish_successful">已发布。</string>
+    <string name="publish_successful">已发布笔记。</string>
     <string name="about">关于</string>
     <string name="link_copied_failure">无法复制链接。</string>
     <string name="send_logs">发送日志</string>
@@ -83,8 +87,6 @@ Language: zh_CN
     <string name="note_list_widget_light">备注列表（浅色）</string>
     <string name="note_list_widget_dark">备注列表（深色）</string>
     <string name="retry">重试</string>
-    <string name="publishing">正在发布…</string>
-    <string name="publish_successful_link">已发布。 链接已复制！</string>
     <string name="link_copied">链接已复制！</string>
     <string name="of">/</string>
     <string name="next">下一步</string>
@@ -185,10 +187,7 @@ Language: zh_CN
     <string name="wpcom_log_in_error_generic">无法登录 WordPress.com。请重试。</string>
     <string name="collaborate_message">在标签中添加邮箱地址即可与其他用户协作。</string>
     <string name="collaborate">协作</string>
-    <string name="unpublishing">正在删除公开链接…</string>
-    <string name="unpublish_successful">公开链接已删除。</string>
-    <string name="unpublish_error">无法删除链接。</string>
-    <string name="publish_error">无法创建链接。</string>
+    <string name="publishing">正在发布笔记…</string>
     <string name="unpublish">删除公开链接</string>
     <string name="no_browser_available">“无法打开网站。没有可用的浏览器。”</string>
     <string name="blog">博客</string>
@@ -213,6 +212,8 @@ Language: zh_CN
     <string name="font_size_small">小</string>
     <string name="font_size_extra_small">极小</string>
     <string name="note_added">笔记已添加</string>
+    <string name="unpublish_error">无法取消发布笔记</string>
+    <string name="publish_error">无法发布笔记</string>
     <string name="published">已发布</string>
     <string name="publish">发布</string>
     <string name="theme">主题</string>
