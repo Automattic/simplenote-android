@@ -1,6 +1,7 @@
 2.14
 -----
 * Updated checkbox target size for easier tapping
+* Updated adding tags to avoid duplicates
 
 2.13
 -----
