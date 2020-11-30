@@ -73,10 +73,12 @@ public class SearchSnippetFormatter {
         // Apply checklist spans if necessary
         if (mContext != null) {
             builder = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    mContext,
-                    builder,
-                    ChecklistUtils.CHECKLIST_REGEX,
-                    mChecklistResId);
+                mContext,
+                builder,
+                ChecklistUtils.CHECKLIST_REGEX,
+                mChecklistResId,
+                true
+            );
         }
 
         return builder;

@@ -1,2 +1,3 @@
-* Fixed crashing on devices with no web view installed
-
+ 
+* Updated checkbox target size for easier tapping
+* Updated adding tags to avoid duplicates

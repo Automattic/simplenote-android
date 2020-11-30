@@ -221,6 +221,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_view_link:
                     if (mLinkText != null) {
                         if (mLinkText.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_editor"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             try {
@@ -454,6 +459,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             String url = request.getUrl().toString();
 
                             if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                    AnalyticsTracker.CATEGORY_LINK,
+                                    "internote_link_tapped_markdown"
+                                );
                                 SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                             } else {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), url);
@@ -463,9 +473,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
                     }
                 );
-                mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+                mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
             } else {
                 ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
                 mError = mRootView.findViewById(R.id.error);
@@ -664,6 +672,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 return true;
             case R.id.menu_copy_internal:
+                AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                    AnalyticsTracker.CATEGORY_LINK,
+                    "internote_link_copied_editor"
+                );
                 if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
                     Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 } else {

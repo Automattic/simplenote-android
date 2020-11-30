@@ -21,22 +21,22 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 import static android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
 public class ThemeUtils {
-    public static final int STYLE_BLACK = 5;
-    public static final int STYLE_CLASSIC = 6;
+    public static final int STYLE_BLACK = 2;
+    public static final int STYLE_CLASSIC = 1;
     public static final int STYLE_DEFAULT = 0;
-    public static final int STYLE_MONO = 3;
-    public static final int STYLE_PUBLICATION = 2;
-    public static final int STYLE_MATRIX = 1;
-    public static final int STYLE_SEPIA = 4;
+    public static final int STYLE_MONO = 4;
+    public static final int STYLE_PUBLICATION = 5;
+    public static final int STYLE_MATRIX = 3;
+    public static final int STYLE_SEPIA = 6;
 
     public static final int[] STYLE_ARRAY = {
         STYLE_DEFAULT,
-        STYLE_MATRIX,
-        STYLE_PUBLICATION,
-        STYLE_MONO,
-        STYLE_SEPIA,
+        STYLE_CLASSIC,
         STYLE_BLACK,
-        STYLE_CLASSIC
+        STYLE_MATRIX,
+        STYLE_MONO,
+        STYLE_PUBLICATION,
+        STYLE_SEPIA
     };
 
     private static final String PREFERENCES_URI_AUTHORITY = "preferences";
@@ -116,10 +116,14 @@ public class ThemeUtils {
     }
 
     public static int getColorFromAttribute(@NonNull Context context, @AttrRes int attribute) {
+        return context.getColor(getColorResourceFromAttribute(context, attribute));
+    }
+
+    public static int getColorResourceFromAttribute(@NonNull Context context, @AttrRes int attribute) {
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{attribute});
         int colorResId = typedArray.getResourceId(0, android.R.color.black);
         typedArray.recycle();
-        return context.getColor(colorResId);
+        return colorResId;
     }
 
     public static String getCssFromStyle(Context context) {
@@ -127,16 +131,20 @@ public class ThemeUtils {
 
         switch (PrefUtils.getStyleIndexSelected(context)) {
             case STYLE_BLACK:
+                return isLight ? "light_black.css" : "dark_black.css";
+            case STYLE_CLASSIC:
+                return isLight ? "light_classic.css" : "dark_classic.css";
             case STYLE_MATRIX:
-                return isLight ? "light.css" : "dark_black.css";
+                return isLight ? "light_matrix.css" : "dark_matrix.css";
+            case STYLE_MONO:
+                return isLight ? "light_mono.css" : "dark_mono.css";
+            case STYLE_PUBLICATION:
+                return isLight ? "light_publication.css" : "dark_publication.css";
             case STYLE_SEPIA:
                 return isLight ? "light_sepia.css" : "dark_sepia.css";
-            case STYLE_CLASSIC:
             case STYLE_DEFAULT:
-            case STYLE_MONO:
-            case STYLE_PUBLICATION:
             default:
-                return isLight ? "light.css" : "dark.css";
+                return isLight ? "light_default.css" : "dark_default.css";
         }
     }
 

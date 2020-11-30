@@ -187,6 +187,23 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        final Preference membershipPreference = findPreference("pref_key_membership");
+        membershipPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((PreferencesActivity) requireActivity()).openBrowserForMembership(getView());
+                return true;
+            }
+        });
+
+        if (PrefUtils.isPremium(requireContext())) {
+            membershipPreference.setLayoutResource(R.layout.preference_default);
+            membershipPreference.setSummary(R.string.membership_premium);
+        } else {
+            membershipPreference.setLayoutResource(R.layout.preference_button);
+            membershipPreference.setSummary(R.string.membership_free);
+        }
+
         final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

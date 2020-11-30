@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 13:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="unpublishing">Veröffentlichung der Notiz wird rückgängig gemacht …</string>
+    <string name="unpublish_successful">Veröffentlichung der Notiz rückgängig gemacht.</string>
+    <string name="web_view_error_button">Zur WebView-App</string>
+    <string name="web_view_error">Für die Vorschau des Markdowns muss die Web-Ansicht auf deinem Gerät installiert sein.</string>
     <string name="about_help_title">Hilfe bekommen</string>
     <string name="about_help_summary">FAQ oder Kontakt</string>
     <string name="settings_item_get_help">Hilfe erhalten</string>
@@ -17,7 +21,7 @@ Language: de
     <string name="open_note_error">Notiz konnte nicht gefunden werden</string>
     <string name="open_note">Notiz öffnen</string>
     <string name="copy_link_internal">Internen Link kopieren</string>
-    <string name="publish_successful">Veröffentlicht.</string>
+    <string name="publish_successful">Notiz veröffentlicht</string>
     <string name="about">Über</string>
     <string name="link_copied_failure">Link konnte nicht kopiert werden.</string>
     <string name="send_logs">Protokolle senden</string>
@@ -83,8 +87,6 @@ Language: de
     <string name="note_list_widget_light">Notizenliste (hell)</string>
     <string name="note_list_widget_dark">Notizenliste (dunkel)</string>
     <string name="retry">Erneut versuchen</string>
-    <string name="publishing">Veröffentlichen …</string>
-    <string name="publish_successful_link">Veröffentlicht. Link kopiert!</string>
     <string name="link_copied">Link kopiert!</string>
     <string name="of">von</string>
     <string name="next">Weiter</string>
@@ -185,10 +187,7 @@ Language: de
     <string name="wpcom_log_in_error_generic">Anmeldung mit WordPress.com fehlgeschlagen. Bitte versuche es erneut.</string>
     <string name="collaborate_message">Füge im Feld „Schlagwort“ eine E-Mail-Adresse für die Zusammenarbeit mit anderen Benutzern hinzu.</string>
     <string name="collaborate">Zusammenarbeiten</string>
-    <string name="unpublishing">Öffentlicher Link wird entfernt …</string>
-    <string name="unpublish_successful">Öffentlicher Link wurde entfernt.</string>
-    <string name="unpublish_error">Link konnte nicht entfernt werden.</string>
-    <string name="publish_error">Link konnte nicht erstellt werden.</string>
+    <string name="publishing">Notiz wird veröffentlicht …</string>
     <string name="unpublish">Öffentlichen Link entfernen</string>
     <string name="no_browser_available">„Öffnen der Website nicht möglich. Kein Browser verfügbar.“</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: de
     <string name="font_size_small">Klein</string>
     <string name="font_size_extra_small">Sehr klein</string>
     <string name="note_added">Notiz hinzugefügt</string>
+    <string name="unpublish_error">Veröffentlichung von Notiz konnte nicht rückgängig gemacht werden</string>
+    <string name="publish_error">Notiz konnte nicht veröffentlicht werden</string>
     <string name="published">Veröffentlicht</string>
     <string name="publish">Veröffentlichen</string>
     <string name="theme">Theme</string>

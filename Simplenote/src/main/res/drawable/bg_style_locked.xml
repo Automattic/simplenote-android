@@ -8,7 +8,7 @@
     </corners>
 
     <solid
-        android:color="@color/style_locked">
+        android:color="@color/style_locked_background">
     </solid>
 
 </shape>

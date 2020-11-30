@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Reference;
 import com.automattic.simplenote.utils.DateTimeUtils;
@@ -132,6 +133,11 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                            AnalyticsTracker.CATEGORY_LINK,
+                            "internote_link_tapped_info"
+                        );
                         SimplenoteLinkify.openNote(mFragment.requireActivity(), reference.getKey());
                     }
                 }

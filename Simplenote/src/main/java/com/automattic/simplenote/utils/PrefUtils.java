@@ -268,6 +268,30 @@ public class PrefUtils {
         return getStyleNameFromIndex(context, getStyleIndexSelected(context));
     }
 
+    public static int getStyleWidgetDialog(Context context) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return R.style.Theme_Transparent_Black;
+                case STYLE_CLASSIC:
+                    return R.style.Theme_Transparent_Classic;
+                case STYLE_MATRIX:
+                    return R.style.Theme_Transparent_Matrix;
+                case STYLE_MONO:
+                    return R.style.Theme_Transparent_Mono;
+                case STYLE_SEPIA:
+                    return R.style.Theme_Transparent_Sepia;
+                case STYLE_PUBLICATION:
+                    return R.style.Theme_Transparent_Publication;
+                case STYLE_DEFAULT:
+                default:
+                    return R.style.Theme_Transparent;
+            }
+        } else {
+            return R.style.Theme_Transparent;
+        }
+    }
+
     public static void setStyleIndex(Context context, int index) {
         getPrefs(context).edit().putInt(PREF_STYLE_INDEX, index).apply();
     }
