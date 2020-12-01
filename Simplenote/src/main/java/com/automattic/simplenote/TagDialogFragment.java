@@ -68,8 +68,10 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                     }
 
                     int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
+                    boolean isRenamingToLexicalTag = TagUtils.hashTag(tagNew).equals(TagUtils.hashTag(mTagOld));
+                    boolean hasCanonicalTag = TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew);
 
-                    if (TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew)) {
+                    if (hasCanonicalTag && !isRenamingToLexicalTag) {
                         String tagCanonical = TagUtils.getCanonicalFromLexical(mBucketTag, tagNew);
                         showDialogErrorConflict(tagCanonical, mTagOld, tagNew, index);
                         return;
