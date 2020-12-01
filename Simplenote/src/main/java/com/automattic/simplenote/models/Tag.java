@@ -12,10 +12,8 @@ import com.simperium.client.Query.ComparisonType;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 
@@ -80,54 +78,55 @@ public class Tag extends BucketObject {
     }
 
     public void renameTo(String tagOld, String tagNew, int index, Bucket<Note> notesBucket) throws BucketObjectNameInvalid {
-        String tagHash = getSimperiumKey();
+        // When old tag ID is equal to new tag hash, tag is being renamed to lexical variation.
+        boolean isOldIdEqualToNewHash = getSimperiumKey().equals(TagUtils.hashTag(tagNew));
+        //noinspection unchecked
+        Bucket<Tag> tagsBucket = (Bucket<Tag>) getBucket();
+        // Get all notes with old tag to update.
+        ObjectCursor<Note> notes = findNotes(notesBucket, tagOld);
 
-        if (!tagHash.equals(TagUtils.hashTag(tagNew))) {
-            // get all the notes from tag, remove the item
-            ObjectCursor<Note> notesCursor = findNotes(notesBucket, tagOld);
+        while (notes.moveToNext()) {
+            Note note = notes.getObject();
+            List<String> tagsNew = new ArrayList<>();
+            List<String> tagsHash = new ArrayList<>();
 
-            while (notesCursor.moveToNext()) {
-                Note note = notesCursor.getObject();
-                List<String> tags = new ArrayList<>(note.getTags());
-                List<String> newTags = new ArrayList<>(tags.size());
-                List<String> tagHashes = new ArrayList<>();
-                Set<String> tagSet = new HashSet<>();
-
-                // Create list and set of hashed tag to compare.
-                for (String tag : tags) {
-                    String hash = TagUtils.hashTag(tag);
-                    tagHashes.add(hash);
-                    tagSet.add(hash);
+            // Create lists of note's tags excluding old tag.
+            for (String tag : note.getTags()) {
+                if (!tag.equals(tagOld)) {
+                    tagsNew.add(tag);
+                    tagsHash.add(TagUtils.hashTag(tag));
                 }
-
-                // Go through all note's tags and compare hashed tags.
-                for (int i = 0; i < tags.size(); i++) {
-                    // Add new tag if it's this tag and note doesn't already have same tag.
-                    if (tagHash.equals(tagHashes.get(i)) && !tagSet.contains(tagHashes.get(i))) {
-                        newTags.add(tagNew);
-                    // Add tag if it's not old tag to be deleted.
-                    } else if (!tags.get(i).equals(tagOld)) {
-                        newTags.add(tags.get(i));
-                    }
-                }
-
-                // Create new tag if note doesn't already have same tag.
-                if (!tagSet.contains(TagUtils.hashTag(tagNew))) {
-                    //noinspection unchecked
-                    TagUtils.createTag((Bucket<Tag>) getBucket(), tagNew, index);
-                    newTags.add(tagNew);
-                }
-
-                note.setTags(newTags);
-                note.save();
             }
 
-            notesCursor.close();
-            delete();
-        } else if (!getName().equals(tagNew)) {
-            setName(tagNew);
-            save();
+            // Add lexical tag to note.  Update this tag's name and save it.
+            if (isOldIdEqualToNewHash) {
+                tagsNew.add(tagNew);
+
+                if (!getName().equals(tagNew)) {
+                    setName(tagNew);
+                    save();
+                }
+            // Add new canonical tag to note and create new tag.  Delete this tag.
+            } else {
+                // Add new tag if note doesn't already have same hashed tag.
+                if (!tagsHash.contains(TagUtils.hashTag(tagNew))) {
+                    tagsNew.add(TagUtils.getCanonicalFromLexical(tagsBucket, tagNew));
+                }
+
+                // Create new tag if canonical tag doesn't already exist.
+                if (!TagUtils.hasCanonicalOfLexical(tagsBucket, tagNew)) {
+                    TagUtils.createTag(tagsBucket, tagNew, index);
+                }
+
+                delete();
+            }
+
+            // Add new tags to note and save it.
+            note.setTags(tagsNew);
+            note.save();
         }
+
+        notes.close();
     }
 
     public ObjectCursor<Note> findNotes(Bucket<Note> notesBucket, String name) {
