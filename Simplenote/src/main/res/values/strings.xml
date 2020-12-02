@@ -25,7 +25,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="empty_trash">Empty Trash</string>
-    <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
+    <string name="confirm_empty_trash">Do you want to empty the trash? All notes in trash will be permanently deleted. This action cannot be undone.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="word">Word</string>
