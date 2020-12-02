@@ -41,11 +41,6 @@ public class Preferences extends BucketObject {
 
         if (object instanceof JSONArray) {
             JSONArray recents = (JSONArray) object;
-
-            if (recents == null) {
-                recents = new JSONArray();
-            }
-
             ArrayList<String> recentsList = new ArrayList<>(recents.length());
 
             for (int i = 0; i < recents.length(); i++) {
