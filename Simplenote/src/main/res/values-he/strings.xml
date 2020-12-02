@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-15 15:54:03+0000
+Translation-Revision-Date: 2020-11-13 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="unpublishing">מבטל את פרסום פתק…</string>
+    <string name="unpublish_successful">פרסום הפתק בוטל.</string>
+    <string name="web_view_error_button">לעבור אל האפליקציה WebView</string>
+    <string name="web_view_error">לשם תצוגה מקדימה של Markdown יש להתקין תצוגת אינטרנט במכשיר.</string>
     <string name="about_help_title">לקבלת עזרה</string>
     <string name="about_help_summary">שאלות נפוצות או יצירת קשר</string>
     <string name="settings_item_get_help">לקבלת עזרה</string>
@@ -17,7 +21,7 @@ Language: he_IL
     <string name="open_note_error">לא ניתן היה למצוא את הפתק</string>
     <string name="open_note">לפתוח את הפתק</string>
     <string name="copy_link_internal">להעתיק קישור פנימי</string>
-    <string name="publish_successful">פורסם.</string>
+    <string name="publish_successful">הפתק פורסם.</string>
     <string name="about">אודות</string>
     <string name="link_copied_failure">לא ניתן היה להעתיק את הקישור.</string>
     <string name="send_logs">לשלוח יומנים</string>
@@ -83,8 +87,6 @@ Language: he_IL
     <string name="note_list_widget_light">רשימת פתקים (בהירה)</string>
     <string name="note_list_widget_dark">רשימת פתקים (כהה)</string>
     <string name="retry">יש לנסות שנית</string>
-    <string name="publishing">מפרסם…</string>
-    <string name="publish_successful_link">פורסם. הקישור הועתק!</string>
     <string name="link_copied">הקישור הועתק!</string>
     <string name="of">מתוך</string>
     <string name="next">הבא</string>
@@ -185,10 +187,7 @@ Language: he_IL
     <string name="wpcom_log_in_error_generic">לא ניתן היה להתחבר עם WordPress.com. יש לנסות שוב.</string>
     <string name="collaborate_message">הוספת אימייל בשדה \'תגית\' לצורך שיתוף פעולה בעריכה עם משתמשים אחרים.</string>
     <string name="collaborate">שיתוף פעולה בעריכה</string>
-    <string name="unpublishing">מסיר קישור ציבורי…</string>
-    <string name="unpublish_successful">קישור ציבורי.</string>
-    <string name="unpublish_error">לא ניתן היה להסיר קישור.</string>
-    <string name="publish_error">לא ניתן היה ליצור קישור.</string>
+    <string name="publishing">מפרסם פתק…</string>
     <string name="unpublish">הסרת קישור ציבורי</string>
     <string name="no_browser_available">\"לא ניתן היה לפתוח את אתר האינטרנט. אין דפדפן זמין.\"</string>
     <string name="blog">בלוג</string>
@@ -213,6 +212,8 @@ Language: he_IL
     <string name="font_size_small">קטן</string>
     <string name="font_size_extra_small">קטן מאוד</string>
     <string name="note_added">הפתק נוסף</string>
+    <string name="unpublish_error">לא ניתן לבטל את פרסום הפתק</string>
+    <string name="publish_error">לא ניתן לפרסם את הפתק</string>
     <string name="published">פורסם</string>
     <string name="publish">לפרסם</string>
     <string name="theme">עיצוב</string>

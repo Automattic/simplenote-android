@@ -42,6 +42,9 @@ import static com.automattic.simplenote.utils.ThemeUtils.STYLE_PUBLICATION;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_SEPIA;
 
 public class StyleActivity extends ThemedAppCompatActivity {
+    private static final String EXTRA_SCROLL = "EXTRA_SCROLL";
+
+    private LinearLayoutManager mLayoutManager;
     private boolean mIsPremium;
 
     @Override
@@ -72,7 +75,12 @@ public class StyleActivity extends ThemedAppCompatActivity {
 
         EmptyViewRecyclerView list = findViewById(R.id.list);
         list.setAdapter(new StyleAdapter(styles));
-        list.setLayoutManager(new LinearLayoutManager(StyleActivity.this));
+        mLayoutManager = new LinearLayoutManager(StyleActivity.this);
+        list.setLayoutManager(mLayoutManager);
+
+        if (getIntent().hasExtra(EXTRA_SCROLL)) {
+            mLayoutManager.onRestoreInstanceState(getIntent().getParcelableExtra(EXTRA_SCROLL));
+        }
     }
 
     @Override
@@ -87,6 +95,7 @@ public class StyleActivity extends ThemedAppCompatActivity {
     @Override
     public void recreate() {
         Intent intent = new Intent(StyleActivity.this, StyleActivity.class);
+        intent.putExtra(EXTRA_SCROLL, mLayoutManager.onSaveInstanceState());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -97,9 +106,9 @@ public class StyleActivity extends ThemedAppCompatActivity {
         new AlertDialog.Builder(new ContextThemeWrapper(StyleActivity.this, R.style.Dialog))
             .setTitle(R.string.style_dialog_locked_title)
             .setMessage(R.string.style_dialog_locked_message)
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(
-                R.string.yes,
+                R.string.style_dialog_locked_button_positive,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

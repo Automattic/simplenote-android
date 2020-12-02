@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 13:54:04+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="unpublishing">Desfazendo publicação de anotação…</string>
+    <string name="unpublish_successful">Anotação não publicada.</string>
+    <string name="web_view_error_button">Acessar aplicativo WebView</string>
+    <string name="web_view_error">Uma visualização da Web deve estar instalada no seu dispositivo para exibir um markdown.</string>
     <string name="about_help_title">Obter ajuda</string>
     <string name="about_help_summary">Veja as perguntas frequentes ou fale conosco</string>
     <string name="settings_item_get_help">Obter ajuda</string>
@@ -17,7 +21,7 @@ Language: pt_BR
     <string name="open_note_error">Não foi possível encontrar a anotação</string>
     <string name="open_note">Abrir anotação</string>
     <string name="copy_link_internal">Copiar link interno</string>
-    <string name="publish_successful">Publicada.</string>
+    <string name="publish_successful">Anotação publicada.</string>
     <string name="about">Sobre</string>
     <string name="link_copied_failure">Não foi possível copiar o link.</string>
     <string name="send_logs">Enviar logs</string>
@@ -83,8 +87,6 @@ Language: pt_BR
     <string name="note_list_widget_light">Lista de anotações (Clara)</string>
     <string name="note_list_widget_dark">Lista de anotações (Escura)</string>
     <string name="retry">Tentar novamente</string>
-    <string name="publishing">Publicando…</string>
-    <string name="publish_successful_link">Publicação realizada. Link copiado!</string>
     <string name="link_copied">Link copiado!</string>
     <string name="of">de</string>
     <string name="next">Próximo</string>
@@ -185,10 +187,7 @@ Language: pt_BR
     <string name="wpcom_log_in_error_generic">Não foi possível fazer login usando o WordPress.com. Tente novamente.</string>
     <string name="collaborate_message">Adicione um email ao campo da tag para colaborar com outros usuários.</string>
     <string name="collaborate">Colaborar</string>
-    <string name="unpublishing">Removendo link público…</string>
-    <string name="unpublish_successful">Link público removido.</string>
-    <string name="unpublish_error">Não foi possível remover o link.</string>
-    <string name="publish_error">Não foi possível criar o link.</string>
+    <string name="publishing">Publicando anotação…</string>
     <string name="unpublish">Remover link público</string>
     <string name="no_browser_available">\"Não foi possível abrir o site. Nenhum navegador disponível.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: pt_BR
     <string name="font_size_small">Pequeno</string>
     <string name="font_size_extra_small">Extrapequeno</string>
     <string name="note_added">Anotação adicionada</string>
+    <string name="unpublish_error">Não foi possível cancelar a publicação da anotação</string>
+    <string name="publish_error">Não foi possível publicar a anotação</string>
     <string name="published">Publicado</string>
     <string name="publish">Publicar</string>
     <string name="theme">Tema</string>

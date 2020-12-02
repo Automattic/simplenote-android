@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 15:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="unpublishing">ノートを非公開にしています…</string>
+    <string name="unpublish_successful">ノートが非公開になりました。</string>
+    <string name="web_view_error_button">WebView アプリに移動</string>
+    <string name="web_view_error">マークダウンをプレビューするには、WebView がデバイスにインストールされている必要があります。</string>
     <string name="about_help_title">ヘルプ</string>
     <string name="about_help_summary">FAQ またはお問い合わせ</string>
     <string name="settings_item_get_help">ヘルプ</string>
@@ -17,7 +21,7 @@ Language: ja_JP
     <string name="open_note_error">メモが見つかりません</string>
     <string name="open_note">メモを開く</string>
     <string name="copy_link_internal">内部リンクをコピー</string>
-    <string name="publish_successful">公開済み。</string>
+    <string name="publish_successful">ノートを公開しました。</string>
     <string name="about">このサイトについて</string>
     <string name="link_copied_failure">リンクをコピーできませんでした。</string>
     <string name="send_logs">ログを送信</string>
@@ -83,8 +87,6 @@ Language: ja_JP
     <string name="note_list_widget_light">メモリスト (ライト)</string>
     <string name="note_list_widget_dark">メモリスト (ダーク)</string>
     <string name="retry">再試行</string>
-    <string name="publishing">公開しています…</string>
-    <string name="publish_successful_link">公開済み。 リンクをコピーしました。</string>
     <string name="link_copied">リンクをコピーしました。</string>
     <string name="of">/</string>
     <string name="next">次へ</string>
@@ -185,10 +187,7 @@ Language: ja_JP
     <string name="wpcom_log_in_error_generic">WordPress.com にログインできませんでした。もう一度お試しください。</string>
     <string name="collaborate_message">メールアドレスをタグフィールドに追加すると、他のユーザーと共同作業できます。</string>
     <string name="collaborate">共同編集</string>
-    <string name="unpublishing">公開リンクを削除中…</string>
-    <string name="unpublish_successful">公開リンクを削除しました。</string>
-    <string name="unpublish_error">リンクを削除できませんでした。</string>
-    <string name="publish_error">リンクを作成できませんでした。</string>
+    <string name="publishing">ノートを公開しています…</string>
     <string name="unpublish">公開リンクを削除</string>
     <string name="no_browser_available">「サイトを開けません。使用可能なブラウザーがありません。」</string>
     <string name="blog">ブログ</string>
@@ -213,6 +212,8 @@ Language: ja_JP
     <string name="font_size_small">小</string>
     <string name="font_size_extra_small">極小</string>
     <string name="note_added">ノートを追加しました</string>
+    <string name="unpublish_error">ノートを非公開にできませんでした</string>
+    <string name="publish_error">ノートを公開できませんでした</string>
     <string name="published">公開済み</string>
     <string name="publish">公開</string>
     <string name="theme">テーマ</string>

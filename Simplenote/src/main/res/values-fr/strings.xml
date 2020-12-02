@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-14 16:54:03+0000
+Translation-Revision-Date: 2020-11-13 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="unpublishing">Annulation de la publication de la note en cours…</string>
+    <string name="unpublish_successful">Publication de la note annulée.</string>
+    <string name="web_view_error_button">Accéder à l’application WebView</string>
+    <string name="web_view_error">Un affichage Web doit être installé sur votre appareil pour afficher l’aperçu de la note.</string>
     <string name="about_help_title">Obtenir de l’aide</string>
     <string name="about_help_summary">FAQ ou nous contacter</string>
     <string name="settings_item_get_help">Obtenir de l’aide</string>
@@ -17,7 +21,7 @@ Language: fr
     <string name="open_note_error">Note introuvable</string>
     <string name="open_note">Ouvrir la note</string>
     <string name="copy_link_internal">Copier le lien interne</string>
-    <string name="publish_successful">Publié.</string>
+    <string name="publish_successful">Note publiée.</string>
     <string name="about">À propos</string>
     <string name="link_copied_failure">Impossible de copier le lien.</string>
     <string name="send_logs">Envoyer les journaux</string>
@@ -83,8 +87,6 @@ Language: fr
     <string name="note_list_widget_light">Liste de notes (affichage clair)</string>
     <string name="note_list_widget_dark">Liste de notes (affichage foncé)</string>
     <string name="retry">Réessayer</string>
-    <string name="publishing">Publication…</string>
-    <string name="publish_successful_link">Publié. Lien copié !</string>
     <string name="link_copied">Lien copié !</string>
     <string name="of">sur</string>
     <string name="next">Suivant</string>
@@ -185,10 +187,7 @@ Language: fr
     <string name="wpcom_log_in_error_generic">Impossible de se connecter à WordPress.com. Veuillez réessayer.</string>
     <string name="collaborate_message">Ajoutez un e-mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
     <string name="collaborate">Collaborer</string>
-    <string name="unpublishing">Suppression du lien public…</string>
-    <string name="unpublish_successful">Lien public supprimé.</string>
-    <string name="unpublish_error">Impossible de supprimer le lien.</string>
-    <string name="publish_error">Impossible de créer le lien.</string>
+    <string name="publishing">Publication de la note en cours…</string>
     <string name="unpublish">Supprimer le lien public</string>
     <string name="no_browser_available">« Impossible d’ouvrir le site web. Aucun navigateur disponible. »</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: fr
     <string name="font_size_small">Petit</string>
     <string name="font_size_extra_small">Très petite</string>
     <string name="note_added">Note ajoutée</string>
+    <string name="unpublish_error">Echec de publication</string>
+    <string name="publish_error">Echec de publication</string>
     <string name="published">Publié</string>
     <string name="publish">Publier</string>
     <string name="theme">Thème</string>

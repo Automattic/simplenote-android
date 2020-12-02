@@ -219,6 +219,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (getListView().getCheckedItemIds().length > 0) {
             switch (item.getItemId()) {
                 case R.id.menu_link:
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                        AnalyticsTracker.CATEGORY_LINK,
+                        "internote_link_copied_list"
+                    );
                     BrowserUtils.copyToClipboard(requireContext(), getSelectedNoteLinks());
                     mode.finish();
                     break;
@@ -1126,10 +1131,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             } else {
                 SpannableStringBuilder titleChecklistString = new SpannableStringBuilder(title);
                 titleChecklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                        getContext(),
-                        titleChecklistString,
-                        ChecklistUtils.CHECKLIST_REGEX,
-                        ThemeUtils.getThemeTextColorId(getContext()));
+                    getContext(),
+                    titleChecklistString,
+                    ChecklistUtils.CHECKLIST_REGEX,
+                    ThemeUtils.getThemeTextColorId(getContext()),
+                    true
+                );
                 holder.mTitle.setText(titleChecklistString);
             }
 
@@ -1166,10 +1173,12 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     holder.mContent.setText(contentPreview);
                     SpannableStringBuilder checklistString = new SpannableStringBuilder(contentPreview);
                     checklistString = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                            getContext(),
-                            checklistString,
-                            ChecklistUtils.CHECKLIST_REGEX,
-                            R.color.text_title_disabled);
+                        getContext(),
+                        checklistString,
+                        ChecklistUtils.CHECKLIST_REGEX,
+                        R.color.text_title_disabled,
+                        true
+                    );
                     holder.mContent.setText(checklistString);
                 }
             }
