@@ -113,6 +113,10 @@ public class TagUtils {
     /**
      * Replace certain characters in @param encoded that were not encoded with encoded value.
      *
+     * All "+" characters in a tag are encoded upstream and passed as "%2B" in {@param encoded}.
+     * All " " characters in a tag are encoded upstream and passed as "+" in {@param encoded}.
+     * Thus, all "+" in {@param encoded} should be replaced with "%20" as an encoded space.
+     *
      * @param encoded   {@link String} to replace certain characters with encoded value.
      *
      * @return          {@link String} replaced characters with encoded values.
