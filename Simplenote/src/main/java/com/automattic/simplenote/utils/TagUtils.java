@@ -118,6 +118,11 @@ public class TagUtils {
      * @return          {@link String} replaced characters with encoded values.
      */
     private static String replaceEncoded(String encoded) {
-        return encoded.replace("+", "%20").replace("*", "%2A").replace("-", "%2D").replace(".", "%2E").replace("_", "%5F");
+        return encoded
+            .replace("+", "%20")
+            .replace("*", "%2A")
+            .replace("-", "%2D")
+            .replace(".", "%2E")
+            .replace("_", "%5F");
     }
 }
