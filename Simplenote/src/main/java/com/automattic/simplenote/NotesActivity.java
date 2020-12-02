@@ -850,11 +850,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             }
         });
 
+        MenuItem deleteItem = menu.findItem(R.id.menu_delete);
         MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
+        // Show delete action only when note is in Trash.
+        // Change trash action to restore when note is in Trash.
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
+            deleteItem.setVisible(true);
             trashItem.setTitle(R.string.restore);
         } else {
+            deleteItem.setVisible(false);
             trashItem.setTitle(R.string.trash);
         }
 
@@ -914,6 +919,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 return true;
             case R.id.menu_markdown_preview:
                 togglePreview(item);
+                return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(NotesActivity.this, mCurrentNote);
                 return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null && mCurrentNote != null) {
