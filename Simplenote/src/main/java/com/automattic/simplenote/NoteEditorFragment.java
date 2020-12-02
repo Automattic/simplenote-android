@@ -711,6 +711,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_share:
                 shareNote();
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -740,6 +743,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             MenuItem publishItem = menu.findItem(R.id.menu_publish);
             MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
             MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+            MenuItem deleteItem = menu.findItem(R.id.menu_delete);
             MenuItem trashItem = menu.findItem(R.id.menu_trash);
             mChecklistMenuItem = menu.findItem(R.id.menu_checklist);
             mInformationMenuItem = menu.findItem(R.id.menu_info).setVisible(true);
@@ -769,9 +773,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 DrawableUtils.setMenuItemAlpha(mChecklistMenuItem, 1.0);  // 1.0 is 100% opacity.
             }
 
+            // Show delete action only when note is in Trash.
+            // Change trash action to restore when note is in Trash.
             if (mNote.isDeleted()) {
+                deleteItem.setVisible(true);
                 trashItem.setTitle(R.string.restore);
             } else {
+                deleteItem.setVisible(false);
                 trashItem.setTitle(R.string.trash);
             }
         }

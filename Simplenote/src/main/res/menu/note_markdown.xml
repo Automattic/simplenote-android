@@ -60,6 +60,12 @@
         </item>
 
         <item
+            android:id="@+id/menu_delete"
+            android:title="@string/delete"
+            app:showAsAction="never">
+        </item>
+
+        <item
             android:id="@+id/menu_trash"
             android:title="@string/trash"
             app:showAsAction="never">
