@@ -231,6 +231,10 @@
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
 
+    <string name="dialog_tag_conflict_button_positive">Merge</string>
+    <string name="dialog_tag_conflict_message">The tag \"%1$s\" already exists. Would you like to merge \"%2$s\" into the \"%3$s\" tag?</string>
+    <string name="dialog_tag_conflict_title">Tag Conflict</string>
+
     <string name="empty_notes_all">Create your first note</string>
     <string name="empty_notes_search">No notes found</string>
     <string name="empty_notes_search_button">Create a new note titled \"%1$s\"</string>
