@@ -427,6 +427,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mSearchMatchIndex > 0) {
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SEARCH_MATCH_TAPPED,
+                        AnalyticsTracker.CATEGORY_SEARCH,
+                        "search_match_tapped_previous"
+                    );
                     mSearchMatchIndex--;
                     mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
                     new Handler().postDelayed(
@@ -457,6 +462,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mSearchMatchIndex < mSearchMatchIndexes.length - 1) {
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SEARCH_MATCH_TAPPED,
+                        AnalyticsTracker.CATEGORY_SEARCH,
+                        "search_match_tapped_next"
+                    );
                     mSearchMatchIndex++;
                     mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
                     new Handler().postDelayed(
