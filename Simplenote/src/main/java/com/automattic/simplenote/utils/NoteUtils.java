@@ -69,9 +69,9 @@ public class NoteUtils {
         new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Dialog))
             .setTitle(R.string.delete_dialog_title)
             .setMessage(R.string.delete_dialog_message)
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(
-                R.string.yes,
+                R.string.delete,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         if (note != null) {
