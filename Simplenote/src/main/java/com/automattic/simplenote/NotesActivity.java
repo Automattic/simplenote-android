@@ -937,7 +937,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
                 alert.setTitle(R.string.empty_trash);
                 alert.setMessage(R.string.confirm_empty_trash);
-                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, null);
+                alert.setPositiveButton(R.string.empty, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
@@ -946,11 +947,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                             CATEGORY_NOTE,
                             "overflow_menu"
                         );
-                    }
-                });
-                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing, just closing the dialog
                     }
                 });
                 alert.show();
