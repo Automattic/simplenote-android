@@ -46,11 +46,10 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.automattic.simplenote.widgets.NoteEditorViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.automattic.simplenote.widgets.NoteEditorViewPager>
+            android:layout_height="match_parent"/>
 
         <RelativeLayout
             android:id="@+id/search_match_bar"

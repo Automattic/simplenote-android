@@ -16,8 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
@@ -26,9 +28,11 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayout.Tab;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
@@ -39,7 +43,6 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
@@ -62,7 +65,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     private Note mNote;
     private NoteEditorFragment mNoteEditorFragment;
     private NoteEditorFragmentPagerAdapter mNoteEditorFragmentPagerAdapter;
-    private NoteEditorViewPager mViewPager;
+    private ViewPager2 mViewPager;
     private RelativeLayout mSearchMatchBar;
     private RobotoMediumTextView mNumberPosition;
     private RobotoMediumTextView mNumberTotal;
@@ -95,7 +98,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         mNoteEditorFragment = new NoteEditorFragment();
         NoteMarkdownFragment noteMarkdownFragment;
 
-        mNoteEditorFragmentPagerAdapter = new NoteEditorFragmentPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mNoteEditorFragmentPagerAdapter = new NoteEditorFragmentPagerAdapter(getSupportFragmentManager(), getLifecycle());
         mViewPager = findViewById(R.id.pager);
         mTabLayout = findViewById(R.id.tabs);
 
@@ -112,32 +115,17 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
         if (savedInstanceState == null) {
             // Create the note editor fragment
-            Bundle arguments = new Bundle();
-            arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
-            arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET,
-                    intent.getBooleanExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false));
-
-            boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
-            arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
-            if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
-                arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
-                        intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
+            Bundle arguments = getArguments(intent);
 
             mNoteEditorFragment.setArguments(arguments);
             noteMarkdownFragment = new NoteMarkdownFragment();
             noteMarkdownFragment.setArguments(arguments);
 
-            mNoteEditorFragmentPagerAdapter.addFragment(
-                    mNoteEditorFragment,
-                    getString(R.string.tab_edit)
-            );
-            mNoteEditorFragmentPagerAdapter.addFragment(
-                    noteMarkdownFragment,
-                    getString(R.string.tab_preview)
-            );
-            mViewPager.setPagingEnabled(false);
-            mViewPager.addOnPageChangeListener(
-                new NoteEditorViewPager.OnPageChangeListener() {
+            mNoteEditorFragmentPagerAdapter.addFragment(mNoteEditorFragment);
+            mNoteEditorFragmentPagerAdapter.addFragment(noteMarkdownFragment);
+            mViewPager.setEnabled(false);
+            mViewPager.registerOnPageChangeCallback(
+                new OnPageChangeCallback() {
                     @Override
                     public void onPageSelected(int position) {
                         if (position == INDEX_TAB_PREVIEW) {
@@ -171,14 +159,21 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             isMarkdownEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
             isPreviewEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
         } else {
-            mNoteEditorFragmentPagerAdapter.addFragment(
-                    getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_EDIT),
-                    getString(R.string.tab_edit)
-            );
-            mNoteEditorFragmentPagerAdapter.addFragment(
-                    getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_PREVIEW),
-                    getString(R.string.tab_preview)
-            );
+            Fragment editFragment = getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_EDIT);
+            if (editFragment != null) {
+                mNoteEditorFragmentPagerAdapter.addFragment(editFragment);
+            }
+            Fragment previewFragment = getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_PREVIEW);
+            if (previewFragment != null) {
+                mNoteEditorFragmentPagerAdapter.addFragment(previewFragment);
+            } else {
+                // Create the note editor fragment
+                Bundle arguments = getArguments(intent);
+
+                noteMarkdownFragment = new NoteMarkdownFragment();
+                noteMarkdownFragment.setArguments(arguments);
+                mNoteEditorFragmentPagerAdapter.addFragment(noteMarkdownFragment);
+            }
 
             isMarkdownEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED);
             isPreviewEnabled = savedInstanceState.getBoolean(NoteEditorFragment.ARG_PREVIEW_ENABLED);
@@ -192,14 +187,24 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         }
 
         mViewPager.setAdapter(mNoteEditorFragmentPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        new TabLayoutMediator(mTabLayout, mViewPager, new TabConfigurationStrategy() {
+            @Override public void onConfigureTab(@NonNull Tab tab, int position) {
+                if (position == 0) {
+                    tab.setText(getString(R.string.tab_edit));
+                } else if (position == 1) {
+                    tab.setText(getString(R.string.tab_preview));
+                } else {
+                    throw new UnsupportedOperationException("More than two tabs are not supported at the moment.");
+                }
+            }
+        }).attach();
 
         // Show tabs if markdown is enabled for the current note.
         if (isMarkdownEnabled) {
             showTabs();
 
             if (isPreviewEnabled & !isSearchMatch) {
-                mViewPager.setCurrentItem(mNoteEditorFragmentPagerAdapter.getCount() - 1);
+                mViewPager.setCurrentItem(mNoteEditorFragmentPagerAdapter.getItemCount() - 1);
             }
         }
 
@@ -220,6 +225,20 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 "note_list_widget_note_tapped"
             );
         }
+    }
+
+    private Bundle getArguments(Intent intent) {
+        Bundle arguments = new Bundle();
+        arguments.putString(NoteEditorFragment.ARG_ITEM_ID, mNoteId);
+        arguments.putBoolean(NoteEditorFragment.ARG_IS_FROM_WIDGET,
+                intent.getBooleanExtra(NoteEditorFragment.ARG_IS_FROM_WIDGET, false));
+
+        boolean isNewNote = intent.getBooleanExtra(NoteEditorFragment.ARG_NEW_NOTE, false);
+        arguments.putBoolean(NoteEditorFragment.ARG_NEW_NOTE, isNewNote);
+        if (intent.hasExtra(NoteEditorFragment.ARG_MATCH_OFFSETS))
+            arguments.putString(NoteEditorFragment.ARG_MATCH_OFFSETS,
+                    intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
+        return arguments;
     }
 
     @Override
@@ -249,12 +268,18 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT).isAdded()) {
-            getSupportFragmentManager().putFragment(outState, STATE_TAB_EDIT, mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT));
+        if (mNoteEditorFragmentPagerAdapter.getItemCount() > 0) {
+            Fragment editFragment = mNoteEditorFragmentPagerAdapter.createFragment(INDEX_TAB_EDIT);
+            if (editFragment.isAdded()) {
+                getSupportFragmentManager().putFragment(outState, STATE_TAB_EDIT, editFragment);
+            }
         }
 
-        if (mNoteEditorFragmentPagerAdapter.getCount() > 1 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW).isAdded()) {
-            getSupportFragmentManager().putFragment(outState, STATE_TAB_PREVIEW, mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW));
+        if (mNoteEditorFragmentPagerAdapter.getItemCount() > 1) {
+            Fragment previewFragment = mNoteEditorFragmentPagerAdapter.createFragment(INDEX_TAB_PREVIEW);
+            if (previewFragment.isAdded()) {
+                getSupportFragmentManager().putFragment(outState, STATE_TAB_PREVIEW, previewFragment);
+            }
         }
 
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
@@ -371,12 +396,12 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     }
 
     protected NoteMarkdownFragment getNoteMarkdownFragment() {
-        return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getItem(1);
+        return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.createFragment(1);
     }
 
     public void hideTabs() {
         mTabLayout.setVisibility(View.GONE);
-        mViewPager.setPagingEnabled(false);
+        mViewPager.setEnabled(false);
     }
 
     private boolean isPreviewTabSelected() {
@@ -385,7 +410,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     public void showTabs() {
         mTabLayout.setVisibility(View.VISIBLE);
-        mViewPager.setPagingEnabled(true);
+        mViewPager.setEnabled(true);
     }
 
     public void setSearchMatchBarVisible(boolean isVisible) {
@@ -513,38 +538,26 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         mButtonNext.setEnabled(mSearchMatchIndex < mSearchMatchIndexes.length - 1);
     }
 
-    private static class NoteEditorFragmentPagerAdapter extends FragmentPagerAdapter {
+    private static class NoteEditorFragmentPagerAdapter extends FragmentStateAdapter {
         private final ArrayList<Fragment> mFragments = new ArrayList<>();
-        private final ArrayList<String> mTitles = new ArrayList<>();
 
-        NoteEditorFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-            super(fm, behavior);
+        NoteEditorFragmentPagerAdapter(@NonNull FragmentManager fm, Lifecycle lifecycle) {
+            super(fm, lifecycle);
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             return mFragments.size();
         }
 
         @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             return mFragments.get(position);
         }
 
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return PagerAdapter.POSITION_NONE;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitles.get(position);
-        }
-
-        void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment) {
             mFragments.add(fragment);
-            mTitles.add(title);
             notifyDataSetChanged();
         }
     }
