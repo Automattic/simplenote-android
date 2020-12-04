@@ -50,6 +50,8 @@ import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteEditorActivity extends ThemedAppCompatActivity {
+    private static final String STATE_TAB_EDIT = "TAB_EDIT";
+    private static final String STATE_TAB_PREVIEW = "TAB_PREVIEW";
     private static final String STATE_MATCHES_INDEX = "MATCHES_INDEX";
     private static final String STATE_MATCHES_LOCATIONS = "MATCHES_LOCATIONS";
     private static final int INDEX_TAB_EDIT = 0;
@@ -170,11 +172,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             isPreviewEnabled = intent.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
         } else {
             mNoteEditorFragmentPagerAdapter.addFragment(
-                    getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_edit)),
+                    getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_EDIT),
                     getString(R.string.tab_edit)
             );
             mNoteEditorFragmentPagerAdapter.addFragment(
-                    getSupportFragmentManager().getFragment(savedInstanceState, getString(R.string.tab_preview)),
+                    getSupportFragmentManager().getFragment(savedInstanceState, STATE_TAB_PREVIEW),
                     getString(R.string.tab_preview)
             );
 
@@ -248,11 +250,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (mNoteEditorFragmentPagerAdapter.getCount() > 0 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT).isAdded()) {
-            getSupportFragmentManager().putFragment(outState, getString(R.string.tab_edit), mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT));
+            getSupportFragmentManager().putFragment(outState, STATE_TAB_EDIT, mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_EDIT));
         }
 
         if (mNoteEditorFragmentPagerAdapter.getCount() > 1 && mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW).isAdded()) {
-            getSupportFragmentManager().putFragment(outState, getString(R.string.tab_preview), mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW));
+            getSupportFragmentManager().putFragment(outState, STATE_TAB_PREVIEW, mNoteEditorFragmentPagerAdapter.getItem(INDEX_TAB_PREVIEW));
         }
 
         outState.putBoolean(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
@@ -425,6 +427,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mSearchMatchIndex > 0) {
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SEARCH_MATCH_TAPPED,
+                        AnalyticsTracker.CATEGORY_SEARCH,
+                        "search_match_tapped_previous"
+                    );
                     mSearchMatchIndex--;
                     mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
                     new Handler().postDelayed(
@@ -455,6 +462,11 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mSearchMatchIndex < mSearchMatchIndexes.length - 1) {
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SEARCH_MATCH_TAPPED,
+                        AnalyticsTracker.CATEGORY_SEARCH,
+                        "search_match_tapped_next"
+                    );
                     mSearchMatchIndex++;
                     mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
                     new Handler().postDelayed(
