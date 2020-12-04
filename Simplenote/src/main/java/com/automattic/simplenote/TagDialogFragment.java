@@ -7,13 +7,11 @@ import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -22,15 +20,12 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.TagUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
-
-import java.util.Objects;
 
 public class TagDialogFragment extends AppCompatDialogFragment implements TextWatcher, OnShowListener {
     public static String DIALOG_TAG = "dialog_tag";
@@ -73,7 +68,11 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                         );
                     } catch (BucketObjectNameInvalid e) {
                         Log.e(Simplenote.TAG, "Unable to rename tag", e);
-                        showDialogErrorRename();
+                        DialogUtils.showDialogWithEmail(
+                            requireContext(),
+                            getString(R.string.error),
+                            getString(R.string.rename_tag_message)
+                        );
                     }
                 }
             }
@@ -138,21 +137,5 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
     private boolean isTagNameInvalidSpaces() {
         return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(" ");
-    }
-
-    private void showDialogErrorRename() {
-        final AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
-            .setTitle(R.string.error)
-            .setMessage(HtmlCompat.fromHtml(String.format(
-                getString(R.string.rename_tag_message),
-                getString(R.string.rename_tag_message_email),
-                "<span style=\"color:#",
-                Integer.toHexString(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.colorAccent) & 0xffffff),
-                "\">",
-                "</span>"
-            )))
-            .setPositiveButton(android.R.string.ok, null)
-            .show();
-        ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
