@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
@@ -18,7 +19,7 @@
         android:layout_marginEnd="@dimen/padding_suggestion"
         android:layout_marginStart="@dimen/padding_large"
         android:layout_width="wrap_content"
-        android:tint="?attr/toolbarIconColor"
+        app:tint="?attr/toolbarIconColor"
         tools:src="@drawable/ic_history_24dp">
     </ImageView>
 
@@ -49,7 +50,7 @@
         android:minWidth="@dimen/minimum_target"
         android:padding="@dimen/padding_medium"
         android:src="@drawable/ic_cross_24dp"
-        android:tint="?attr/toolbarIconColor">
+        app:tint="?attr/toolbarIconColor">
     </ImageButton>
 
 </LinearLayout>

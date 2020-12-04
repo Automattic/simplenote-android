@@ -3,6 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/listBackgroundSelector"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
@@ -44,8 +45,8 @@
             android:layout_toEndOf="@id/note_published"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_pinned_16dp"
-            android:tint="?attr/notePreviewColor"
             android:visibility="gone"
+            app:tint="?attr/notePreviewColor"
             tools:tint="@color/text_content_light"
             tools:visibility="visible">
         </ImageView>
@@ -59,8 +60,8 @@
             android:layout_marginStart="@dimen/padding_small"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_publish_16dp"
-            android:tint="?attr/notePreviewColor"
             android:visibility="gone"
+            app:tint="?attr/notePreviewColor"
             tools:tint="@color/text_content_light"
             tools:visibility="visible">
         </ImageView>

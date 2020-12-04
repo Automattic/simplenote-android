@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Useless parent layout is required to show/hide list header. -->
     <RelativeLayout
@@ -39,7 +40,7 @@
             android:maxHeight="@dimen/icon_status"
             android:maxWidth="@dimen/icon_status"
             android:src="@drawable/ic_arrow_down_16dp"
-            android:tint="?attr/toolbarIconColor">
+            app:tint="?attr/toolbarIconColor">
         </ImageView>
 
         <ImageButton
@@ -53,7 +54,7 @@
             android:layout_width="@dimen/sort_switch_width"
             android:padding="@dimen/padding_medium"
             android:src="@drawable/ic_sort_order_24dp"
-            android:tint="?attr/toolbarIconColor">
+            app:tint="?attr/toolbarIconColor">
         </ImageButton>
 
     </RelativeLayout>

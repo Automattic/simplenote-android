@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
@@ -46,7 +47,7 @@
         android:minWidth="@dimen/minimum_target"
         android:padding="@dimen/padding_medium"
         android:src="@drawable/ic_trash_24dp"
-        android:tint="?attr/iconTintColor">
+        app:tint="?attr/iconTintColor">
     </ImageButton>
 
 </LinearLayout>

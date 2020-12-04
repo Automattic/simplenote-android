@@ -204,7 +204,7 @@
         <item name="android:layout_marginEnd">@dimen/padding_large</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:src">@drawable/ic_arrow_top_right_24dp</item>
-        <item name="android:tint">@color/simplenote_blue_10</item>
+        <item name="tint">@color/simplenote_blue_10</item>
     </style>
 
     <style name="Theme.Simplestyle.About.Link" parent="TextAppearance.AppCompat">
@@ -292,7 +292,7 @@
     </style>
 
     <style name="PasscodeKeyboardImageStyle" parent="@style/PasscodeKeyboardButtonStyle">
-        <item name="android:tint">@color/passcodelock_button_image_color</item>
+        <item name="tint">@color/passcodelock_button_image_color</item>
     </style>
 
     <style name="Shortcut.Key.Multiple" parent="TextAppearance.AppCompat">

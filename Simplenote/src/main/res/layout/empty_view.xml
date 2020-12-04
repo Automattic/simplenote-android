@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -17,7 +18,7 @@
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="@dimen/icon_empty"
         android:src="@drawable/ic_notes_24dp"
-        android:tint="?attr/emptyImageColor">
+        app:tint="?attr/emptyImageColor">
     </ImageView>
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
