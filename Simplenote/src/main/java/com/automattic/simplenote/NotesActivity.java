@@ -855,11 +855,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             }
         });
 
+        MenuItem deleteItem = menu.findItem(R.id.menu_delete);
         MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
+        // Show delete action only when note is in Trash.
+        // Change trash action to restore when note is in Trash.
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
+            deleteItem.setVisible(true);
             trashItem.setTitle(R.string.restore);
         } else {
+            deleteItem.setVisible(false);
             trashItem.setTitle(R.string.trash);
         }
 
@@ -920,6 +925,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             case R.id.menu_markdown_preview:
                 togglePreview(item);
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(NotesActivity.this, mCurrentNote);
+                return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null && mCurrentNote != null) {
                     mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
@@ -934,7 +942,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
                 alert.setTitle(R.string.empty_trash);
                 alert.setMessage(R.string.confirm_empty_trash);
-                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, null);
+                alert.setPositiveButton(R.string.empty, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
@@ -943,11 +952,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                             CATEGORY_NOTE,
                             "overflow_menu"
                         );
-                    }
-                });
-                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing, just closing the dialog
                     }
                 });
                 alert.show();

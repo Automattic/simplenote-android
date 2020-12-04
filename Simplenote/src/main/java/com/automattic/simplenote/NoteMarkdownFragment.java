@@ -148,6 +148,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
                 requireActivity().finish();
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -185,6 +188,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        // Show delete action only when note is in Trash.
+        menu.findItem(R.id.menu_delete).setVisible(mNote != null && mNote.isDeleted());
         // Disable trash action until note is loaded.
         menu.findItem(R.id.menu_trash).setEnabled(!mIsLoadingNote);
 
