@@ -90,7 +90,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         mClickListenerPositiveRename = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tagNew = getTagNew();
+                String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
 
                 if (tagNew.equals(mTagOld)) {
                     dismiss();
@@ -120,7 +120,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         mClickListenerPositiveConflict = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tagNew = getTagNew();
+                String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
                 int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
                 tryToRenameTag(tagNew, index);
                 dismiss();
@@ -162,10 +162,6 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    private String getTagNew() {
-        return mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
     }
 
     private boolean isTagNameValid() {
