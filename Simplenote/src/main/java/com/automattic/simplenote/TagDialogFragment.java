@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,6 +51,12 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         mTag = tag;
         mBucketNote = bucketNote;
         mBucketTag = bucketTag;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        dismiss();
     }
 
     @NonNull
@@ -210,6 +217,8 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                 context.getString(R.string.error),
                 context.getString(R.string.rename_tag_message)
             );
+        } finally {
+            dismiss();
         }
     }
 }
