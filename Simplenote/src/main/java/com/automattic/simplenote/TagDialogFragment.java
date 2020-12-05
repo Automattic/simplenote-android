@@ -57,23 +57,22 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
             new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
-                    int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
 
-                    try {
-                        mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
-                        AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
-                            AnalyticsTracker.CATEGORY_TAG,
-                            "tag_alert_edit_box"
-                        );
-                    } catch (BucketObjectNameInvalid e) {
-                        Log.e(Simplenote.TAG, "Unable to rename tag", e);
-                        DialogUtils.showDialogWithEmail(
-                            requireContext(),
-                            getString(R.string.error),
-                            getString(R.string.rename_tag_message)
-                        );
+                    if (tagNew.equals(mTagOld)) {
+                        return;
                     }
+
+                    int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
+                    boolean isRenamingToLexicalTag = TagUtils.hashTag(tagNew).equals(TagUtils.hashTag(mTagOld));
+                    boolean hasCanonicalTag = TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew);
+
+                    if (hasCanonicalTag && !isRenamingToLexicalTag) {
+                        String tagCanonical = TagUtils.getCanonicalFromLexical(mBucketTag, tagNew);
+                        showDialogErrorConflict(tagCanonical, mTagOld, tagNew, index);
+                        return;
+                    }
+
+                    tryToRenameTag(tagNew, index);
                 }
             }
         );
@@ -137,5 +136,41 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
     private boolean isTagNameInvalidSpaces() {
         return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(" ");
+    }
+
+    private void showDialogErrorConflict(String canonical, String tagOld, final String tagNew, final int index) {
+        new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
+            .setTitle(R.string.dialog_tag_conflict_title)
+            .setMessage(getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical))
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(
+                R.string.dialog_tag_conflict_button_positive,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tryToRenameTag(tagNew, index);
+                    }
+                }
+            )
+            .show();
+    }
+
+    private void tryToRenameTag(String tagNew, int index) {
+        try {
+            mTag.renameTo(mTagOld, tagNew, index, mBucketNote);
+            AnalyticsTracker.track(
+                AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
+                AnalyticsTracker.CATEGORY_TAG,
+                "tag_alert_edit_box"
+            );
+        } catch (BucketObjectNameInvalid e) {
+            Log.e(Simplenote.TAG, "Unable to rename tag", e);
+            Context context = requireContext();
+            DialogUtils.showDialogWithEmail(
+                context,
+                context.getString(R.string.error),
+                context.getString(R.string.rename_tag_message)
+            );
+        }
     }
 }

@@ -37,23 +37,24 @@ public class Preferences extends BucketObject {
     }
 
     public ArrayList<String> getRecentSearches() {
-        JSONArray recents = (JSONArray) getProperty(RECENT_SEARCHES_KEY);
+        Object object = getProperty(RECENT_SEARCHES_KEY);
 
-        if (recents == null) {
-            recents = new JSONArray();
-        }
+        if (object instanceof JSONArray) {
+            JSONArray recents = (JSONArray) object;
+            ArrayList<String> recentsList = new ArrayList<>(recents.length());
 
-        ArrayList<String> recentsList = new ArrayList<>(recents.length());
+            for (int i = 0; i < recents.length(); i++) {
+                String recent = recents.optString(i);
 
-        for (int i = 0; i < recents.length(); i++) {
-            String recent = recents.optString(i);
-
-            if (!recent.isEmpty()) {
-                recentsList.add(recent);
+                if (!recent.isEmpty()) {
+                    recentsList.add(recent);
+                }
             }
-        }
 
-        return recentsList;
+            return recentsList;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public void setAnalyticsEnabled(boolean enabled) {
