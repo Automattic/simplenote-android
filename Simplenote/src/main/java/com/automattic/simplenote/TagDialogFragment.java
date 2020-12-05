@@ -40,6 +40,10 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     private TextInputEditText mEditTextTag;
     private TextInputLayout mEditTextLayout;
     private TextView mMessage;
+    private View.OnClickListener mClickListenerNegativeConflict;
+    private View.OnClickListener mClickListenerNegativeRename;
+    private View.OnClickListener mClickListenerPositiveConflict;
+    private View.OnClickListener mClickListenerPositiveRename;
 
     public TagDialogFragment(Tag tag, Bucket<Note> bucketNote, Bucket<Tag> bucketTag) {
         mTag = tag;
@@ -54,30 +58,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.rename_tag);
         builder.setNegativeButton(R.string.cancel, null);
-        builder.setPositiveButton(
-            R.string.save,
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
-
-                    if (tagNew.equals(mTagOld)) {
-                        return;
-                    }
-
-                    int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
-                    boolean isRenamingToLexicalTag = TagUtils.hashTag(tagNew).equals(TagUtils.hashTag(mTagOld));
-                    boolean hasCanonicalTag = TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew);
-
-                    if (hasCanonicalTag && !isRenamingToLexicalTag) {
-                        String tagCanonical = TagUtils.getCanonicalFromLexical(mBucketTag, tagNew);
-                        showDialogErrorConflict(tagCanonical, mTagOld, tagNew, index);
-                        return;
-                    }
-
-                    tryToRenameTag(tagNew, index);
-                }
-            }
-        );
+        builder.setPositiveButton(R.string.save, null);
         View view = LayoutInflater.from(context).inflate(R.layout.edit_tag, null);
         mEditTextLayout = view.findViewById(R.id.input_tag_name);
         mEditTextTag = (TextInputEditText) mEditTextLayout.getEditText();
@@ -90,6 +71,54 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         builder.setView(view);
         mDialogEditTag = builder.create();
         mDialogEditTag.setOnShowListener(this);
+
+        mClickListenerNegativeRename = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        };
+
+        mClickListenerPositiveRename = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
+
+                if (tagNew.equals(mTagOld)) {
+                    dismiss();
+                }
+
+                int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
+                boolean isRenamingToLexicalTag = TagUtils.hashTag(tagNew).equals(TagUtils.hashTag(mTagOld));
+                boolean hasCanonicalTag = TagUtils.hasCanonicalOfLexical(mBucketTag, tagNew);
+
+                if (hasCanonicalTag && !isRenamingToLexicalTag) {
+                    String tagCanonical = TagUtils.getCanonicalFromLexical(mBucketTag, tagNew);
+                    showDialogErrorConflict(tagCanonical, mTagOld);
+                    return;
+                }
+
+                tryToRenameTag(tagNew, index);
+            }
+        };
+
+        mClickListenerNegativeConflict = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogRenameTag();
+            }
+        };
+
+        mClickListenerPositiveConflict = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tagNew = mEditTextTag.getText() != null ? mEditTextTag.getText().toString().trim() : "";
+                int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
+                tryToRenameTag(tagNew, index);
+                dismiss();
+            }
+        };
+
         return mDialogEditTag;
     }
 
