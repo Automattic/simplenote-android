@@ -3,33 +3,30 @@ package com.automattic.simplenote;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
+import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
+import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class PreferencesActivity extends ThemedAppCompatActivity {
-    private static final String EXTRA_THEME_CHANGED = "themeChanged";
-
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
-    private boolean mIsThemeChanged;
 
     @Override
     public void onBackPressed() {
-        if (mIsThemeChanged) {
-            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-        } else {
-            super.onBackPressed();
-        }
+        NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
     }
 
     @Override
@@ -66,10 +63,6 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
             mPreferencesFragment = (PreferencesFragment) fragmentManager.findFragmentByTag(preferencesTag);
             mPasscodePreferenceFragment = (PasscodePreferenceFragmentCompat) fragmentManager.findFragmentByTag(passcodeTag);
         }
-
-        if (getIntent().getExtras() != null && getIntent().hasExtra(EXTRA_THEME_CHANGED)) {
-            mIsThemeChanged = getIntent().getExtras().getBoolean(EXTRA_THEME_CHANGED, false);
-        }
     }
 
     @Override
@@ -89,12 +82,7 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (mIsThemeChanged) {
-                NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-            } else {
-                finish();
-            }
-
+            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -111,9 +99,16 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     public void recreate() {
         Intent intent = new Intent(PreferencesActivity.this, PreferencesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(EXTRA_THEME_CHANGED, true);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
+    }
+
+    public void openBrowserForMembership(View view) {
+        try {
+            BrowserUtils.launchBrowserOrShowError(PreferencesActivity.this, WEB_APP_URL);
+        } catch (Exception e) {
+            Toast.makeText(PreferencesActivity.this, R.string.no_browser_available, Toast.LENGTH_LONG).show();
+        }
     }
 }
