@@ -17,12 +17,11 @@ public class DialogUtils {
      * which can be tapped to launch the device's email app.
      *
      * @param context   {@link Context} from which to determine theme and resources.
-     * @param title     {@link String} for the dialog title.
      * @param message   {@link String} for the dialog message.
      */
-    public static void showDialogWithEmail(Context context, String title, String message) {
+    public static void showDialogWithEmail(Context context, String message) {
         final AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
-            .setTitle(title)
+            .setTitle(R.string.error)
             .setMessage(HtmlCompat.fromHtml(String.format(
                 message,
                 context.getString(R.string.support_email),

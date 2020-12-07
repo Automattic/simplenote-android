@@ -105,7 +105,6 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
             Context context = getContext();
             DialogUtils.showDialogWithEmail(
                 context,
-                context.getString(R.string.error),
                 context.getString(R.string.rename_tag_message_length)
             );
         }

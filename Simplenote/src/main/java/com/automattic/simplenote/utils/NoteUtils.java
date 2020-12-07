@@ -83,7 +83,6 @@ public class NoteUtils {
                         } else {
                             DialogUtils.showDialogWithEmail(
                                 activity,
-                                activity.getString(R.string.error),
                                 activity.getString(R.string.delete_dialog_error_message)
                             );
                         }

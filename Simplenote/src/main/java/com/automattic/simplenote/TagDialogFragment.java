@@ -168,7 +168,6 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
             Context context = requireContext();
             DialogUtils.showDialogWithEmail(
                 context,
-                context.getString(R.string.error),
                 context.getString(R.string.rename_tag_message)
             );
         }
