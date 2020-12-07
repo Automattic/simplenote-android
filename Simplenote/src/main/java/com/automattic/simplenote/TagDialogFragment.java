@@ -12,6 +12,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +39,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     private Tag mTag;
     private TextInputEditText mEditTextTag;
     private TextInputLayout mEditTextLayout;
+    private TextView mMessage;
 
     public TagDialogFragment(Tag tag, Bucket<Note> bucketNote, Bucket<Tag> bucketTag) {
         mTag = tag;
@@ -79,6 +81,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         View view = LayoutInflater.from(context).inflate(R.layout.edit_tag, null);
         mEditTextLayout = view.findViewById(R.id.input_tag_name);
         mEditTextTag = (TextInputEditText) mEditTextLayout.getEditText();
+        mMessage = view.findViewById(R.id.message);
 
         if (mEditTextTag != null) {
             mEditTextTag.addTextChangedListener(this);
