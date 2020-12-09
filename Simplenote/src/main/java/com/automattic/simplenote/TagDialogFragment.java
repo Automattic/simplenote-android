@@ -123,7 +123,6 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                 String tagNew = getTagNew();
                 int index = mTag.hasIndex() ? mTag.getIndex() : mBucketTag.count();
                 tryToRenameTag(tagNew, index);
-                dismiss();
             }
         };
 
