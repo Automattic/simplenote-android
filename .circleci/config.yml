@@ -69,4 +69,4 @@ workflows:
     jobs:
       - Test
       - Lint
-#      - Installable Build
+      - Installable Build
