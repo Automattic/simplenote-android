@@ -36,14 +36,15 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     private Bucket<Note> mBucketNote;
     private Bucket<Tag> mBucketTag;
     private Button mButtonNegative;
+    private Button mButtonNeutral;
     private Button mButtonPositive;
     private String mTagOld;
     private Tag mTag;
     private TextInputEditText mEditTextTag;
     private TextInputLayout mEditTextLayout;
     private TextView mMessage;
-    private View.OnClickListener mClickListenerNegativeConflict;
     private View.OnClickListener mClickListenerNegativeRename;
+    private View.OnClickListener mClickListenerNeutralConflict;
     private View.OnClickListener mClickListenerPositiveConflict;
     private View.OnClickListener mClickListenerPositiveRename;
 
@@ -110,7 +111,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
             }
         };
 
-        mClickListenerNegativeConflict = new View.OnClickListener() {
+        mClickListenerNeutralConflict = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialogRenameTag();
@@ -132,6 +133,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     @Override
     public void onShow(DialogInterface dialog) {
         mButtonNegative = mDialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE);
+        mButtonNeutral = mDialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL);
         mButtonPositive = mDialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE);
         showDialogRenameTag();
         mEditTextTag.setText(mTag.getName());
@@ -184,22 +186,32 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     }
 
     private void showDialogErrorConflict(String canonical, String tagOld) {
+        mDialogEditTag.setTitle(R.string.dialog_tag_conflict_title);
+
         mMessage.setText(getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical));
+        mButtonNeutral.setText(R.string.back);
+        mButtonPositive.setText(R.string.dialog_tag_conflict_button_positive);
+
         mMessage.setVisibility(View.VISIBLE);
         mEditTextLayout.setVisibility(View.GONE);
-        mDialogEditTag.setTitle(R.string.dialog_tag_conflict_title);
-        mButtonNegative.setText(R.string.cancel);
-        mButtonPositive.setText(R.string.dialog_tag_conflict_button_positive);
-        mButtonNegative.setOnClickListener(mClickListenerNegativeConflict);
+        mButtonNegative.setVisibility(View.GONE);
+        mButtonNeutral.setVisibility(View.VISIBLE);
+
+        mButtonNeutral.setOnClickListener(mClickListenerNeutralConflict);
         mButtonPositive.setOnClickListener(mClickListenerPositiveConflict);
     }
 
     private void showDialogRenameTag() {
-        mMessage.setVisibility(View.GONE);
-        mEditTextLayout.setVisibility(View.VISIBLE);
         mDialogEditTag.setTitle(R.string.rename_tag);
+
         mButtonNegative.setText(R.string.cancel);
         mButtonPositive.setText(R.string.save);
+
+        mMessage.setVisibility(View.GONE);
+        mEditTextLayout.setVisibility(View.VISIBLE);
+        mButtonNegative.setVisibility(View.VISIBLE);
+        mButtonNeutral.setVisibility(View.GONE);
+
         mButtonNegative.setOnClickListener(mClickListenerNegativeRename);
         mButtonPositive.setOnClickListener(mClickListenerPositiveRename);
     }
