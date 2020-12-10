@@ -22,6 +22,7 @@
     <string name="tag_name">Tag name</string>
     <string name="delete_tag">Delete Tag</string>
     <string name="save">Save</string>
+    <string name="back">Back</string>
     <string name="cancel">Cancel</string>
     <string name="empty">Empty</string>
     <string name="empty_trash">Empty Trash</string>
