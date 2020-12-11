@@ -86,7 +86,7 @@
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/margin_default_half"
+                android:padding="@dimen/padding_small"
                 android:text="@string/of"
                 android:textColor="?attr/noteTitleColor"
                 android:textSize="@dimen/text_content_title">
