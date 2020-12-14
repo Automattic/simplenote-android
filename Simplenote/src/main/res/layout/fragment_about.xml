@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="@dimen/width_layout"
+        android:layout_width="@dimen/style_width"
         android:orientation="vertical"
         tools:layout_width="match_parent">
 
