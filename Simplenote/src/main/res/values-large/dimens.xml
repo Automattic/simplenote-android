@@ -3,6 +3,6 @@
 <resources>
 
     <!-- SIZE -->
-    <dimen name="style_width">560dp</dimen>
+    <dimen name="content_width">560dp</dimen>
 
 </resources>
