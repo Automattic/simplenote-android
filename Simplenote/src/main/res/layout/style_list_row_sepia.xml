@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_marginStart="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_small"
-        android:layout_width="@dimen/style_width"
+        android:layout_width="@dimen/content_width"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="0dp"
         style="@style/Style.Sepia">
