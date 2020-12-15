@@ -400,6 +400,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 Query<Note> query = application.getNotesBucket().query();
                 query.include(Note.PINNED_INDEX_NAME);
                 query.include(Note.TITLE_INDEX_NAME);
+                query.where(Note.DELETED_PROPERTY, Query.ComparisonType.NOT_EQUAL_TO, true);
                 query.where(Note.TITLE_INDEX_NAME, Query.ComparisonType.LIKE, String.format("%%%s%%", filter));
                 PrefUtils.sortNoteQuery(query, requireContext(), true);
                 Cursor cursor = query.execute();
