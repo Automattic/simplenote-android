@@ -37,7 +37,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/main_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,7 +49,8 @@
         <com.automattic.simplenote.widgets.NoteEditorViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
         </com.automattic.simplenote.widgets.NoteEditorViewPager>
 
         <RelativeLayout
@@ -143,6 +144,6 @@
 
         </RelativeLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
