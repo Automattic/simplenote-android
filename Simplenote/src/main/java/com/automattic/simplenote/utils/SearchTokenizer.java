@@ -97,7 +97,10 @@ public class SearchTokenizer {
                 continue;
             }
 
-            if (current == HYPHEN && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
+            if (current == HYPHEN
+                    && last != SPACE
+                    && position != 0
+                    && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
                 String tempQuery = query.toString();
                 int tokenStartIndex = tempQuery.lastIndexOf(SPACE, tempQuery.indexOf(last));
                 query.insert(Math.max(0, tokenStartIndex + 1), DOUBLE_QUOTE);
@@ -123,6 +126,7 @@ public class SearchTokenizer {
         // close the strict term
         if (inStrictTerm) query.append(quoteChar);
         if (inTerm && !inStrictTerm && !isLiteral) query.append(GLOB);
+        if (hasHyphen) query.append(DOUBLE_QUOTE);
 
         return query.toString();
     }
