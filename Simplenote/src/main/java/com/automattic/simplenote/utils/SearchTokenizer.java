@@ -101,6 +101,7 @@ public class SearchTokenizer {
                     && last != SPACE
                     && position != 0
                     && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
+                // If we have a hyphen character between two terms, with no space between them
                 String space = Character.toString(SPACE);
                 String lastCharacter = Character.toString(last);
                 int tokenStartIndex = query.lastIndexOf(space, query.indexOf(lastCharacter));
