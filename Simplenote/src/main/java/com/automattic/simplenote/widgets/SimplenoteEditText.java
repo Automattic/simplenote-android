@@ -191,13 +191,11 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         }
     }
 
-    /**
-     *  Finds the start of line containing the start of selection
-     */
     private int findStartOfLineOfSelection() {
         int position = getSelectionStart();
-        if(position == -1) {
-            position = 0;
+        // getSelectionStart may return -1 if there is no selection nor cursor
+        if (position == -1) {
+            return 0;
         }
         Editable editable = getText();
         for (int i = position - 1; i >= 0; i--) {
@@ -208,16 +206,12 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         return 0;
     }
 
-    /**
-     *  Finds the end of line containing the end of selection
-     */
     private int findEndOfLineOfSelection() {
-        int position = getSelectionEnd();
-        if(position == -1) {
-            position = 0;
-        }
+        // getSelectionEnd may return -1 if there is no selection nor cursor
+        // and as the minimum position is 0, use the max value between 0 and getSelectionEnd()
+        int position = Math.max(0, getSelectionEnd());
         Editable editable = getText();
-        for (int i = position; i < editable.length() ; i++) {
+        for (int i = position; i < editable.length(); i++) {
             if (editable.charAt(i) == '\n') {
                 // We return the max here, because when the cursor is at an empty line,
                 // i-1 would point to the start of line
