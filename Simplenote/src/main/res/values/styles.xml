@@ -376,6 +376,10 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="NavigationMenuItem">
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <style name="PasscodeEditTextStyle">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_margin">@dimen/padding_large</item>
