@@ -101,8 +101,9 @@ public class SearchTokenizer {
                     && last != SPACE
                     && position != 0
                     && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
-                String tempQuery = query.toString();
-                int tokenStartIndex = tempQuery.lastIndexOf(SPACE, tempQuery.indexOf(last));
+                String space = Character.toString(SPACE);
+                String lastCharacter = Character.toString(last);
+                int tokenStartIndex = query.lastIndexOf(space, query.indexOf(lastCharacter));
                 query.insert(Math.max(0, tokenStartIndex + 1), DOUBLE_QUOTE);
                 query.append(current);
                 hasHyphen = true;
