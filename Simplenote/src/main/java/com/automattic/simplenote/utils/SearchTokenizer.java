@@ -11,6 +11,7 @@ public class SearchTokenizer {
     static public final char GLOB = '*';
     static public final char COLON = ':';
     static public final char ESCAPE = '\\';
+    static public final char HYPHEN = '-';
 
     private String mRawQuery;
 
@@ -42,6 +43,8 @@ public class SearchTokenizer {
 
         // if the previous char was an escape char
         boolean isEscaped = false;
+
+        boolean hasHyphen = false;
 
         // the current character
         char current = '\0', last, quoteChar = '\0';
@@ -94,10 +97,21 @@ public class SearchTokenizer {
                 continue;
             }
 
+            if (current == HYPHEN && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
+                String tempQuery = query.toString();
+                int tokenStartIndex = tempQuery.lastIndexOf(SPACE, tempQuery.indexOf(last));
+                query.insert(Math.max(0, tokenStartIndex + 1), DOUBLE_QUOTE);
+                query.append(current);
+                hasHyphen = true;
+                continue;
+            }
+
             if (current == SPACE) {
                 if (inTerm && !isLiteral) query.append(GLOB);
+                if (hasHyphen) query.append(DOUBLE_QUOTE);
                 query.append(current);
                 inTerm = false;
+                hasHyphen = false;
                 continue;
             }
 
