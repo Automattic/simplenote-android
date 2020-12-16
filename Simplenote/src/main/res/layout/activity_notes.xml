@@ -43,7 +43,8 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         app:insetForeground="@android:color/transparent"
-        app:itemShapeFillColor="?attr/drawerBackgroundSelector">
+        app:itemShapeFillColor="?attr/drawerBackgroundSelector"
+        app:theme="@style/NavigationMenuItem">
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
