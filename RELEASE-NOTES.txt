@@ -1,7 +1,6 @@
 2.15
 -----
 * Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
-* Fixed a bug with adding checkboxes to long lines [https://github.com/Automattic/simplenote-android/pull/1237]
  
 2.14
 -----
