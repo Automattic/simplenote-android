@@ -125,7 +125,8 @@
                 android:minHeight="@dimen/bottom_sheet_row_height"
                 android:padding="@dimen/padding_large"
                 android:text="@string/references"
-                android:textColor="?attr/notePreviewColor">
+                android:textColor="?attr/notePreviewColor"
+                android:textSize="@dimen/text_bottom_sheet">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <androidx.recyclerview.widget.RecyclerView
