@@ -1084,13 +1084,18 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             );
         }
 
-        // If we just deleted/restored the active note, show the placeholder
-        if (mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(note.getSimperiumKey())) {
-            showDetailPlaceholder();
-        }
-
         NoteListFragment fragment = getNoteListFragment();
         if (fragment != null) {
+            // Try to find the next note in the list to select it
+            int deletedNotePosition = fragment.getSelectedNotesPositions().get(0);
+            if( deletedNotePosition < fragment.mNotesAdapter.getCount() - 1) {
+                Note nextNote = fragment.getItemAtPosition(deletedNotePosition + 1);
+                fragment.setNoteSelected(nextNote.getSimperiumKey());
+                if(mNoteEditorFragment != null) mNoteEditorFragment.setNote(nextNote.getSimperiumKey());
+            } else {
+                // The deleted note is the last in the list
+                showDetailPlaceholder();
+            }
             fragment.getPrefs();
             fragment.refreshList();
         }

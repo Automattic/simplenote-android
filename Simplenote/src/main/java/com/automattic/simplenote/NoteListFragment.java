@@ -253,6 +253,23 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return links.toString();
     }
 
+    public List<Integer> getSelectedNotesPositions() {
+        SparseBooleanArray checkedPositions = getListView().getCheckedItemPositions();
+        ArrayList<Integer> positions = new ArrayList<>();
+
+        for (int i = 0; i < checkedPositions.size(); i++) {
+            if (checkedPositions.valueAt(i)) {
+                positions.add(checkedPositions.keyAt(i) - mList.getHeaderViewsCount());
+            }
+        }
+
+        return positions;
+    }
+
+    public Note getItemAtPosition(int position) {
+        return mNotesAdapter.getItem(position + mList.getHeaderViewsCount());
+    }
+
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mCallbacks.onActionModeDestroyed();
