@@ -24,16 +24,18 @@ import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
+import com.simperium.android.WebSocketManager;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
-public class Simplenote extends Application {
-
+public class Simplenote extends Application implements HeartbeatListener {
+    private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
     private static final int TEN_SECONDS_MILLIS = 10000;
 
     // log tag
@@ -48,6 +50,8 @@ public class Simplenote extends Application {
     private Simperium mSimperium;
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private Handler mHeartbeatHandler;
+    private Runnable mHeartbeatRunnable;
     private static Bucket<Preferences> mPreferencesBucket;
 
     public void onCreate() {
@@ -63,6 +67,16 @@ public class Simplenote extends Application {
         );
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);
+        mSimperium.addHeartbeatListener(this);
+
+        mHeartbeatHandler = new Handler();
+        mHeartbeatRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+                mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
+            }
+        };
 
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
@@ -89,6 +103,12 @@ public class Simplenote extends Application {
         AppLog.add(Type.DEVICE, getDeviceInfo());
         AppLog.add(Type.ACCOUNT, getAccountInfo());
         AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
+    }
+
+    @Override
+    public void onBeat() {
+        mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+        mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
 
     @SuppressWarnings("unused")
