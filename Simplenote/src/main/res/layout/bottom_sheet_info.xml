@@ -125,7 +125,6 @@
                 android:minHeight="@dimen/bottom_sheet_row_height"
                 android:padding="@dimen/padding_large"
                 android:text="@string/references"
-                android:textStyle="bold"
                 android:textColor="?attr/notePreviewColor">
             </com.automattic.simplenote.widgets.RobotoMediumTextView>
 
