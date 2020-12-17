@@ -1086,14 +1086,21 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         NoteListFragment fragment = getNoteListFragment();
         if (fragment != null) {
-            // Try to find the next note in the list to select it
+            // Try to find the next or previous note in the list to select it
             int deletedNotePosition = fragment.getSelectedNotesPositions().get(0);
-            if( deletedNotePosition < fragment.mNotesAdapter.getCount() - 1) {
+            if (deletedNotePosition < fragment.mNotesAdapter.getCount() - 1) {
                 Note nextNote = fragment.getItemAtPosition(deletedNotePosition + 1);
                 fragment.setNoteSelected(nextNote.getSimperiumKey());
-                if(mNoteEditorFragment != null) mNoteEditorFragment.setNote(nextNote.getSimperiumKey());
+                if (mNoteEditorFragment != null)
+                    mNoteEditorFragment.setNote(nextNote.getSimperiumKey());
+            } else if (deletedNotePosition > 0) {
+                // The deleted note is the latest in the list, select the previous one
+                Note previousNote = fragment.getItemAtPosition(deletedNotePosition - 1);
+                fragment.setNoteSelected(previousNote.getSimperiumKey());
+                if (mNoteEditorFragment != null)
+                    mNoteEditorFragment.setNote(previousNote.getSimperiumKey());
             } else {
-                // The deleted note is the last in the list
+                // The list of notes is empty
                 showDetailPlaceholder();
             }
             fragment.getPrefs();
