@@ -22,7 +22,6 @@
         android:singleLine="true"
         android:textColor="?attr/noteTitleColor"
         android:textSize="@dimen/text_content_title"
-        android:textStyle="italic"
         tools:text="Internote Link References">
     </TextView>
 
