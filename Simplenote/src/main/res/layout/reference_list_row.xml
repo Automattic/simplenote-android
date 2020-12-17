@@ -14,6 +14,7 @@
     <TextView
         android:id="@+id/reference_title"
         android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_marginStart="@dimen/padding_small"
