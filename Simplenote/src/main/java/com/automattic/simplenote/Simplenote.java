@@ -73,6 +73,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         mHeartbeatRunnable = new Runnable() {
             @Override
             public void run() {
+                AppLog.add(Type.NETWORK, "Heartbeat stopped");
                 mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
                 mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
             }
@@ -107,6 +108,7 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     @Override
     public void onBeat() {
+        AppLog.add(Type.NETWORK, "Heartbeat received");
         mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
         mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
