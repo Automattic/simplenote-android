@@ -6,10 +6,10 @@
     android:background="?attr/selectableItemBackground"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:paddingBottom="@dimen/note_list_item_padding_bottom"
+    android:paddingBottom="@dimen/padding_large"
     android:paddingEnd="@dimen/padding_small"
     android:paddingStart="@dimen/padding_small"
-    android:paddingTop="@dimen/note_list_item_padding_top">
+    android:paddingTop="@dimen/padding_large">
 
     <com.automattic.simplenote.widgets.RobotoMediumTextView
         android:id="@+id/reference_title"
