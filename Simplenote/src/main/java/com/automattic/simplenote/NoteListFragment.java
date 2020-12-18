@@ -205,7 +205,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
-        requireActivity().getWindow().setStatusBarColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
         return true;
     }
 
@@ -266,29 +265,55 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         return positions;
     }
 
-    public Note getItemAtPosition(int position) {
-        return mNotesAdapter.getItem(position + mList.getHeaderViewsCount());
+    public void updateSelectionAfterTrashAction() {
+        updateSelectionAfterTrashAction(getSelectedNotesPositions());
+    }
+
+    private void updateSelectionAfterTrashAction(List<Integer> deletedNotesPositions) {
+        if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
+            // Try to find the nearest note to the first deleted item
+            int firstDeletedNote = deletedNotesPositions.get(0);
+            int positionToSelect = -1;
+            // Loop through the notes below
+            for (int i = firstDeletedNote + 1; i < mNotesAdapter.getCount(); i++) {
+                if (!deletedNotesPositions.contains(i)) {
+                    positionToSelect = i;
+                    break;
+                }
+            }
+            if (positionToSelect == -1) {
+                // Loop through the above notes
+                for (int i = firstDeletedNote - 1; i >= 0; i--) {
+                    if (!deletedNotesPositions.contains(i)) {
+                        positionToSelect = i;
+                        break;
+                    }
+                }
+            }
+
+            if (positionToSelect != -1) {
+                Note noteToSelect = mNotesAdapter.getItem(positionToSelect + mList.getHeaderViewsCount());
+                mCallbacks.onNoteSelected(noteToSelect.getSimperiumKey(), null, noteToSelect.isMarkdownEnabled(), noteToSelect.isPreviewEnabled());
+                // As we will trigger a list refresh later, save the selectedNoteId
+                mSelectedNoteId = noteToSelect.getSimperiumKey();
+            } else {
+                // The list of notes is empty
+                if (getActivity() != null) {
+                    ((NotesActivity) requireActivity()).showDetailPlaceholder();
+                }
+            }
+        }
     }
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mCallbacks.onActionModeDestroyed();
         mActionMode = null;
-        new Handler().postDelayed(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (getActivity() != null) {
-                        NotesActivity notesActivity = (NotesActivity) getActivity();
-                        setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
-                        notesActivity.showDetailPlaceholder();
-                    }
-
-                    requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
-                }
-            },
-            requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
-        );
+        if (getActivity() != null) {
+            NotesActivity notesActivity = (NotesActivity) getActivity();
+            setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
+            if(mSelectedNoteId == null) notesActivity.showDetailPlaceholder();
+        }
     }
 
     @Override
@@ -1473,11 +1498,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         refreshList();
                         return true;
                     case R.id.menu_trash:
-                        note.setDeleted(!note.isDeleted());
-                        note.setModificationDate(Calendar.getInstance());
-                        note.save();
                         if (getActivity() != null) {
-                            ((NotesActivity) getActivity()).updateViewsAfterTrashAction(note);
+                            ((NotesActivity) getActivity()).trashNote(note);
                         }
                         return true;
                     default:
@@ -1678,6 +1700,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
             }
 
+            fragment.updateSelectionAfterTrashAction();
+            fragment.mActionMode.finish();
             fragment.refreshList();
         }
     }

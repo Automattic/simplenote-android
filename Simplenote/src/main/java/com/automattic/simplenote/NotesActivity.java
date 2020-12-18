@@ -930,10 +930,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null && mCurrentNote != null) {
-                    mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
-                    mCurrentNote.setModificationDate(Calendar.getInstance());
-                    mCurrentNote.save();
-                    updateViewsAfterTrashAction(mCurrentNote);
+                    trashNote(mCurrentNote);
                 }
 
                 return true;
@@ -1061,10 +1058,14 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         menu.findItem(R.id.menu_empty_trash).setVisible(mSelectedTag != null && mSelectedTag.id == TRASH_ID);
     }
 
-    public void updateViewsAfterTrashAction(Note note) {
+    public void trashNote(Note note) {
         if (note == null || isFinishing()) {
             return;
         }
+
+        note.setDeleted(!note.isDeleted());
+        note.setModificationDate(Calendar.getInstance());
+        note.save();
 
         if (note.isDeleted()) {
             List<String> deletedNoteIds = new ArrayList<>();
@@ -1072,36 +1073,22 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             mUndoBarController.setDeletedNoteIds(deletedNoteIds);
             mUndoBarController.showUndoBar(getUndoView(), getString(R.string.note_deleted));
             AnalyticsTracker.track(
-                LIST_NOTE_DELETED,
-                CATEGORY_NOTE,
-                "overflow_menu"
+                    LIST_NOTE_DELETED,
+                    CATEGORY_NOTE,
+                    "overflow_menu"
             );
         } else {
             AnalyticsTracker.track(
-                EDITOR_NOTE_RESTORED,
-                CATEGORY_NOTE,
-                "overflow_menu"
+                    EDITOR_NOTE_RESTORED,
+                    CATEGORY_NOTE,
+                    "overflow_menu"
             );
         }
 
-        NoteListFragment fragment = getNoteListFragment();
-        if (fragment != null) {
-            // Try to find the next or previous note in the list to select it
-            int deletedNotePosition = fragment.getSelectedNotesPositions().get(0);
-            if (deletedNotePosition < fragment.mNotesAdapter.getCount() - 1) {
-                Note nextNote = fragment.getItemAtPosition(deletedNotePosition + 1);
-                fragment.setNoteSelected(nextNote.getSimperiumKey());
-                if (mNoteEditorFragment != null)
-                    mNoteEditorFragment.setNote(nextNote.getSimperiumKey());
-            } else if (deletedNotePosition > 0) {
-                // The deleted note is the latest in the list, select the previous one
-                Note previousNote = fragment.getItemAtPosition(deletedNotePosition - 1);
-                fragment.setNoteSelected(previousNote.getSimperiumKey());
-                if (mNoteEditorFragment != null)
-                    mNoteEditorFragment.setNote(previousNote.getSimperiumKey());
-            } else {
-                // The list of notes is empty
-                showDetailPlaceholder();
+        if(getNoteListFragment() != null) {
+            NoteListFragment fragment = getNoteListFragment();
+            if (DisplayUtils.isLargeScreenLandscape(this)) {
+                fragment.updateSelectionAfterTrashAction();
             }
             fragment.getPrefs();
             fragment.refreshList();
@@ -1110,8 +1097,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         if (mInvalidateOptionsMenuHandler != null) {
             mInvalidateOptionsMenuHandler.removeCallbacks(mInvalidateOptionsMenuRunnable);
             mInvalidateOptionsMenuHandler.postDelayed(
-                mInvalidateOptionsMenuRunnable,
-                getResources().getInteger(android.R.integer.config_shortAnimTime)
+                    mInvalidateOptionsMenuRunnable,
+                    getResources().getInteger(android.R.integer.config_shortAnimTime)
             );
         }
     }
