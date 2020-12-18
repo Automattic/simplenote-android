@@ -11,7 +11,8 @@
     <dimen name="padding_extra_large">20dp</dimen>
     <dimen name="padding_extra_extra_large">24dp</dimen>
     <dimen name="padding_error">48dp</dimen>
-    <dimen name="padding_preference">72dp</dimen>
+    <dimen name="padding_preference_end">@dimen/padding_large</dimen>
+    <dimen name="padding_preference_start">72dp</dimen>
     <dimen name="padding_suggestion">40dp</dimen>
 
     <!-- http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing -->

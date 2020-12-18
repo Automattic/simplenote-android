@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:paddingBottom="@dimen/padding_large"
-    android:paddingEnd="@dimen/padding_large"
-    android:paddingStart="@dimen/padding_preference"
+    android:paddingEnd="@dimen/padding_preference_end"
+    android:paddingStart="@dimen/padding_preference_start"
     android:paddingTop="@dimen/padding_large">
 
     <TextView
