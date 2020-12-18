@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:paddingEnd="@dimen/padding_large"
+    android:paddingEnd="@dimen/padding_preference_end"
     android:paddingStart="@dimen/padding_preference"
     tools:context=".PreferencesActivity">
 
