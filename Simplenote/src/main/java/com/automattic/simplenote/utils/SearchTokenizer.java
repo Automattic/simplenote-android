@@ -97,10 +97,7 @@ public class SearchTokenizer {
                 continue;
             }
 
-            if (current == HYPHEN
-                    && last != SPACE
-                    && position != 0
-                    && (!inStrictTerm || quoteChar == SINGLE_QUOTE)) {
+            if (current == HYPHEN && last != SPACE && position != 0) {
                 // If we have a hyphen character between two terms, with no space between them
                 String space = Character.toString(SPACE);
                 String lastCharacter = Character.toString(last);
