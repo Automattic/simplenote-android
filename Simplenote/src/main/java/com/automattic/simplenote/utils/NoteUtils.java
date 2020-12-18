@@ -75,7 +75,12 @@ public class NoteUtils {
 
                             // Show empty placeholder for large devices in landscape.
                             if (activity instanceof NotesActivity) {
-                                ((NotesActivity) activity).showDetailPlaceholder();
+                                NotesActivity notesActivity = (NotesActivity) activity;
+                                if(notesActivity.getNoteListFragment() != null) {
+                                    notesActivity.getNoteListFragment().updateSelectionAfterTrashAction();
+                                } else {
+                                    ((NotesActivity) activity).showDetailPlaceholder();
+                                }
                             // Close editor for small devices and large devices in portrait.
                             } else if (activity instanceof NoteEditorActivity) {
                                 ((NoteEditorActivity) activity).finish();
