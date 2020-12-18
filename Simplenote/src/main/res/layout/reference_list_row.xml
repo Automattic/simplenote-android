@@ -34,7 +34,6 @@
         android:layout_marginStart="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_extra_extra_small"
         android:layout_width="match_parent"
-        android:lineSpacingExtra="@dimen/line_spacing_list"
         android:maxLines="1"
         android:textColor="?attr/notePreviewColor"
         android:textSize="@dimen/text_content"
