@@ -4,5 +4,6 @@
 
     <!-- SIZE -->
     <dimen name="content_width">560dp</dimen>
+    <dimen name="padding_preference">80dp</dimen>
 
 </resources>
