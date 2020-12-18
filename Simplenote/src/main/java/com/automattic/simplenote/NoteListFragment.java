@@ -266,12 +266,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void updateSelectionAfterTrashAction() {
-        updateSelectionAfterTrashAction(getSelectedNotesPositions());
-    }
-
-    private void updateSelectionAfterTrashAction(List<Integer> deletedNotesPositions) {
         if (DisplayUtils.isLargeScreenLandscape(getActivity())) {
             // Try to find the nearest note to the first deleted item
+            List<Integer> deletedNotesPositions = getSelectedNotesPositions();
             int firstDeletedNote = deletedNotesPositions.get(0);
             int positionToSelect = -1;
             // Loop through the notes below
