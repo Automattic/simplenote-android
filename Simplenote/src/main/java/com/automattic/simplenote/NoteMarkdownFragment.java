@@ -275,6 +275,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
         String header = "<html><head>" +
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
+                "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1,initial-scale=1\">\n" +
                 cssContent + "</head><body>";
 
         String parsedMarkdown = new AndDown().markdownToHtml(
