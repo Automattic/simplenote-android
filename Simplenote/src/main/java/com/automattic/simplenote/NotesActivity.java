@@ -237,11 +237,17 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         checkForFirstLaunch();
 
         if (savedInstanceState == null) {
-            checkForSharedContent();
+            checkForSharedContent(getIntent());
         }
 
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkForSharedContent(intent);
     }
 
     @Override
@@ -555,10 +561,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     }
 
-    private void checkForSharedContent() {
-        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
+    private void checkForSharedContent(Intent intent) {
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
             // Check share action
-            Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
 
