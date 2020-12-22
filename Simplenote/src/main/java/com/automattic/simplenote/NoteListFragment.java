@@ -309,7 +309,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         if (getActivity() != null) {
             NotesActivity notesActivity = (NotesActivity) getActivity();
             setActivateOnItemClick(DisplayUtils.isLargeScreenLandscape(notesActivity));
-            if(mSelectedNoteId == null) notesActivity.showDetailPlaceholder();
+            if (mSelectedNoteId == null){
+                notesActivity.showDetailPlaceholder();
+            }
         }
     }
 
