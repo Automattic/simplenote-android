@@ -79,7 +79,7 @@ public class NoteUtils {
                                 if(notesActivity.getNoteListFragment() != null) {
                                     notesActivity.getNoteListFragment().updateSelectionAfterTrashAction();
                                 } else {
-                                    ((NotesActivity) activity).showDetailPlaceholder();
+                                    notesActivity.showDetailPlaceholder();
                                 }
                             // Close editor for small devices and large devices in portrait.
                             } else if (activity instanceof NoteEditorActivity) {
