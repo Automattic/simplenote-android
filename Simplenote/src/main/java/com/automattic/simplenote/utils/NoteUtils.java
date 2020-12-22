@@ -25,10 +25,10 @@ public class NoteUtils {
             note.save();
 
             AnalyticsTracker.track(
-                    isPinned ? AnalyticsTracker.Stat.EDITOR_NOTE_PINNED :
-                            AnalyticsTracker.Stat.EDITOR_NOTE_UNPINNED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "pin_button"
+                isPinned ? AnalyticsTracker.Stat.EDITOR_NOTE_PINNED :
+                    AnalyticsTracker.Stat.EDITOR_NOTE_UNPINNED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "pin_button"
             );
         }
     }
@@ -45,9 +45,9 @@ public class NoteUtils {
             activity.setResult(Activity.RESULT_OK, resultIntent);
 
             AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
-                    AnalyticsTracker.CATEGORY_NOTE,
-                    "trash_menu_item"
+                AnalyticsTracker.Stat.EDITOR_NOTE_DELETED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "trash_menu_item"
             );
         }
     }
@@ -76,12 +76,12 @@ public class NoteUtils {
                             // Show empty placeholder for large devices in landscape.
                             if (activity instanceof NotesActivity) {
                                 NotesActivity notesActivity = (NotesActivity) activity;
-                                if(notesActivity.getNoteListFragment() != null) {
+                                if (notesActivity.getNoteListFragment() != null) {
                                     notesActivity.getNoteListFragment().updateSelectionAfterTrashAction();
                                 } else {
                                     notesActivity.showDetailPlaceholder();
                                 }
-                            // Close editor for small devices and large devices in portrait.
+                                // Close editor for small devices and large devices in portrait.
                             } else if (activity instanceof NoteEditorActivity) {
                                 ((NoteEditorActivity) activity).finish();
                             }
