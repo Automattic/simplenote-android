@@ -44,6 +44,7 @@
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
+    <dimen name="navigation_elevation">16dp</dimen>
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_locked">48dp</dimen>

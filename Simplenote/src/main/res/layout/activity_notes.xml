@@ -36,15 +36,37 @@
 
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:background="?attr/drawerBackgroundColor"
-        android:layout_gravity="start"
-        android:layout_height="match_parent"
+    <LinearLayout
         android:layout_width="wrap_content"
-        app:insetForeground="@android:color/transparent"
-        app:itemShapeFillColor="?attr/drawerBackgroundSelector"
-        app:theme="@style/NavigationMenuItem">
-    </com.google.android.material.navigation.NavigationView>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?attr/drawerBackgroundColor"
+        android:elevation="@dimen/navigation_elevation"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            app:insetForeground="@android:color/transparent"
+            app:itemShapeFillColor="?attr/drawerBackgroundSelector"
+            app:theme="@style/NavigationMenuItem" />
+
+        <View
+            android:id="@+id/empty_tags_hint_divider"
+            android:background="?attr/dividerColor"
+            android:layout_height="@dimen/divider_height"
+            android:layout_width="match_parent" />
+
+        <com.automattic.simplenote.widgets.RobotoRegularTextView
+            android:id="@+id/empty_tags_hint_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_large"
+            android:text="@string/empty_tags_hint" />
+
+    </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
