@@ -205,6 +205,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         inflater.inflate(R.menu.bulk_edit, menu);
         DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.actionModeTextColor);
         mActionMode = actionMode;
+        requireActivity().getWindow().setStatusBarColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
         return true;
     }
 
@@ -313,6 +314,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 notesActivity.showDetailPlaceholder();
             }
         }
+        new Handler().postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
+                }
+            },
+            requireContext().getResources().getInteger(android.R.integer.config_longAnimTime)
+        );
     }
 
     @Override
