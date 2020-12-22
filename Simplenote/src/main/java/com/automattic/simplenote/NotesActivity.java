@@ -236,7 +236,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         // Creates 'Welcome' note
         checkForFirstLaunch();
 
-        checkForSharedContent();
+        if (savedInstanceState == null) {
+            checkForSharedContent();
+        }
 
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
