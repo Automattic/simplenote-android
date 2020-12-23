@@ -296,9 +296,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 mSelectedNoteId = noteToSelect.getSimperiumKey();
             } else {
                 // The list of notes is empty
-                if (getActivity() != null) {
-                    ((NotesActivity) requireActivity()).showDetailPlaceholder();
-                }
+                ((NotesActivity) requireActivity()).showDetailPlaceholder();
             }
         }
     }
@@ -1714,9 +1712,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 notesActivity.showUndoBarWithNoteIds(mDeletedNoteIds);
             }
 
-            fragment.updateSelectionAfterTrashAction();
-            fragment.mActionMode.finish();
-            fragment.refreshList();
+            if (!fragment.isDetached()) {
+                fragment.updateSelectionAfterTrashAction();
+                fragment.mActionMode.finish();
+                fragment.refreshList();
+            }
         }
     }
 }
