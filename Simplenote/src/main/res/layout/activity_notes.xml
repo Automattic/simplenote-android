@@ -65,7 +65,10 @@
             android:id="@+id/empty_tags_hint_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/navigation_margin"
+            android:layout_marginStart="@dimen/navigation_margin"
+            android:paddingBottom="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_large"
             android:text="@string/empty_tags_hint" />
 
     </LinearLayout>
