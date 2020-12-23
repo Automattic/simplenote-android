@@ -81,7 +81,7 @@ public class NoteUtils {
                                 } else {
                                     notesActivity.showDetailPlaceholder();
                                 }
-                                // Close editor for small devices and large devices in portrait.
+                            // Close editor for small devices and large devices in portrait.
                             } else if (activity instanceof NoteEditorActivity) {
                                 ((NoteEditorActivity) activity).finish();
                             }
