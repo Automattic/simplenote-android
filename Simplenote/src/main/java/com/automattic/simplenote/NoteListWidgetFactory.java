@@ -104,7 +104,7 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
         Bucket<Note> notesBucket = ((Simplenote) mContext.getApplicationContext()).getNotesBucket();
         Query<Note> query = Note.all(notesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, mContext, true);
+        PrefUtils.sortNoteQuery(query, mContext);
         mCursor = query.execute();
     }
 

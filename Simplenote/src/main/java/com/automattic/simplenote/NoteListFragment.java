@@ -157,14 +157,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private RecyclerView mSuggestionList;
     private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
-    private SharedPreferences mPreferences;
     private String mSelectedNoteId;
     private SuggestionAdapter mSuggestionAdapter;
     private TextView mSortOrder;
     private RefreshListTask mRefreshListTask;
     private RefreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
-    private int mPreferenceSortOrder;
+    private int mSearchSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
     private boolean mIsSortDown;
@@ -343,10 +342,10 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         AppLog.add(Type.SCREEN, "Created (NoteListFragment)");
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
+        mSearchSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
     }
 
     protected void getPrefs() {
-        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mTitleFontSize = PrefUtils.getFontSize(getActivity());
         mPreviewFontSize = mTitleFontSize - 2;
@@ -369,7 +368,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             createNewNote("", "new_note_shortcut");
         }
 
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         mRootView = view.findViewById(R.id.list_root);
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
@@ -436,9 +434,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
                         switch (item.getItemId()) {
                             case R.id.search_alphabetically:
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_ASCENDING)
-                                ).apply();
+                                mSearchSortOrder = ALPHABETICAL_ASCENDING;
 
                                 // If arrow is down, rotate it up for ascending direction.
                                 if (mIsSortDown && !mIsSortReverse) {
@@ -452,9 +448,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_created:
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_DESCENDING)
-                                ).apply();
+                                mSearchSortOrder = DATE_CREATED_DESCENDING;
 
                                 // If arrow is up, rotate it down for descending direction.
                                 if (mIsSortDown && mIsSortReverse) {
@@ -468,9 +462,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                                 refreshListForSearch();
                                 return true;
                             case R.id.search_modified:
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_DESCENDING)
-                                ).apply();
+                                mSearchSortOrder = DATE_MODIFIED_DESCENDING;
 
                                 // If arrow is up, rotate it down for descending direction.
                                 if (mIsSortDown && mIsSortReverse) {
@@ -541,7 +533,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     private @StringRes
     int getSortOrderText() {
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+        switch (mSearchSortOrder) {
             case ALPHABETICAL_ASCENDING:
             case ALPHABETICAL_DESCENDING:
                 return R.string.sort_search_alphabetically;
@@ -561,7 +553,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mIsSortReverse = false;
         }
 
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+        switch (mSearchSortOrder) {
             case ALPHABETICAL_ASCENDING:
             case DATE_CREATED_ASCENDING:
             case DATE_MODIFIED_ASCENDING:
@@ -588,24 +580,24 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     private void switchSortDirection() {
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
+        switch (mSearchSortOrder) {
             case DATE_MODIFIED_DESCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_ASCENDING)).apply();
+                mSearchSortOrder = DATE_MODIFIED_ASCENDING;
                 break;
             case DATE_MODIFIED_ASCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_MODIFIED_DESCENDING)).apply();
+                mSearchSortOrder = DATE_MODIFIED_DESCENDING;
                 break;
             case DATE_CREATED_DESCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_ASCENDING)).apply();
+                mSearchSortOrder = DATE_CREATED_ASCENDING;
                 break;
             case DATE_CREATED_ASCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(DATE_CREATED_DESCENDING)).apply();
+                mSearchSortOrder = DATE_CREATED_DESCENDING;
                 break;
             case ALPHABETICAL_ASCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_DESCENDING)).apply();
+                mSearchSortOrder = ALPHABETICAL_DESCENDING;
                 break;
             case ALPHABETICAL_DESCENDING:
-                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(ALPHABETICAL_ASCENDING)).apply();
+                mSearchSortOrder = ALPHABETICAL_ASCENDING;
                 break;
         }
     }
@@ -666,8 +658,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onDetach() {
         super.onDetach();
-        // Restore sort order from Settings.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
     }
@@ -826,7 +816,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         }
 
         query.include(Note.PINNED_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, requireContext(), true);
+        PrefUtils.sortNoteQuery(query, requireContext());
         return query.execute();
     }
 
@@ -852,7 +842,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
         }
 
-        PrefUtils.sortNoteQuery(query, requireContext(), false);
+        PrefUtils.sortNoteQueryForSearch(query, mSearchSortOrder, requireContext());
         return query.execute();
     }
 
@@ -962,8 +952,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mIsSearching = false;
         mSortLayoutContent.setVisibility(View.GONE);
         mSuggestionLayout.setVisibility(View.GONE);
-        // Restore sort order from Settings.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         refreshList();
 
         if (mSearchString != null && !mSearchString.equals("")) {

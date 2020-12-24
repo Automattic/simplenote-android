@@ -129,7 +129,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
             Bucket<Note> notesBucket = currentApp.getNotesBucket();
             Query<Note> query = Note.all(notesBucket);
             query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-            PrefUtils.sortNoteQuery(query, context, true);
+            PrefUtils.sortNoteQuery(query, context);
             Bucket.ObjectCursor<Note> cursor = query.execute();
 
             if (cursor.getCount() > 0) {

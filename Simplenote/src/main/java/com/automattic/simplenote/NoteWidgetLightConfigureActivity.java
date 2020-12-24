@@ -102,7 +102,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this, true);
+        PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, PrefUtils.getStyleWidgetDialog(NoteWidgetLightConfigureActivity.this));

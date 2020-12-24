@@ -102,7 +102,7 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
         Bucket<Note> mNotesBucket = mApplication.getNotesBucket();
         Query<Note> query = Note.all(mNotesBucket);
         query.include(Note.TITLE_INDEX_NAME, Note.CONTENT_PREVIEW_INDEX_NAME);
-        PrefUtils.sortNoteQuery(query, NoteWidgetDarkConfigureActivity.this, true);
+        PrefUtils.sortNoteQuery(query, NoteWidgetDarkConfigureActivity.this);
         ObjectCursor<Note> cursor = query.execute();
 
         Context context = new ContextThemeWrapper(NoteWidgetDarkConfigureActivity.this, PrefUtils.getStyleWidgetDialog(NoteWidgetDarkConfigureActivity.this));

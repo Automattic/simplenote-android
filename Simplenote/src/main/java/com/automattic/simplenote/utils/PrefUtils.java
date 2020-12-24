@@ -309,12 +309,20 @@ public class PrefUtils {
         return getIntPref(context, PREF_FONT_SIZE, defaultFontSize);
     }
 
-    public static void sortNoteQuery(Query<Note> query, Context context, boolean includePinnedOrdering) {
+    public static void sortNoteQuery(Query<Note> query, Context context) {
+        sortNoteQueryInternal(query, PrefUtils.getIntPref(context, PREF_SORT_ORDER), context, true);
+    }
+
+    public static void sortNoteQueryForSearch(Query<Note> query, int sortOrder, Context context) {
+        sortNoteQueryInternal(query, sortOrder, context, false);
+    }
+
+    private static void sortNoteQueryInternal(Query<Note> query, int sortOrder, Context context, boolean includePinnedOrdering) {
         if (includePinnedOrdering) {
             query.order(PINNED_INDEX_NAME, Query.SortType.DESCENDING);
         }
 
-        switch (PrefUtils.getIntPref(context, PrefUtils.PREF_SORT_ORDER)) {
+        switch (sortOrder) {
             case DATE_MODIFIED_DESCENDING:
                 query.order(Note.MODIFIED_INDEX_NAME, Query.SortType.DESCENDING);
                 break;

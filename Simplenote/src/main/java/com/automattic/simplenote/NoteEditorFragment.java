@@ -402,7 +402,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 query.include(Note.TITLE_INDEX_NAME);
                 query.where(Note.DELETED_PROPERTY, Query.ComparisonType.NOT_EQUAL_TO, true);
                 query.where(Note.TITLE_INDEX_NAME, Query.ComparisonType.LIKE, String.format("%%%s%%", filter));
-                PrefUtils.sortNoteQuery(query, requireContext(), true);
+                PrefUtils.sortNoteQuery(query, requireContext());
                 Cursor cursor = query.execute();
 
                 final int heightAutocomplete = DisplayUtils.dpToPx(requireContext(), cursor.getCount() * 48);
