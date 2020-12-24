@@ -119,6 +119,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      * The preferences key representing the activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String SEARCH_SORT_ORDER = "search_sort_order";
     private static final int POPUP_MENU_FIRST_ITEM_POSITION = 0;
     public static final String ACTION_NEW_NOTE = "com.automattic.simplenote.NEW_NOTE";
     /**
@@ -342,7 +343,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         AppLog.add(Type.SCREEN, "Created (NoteListFragment)");
         mBucketPreferences = ((Simplenote) requireActivity().getApplication()).getPreferencesBucket();
         mBucketTag = ((Simplenote) requireActivity().getApplication()).getTagsBucket();
-        mSearchSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+        if(savedInstanceState != null && savedInstanceState.containsKey(SEARCH_SORT_ORDER)) {
+            mSearchSortOrder = savedInstanceState.getInt(SEARCH_SORT_ORDER);
+        } else {
+            mSearchSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
+        }
     }
 
     protected void getPrefs() {
@@ -723,6 +728,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             // Serialize and persist the activated item position.
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
+        outState.putInt(SEARCH_SORT_ORDER, mSearchSortOrder);
     }
 
     public View getRootView() {
