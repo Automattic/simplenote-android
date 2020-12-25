@@ -54,7 +54,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_style);
 

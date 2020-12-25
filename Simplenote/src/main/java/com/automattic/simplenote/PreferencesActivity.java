@@ -31,7 +31,6 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_preferences);

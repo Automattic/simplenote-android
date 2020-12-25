@@ -15,6 +15,7 @@ import com.automattic.simplenote.utils.ThemeUtils;
 abstract public class ThemedAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtils.getStyle(ThemedAppCompatActivity.this));
     }

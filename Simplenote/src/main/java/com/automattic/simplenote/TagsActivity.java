@@ -62,7 +62,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
 
