@@ -25,7 +25,6 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
 import com.google.android.material.tabs.TabLayout;
@@ -76,7 +75,6 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));

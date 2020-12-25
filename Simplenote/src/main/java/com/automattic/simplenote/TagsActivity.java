@@ -36,7 +36,6 @@ import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
@@ -62,7 +61,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
 

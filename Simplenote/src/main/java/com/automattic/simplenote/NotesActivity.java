@@ -176,7 +176,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
@@ -1281,17 +1280,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
-    }
-
-    @Override
-    public void recreate() {
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                NotesActivity.super.recreate();
-            }
-        });
     }
 
     @Override

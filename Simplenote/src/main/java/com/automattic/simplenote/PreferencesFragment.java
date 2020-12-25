@@ -167,9 +167,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         AnalyticsTracker.CATEGORY_USER,
                         "theme_preference"
                 );
-
-                // recreate the activity so new theme is applied
-                activity.recreate();
             }
         });
 
