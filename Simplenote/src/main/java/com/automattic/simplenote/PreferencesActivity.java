@@ -1,18 +1,14 @@
 package com.automattic.simplenote;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
 import com.automattic.simplenote.utils.BrowserUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
@@ -23,11 +19,6 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 public class PreferencesActivity extends ThemedAppCompatActivity {
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
-
-    @Override
-    public void onBackPressed() {
-        NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,28 +70,9 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(PreferencesActivity.this);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
-    }
-
-    @Override
-    public void recreate() {
-        Intent intent = new Intent(PreferencesActivity.this, PreferencesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        finish();
     }
 
     public void openBrowserForMembership(View view) {

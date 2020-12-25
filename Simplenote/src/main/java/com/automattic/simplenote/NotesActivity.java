@@ -1283,17 +1283,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     @Override
-    public void recreate() {
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                NotesActivity.super.recreate();
-            }
-        });
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {

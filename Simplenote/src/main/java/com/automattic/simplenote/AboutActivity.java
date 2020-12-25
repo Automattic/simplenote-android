@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 
 public class AboutActivity extends AppCompatActivity {
     @Override

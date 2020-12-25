@@ -7,7 +7,6 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +17,6 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,11 +44,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
 
     private LinearLayoutManager mLayoutManager;
     private boolean mIsPremium;
-
-    @Override
-    public void onBackPressed() {
-        NavUtils.navigateUpFromSameTask(StyleActivity.this);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,20 +75,14 @@ public class StyleActivity extends ThemedAppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(StyleActivity.this);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     *  Overrides recreate to allow restoring the scroll position
+     */
     @Override
     public void recreate() {
         Intent intent = new Intent(StyleActivity.this, StyleActivity.class);
         intent.putExtra(EXTRA_SCROLL, mLayoutManager.onSaveInstanceState());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
@@ -168,7 +155,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
                             mSelectedPosition = position;
                             notifyItemChanged(mSelectedPosition);
                             PrefUtils.setStyleIndex(StyleActivity.this, position);
-                            recreate();
                         } else if (holder.mLocked.getVisibility() == View.VISIBLE) {
                             showDialogLocked();
                         }
