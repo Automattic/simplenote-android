@@ -342,13 +342,14 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         SpannableStringBuilder content = new SpannableStringBuilder(getText());
         CheckableSpan[] spans = content.getSpans(0, content.length(), CheckableSpan.class);
-        for(CheckableSpan span: spans) {
+        for (int i = 0; i < spans.length; i++) {
+            CheckableSpan span = spans[i];
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
             ((Editable) content).replace(
                     start,
                     end,
-                    span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN_PREVIEW : ChecklistUtils.UNCHECKED_MARKDOWN);
+                    (span.isChecked() ? ChecklistUtils.CHECKED_MARKDOWN : ChecklistUtils.UNCHECKED_MARKDOWN) + "c" + i + " ");
         }
 
         return content.toString();

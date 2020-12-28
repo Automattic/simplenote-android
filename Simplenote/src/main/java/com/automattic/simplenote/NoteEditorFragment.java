@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -72,6 +73,7 @@ import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedL
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.automattic.simplenote.widgets.CheckableSpan;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -475,6 +477,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     }
                 );
                 mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
+                mMarkdown.getSettings().setJavaScriptEnabled(true);
+                mMarkdown.addJavascriptInterface(this, "injection");
             } else {
                 ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
                 mError = mRootView.findViewById(R.id.error);
@@ -1606,6 +1610,23 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
 
         note.setContent(mContentEditText.getPlainTextContent());
+    }
+
+    @JavascriptInterface
+    public void toggleCheckbox(final int index) {
+        new Handler(getContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                toggleCheckboxSpan(index);
+            }
+        });
+    }
+
+    public void toggleCheckboxSpan(int index) {
+        Editable content = mContentEditText.getText();
+        CheckableSpan span = mContentEditText.getText().getSpans(0, content.length(), CheckableSpan.class)[index];
+        span.setChecked(!span.isChecked());
+        mContentEditText.toggleCheckbox(span);
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {

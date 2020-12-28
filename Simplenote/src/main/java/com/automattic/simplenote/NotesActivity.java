@@ -752,6 +752,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         return mNoteListFragment;
     }
 
+    public NoteEditorFragment getNoteEditorFragment() {
+        return mNoteEditorFragment;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);

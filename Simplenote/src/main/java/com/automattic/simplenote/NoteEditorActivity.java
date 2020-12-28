@@ -372,6 +372,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         return (NoteMarkdownFragment) mNoteEditorFragmentPagerAdapter.getItem(1);
     }
 
+    public NoteEditorFragment getNoteEditorFragment() {
+        return mNoteEditorFragment;
+    }
+
     public void hideTabs() {
         mTabLayout.setVisibility(View.GONE);
         mViewPager.setPagingEnabled(false);

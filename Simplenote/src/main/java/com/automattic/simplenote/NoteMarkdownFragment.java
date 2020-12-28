@@ -1,18 +1,22 @@
 package com.automattic.simplenote;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -120,6 +124,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 }
             );
             mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
+            mMarkdown.getSettings().setJavaScriptEnabled(true);
+            mMarkdown.addJavascriptInterface(this, "injection");
         } else {
             layout = inflater.inflate(R.layout.fragment_note_error, container, false);
             layout.findViewById(R.id.error).setVisibility(View.VISIBLE);
@@ -290,10 +296,33 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 .replaceAll("<ol>", "<ol dir=\"auto\">")
                 .replaceAll("<ul>", "<ul dir=\"auto\">")
                 .replaceAll("<table>", "<table dir=\"auto\">")
-                .replaceAll("<blockquote>", "<blockquote dir=\"auto\">");
+                .replaceAll("<blockquote>", "<blockquote dir=\"auto\">")
+                .replaceAll("\\[ ]c(\\d)\\s", "<input type=\"checkbox\" onChange=\"injection.toggleCheckbox($1)\">")
+                .replaceAll("\\[x]c(\\d)\\s", "<input type=\"checkbox\" onChange=\"injection.toggleCheckbox($1)\" checked=\"checked\">");
 
         return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
+    }
+
+    @JavascriptInterface
+    public void toggleCheckbox(final int index) {
+        new Handler(getContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                getEditorFragment().toggleCheckboxSpan(index);
+            }
+        });
+    }
+
+    private NoteEditorFragment getEditorFragment() {
+        Activity activity = requireActivity();
+        if(activity instanceof NoteEditorActivity) {
+            return ((NoteEditorActivity) activity).getNoteEditorFragment();
+        }
+        if(activity instanceof NotesActivity) {
+            return ((NotesActivity) activity).getNoteEditorFragment();
+        }
+        throw new IllegalStateException("Attached to wrong activity");
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
