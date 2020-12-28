@@ -9,13 +9,14 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class BottomSheetDialogBase extends BottomSheetDialogFragment {
     @Override
     public int getTheme() {
-        return R.style.Theme_Simplestyle_BottomSheetDialog;
+        return ThemeUtils.getThemeFromStyle(requireContext());
     }
 
     @NonNull

@@ -30,9 +30,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.12"
+            versionName "2.14-rc-1"
         }
-        versionCode 123
+        versionCode 126
         minSdkVersion 23
         targetSdkVersion 29
 
@@ -81,7 +81,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.simperium.android:simperium:0.9.13'
+    implementation 'com.simperium.android:simperium:0.9.16'
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.2'
 

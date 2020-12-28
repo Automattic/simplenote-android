@@ -203,8 +203,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
             }
 
-            int colorResId = ThemeUtils.isLightTheme(requireContext()) ? R.color.background_light : R.color.background_dark;
-            requireActivity().getWindow().setStatusBarColor(getResources().getColor(colorResId, requireActivity().getTheme()));
+            requireActivity().getWindow().setStatusBarColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
             return true;
         }
 
@@ -222,6 +221,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 case R.id.menu_view_link:
                     if (mLinkText != null) {
                         if (mLinkText.startsWith(SIMPLENOTE_LINK_PREFIX)) {
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_editor"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             try {
@@ -396,6 +400,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 Query<Note> query = application.getNotesBucket().query();
                 query.include(Note.PINNED_INDEX_NAME);
                 query.include(Note.TITLE_INDEX_NAME);
+                query.where(Note.DELETED_PROPERTY, Query.ComparisonType.NOT_EQUAL_TO, true);
                 query.where(Note.TITLE_INDEX_NAME, Query.ComparisonType.LIKE, String.format("%%%s%%", filter));
                 PrefUtils.sortNoteQuery(query, requireContext(), true);
                 Cursor cursor = query.execute();
@@ -431,6 +436,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
         mTagInput = mRootView.findViewById(R.id.tag_input);
+        mTagInput.setBucketTag(((Simplenote) requireActivity().getApplication()).getTagsBucket());
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mTagInput.setTokenizer(new SpaceTokenizer());
         mTagInput.setAdapter(mTagAutocompleteAdapter);
@@ -454,6 +460,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             String url = request.getUrl().toString();
 
                             if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                    AnalyticsTracker.CATEGORY_LINK,
+                                    "internote_link_tapped_markdown"
+                                );
                                 SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                             } else {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), url);
@@ -463,9 +474,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         }
                     }
                 );
-                mCss = ThemeUtils.isLightTheme(requireContext())
-                    ? ContextUtils.readCssFile(requireContext(), "light.css")
-                    : ContextUtils.readCssFile(requireContext(), "dark.css");
+                mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
             } else {
                 ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
                 mError = mRootView.findViewById(R.id.error);
@@ -664,6 +673,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
                 return true;
             case R.id.menu_copy_internal:
+                AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                    AnalyticsTracker.CATEGORY_LINK,
+                    "internote_link_copied_editor"
+                );
                 if (BrowserUtils.copyToClipboard(requireContext(), SimplenoteLinkify.getNoteLinkWithTitle(mNote.getTitle(), mNote.getSimperiumKey()))) {
                     Snackbar.make(mRootView, R.string.link_copied, Snackbar.LENGTH_SHORT).show();
                 } else {
@@ -695,6 +709,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             case R.id.menu_share:
                 shareNote();
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -724,6 +741,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             MenuItem publishItem = menu.findItem(R.id.menu_publish);
             MenuItem copyLinkItem = menu.findItem(R.id.menu_copy);
             MenuItem markdownItem = menu.findItem(R.id.menu_markdown);
+            MenuItem deleteItem = menu.findItem(R.id.menu_delete);
             MenuItem trashItem = menu.findItem(R.id.menu_trash);
             mChecklistMenuItem = menu.findItem(R.id.menu_checklist);
             mInformationMenuItem = menu.findItem(R.id.menu_info).setVisible(true);
@@ -753,9 +771,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 DrawableUtils.setMenuItemAlpha(mChecklistMenuItem, 1.0);  // 1.0 is 100% opacity.
             }
 
+            // Show delete action only when note is in Trash.
+            // Change trash action to restore when note is in Trash.
             if (mNote.isDeleted()) {
+                deleteItem.setVisible(true);
                 trashItem.setTitle(R.string.restore);
             } else {
+                deleteItem.setVisible(false);
                 trashItem.setTitle(R.string.trash);
             }
         }

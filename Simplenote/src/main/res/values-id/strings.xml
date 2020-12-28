@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="unpublishing">Membatalkan penerbitan catatan…</string>
+    <string name="unpublish_successful">Catatan tidak diterbitkan.</string>
+    <string name="web_view_error_button">Buka aplikasi WebView</string>
+    <string name="web_view_error">Tampilan web harus terpasang pada perangkat Anda untuk pratinjau markdown.</string>
     <string name="about_help_title">Dapatkan Bantuan</string>
     <string name="about_help_summary">FAQ atau hubungi kami</string>
     <string name="settings_item_get_help">Dapatkan bantuan</string>
@@ -17,7 +21,7 @@ Language: id
     <string name="open_note_error">Catatan tidak ditemukan</string>
     <string name="open_note">Buka Catatan</string>
     <string name="copy_link_internal">Salin Tautan Internal</string>
-    <string name="publish_successful">Dipublikasikan.</string>
+    <string name="publish_successful">Catatan diterbitkan.</string>
     <string name="about">Tentang</string>
     <string name="link_copied_failure">Tautan tidak dapat disalin.</string>
     <string name="send_logs">Kirim log</string>
@@ -83,8 +87,6 @@ Language: id
     <string name="note_list_widget_light">Daftar Catatan (Terang)</string>
     <string name="note_list_widget_dark">Daftar Catatan (Gelap)</string>
     <string name="retry">Coba lagi</string>
-    <string name="publishing">Memublikasikan…</string>
-    <string name="publish_successful_link">Dipublikasikan. Tautan disalin!</string>
     <string name="link_copied">Tautan disalin!</string>
     <string name="of">dari</string>
     <string name="next">Selanjutnya</string>
@@ -185,10 +187,7 @@ Language: id
     <string name="wpcom_log_in_error_generic">Tidak dapat login dengan WordPress.com. Coba lagi.</string>
     <string name="collaborate_message">Tambahkan email di bidang tag untuk berkolaborasi dengan pengguna lain.</string>
     <string name="collaborate">Kolaborasi</string>
-    <string name="unpublishing">Menghapus tautan publik…</string>
-    <string name="unpublish_successful">Tautan publik dihapus.</string>
-    <string name="unpublish_error">Tidak dapat menghapus tautan.</string>
-    <string name="publish_error">Tidak dapat membuat tautan.</string>
+    <string name="publishing">Menerbitkan catatan…</string>
     <string name="unpublish">Hapus tautan publik</string>
     <string name="no_browser_available">\"Tidak dapat membuka situs web. Browser tidak tersedia.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: id
     <string name="font_size_small">Kecil</string>
     <string name="font_size_extra_small">Ekstra kecil</string>
     <string name="note_added">Penambahan catatan</string>
+    <string name="unpublish_error">Tidak dapat batal menerbitkan catatan</string>
+    <string name="publish_error">Tidak dapat menerbitkan catatan</string>
     <string name="published">Diterbitkan</string>
     <string name="publish">Terbitkan</string>
     <string name="theme">Tema</string>

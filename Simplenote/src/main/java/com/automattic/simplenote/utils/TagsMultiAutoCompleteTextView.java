@@ -3,26 +3,23 @@ package com.automattic.simplenote.utils;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
-
-import java.util.Objects;
+import com.automattic.simplenote.models.Tag;
+import com.simperium.client.Bucket;
 
 import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
+    private Bucket<Tag> mBucketTag;
     private OnTagAddedListener mTagAddedListener;
     private TextWatcher mTextWatcher = new TextWatcher() {
         @Override
@@ -86,7 +83,9 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     }
 
     public void notifyTagsChanged() {
-        notifyTagsChanged(getText().toString());
+        String lexical = getText().toString().trim();
+        String canonical = TagUtils.getCanonicalFromLexical(mBucketTag, lexical);
+        notifyTagsChanged(canonical);
     }
 
     public void notifyTagsChanged(String tag) {
@@ -103,28 +102,19 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
             setText(getText().toString().trim());
             setSelection(getText().length());
             addTextChangedListener(mTextWatcher);
-            showDialogErrorLength();
+            Context context = getContext();
+            DialogUtils.showDialogWithEmail(
+                context,
+                context.getString(R.string.rename_tag_message_length)
+            );
         }
+    }
+
+    public void setBucketTag(Bucket<Tag> bucket) {
+        mBucketTag = bucket;
     }
 
     public void setOnTagAddedListener(OnTagAddedListener listener) {
         mTagAddedListener = listener;
-    }
-
-    private void showDialogErrorLength() {
-        Context context = getContext();
-        AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
-            .setTitle(R.string.error)
-            .setMessage(HtmlCompat.fromHtml(String.format(
-                context.getString(R.string.rename_tag_message_length),
-                context.getString(R.string.rename_tag_message_email),
-                "<span style=\"color:#",
-                Integer.toHexString(ThemeUtils.getColorFromAttribute(context, R.attr.colorAccent) & 0xffffff),
-                "\">",
-                "</span>"
-            )))
-            .setPositiveButton(android.R.string.ok, null)
-            .show();
-        ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

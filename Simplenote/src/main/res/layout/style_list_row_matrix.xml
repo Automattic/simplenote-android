@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:background="@drawable/bg_list_style_matrix"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_marginEnd="@dimen/padding_large"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_width="@dimen/content_width"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardElevation="0dp"
+        style="@style/Style.Matrix">
+
+        <RelativeLayout
+            android:background="@drawable/bg_list_style_default"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/padding_large">
+
+            <TextView
+                android:id="@+id/preview_title"
+                android:ellipsize="end"
+                android:fontFamily="?attr/styleFontFamily"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_small"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:textColor="@color/style_preview_default_title"
+                android:textSize="@dimen/text_content_title"
+                android:textStyle="bold"
+                tools:fontFamily="monospace"
+                tools:text="@string/style_matrix">
+            </TextView>
+
+            <TextView
+                android:id="@+id/preview_content"
+                android:ellipsize="end"
+                android:fontFamily="?attr/styleFontFamily"
+                android:layout_below="@id/preview_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:maxLines="2"
+                android:text="@string/style_preview"
+                android:textColor="@color/style_preview_default_content"
+                tools:fontFamily="monospace">
+            </TextView>
+
+            <ImageView
+                android:id="@+id/preview_locked"
+                android:background="@drawable/bg_style_locked"
+                android:contentDescription="@string/description_locked"
+                android:layout_centerInParent="true"
+                android:layout_height="@dimen/icon_locked"
+                android:layout_width="@dimen/icon_locked"
+                android:padding="@dimen/padding_medium"
+                android:src="@drawable/ic_lock_24dp"
+                android:tint="@color/style_locked_icon"
+                android:visibility="gone"
+                tools:visibility="visible">
+            </ImageView>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

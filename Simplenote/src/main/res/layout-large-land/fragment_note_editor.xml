@@ -33,6 +33,7 @@
                 <com.automattic.simplenote.widgets.SimplenoteEditText
                     android:id="@+id/note_content"
                     android:background="@null"
+                    android:fontFamily="?attr/styleFontFamily"
                     android:gravity="top"
                     android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                     android:layout_height="match_parent"

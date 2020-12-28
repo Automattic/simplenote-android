@@ -92,7 +92,7 @@ public class HistoryBottomSheetDialog extends BottomSheetDialogBase {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View history = LayoutInflater.from(mFragment.getActivity()).inflate(R.layout.bottom_sheet_history, null, false);
+        View history = LayoutInflater.from(mFragment.requireContext()).inflate(R.layout.bottom_sheet_history, null, false);
         mHistoryDate = history.findViewById(R.id.history_date);
         mHistorySeekBar = history.findViewById(R.id.seek_bar);
         mProgressBar = history.findViewById(R.id.history_progress_bar);

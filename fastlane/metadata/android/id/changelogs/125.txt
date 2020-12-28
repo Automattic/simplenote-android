@@ -1,0 +1,3 @@
+2.13:
+* Memperbaiki crash pada perangkat tanpa tampilan web
+

@@ -68,10 +68,12 @@ public class ChecklistsTest {
         SpannableStringBuilder builder = new SpannableStringBuilder(checklistMarkdown);
 
         Editable editable = ChecklistUtils.addChecklistSpansForRegexAndColor(
-                InstrumentationRegistry.getTargetContext(),
-                builder,
-                ChecklistUtils.CHECKLIST_REGEX_LINES,
-                android.R.color.black);
+            InstrumentationRegistry.getTargetContext(),
+            builder,
+            ChecklistUtils.CHECKLIST_REGEX_LINES,
+            android.R.color.black,
+            false
+        );
 
         // We should have 3 CheckableSpans
         CheckableSpan[] spans = editable.getSpans(0, editable.length(), CheckableSpan.class);
@@ -81,10 +83,12 @@ public class ChecklistsTest {
     @Test
     public void testNullBuilderPassed() {
         Editable editable = ChecklistUtils.addChecklistSpansForRegexAndColor(
-                InstrumentationRegistry.getTargetContext(),
-                null,
-                ChecklistUtils.CHECKLIST_REGEX_LINES,
-                android.R.color.black);
+            InstrumentationRegistry.getTargetContext(),
+            null,
+            ChecklistUtils.CHECKLIST_REGEX_LINES,
+            android.R.color.black,
+            false
+        );
 
         assertThat(editable.length(), is(0));
     }

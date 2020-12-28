@@ -14,16 +14,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
-import androidx.core.content.ContextCompat;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.LinkTokenizer;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
@@ -76,21 +78,18 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     public SimplenoteEditText(Context context) {
         super(context);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
@@ -107,6 +106,11 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.INTERNOTE_LINK_CREATED,
+            AnalyticsTracker.CATEGORY_LINK,
+            "internote_link_created"
+        );
         @SuppressWarnings("unchecked")
         Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
         String key = cursor.getString(cursor.getColumnIndex(Note.KEY_PROPERTY)).replace("note", "");
@@ -157,15 +161,13 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         final ImageSpan[] imageSpans = editable.getSpans(checkboxStart, checkboxEnd, ImageSpan.class);
         if (imageSpans.length > 0) {
+            Context context = getContext();
             // ImageSpans are static, so we need to remove the old one and replace :|
-            Drawable iconDrawable = ContextCompat.getDrawable(getContext(),
-                    checkableSpan.isChecked()
-                            ? R.drawable.ic_checkbox_checked_24px
-                            : R.drawable.ic_checkbox_unchecked_24px);
-            iconDrawable = DrawableUtils.tintDrawableWithResource(getContext(), iconDrawable, R.color.text_title_disabled);
-            int iconSize = DisplayUtils.getChecklistIconSize(getContext());
+            @DrawableRes int resDrawable = checkableSpan.isChecked() ? R.drawable.ic_checkbox_editor_checked_24dp : R.drawable.ic_checkbox_editor_unchecked_24dp;
+            Drawable iconDrawable = DrawableUtils.tintDrawableWithAttribute(context, resDrawable, checkableSpan.isChecked() ? R.attr.colorAccent : R.attr.notePreviewColor);
+            int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
-            final CenteredImageSpan newImageSpan = new CenteredImageSpan(getContext(), iconDrawable);
+            final CenteredImageSpan newImageSpan = new CenteredImageSpan(context, iconDrawable);
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
@@ -189,28 +191,39 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         }
     }
 
-    // Returns the line position of the text cursor
-    private int getCurrentCursorLine() {
-        int selectionStart = getSelectionStart();
-        Layout layout = getLayout();
-
-        if (!(selectionStart == -1)) {
-            return layout.getLineForOffset(selectionStart);
+    private int findStartOfLineOfSelection() {
+        int position = getSelectionStart();
+        // getSelectionStart may return -1 if there is no selection nor cursor
+        if (position == -1) {
+            return 0;
         }
-
+        Editable editable = getText();
+        for (int i = position - 1; i >= 0; i--) {
+            if (editable.charAt(i) == '\n') {
+                return i + 1;
+            }
+        }
         return 0;
     }
 
-    public void insertChecklist() {
-        int start, end;
-        int lineNumber = getCurrentCursorLine();
-        start = getLayout().getLineStart(lineNumber);
-
-        if (getSelectionEnd() > getSelectionStart() && !selectionIsOnSameLine()) {
-            end = getSelectionEnd();
-        } else {
-            end = getLayout().getLineEnd(lineNumber);
+    private int findEndOfLineOfSelection() {
+        // getSelectionEnd may return -1 if there is no selection nor cursor
+        // and as the minimum position is 0, use the max value between 0 and getSelectionEnd()
+        int position = Math.max(0, getSelectionEnd());
+        Editable editable = getText();
+        for (int i = position; i < editable.length(); i++) {
+            if (editable.charAt(i) == '\n') {
+                // We return the max here, because when the cursor is at an empty line,
+                // i-1 would point to the start of line
+                return Math.max(i - 1, position);
+            }
         }
+        return editable.length();
+    }
+
+    public void insertChecklist() {
+        final int start = findStartOfLineOfSelection();
+        final int end = findEndOfLineOfSelection();
 
         SpannableStringBuilder workingString = new SpannableStringBuilder(getText().subSequence(start, end));
         Editable editable = getText();
@@ -349,10 +362,19 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
         try {
             ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    getContext(),
-                    getText(),
-                    ChecklistUtils.CHECKLIST_REGEX_LINES,
-                    R.color.text_title_disabled);
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_CHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.colorAccent),
+                false
+            );
+            ChecklistUtils.addChecklistSpansForRegexAndColor(
+                getContext(),
+                getText(),
+                ChecklistUtils.CHECKLIST_REGEX_LINES_UNCHECKED,
+                ThemeUtils.getColorResourceFromAttribute(getContext(), R.attr.notePreviewColor),
+                false
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }

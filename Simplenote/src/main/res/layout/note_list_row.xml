@@ -23,8 +23,9 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.automattic.simplenote.widgets.RobotoRegularTextView
+        <TextView
             android:id="@+id/note_date"
+            android:fontFamily="?attr/styleFontFamily"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -32,7 +33,7 @@
             android:textSize="@dimen/text_date"
             android:visibility="gone"
             tools:text="Oct 21">
-        </com.automattic.simplenote.widgets.RobotoRegularTextView>
+        </TextView>
 
         <ImageView
             android:id="@+id/note_pinned"
@@ -67,9 +68,10 @@
 
     </RelativeLayout>
 
-    <com.automattic.simplenote.widgets.RobotoMediumTextView
+    <TextView
         android:id="@+id/note_title"
         android:ellipsize="end"
+        android:fontFamily="?attr/styleFontFamily"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_marginStart="@dimen/padding_small"
@@ -79,12 +81,14 @@
         android:singleLine="true"
         android:textColor="?attr/noteTitleColor"
         android:textSize="@dimen/text_content_title"
+        android:textStyle="bold"
         tools:text="Welcome to Simplenote Android!">
-    </com.automattic.simplenote.widgets.RobotoMediumTextView>
+    </TextView>
 
-    <com.automattic.simplenote.widgets.RobotoRegularTextView
+    <TextView
         android:id="@+id/note_content"
         android:ellipsize="end"
+        android:fontFamily="?attr/styleFontFamily"
         android:layout_below="@id/note_title"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_small"
@@ -96,6 +100,6 @@
         android:textColor="?attr/notePreviewColor"
         android:textSize="@dimen/text_content"
         tools:text="Open this for instructions.  To create a new note, tap the blue Add Note button.  To search your notes, tap the search button in the Action Bar and enter any text. Simplenote will show you matching results instantly.  Got a really important note?  Press the pin button while viewing a note to pin it to the top of the list.  Use tags to help organize your notes.  You can also add an email address as a tag to share a note with someone.  Easily share notes with other Android apps by tapping the share button in the toolbar.  Deleted notes go in the trash.  You can restore them if you want, or empty the trash to get rid of them forever.  You can access your notes on the web and your other devices.  Go to http://simplenote.com to get started.  We hope you enjoy using Simplenote!">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+    </TextView>
 
 </RelativeLayout>

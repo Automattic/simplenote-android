@@ -1,102 +1,85 @@
 <ar>
-2.12:
-تمت إضافة ميزة الإكمال التلقائي إلى المحرِّر عند إضافة رابط بين الملحوظات
-* تمت إضافة رابط للمساعدة على الإعدادات
+2.13:
+* إصلاح عطل الأجهزة التي لا يوجد بها عرض ويب مثبَّت
 
 </ar>
 <de-DE>
-2.12:
-* Automatische Vervollständigung zum Editor hinzugefügt, wenn ein Link zwischen Notizen hinzugefügt wird
-* Hilfreichen Link in „Einstellungen“ hinzugefügt
+2.13:
+* Das Problem, bei dem es bei Geräten, die die Web-Ansicht nicht installiert hatten, zum Absturz kam, wurde behoben
 
 </de-DE>
 <es-ES>
-2.12:
-* Se ha añadido la función Autocompletar al editor al añadir un enlace entre notas.
-* Se ha añadido un enlace a la ayuda de Ajustes.
+2.13:
+* Se han corregido errores que se producían en dispositivos que no tenían instalada la versión web
 
 </es-ES>
 <fr-FR>
-2.12 :
-* Ajout de la saisie semi-automatique à l’éditeur lors de l’ajout d’un lien entre des notes
-* Ajout d’un lien d’aide dans les réglages
+2.13 :
+* Incident résolu sur les appareils sans affichage Web
 
 </fr-FR>
 <iw-IL>
-2.12:
-* הוספנו אפשרות להשלמה אוטומטית בעורך כאשר מוסיפים קישור בין פתקים
-* הוספנו קישור לעזרה ב'הגדרות'
+2.13: 
+*תיקנו קריסה במכשירים שלא מותקנת בהם תצוגת אינטרנט
 
 </iw-IL>
 <id>
-2,12:
-* Menambahkan fitur pelengkapan otomatis pada editor saat menambahkan link di antara catatan
-* Menambahkan link untuk bantuan pada pengaturan
+2.13:
+* Memperbaiki crash pada perangkat tanpa tampilan web
 
 </id>
 <it-IT>
-2.12:
-* Aggiunto il completamento automatico all'editor quando viene aggiunto un link tra le note
-* Aggiunto un link di supporto nelle impostazioni
+2.13:
+* È stato risolto un crash sui dispositivi privi di funzione di visualizzazione web
 
 </it-IT>
 <ja-JP>
-2.12:
-* ノートの間にリンクを追加する際に、エディターに自動入力を追加しました
-* 「設定」の「ヘルプ」へのリンクを追加しました
+2.13:
+ * WebView がインストールされていないデバイスでのクラッシュを修正
 
 </ja-JP>
 <ko-KR>
-2.12:
-* 메모 사이에 링크를 추가할 때 편집기에 자동 완성 기능 추가됨
-* 설정에 유용한 링크 추가됨
+2.13:
+* 설치된 웹 보기가 없는 기기의 충돌 수정됨
 
 </ko-KR>
 <nl-NL>
-2.12:
-* Automatisch aanvullen toegevoegd wanneer een koppeling tussen notities wordt aangemaakt
-* Link toegevoegd voor hulp bij instellingen
+2.13:
+* Crashen verholpen op apparaten waarop geen webversie was geïnstalleerd
 
 </nl-NL>
 <pt-BR>
-2.12:
-* Adicionado preenchimento automático ao editor para quando um link é incluso entre anotações
-* Adicionado um link para obter ajuda nas configurações
+2.13:
+* Correção de falha em dispositivos sem uma visualização de Web instalada
 
 </pt-BR>
 <ru-RU>
-2.12:
-* В редактор добавлена функция автозаполнения для вставки ссылки из одной заметки на другую
-* На страницу «Настройки» добавлена ссылка на Справку
+2.13:
+* Исправлена ошибка, приводившая к сбою на устройствах, где не было установлено приложение WebView
 
 </ru-RU>
 <sv-SE>
-2.12:
-* Automatiskt slutförande när en länk läggs till mellan anteckningar har lagts till i redigeraren
-* En hjälplänk har lagts till i inställningarna
+2.13:
+* Krascher på enheter som inte har någon webbvy installerad har åtgärdats
 
 </sv-SE>
 <tr-TR>
-2,12:
-* Notlar arasına bağlantı eklerken yardımcı olması için düzenleyiciye otomatik tamamlama işlevi eklendi
-* Yardım için ayarlara bir bağlantı eklendi
+2.13:
+* Web görünümü yüklü olmayan cihazlarda çökme düzeltildi
 
 </tr-TR>
 <zh-CN>
-2.12：
-* 在编辑器中添加了在注释之间添加链接时自动完成的功能
-* 在设置中添加了帮助链接
+2.13：
+* 修复了未安装 Web 视图的设备上崩溃的问题
 
 </zh-CN>
 <zh-TW>
-2.12：
-* 編輯器新增自動完成功能，在筆記之間新增連結時便會自動填入資訊
-* 在設定中新增協助連結
+2.13：
+* 修正未安裝網頁檢視的裝置當機問題
 
 </zh-TW>
 <en-US>
-2.12:
-* Added autocomplete to the editor when adding a link between notes
-* Added a link to help in settings
+2.13:
+* Fixed crashing on devices with no web view installed
 
 </en-US>

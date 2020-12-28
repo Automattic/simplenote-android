@@ -123,6 +123,12 @@
         </activity>
 
         <activity
+            android:name="com.automattic.simplenote.StyleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".PreferencesActivity">
+        </activity>
+
+        <activity
             android:name="com.automattic.simplenote.TagsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>

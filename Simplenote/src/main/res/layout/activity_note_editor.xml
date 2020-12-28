@@ -37,7 +37,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/main_parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,7 +49,8 @@
         <com.automattic.simplenote.widgets.NoteEditorViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
         </com.automattic.simplenote.widgets.NoteEditorViewPager>
 
         <RelativeLayout
@@ -75,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:minHeight="@dimen/minimum_target"
                 android:minWidth="@dimen/minimum_target"
-                android:padding="@dimen/margin_default"
+                android:padding="@dimen/padding_large"
                 android:src="@drawable/ic_chevron_left_24dp"
                 android:tint="@color/toolbar_icon_alpha_40_selector"
                 android:tintMode="src_in">
@@ -86,7 +87,7 @@
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/margin_default_half"
+                android:padding="@dimen/padding_small"
                 android:text="@string/of"
                 android:textColor="?attr/noteTitleColor"
                 android:textSize="@dimen/text_content_title">
@@ -129,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:minHeight="@dimen/minimum_target"
                 android:minWidth="@dimen/minimum_target"
-                android:padding="@dimen/margin_default"
+                android:padding="@dimen/padding_large"
                 android:src="@drawable/ic_chevron_right_24dp"
                 android:tint="@color/toolbar_icon_alpha_40_selector"
                 android:tintMode="src_in">
@@ -143,6 +144,6 @@
 
         </RelativeLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

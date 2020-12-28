@@ -46,14 +46,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
-        Simperium.OnUserCreatedListener {
-    private static final String WEB_APP_URL = "https://app.simplenote.com";
+public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+    public static final String WEB_APP_URL = "https://app.simplenote.com";
+
     private static final int REQUEST_EXPORT_DATA = 9001;
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
 
@@ -149,7 +150,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
+        final ListPreference themePreference = findPreference(PrefUtils.PREF_THEME);
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -166,13 +167,41 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         AnalyticsTracker.CATEGORY_USER,
                         "theme_preference"
                 );
-
-                // recreate the activity so new theme is applied
-                activity.recreate();
             }
         });
 
-        final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
+        final Preference stylePreference = findPreference("pref_key_style");
+        stylePreference.setSummary(
+            PrefUtils.isPremium(requireContext()) ?
+                PrefUtils.getStyleNameFromIndexSelected(requireContext()) :
+                PrefUtils.getStyleNameDefault(requireContext())
+        );
+        stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(requireContext(), StyleActivity.class));
+                return true;
+            }
+        });
+
+        final Preference membershipPreference = findPreference("pref_key_membership");
+        membershipPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((PreferencesActivity) requireActivity()).openBrowserForMembership(getView());
+                return true;
+            }
+        });
+
+        if (PrefUtils.isPremium(requireContext())) {
+            membershipPreference.setLayoutResource(R.layout.preference_default);
+            membershipPreference.setSummary(R.string.membership_premium);
+        } else {
+            membershipPreference.setLayoutResource(R.layout.preference_button);
+            membershipPreference.setSummary(R.string.membership_free);
+        }
+
+        final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -209,7 +238,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
         analyticsSummaryPreference.setSummary(HtmlCompat.fromHtml(formattedSummary));
 
-        mAnalyticsSwitch = (SwitchPreferenceCompat)findPreference("pref_key_analytics_switch");
+        mAnalyticsSwitch = findPreference("pref_key_analytics_switch");
         mAnalyticsSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -244,7 +273,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (resultCode != Activity.RESULT_OK || resultData == null) {
+        if (resultCode != RESULT_OK || resultData == null) {
             return;
         }
 

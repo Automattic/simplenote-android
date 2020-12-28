@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-10-16 15:54:04+0000
+Translation-Revision-Date: 2020-11-13 14:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="unpublishing">Not yayından kaldırılıyor…</string>
+    <string name="unpublish_successful">Not yayından kaldırıldı.</string>
+    <string name="web_view_error_button">WebView uygulamasına git</string>
+    <string name="web_view_error">Markdown’ı önizlemek için cihazınızda bir web görünümü kurulu olmalıdır.</string>
     <string name="about_help_title">Yardım Alın</string>
     <string name="about_help_summary">SSS veya bize ulaşın</string>
     <string name="settings_item_get_help">Yardım alın</string>
@@ -17,7 +21,7 @@ Language: tr
     <string name="open_note_error">Not bulunamadı</string>
     <string name="open_note">Notu Aç</string>
     <string name="copy_link_internal">Dahili Bağlantıyı Kopyala</string>
-    <string name="publish_successful">Yayımlandı.</string>
+    <string name="publish_successful">Not yayınlandı.</string>
     <string name="about">Hakkında</string>
     <string name="link_copied_failure">Bağlantı kopyalanamadı.</string>
     <string name="send_logs">Günlükleri gönder</string>
@@ -83,8 +87,6 @@ Language: tr
     <string name="note_list_widget_light">Not Listesi (Açık)</string>
     <string name="note_list_widget_dark">Not Listesi (Koyu)</string>
     <string name="retry">Tekrar dene</string>
-    <string name="publishing">Yayımlanıyor…</string>
-    <string name="publish_successful_link">Yayımlandı. Bağlantı kopyalandı!</string>
     <string name="link_copied">Bağlantı kopyalandı!</string>
     <string name="of">,</string>
     <string name="next">Sonraki</string>
@@ -185,10 +187,7 @@ Language: tr
     <string name="wpcom_log_in_error_generic">WordPress.com ile giriş yapılamadı. Lütfen yeniden deneyin.</string>
     <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
-    <string name="unpublishing">Herkese açık bağlantı kaldırılıyor…</string>
-    <string name="unpublish_successful">Herkese açık bağlantı kaldırıldı.</string>
-    <string name="unpublish_error">Bağlantı kaldırılamadı.</string>
-    <string name="publish_error">Bağlantı oluşturulamadı.</string>
+    <string name="publishing">Not yayınlanıyor…</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
     <string name="no_browser_available">\"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok.\"</string>
     <string name="blog">Blog</string>
@@ -213,6 +212,8 @@ Language: tr
     <string name="font_size_small">Küçük</string>
     <string name="font_size_extra_small">Çok küçük</string>
     <string name="note_added">Not eklendi</string>
+    <string name="unpublish_error">Not yayından kaldırılamadı</string>
+    <string name="publish_error">Not yayınlanamadı</string>
     <string name="published">Yayınlandı</string>
     <string name="publish">Yayınla</string>
     <string name="theme">Tema</string>

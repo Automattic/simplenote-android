@@ -28,6 +28,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.Bucket.ObjectCursor;
@@ -72,7 +73,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
 
         // Get widget information
         mWidgetManager = AppWidgetManager.getInstance(NoteWidgetLightConfigureActivity.this);
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_light);
+        mRemoteViews = new RemoteViews(getPackageName(), PrefUtils.getLayoutWidget(NoteWidgetLightConfigureActivity.this, true));
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -104,7 +105,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
         PrefUtils.sortNoteQuery(query, NoteWidgetLightConfigureActivity.this, true);
         ObjectCursor<Note> cursor = query.execute();
 
-        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, R.style.Theme_Transparent);
+        Context context = new ContextThemeWrapper(NoteWidgetLightConfigureActivity.this, PrefUtils.getStyleWidgetDialog(NoteWidgetLightConfigureActivity.this));
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         @SuppressLint("InflateParams")
         final View layout = LayoutInflater.from(context).inflate(R.layout.note_widget_configure_list, null);
@@ -143,7 +144,7 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return LayoutInflater.from(context).inflate(R.layout.note_list_row, parent, false);
+            return LayoutInflater.from(context).inflate(PrefUtils.getLayoutWidgetListItem(context, ThemeUtils.isLightTheme(context)), parent, false);
         }
 
         @Override
@@ -172,10 +173,12 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
             titleTextView.setText(title);
             SpannableStringBuilder snippetSpan = new SpannableStringBuilder(snippet);
             snippetSpan = (SpannableStringBuilder) ChecklistUtils.addChecklistSpansForRegexAndColor(
-                    context,
-                    snippetSpan,
-                    ChecklistUtils.CHECKLIST_REGEX,
-                    R.color.text_title_disabled);
+                context,
+                snippetSpan,
+                ChecklistUtils.CHECKLIST_REGEX,
+                R.color.text_title_disabled,
+                true
+            );
             contentTextView.setText(snippetSpan);
 
             view.setOnClickListener(new View.OnClickListener() {

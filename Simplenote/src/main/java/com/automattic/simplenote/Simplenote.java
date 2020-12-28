@@ -33,9 +33,11 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
+import com.simperium.android.WebSocketManager;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -43,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
-public class Simplenote extends Application {
+public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
     public static final String TAG = "Simplenote";
@@ -54,11 +56,14 @@ public class Simplenote extends Application {
 
     private static final String AUTH_PROVIDER = "simplenote.com";
     private static final String TAG_SYNC = "sync";
+    private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
     private static Bucket<Preferences> mPreferencesBucket;
 
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private Handler mHeartbeatHandler;
+    private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
     private boolean mIsInBackground = true;
 
@@ -75,6 +80,17 @@ public class Simplenote extends Application {
         );
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);
+        mSimperium.addHeartbeatListener(this);
+
+        mHeartbeatHandler = new Handler();
+        mHeartbeatRunnable = new Runnable() {
+            @Override
+            public void run() {
+                AppLog.add(Type.NETWORK, "Heartbeat stopped");
+                mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+                mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
+            }
+        };
 
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
@@ -101,6 +117,13 @@ public class Simplenote extends Application {
         AppLog.add(Type.DEVICE, getDeviceInfo());
         AppLog.add(Type.ACCOUNT, getAccountInfo());
         AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
+    }
+
+    @Override
+    public void onBeat() {
+        AppLog.add(Type.NETWORK, "Heartbeat received");
+        mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+        mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
 
     @SuppressWarnings("unused")
