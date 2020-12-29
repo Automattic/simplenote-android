@@ -111,4 +111,94 @@ public class NoteTest {
         return tagArray;
     }
 
+    @Test
+    public void testConvertNumberToDateString() {
+        String dateString = "2020-12-29T14:52:00.000Z";
+        String dateConverted = Note.numberToDateString(1609253520);
+
+        assertThat(dateConverted, is(dateString));
+    }
+
+    @Test
+    public void testGetContent() {
+        String content = "Lorem ipsum dolor sit amet,\n"
+                + "consectetur adipisicing elit,\n"
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
+                + "Duis aute irure dolor in reprehenderit in voluptate velit esse cil.";
+
+        mNote.setContent("Lorem ipsum dolor sit amet,\n"
+                + "consectetur adipisicing elit,\n"
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
+                + "Duis aute irure dolor in reprehenderit in voluptate velit esse cil.");
+
+        assertThat(mNote.getContent(), is(content));
+    }
+
+    @Test
+    public void testEnabledAndDisabledPreview() {
+        Note note = new Note("Test");
+
+        note.setPreviewEnabled(true);
+        assertThat(note.isPreviewEnabled(), is(true));
+
+        note.setPreviewEnabled(false);
+        assertThat(note.isPreviewEnabled(), is(false));
+    }
+
+    @Test
+    public void testEnabledAndDisabledMarkdown() {
+        Note note = new Note("Test");
+
+        note.setMarkdownEnabled(true);
+        assertThat(note.isMarkdownEnabled(), is(true));
+
+        note.setMarkdownEnabled(false);
+        assertThat(note.isMarkdownEnabled(), is(false));
+    }
+
+    @Test
+    public void testDeletedAndUndeletedNote() {
+        Note note = new Note("note-test");
+
+        note.setDeleted(true);
+        assertThat(note.isDeleted(), is(true));
+
+        note.setDeleted(false);
+        assertThat(note.isDeleted(), is(false));
+    }
+
+    @Test
+    public void testNoteHasChanges() {
+
+        String content = "Lorem ipsum dolor sit amet";
+        String tag = "tag";
+        boolean isPinned = true;
+        boolean isMarkdownEnabled = true;
+        boolean isPreviewEnabled = true;
+
+        Note note = new Note("note-test");
+        note.setContent(content);
+        note.setTagString(tag);
+        note.setPinned(isPinned);
+        note.setMarkdownEnabled(isMarkdownEnabled);
+        note.setPreviewEnabled(isPreviewEnabled);
+
+        assertThat(note.hasChanges(
+                content, tag, isPinned, isMarkdownEnabled, isPreviewEnabled
+        ), is(false));
+
+        note.setContent("new content");
+        note.setTagString("new tag");
+        note.setPinned(false);
+        note.setMarkdownEnabled(false);
+        note.setPreviewEnabled(false);
+
+        assertThat(note.hasChanges(
+                content, tag, isPinned, isMarkdownEnabled, isPreviewEnabled
+        ), is(true));
+
+    }
+
 }

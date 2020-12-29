@@ -50,6 +50,68 @@ public class NoteIndexerTest {
         assertThat(date.getTimeInMillis(), is(1379018823000L));
     }
 
+    @Test
+    public void testGetCreationDate() throws JSONException {
+        JSONObject properties = new JSONObject();
+        properties.put(Note.CREATION_DATE_PROPERTY, 1379018823037.0);
+
+        Note note = new Note("test", properties);
+        Calendar calendar = note.getCreationDate();
+
+        assertThat(calendar.getTimeInMillis(), is(1379018823000L));
+    }
+
+    @Test
+    public void testGetCreationDateString() {
+        Calendar date = Note.numberToDate(1379018823037.0);
+        Note note = new Note("test");
+        note.setCreationDate(date);
+
+        assertThat(note.getCreationDateString(), is("2013-09-12T20:47:03.000Z"));
+    }
+
+    @Test
+    public void testGetModificationDate() throws JSONException {
+        JSONObject properties = new JSONObject();
+        properties.put(Note.MODIFICATION_DATE_PROPERTY, 1379018823037.0);
+
+        Note note = new Note("test", properties);
+        Calendar calendar = note.getModificationDate();
+
+        assertThat(calendar.getTimeInMillis(), is(1379018823000L));
+    }
+
+    @Test
+    public void testGetModificationDateString() {
+        Calendar date = Note.numberToDate(1379018823037.0);
+        Note note = new Note("test");
+        note.setModificationDate(date);
+
+        assertThat(note.getModificationDateString(), is("2013-09-12T20:47:03.000Z"));
+    }
+
+    @Test
+    public void testIsPublished() throws JSONException {
+        JSONObject properties = new JSONObject();
+        properties.put(Note.PUBLISH_URL_PROPERTY, "test.url.property");
+
+        Note note = new Note("test", properties);
+
+        note.setPublished(true);
+        assertThat(note.isPublished(), is(true));
+
+        note.setPublished(false);
+        assertThat(note.isPublished(), is(false));
+    }
+
+    @Test
+    public void testIsNotPublished(){
+        Note note = new Note("test");
+
+        note.setPublished(true);
+        assertThat(note.isPublished(), is(false));
+    }
+
     private void assertIndex(List<Index> indexes, String name, final Object expected) {
         for (Index index : indexes) {
             if (index.getName().equals(name)) {
