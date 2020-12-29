@@ -217,7 +217,6 @@ public class Simplenote extends Application implements HeartbeatListener {
                         )
                             .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                             .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
-                            .setInitialDelay(TEN_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
                             .addTag(TAG_SYNC)
                             .build();
                         WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
