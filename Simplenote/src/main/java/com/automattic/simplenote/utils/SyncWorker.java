@@ -37,23 +37,7 @@ public class SyncWorker extends ListenableWorker {
     @Override
     public void onStopped() {
         super.onStopped();
-
-        if (mBucketNote != null) {
-            mBucketNote.stop();
-            AppLog.add(Type.SYNC, "Stopped note bucket (SyncWorker)");
-        }
-
-        if (mBucketTag != null) {
-            mBucketTag.stop();
-            AppLog.add(Type.SYNC, "Stopped tag bucket (SyncWorker)");
-        }
-
-        if (mBucketPreference != null) {
-            mBucketPreference.stop();
-            AppLog.add(Type.SYNC, "Stopped preference bucket (SyncWorker)");
-        }
-
-        Log.d("SyncWorker.onStopped", "Stopped buckets");
+        stopBuckets("onStopped");
     }
 
     @NonNull
@@ -87,25 +71,7 @@ public class SyncWorker extends ListenableWorker {
                         new Runnable() {
                             @Override
                             public void run() {
-                                if (((Simplenote) getApplicationContext()).isInBackground()) {
-                                    if (mBucketNote != null) {
-                                        mBucketNote.stop();
-                                        AppLog.add(Type.SYNC, "Stopped note bucket (SyncWorker)");
-                                    }
-
-                                    if (mBucketTag != null) {
-                                        mBucketTag.stop();
-                                        AppLog.add(Type.SYNC, "Stopped tag bucket (SyncWorker)");
-                                    }
-
-                                    if (mBucketPreference != null) {
-                                        mBucketPreference.stop();
-                                        AppLog.add(Type.SYNC, "Stopped preference bucket (SyncWorker)");
-                                    }
-
-                                    Log.d("SyncWorker.startWork", "Stopped buckets");
-                                }
-
+                                stopBuckets("startWork");
                                 completer.set(Result.success());
                             }
                         },
@@ -116,5 +82,26 @@ public class SyncWorker extends ListenableWorker {
                 }
             }
         );
+    }
+
+    private void stopBuckets(String method) {
+        if (((Simplenote) getApplicationContext()).isInBackground()) {
+            if (mBucketNote != null) {
+                mBucketNote.stop();
+                AppLog.add(Type.SYNC, "Stopped note bucket (SyncWorker)");
+            }
+
+            if (mBucketTag != null) {
+                mBucketTag.stop();
+                AppLog.add(Type.SYNC, "Stopped tag bucket (SyncWorker)");
+            }
+
+            if (mBucketPreference != null) {
+                mBucketPreference.stop();
+                AppLog.add(Type.SYNC, "Stopped preference bucket (SyncWorker)");
+            }
+
+            Log.d("SyncWorker." + method, "Stopped buckets");
+        }
     }
 }
