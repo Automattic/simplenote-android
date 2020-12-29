@@ -209,6 +209,23 @@ public class Simplenote extends Application implements HeartbeatListener {
                             mPreferencesBucket.stop();
                             AppLog.add(Type.SYNC, "Stopped preference bucket (Simplenote)");
                         }
+
+                        PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
+                            SyncWorker.class,
+                            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                            TimeUnit.MILLISECONDS
+                        )
+                            .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                            .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
+                            .setInitialDelay(TEN_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
+                            .addTag(TAG_SYNC)
+                            .build();
+                        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
+                            TAG_SYNC,
+                            ExistingPeriodicWorkPolicy.REPLACE,
+                            syncWorkRequest
+                        );
+                        Log.d("Simplenote.onTrimMemory", "Started worker");
                     }
                 }, TEN_SECONDS_MILLIS);
 
@@ -269,25 +286,8 @@ public class Simplenote extends Application implements HeartbeatListener {
         public void onActivityStarted(@NonNull Activity activity) {
         }
 
-        @SuppressLint("LongLogTag")
         @Override
         public void onActivityPaused(@NonNull Activity activity) {
-            PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
-                SyncWorker.class,
-                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
-                TimeUnit.MILLISECONDS
-            )
-                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-                .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
-                .setInitialDelay(TEN_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
-                .addTag(TAG_SYNC)
-                .build();
-            WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
-                TAG_SYNC,
-                ExistingPeriodicWorkPolicy.REPLACE,
-                syncWorkRequest
-            );
-            Log.d("Simplenote.onActivityPaused", "Started worker");
         }
 
         @Override
