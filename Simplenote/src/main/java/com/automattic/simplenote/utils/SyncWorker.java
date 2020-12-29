@@ -22,9 +22,9 @@ import com.simperium.client.Bucket;
 import static com.automattic.simplenote.Simplenote.TEN_SECONDS_MILLIS;
 
 public class SyncWorker extends ListenableWorker {
-    private Bucket<Note> mBucketNote;
-    private Bucket<Preferences> mBucketPreference;
-    private Bucket<Tag> mBucketTag;
+    private final Bucket<Note> mBucketNote;
+    private final Bucket<Preferences> mBucketPreference;
+    private final Bucket<Tag> mBucketTag;
 
     public SyncWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
