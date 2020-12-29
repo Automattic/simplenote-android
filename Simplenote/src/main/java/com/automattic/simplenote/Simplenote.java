@@ -181,8 +181,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
-        private boolean mIsInBackground = true;
-
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
