@@ -31,7 +31,7 @@ public class SyncWorker extends ListenableWorker {
         Simplenote application = (Simplenote) context.getApplicationContext();
         mBucketNote = application.getNotesBucket();
         mBucketTag = application.getTagsBucket();
-        mBucketPreference  = application.getPreferencesBucket();
+        mBucketPreference = application.getPreferencesBucket();
     }
 
     @Override
