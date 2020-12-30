@@ -1,7 +1,8 @@
 2.15
 -----
+* Added syncing in the background to avoid data loss when exiting the app []
 * Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
- 
+
 2.14
 -----
 * Updated checkbox target size for easier tapping
