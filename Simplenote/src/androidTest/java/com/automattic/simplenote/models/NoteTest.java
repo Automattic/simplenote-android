@@ -28,7 +28,7 @@ public class NoteTest {
     private Note mNote;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mNote = new Note(KEY);
     }
 

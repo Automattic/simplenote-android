@@ -40,7 +40,7 @@ public class NoteIndexerTest {
     }
 
     @Test
-    public void testIndexMillisecondDates() throws JSONException {
+    public void testIndexMillisecondDates() {
         List<Index> indexes = mIndexer.index(mNote);
         assertIndex(indexes, Note.MODIFIED_INDEX_NAME, DATE_LONG);
         assertIndex(indexes, Note.CREATED_INDEX_NAME, DATE_LONG);
@@ -60,7 +60,7 @@ public class NoteIndexerTest {
     }
 
     @Test
-    public void testGetCreationDate() throws JSONException {
+    public void testGetCreationDate() {
         Calendar calendar = mNote.getCreationDate();
         assertThat(calendar.getTimeInMillis(), is(DATE_LONG));
     }
@@ -73,7 +73,7 @@ public class NoteIndexerTest {
     }
 
     @Test
-    public void testGetModificationDate() throws JSONException {
+    public void testGetModificationDate() {
         Calendar calendar = mNote.getModificationDate();
         assertThat(calendar.getTimeInMillis(), is(DATE_LONG));
     }
