@@ -53,6 +53,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     public static final int INTENT_PREFERENCES = 1;
     public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
     public static final int TEN_SECONDS_MILLIS = 10 * 1000;  // 10 seconds
+    public static final int TWENTY_SECONDS_MILLIS = 20 * 1000;  // 20 seconds
 
     private static final String AUTH_PROVIDER = "simplenote.com";
     private static final String TAG_SYNC = "sync";
@@ -219,6 +220,7 @@ public class Simplenote extends Application implements HeartbeatListener {
                 )
                     .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                     .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
+                    .setInitialDelay(TWENTY_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
                     .addTag(TAG_SYNC)
                     .build();
                 WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
