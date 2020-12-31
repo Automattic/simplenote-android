@@ -46,7 +46,10 @@ public class LastSyncTimeCache {
         public void onSaveObject(Bucket<Note> bucket, Note object) {}
 
         @Override
-        public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String entityId) {}
+        public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String entityId) {
+            updateSyncTime(entityId);
+            notifyListener(entityId);
+        }
 
         @Override
         public void onDeleteObject(Bucket<Note> bucket, Note object) {}
@@ -56,14 +59,12 @@ public class LastSyncTimeCache {
 
         @Override
         public void onSyncObject(Bucket<Note> bucket, String noteId) {
-            Log.d(TAG, "onSyncObject: " + noteId);
             updateSyncTime(noteId);
             notifyListener(noteId);
         }
 
         @Override
         public void onLocalQueueChange(Bucket<Note> bucket, Set<String> noteIds) {
-            Log.d(TAG, "onLocalQueueChange: " + noteIds);
             Set<String> changed = new HashSet<>();
 
             for (String noteId : mUnsyncedKeys) {
