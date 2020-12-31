@@ -82,6 +82,7 @@ import com.simperium.client.Query;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.Set;
 
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
@@ -1606,6 +1607,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
 
         note.setContent(mContentEditText.getPlainTextContent());
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {
