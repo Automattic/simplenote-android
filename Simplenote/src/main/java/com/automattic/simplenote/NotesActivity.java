@@ -1278,6 +1278,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         // Remove Passcode Lock password
         AppLockManager.getInstance().getAppLock().setPassword("");
 
+        // Reset Buckets
+        Simplenote application = (Simplenote) getApplication();
+
+        application.getNotesBucket().reset();
+        application.getTagsBucket().reset();
+        application.getPreferencesBucket().reset();
+
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
     }
