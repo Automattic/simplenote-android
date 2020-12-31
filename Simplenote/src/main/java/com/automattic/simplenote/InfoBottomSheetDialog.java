@@ -26,6 +26,7 @@ import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +44,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     private TextView mDateTimeCreated;
     private TextView mDateTimeModified;
     private TextView mDateTimeSynced;
+
+    private LastSyncTimeCache.SyncTimeListener mSyncTimeListener = null;
+    private Bucket.OnNetworkChangeListener<Note> mNetworkChangeListener = null;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment) {
         mFragment = fragment;
@@ -84,14 +88,18 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        removeListeners((Simplenote) requireActivity().getApplication());
+    }
+
     public void show(FragmentManager manager, Note note) {
         if (mFragment.isAdded()) {
             showNow(manager, TAG);
-            mCountCharacters.setText(NoteUtils.getCharactersCount(note.getContent()));
-            mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
-            mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
-            mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
-            Calendar sync = ((Simplenote) requireActivity().getApplication()).getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
+            updateNoteData(note);
+            Simplenote app = (Simplenote) requireActivity().getApplication();
+            Calendar sync = app.getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
 
             if (sync != null) {
                 mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), sync));
@@ -101,7 +109,54 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             }
 
             getReferences(note);
+            addListeners(app, note.getSimperiumKey());
         }
+    }
+
+    private void updateNoteData(Note note) {
+        mCountCharacters.setText(NoteUtils.getCharactersCount(note.getContent()));
+        mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
+        mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
+        mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
+    }
+
+    private void addListeners(Simplenote app, final String noteId) {
+        removeListeners(app);
+
+        mNetworkChangeListener = new Bucket.OnNetworkChangeListener<Note>() {
+            @Override
+            public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String key) {
+                if (!noteId.equals(key)) {
+                    return;
+                }
+
+                try {
+                    updateNoteData(bucket.getObject(noteId));
+                } catch (BucketObjectMissingException e) {
+                    // no harm no foul
+                }
+            }
+        };
+
+        mSyncTimeListener = new LastSyncTimeCache.SyncTimeListener() {
+            @Override
+            public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
+                if (!noteId.equals(entityId)) {
+                    return;
+                }
+
+                mDateTimeSyncedLayout.setVisibility(View.VISIBLE);
+                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), lastSyncTime));
+            }
+        };
+
+        app.getNotesBucket().addOnNetworkChangeListener(mNetworkChangeListener);
+        app.getLastSyncTimeCache().addListener(mSyncTimeListener);
+    }
+
+    private void removeListeners(Simplenote app) {
+        app.getNotesBucket().removeOnNetworkChangeListener(mNetworkChangeListener);
+        app.getLastSyncTimeCache().removeListener(mSyncTimeListener);
     }
 
     private void getReferences(Note note) {
