@@ -13,7 +13,7 @@ import java.util.Set;
 public class LastSyncTimeCache {
     private HashMap<String, Calendar> mSyncTimes = new HashMap<>();
     private HashSet<String> mUnsyncedKeys = new HashSet<>();
-    private SyncTimeListener mListener;
+    private Set<SyncTimeListener> mListeners = new HashSet<>();
     private static final String TAG = LastSyncTimeCache.class.getSimpleName();
 
     public Calendar getLastSyncTime(String key) {
@@ -25,12 +25,16 @@ public class LastSyncTimeCache {
     }
 
     public void addListener(SyncTimeListener listener) {
-        mListener = listener;
+        mListeners.add(listener);
     }
 
-    private void notifyListener(String entityId) {
-        if (null != mListener) {
-            mListener.onUpdate(entityId, getLastSyncTime(entityId), isSynced(entityId));
+    public void removeListener(SyncTimeListener listener) {
+        mListeners.remove(listener);
+    }
+
+    private void notifyListeners(String entityId) {
+        for (SyncTimeListener listener : mListeners) {
+            listener.onUpdate(entityId, getLastSyncTime(entityId), isSynced(entityId));
         }
     }
 
@@ -48,7 +52,7 @@ public class LastSyncTimeCache {
         @Override
         public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String entityId) {
             updateSyncTime(entityId);
-            notifyListener(entityId);
+            notifyListeners(entityId);
         }
 
         @Override
@@ -60,7 +64,7 @@ public class LastSyncTimeCache {
         @Override
         public void onSyncObject(Bucket<Note> bucket, String noteId) {
             updateSyncTime(noteId);
-            notifyListener(noteId);
+            notifyListeners(noteId);
         }
 
         @Override
@@ -84,7 +88,7 @@ public class LastSyncTimeCache {
 
             for (String noteId : changed) {
                 Log.d(TAG, "updateIsSynced: " + noteId + " (" + isSynced(noteId) + ")");
-                notifyListener(noteId);
+                notifyListeners(noteId);
             }
         }
     };
