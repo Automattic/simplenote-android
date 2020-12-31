@@ -58,6 +58,7 @@
     <string name="unpin_from_top">Unpin from Top</string>
     <string name="created">Created</string>
     <string name="modified">Modified</string>
+    <string name="synced">Synced</string>
     <string name="tab_edit">Edit</string>
     <string name="tab_preview">Preview</string>
     <string name="list_hide">Hide List</string>

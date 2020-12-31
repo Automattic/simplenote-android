@@ -9,11 +9,35 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_small">
+
+        <LinearLayout
+            android:id="@+id/date_time_synced_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/synced"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/date_time_synced"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Jan 13, 2020, 22:21"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="match_parent"
             android:orientation="horizontal">
 
