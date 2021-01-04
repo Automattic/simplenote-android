@@ -39,6 +39,7 @@ import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
