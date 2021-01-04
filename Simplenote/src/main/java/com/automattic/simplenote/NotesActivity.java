@@ -1259,7 +1259,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AppLog.add(Type.ACCOUNT, "Token not authorized");
+                        AppLog.add(Type.ACCOUNT, "Access token not authorized");
                         startLoginActivity();
                     }
                 });
