@@ -319,7 +319,6 @@
         <item name="sheetBackgroundColor">@color/background_dark_sepia_8</item>
         <item name="toolbarColor">@color/background_dark_sepia_4</item>
         <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup.Sepia</item>
->>>>>>> develop
     </style>
 
     <style name="ToolbarTheme.Popup" parent="ThemeOverlay.MaterialComponents">
