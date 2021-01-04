@@ -19,6 +19,13 @@ import com.simperium.client.Query;
 import java.lang.annotation.Retention;
 
 import static com.automattic.simplenote.models.Note.PINNED_INDEX_NAME;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_DEFAULT;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MATRIX;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_MONO;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_PUBLICATION;
+import static com.automattic.simplenote.utils.ThemeUtils.STYLE_SEPIA;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @SuppressWarnings("unused")
@@ -55,6 +62,12 @@ public class PrefUtils {
 
     // boolean, allow notes to preview markdown
     public static final String PREF_MARKDOWN_ENABLED = "pref_key_markdown_enabled";
+
+    // boolean, determines if premium account
+    public static final String PREF_PREMIUM = "pref_key_premium";
+
+    // string. index style to use
+    public static final String PREF_STYLE_INDEX = "pref_key_style_index";
 
     // string. determines theme to use
     public static final String PREF_THEME = "pref_key_theme";
@@ -146,6 +159,141 @@ public class PrefUtils {
         }
 
         return version;
+    }
+
+    public static boolean isPremium(Context context) {
+        return getPrefs(context).getBoolean(PREF_PREMIUM, false);
+    }
+
+    public static void setIsPremium(Context context, boolean isPremium) {
+        getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
+    }
+
+    public static int getLayoutWidget(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark_black;
+                case STYLE_MATRIX:
+                    return isLight ? R.layout.note_widget_light_mono : R.layout.note_widget_dark_matrix;
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_widget_light_mono : R.layout.note_widget_dark_mono;
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_widget_light_publication : R.layout.note_widget_dark_publication;
+                case STYLE_SEPIA:
+                    return isLight ? R.layout.note_widget_light_sepia : R.layout.note_widget_dark_sepia;
+                case STYLE_CLASSIC:
+                case STYLE_DEFAULT:
+                default:
+                    return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark;
+            }
+        } else {
+            return isLight ? R.layout.note_widget_light : R.layout.note_widget_dark;
+        }
+    }
+
+    public static int getLayoutWidgetList(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return isLight ? R.layout.note_list_widget_light_black : R.layout.note_list_widget_dark_black;
+                case STYLE_CLASSIC:
+                    return isLight ? R.layout.note_list_widget_light_classic : R.layout.note_list_widget_dark_classic;
+                case STYLE_MATRIX:
+                    return isLight ? R.layout.note_list_widget_light_matrix : R.layout.note_list_widget_dark_matrix;
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_list_widget_light_mono : R.layout.note_list_widget_dark_mono;
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_list_widget_light_publication : R.layout.note_list_widget_dark_publication;
+                case STYLE_SEPIA:
+                    return isLight ? R.layout.note_list_widget_light_sepia : R.layout.note_list_widget_dark_sepia;
+                case STYLE_DEFAULT:
+                default:
+                    return isLight ? R.layout.note_list_widget_light_default : R.layout.note_list_widget_dark_default;
+            }
+        } else {
+            return isLight ? R.layout.note_list_widget_light_default : R.layout.note_list_widget_dark_default;
+        }
+    }
+
+    public static int getLayoutWidgetListItem(Context context, boolean isLight) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_PUBLICATION:
+                    return isLight ? R.layout.note_list_widget_item_light_serif : R.layout.note_list_widget_item_dark_serif;
+                case STYLE_MATRIX:
+                case STYLE_MONO:
+                    return isLight ? R.layout.note_list_widget_item_light_monospace : R.layout.note_list_widget_item_dark_monospace;
+                case STYLE_BLACK:
+                case STYLE_CLASSIC:
+                case STYLE_DEFAULT:
+                case STYLE_SEPIA:
+                default:
+                    return isLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+            }
+        } else {
+            return isLight ? R.layout.note_list_widget_item_light : R.layout.note_list_widget_item_dark;
+        }
+    }
+
+    public static int getStyleIndexSelected(Context context) {
+        return getPrefs(context).getInt(PREF_STYLE_INDEX, STYLE_DEFAULT);
+    }
+
+    public static String getStyleNameDefault(Context context) {
+        return context.getString(R.string.style_default);
+    }
+
+    public static String getStyleNameFromIndex(Context context, int index) {
+        switch (index) {
+            case STYLE_BLACK:
+                return context.getString(R.string.style_black);
+            case STYLE_CLASSIC:
+                return context.getString(R.string.style_classic);
+            case STYLE_MATRIX:
+                return context.getString(R.string.style_matrix);
+            case STYLE_MONO:
+                return context.getString(R.string.style_mono);
+            case STYLE_PUBLICATION:
+                return context.getString(R.string.style_publication);
+            case STYLE_SEPIA:
+                return context.getString(R.string.style_sepia);
+            case STYLE_DEFAULT:
+            default:
+                return context.getString(R.string.style_default);
+        }
+    }
+
+    public static String getStyleNameFromIndexSelected(Context context) {
+        return getStyleNameFromIndex(context, getStyleIndexSelected(context));
+    }
+
+    public static int getStyleWidgetDialog(Context context) {
+        if (isPremium(context)) {
+            switch (getStyleIndexSelected(context)) {
+                case STYLE_BLACK:
+                    return R.style.Theme_Transparent_Black;
+                case STYLE_CLASSIC:
+                    return R.style.Theme_Transparent_Classic;
+                case STYLE_MATRIX:
+                    return R.style.Theme_Transparent_Matrix;
+                case STYLE_MONO:
+                    return R.style.Theme_Transparent_Mono;
+                case STYLE_SEPIA:
+                    return R.style.Theme_Transparent_Sepia;
+                case STYLE_PUBLICATION:
+                    return R.style.Theme_Transparent_Publication;
+                case STYLE_DEFAULT:
+                default:
+                    return R.style.Theme_Transparent;
+            }
+        } else {
+            return R.style.Theme_Transparent;
+        }
+    }
+
+    public static void setStyleIndex(Context context, int index) {
+        getPrefs(context).edit().putInt(PREF_STYLE_INDEX, index).apply();
     }
 
     public static int getFontSize(Context context) {

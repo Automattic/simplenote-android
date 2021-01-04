@@ -1,4 +1,0 @@
-2.12:
-* Automatiskt slutförande när en länk läggs till mellan anteckningar har lagts till i redigeraren
-* En hjälplänk har lagts till i inställningarna
-

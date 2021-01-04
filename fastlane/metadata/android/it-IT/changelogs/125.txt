@@ -1,0 +1,3 @@
+2.13:
+* È stato risolto un crash sui dispositivi privi di funzione di visualizzazione web
+

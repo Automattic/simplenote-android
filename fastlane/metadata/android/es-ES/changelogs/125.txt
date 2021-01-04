@@ -1,0 +1,3 @@
+2.13:
+* Se han corregido errores que se producían en dispositivos que no tenían instalada la versión web
+

@@ -18,14 +18,15 @@
     <string name="rename_tag_error_length">Tag length too long</string>
     <string name="rename_tag_error_spaces">Tags cannot contain spaces</string>
     <string name="rename_tag_message">An error occurred renaming the tag. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
-    <string name="rename_tag_message_email" translatable="false">\u003c\u0061\u0020\u0068\u0072\u0065\u0066\u003d\u0022\u006d\u0061\u0069\u006c\u0074\u006f\u003a\u0073\u0075\u0070\u0070\u006f\u0072\u0074\u0040\u0073\u0069\u006d\u0070\u006c\u0065\u006e\u006f\u0074\u0065\u002e\u0063\u006f\u006d\u0022\u003e\u0073\u0075\u0070\u0070\u006f\u0072\u0074\u0040\u0073\u0069\u006d\u0070\u006c\u0065\u006e\u006f\u0074\u0065\u002e\u0063\u006f\u006d\u003c\u002f\u0061\u003e</string>
     <string name="rename_tag_message_length">The tag length is too long. Please, try again with a shorter name. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
     <string name="tag_name">Tag name</string>
     <string name="delete_tag">Delete Tag</string>
     <string name="save">Save</string>
+    <string name="back">Back</string>
     <string name="cancel">Cancel</string>
+    <string name="empty">Empty</string>
     <string name="empty_trash">Empty Trash</string>
-    <string name="confirm_empty_trash">Are you sure you want to empty the trash?</string>
+    <string name="confirm_empty_trash">Do you want to empty the trash? All notes in trash will be permanently deleted. This action cannot be undone.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="word">Word</string>
@@ -40,6 +41,10 @@
     <string name="search_tags">Search Tags</string>
     <string name="search_tags_hint">Search tags</string>
     <string name="notes">Notes</string>
+    <string name="delete">Delete</string>
+    <string name="delete_dialog_error_message">An error occurred deleting the note. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
+    <string name="delete_dialog_message">Do you want to permanently delete this note? This action cannot be undone.</string>
+    <string name="delete_dialog_title">Delete Permanently</string>
     <string name="trash">Trash</string>
     <string name="untagged_notes">Untagged Notes</string>
     <string name="today">Today</string>
@@ -71,12 +76,17 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>
+    <string name="membership">Membership</string>
+    <string name="membership_free">Free</string>
+    <string name="membership_free_upgrade">Upgrade</string>
+    <string name="membership_premium">Premium</string>
     <string name="references">Referenced In</string>
     <string name="references_one">%1$d Reference, Last modified %2$s</string>
     <string name="references_other">%1$d References, Last modified %2$s</string>
     <string name="settings_item_get_help">Get help</string>
     <string name="web_view_error">A web view must be installed on your device to preview markdown.</string>
     <string name="web_view_error_button">Go to WebView app</string>
+    <string name="support_email" translatable="false">\u003c\u0061\u0020\u0068\u0072\u0065\u0066\u003d\u0022\u006d\u0061\u0069\u006c\u0074\u006f\u003a\u0073\u0075\u0070\u0070\u006f\u0072\u0074\u0040\u0073\u0069\u006d\u0070\u006c\u0065\u006e\u006f\u0074\u0065\u002e\u0063\u006f\u006d\u0022\u003e\u0073\u0075\u0070\u0070\u006f\u0072\u0074\u0040\u0073\u0069\u006d\u0070\u006c\u0065\u006e\u006f\u0074\u0065\u002e\u0063\u006f\u006d\u003c\u002f\u0061\u003e</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
@@ -109,7 +119,7 @@
     <string name="notes_trashed">Notes trashed.</string>
 
     <!-- welcome note for new users -->
-    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the blue \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"More Options\" button with the three vertical dots icon while viewing a note and check the \"Pin\" box.\n\nUse tags to help organize your notes. Create a tag in either the \"Edit Tags\" screen using the \"Add Tag\" button or the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping \"Share\" in the \"More Options\" menu while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
+    <string name="welcome_note">Welcome to Simplenote Android!\nOpen this note for instructions.\n\nTo create a new note, tap the \"New Note\" button with the plus icon.\n\nTo search your notes, tap the \"Search\" button with the magnifying glass icon and enter any text. Simplenote will show you recent searches initially and suggested searches while entering text. Notes matching the entered text will be shown once the search is submitted.\n\nGot a really important note? Pin it to the top of the note list. You can pin a note in two ways. Long-press the note in the list and tap the \"Pin to top\" button with the pin icon. Tap the \"More Options\" button with the three vertical dots icon while viewing a note and check the \"Pin\" box.\n\nUse tags to help organize your notes. Create a tag in either the \"Edit Tags\" screen using the \"Add Tag\" button or the \"Add tag&#8230;\" field at the bottom of a note. You can also add an email address as a tag to share a note with someone.\n\nEasily share notes with other Android apps by tapping \"Share\" in the \"More Options\" menu while viewing a note.\n\nDeleted notes go in the trash. You can restore them if you want, or empty the trash to get rid of them forever.\n\nYou can access your notes on the web and your other devices. Go to http://simplenote.com to get started.\n\nWe hope you enjoy using Simplenote!</string>
     <string name="confirm_delete_tag">Are you sure you want to delete this tag?</string>
     <string name="new_note_list">New note&#8230;</string>
     <string name="open_drawer">Open drawer</string>
@@ -140,6 +150,20 @@
     <!-- account setup -->
     <string name="wpcom_log_in_error_generic">Couldn\'t log in with WordPress.com. Please try again.</string>
     <string name="wpcom_log_in_error_unverified">Activate your WordPress.com account via email and try again.</string>
+
+    <!-- Styles -->
+    <string name="style">Style</string>
+    <string name="style_black">Black</string>
+    <string name="style_classic">Classic</string>
+    <string name="style_default">Default</string>
+    <string name="style_dialog_locked_button_positive">Upgrade</string>
+    <string name="style_dialog_locked_message">To use this style, you must have a premium membership.</string>
+    <string name="style_dialog_locked_title">Premium Style</string>
+    <string name="style_matrix">Matrix</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_publication">Publication</string>
+    <string name="style_sepia">Sepia</string>
 
     <!-- Themes -->
     <string name="theme_light">Light</string>
@@ -241,8 +265,13 @@
 
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
+    <string name="description_locked">Locked</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
+
+    <string name="dialog_tag_conflict_button_positive">Merge</string>
+    <string name="dialog_tag_conflict_message">The tag \"%1$s\" already exists. Would you like to merge \"%2$s\" into the \"%3$s\" tag?</string>
+    <string name="dialog_tag_conflict_title">Tag Conflict</string>
 
     <string name="empty_notes_all">Create your first note</string>
     <string name="empty_notes_search">No notes found</string>
@@ -250,7 +279,7 @@
     <string name="empty_notes_search_button_default">Create a new note</string>
     <string name="empty_notes_tag">No notes tagged \"%1$s\"</string>
     <string name="empty_notes_trash">Your trash is empty</string>
-    <string name="empty_notes_untagged">Create an untagged note</string>
+    <string name="empty_notes_untagged">No untagged notes</string>
     <string name="empty_notes_widget">No notes</string>
     <string name="empty_tags">No tags</string>
     <string name="empty_tags_search">No tags found</string>
@@ -309,8 +338,8 @@
     <string name="simperium_dialog_message_login">Could not log in with the provided email address and password.</string>
     <string name="simperium_dialog_message_login_reset">Your password is insecure and must be reset.  The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
     <string name="simperium_dialog_message_network">There is no network available.  Please, connect to a network and try again.</string>
-    <string name="simperium_dialog_message_password">The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No tabs</string>
-    <string name="simperium_dialog_message_password_login">Passwords must be a minimum of %1$d characters excluding new lines, spaces, and tabs.</string>
+    <string name="simperium_dialog_message_password">The password requirements are:\n\n- Password cannot match email\n- Minimum of %1$d characters\n- No new lines\n- No returns\n- No tabs</string>
+    <string name="simperium_dialog_message_password_login">Passwords must be a minimum of %1$d characters.</string>
     <string name="simperium_dialog_message_signup">Could not sign up with the provided email address and password.</string>
     <string name="simperium_dialog_message_signup_existing">The email address you entered is already associated with a Simplenote account.</string>
     <string name="simperium_dialog_progress_logging_in">Logging in&#8230;</string>

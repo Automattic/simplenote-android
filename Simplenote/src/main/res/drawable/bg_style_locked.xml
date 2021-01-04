@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <corners
+        android:radius="@dimen/icon_locked_half">
+    </corners>
+
+    <solid
+        android:color="@color/style_locked_background">
+    </solid>
+
+</shape>

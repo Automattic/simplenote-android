@@ -3,7 +3,7 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:initialLayout="@layout/note_list_widget_light"
+    android:initialLayout="@layout/note_list_widget_light_default"
     android:minHeight="@dimen/cell_widget"
     android:minWidth="@dimen/cell_widget_double"
     android:previewImage="@drawable/note_list_widget_preview_light"

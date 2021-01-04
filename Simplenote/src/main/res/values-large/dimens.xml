@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- SIZE -->
+    <dimen name="content_width">560dp</dimen>
+    <dimen name="padding_preference_end">24dp</dimen>
+    <dimen name="padding_preference_start">80dp</dimen>
+
+</resources>

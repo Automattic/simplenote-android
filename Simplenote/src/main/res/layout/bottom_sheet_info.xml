@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_height="wrap_content"
@@ -119,15 +118,16 @@
                 android:layout_width="match_parent">
             </View>
 
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_small"
                 android:layout_width="match_parent"
+                android:minHeight="@dimen/bottom_sheet_row_height"
                 android:padding="@dimen/padding_large"
                 android:text="@string/references"
-                android:textStyle="bold"
-                android:textColor="?attr/colorAccent">
-            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+                android:textColor="?attr/notePreviewColor"
+                android:textSize="@dimen/text_bottom_sheet">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/references"

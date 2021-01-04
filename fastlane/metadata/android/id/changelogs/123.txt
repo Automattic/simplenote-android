@@ -1,4 +1,0 @@
-2,12:
-* Menambahkan fitur pelengkapan otomatis pada editor saat menambahkan link di antara catatan
-* Menambahkan link untuk bantuan pada pengaturan
-

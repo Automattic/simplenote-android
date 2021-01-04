@@ -11,7 +11,7 @@
             android:shape="oval">
 
             <solid
-                android:color="@color/blue">
+                android:color="@color/wordpress_blue_50">
             </solid>
 
         </shape>

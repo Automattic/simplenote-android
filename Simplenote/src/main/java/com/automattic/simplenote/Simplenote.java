@@ -1,5 +1,6 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
@@ -7,9 +8,16 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
@@ -23,32 +31,42 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
+import com.simperium.android.WebSocketManager;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
+import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
-public class Simplenote extends Application {
-
-    private static final int TEN_SECONDS_MILLIS = 10000;
-
-    // log tag
-    public static final String TAG = "Simplenote";
-
-    // intent IDs
-    public static final int INTENT_PREFERENCES = 1;
-    public static final int INTENT_EDIT_NOTE = 2;
+public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String TAG = "Simplenote";
+    public static final int INTENT_EDIT_NOTE = 2;
+    public static final int INTENT_PREFERENCES = 1;
+    public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
+    public static final int TEN_SECONDS_MILLIS = 10 * 1000;  // 10 seconds
+    public static final int TWENTY_SECONDS_MILLIS = 20 * 1000;  // 20 seconds
+
     private static final String AUTH_PROVIDER = "simplenote.com";
-    private Simperium mSimperium;
+    private static final String TAG_SYNC = "sync";
+    private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
+
+    private static Bucket<Preferences> mPreferencesBucket;
+
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
-    private static Bucket<Preferences> mPreferencesBucket;
+    private Handler mHeartbeatHandler;
+    private Runnable mHeartbeatRunnable;
+    private Simperium mSimperium;
+    private boolean mIsInBackground = true;
 
     public void onCreate() {
         super.onCreate();
@@ -63,6 +81,17 @@ public class Simplenote extends Application {
         );
 
         mSimperium.setAuthProvider(AUTH_PROVIDER);
+        mSimperium.addHeartbeatListener(this);
+
+        mHeartbeatHandler = new Handler();
+        mHeartbeatRunnable = new Runnable() {
+            @Override
+            public void run() {
+                AppLog.add(Type.NETWORK, "Heartbeat stopped");
+                mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+                mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
+            }
+        };
 
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
@@ -89,6 +118,13 @@ public class Simplenote extends Application {
         AppLog.add(Type.DEVICE, getDeviceInfo());
         AppLog.add(Type.ACCOUNT, getAccountInfo());
         AppLog.add(Type.LAYOUT, DisplayUtils.getDisplaySizeAndOrientation(Simplenote.this));
+    }
+
+    @Override
+    public void onBeat() {
+        AppLog.add(Type.NETWORK, "Heartbeat received");
+        mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
+        mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
 
     @SuppressWarnings("unused")
@@ -141,9 +177,11 @@ public class Simplenote extends Application {
         return mPreferencesBucket;
     }
 
-    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
-        private boolean mIsInBackground = true;
+    public boolean isInBackground() {
+        return mIsInBackground;
+    }
 
+    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
@@ -175,6 +213,23 @@ public class Simplenote extends Application {
                     }
                 }, TEN_SECONDS_MILLIS);
 
+                PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
+                    SyncWorker.class,
+                    PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                    TimeUnit.MILLISECONDS
+                )
+                    .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                    .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
+                    .setInitialDelay(TWENTY_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
+                    .addTag(TAG_SYNC)
+                    .build();
+                WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
+                    TAG_SYNC,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    syncWorkRequest
+                );
+                Log.d("Simplenote.onTrimMemory", "Started worker");
+
                 // Send analytics if app is in the background
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.APPLICATION_CLOSED,
@@ -198,6 +253,7 @@ public class Simplenote extends Application {
         }
 
         // ActivityLifecycleCallbacks
+        @SuppressLint("LongLogTag")
         @Override
         public void onActivityResumed(@NonNull Activity activity) {
             if (mIsInBackground) {
@@ -209,6 +265,8 @@ public class Simplenote extends Application {
 
                 mIsInBackground = false;
                 AppLog.add(Type.ACTION, "App opened");
+                WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_SYNC);
+                Log.d("Simplenote.onActivityResumed", "Stopped worker");
             }
 
             String activitySimpleName = activity.getClass().getSimpleName();

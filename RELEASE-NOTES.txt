@@ -1,14 +1,19 @@
+2.15
+-----
+* Added syncing in the background to avoid data loss when exiting the app [https://github.com/Automattic/simplenote-android/pull/1255]
+* Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
+
 2.14
 -----
- 
+* Updated checkbox target size for easier tapping
+* Updated adding tags to avoid duplicates
+
 2.13
 -----
-
 * Fixed crashing on devices with no web view installed [https://github.com/Automattic/simplenote-android/pull/1182]
 
 2.12
 -----
-
 * Added autocomplete to the editor when adding a link between notes [https://github.com/Automattic/simplenote-android/pull/1161]
 * Added a link to help in settings [https://github.com/Automattic/simplenote-android/pull/1155]
 

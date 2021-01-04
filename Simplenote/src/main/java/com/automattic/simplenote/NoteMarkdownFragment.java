@@ -17,6 +17,7 @@ import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
@@ -104,6 +105,11 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                         String url = request.getUrl().toString();
 
                         if (url.startsWith(SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX)){
+                            AnalyticsTracker.track(
+                                AnalyticsTracker.Stat.INTERNOTE_LINK_TAPPED,
+                                AnalyticsTracker.CATEGORY_LINK,
+                                "internote_link_tapped_markdown"
+                            );
                             SimplenoteLinkify.openNote(requireActivity(), url.replace(SIMPLENOTE_LINK_PREFIX, ""));
                         } else {
                             BrowserUtils.launchBrowserOrShowError(requireContext(), url);
@@ -113,9 +119,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                     }
                 }
             );
-            mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
+            mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         } else {
             layout = inflater.inflate(R.layout.fragment_note_error, container, false);
             layout.findViewById(R.id.error).setVisibility(View.VISIBLE);
@@ -142,6 +146,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
                 requireActivity().finish();
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -150,6 +157,12 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 deleteNote();
                 return true;
             case R.id.menu_copy_internal:
+                AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                    AnalyticsTracker.CATEGORY_LINK,
+                    "internote_link_copied_markdown"
+                );
+
                 if (!isAdded()) {
                     return false;
                 }
@@ -173,6 +186,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        // Show delete action only when note is in Trash.
+        menu.findItem(R.id.menu_delete).setVisible(mNote != null && mNote.isDeleted());
         // Disable trash action until note is loaded.
         menu.findItem(R.id.menu_trash).setEnabled(!mIsLoadingNote);
 
@@ -260,6 +275,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
         String header = "<html><head>" +
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
+                "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1,initial-scale=1\">\n" +
                 cssContent + "</head><body>";
 
         String parsedMarkdown = new AndDown().markdownToHtml(
