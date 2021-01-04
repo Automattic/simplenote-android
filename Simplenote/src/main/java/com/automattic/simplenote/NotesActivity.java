@@ -43,6 +43,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -735,8 +736,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
         boolean isNotAuthorized = user.getStatus().equals(User.Status.NOT_AUTHORIZED);
-        return (user.hasAccessToken() && isNotAuthorized) ||
-            (userAccountRequired() && isNotAuthorized);
+        if (user.hasAccessToken() && isNotAuthorized) {
+            AppLog.add(Type.ACCOUNT, "Access token not authorized");
+            return true;
+        }
+        if (userAccountRequired() && isNotAuthorized) {
+            AppLog.add(Type.ACCOUNT, "Access token missing");
+            return true;
+        }
+        return false;
     }
 
     public boolean userIsUnauthorized() {
@@ -1251,6 +1259,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        AppLog.add(Type.ACCOUNT, "Token not authorized");
                         startLoginActivity();
                     }
                 });
@@ -1269,21 +1278,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     public void startLoginActivity() {
-        // Clear some account-specific prefs
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove(PrefUtils.PREF_WP_TOKEN);
-        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
-        editor.apply();
-
-        // Remove Passcode Lock password
-        AppLockManager.getInstance().getAppLock().setPassword("");
-
-        // Reset Buckets
-        Simplenote application = (Simplenote) getApplication();
-
-        application.getNotesBucket().reset();
-        application.getTagsBucket().reset();
-        application.getPreferencesBucket().reset();
+        // Clear account-specific data
+        AuthUtils.logOut((Simplenote) getApplication());
 
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
