@@ -119,7 +119,7 @@ public class SyncTimes<T extends Syncable> {
     };
 
     interface SyncTimeListener {
-        void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced);
         void onRemove(String entityId);
+        void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced);
     }
 }

@@ -342,13 +342,13 @@ public class Simplenote extends Application implements HeartbeatListener {
         }
 
         @Override
-        public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
-            mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
+        public void onRemove(String entityId) {
+            mPreferences.edit().remove(entityId).apply();
         }
 
         @Override
-        public void onRemove(String entityId) {
-            mPreferences.edit().remove(entityId).apply();
+        public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
+            mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
         }
     }
 }
