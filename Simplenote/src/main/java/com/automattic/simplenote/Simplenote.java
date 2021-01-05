@@ -332,11 +332,9 @@ public class Simplenote extends Application implements HeartbeatListener {
             HashMap<String, Calendar> syncTimes = new HashMap<>();
 
             //noinspection unchecked
-            Map<String, Long> storedTimes = (Map<String, Long>) mPreferences.getAll();
-            for (Map.Entry<String, Long> syncTime : storedTimes.entrySet()) {
+            for (Map.Entry<String, Long> syncTime : ((Map<String, Long>) mPreferences.getAll()).entrySet()) {
                 Calendar instant = Calendar.getInstance();
                 instant.setTimeInMillis(syncTime.getValue());
-
                 syncTimes.put(syncTime.getKey(), instant);
             }
 
