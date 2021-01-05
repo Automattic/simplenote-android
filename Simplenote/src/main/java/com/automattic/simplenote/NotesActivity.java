@@ -1413,8 +1413,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
 
                 invalidateOptionsMenu();
-            // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
-            } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
+            // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
+            } else if (mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
             }
         } else {
