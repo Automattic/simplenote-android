@@ -17,8 +17,6 @@ public class SyncTimes<T extends Syncable> {
     private Set<SyncTimeListener> mListeners = new HashSet<>();
     private static final String TAG = SyncTimes.class.getSimpleName();
 
-    public SyncTimes() {}
-
     public SyncTimes(Map<String, Calendar> syncTimes) {
         mSyncTimes.putAll(syncTimes);
     }
