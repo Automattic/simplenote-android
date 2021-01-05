@@ -1311,10 +1311,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                         }
                     } else if (DisplayUtils.isLargeScreenLandscape(this) && data.hasExtra(Simplenote.SELECTED_NOTE_ID)) {
                         String selectedNoteId = data.getStringExtra(Simplenote.SELECTED_NOTE_ID);
-                        mNoteListFragment.setNoteSelected(selectedNoteId);
-                        if (mNoteEditorFragment != null) {
-                            mNoteEditorFragment.setNote(selectedNoteId);
-                        }
+                        boolean isPreviewEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
+                        boolean isMarkdownEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+                        onNoteSelected(selectedNoteId, null, isMarkdownEnabled, isPreviewEnabled);
 
                         // Relaunch shortcut dialog if it was showing in editor (Chrome OS).
                         if (data.getBooleanExtra(ShortcutDialogFragment.DIALOG_VISIBLE, false)) {
