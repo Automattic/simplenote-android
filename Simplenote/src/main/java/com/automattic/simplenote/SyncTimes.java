@@ -60,36 +60,13 @@ public class SyncTimes<T extends Syncable> {
 
     public Bucket.Listener<T> bucketListener = new Bucket.Listener<T>() {
         @Override
-        public void onSaveObject(Bucket<T> bucket, T object) {}
-
-        @Override
-        public void onNetworkChange(Bucket<T> bucket, Bucket.ChangeType type, String entityId) {
-            if (entityId == null) {
-                return;
-            }
-
-            if (type == Bucket.ChangeType.REMOVE) {
-                mSyncTimes.remove(entityId);
-                notifyRemove(entityId);
-            } else {
-                updateSyncTime(entityId);
-                notifyUpdate(entityId);
-            }
+        public void onBeforeUpdateObject(Bucket<T> bucket, T object) {
         }
 
         @Override
         public void onDeleteObject(Bucket<T> bucket, T object) {
             mSyncTimes.remove(object.getSimperiumKey());
             notifyRemove(object.getSimperiumKey());
-        }
-
-        @Override
-        public void onBeforeUpdateObject(Bucket<T> bucket, T object) {}
-
-        @Override
-        public void onSyncObject(Bucket<T> bucket, String noteId) {
-            updateSyncTime(noteId);
-            notifyUpdate(noteId);
         }
 
         @Override
@@ -115,6 +92,31 @@ public class SyncTimes<T extends Syncable> {
                 Log.d(TAG, "updateIsSynced: " + entityId + " (" + isSynced(entityId) + ")");
                 notifyUpdate(entityId);
             }
+        }
+
+        @Override
+        public void onNetworkChange(Bucket<T> bucket, Bucket.ChangeType type, String entityId) {
+            if (entityId == null) {
+                return;
+            }
+
+            if (type == Bucket.ChangeType.REMOVE) {
+                mSyncTimes.remove(entityId);
+                notifyRemove(entityId);
+            } else {
+                updateSyncTime(entityId);
+                notifyUpdate(entityId);
+            }
+        }
+
+        @Override
+        public void onSaveObject(Bucket<T> bucket, T object) {
+        }
+
+        @Override
+        public void onSyncObject(Bucket<T> bucket, String noteId) {
+            updateSyncTime(noteId);
+            notifyUpdate(noteId);
         }
     };
 
