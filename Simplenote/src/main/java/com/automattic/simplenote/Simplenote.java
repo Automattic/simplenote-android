@@ -70,7 +70,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
     private SyncTimes<Note> mNoteSyncTimes;
-    private SyncTimePersister mNoteSyncPersister;
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
@@ -101,9 +100,9 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         };
 
-        mNoteSyncPersister = new SyncTimePersister();
-        mNoteSyncTimes = new SyncTimes<>(mNoteSyncPersister.load());
-        mNoteSyncTimes.addListener(mNoteSyncPersister);
+        SyncTimePersister syncTimePersister = new SyncTimePersister();
+        mNoteSyncTimes = new SyncTimes<>(syncTimePersister.load());
+        mNoteSyncTimes.addListener(syncTimePersister);
 
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
