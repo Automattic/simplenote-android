@@ -26,8 +26,16 @@ public class LastSyncTimeCache {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public long getLastSyncTime(String key) {
-        return mPreferences.getLong(key, DEFAULT_LAST_SYNC_TIME);
+    public Calendar getLastSyncTime(String key) {
+        long syncInMillis = mPreferences.getLong(key, DEFAULT_LAST_SYNC_TIME);
+
+        if (syncInMillis != DEFAULT_LAST_SYNC_TIME) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(syncInMillis);
+            return calendar;
+        } else {
+            return null;
+        }
     }
 
     public boolean isSynced(String key) {
@@ -124,6 +132,6 @@ public class LastSyncTimeCache {
     };
 
     interface SyncTimeListener {
-        void onUpdate(String entityId, long lastSyncTime, boolean isSynced);
+        void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced);
     }
 }

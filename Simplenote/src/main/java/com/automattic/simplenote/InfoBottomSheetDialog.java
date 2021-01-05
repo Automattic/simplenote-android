@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.automattic.simplenote.LastSyncTimeCache.DEFAULT_LAST_SYNC_TIME;
-
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
@@ -94,13 +92,10 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
             mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
-            long syncInMillis = ((Simplenote) requireActivity().getApplication()).getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
+            Calendar sync = ((Simplenote) requireActivity().getApplication()).getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
 
-            // The last sync time method returns -1 when a value does not exist for that key.
-            if (syncInMillis != DEFAULT_LAST_SYNC_TIME) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(syncInMillis);
-                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), calendar));
+            if (sync != null) {
+                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), sync));
                 mDateTimeSyncedLayout.setVisibility(View.VISIBLE);
             } else {
                 mDateTimeSyncedLayout.setVisibility(View.GONE);
