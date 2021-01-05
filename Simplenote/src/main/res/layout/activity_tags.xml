@@ -48,7 +48,6 @@
             android:layout_width="@dimen/button_floating"
             android:src="@drawable/ic_add_24dp"
             android:stateListAnimator="@animator/button_raise"
-            app:layout_behavior="com.automattic.simplenote.widgets.ImageButtonBehavior"
             app:tint="?attr/fabIconColor">
         </ImageButton>
 
