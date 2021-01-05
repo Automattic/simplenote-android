@@ -51,6 +51,9 @@ abstract public class ThemedAppCompatActivity extends AppCompatActivity implemen
     public void recreate() {
         Intent intent = new Intent(this, getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (getIntent().getExtras() != null) {
+            intent.putExtras(getIntent().getExtras());
+        }
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
