@@ -12,10 +12,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class SyncTimes<T extends Syncable> {
-    private HashMap<String, Calendar> mSyncTimes = new HashMap<>();
-    private HashSet<String> mUnsyncedKeys = new HashSet<>();
-    private Set<SyncTimeListener> mListeners = new HashSet<>();
     private static final String TAG = SyncTimes.class.getSimpleName();
+
+    private final HashMap<String, Calendar> mSyncTimes = new HashMap<>();
+    private final HashSet<String> mUnsyncedKeys = new HashSet<>();
+    private final Set<SyncTimeListener> mListeners = new HashSet<>();
 
     public SyncTimes(Map<String, Calendar> syncTimes) {
         mSyncTimes.putAll(syncTimes);
