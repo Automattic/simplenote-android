@@ -28,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.automattic.simplenote.LastSyncTimeCache.DEFAULT_LAST_SYNC_TIME;
@@ -97,7 +98,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
 
             // The last sync time method returns -1 when a value does not exist for that key.
             if (syncInMillis != DEFAULT_LAST_SYNC_TIME) {
-                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), syncInMillis));
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(syncInMillis);
+                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), calendar));
                 mDateTimeSyncedLayout.setVisibility(View.VISIBLE);
             } else {
                 mDateTimeSyncedLayout.setVisibility(View.GONE);
