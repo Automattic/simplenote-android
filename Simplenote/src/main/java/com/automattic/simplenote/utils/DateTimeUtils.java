@@ -37,4 +37,12 @@ public class DateTimeUtils {
         );
         return new SimpleDateFormat(pattern, Locale.getDefault()).format(calendar.getTime());
     }
+
+    public static String getDateTextString(Context context, long millis) {
+        String pattern = DateFormat.getBestDateTimePattern(
+                Locale.getDefault(),
+                DateFormat.is24HourFormat(context) ? "MMM dd, yyyy, H:mm" : "MMM dd, yyyy, h:mm"
+        );
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(millis);
+    }
 }

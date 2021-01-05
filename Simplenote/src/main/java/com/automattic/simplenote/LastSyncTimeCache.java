@@ -1,23 +1,33 @@
 package com.automattic.simplenote;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class LastSyncTimeCache {
-    private HashMap<String, Calendar> mSyncTimes = new HashMap<>();
-    private HashSet<String> mUnsyncedKeys = new HashSet<>();
-    private Set<SyncTimeListener> mListeners = new HashSet<>();
+    public static final long DEFAULT_LAST_SYNC_TIME = -1;
+
     private static final String TAG = LastSyncTimeCache.class.getSimpleName();
 
-    public Calendar getLastSyncTime(String key) {
-        return mSyncTimes.get(key);
+    private final HashSet<String> mUnsyncedKeys = new HashSet<>();
+    private final Set<SyncTimeListener> mListeners = new HashSet<>();
+    private final SharedPreferences mPreferences;
+
+    public LastSyncTimeCache(Context context) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public long getLastSyncTime(String key) {
+        return mPreferences.getLong(key, DEFAULT_LAST_SYNC_TIME);
     }
 
     public boolean isSynced(String key) {
@@ -38,33 +48,28 @@ public class LastSyncTimeCache {
         }
     }
 
-    private void updateSyncTime(String entityId) {
-        Calendar now = Calendar.getInstance();
-        mSyncTimes.put(entityId, now);
-
-        Log.d(TAG, "updateSyncTime: " + entityId + " (" + now.getTime() + ")");
+    public void removeSyncTime(String entityId) {
+        mPreferences.edit().remove(entityId).apply();
     }
 
-    public Bucket.Listener<Note> listener = new Bucket.Listener<Note>() {
-        @Override
-        public void onSaveObject(Bucket<Note> bucket, Note object) {}
+    private void updateSyncTime(String entityId) {
+        Calendar calendar = Calendar.getInstance();
+        long millis = calendar.getTimeInMillis();
+        mPreferences.edit().putLong(entityId, millis).apply();
 
+        Log.d(TAG, "updateSyncTime: " + entityId + " (" + calendar.getTime() + ")");
+    }
+
+    public Bucket.Listener<Note> mNoteBucketListener = new Bucket.Listener<Note>() {
         @Override
-        public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String entityId) {
-            updateSyncTime(entityId);
-            notifyListeners(entityId);
+        public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {
         }
 
         @Override
-        public void onDeleteObject(Bucket<Note> bucket, Note object) {}
-
-        @Override
-        public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {}
-
-        @Override
-        public void onSyncObject(Bucket<Note> bucket, String noteId) {
-            updateSyncTime(noteId);
-            notifyListeners(noteId);
+        public void onDeleteObject(Bucket<Note> bucket, Note object) {
+            if (object != null) {
+                removeSyncTime(object.getSimperiumKey());
+            }
         }
 
         @Override
@@ -91,9 +96,34 @@ public class LastSyncTimeCache {
                 notifyListeners(noteId);
             }
         }
+
+        @Override
+        public void onNetworkChange(Bucket<Note> bucket, Bucket.ChangeType type, String entityId) {
+            if (entityId != null) {
+                if (type == Bucket.ChangeType.REMOVE) {
+                    removeSyncTime(entityId);
+                } else {
+                    updateSyncTime(entityId);
+                }
+
+                notifyListeners(entityId);
+            }
+        }
+
+        @Override
+        public void onSaveObject(Bucket<Note> bucket, Note object) {
+        }
+
+        @Override
+        public void onSyncObject(Bucket<Note> bucket, String noteId) {
+            if (noteId != null) {
+                updateSyncTime(noteId);
+                notifyListeners(noteId);
+            }
+        }
     };
 
     interface SyncTimeListener {
-        void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced);
+        void onUpdate(String entityId, long lastSyncTime, boolean isSynced);
     }
 }
