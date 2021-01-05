@@ -39,7 +39,7 @@ public class AuthUtils {
         editor.apply();
 
         // Remove note last sync times
-        application.getSharedPreferences(Simplenote.NOTE_SYNC_TIME_PREFERENCES_NAME, Context.MODE_PRIVATE).edit().clear().apply();
+        application.getSharedPreferences(Simplenote.SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
 
         // Remove Passcode Lock password
         AppLockManager.getInstance().getAppLock().setPassword("");

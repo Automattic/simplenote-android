@@ -53,8 +53,8 @@ import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KE
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String SYNC_TIME_PREFERENCES = "sync_time";
     public static final String TAG = "Simplenote";
-    public static final String NOTE_SYNC_TIME_PREFERENCES_NAME = "notes_last_sync_time";
     public static final int INTENT_EDIT_NOTE = 2;
     public static final int INTENT_PREFERENCES = 1;
     public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
@@ -325,7 +325,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         private final SharedPreferences mPreferences;
 
         public SyncTimePersister() {
-            mPreferences = getSharedPreferences(NOTE_SYNC_TIME_PREFERENCES_NAME, Context.MODE_PRIVATE);
+            mPreferences = getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE);
         }
 
         public HashMap<String, Calendar> load() {
