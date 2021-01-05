@@ -92,7 +92,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
             mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
-            Calendar sync = ((Simplenote) requireActivity().getApplication()).getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
+            Calendar sync = ((Simplenote) requireActivity().getApplication()).getNoteSyncTimes().getLastSyncTime(note.getSimperiumKey());
 
             if (sync != null) {
                 mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), sync));

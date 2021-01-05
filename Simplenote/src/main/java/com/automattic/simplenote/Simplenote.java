@@ -182,7 +182,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mNotesBucket;
     }
 
-    public SyncTimes getLastSyncTimeCache() {
+    public SyncTimes getNoteSyncTimes() {
         return mNoteSyncTimes;
     }
 
