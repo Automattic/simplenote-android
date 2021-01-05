@@ -325,7 +325,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         private final SharedPreferences mPreferences;
 
         public SyncTimePersister(final String PREFERENCES_NAME) {
-            mPreferences = Simplenote.this.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+            mPreferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         }
 
         public HashMap<String, Calendar> load() {
