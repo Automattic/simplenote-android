@@ -101,7 +101,7 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         };
 
-        mNoteSyncPersister = new SyncTimePersister(NOTE_SYNC_TIME_PREFERENCES_NAME);
+        mNoteSyncPersister = new SyncTimePersister();
         mNoteSyncTimes = new SyncTimes<>(mNoteSyncPersister.load());
         mNoteSyncTimes.addListener(mNoteSyncPersister);
 
@@ -324,8 +324,8 @@ public class Simplenote extends Application implements HeartbeatListener {
     private class SyncTimePersister implements SyncTimes.SyncTimeListener {
         private final SharedPreferences mPreferences;
 
-        public SyncTimePersister(final String PREFERENCES_NAME) {
-            mPreferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        public SyncTimePersister() {
+            mPreferences = getSharedPreferences(NOTE_SYNC_TIME_PREFERENCES_NAME, Context.MODE_PRIVATE);
         }
 
         public HashMap<String, Calendar> load() {
