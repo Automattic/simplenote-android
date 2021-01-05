@@ -35,7 +35,8 @@ import static com.automattic.simplenote.LastSyncTimeCache.DEFAULT_LAST_SYNC_TIME
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
-    private Fragment mFragment;
+    private final Fragment mFragment;
+
     private LinearLayout mDateTimeSyncedLayout;
     private LinearLayout mReferencesLayout;
     private RecyclerView mReferences;
@@ -167,9 +168,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
 
         private class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView mSubtitle;
-            private TextView mTitle;
-            private View mView;
+            private final TextView mSubtitle;
+            private final TextView mTitle;
+            private final View mView;
 
             private ViewHolder(View itemView) {
                 super(itemView);
