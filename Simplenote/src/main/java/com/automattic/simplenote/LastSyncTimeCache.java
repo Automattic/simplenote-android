@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import androidx.preference.PreferenceManager;
-
 import com.automattic.simplenote.models.Note;
 import com.simperium.client.Bucket;
 
@@ -14,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LastSyncTimeCache {
+    public static final String PREFERENCES_LAST_SYNC_TIME = "last_sync_time";
     public static final long DEFAULT_LAST_SYNC_TIME = -1;
 
     private static final String TAG = LastSyncTimeCache.class.getSimpleName();
@@ -23,7 +22,7 @@ public class LastSyncTimeCache {
     private final SharedPreferences mPreferences;
 
     public LastSyncTimeCache(Context context) {
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreferences = context.getSharedPreferences(PREFERENCES_LAST_SYNC_TIME, Context.MODE_PRIVATE);
     }
 
     public Calendar getLastSyncTime(String key) {
