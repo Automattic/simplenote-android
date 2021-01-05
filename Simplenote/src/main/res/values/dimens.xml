@@ -3,6 +3,10 @@
 <resources>
 
     <!-- MARGIN/PADDING -->
+    <dimen name="padding_dialog">24dp</dimen>
+    <dimen name="padding_dialog_eighth">4dp</dimen>
+    <dimen name="padding_dialog_half">12dp</dimen>
+    <dimen name="padding_dialog_quarter">8dp</dimen>
     <dimen name="padding_extra_extra_small">2dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
@@ -11,6 +15,7 @@
     <dimen name="padding_extra_large">20dp</dimen>
     <dimen name="padding_extra_extra_large">24dp</dimen>
     <dimen name="padding_error">48dp</dimen>
+    <dimen name="padding_list_bottom">88dp</dimen>
     <dimen name="padding_preference_end">@dimen/padding_large</dimen>
     <dimen name="padding_preference_start">72dp</dimen>
     <dimen name="padding_suggestion">40dp</dimen>
@@ -21,7 +26,7 @@
     <dimen name="nav_drawer_item_text_size">14sp</dimen>
 
     <dimen name="note_list_item_padding_bottom">@dimen/padding_medium</dimen>
-    <dimen name="note_list_item_padding_bottom_button">88dp</dimen>
+    <dimen name="note_list_item_padding_bottom_button">@dimen/padding_list_bottom</dimen>
     <dimen name="note_list_item_padding_bottom_button_widget">64dp</dimen>
     <dimen name="note_list_item_padding_top">@dimen/padding_medium</dimen>
 
@@ -37,13 +42,18 @@
 
     <!-- SIZE -->
     <dimen name="about_logo">56dp</dimen>
+    <dimen name="button_floating">56dp</dimen>
     <dimen name="bottom_sheet_row_height">48dp</dimen>
     <dimen name="cell_widget">40dp</dimen>
     <dimen name="cell_widget_double">80dp</dimen>
     <dimen name="content_width">-1px</dimen>  <!-- -1px fakes match_parent -->
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="corner_radius_dialog">2dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
+    <dimen name="elevation_button">6dp</dimen>
+    <dimen name="elevation_raise">6dp</dimen>
+    <dimen name="empty_width_maximum">312dp</dimen>
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_locked">48dp</dimen>

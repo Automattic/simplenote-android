@@ -175,6 +175,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="Theme.Transparent.Dialog" parent="Theme.Transparent">
+        <item name="android:navigationBarColor">@color/background_dark_navigation</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Style.Black" parent="Theme.Simplestyle">
         <item name="android:alertDialogTheme">@style/Dialog.Black</item>
         <item name="android:navigationBarColor">@android:color/black</item>

@@ -58,11 +58,13 @@
     <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
+    <color name="background_dark_navigation">#0c0d0e</color>
     <color name="background_dark_highlight_sepia">@color/background_dark_sepia_8</color>
     <color name="background_dark_matrix">@color/background_dark_black_1</color>
     <color name="background_dark_sepia">@color/background_dark_sepia_1</color>
     <color name="background_light">@android:color/white</color>
     <color name="background_light_highlight">@color/simplenote_blue_5</color>
+    <color name="background_light_navigation">#666666</color>
     <color name="background_light_sepia">#fdf9f2</color>
     <color name="background_list_black_activated">@color/gray_10</color>
     <color name="background_list_black_ripple">@color/gray_5</color>

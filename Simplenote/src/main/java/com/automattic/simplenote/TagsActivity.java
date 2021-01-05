@@ -1,7 +1,9 @@
 package com.automattic.simplenote;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
@@ -36,7 +39,9 @@ import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
+import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 
@@ -49,9 +54,12 @@ import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class TagsActivity extends ThemedAppCompatActivity implements Bucket.Listener<Tag> {
+    private static final int REQUEST_ADD_TAG = 9000;
+
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
+    private ImageButton mButtonAdd;
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
     private String mSearchQuery;
@@ -86,6 +94,33 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mEmptyViewText = emptyView.findViewById(R.id.text);
         checkEmptyList();
         mTagsList.setEmptyView(emptyView);
+
+        mButtonAdd = findViewById(R.id.button_add);
+        mButtonAdd.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
+                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
+                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
+                    startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+                }
+            }
+        );
+        mButtonAdd.setOnLongClickListener(
+            new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (v.isHapticFeedbackEnabled()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+
+                    Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+        );
 
         refreshTags();
     }
@@ -187,6 +222,15 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsBucket.removeOnSaveObjectListener(this);
         mTagsBucket.removeOnDeleteObjectListener(this);
         AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
+            refreshTags();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void checkEmptyList() {
