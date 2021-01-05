@@ -844,7 +844,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             new Runnable() {
                 @Override
                 public void run() {
-                    requireActivity().invalidateOptionsMenu();
+                    if(getActivity() != null) {
+                        getActivity().invalidateOptionsMenu();
+                    }
                 }
             },
             getResources().getInteger(R.integer.time_animation)
