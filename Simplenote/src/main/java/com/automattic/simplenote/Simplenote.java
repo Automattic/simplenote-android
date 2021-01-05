@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +43,9 @@ import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -49,6 +54,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
     public static final String TAG = "Simplenote";
+    public static final String NOTE_SYNC_TIME_PREFERENCES_NAME = "notes_last_sync_time";
     public static final int INTENT_EDIT_NOTE = 2;
     public static final int INTENT_PREFERENCES = 1;
     public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
@@ -63,7 +69,8 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
-    private LastSyncTimeCache mNoteSyncTimes;
+    private SyncTimes<Note> mNoteSyncTimes;
+    private SyncTimePersister mNoteSyncPersister;
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
@@ -94,11 +101,13 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         };
 
-        mNoteSyncTimes = new LastSyncTimeCache(this);
+        mNoteSyncPersister = new SyncTimePersister(NOTE_SYNC_TIME_PREFERENCES_NAME);
+        mNoteSyncTimes = new SyncTimes<>(mNoteSyncPersister.load());
+        mNoteSyncTimes.addListener(mNoteSyncPersister);
 
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
-            mNotesBucket.addListener(mNoteSyncTimes.mNoteBucketListener);
+            mNotesBucket.addListener(mNoteSyncTimes.bucketListener);
             Tag.Schema tagSchema = new Tag.Schema();
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
@@ -173,7 +182,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mNotesBucket;
     }
 
-    public LastSyncTimeCache getLastSyncTimeCache() {
+    public SyncTimes getLastSyncTimeCache() {
         return mNoteSyncTimes;
     }
 
@@ -309,6 +318,39 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
+        }
+    }
+
+    private class SyncTimePersister implements SyncTimes.SyncTimeListener {
+        private final SharedPreferences mPreferences;
+
+        public SyncTimePersister(final String PREFERENCES_NAME) {
+            mPreferences = Simplenote.this.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        }
+
+        public HashMap<String, Calendar> load() {
+            HashMap<String, Calendar> syncTimes = new HashMap<>();
+
+            //noinspection unchecked
+            Map<String, Long> storedTimes = (Map<String, Long>) mPreferences.getAll();
+            for (Map.Entry<String, Long> syncTime : storedTimes.entrySet()) {
+                Calendar instant = Calendar.getInstance();
+                instant.setTimeInMillis(syncTime.getValue());
+
+                syncTimes.put(syncTime.getKey(), instant);
+            }
+
+            return syncTimes;
+        }
+
+        @Override
+        public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
+            mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
+        }
+
+        @Override
+        public void onRemove(String entityId) {
+            mPreferences.edit().remove(entityId).apply();
         }
     }
 }
