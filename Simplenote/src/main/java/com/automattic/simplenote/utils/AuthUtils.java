@@ -11,6 +11,8 @@ import com.automattic.simplenote.utils.AppLog.Type;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
+
 public class AuthUtils {
     public static void logOut(Simplenote application) {
         application.getSimperium().deauthorizeUser();
@@ -39,7 +41,7 @@ public class AuthUtils {
         editor.apply();
 
         // Remove note last sync times
-        application.getSharedPreferences(Simplenote.SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
+        application.getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
 
         // Remove Passcode Lock password
         AppLockManager.getInstance().getAppLock().setPassword("");
