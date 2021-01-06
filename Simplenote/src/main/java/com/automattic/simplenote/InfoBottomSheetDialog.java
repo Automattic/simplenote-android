@@ -34,7 +34,8 @@ import java.util.List;
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
-    private Fragment mFragment;
+    private final Fragment mFragment;
+
     private LinearLayout mDateTimeSyncedLayout;
     private LinearLayout mReferencesLayout;
     private RecyclerView mReferences;
@@ -91,7 +92,7 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
             mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
-            Calendar sync = ((Simplenote) requireActivity().getApplication()).getLastSyncTimeCache().getLastSyncTime(note.getSimperiumKey());
+            Calendar sync = ((Simplenote) requireActivity().getApplication()).getNoteSyncTimes().getLastSyncTime(note.getSimperiumKey());
 
             if (sync != null) {
                 mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), sync));
@@ -165,9 +166,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
 
         private class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView mSubtitle;
-            private TextView mTitle;
-            private View mView;
+            private final TextView mSubtitle;
+            private final TextView mTitle;
+            private final View mView;
 
             private ViewHolder(View itemView) {
                 super(itemView);

@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -224,6 +225,10 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     @Override
     public void onResume() {
         super.onResume();
+        // First inflation of the webview may invalidate the value of uiMode,
+        // so we re-apply it to make sure that the webview has the right css files
+        // Check https://issuetracker.google.com/issues/37124582 for more details
+        ((AppCompatActivity)requireActivity()).getDelegate().applyDayNight();
         checkWebView();
         mNotesBucket.addListener(this);
         AppLog.add(Type.SYNC, "Added note bucket listener (NoteMarkdownFragment)");
