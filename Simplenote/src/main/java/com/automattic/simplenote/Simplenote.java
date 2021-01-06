@@ -72,7 +72,9 @@ public class Simplenote extends Application implements HeartbeatListener {
         super.onCreate();
 
         CrashUtils.initWithContext(this);
-        AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
+        CustomAppLock appLock = new CustomAppLock(this);
+        AppLockManager.getInstance().setCurrentAppLock(appLock);
+        appLock.enable();
 
         mSimperium = Simperium.newClient(
                 BuildConfig.SIMPERIUM_APP_ID,
