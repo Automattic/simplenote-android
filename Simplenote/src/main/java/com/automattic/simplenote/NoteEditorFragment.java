@@ -844,8 +844,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             new Runnable() {
                 @Override
                 public void run() {
-                    if(getActivity() != null) {
-                        getActivity().invalidateOptionsMenu();
+                    if (!isDetached()) {
+                        requireActivity().invalidateOptionsMenu();
                     }
                 }
             },
