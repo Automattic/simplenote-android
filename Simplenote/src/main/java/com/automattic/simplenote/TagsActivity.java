@@ -47,6 +47,7 @@ import com.simperium.client.Query;
 
 import java.lang.ref.SoftReference;
 import java.util.List;
+import java.util.Set;
 
 import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
@@ -340,6 +341,16 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 }
             }
         );
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Tag> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Tag> bucket, String key) {
+
     }
 
     private static class RemoveTagFromNotesTask extends AsyncTask<Tag, Void, Void> {

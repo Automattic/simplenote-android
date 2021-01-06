@@ -7,6 +7,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectNameInvalid;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Listens to the notes bucket and creates tags for any non-existent tags in the tags bucket.
@@ -46,5 +47,15 @@ public class NoteTagger implements Bucket.Listener<Note> {
 
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note object) {
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 }

@@ -84,6 +84,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1053,6 +1054,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mSuggestionAdapter = new SuggestionAdapter(suggestions);
         mSuggestionList.setAdapter(mSuggestionAdapter);
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Preferences> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Preferences> bucket, String key) {
+
     }
 
     /**

@@ -71,6 +71,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
@@ -146,6 +147,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     private TagsAdapter.TagMenuItem mSelectedTag;
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        @Override
+        public void onSyncObject(Bucket<Tag> bucket, String key) {
+
+        }
+
+        @Override
+        public void onLocalQueueChange(Bucket<Tag> bucket, Set<String> queuedObjects) {
+
+        }
+
         void updateNavigationDrawer() {
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -1743,6 +1754,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
         // noop, NoteEditorFragment will handle this
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 
     private static class EmptyTrashTask extends AsyncTask<Void, Void, Void> {

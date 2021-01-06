@@ -1,5 +1,6 @@
 package com.automattic.simplenote.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
@@ -9,6 +10,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.AppLog.Type;
 
 import org.wordpress.passcodelock.AppLockManager;
+
+import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
 
 public class AuthUtils {
     public static void logOut(Simplenote application) {
@@ -36,6 +39,9 @@ public class AuthUtils {
         // Remove WordPress sites
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
+
+        // Remove note last sync times
+        application.getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
 
         // Remove Passcode Lock password
         AppLockManager.getInstance().getAppLock().setPassword("");

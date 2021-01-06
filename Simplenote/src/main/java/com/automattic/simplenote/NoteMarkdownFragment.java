@@ -35,6 +35,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
+import java.util.Set;
 
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
@@ -299,6 +300,16 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
         return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {

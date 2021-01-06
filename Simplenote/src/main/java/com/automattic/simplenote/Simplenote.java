@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +43,9 @@ import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -48,6 +53,7 @@ import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KE
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String SYNC_TIME_PREFERENCES = "sync_time";
     public static final String TAG = "Simplenote";
     public static final int INTENT_EDIT_NOTE = 2;
     public static final int INTENT_PREFERENCES = 1;
@@ -63,6 +69,7 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private SyncTimes<Note> mNoteSyncTimes;
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
@@ -93,8 +100,13 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         };
 
+        SyncTimePersister syncTimePersister = new SyncTimePersister();
+        mNoteSyncTimes = new SyncTimes<>(syncTimePersister.load());
+        mNoteSyncTimes.addListener(syncTimePersister);
+
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
+            mNotesBucket.addListener(mNoteSyncTimes.bucketListener);
             Tag.Schema tagSchema = new Tag.Schema();
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
@@ -167,6 +179,10 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     public Bucket<Note> getNotesBucket() {
         return mNotesBucket;
+    }
+
+    public SyncTimes getNoteSyncTimes() {
+        return mNoteSyncTimes;
     }
 
     public Bucket<Tag> getTagsBucket() {
@@ -301,6 +317,37 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
+        }
+    }
+
+    private class SyncTimePersister implements SyncTimes.SyncTimeListener {
+        private final SharedPreferences mPreferences;
+
+        public SyncTimePersister() {
+            mPreferences = getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE);
+        }
+
+        public HashMap<String, Calendar> load() {
+            HashMap<String, Calendar> syncTimes = new HashMap<>();
+
+            //noinspection unchecked
+            for (Map.Entry<String, Long> syncTime : ((Map<String, Long>) mPreferences.getAll()).entrySet()) {
+                Calendar instant = Calendar.getInstance();
+                instant.setTimeInMillis(syncTime.getValue());
+                syncTimes.put(syncTime.getKey(), instant);
+            }
+
+            return syncTimes;
+        }
+
+        @Override
+        public void onRemove(String entityId) {
+            mPreferences.edit().remove(entityId).apply();
+        }
+
+        @Override
+        public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
+            mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
         }
     }
 }
