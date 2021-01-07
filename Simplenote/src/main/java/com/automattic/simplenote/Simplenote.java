@@ -40,6 +40,7 @@ import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
+import org.wordpress.passcodelock.DefaultAppLock;
 
 import java.util.concurrent.TimeUnit;
 
@@ -72,9 +73,11 @@ public class Simplenote extends Application implements HeartbeatListener {
         super.onCreate();
 
         CrashUtils.initWithContext(this);
-        CustomAppLock appLock = new CustomAppLock(this);
-        AppLockManager.getInstance().setCurrentAppLock(appLock);
-        appLock.enable();
+        if (DefaultAppLock.isSupportedApi()) {
+            SimplenoteAppLock appLock = new SimplenoteAppLock(this);
+            AppLockManager.getInstance().setCurrentAppLock(appLock);
+            appLock.enable();
+        }
 
         mSimperium = Simperium.newClient(
                 BuildConfig.SIMPERIUM_APP_ID,
