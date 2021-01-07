@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:04+0000
+Translation-Revision-Date: 2020-12-10 17:54:55+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="empty_notes_untagged">Keine nicht markierten Notizen</string>
     <string name="unpublishing">Veröffentlichung der Notiz wird rückgängig gemacht …</string>
     <string name="unpublish_successful">Veröffentlichung der Notiz rückgängig gemacht.</string>
     <string name="web_view_error_button">Zur WebView-App</string>
@@ -109,7 +110,6 @@ Language: de
     <string name="passcode_change_passcode">Zugangscode ändern</string>
     <string name="snackbar_deleted_recent_search">Letztes Suchelement gelöscht</string>
     <string name="empty_tags">Keine Schlagwörter</string>
-    <string name="empty_notes_untagged">Nicht markierte Notiz erstellen</string>
     <string name="empty_notes_trash">Der Papierkorb ist leer</string>
     <string name="empty_notes_tag">Keine Notizen mit „%1$s“ markiert</string>
     <string name="empty_notes_search">Keine Notizen gefunden</string>
