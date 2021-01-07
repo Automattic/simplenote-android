@@ -281,9 +281,9 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             resultIntent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
             resultIntent.putExtra(ShortcutDialogFragment.DIALOG_VISIBLE,
                     getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null);
-            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
+            overridePendingTransition(0,0);
         }
     }
 

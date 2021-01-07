@@ -1164,10 +1164,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
-            if (mNoteListFragment.isHidden()) {
-                editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
-
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
@@ -1412,9 +1408,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
 
                 invalidateOptionsMenu();
-            // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
+                // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
             } else if (mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+                overridePendingTransition(0, 0);
             }
         } else {
             // Show list/sidebar when it was hidden while in landscape orientation.
