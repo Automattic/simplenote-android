@@ -1,0 +1,4 @@
+2.14:
+
+* Ukuran target kotak centang diperbarui agar lebih mudah diketuk 
+* Fitur penambahan tag diperbarui agar tidak ada yang terduplikasi

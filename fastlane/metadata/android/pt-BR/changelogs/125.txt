@@ -1,3 +1,0 @@
-2.13:
-* Correção de falha em dispositivos sem uma visualização de Web instalada
-

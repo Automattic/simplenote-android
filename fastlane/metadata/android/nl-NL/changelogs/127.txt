@@ -1,0 +1,4 @@
+2.14:
+
+* Formaat van aanvinkvak bijgewerkt voor eenvoudiger tikken
+* Tags toevoegen bijgewerkt om dubbele tags te voorkomen

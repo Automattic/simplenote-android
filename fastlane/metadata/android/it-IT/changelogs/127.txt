@@ -1,0 +1,4 @@
+2.14:
+
+* Dimensione della casella di controllo aggiornata per una più facile attivazione tramite tocco
+* Aggiunta dei tag aggiornata per evitare duplicati
