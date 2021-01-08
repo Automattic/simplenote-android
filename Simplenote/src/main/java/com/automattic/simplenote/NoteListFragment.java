@@ -165,7 +165,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private RefreshListTask mRefreshListTask;
     private RefreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
-    private int mPreferenceSortOrder;
     private int mTitleFontSize;
     private int mPreviewFontSize;
     private boolean mIsSortDown;
@@ -347,7 +346,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     protected void getPrefs() {
-        mPreferenceSortOrder = PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER);
         mIsCondensedNoteList = PrefUtils.getBoolPref(getActivity(), PrefUtils.PREF_CONDENSED_LIST, false);
         mTitleFontSize = PrefUtils.getFontSize(getActivity());
         mPreviewFontSize = mTitleFontSize - 2;
@@ -414,8 +412,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         @SuppressLint("InflateParams")
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
         mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
-        mSortLayoutContent.setVisibility(mIsSearching ? View.VISIBLE : View.GONE);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
+        mSortOrder.setText(getSortOrderText());
         mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -667,8 +665,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onDetach() {
         super.onDetach();
-        // Restore sort order from Settings.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sCallbacks;
     }
@@ -936,9 +932,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     public void searchNotes(String searchString, boolean isSubmit) {
         mIsSearching = true;
-        mSortLayoutContent.setVisibility(View.VISIBLE);
         mSuggestionLayout.setVisibility(View.VISIBLE);
-        mSortOrder.setText(getSortOrderText());
 
         if (!searchString.equals(mSearchString)) {
             mSearchString = searchString;
@@ -961,10 +955,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
      */
     public void clearSearch() {
         mIsSearching = false;
-        mSortLayoutContent.setVisibility(View.GONE);
         mSuggestionLayout.setVisibility(View.GONE);
-        // Restore sort order from Settings.
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(mPreferenceSortOrder)).apply();
         refreshList();
 
         if (mSearchString != null && !mSearchString.equals("")) {
