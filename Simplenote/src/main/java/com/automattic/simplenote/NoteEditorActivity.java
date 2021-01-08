@@ -283,7 +283,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                     getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         }
     }
 
