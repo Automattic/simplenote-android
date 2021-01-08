@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:04+0000
+Translation-Revision-Date: 2020-12-10 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="empty_notes_untagged">Geen niet-getagde opmerkingen</string>
     <string name="unpublishing">Notitie wordt verwijderd</string>
     <string name="unpublish_successful">Notitie verwijderd.</string>
     <string name="web_view_error_button">Ga naar WebView-app</string>
@@ -109,7 +110,6 @@ Language: nl
     <string name="passcode_change_passcode">Pincode wijzigen</string>
     <string name="snackbar_deleted_recent_search">Recent zoekitem verwijderd</string>
     <string name="empty_tags">Geen tags</string>
-    <string name="empty_notes_untagged">Een notitie zonder tag maken</string>
     <string name="empty_notes_trash">Je prullenbak is leeg</string>
     <string name="empty_notes_tag">Geen notities met de tag \'%1$s\'</string>
     <string name="empty_notes_search">Geen notities gevonden</string>

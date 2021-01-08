@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:04+0000
+Translation-Revision-Date: 2020-12-10 13:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="empty_notes_untagged">No se han encontrado notas sin etiquetar</string>
     <string name="unpublishing">Anulando la publicación de la nota…</string>
     <string name="unpublish_successful">Se ha anulado la publicación de la nota.</string>
     <string name="web_view_error_button">Ir a la aplicación WebView</string>
@@ -109,7 +110,6 @@ Language: es
     <string name="passcode_change_passcode">Cambiar contraseña</string>
     <string name="snackbar_deleted_recent_search">Se ha eliminado un elemento de búsqueda reciente</string>
     <string name="empty_tags">Sin etiquetas</string>
-    <string name="empty_notes_untagged">Crear una nota sin etiqueta</string>
     <string name="empty_notes_trash">La papelera está vacía</string>
     <string name="empty_notes_tag">No se encontraron notas con la etiqueta \"%1$s\"</string>
     <string name="empty_notes_search">No se encontraron notas</string>

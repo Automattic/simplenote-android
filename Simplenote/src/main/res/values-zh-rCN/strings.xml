@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:03+0000
+Translation-Revision-Date: 2020-12-10 13:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="empty_notes_untagged">没有未标记的笔记</string>
     <string name="unpublishing">正在取消发布笔记…</string>
     <string name="unpublish_successful">已取消发布笔记。</string>
     <string name="web_view_error_button">转到 WebView 应用</string>
@@ -109,7 +110,6 @@ Language: zh_CN
     <string name="passcode_change_passcode">更改密码</string>
     <string name="snackbar_deleted_recent_search">已删除最近搜索项</string>
     <string name="empty_tags">无标签</string>
-    <string name="empty_notes_untagged">创建未标记笔记</string>
     <string name="empty_notes_trash">您的回收站为空</string>
     <string name="empty_notes_tag">无标记为“%1$s”的笔记</string>
     <string name="empty_notes_search">找不到笔记</string>

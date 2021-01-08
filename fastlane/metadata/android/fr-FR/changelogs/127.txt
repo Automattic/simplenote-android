@@ -1,0 +1,4 @@
+2.14 :
+
+* Mise à jour des dimensions cibles des cases à cocher pour faciliter leur sélection
+* Mise à jour de l’ajout d’étiquettes pour éviter les doublons

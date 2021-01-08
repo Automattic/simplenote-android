@@ -1,3 +1,0 @@
-2.13:
-* Das Problem, bei dem es bei Geräten, die die Web-Ansicht nicht installiert hatten, zum Absturz kam, wurde behoben
-
