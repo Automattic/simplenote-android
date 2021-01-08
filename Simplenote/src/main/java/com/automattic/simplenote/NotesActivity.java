@@ -629,6 +629,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
         mNavigationMenu.removeGroup(GROUP_TERTIARY);
 
+        View emptyTagsDivider = findViewById(R.id.empty_tags_hint_divider);
+        View emptyTagsHint = findViewById(R.id.empty_tags_hint_text);
+
         if (mTagsAdapter.getCountCustom() > 0) {
             mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
 
@@ -643,6 +646,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_untagged_24dp).setCheckable(true);
             setSelectedTagActive();
+            emptyTagsDivider.setVisibility(View.GONE);
+            emptyTagsHint.setVisibility(View.GONE);
+        } else {
+            emptyTagsDivider.setVisibility(View.VISIBLE);
+            emptyTagsHint.setVisibility(View.VISIBLE);
         }
     }
 
