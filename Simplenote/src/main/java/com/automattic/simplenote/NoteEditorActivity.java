@@ -277,11 +277,13 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE && mNoteId != null) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Simplenote.SELECTED_NOTE_ID, mNoteId);
+            resultIntent.putExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
+            resultIntent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
             resultIntent.putExtra(ShortcutDialogFragment.DIALOG_VISIBLE,
                     getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null);
-            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
+            overridePendingTransition(0, 0);
         }
     }
 

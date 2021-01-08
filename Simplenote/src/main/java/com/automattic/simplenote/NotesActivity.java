@@ -1175,10 +1175,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
 
-            if (mNoteListFragment.isHidden()) {
-                editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
-
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
             mNoteEditorFragment.setNote(noteID, matchOffsets);
@@ -1322,10 +1318,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                         }
                     } else if (DisplayUtils.isLargeScreenLandscape(this) && data.hasExtra(Simplenote.SELECTED_NOTE_ID)) {
                         String selectedNoteId = data.getStringExtra(Simplenote.SELECTED_NOTE_ID);
-                        mNoteListFragment.setNoteSelected(selectedNoteId);
-                        if (mNoteEditorFragment != null) {
-                            mNoteEditorFragment.setNote(selectedNoteId);
-                        }
+                        boolean isPreviewEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
+                        boolean isMarkdownEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+                        onNoteSelected(selectedNoteId, null, isMarkdownEnabled, isPreviewEnabled);
 
                         // Relaunch shortcut dialog if it was showing in editor (Chrome OS).
                         if (data.getBooleanExtra(ShortcutDialogFragment.DIALOG_VISIBLE, false)) {
@@ -1424,9 +1419,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
 
                 invalidateOptionsMenu();
-            // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
-            } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
+            // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
+            } else if (mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+                overridePendingTransition(0, 0);
             }
         } else {
             // Show list/sidebar when it was hidden while in landscape orientation.
