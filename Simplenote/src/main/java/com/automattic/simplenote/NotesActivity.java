@@ -1408,7 +1408,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
 
                 invalidateOptionsMenu();
-                // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
+            // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
             } else if (mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
                 overridePendingTransition(0, 0);
