@@ -1,15 +1,25 @@
 package com.automattic.simplenote;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
@@ -23,6 +33,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
 import com.simperium.android.WebSocketManager;
 import com.simperium.client.Bucket;
@@ -32,32 +43,46 @@ import com.simperium.client.ChannelProvider.HeartbeatListener;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String SYNC_TIME_PREFERENCES = "sync_time";
     public static final String TAG = "Simplenote";
     public static final int INTENT_EDIT_NOTE = 2;
     public static final int INTENT_PREFERENCES = 1;
+    public static final int ONE_MINUTE_MILLIS = 60 * 1000;  // 60 seconds
+    public static final int TEN_SECONDS_MILLIS = 10 * 1000;  // 10 seconds
+    public static final int TWENTY_SECONDS_MILLIS = 20 * 1000;  // 20 seconds
 
     private static final String AUTH_PROVIDER = "simplenote.com";
-    private static final int TEN_SECONDS_MILLIS = 10000;
+    private static final String TAG_SYNC = "sync";
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
     private static Bucket<Preferences> mPreferencesBucket;
 
     private Bucket<Note> mNotesBucket;
     private Bucket<Tag> mTagsBucket;
+    private SyncTimes<Note> mNoteSyncTimes;
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
+    private boolean mIsInBackground = true;
 
     public void onCreate() {
         super.onCreate();
 
         CrashUtils.initWithContext(this);
-        AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
+
+        SimplenoteAppLock appLock = new SimplenoteAppLock(this);
+        AppLockManager.getInstance().setCurrentAppLock(appLock);
+        appLock.enable();
 
         mSimperium = Simperium.newClient(
                 BuildConfig.SIMPERIUM_APP_ID,
@@ -78,8 +103,13 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         };
 
+        SyncTimePersister syncTimePersister = new SyncTimePersister();
+        mNoteSyncTimes = new SyncTimes<>(syncTimePersister.load());
+        mNoteSyncTimes.addListener(syncTimePersister);
+
         try {
             mNotesBucket = mSimperium.bucket(new Note.Schema());
+            mNotesBucket.addListener(mNoteSyncTimes.bucketListener);
             Tag.Schema tagSchema = new Tag.Schema();
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
@@ -154,6 +184,10 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mNotesBucket;
     }
 
+    public SyncTimes getNoteSyncTimes() {
+        return mNoteSyncTimes;
+    }
+
     public Bucket<Tag> getTagsBucket() {
         return mTagsBucket;
     }
@@ -162,9 +196,11 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mPreferencesBucket;
     }
 
-    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
-        private boolean mIsInBackground = true;
+    public boolean isInBackground() {
+        return mIsInBackground;
+    }
 
+    private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
         // ComponentCallbacks
         @Override
         public void onTrimMemory(int level) {
@@ -196,6 +232,23 @@ public class Simplenote extends Application implements HeartbeatListener {
                     }
                 }, TEN_SECONDS_MILLIS);
 
+                PeriodicWorkRequest syncWorkRequest = new PeriodicWorkRequest.Builder(
+                    SyncWorker.class,
+                    PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                    TimeUnit.MILLISECONDS
+                )
+                    .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                    .setBackoffCriteria(BackoffPolicy.LINEAR, ONE_MINUTE_MILLIS, TimeUnit.MILLISECONDS)
+                    .setInitialDelay(TWENTY_SECONDS_MILLIS, TimeUnit.MILLISECONDS)
+                    .addTag(TAG_SYNC)
+                    .build();
+                WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
+                    TAG_SYNC,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    syncWorkRequest
+                );
+                Log.d("Simplenote.onTrimMemory", "Started worker");
+
                 // Send analytics if app is in the background
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.APPLICATION_CLOSED,
@@ -219,6 +272,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         }
 
         // ActivityLifecycleCallbacks
+        @SuppressLint("LongLogTag")
         @Override
         public void onActivityResumed(@NonNull Activity activity) {
             if (mIsInBackground) {
@@ -230,6 +284,8 @@ public class Simplenote extends Application implements HeartbeatListener {
 
                 mIsInBackground = false;
                 AppLog.add(Type.ACTION, "App opened");
+                WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_SYNC);
+                Log.d("Simplenote.onActivityResumed", "Stopped worker");
             }
 
             String activitySimpleName = activity.getClass().getSimpleName();
@@ -264,6 +320,37 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
+        }
+    }
+
+    private class SyncTimePersister implements SyncTimes.SyncTimeListener {
+        private final SharedPreferences mPreferences;
+
+        public SyncTimePersister() {
+            mPreferences = getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE);
+        }
+
+        public HashMap<String, Calendar> load() {
+            HashMap<String, Calendar> syncTimes = new HashMap<>();
+
+            //noinspection unchecked
+            for (Map.Entry<String, Long> syncTime : ((Map<String, Long>) mPreferences.getAll()).entrySet()) {
+                Calendar instant = Calendar.getInstance();
+                instant.setTimeInMillis(syncTime.getValue());
+                syncTimes.put(syncTime.getKey(), instant);
+            }
+
+            return syncTimes;
+        }
+
+        @Override
+        public void onRemove(String entityId) {
+            mPreferences.edit().remove(entityId).apply();
+        }
+
+        @Override
+        public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
+            mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
         }
     }
 }

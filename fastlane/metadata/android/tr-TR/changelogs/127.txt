@@ -1,0 +1,4 @@
+2.14:
+
+* Daha kolay dokunma için onay kutusu hedef boyutu güncellendi
+* Yinelemeleri önlemek için etiket ekleme güncellendi

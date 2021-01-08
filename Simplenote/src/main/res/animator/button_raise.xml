@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:state_enabled="true"
+        android:state_pressed="true" >
+
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="translationZ"
+            android:valueTo="@dimen/elevation_raise" >
+        </objectAnimator>
+
+    </item>
+
+    <item>
+
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="translationZ"
+            android:valueTo="0.0dp" >
+        </objectAnimator>
+
+    </item>
+
+</selector>

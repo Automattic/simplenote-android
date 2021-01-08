@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 14:54:04+0000
+Translation-Revision-Date: 2020-12-04 19:39:27+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="empty_notes_untagged">Nenhuma nota sem tags</string>
     <string name="unpublishing">Desfazendo publicação de anotação…</string>
     <string name="unpublish_successful">Anotação não publicada.</string>
     <string name="web_view_error_button">Acessar aplicativo WebView</string>
@@ -109,7 +110,6 @@ Language: pt_BR
     <string name="passcode_change_passcode">Alterar senha</string>
     <string name="snackbar_deleted_recent_search">Item de pesquisa recente excluído</string>
     <string name="empty_tags">Nenhuma tag</string>
-    <string name="empty_notes_untagged">Criar uma anotação sem tags</string>
     <string name="empty_notes_trash">Sua lixeira está vazia</string>
     <string name="empty_notes_tag">Nenhuma anotação com a tag \"%1$s\"</string>
     <string name="empty_notes_search">Nenhuma anotação encontrada</string>

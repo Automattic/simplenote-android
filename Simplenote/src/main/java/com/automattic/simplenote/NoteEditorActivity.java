@@ -25,7 +25,6 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
 import com.google.android.material.tabs.TabLayout;
@@ -76,7 +75,6 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NoteEditorActivity.this));
@@ -279,11 +277,13 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE && mNoteId != null) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Simplenote.SELECTED_NOTE_ID, mNoteId);
+            resultIntent.putExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, isPreviewEnabled);
+            resultIntent.putExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, isMarkdownEnabled);
             resultIntent.putExtra(ShortcutDialogFragment.DIALOG_VISIBLE,
                     getSupportFragmentManager().findFragmentByTag(ShortcutDialogFragment.DIALOG_TAG) != null);
-            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
+            overridePendingTransition(0, 0);
         }
     }
 
