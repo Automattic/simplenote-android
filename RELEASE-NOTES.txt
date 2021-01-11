@@ -1,3 +1,6 @@
+2.16
+-----
+ 
 2.15
 -----
 * Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]
