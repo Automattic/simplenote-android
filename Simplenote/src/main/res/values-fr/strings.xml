@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 15:54:04+0000
+Translation-Revision-Date: 2020-12-10 14:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="empty_notes_untagged">Aucune note sans étiquette</string>
     <string name="unpublishing">Annulation de la publication de la note en cours…</string>
     <string name="unpublish_successful">Publication de la note annulée.</string>
     <string name="web_view_error_button">Accéder à l’application WebView</string>
@@ -109,7 +110,6 @@ Language: fr
     <string name="passcode_change_passcode">Modifier le code d\'accès</string>
     <string name="snackbar_deleted_recent_search">Élément de recherche récente supprimé</string>
     <string name="empty_tags">Aucune étiquette</string>
-    <string name="empty_notes_untagged">Créer une note sans étiquette</string>
     <string name="empty_notes_trash">Votre corbeille est vide</string>
     <string name="empty_notes_tag">Aucune note avec l\'étiquette « %1$s »</string>
     <string name="empty_notes_search">Note introuvable</string>

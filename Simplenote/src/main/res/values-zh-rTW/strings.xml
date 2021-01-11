@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:04+0000
+Translation-Revision-Date: 2020-12-10 13:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="empty_notes_untagged">沒有未標籤筆記</string>
     <string name="unpublishing">正在取消發表筆記…</string>
     <string name="unpublish_successful">已取消發表筆記。</string>
     <string name="web_view_error_button">前往 WebView 應用程式</string>
@@ -109,7 +110,6 @@ Language: zh_TW
     <string name="passcode_change_passcode">變更密碼</string>
     <string name="snackbar_deleted_recent_search">已刪除最近的搜尋項目</string>
     <string name="empty_tags">無標籤</string>
-    <string name="empty_notes_untagged">建立沒有標籤的筆記</string>
     <string name="empty_notes_trash">你的垃圾桶是空的</string>
     <string name="empty_notes_tag">沒有標籤為「%1$s」的筆記</string>
     <string name="empty_notes_search">找不到筆記</string>

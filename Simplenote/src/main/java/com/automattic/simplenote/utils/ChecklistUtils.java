@@ -26,31 +26,33 @@ public class ChecklistUtils {
 
     public static String CHECKLIST_REGEX = "(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
     public static String CHECKLIST_REGEX_LINES = "^(\\s+)?(-[ \\t]+\\[[xX\\s]?\\])";
+    public static String CHECKLIST_REGEX_LINES_CHECKED = "^(\\s+)?(-[ \\t]+\\[[xX]?\\])";
+    public static String CHECKLIST_REGEX_LINES_UNCHECKED = "^(\\s+)?(-[ \\t]+\\[[\\s]?\\])";
     public static String CHECKED_MARKDOWN_PREVIEW = "- [" + CHAR_VECTOR_CROSS_PRODUCT + "]";
     public static String CHECKED_MARKDOWN = "- [x]";
     public static String UNCHECKED_MARKDOWN = "- [ ]";
 
     /***
      * Adds CheckableSpans for matching markdown formatted checklists.
-     * @param context view content.
-     * @param editable the spannable string to run the regex against.
-     * @param regex the regex pattern, use either CHECKLIST_REGEX or CHECKLIST_REGEX_LINES
-     * @param color the resource id of the color to tint the checklist item
-     * @return Editable - resulting spannable string
+     *
+     * @param context   {@link Context} from which to get the checkbox drawable, color, and size.
+     * @param editable  {@link Editable} spannable string to match with the regular expression.
+     * @param regex     {@link String} regular expression; CHECKLIST_REGEX or CHECKLIST_REGEX_LINES.
+     * @param color     {@link Integer} resource id of the color to tint the checkbox.
+     * @param isList    {@link Boolean} if checkbox is in list to determine size.
+     *
+     * @return          {@link Editable} spannable string with checkbox spans.
      */
-    public static Editable addChecklistSpansForRegexAndColor(
-            Context context,
-            Editable editable,
-            String regex, int color) {
+    public static Editable addChecklistSpansForRegexAndColor(Context context, Editable editable, String regex, int color, boolean isList) {
         if (editable == null) {
             return new SpannableStringBuilder("");
         }
 
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(editable);
-
         int positionAdjustment = 0;
-        while(m.find()) {
+
+        while (m.find()) {
             int start = m.start() - positionAdjustment;
             int end = m.end() - positionAdjustment;
 
@@ -60,11 +62,12 @@ public class ChecklistUtils {
             }
 
             String leadingSpaces = m.group(1);
+            String match = m.group(2);
+
             if (!TextUtils.isEmpty(leadingSpaces)) {
                 start += leadingSpaces.length();
             }
 
-            String match = m.group(2);
             if (match == null) {
                 continue;
             }
@@ -73,12 +76,14 @@ public class ChecklistUtils {
             checkableSpan.setChecked(match.contains("x") || match.contains("X"));
             editable.replace(start, end, String.valueOf(CHAR_NO_BREAK_SPACE));
 
-            Drawable iconDrawable = ContextCompat.getDrawable(context,
-                    checkableSpan.isChecked()
-                            ? R.drawable.ic_checkbox_checked_24px
-                            : R.drawable.ic_checkbox_unchecked_24px);
+            Drawable iconDrawable = ContextCompat.getDrawable(
+                context,
+                checkableSpan.isChecked()
+                    ? isList ? R.drawable.ic_checkbox_list_checked_24dp : R.drawable.ic_checkbox_editor_checked_24dp
+                    : isList ? R.drawable.ic_checkbox_list_unchecked_24dp : R.drawable.ic_checkbox_editor_unchecked_24dp
+            );
             iconDrawable = DrawableUtils.tintDrawableWithResource(context, iconDrawable, color);
-            int iconSize = DisplayUtils.getChecklistIconSize(context);
+            int iconSize = DisplayUtils.getChecklistIconSize(context, isList);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
 
             CenteredImageSpan imageSpan = new CenteredImageSpan(context, iconDrawable);

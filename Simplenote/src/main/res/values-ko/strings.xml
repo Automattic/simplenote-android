@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 13:54:04+0000
+Translation-Revision-Date: 2020-12-10 15:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="empty_notes_untagged">태그 없는 메모 없음</string>
     <string name="unpublishing">메모 공개 취소 중…</string>
     <string name="unpublish_successful">메모 공개가 취소되었습니다.</string>
     <string name="web_view_error_button">WebView 앱으로 이동</string>
@@ -109,7 +110,6 @@ Language: ko_KR
     <string name="passcode_change_passcode">패스코드 변경</string>
     <string name="snackbar_deleted_recent_search">삭제한 최근 검색 항목</string>
     <string name="empty_tags">태그 없음</string>
-    <string name="empty_notes_untagged">태그가 지정되지 않은 메모 만들기</string>
     <string name="empty_notes_trash">휴지통이 비어 있습니다.</string>
     <string name="empty_notes_tag">\"%1$s\" 태그가 추가된 메모 없음</string>
     <string name="empty_notes_search">메모를 찾을 수 없음</string>

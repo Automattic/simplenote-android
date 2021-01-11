@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-11-13 14:54:04+0000
+Translation-Revision-Date: 2020-12-10 17:54:53+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="empty_notes_untagged">Inga omärkta anteckningar</string>
     <string name="unpublishing">Avpublicerar anteckning …</string>
     <string name="unpublish_successful">Anteckning inte publicerad.</string>
     <string name="web_view_error_button">Gå till WebView-appen</string>
@@ -109,7 +110,6 @@ Language: sv_SE
     <string name="passcode_change_passcode">Ändra låskod</string>
     <string name="snackbar_deleted_recent_search">Nyliga sökobjekt togs bort</string>
     <string name="empty_tags">Inga etiketter</string>
-    <string name="empty_notes_untagged">Skapa en anteckning utan etikett</string>
     <string name="empty_notes_trash">Din papperskorg är tom</string>
     <string name="empty_notes_tag">Inga anteckningar märkta ”%1$s”</string>
     <string name="empty_notes_search">Inga anteckningar hittades</string>

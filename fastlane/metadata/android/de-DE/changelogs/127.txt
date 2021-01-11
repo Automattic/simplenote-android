@@ -1,0 +1,4 @@
+2.15:
+
+* Zielgröße der Kontrollkästchen für leichteres Antippen aktualisiert
+* Hinzufügen von Schlagwörter zur Vermeidung von Duplikaten aktualisiert
