@@ -2,6 +2,7 @@
 
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory
@@ -54,6 +55,7 @@
             android:key="pref_key_style"
             android:summary="%s"
             android:title="@string/style"
+            app:isPreferenceVisible="false"
             tools:summary="@string/style_classic">
         </Preference>
 
@@ -105,6 +107,7 @@
         <Preference
             android:key="pref_key_membership"
             android:title="@string/membership"
+            app:isPreferenceVisible="false"
             tools:layout="@layout/preference_button"
             tools:summary="@string/membership_free">
         </Preference>
