@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogContent;
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogController;
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
@@ -93,6 +94,11 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.VERIFICATION_CONFIRM_BUTTON_TAPPED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "verification_confirm"
+                    );
                     onConfirmClicked(mDialogController);
                 }
             }
@@ -105,8 +111,18 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
                 @Override
                 public void onClick(View v) {
                     if (mHasSentEmail) {
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "verification_resend_email"
+                        );
                         onConfirmClicked(mDialogController);
                     } else {
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "verification_change_email"
+                        );
                         BrowserUtils.launchBrowserOrShowError(requireContext(), URL_SETTINGS_REDIRECT);
                     }
                 }
@@ -119,6 +135,11 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
 
     @Override
     public boolean onDismissClicked(FullScreenDialogController controller) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.VERIFICATION_DISMISSED,
+            AnalyticsTracker.CATEGORY_USER,
+            "verification_dismissed"
+        );
         return false;
     }
 
