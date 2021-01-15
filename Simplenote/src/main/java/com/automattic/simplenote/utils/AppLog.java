@@ -9,7 +9,7 @@ import java.util.Map;
 public class AppLog {
     private static final int LOG_MAX = 100;
 
-    private static LinkedHashMap<Integer, String> mQueue  = new LinkedHashMap<Integer, String>() {
+    private static final LinkedHashMap<Integer, String> mQueue  = new LinkedHashMap<Integer, String>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
             return this.size() > LOG_MAX;
@@ -19,6 +19,7 @@ public class AppLog {
     public enum Type {
         ACCOUNT,
         ACTION,
+        AUTH,
         DEVICE,
         LAYOUT,
         NETWORK,

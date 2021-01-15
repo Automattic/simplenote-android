@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogContent;
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogController;
+import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 
@@ -143,10 +145,20 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
                 new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        AppLog.add(Type.AUTH, "Verification email error (" + e.getMessage() + " - " + call.request().url() + ")");
                     }
 
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
+                        String message = "Verification email ";
+
+                        if (response.code() == 200) {
+                            message += "sent";
+                        } else {
+                            message += "error";
+                        }
+
+                        AppLog.add(Type.AUTH, message + " (" + response.code() + " - " + call.request().url() + ")");
                     }
                 }
             );
