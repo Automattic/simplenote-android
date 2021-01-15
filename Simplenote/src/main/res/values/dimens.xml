@@ -52,6 +52,7 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="elevation_button">6dp</dimen>
+    <dimen name="elevation_toolbar">4dp</dimen>
     <dimen name="elevation_raise">6dp</dimen>
     <dimen name="empty_width_maximum">312dp</dimen>
     <dimen name="navigation_elevation">16dp</dimen>

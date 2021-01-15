@@ -265,6 +265,7 @@
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle Checklist</string>
 
+    <string name="description_close">Close</string>
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
     <string name="description_locked">Locked</string>
