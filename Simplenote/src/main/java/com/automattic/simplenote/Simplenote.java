@@ -212,6 +212,11 @@ public class Simplenote extends Application implements HeartbeatListener {
     }
 
     private void checkReviewAccountOrVerifyEmail(final Activity activity) {
+        if (isFirstLaunch() || !NetworkUtils.isNetworkAvailable(this) || mHasShownReviewOrVerify) {
+            // Show nothing on first launch, no network connection, or has already shown review/verify.
+            return;
+        }
+
         Account account;
 
         try {
@@ -222,8 +227,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             return;
         }
 
-        if (isFirstLaunch() || !NetworkUtils.isNetworkAvailable(this) || mHasShownReviewOrVerify || account.hasConfirmedAccount()) {
-            // Show nothing on first launch, no network connection, has already shown, or email has been confirmed.
+        if (account.hasConfirmedAccount()) {
+            // Show nothing when email has been confirmed.
             return;
         }
 
