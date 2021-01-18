@@ -294,7 +294,7 @@
     <string name="fullscreen_review_account_button_primary">Confirm</string>
     <string name="fullscreen_review_account_button_secondary">Change email</string>
 
-    <string name="fullscreen_verify_email_subtitle">We just need you to verify your email address.  An email has been sent to &lt;b&gt;%1$s&lt;/b&gt; with a link for verification.  Happy note-ing!</string>
+    <string name="fullscreen_verify_email_subtitle">We’ve sent a verification email to &lt;b&gt;%1$s&lt;/b&gt;.  Please, check your inbox and follow the instructions.</string>
     <string name="fullscreen_verify_email_title">Verify Your Email</string>
     <string name="fullscreen_verify_email_button_secondary">Resend email</string>
 
