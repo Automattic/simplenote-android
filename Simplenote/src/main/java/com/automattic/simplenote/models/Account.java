@@ -10,6 +10,7 @@ public class Account extends BucketObject {
 
     private static final String BUCKET_NAME = "account";
     private static final String FIELD_EMAIL_VERIFICATION_STATUS = "status";
+    private static final String FIELD_EMAIL_VERIFICATION_TOKEN = "token";
 
     public enum Status {
         SENT,
@@ -20,13 +21,16 @@ public class Account extends BucketObject {
         super(key, properties);
     }
 
-    public boolean hasConfirmedAccount() {
-        Object status = getProperty(FIELD_EMAIL_VERIFICATION_STATUS);
+    public boolean hasConfirmedAccount(String email) {
+        Object token = getProperty(FIELD_EMAIL_VERIFICATION_TOKEN);
 
-        if (status == null) {
+        if (token == null) {
             return false;
+        } else if (((String) token).split(":", 2).length > 0) {
+            String emailFromToken = ((String) token).split(":", 2)[0];
+            return emailFromToken.equals(email);
         } else {
-            return Status.VERIFIED.toString().equalsIgnoreCase((String) status);
+            return false;
         }
     }
 

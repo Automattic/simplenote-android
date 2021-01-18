@@ -227,7 +227,7 @@ public class Simplenote extends Application implements HeartbeatListener {
             return;
         }
 
-        if (account.hasConfirmedAccount()) {
+        if (mSimperium != null && account.hasConfirmedAccount(mSimperium.getUser().getEmail())) {
             // Show nothing when email has been confirmed.
             return;
         }
