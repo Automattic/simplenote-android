@@ -227,15 +227,20 @@ public class Simplenote extends Application implements HeartbeatListener {
             return;
         }
 
-        if (mSimperium != null && account.hasConfirmedAccount(mSimperium.getUser().getEmail())) {
+        if (mSimperium == null || mSimperium.getUser() == null) {
+            // Show nothing when Simperium or user cannot be retrieved.
+            return;
+        }
+
+        String email = mSimperium.getUser().getEmail();
+
+        if (account.hasConfirmedAccount(email)) {
             // Show nothing when email has been confirmed.
             return;
         }
 
-        if (account.hasSentEmail()) {
-            // Show verify email when email has been sent.
-            showReviewAccountOrVerifyEmail(activity, true);
-        }
+        // Show verify email when email has been sent to account address.  Show review account otherwise.
+        showReviewAccountOrVerifyEmail(activity, account.hasSentEmail(email));
     }
 
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {

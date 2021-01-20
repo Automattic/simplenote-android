@@ -34,13 +34,16 @@ public class Account extends BucketObject {
         }
     }
 
-    public boolean hasSentEmail() {
+    public boolean hasSentEmail(String email) {
         Object status = getProperty(FIELD_EMAIL_VERIFICATION_STATUS);
 
         if (status == null) {
             return false;
+        } else if (((String) status).split(":", 2).length > 1) {
+            String emailFromStatus = ((String) status).split(":", 2)[1];
+            return emailFromStatus.equals(email);
         } else {
-            return Status.SENT.toString().equalsIgnoreCase((String) status);
+            return false;
         }
     }
 
