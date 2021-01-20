@@ -73,7 +73,6 @@
                 android:id="@+id/button_primary"
                 android:backgroundTint="?attr/fabColor"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_small"
                 android:layout_marginTop="@dimen/padding_medium"
                 android:layout_width="match_parent"
                 android:minHeight="@dimen/minimum_target"
@@ -86,7 +85,6 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_secondary"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_small"
                 android:layout_width="match_parent"
                 android:minHeight="@dimen/minimum_target"
                 android:text="@string/fullscreen_review_account_button_secondary"
