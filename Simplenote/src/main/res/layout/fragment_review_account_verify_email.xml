@@ -23,6 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_height="@dimen/icon_fullscreen"
+            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="@dimen/icon_fullscreen"
             android:layout_marginBottom="@dimen/padding_medium"
             android:src="@drawable/ic_warning_24dp"
