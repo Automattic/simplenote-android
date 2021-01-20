@@ -19,8 +19,8 @@ public class Account extends BucketObject {
     /**
      * Determine if @param email address was sent a verification email.
      *
-     * The <code>status</code> field is formatted as STATUS:EMAIL_ADDRESS where STATUS is the of the
-     * verification email and EMAIL_ADDRESS is the address to which the email was sent.
+     * The <code>status</code> field is formatted as STATUS:EMAIL_ADDRESS where STATUS is the status
+     * of the verification email and EMAIL_ADDRESS is the address to which the email was sent.
      *
      * e.g. sent:example@simplenote.com
      *
