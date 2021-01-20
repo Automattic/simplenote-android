@@ -12,15 +12,24 @@ public class Account extends BucketObject {
     private static final String FIELD_EMAIL_VERIFICATION_STATUS = "status";
     private static final String FIELD_EMAIL_VERIFICATION_TOKEN = "token";
 
-    public enum Status {
-        SENT,
-        VERIFIED
-    }
-
     private Account(String key, JSONObject properties) {
         super(key, properties);
     }
 
+    /**
+     * Determine if the @param email address has been confirmed.
+     *
+     * The <code>token</code> field is formatted as EMAIL_ADDRESS:UNIX_TIME:SIGNED_HASH where
+     * EMAIL_ADDRESS is the email address of the user, UNIX_TIME is the number of seconds since Unix
+     * epoch when the email address was verified, and SIGNED_HASH is a cryptographically-signed hash
+     * of the EMAIL_ADDRESS and UNIX_TIME.
+     *
+     * e.g. example@simplenote.com:1611156008:akjn3v9z8ja3jasdf==
+     *
+     * @param email {@link String} email address of user to check in token field.
+     *
+     * @return      {@link Boolean} true if confirmed; false otherwise.
+     */
     public boolean hasConfirmedAccount(String email) {
         Object token = getProperty(FIELD_EMAIL_VERIFICATION_TOKEN);
 
@@ -34,6 +43,18 @@ public class Account extends BucketObject {
         }
     }
 
+    /**
+     * Determine if @param email address was sent a verification email.
+     *
+     * The <code>status</code> field is formatted as STATUS:EMAIL_ADDRESS where STATUS is the of the
+     * verification email and EMAIL_ADDRESS is the address to which the email was sent.
+     *
+     * e.g. sent:example@simplenote.com
+     *
+     * @param email {@link String} email address of user to check in status field.
+     *
+     * @return      {@link Boolean} true if sent; false otherwise.
+     */
     public boolean hasSentEmail(String email) {
         Object status = getProperty(FIELD_EMAIL_VERIFICATION_STATUS);
 
