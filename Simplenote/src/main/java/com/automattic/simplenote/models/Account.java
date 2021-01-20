@@ -17,33 +17,6 @@ public class Account extends BucketObject {
     }
 
     /**
-     * Determine if the @param email address has been confirmed.
-     *
-     * The <code>token</code> field is formatted as EMAIL_ADDRESS:UNIX_TIME:SIGNED_HASH where
-     * EMAIL_ADDRESS is the email address of the user, UNIX_TIME is the number of seconds since Unix
-     * epoch when the email address was verified, and SIGNED_HASH is a cryptographically-signed hash
-     * of the EMAIL_ADDRESS and UNIX_TIME.
-     *
-     * e.g. example@simplenote.com:1611156008:akjn3v9z8ja3jasdf==
-     *
-     * @param email {@link String} email address of user to check in token field.
-     *
-     * @return      {@link Boolean} true if confirmed; false otherwise.
-     */
-    public boolean hasConfirmedAccount(String email) {
-        Object token = getProperty(FIELD_EMAIL_VERIFICATION_TOKEN);
-
-        if (token == null) {
-            return false;
-        } else if (((String) token).split(":", 2).length > 0) {
-            String emailFromToken = ((String) token).split(":", 2)[0];
-            return emailFromToken.equals(email);
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Determine if @param email address was sent a verification email.
      *
      * The <code>status</code> field is formatted as STATUS:EMAIL_ADDRESS where STATUS is the of the
@@ -63,6 +36,33 @@ public class Account extends BucketObject {
         } else if (((String) status).split(":", 2).length > 1) {
             String emailFromStatus = ((String) status).split(":", 2)[1];
             return emailFromStatus.equals(email);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Determine if the @param email address has been verified.
+     *
+     * The <code>token</code> field is formatted as EMAIL_ADDRESS:UNIX_TIME:SIGNED_HASH where
+     * EMAIL_ADDRESS is the email address of the user, UNIX_TIME is the number of seconds since Unix
+     * epoch when the email address was verified, and SIGNED_HASH is a cryptographically-signed hash
+     * of the EMAIL_ADDRESS and UNIX_TIME.
+     *
+     * e.g. example@simplenote.com:1611156008:akjn3v9z8ja3jasdf==
+     *
+     * @param email {@link String} email address of user to check in token field.
+     *
+     * @return      {@link Boolean} true if verified; false otherwise.
+     */
+    public boolean hasVerifiedEmail(String email) {
+        Object token = getProperty(FIELD_EMAIL_VERIFICATION_TOKEN);
+
+        if (token == null) {
+            return false;
+        } else if (((String) token).split(":", 2).length > 0) {
+            String emailFromToken = ((String) token).split(":", 2)[0];
+            return emailFromToken.equals(email);
         } else {
             return false;
         }

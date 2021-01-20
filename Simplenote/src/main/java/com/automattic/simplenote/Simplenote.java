@@ -234,8 +234,8 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         String email = mSimperium.getUser().getEmail();
 
-        if (account.hasConfirmedAccount(email)) {
-            // Show nothing when email has been confirmed.
+        if (account.hasVerifiedEmail(email)) {
+            // Show nothing when email has been verified.
             return;
         }
 
