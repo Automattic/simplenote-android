@@ -3,6 +3,7 @@ package com.automattic.simplenote.models;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Account extends BucketObject {
@@ -11,6 +12,7 @@ public class Account extends BucketObject {
     private static final String BUCKET_NAME = "account";
     private static final String FIELD_EMAIL_VERIFICATION_STATUS = "status";
     private static final String FIELD_EMAIL_VERIFICATION_TOKEN = "token";
+    private static final String FIELD_EMAIL_VERIFICATION_USERNAME = "username";
 
     private Account(String key, JSONObject properties) {
         super(key, properties);
@@ -41,29 +43,18 @@ public class Account extends BucketObject {
         }
     }
 
-    /**
-     * Determine if the @param email address has been verified.
-     *
-     * The <code>token</code> field is formatted as EMAIL_ADDRESS:UNIX_TIME:SIGNED_HASH where
-     * EMAIL_ADDRESS is the email address of the user, UNIX_TIME is the number of seconds since Unix
-     * epoch when the email address was verified, and SIGNED_HASH is a cryptographically-signed hash
-     * of the EMAIL_ADDRESS and UNIX_TIME.
-     *
-     * e.g. example@simplenote.com:1611156008:akjn3v9z8ja3jasdf==
-     *
-     * @param email {@link String} email address of user to check in token field.
-     *
-     * @return      {@link Boolean} true if verified; false otherwise.
-     */
     public boolean hasVerifiedEmail(String email) {
         Object token = getProperty(FIELD_EMAIL_VERIFICATION_TOKEN);
 
         if (token == null) {
             return false;
-        } else if (((String) token).split(":", 2).length > 0) {
-            String emailFromToken = ((String) token).split(":", 2)[0];
-            return emailFromToken.equals(email);
-        } else {
+        }
+
+        try {
+            JSONObject json = new JSONObject((String) token);
+            Object username = json.opt(FIELD_EMAIL_VERIFICATION_USERNAME);
+            return email.equals(username);
+        } catch (JSONException exception) {
             return false;
         }
     }
