@@ -10,7 +10,8 @@ public class Account extends BucketObject {
     public static final String KEY_EMAIL_VERIFICATION = "email-verification";
 
     private static final String BUCKET_NAME = "account";
-    private static final String FIELD_EMAIL_VERIFICATION_STATUS = "status";
+    private static final String FIELD_EMAIL_VERIFICATION_PENDING = "pending";
+    private static final String FIELD_EMAIL_VERIFICATION_SENT_TO = "sent_to";
     private static final String FIELD_EMAIL_VERIFICATION_TOKEN = "token";
     private static final String FIELD_EMAIL_VERIFICATION_USERNAME = "username";
 
@@ -18,29 +19,15 @@ public class Account extends BucketObject {
         super(key, properties);
     }
 
-    /**
-     * Determine if @param email address was sent a verification email.
-     *
-     * The <code>status</code> field is formatted as STATUS:EMAIL_ADDRESS where STATUS is the status
-     * of the verification email and EMAIL_ADDRESS is the address to which the email was sent.
-     *
-     * e.g. sent:example@simplenote.com
-     *
-     * @param email {@link String} email address of user to check in status field.
-     *
-     * @return      {@link Boolean} true if sent; false otherwise.
-     */
     public boolean hasSentEmail(String email) {
-        Object status = getProperty(FIELD_EMAIL_VERIFICATION_STATUS);
+        Object pending = getProperty(FIELD_EMAIL_VERIFICATION_PENDING);
 
-        if (status == null) {
-            return false;
-        } else if (((String) status).split(":", 2).length > 1) {
-            String emailFromStatus = ((String) status).split(":", 2)[1];
-            return emailFromStatus.equals(email);
-        } else {
+        if (!(pending instanceof JSONObject)) {
             return false;
         }
+
+        Object sentTo = ((JSONObject) pending).opt(FIELD_EMAIL_VERIFICATION_SENT_TO);
+        return email.equals(sentTo);
     }
 
     public boolean hasVerifiedEmail(String email) {
