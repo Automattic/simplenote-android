@@ -1530,10 +1530,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     return super.onKeyUp(keyCode, event);
                 }
             case KeyEvent.KEYCODE_I:
-                if (event.isShiftPressed() && event.isCtrlPressed()) {
-                    getNoteListFragment().createNewNote("", "keyboard_shortcut");
-                    return true;
-                } else if (event.isCtrlPressed()) {
+                if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showInfo();
@@ -1554,6 +1551,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                         Toast.makeText(NotesActivity.this, R.string.item_action_toggle_list_error, Toast.LENGTH_SHORT).show();
                     }
 
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_N:
+                if (event.isCtrlPressed()) {
+                    getNoteListFragment().createNewNote("", "keyboard_shortcut");
                     return true;
                 } else {
                     return super.onKeyUp(keyCode, event);

@@ -30,20 +30,11 @@
             android:layout_width="match_parent">
 
             <TextView
-                android:id="@+id/shortcut_note_new_key_third"
-                android:layout_height="@dimen/key_height"
-                android:layout_width="wrap_content"
-                android:text="@string/key_single_i"
-                style="@style/Shortcut.Key.Single">
-            </TextView>
-
-            <TextView
                 android:id="@+id/shortcut_note_new_key_second"
                 android:layout_height="@dimen/key_height"
-                android:layout_toStartOf="@+id/shortcut_note_new_key_third"
                 android:layout_width="wrap_content"
-                android:text="@string/key_multiple_shift"
-                style="@style/Shortcut.Key.Multiple">
+                android:text="@string/key_single_n"
+                style="@style/Shortcut.Key.Single">
             </TextView>
 
             <TextView
