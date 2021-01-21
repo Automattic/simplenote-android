@@ -325,6 +325,30 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
+            case KeyEvent.KEYCODE_G:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    if (isSearchMatchBarVisible()) {
+                        if (mButtonPrevious != null && mButtonPrevious.isEnabled()) {
+                            mButtonPrevious.callOnClick();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else if (event.isCtrlPressed()) {
+                    if (isSearchMatchBarVisible()) {
+                        if (mButtonNext != null && mButtonNext.isEnabled()) {
+                            mButtonNext.callOnClick();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
             case KeyEvent.KEYCODE_I:
                 if (event.isCtrlPressed()) {
                     if (!isPreviewTabSelected()) {
@@ -381,6 +405,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     private boolean isPreviewTabSelected() {
         return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == INDEX_TAB_PREVIEW;
+    }
+
+    private boolean isSearchMatchBarVisible() {
+        return mSearchMatchBar != null && mSearchMatchBar.getVisibility() == View.VISIBLE;
     }
 
     public void showTabs() {

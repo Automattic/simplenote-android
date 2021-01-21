@@ -300,7 +300,11 @@
     <string name="passcodelock_prompt_message">Enter your passcode</string>
 
     <!-- SHORTCUTS -->
-    <string name="action">Action</string>
+    <string name="category_action">Action</string>
+    <string name="category_search">Search</string>
+    <string name="item_action_match_error">Select a note in search results to see matches</string>
+    <string name="item_action_match_next">Next Match</string>
+    <string name="item_action_match_previous">Previous Match</string>
     <string name="item_action_note_new" translatable="false">@string/new_note</string>
     <string name="item_action_open_search">Open Search</string>
     <string name="item_action_show_history">Show History</string>
@@ -324,6 +328,7 @@
     <string name="key_multiple_shift" translatable="false">Shift</string>
     <string name="key_single_c" translatable="false">C</string>
     <string name="key_single_f" translatable="false">F</string>
+    <string name="key_single_g" translatable="false">G</string>
     <string name="key_single_h" translatable="false">H</string>
     <string name="key_single_i" translatable="false">I</string>
     <string name="key_single_l" translatable="false">L</string>
