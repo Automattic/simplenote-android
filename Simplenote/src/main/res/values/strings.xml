@@ -323,6 +323,7 @@
     <string name="key_multiple_ctrl" translatable="false">Ctrl</string>
     <string name="key_multiple_shift" translatable="false">Shift</string>
     <string name="key_single_c" translatable="false">C</string>
+    <string name="key_single_f" translatable="false">F</string>
     <string name="key_single_h" translatable="false">H</string>
     <string name="key_single_i" translatable="false">I</string>
     <string name="key_single_l" translatable="false">L</string>

@@ -1504,6 +1504,17 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
+            case KeyEvent.KEYCODE_F:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    if (mSearchMenuItem != null && mSearchView != null) {
+                        mSearchMenuItem.expandActionView();
+                        mSearchView.requestFocus();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
             case KeyEvent.KEYCODE_H:
                 if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
@@ -1564,14 +1575,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     return super.onKeyUp(keyCode, event);
                 }
             case KeyEvent.KEYCODE_S:
-                if (event.isShiftPressed() && event.isCtrlPressed()) {
-                    if (mSearchMenuItem != null && mSearchView != null) {
-                        mSearchMenuItem.expandActionView();
-                        mSearchView.requestFocus();
-                    }
-
-                    return true;
-                } else if (event.isCtrlPressed()) {
+                if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.shareNote();
