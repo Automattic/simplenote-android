@@ -10,7 +10,6 @@ public class Account extends BucketObject {
     public static final String KEY_EMAIL_VERIFICATION = "email-verification";
 
     private static final String BUCKET_NAME = "account";
-    private static final String FIELD_EMAIL_VERIFICATION_PENDING = "pending";
     private static final String FIELD_EMAIL_VERIFICATION_SENT_TO = "sent_to";
     private static final String FIELD_EMAIL_VERIFICATION_TOKEN = "token";
     private static final String FIELD_EMAIL_VERIFICATION_USERNAME = "username";
@@ -20,14 +19,7 @@ public class Account extends BucketObject {
     }
 
     public boolean hasSentEmail(String email) {
-        Object pending = getProperty(FIELD_EMAIL_VERIFICATION_PENDING);
-
-        if (!(pending instanceof JSONObject)) {
-            return false;
-        }
-
-        Object sentTo = ((JSONObject) pending).opt(FIELD_EMAIL_VERIFICATION_SENT_TO);
-        return email.equals(sentTo);
+        return email.equals(getProperty(FIELD_EMAIL_VERIFICATION_SENT_TO));
     }
 
     public boolean hasVerifiedEmail(String email) {
