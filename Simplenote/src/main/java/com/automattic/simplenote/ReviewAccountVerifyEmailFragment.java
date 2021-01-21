@@ -74,7 +74,7 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_review_account_verify_email, container, false);
-        mHasSentEmail = getArguments().getBoolean(EXTRA_SENT_EMAIL);
+        mHasSentEmail = getArguments() != null && getArguments().getBoolean(EXTRA_SENT_EMAIL);
         mEmail = ((Simplenote) requireActivity().getApplication()).getSimperium().getUser().getEmail();
 
         mImageIcon = layout.findViewById(R.id.image);
