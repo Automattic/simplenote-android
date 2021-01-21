@@ -41,8 +41,8 @@ import okhttp3.Response;
 public class ReviewAccountVerifyEmailFragment extends Fragment implements FullScreenDialogContent {
     public static final String EXTRA_SENT_EMAIL = "EXTRA_SENT_EMAIL";
 
-    private static final String URL_SETTINGS_REDIRECT = "https://pr-357-dot-simple-note-hrd.appspot.com/login?redirect=/settings";
-    private static final String URL_VERIFY_EMAIL = "https://pr-357-dot-simple-note-hrd.appspot.com/account/verify-email/";
+    private static final String URL_SETTINGS_REDIRECT = "https://app.simplenote.com/settings/";
+    private static final String URL_VERIFY_EMAIL = "https://app.simplenote.com/account/verify-email/";
     private static final int TIMEOUT_SECONDS = 30;
 
     private AppCompatButton mButtonPrimary;
