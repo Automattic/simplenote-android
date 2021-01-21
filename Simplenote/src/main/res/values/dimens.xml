@@ -52,12 +52,14 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="elevation_bar">8dp</dimen>
     <dimen name="elevation_button">6dp</dimen>
+    <dimen name="elevation_toolbar">4dp</dimen>
     <dimen name="elevation_raise">6dp</dimen>
     <dimen name="empty_width_maximum">312dp</dimen>
     <dimen name="navigation_elevation">16dp</dimen>
     <dimen name="navigation_margin">22dp</dimen>
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
+    <dimen name="icon_fullscreen">72dp</dimen>
     <dimen name="icon_locked">48dp</dimen>
     <dimen name="icon_locked_half">24dp</dimen>
     <dimen name="icon_status">16dp</dimen>
@@ -87,6 +89,8 @@
     <dimen name="text_key">14sp</dimen>
     <dimen name="text_tag">14sp</dimen>
     <dimen name="text_suggestion">16sp</dimen>
+    <dimen name="text_fullscreen_subtitle">16sp</dimen>
+    <dimen name="text_fullscreen_title">24sp</dimen>
     <dimen name="text_widget">12sp</dimen>
 
 </resources>
