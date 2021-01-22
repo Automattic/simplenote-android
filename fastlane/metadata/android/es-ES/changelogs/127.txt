@@ -1,4 +1,0 @@
-2.14:
-
-* Hemos actualizado el tamaño de la casilla de verificación de destino para que sea más fácil de tocar
-* Hemos actualizado la adición de etiquetas para evitar duplicados
