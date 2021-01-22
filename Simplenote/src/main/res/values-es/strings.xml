@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 13:54:03+0000
+Translation-Revision-Date: 2021-01-20 13:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Las contraseñas deben tener como mínimo %1$d caracteres.</string>
+    <string name="dialog_tag_conflict_title">Conflicto de etiquetas</string>
+    <string name="dialog_tag_conflict_message">La etiqueta \"%1$s\" ya existe. ¿Quieres fusionar \"%2$s\" con la etiqueta \"%3$s\"?</string>
+    <string name="dialog_tag_conflict_button_positive">Fusionar</string>
+    <string name="description_locked">Bloqueado</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">Publicación</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matriz</string>
+    <string name="style_dialog_locked_title">Estilo Premium</string>
+    <string name="style_dialog_locked_message">Para utilizar este estilo, debes tener una suscripción Premium.</string>
+    <string name="style_dialog_locked_button_positive">Actualizar</string>
+    <string name="style_default">Por defecto</string>
+    <string name="style_classic">Clásico</string>
+    <string name="style_black">Negro</string>
+    <string name="style">Estilo</string>
+    <string name="tag_error_spaces">Las etiquetas no pueden contener espacios</string>
+    <string name="tag_error_length">La etiqueta es demasiado larga</string>
+    <string name="tag_error_exists">La etiqueta ya existe</string>
+    <string name="tag_error_empty">Las etiquetas no pueden estar vacías</string>
+    <string name="dialog_tag_error_message">Se ha producido un error al añadir la etiqueta. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Añadir etiqueta</string>
+    <string name="empty_tags_hint">Cuando añadas etiquetas a tus notas, las etiquetas aparecerán aquí.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Actualizar</string>
+    <string name="membership_free">Gratis</string>
+    <string name="membership">Miembros</string>
+    <string name="synced">Sincronizado</string>
+    <string name="delete_dialog_title">Borrar permanentemente</string>
+    <string name="delete_dialog_message">¿Quieres borrar esta nota de forma permanente? Esta acción no se puede deshacer.</string>
+    <string name="delete_dialog_error_message">Ha ocurrido un error al borrar la nota. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
+    <string name="delete">Eliminar</string>
+    <string name="confirm_empty_trash">¿Quieres vaciar la papelera? Todas las notas de la papelera se borrarán de forma permanente. Esta acción no se puede deshacer.</string>
+    <string name="empty">Vacío</string>
+    <string name="back">Volver</string>
     <string name="empty_notes_untagged">No se han encontrado notas sin etiquetar</string>
     <string name="unpublishing">Anulando la publicación de la nota…</string>
     <string name="unpublish_successful">Se ha anulado la publicación de la nota.</string>
@@ -68,7 +108,7 @@ Language: es
     <string name="link_california">%1$s%2$s%3$sAviso de privacidad para usuarios de California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Una conexión de red es obligatoria. Comprueba la conexión e inténtalo de nuevo.</string>
-    <string name="simperium_dialog_message_password">Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener saltos de línea\n- No puede contener espacios</string>
+    <string name="simperium_dialog_message_password">Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener nuevas líneas\n- No puede contener saltos de línea\n- No puede contener espacios</string>
     <string name="simperium_dialog_message_login_reset">Tu contraseña no es segura y debes cambiarla. Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener saltos de línea\n- No puede contener espacios</string>
     <string name="simperium_button_login_reset">Restablecer</string>
     <string name="link_terms">%1$s%2$s%3$sCondiciones del servicio%4$s</string>
@@ -122,7 +162,7 @@ Language: es
     <string name="sort_search_modified">Modificado</string>
     <string name="sort_search_created">Creado</string>
     <string name="sort_search_alphabetically">Alfabéticamente</string>
-    <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre esta nota para leer las instrucciones.\n\nPara crear una nota nueva, toca el botón azul \"Añadir nota\" con el icono Más.\n\nPara buscar en tus notas, toca el botón \"Buscar\" con el icono de la lupa e introduce el texto que quieras. Simplenote mostrará primero tus búsquedas recientes y las sugerencias de búsqueda mientras escribes. Las notas que coincidan con el texto introducido se mostrarán una vez que hayas validado la búsqueda.\n\n¿Tienes una nota muy importante? Fíjala en la parte superior de la lista de notas. Puedes fijar una nota de dos maneras. Pulsa prolongadamente en la nota de la lista y toca el botón \"Anclar en la parte superior\" con el botón de fijar. Mientras visualizas una nota, toca el botón \"Más opciones\" del icono con tres puntos en vertical y marca la casilla \"Anclar\".\n\nUsa las etiquetas para organizar las notas fácilmente. Crea una etiqueta en el campo \"Añadir una etiqueta…\" en la parte inferior de una nota. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nMientras visualizas una nota, comparte las notas con otras aplicaciones para Android solo con tocar \"Compartir\" en el menú \"Más opciones\".\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
+    <string name="welcome_note">Te damos la bienvenida a Simplenote para Android\nAbre esta nota para leer las instrucciones.\n\nPara crear una nota, toca el botón \"Nueva nota\" con el icono Más.\n\nPara buscar en tus notas, toca el botón \"Buscar\" con el icono de la lupa e introduce el texto que quieras. Simplenote mostrará primero tus búsquedas recientes y las sugerencias de búsqueda mientras escribes. Las notas que coincidan con el texto introducido se mostrarán una vez que hayas validado la búsqueda.\n\n¿Tienes una nota muy importante? Fíjala en la parte superior de la lista de notas. Puedes fijar una nota de dos maneras. Pulsa prolongadamente en la nota de la lista y toca el botón \"Anclar en la parte superior\" con el botón de fijar. Mientras visualizas una nota, toca el botón \"Más opciones\" del icono con tres puntos en vertical y marca la casilla \"Anclar\".\n\nUsa las etiquetas para organizar las notas fácilmente. Crea una etiqueta en la pantalla \"Editar etiquetas\" mediante el botón \"Añadir etiqueta\" o el campo \"Añadir etiqueta…\" en la parte inferior de una nota. También puedes añadir una dirección de correo electrónico como etiqueta para compartir una nota con otro usuario.\n\nMientras visualizas una nota, comparte las notas con otras aplicaciones para Android solo con tocar \"Compartir\" en el menú \"Más opciones\".\n\nLas notas que se eliminan se envían a la papelera. Si quieres puedes restaurar la nota o vaciar la papelera para deshacerte de ella de forma permanente.\n\nPuedes acceder a tus notas en la web y en los dispositivos que tengas. Visita http://simplenote.com para empezar a usarla.\n\nEsperamos que disfrutes de Simplenote.</string>
     <string name="search_hint">Buscar notas o etiquetas</string>
     <string name="log_out">Salir</string>
     <string name="log_in">Acceder</string>
@@ -141,7 +181,6 @@ Language: es
     <string name="simperium_dialog_progress_logging_in">Accediendo…</string>
     <string name="simperium_dialog_message_signup_existing">La dirección de correo electrónico que has introducido ya está asociada a una cuenta de Simplenote.</string>
     <string name="simperium_dialog_message_signup">No se ha podido llevar a cabo el registro con la dirección de correo electrónico y la contraseña facilitadas.</string>
-    <string name="simperium_dialog_message_password_login">Las contraseñas deben tener un mínimo de %1$d caracteres, sin contar líneas nuevas, espacios ni tabulaciones.</string>
     <string name="simperium_dialog_message_network">No hay ninguna red disponible. Conéctate a una red e inténtalo de nuevo.</string>
     <string name="simperium_dialog_message_login">No se ha podido acceder con la dirección de correo electrónico y la contraseña facilitadas.</string>
     <string name="simperium_button_signup">Registrarse</string>
@@ -254,7 +293,6 @@ Language: es
     <string name="character">Carácter</string>
     <string name="no">No</string>
     <string name="yes">Sí</string>
-    <string name="confirm_empty_trash">¿Estás seguro de vaciar la papelera?</string>
     <string name="empty_trash">Vaciar papelera</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>

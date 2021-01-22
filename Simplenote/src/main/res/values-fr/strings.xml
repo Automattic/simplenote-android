@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 14:54:03+0000
+Translation-Revision-Date: 2021-01-20 13:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Les mots de passe doivent contenir %1$d caractères au maximum.</string>
+    <string name="dialog_tag_conflict_title">Conflit d’étiquettes</string>
+    <string name="dialog_tag_conflict_message">L’étiquette « %1$s » existe déjà. Voulez-vous fusionner « %2$s » dans l’étiquette « %3$s » ?</string>
+    <string name="dialog_tag_conflict_button_positive">Fusionner</string>
+    <string name="description_locked">Verrouillé</string>
+    <string name="style_sepia">Sépia</string>
+    <string name="style_publication">Publication</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matrice</string>
+    <string name="style_dialog_locked_title">Style Premium</string>
+    <string name="style_dialog_locked_message">Pour utiliser ce style, vous devez avoir une adhésion Premium.</string>
+    <string name="style_dialog_locked_button_positive">Mise à niveau</string>
+    <string name="style_default">Valeur par défaut</string>
+    <string name="style_classic">Classique</string>
+    <string name="style_black">Noir</string>
+    <string name="style">Style</string>
+    <string name="tag_error_spaces">Les étiquettes ne peuvent pas contenir d’espace.</string>
+    <string name="tag_error_length">L’étiquette est trop longue.</string>
+    <string name="tag_error_exists">Cette étiquette existe déjà.</string>
+    <string name="tag_error_empty">Les étiquettes ne peuvent pas être vides.</string>
+    <string name="dialog_tag_error_message">Une erreur est survenue lors de l’ajout de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Ajouter le mot-clé</string>
+    <string name="empty_tags_hint">Lorsque vous ajoutez des étiquettes à vos notes, vos étiquettes apparaissent ici.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Mise à niveau</string>
+    <string name="membership_free">Gratuit</string>
+    <string name="membership">Inscription</string>
+    <string name="synced">Synchronisé</string>
+    <string name="delete_dialog_title">Supprimer définitivement</string>
+    <string name="delete_dialog_message">Voulez-vous supprimer définitivement cette note ? Cette action ne peut pas être annulée.</string>
+    <string name="delete_dialog_error_message">Une erreur est survenue lors de la suppression de la note. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="delete">Effacer</string>
+    <string name="confirm_empty_trash">Voulez-vous vider la corbeille ? Toutes les notes dans la corbeille seront supprimées définitivement. Cette action ne peut pas être annulée.</string>
+    <string name="empty">Vider</string>
+    <string name="back">Retour</string>
     <string name="empty_notes_untagged">Aucune note sans étiquette</string>
     <string name="unpublishing">Annulation de la publication de la note en cours…</string>
     <string name="unpublish_successful">Publication de la note annulée.</string>
@@ -68,7 +108,7 @@ Language: fr
     <string name="link_california">%1$s%2$s%3$sAvis de confidentialité pour les utilisateurs californiens%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Une connexion réseau est obligatoire. Veuillez vérifier votre connexion et réessayer.</string>
-    <string name="simperium_dialog_message_password">Les exigences en matière de mots de passe sont les suivantes :\n\n- Le mot de passe et l’adresse e-mail ne doivent pas être identiques\n- Il doit comporter au moins %1$d caractères\n- Il ne doit pas comporter de retour à la ligne\n- Il ne doit pas comporter de tabulation</string>
+    <string name="simperium_dialog_message_password">Les exigences en matière de mots de passe sont les suivantes :\n\n- Le mot de passe et l’adresse e-mail ne doivent pas être identiques\n- Il doit comporter au moins %1$d caractères\n- Il ne doit pas comporter de retour à la ligne\n- Il ne doit pas comporter de retour\n- Il ne doit pas comporter de tabulation</string>
     <string name="simperium_dialog_message_login_reset">Votre mot de passe n’est pas sûr et doit être réinitialisé. Les exigences en matière de mots de passe sont les suivantes :\n\n- Le mot de passe et l’adresse e-mail ne doivent pas être identiques\n- Il doit comporter au moins %1$d caractères\n- Il ne doit pas comporter de retour à la ligne\n- Il ne doit pas comporter de tabulation</string>
     <string name="simperium_button_login_reset">Réinitialiser</string>
     <string name="link_terms">%1$s%2$s%3$sConditions d’utilisation%4$s</string>
@@ -122,7 +162,7 @@ Language: fr
     <string name="sort_search_modified">Modifié</string>
     <string name="sort_search_created">Créé</string>
     <string name="sort_search_alphabetically">Par ordre alphabétique</string>
-    <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton « Nouvelle note » avec l’icône plus.\n\nPour rechercher dans vos notes, appuyez sur le bouton de recherche avec l’icône en forme de loupe et entrez n’importe quel texte. Simplenote affichera initialement vos recherches récentes et des recherches suggérées lorsque vous saisissez du texte. Les notes correspondant au texte saisi apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez-la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l’icône en forme d’épingle. Appuyez sur le bouton « Plus d’options » avec l’icône affichant trois points verticaux lorsque la note est ouverte et cochez la case « Épingler ».\n\nUtilisez des étiquettes pour faciliter l’organisation de vos notes. Créez une étiquette dans le champ « Ajouter une étiquette… » au bas d’une note. Vous pouvez également ajouter une adresse e-mail sous forme d’étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d’autres applications Android en appuyant sur « Partager » dans le menu « Plus d’options » lorsque la note est ouverte.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
+    <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton « Nouvelle note » avec l’icône plus.\n\nPour rechercher dans vos notes, appuyez sur le bouton de recherche avec l’icône en forme de loupe et saisissez n’importe quel texte. Simplenote affichera initialement vos recherches récentes et des recherches suggérées lorsque vous saisissez du texte. Les notes correspondant au texte saisi apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez-la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l’icône en forme d’épingle. Appuyez sur le bouton « Plus d’options » avec l’icône affichant trois points verticaux lorsque la note est ouverte et cochez la case « Épingler ».\n\nUtilisez des étiquettes pour faciliter l’organisation de vos notes. Créez une étiquette sur l’écran « Modifier les étiquettes » à l’aide du bouton « Ajouter une étiquette » ou avec le champ « Ajouter une étiquette… » en bas d’une note. Vous pouvez également ajouter une adresse e-mail sous forme d’étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d’autres applications Android en appuyant sur « Partager » dans le menu « Plus d’options » lorsque la note est ouverte.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
     <string name="search_hint">Rechercher dans les notes ou les étiquettes</string>
     <string name="log_out">Déconnexion</string>
     <string name="log_in">Connexion</string>
@@ -141,7 +181,6 @@ Language: fr
     <string name="simperium_dialog_progress_logging_in">Connexion en cours…</string>
     <string name="simperium_dialog_message_signup_existing">L\'adresse e-mail saisie est déjà associée à un compte Simplenote.</string>
     <string name="simperium_dialog_message_signup">Impossible de s\'inscrire avec l\'adresse e-mail et le mot de passe fournis.</string>
-    <string name="simperium_dialog_message_password_login">Les mots de passe doivent comprendre au moins %1$d caractères hormis les retours à la ligne, espaces et tabulations.</string>
     <string name="simperium_dialog_message_network">Aucun réseau disponible. Connectez-vous à un réseau et essayez de nouveau.</string>
     <string name="simperium_dialog_message_login">Impossible de se connecter avec l\'adresse e-mail et le mot de passe fournis.</string>
     <string name="simperium_button_signup">S\'inscrire</string>
@@ -254,7 +293,6 @@ Language: fr
     <string name="character">Caractère</string>
     <string name="no">Non</string>
     <string name="yes">Oui</string>
-    <string name="confirm_empty_trash">Voulez-vous vraiment vider la corbeille ?</string>
     <string name="empty_trash">Vider la corbeille</string>
     <string name="cancel">Annuler</string>
     <string name="save">Sauver</string>
