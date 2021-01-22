@@ -30,9 +30,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.15-rc-2"
+            versionName "2.15"
         }
-        versionCode 129
+        versionCode 130
         minSdkVersion 23
         targetSdkVersion 29
 
