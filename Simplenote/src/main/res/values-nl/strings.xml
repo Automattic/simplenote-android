@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 15:54:03+0000
+Translation-Revision-Date: 2021-01-12 11:32:26+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="delete">Verwijderen</string>
+    <string name="back">Terug</string>
     <string name="empty_notes_untagged">Geen niet-getagde opmerkingen</string>
     <string name="unpublishing">Notitie wordt verwijderd</string>
     <string name="unpublish_successful">Notitie verwijderd.</string>
@@ -68,7 +70,6 @@ Language: nl
     <string name="link_california">%1$s%2$s%3$sPrivacyverklaring voor gebruikers in Californië%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Een netwerkverbinding is vereist. Controleer je verbinding en probeer het nogmaals.</string>
-    <string name="simperium_dialog_message_password">De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
     <string name="simperium_dialog_message_login_reset">Je wachtwoord is onveilig en moet opnieuw worden ingesteld. De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
     <string name="simperium_button_login_reset">Resetten</string>
     <string name="link_terms">%1$s%2$s%3$sServicevoorwaarden%4$s</string>
@@ -122,7 +123,6 @@ Language: nl
     <string name="sort_search_modified">Aangepast</string>
     <string name="sort_search_created">Aangemaakt</string>
     <string name="sort_search_alphabetically">Alfabetisch</string>
-    <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de blauwe knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wilt zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kunt een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag aan in het veld \'Tag toevoegen…\' onderaan een notitie. Je kunt ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kunt ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kunt je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
@@ -141,7 +141,6 @@ Language: nl
     <string name="simperium_dialog_progress_logging_in">Inloggen …</string>
     <string name="simperium_dialog_message_signup_existing">Het e-mailadres dat je hebt ingevoerd, is al gekoppeld aan een Simplenote-account.</string>
     <string name="simperium_dialog_message_signup">Kan niet aanmelden met het opgegeven e-mailadres en wachtwoord.</string>
-    <string name="simperium_dialog_message_password_login">Wachtwoorden moeten minimaal %1$d tekens lang zijn en mogen geen nieuwe regels, spaties en tabs bevatten.</string>
     <string name="simperium_dialog_message_network">Er is geen netwerk beschikbaar. Maak verbinding met een netwerk en probeer het nogmaals.</string>
     <string name="simperium_dialog_message_login">Kan niet inloggen met het opgegeven e-mailadres en wachtwoord.</string>
     <string name="simperium_button_signup">Registreren</string>
@@ -254,7 +253,6 @@ Language: nl
     <string name="character">Teken</string>
     <string name="no">Nee</string>
     <string name="yes">Ja</string>
-    <string name="confirm_empty_trash">Weet je zeker dat je de prullenbak wilt leegmaken?</string>
     <string name="empty_trash">Prullenbak leegmaken</string>
     <string name="cancel">Annuleren</string>
     <string name="save">Opslaan</string>

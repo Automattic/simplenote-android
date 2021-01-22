@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 17:54:53+0000
+Translation-Revision-Date: 2021-01-20 12:54:52+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Lösenord måste vara minst %1$d tecken.</string>
+    <string name="dialog_tag_conflict_title">Etikettkonflikt</string>
+    <string name="dialog_tag_conflict_message">Etiketten %1$s finns redan. Vill du slå samman %2$s med etiketten %3$s?</string>
+    <string name="dialog_tag_conflict_button_positive">Slå samman</string>
+    <string name="description_locked">Låst</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">Publicering</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matrix</string>
+    <string name="style_dialog_locked_title">Premiumstil</string>
+    <string name="style_dialog_locked_message">Du måste ha premiummedlemskap för att använda den här stilen.</string>
+    <string name="style_dialog_locked_button_positive">Uppgradera</string>
+    <string name="style_default">Standard</string>
+    <string name="style_classic">Klassisk</string>
+    <string name="style_black">Svart</string>
+    <string name="style">Stil</string>
+    <string name="tag_error_spaces">Etiketter får inte innehålla blanksteg</string>
+    <string name="tag_error_length">Etiketten är för lång</string>
+    <string name="tag_error_exists">Etiketten finns redan</string>
+    <string name="tag_error_empty">Etiketter får inte vara tomma</string>
+    <string name="dialog_tag_error_message">Ett fel uppstod när etiketten lades till. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Lägg till etikett</string>
+    <string name="empty_tags_hint">När du lägger till etiketter till dina anteckning kommer de visas här.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Uppgradera</string>
+    <string name="membership_free">Gratis</string>
+    <string name="membership">Medlemskap</string>
+    <string name="synced">Synkroniserad</string>
+    <string name="delete_dialog_title">Ta bort permanent</string>
+    <string name="delete_dialog_message">Vill du ta bort den här anteckningen permanent? Denna åtgärd kan inte ångras.</string>
+    <string name="delete_dialog_error_message">Ett fel uppstod när anteckningen togs bort. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
+    <string name="delete">Radera</string>
+    <string name="confirm_empty_trash">Vill du tömma papperskorgen? Alla anteckningar i papperskorgen tas bort permanent. Denna åtgärd kan inte ångras.</string>
+    <string name="empty">Tom</string>
+    <string name="back">Tillbaka</string>
     <string name="empty_notes_untagged">Inga omärkta anteckningar</string>
     <string name="unpublishing">Avpublicerar anteckning …</string>
     <string name="unpublish_successful">Anteckning inte publicerad.</string>
@@ -68,7 +108,7 @@ Language: sv_SE
     <string name="link_california">%1$s%2$s%3$sIntegritetsnotis för användare i Kalifornien%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">En nätverksanslutning krävs. Kontrollera anslutningen och försök igen.</string>
-    <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
+    <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n– Lösenordet får inte matcha e-postadressen\n– Minst %1$d tecken\n– Inga nya rader\n– Inga retur\n– Inga tabbar</string>
     <string name="simperium_dialog_message_login_reset">Ditt lösenord är osäkert och måste återställas. Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
     <string name="simperium_button_login_reset">Återställ</string>
     <string name="link_terms">%1$s%2$s%3$sAnvändarvillkor%4$s</string>
@@ -122,7 +162,7 @@ Language: sv_SE
     <string name="sort_search_modified">Modified</string>
     <string name="sort_search_created">Skapad</string>
     <string name="sort_search_alphabetically">Alfabetiskt</string>
-    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på den blå knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett i fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
+    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett antingen från Redigera etiketter-skärmen med knappen Lägg till etikett, eller från fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
@@ -141,7 +181,6 @@ Language: sv_SE
     <string name="simperium_dialog_progress_logging_in">Loggar in…</string>
     <string name="simperium_dialog_message_signup_existing">Den angivna e-postadressen är redan associerad med ett Simplenote-konto.</string>
     <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
-    <string name="simperium_dialog_message_password_login">Lösenord måste ha minst %1$d tecken, exklusive radbrytningar, blanksteg och tabbar.</string>
     <string name="simperium_dialog_message_network">Det finns inget tillgängligt nätverk. Anslut till ett nätverk och försök igen.</string>
     <string name="simperium_dialog_message_login">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
     <string name="simperium_button_signup">Skapa konto</string>
@@ -254,7 +293,6 @@ Language: sv_SE
     <string name="character">Tecken</string>
     <string name="no">Nej</string>
     <string name="yes">Ja</string>
-    <string name="confirm_empty_trash">Är du säker på att du vill tömma papperskorgen?</string>
     <string name="empty_trash">Töm papperskorg</string>
     <string name="cancel">Avbryt</string>
     <string name="save">Spara</string>

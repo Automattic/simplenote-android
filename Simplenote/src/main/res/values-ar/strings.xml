@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 14:54:03+0000
+Translation-Revision-Date: 2021-01-12 11:32:26+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="delete">حذف</string>
+    <string name="back">رجوع</string>
     <string name="empty_notes_untagged">لا توجد أي ملاحظات غير موسومة</string>
     <string name="unpublishing">جارٍ إلغاء نشر الملحوظة…</string>
     <string name="unpublish_successful">تم إلغاء نشر الملحوظة.</string>
@@ -68,7 +70,6 @@ Language: ar
     <string name="link_california">%1$s%2$s⁦%3$s⁩إشعار الخصوصية الخاص بالمستخدمين في كاليفورنيا⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">يلزم وجود اتصال بالشبكة. يرجى التحقُّق من اتصالك والمحاولة مرة أخرى.</string>
-    <string name="simperium_dialog_message_password">فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n- %1$d من الأحرف بحد أدنى\n- لا توجد خطوط جديدة\n- لا توجد علامات تبويب</string>
     <string name="simperium_dialog_message_login_reset">كلمة مرورك غير آمنة وتجب إعادة تعيينها. فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n- %1$d من الأحرف بحد أدنى\n- لا توجد خطوط جديدة\n- لا توجد علامات تبويب</string>
     <string name="simperium_button_login_reset">إعادة تعيين</string>
     <string name="link_terms">%1$s%2$s%3$sشروط الخدمة%4$s</string>
@@ -122,7 +123,6 @@ Language: ar
     <string name="sort_search_modified">معدَّل</string>
     <string name="sort_search_created">تاريخ الإنشاء</string>
     <string name="sort_search_alphabetically">أبجديًا</string>
-    <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذه الملحوظة للحصول على الإرشادات.\n\nلإنشاء ملحوظة جديدة، انقر على زر \"إضافة ملحوظة\" الأزرق مع أيقونة \"الإضافة\".\n\nللبحث عن ملحوظاتك، انقر على زر \"بحث\" مع أيقونة العدسة المكبِّرة وأدخل أي نص. سيعرض برنامج Simplenote مبدئيًا عمليات البحث الأخيرة وعمليات البحث المقترحة عند إدخال نص. ستظهر الملحوظات التي تتطابق مع النص الذي تم إدخاله بمجرد إرسال البحث.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ قم بتثبيتها في الجزء العلوي من قائمة الملحوظات. يمكنك تثبيت الملحوظة بطريقتين. اضغط ضغطًا مطولاً على الملحوظة الموجودة في القائمة وانقر على زر \"تثبيت في الأعلى\" مع أيقونة التثبيت. اضغط على زر \"مزيد من الخيارات\" المتمثِّل في أيقونة النقاط الرأسية الثلاث في أثناء عرض ملحوظة، وحدِّد مربع \"التثبيت\".\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. أنشئ وسمًا في حقل \"إضافة وسم…\" في أسفل الملحوظة. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على \"مشاركة\" في قائمة \"مزيد من الخيارات\" في أثناء عرض الملحوظة.\n\nتظهر الملحوظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
     <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="log_in">تسجيل الدخول</string>
@@ -141,7 +141,6 @@ Language: ar
     <string name="simperium_dialog_progress_logging_in">جارٍ تسجيل الدخول…</string>
     <string name="simperium_dialog_message_signup_existing">عنوان البريد الإلكتروني الذي أدخلته مرتبط بالفعل بحساب Simplenote.</string>
     <string name="simperium_dialog_message_signup">يتعذر التسجيل باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
-    <string name="simperium_dialog_message_password_login">يجب ألا تقل كلمات المرور عن %1$d من الأحرف بحد أدنى باستثناء الأسطر والمسافات وعلامات التبويب الجديدة.</string>
     <string name="simperium_dialog_message_network">لا توجد شبكة متاحة. يرجى الاتصال بإحدى الشبكات والمحاولة مجددًا.</string>
     <string name="simperium_dialog_message_login">يتعذر تسجيل الدخول باستخدام عنوان البريد الإلكتروني وكلمة المرور اللذين تم إدخالهما.</string>
     <string name="simperium_button_signup">التسجيل</string>
@@ -254,7 +253,6 @@ Language: ar
     <string name="character">حرف</string>
     <string name="no">لا</string>
     <string name="yes">نعم</string>
-    <string name="confirm_empty_trash">هل أنت متأكد من رغبتك في إفراغ سلة المهملات؟</string>
     <string name="empty_trash">إفراغ سلة المهملات</string>
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
