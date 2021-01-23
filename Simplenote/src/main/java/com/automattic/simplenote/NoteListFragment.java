@@ -432,7 +432,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(ALPHABETICAL_ASCENDING)
                                 ).apply();
-                                refreshListForSearch();
+                                refreshList();
                                 return true;
                             case R.id.sort_alphabetical_reverse:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -444,25 +444,25 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_CREATED_DESCENDING)
                                 ).apply();
-                                refreshListForSearch();
+                                refreshList();
                                 return true;
                             case R.id.sort_oldest_created:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_CREATED_ASCENDING)
                                 ).apply();
-                                refreshListForSearch();
+                                refreshList();
                                 return true;
                             case R.id.sort_newest_modified:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_MODIFIED_DESCENDING)
                                 ).apply();
-                                refreshListForSearch();
+                                refreshList();
                                 return true;
                             case R.id.sort_oldest_modified:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                         String.valueOf(DATE_MODIFIED_ASCENDING)
                                 ).apply();
-                                refreshListForSearch();
+                                refreshList();
                                 return true;
                             default:
                                 return false;
