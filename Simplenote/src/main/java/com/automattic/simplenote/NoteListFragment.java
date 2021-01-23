@@ -407,6 +407,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
         RelativeLayout sortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
+        mSortOrder.setText(getSortOrderText());
         sortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
