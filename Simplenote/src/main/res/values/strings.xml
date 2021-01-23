@@ -128,6 +128,7 @@
     <string name="close_drawer">Close drawer</string>
 
     <!-- Sorting Options -->
+    <string name="sort_by">Sort by</string>
     <string name="sort_newest_modified">Modified: Newest</string>
     <string name="sort_oldest_modified">Modified: Oldest</string>
     <string name="sort_newest_created">Created: Newest</string>
