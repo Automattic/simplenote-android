@@ -404,7 +404,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSuggestionList.setAdapter(mSuggestionAdapter);
         mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
         @SuppressLint("InflateParams")
-        LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
+        LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.sort_bar, null, false);
         RelativeLayout sortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
         mSortOrder.setText(getSortOrderText());
@@ -416,7 +416,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                     mSortOrder.getContext();
                 PopupMenu popup = new PopupMenu(context, mSortOrder, Gravity.START);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.search_sort, popup.getMenu());
+                inflater.inflate(R.menu.sort_bar, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
