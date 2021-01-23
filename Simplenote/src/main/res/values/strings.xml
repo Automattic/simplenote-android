@@ -135,10 +135,6 @@
     <string name="sort_oldest_created">Created: Oldest</string>
     <string name="sort_alphabetical">Name: A-Z</string>
     <string name="sort_alphabetical_reverse">Name: Z-A</string>
-    <string name="sort_search_alphabetically">Alphabetically</string>
-    <string name="sort_search_created">Created</string>
-    <string name="sort_search_modified">Modified</string>
-    <string name="sort_search_reverse_order">Reverse order</string>
 
     <!-- Editor link options -->
     <string name="call">Call</string>
