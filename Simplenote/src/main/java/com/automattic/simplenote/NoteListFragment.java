@@ -428,21 +428,39 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         mSortOrder.setText(item.getTitle());
 
                         switch (item.getItemId()) {
-                            case R.id.search_alphabetically:
+                            case R.id.sort_alphabetical:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(ALPHABETICAL_ASCENDING)
                                 ).apply();
                                 refreshListForSearch();
                                 return true;
-                            case R.id.search_created:
+                            case R.id.sort_alphabetical_reverse:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(ALPHABETICAL_DESCENDING)
+                                ).apply();
+                                refreshList();
+                                return true;
+                            case R.id.sort_newest_created:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_CREATED_DESCENDING)
                                 ).apply();
                                 refreshListForSearch();
                                 return true;
-                            case R.id.search_modified:
+                            case R.id.sort_oldest_created:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                    String.valueOf(DATE_CREATED_ASCENDING)
+                                ).apply();
+                                refreshListForSearch();
+                                return true;
+                            case R.id.sort_newest_modified:
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_MODIFIED_DESCENDING)
+                                ).apply();
+                                refreshListForSearch();
+                                return true;
+                            case R.id.sort_oldest_modified:
+                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
+                                        String.valueOf(DATE_MODIFIED_ASCENDING)
                                 ).apply();
                                 refreshListForSearch();
                                 return true;
@@ -477,12 +495,15 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     int getSortOrderText() {
         switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
             case ALPHABETICAL_ASCENDING:
+                return R.string.sort_alphabetical;
             case ALPHABETICAL_DESCENDING:
-                return R.string.sort_search_alphabetically;
+                return R.string.sort_alphabetical_reverse;
             case DATE_CREATED_ASCENDING:
+                return R.string.sort_oldest_created;
             case DATE_CREATED_DESCENDING:
-                return R.string.sort_search_created;
+                return R.string.sort_newest_created;
             case DATE_MODIFIED_ASCENDING:
+                return R.string.sort_oldest_modified;
             case DATE_MODIFIED_DESCENDING:
             default:
                 return R.string.sort_newest_modified;
