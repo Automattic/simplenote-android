@@ -153,7 +153,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private boolean mIsSearching;
     private ListView mList;
     private RecyclerView mSuggestionList;
-    private RelativeLayout mSortLayoutContent;
     private RelativeLayout mSuggestionLayout;
     private SharedPreferences mPreferences;
     private String mSelectedNoteId;
@@ -406,9 +405,9 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
         @SuppressLint("InflateParams")
         LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.search_sort, null, false);
-        mSortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
+        RelativeLayout sortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
         mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
-        mSortLayoutContent.setOnClickListener(new View.OnClickListener() {
+        sortLayoutContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = ThemeUtils.getStyle(requireContext()) == R.style.Style_Sepia ?
