@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:background="?attr/drawerBackgroundColor"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:transitionName="shared_button"
+        tools:ignore="UselessParent"
+        tools:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/add_tag"
+            style="@style/Dialog.Title">
+        </TextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tag_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_dialog_eighth"
+            android:layout_marginEnd="@dimen/padding_dialog_quarter"
+            android:layout_marginStart="@dimen/padding_dialog_quarter"
+            android:layout_marginTop="@dimen/padding_large"
+            android:layout_width="match_parent"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tag_input"
+                android:hint="@string/dialog_tag_add_hint"
+                android:inputType="textEmailAddress"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent">
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/padding_dialog_eighth"
+            android:paddingEnd="@dimen/padding_dialog_half"
+            android:paddingStart="@dimen/padding_dialog_half"
+            android:paddingTop="@dimen/padding_dialog_eighth">
+
+            <Button
+                android:id="@+id/button_negative"
+                android:enabled="true"
+                android:layout_toStartOf="@+id/button_positive"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_dialog_quarter"
+                android:layout_width="wrap_content"
+                android:text="@string/dialog_tag_add_button_negative"
+                style="@style/Dialog.Button">
+            </Button>
+
+            <Button
+                android:id="@+id/button_positive"
+                android:enabled="false"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_dialog_quarter"
+                android:layout_width="wrap_content"
+                android:text="@string/dialog_tag_add_button_positive"
+                style="@style/Dialog.Button">
+            </Button>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@
 <resources>
 
     <style name="Base.Theme.Simplestyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:alertDialogTheme">@style/Dialog</item>
         <item name="android:navigationBarColor">@color/background_dark</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem.Simplestyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem.Simplestyle</item>
@@ -13,12 +14,13 @@
         <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_left_24dp</item>
         <item name="actionModeStyle">@style/ActionMode.Simplestyle</item>
-        <item name="actionModeTextColor">@color/item_blue_dark</item>
+        <item name="actionModeTextColor">@color/item_default_dark</item>
+        <item name="alertDialogTheme">@style/Dialog</item>
         <item name="bottomSheetDialogTheme">@style/Theme.MaterialComponents.BottomSheetDialog</item>
-        <item name="chipCheckedOnBackgroundColor">@color/gray_70</item>
-        <item name="chipCheckedOffBackgroundColor">@color/gray_60</item>
+        <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
+        <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
         <item name="chipTextColor">@color/text_chip_dark</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_dark</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/background_dark</item>
         <item name="dividerColor">@color/divider_dark</item>
@@ -28,13 +30,13 @@
         <item name="editorSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
         <item name="editorSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
         <item name="emptyImageColor">@color/empty_dark</item>
-        <item name="fabColor">@color/item_blue_dark</item>
+        <item name="fabColor">@color/item_default_dark</item>
         <item name="fabIconColor">@color/gray_100</item>
         <item name="hintTextColor">@color/text_title_disabled</item>
-        <item name="iconTintColor">@color/item_blue_dark</item>
+        <item name="iconTintColor">@color/item_default_dark</item>
         <item name="isLightTheme">false</item>
         <item name="keyBackgroundColor">@color/gray_40</item>
-        <item name="listBackgroundSelector">@drawable/bg_list_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_default</item>
         <item name="listDividerDrawable">@drawable/divider_dark</item>
         <item name="listSearchHighlightBackgroundColor">@color/simplenote_blue_60</item>
         <item name="listSearchHighlightForegroundColor">@color/simplenote_blue_5</item>
@@ -47,6 +49,7 @@
         <item name="pinIconSelector">@drawable/bg_pin_selector_dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="settingsTextColor">@android:color/white</item>
+        <item name="sheetBackgroundColor">@color/background_dark_8</item>
         <item name="toolbarColor">@color/background_dark_4</item>
         <item name="toolbarIconColor">@color/gray_20</item>
         <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup</item>
@@ -54,7 +57,23 @@
     </style>
 
     <style name="CloseButtonStyle" parent="Widget.AppCompat.ActionButton.CloseMode">
-        <item name="tint">@color/item_blue_dark</item>
+        <item name="tint">@color/item_default_dark</item>
+    </style>
+
+    <style name="Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:colorBackground">@color/background_dark_24</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Dialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Dialog.Button</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+    </style>
+
+    <style name="Dialog.Black" parent="Dialog">
+        <item name="android:colorBackground">@color/background_dark_black_24</item>
+    </style>
+
+    <style name="Dialog.Sepia" parent="Dialog">
+        <item name="android:colorBackground">@color/background_dark_sepia_24</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -75,22 +94,61 @@
         <item name="android:windowBackground">@color/blue</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
-        <item name="colorControlHighlight">@color/item_blue_dark</item>
-        <item name="colorPrimary">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_dark</item>
+        <item name="colorControlHighlight">@color/item_default_dark</item>
+        <item name="colorPrimary">@color/item_default_dark</item>
         <item name="colorPrimaryDark">@color/blue</item>
         <item name="toolbarColor">@color/blue</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">@color/background_dark_16</item>
-        <item name="android:navigationBarColor">@color/background_dark_16</item>
+        <item name="android:colorBackground">?attr/sheetBackgroundColor</item>
+        <item name="android:navigationBarColor">?attr/sheetBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
-        <item name="colorAccent">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_dark</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Black" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_black_dark</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Classic" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_classic_dark</item>
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="colorPrimaryDark">@color/blue_50</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Default" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Matrix" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_matrix_dark</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_dark_matrix</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Mono" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_mono_dark</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/gray</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Publication" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_publication_dark</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red</item>
+    </style>
+
+    <style name="Theme.Simplestyle.BottomSheetDialog.Sepia" parent="@style/Theme.Simplestyle.BottomSheetDialog">
+        <item name="colorAccent">@color/item_sepia_dark</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/background_dark_sepia_1</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Label" parent="Theme.Simplestyle.BottomSheetDialog">
@@ -117,8 +175,158 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="Theme.Transparent.Dialog" parent="Theme.Transparent">
+        <item name="android:navigationBarColor">@color/background_dark_navigation</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Style.Black" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_0</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.White</item>
+        <item name="actionModeTextColor">@color/item_black_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Black</item>
+        <item name="chipCheckedOnBackgroundColor">@color/background_dark_24</item>
+        <item name="chipCheckedOffBackgroundColor">@color/background_dark_8</item>
+        <item name="colorAccent">@color/item_black_dark</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="drawerBackgroundColor">@color/background_dark_0</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/gray_10</item>
+        <item name="editorSearchHighlightForegroundColor">@android:color/black</item>
+        <item name="emptyImageColor">@color/empty_dark_black</item>
+        <item name="fabColor">@color/background_dark_0</item>
+        <item name="fabIconColor">@android:color/white</item>
+        <item name="iconTintColor">@color/item_black_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_black</item>
+        <item name="listSearchHighlightBackgroundColor">@color/gray_10</item>
+        <item name="listSearchHighlightForegroundColor">@android:color/black</item>
+        <item name="mainBackgroundColor">@android:color/black</item>
+        <item name="noteEditorTextColor">@color/gray_0</item>
+        <item name="sheetBackgroundColor">@color/background_dark_black_8</item>
+        <item name="tagChipShadowColor">@android:color/black</item>
+        <item name="toolbarColor">@color/background_dark_0</item>
+    </style>
+
+    <style name="Style.Classic" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_classic_dark</item>
+        <item name="colorAccent">@color/item_classic_dark</item>
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="fabColor">@color/item_classic_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_classic_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_classic</item>
+        <item name="listSearchHighlightBackgroundColor">@color/blue_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/blue_5</item>
+        <item name="toolbarIconColor">@color/item_classic_dark</item>
+    </style>
+
+    <style name="Style.Matrix" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Black</item>
+        <item name="android:windowBackground">@color/background_dark_matrix</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_matrix</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_matrix_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Black</item>
+        <item name="colorAccent">@color/item_matrix_dark</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/background_dark_matrix</item>
+        <item name="drawerBackgroundColor">@color/background_dark_0</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/green_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/green_5</item>
+        <item name="emptyImageColor">@color/empty_dark_black</item>
+        <item name="fabColor">@color/item_matrix_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_matrix_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_matrix</item>
+        <item name="listSearchHighlightBackgroundColor">@color/green_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/green_5</item>
+        <item name="mainBackgroundColor">@color/background_dark_matrix</item>
+        <item name="sheetBackgroundColor">@color/background_dark_black_8</item>
+        <item name="styleFontFamily">monospace</item>
+        <item name="toolbarColor">@color/background_dark_matrix</item>
+    </style>
+
+    <style name="Style.Mono" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_mono_dark</item>
+        <item name="colorAccent">@color/item_mono_dark</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="fabColor">@color/item_mono_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_mono_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_mono</item>
+        <item name="listSearchHighlightBackgroundColor">@color/gray_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/gray_5</item>
+        <item name="styleFontFamily">monospace</item>
+    </style>
+
+    <style name="Style.Publication" parent="Theme.Simplestyle">
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_publication_dark</item>
+        <item name="colorAccent">@color/item_publication_dark</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_dark</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/red_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/red_5</item>
+        <item name="fabColor">@color/item_publication_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_publication_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_publication</item>
+        <item name="listSearchHighlightBackgroundColor">@color/red_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/red_5</item>
+        <item name="styleFontFamily">serif</item>
+    </style>
+
+    <style name="Style.Sepia" parent="Theme.Simplestyle">
+        <item name="android:alertDialogTheme">@style/Dialog.Sepia</item>
+        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:windowBackground">@color/background_dark_sepia</item>
+        <item name="actionModeBackgroundColor">@color/background_dark_sepia_4</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_sepia_dark</item>
+        <item name="alertDialogTheme">@style/Dialog.Sepia</item>
+        <item name="chipCheckedOnBackgroundColor">@color/background_dark_sepia_24</item>
+        <item name="chipCheckedOffBackgroundColor">@color/background_dark_sepia_8</item>
+        <item name="colorAccent">@color/item_sepia_dark</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/background_dark_sepia_1</item>
+        <item name="drawerBackgroundColor">@color/background_dark_sepia_1</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/orange_60</item>
+        <item name="editorSearchHighlightForegroundColor">@color/orange_5</item>
+        <item name="emptyImageColor">@color/empty_dark_sepia</item>
+        <item name="fabColor">@color/item_sepia_dark</item>
+        <item name="fabIconColor">@color/gray_100</item>
+        <item name="iconTintColor">@color/item_sepia_dark</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_sepia</item>
+        <item name="listSearchHighlightBackgroundColor">@color/orange_60</item>
+        <item name="listSearchHighlightForegroundColor">@color/orange_5</item>
+        <item name="mainBackgroundColor">@color/background_dark_sepia</item>
+        <item name="sheetBackgroundColor">@color/background_dark_sepia_8</item>
+        <item name="toolbarColor">@color/background_dark_sepia_4</item>
+        <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup.Sepia</item>
+    </style>
+
     <style name="ToolbarTheme.Popup" parent="ThemeOverlay.MaterialComponents">
         <item name="android:backgroundTint">@color/background_dark_8</item>
+    </style>
+
+    <style name="ToolbarTheme.Popup.Sepia" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:backgroundTint">@color/background_dark_sepia_8</item>
     </style>
 
 </resources>

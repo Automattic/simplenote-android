@@ -26,9 +26,9 @@
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.NoteEditorActivity"
-            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
-            android:windowSoftInputMode="stateHidden">
+            android:name="com.automattic.simplenote.AddTagActivity"
+            android:theme="@style/Theme.Transparent.Dialog"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity
@@ -84,6 +84,12 @@
         </activity>
 
         <activity
+            android:name="com.automattic.simplenote.NoteEditorActivity"
+            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
             android:name="com.automattic.simplenote.NoteWidgetDarkConfigureActivity"
             android:theme="@style/Theme.Transparent">
 
@@ -120,6 +126,12 @@
 
         <activity
             android:name="com.automattic.simplenote.SimplenoteCredentialsActivity">
+        </activity>
+
+        <activity
+            android:name="com.automattic.simplenote.StyleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".PreferencesActivity">
         </activity>
 
         <activity

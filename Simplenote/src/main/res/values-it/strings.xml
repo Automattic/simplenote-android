@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 12:54:04+0000
+Translation-Revision-Date: 2021-01-21 10:54:05+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Le password devono contenere un minimo di %1$d caratteri.</string>
+    <string name="dialog_tag_conflict_title">Conflitto di tag</string>
+    <string name="dialog_tag_conflict_message">Il tag \"%1$s\" esiste già. Desideri unire \"%2$s\" con il tag \"%3$s\"?</string>
+    <string name="dialog_tag_conflict_button_positive">Unisci</string>
+    <string name="description_locked">Bloccato</string>
+    <string name="style_sepia">Seppia</string>
+    <string name="style_publication">Pubblicazione</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit.nsectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_matrix">Matrice</string>
+    <string name="style_dialog_locked_title">Stile Premium</string>
+    <string name="style_dialog_locked_message">Per utilizzare questo stile, devi disporre di una membership Premium.</string>
+    <string name="style_dialog_locked_button_positive">Aggiorna</string>
+    <string name="style_default">Predefinito</string>
+    <string name="style_classic">Classico</string>
+    <string name="style_black">Nero</string>
+    <string name="style">Stile</string>
+    <string name="tag_error_spaces">I tag non possono contenere spazi</string>
+    <string name="tag_error_length">Tag troppo lungo</string>
+    <string name="tag_error_exists">Il tag esiste già</string>
+    <string name="tag_error_empty">I tag non possono essere vuoti</string>
+    <string name="dialog_tag_error_message">Si è verificato un errore durante l\'aggiunta del tag. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Aggiungi tag</string>
+    <string name="empty_tags_hint">Una volta aggiunti alle tue note, i tag verranno visualizzati qui. </string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Aggiorna</string>
+    <string name="membership_free">Gratuito</string>
+    <string name="membership">Membership</string>
+    <string name="synced">Sincronizzazione completata</string>
+    <string name="delete_dialog_title">Elimina definitivamente</string>
+    <string name="delete_dialog_message">Desideri eliminare questa nota in modo definitivo? Questa azione non può essere annullata.</string>
+    <string name="delete_dialog_error_message">Si è verificato un errore durante l\'eliminazione della nota. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
+    <string name="delete">Elimina</string>
+    <string name="confirm_empty_trash">Desideri svuotare il cestino? Tutte le note nel cestino verranno eliminato in modo definitivo. Questa azione non può essere annullata.</string>
+    <string name="empty">Vuota</string>
+    <string name="back">Indietro</string>
     <string name="empty_notes_untagged">Nessuna nota senza tag</string>
     <string name="unpublishing">Annullamento della pubblicazione della nota in corso…</string>
     <string name="unpublish_successful">Pubblicazione della nota annullata.</string>
@@ -68,7 +107,7 @@ Language: it
     <string name="link_california">%1$s%2$s%3$sNota sulla privacy per utenti in California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">È richiesta una connessione di rete. Controlla la connessione e riprova.</string>
-    <string name="simperium_dialog_message_password">I requisiti della password sono:\n\n- La password non può corrispondere all\'e-mail\n- Minimo di %1$d caratteri\n- Nessuna nuova riga\n- Nessuna tabulazione</string>
+    <string name="simperium_dialog_message_password">I requisiti della password sono:\n\n- La password non può corrispondere all\'e-mail\n- Minimo di %1$d caratteri\n- Nessuna nuova riga\n- Nessuna restituzione\n- Nessuna scheda</string>
     <string name="simperium_dialog_message_login_reset">La password non è sicura e deve essere reimpostata. I requisiti della password sono:\n\n- La password non può corrispondere all\'e-mail\n- Minimo di %1$d caratteri\n- Nessuna nuova riga\n- Nessuna tabulazione</string>
     <string name="simperium_button_login_reset">Ripristina</string>
     <string name="link_terms">%1$s%2$s%3$sTermini di servizio%4$s</string>
@@ -122,7 +161,7 @@ Language: it
     <string name="sort_search_modified">Modificato</string>
     <string name="sort_search_created">Creato</string>
     <string name="sort_search_alphabetically">In ordine alfabetico</string>
-    <string name="welcome_note">Benvenuto in Simplenote Android!\nApri questa nota per istruzioni.\n\nPer creare una nuova nota, tocca il pulsante blu \"New Note\" (Nuova nota) con l\'icona del segno più.\n\nPer cercare le tue note, tocca il pulsante \"Search\" (Cerca) con l\'icona della lente d\'ingrandimento e inserisci qualsiasi testo. Simplenote ti mostrerà all\'inizio le ricerche recenti e le ricerche suggerite durante l\'inserimento del testo. Le note che corrispondono al testo immesso verranno mostrate una volta che la ricerca è stata inviata.\n\nHai una nota veramente importante? Aggiungila nella parte superiore dell\'elenco delle note. Puoi aggiungere una nota in due modi. Premi a lungo la nota nell\'elenco e tocca il pulsante \"Pin to top\" (Aggiungi in alto) con l\'icona a forma di puntina. Tocca il pulsante \"More Options\" (Altre opzioni) con l\'icona con tre punti verticali durante la visualizzazione di una nota e attiva la casella \"Pin \" (Aggancia).\n\nUsa i tag per aiutarti a organizzare le tue note. Crea un tag nel campo \"Add tag…\" (Aggiungi tag…) nella parte inferiore della nota. Puoi anche aggiungere un indirizzo e-mail come tag per condividere una nota con qualcuno.\n\nCondividi facilmente le note con altre app Android toccando \"Share\" (Condividi) durante la visualizzazione di una nota.\n\nLe note eliminate finiscono nel cestino. Se lo desideri, puoi ripristinarle o svuotare il cestino per cancellarle definitivamente.\n\nPuoi accedere alle note sul sito web e da altri dispositivi. Vai su http://simplenote.com per iniziare.\n\nCi auguriamo che l\'utilizzo di Simplenote sia di tuo gradimento!</string>
+    <string name="welcome_note">Benvenuto in Simplenote Android!\nApri questa nota per istruzioni.\n\nPer creare una nuova nota, tocca il pulsante \"New Note\" (Nuova nota) con l\'icona del segno più.\n\nPer cercare le tue note, tocca il pulsante \"Search\" (Cerca) con l\'icona della lente d\'ingrandimento e inserisci qualsiasi testo. Simplenote ti mostrerà all\'inizio le ricerche recenti e le ricerche suggerite durante l\'inserimento del testo. Le note che corrispondono al testo immesso verranno mostrate una volta che la ricerca è stata inviata.\n\nHai una nota veramente importante? Aggiungila nella parte superiore dell\'elenco delle note. Puoi aggiungere una nota in due modi. Premi a lungo la nota nell\'elenco e tocca il pulsante \"Pin to top\" (Aggiungi in alto) con l\'icona a forma di puntina. Tocca il pulsante \"More Options\" (Altre opzioni) con l\'icona con tre punti verticali durante la visualizzazione di una nota e attiva la casella \"Pin \" (Aggancia).\n\nUsa i tag per aiutarti a organizzare le tue note. Crea un tag nella schermata \"Edit Tags\" (Modifica tag) utilizzando il pulsante \"Add Tag\" (Aggiungi tag) oppure nel campo \"Add tag…\" (Aggiungi tag…) nella parte inferiore di una nota. Puoi anche aggiungere un indirizzo e-mail come tag per condividere una nota con qualcuno.\n\nCondividi facilmente le note con altre app Android toccando \"Share\" (Condividi) durante la visualizzazione di una nota.\n\nLe note eliminate finiscono nel cestino. Se lo desideri, puoi ripristinarle o svuotare il cestino per cancellarle definitivamente.\n\nPuoi accedere alle note sul sito web e da altri dispositivi. Vai su http://simplenote.com per iniziare.\n\nCi auguriamo che l\'utilizzo di Simplenote sia di tuo gradimento!</string>
     <string name="search_hint">Cerca note o tag</string>
     <string name="log_out">Esci da questo account</string>
     <string name="log_in">Accedi</string>
@@ -141,7 +180,6 @@ Language: it
     <string name="simperium_dialog_progress_logging_in">Accesso in corso…</string>
     <string name="simperium_dialog_message_signup_existing">L\'indirizzo e-mail inserito è già associato a un account Simplenote.</string>
     <string name="simperium_dialog_message_signup">Impossibile effettuare l\'iscrizione con la password e l\'indirizzo e-mail forniti.</string>
-    <string name="simperium_dialog_message_password_login">La password deve contenere almeno %1$d caratteri escludendo nuove righe, spazi e tabulazioni.</string>
     <string name="simperium_dialog_message_network">Nessuna rete disponibile. Connettiti a una rete e riprova.</string>
     <string name="simperium_dialog_message_login">Impossibile accedere con la password e l\'indirizzo e-mail forniti.</string>
     <string name="simperium_button_signup">Registrati</string>
@@ -254,7 +292,6 @@ Language: it
     <string name="character">Carattere</string>
     <string name="no">No</string>
     <string name="yes">Si</string>
-    <string name="confirm_empty_trash">Sei sicuro di voler svuotare il cestino?</string>
     <string name="empty_trash">Svuota cestino</string>
     <string name="cancel">Annulla</string>
     <string name="save">Salva</string>

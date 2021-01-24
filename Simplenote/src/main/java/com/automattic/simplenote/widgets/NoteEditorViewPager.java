@@ -37,6 +37,11 @@ public class NoteEditorViewPager extends ViewPager {
         return this.mIsEnabled && super.performClick();
     }
 
+    @Override
+    public boolean arrowScroll(int direction) {
+        return this.mIsEnabled && super.arrowScroll(direction);
+    }
+
     public void setPagingEnabled(boolean enabled) {
         this.mIsEnabled = enabled;
     }

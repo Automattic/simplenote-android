@@ -2,98 +2,148 @@
 
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory
         android:title="@string/notes">
 
         <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:key="pref_key_condensed_note_list"
-            android:title="@string/condensed_note_list"/>
+            android:defaultValue="false"
+            android:title="@string/condensed_note_list">
+        </SwitchPreferenceCompat>
+
         <ListPreference
+            android:key="pref_key_sort_order"
             android:defaultValue="0"
             android:entries="@array/array_sort_order"
             android:entryValues="@array/array_sort_order_values"
-            android:key="pref_key_sort_order"
             android:summary="%s"
-            android:title="@string/sort_order"/>
+            android:title="@string/sort_order"
+            tools:summary="@string/sort_newest_modified">
+        </ListPreference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/tags">
+
         <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:key="pref_key_sort_tags_alpha"
-            android:title="@string/sort_tags_alphabetically" />
+            android:defaultValue="false"
+            android:title="@string/sort_tags_alphabetically">
+        </SwitchPreferenceCompat>
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_key_appearance_preferences"
         android:title="@string/appearance">
+
         <ListPreference
+            android:key="pref_key_theme"
             android:defaultValue="0"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
-            android:key="pref_key_theme"
             android:summary="%s"
-            android:title="@string/theme"/>
+            android:title="@string/theme"
+            tools:summary="@string/theme_system">
+        </ListPreference>
+
+        <Preference
+            android:key="pref_key_style"
+            android:summary="%s"
+            android:title="@string/style"
+            app:isPreferenceVisible="false"
+            tools:summary="@string/style_classic">
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/editor">
+
         <ListPreference
+            android:key="pref_key_font_size"
             android:defaultValue="@integer/default_font_size"
             android:entries="@array/array_font_size"
             android:entryValues="@array/array_font_size_values"
-            android:key="pref_key_font_size"
             android:summary="%s"
-            android:title="@string/font_size"/>
+            android:title="@string/font_size"
+            tools:summary="@string/font_size_normal">
+        </ListPreference>
+
         <SwitchPreferenceCompat
-            android:defaultValue="true"
             android:key="pref_key_detect_links"
-            android:title="@string/detect_links"/>
+            android:defaultValue="true"
+            android:title="@string/detect_links">
+        </SwitchPreferenceCompat>
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:persistent="false"
-        android:title="@string/passcode_preference_title">
+        android:title="@string/passcode_preference_title"
+        android:persistent="false">
 
         <Preference
             android:key="@string/pref_key_passcode_toggle"
             android:persistent="false"
             android:title="@string/passcode_turn_on"
-            android:summary="@string/passcode_summary"/>
+            android:summary="@string/passcode_summary">
+        </Preference>
 
         <Preference
             android:key="@string/pref_key_change_passcode"
             android:persistent="false"
-            android:title="@string/passcode_change_passcode"/>
+            android:title="@string/passcode_change_passcode">
+        </Preference>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/account">
+
+        <Preference
+            android:key="pref_key_membership"
+            android:title="@string/membership"
+            app:isPreferenceVisible="false"
+            tools:layout="@layout/preference_button"
+            tools:summary="@string/membership_free">
+        </Preference>
+
         <Preference
             android:key="pref_key_authenticate"
-            tools:title="@string/log_out"/>
+            tools:title="@string/log_out">
+        </Preference>
+
         <Preference
             android:key="pref_key_export"
-            android:title="@string/export_setting"/>
+            android:title="@string/export_setting">
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="Privacy">
+
         <SwitchPreferenceCompat
-            android:defaultValue="true"
             android:key="pref_key_analytics_switch"
-            android:title="@string/share_analytics" />
+            android:defaultValue="true"
+            android:title="@string/share_analytics">
+        </SwitchPreferenceCompat>
+
         <Preference
             android:key="pref_key_analytics_enabled_summary"
             android:summary="@string/share_analytics_summary">
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://automattic.com/cookies" />
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://automattic.com/cookies">
+            </intent>
+
         </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -2,6 +2,32 @@
 
 <resources>
 
+    <style name="Style.Sepia" parent="Theme.Simplestyle">
+        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:windowBackground">@color/background_light_sepia</item>
+        <item name="actionModeBackgroundColor">@color/background_light_sepia</item>
+        <item name="actionModeCloseButtonStyle">@style/CloseButtonStyle.Accent</item>
+        <item name="actionModeTextColor">@color/item_sepia_light</item>
+        <item name="colorAccent">@color/item_sepia_light</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/background_light_sepia</item>
+        <item name="drawerBackgroundColor">@color/background_light_sepia</item>
+        <item name="drawerBackgroundSelector">@color/bg_drawer_selector_accent</item>
+        <item name="editorSearchHighlightBackgroundColor">@color/orange_5</item>
+        <item name="editorSearchHighlightForegroundColor">@color/orange_60</item>
+        <item name="emptyImageColor">@color/empty_light_sepia</item>
+        <item name="fabColor">@color/item_sepia_light</item>
+        <item name="fabIconColor">@android:color/white</item>
+        <item name="iconTintColor">@color/item_sepia_light</item>
+        <item name="listBackgroundSelector">@drawable/bg_list_sepia</item>
+        <item name="listSearchHighlightBackgroundColor">@color/orange_5</item>
+        <item name="listSearchHighlightForegroundColor">@color/orange_60</item>
+        <item name="mainBackgroundColor">@color/background_light_sepia</item>
+        <item name="sheetBackgroundColor">@color/background_light_sepia</item>
+        <item name="toolbarColor">@color/background_light_sepia</item>
+        <item name="toolbarPopupTheme">@style/ToolbarTheme.Popup.Sepia</item>
+    </style>
+
     <style name="Theme.Simplestyle" parent="Base.Theme.Simplestyle">
         <item name="android:navigationBarColor">@color/background_light</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -26,21 +52,21 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorAccent">@color/item_blue_light</item>
-        <item name="colorControlHighlight">@color/item_blue_dark</item>
+        <item name="colorAccent">@color/item_default_light</item>
+        <item name="colorControlHighlight">@color/item_default_dark</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="toolbarColor">@color/blue</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:colorBackground">?attr/mainBackgroundColor</item>
-        <item name="android:navigationBarColor">?attr/mainBackgroundColor</item>
+        <item name="android:colorBackground">?attr/sheetBackgroundColor</item>
+        <item name="android:navigationBarColor">?attr/sheetBackgroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
-        <item name="colorAccent">@color/item_blue_light</item>
+        <item name="colorAccent">@color/item_default_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
@@ -50,6 +76,14 @@
         <item name="android:statusBarColor">@color/passcodelock_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+    <style name="Theme.Transparent.Dialog" parent="Theme.Transparent">
+        <item name="android:navigationBarColor">@color/background_light_navigation</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
     </style>
 
 </resources>

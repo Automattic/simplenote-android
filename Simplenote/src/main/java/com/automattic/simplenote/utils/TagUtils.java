@@ -42,12 +42,8 @@ public class TagUtils {
      * @param name      {@link String} to use creating the tag.
      */
     public static void createTagIfMissing(Bucket<Tag> bucket, String name) throws BucketObjectNameInvalid {
-        try {
-            bucket.getObject(hashTag(name));
-            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " already exists");
-        } catch (BucketObjectMissingException e) {
+        if (isTagMissing(bucket, name)) {
             createTag(bucket, name, bucket.count());
-            Log.d("createTagIfMissing", "Tag " + "\"" + name + "\"" + " does not exist");
         }
     }
 
@@ -73,6 +69,27 @@ public class TagUtils {
     }
 
     /**
+     * A canonical representation of a tag exists from the hashed value of the lexical variation.
+     *
+     * @param bucket    {@link Bucket<Tag>} in which to get tag.
+     * @param lexical   {@link String} lexical variation of tag.
+     *
+     * @return          {@link Boolean} TRUE if canonical tag exists; FALSE otherwise.
+     */
+    public static boolean hasCanonicalOfLexical(Bucket<Tag> bucket, String lexical) {
+        String hashed = hashTag(lexical);
+
+        try {
+            bucket.getObject(hashed);
+            Log.d("hasCanonicalOfLexical", "Tag " + "\"" + hashed + "\"" + " does exist");
+            return true;
+        } catch (BucketObjectMissingException e) {
+            Log.d("hasCanonicalOfLexical", "Tag " + "\"" + hashed + "\"" + " does not exist");
+            return false;
+        }
+    }
+
+    /**
      * Hash the tag @param name with normalizing, lowercasing, and encoding.
      *
      * @param name      {@link String} to hash as the tag kay.
@@ -84,7 +101,7 @@ public class TagUtils {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
             String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name());
-            return encoded.replace("*", "%2A").replace("+", "%20");
+            return replaceEncoded(encoded);
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
             return name;
@@ -102,11 +119,50 @@ public class TagUtils {
         try {
             String normalized = Normalizer.normalize(name, Normalizer.Form.NFC);
             String lowercased = normalized.toLowerCase(Locale.US);
-            String encoded = URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name()).replace("*", "%2A").replace("+", "%20");
+            String encoded = replaceEncoded(URLEncoder.encode(lowercased, StandardCharsets.UTF_8.name()));
             return encoded.length() <= MAXIMUM_LENGTH_ENCODED_HASH;
         } catch (UnsupportedEncodingException e) {
             // TODO: Handle encoding exception with a custom UTF-8 encoder.
             return false;
         }
+    }
+
+    /**
+     * Determine if the tag with @param name is missing from @param bucket or not.
+     *
+     * @param bucket    {@link Bucket<Tag>} in which to create the tag.
+     * @param name      {@link String} to use creating the tag.
+     *
+     * @return          {@link Boolean} true if tag is missing; false otherwise.
+     */
+    public static boolean isTagMissing(Bucket<Tag> bucket, String name) {
+        try {
+            bucket.getObject(hashTag(name));
+            Log.d("isTagMissing", "Tag " + "\"" + name + "\"" + " already exists");
+            return false;
+        } catch (BucketObjectMissingException e) {
+            Log.d("isTagMissing", "Tag " + "\"" + name + "\"" + " does not exist");
+            return true;
+        }
+    }
+
+    /**
+     * Replace certain characters in @param encoded that were not encoded with encoded value.
+     *
+     * All "+" characters in a tag are encoded upstream and passed as "%2B" in {@param encoded}.
+     * All " " characters in a tag are encoded upstream and passed as "+" in {@param encoded}.
+     * Thus, all "+" in {@param encoded} should be replaced with "%20" as an encoded space.
+     *
+     * @param encoded   {@link String} to replace certain characters with encoded value.
+     *
+     * @return          {@link String} replaced characters with encoded values.
+     */
+    private static String replaceEncoded(String encoded) {
+        return encoded
+            .replace("+", "%20")
+            .replace("*", "%2A")
+            .replace("-", "%2D")
+            .replace(".", "%2E")
+            .replace("_", "%5F");
     }
 }

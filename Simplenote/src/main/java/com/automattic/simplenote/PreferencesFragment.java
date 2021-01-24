@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,19 +16,18 @@ import androidx.core.app.ShareCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.AppLog;
+import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.WidgetUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -38,7 +36,6 @@ import com.simperium.client.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
@@ -46,14 +43,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener,
-        Simperium.OnUserCreatedListener {
-    private static final String WEB_APP_URL = "https://app.simplenote.com";
+public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
+    public static final String WEB_APP_URL = "https://app.simplenote.com";
+
     private static final int REQUEST_EXPORT_DATA = 9001;
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
 
@@ -149,7 +147,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
-        final ListPreference themePreference = (ListPreference) findPreference(PrefUtils.PREF_THEME);
+        final ListPreference themePreference = findPreference(PrefUtils.PREF_THEME);
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -166,13 +164,41 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         AnalyticsTracker.CATEGORY_USER,
                         "theme_preference"
                 );
-
-                // recreate the activity so new theme is applied
-                activity.recreate();
             }
         });
 
-        final ListPreference sortPreference = (ListPreference) findPreference(PrefUtils.PREF_SORT_ORDER);
+        final Preference stylePreference = findPreference("pref_key_style");
+        stylePreference.setSummary(
+            PrefUtils.isPremium(requireContext()) ?
+                PrefUtils.getStyleNameFromIndexSelected(requireContext()) :
+                PrefUtils.getStyleNameDefault(requireContext())
+        );
+        stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(requireContext(), StyleActivity.class));
+                return true;
+            }
+        });
+
+        final Preference membershipPreference = findPreference("pref_key_membership");
+        membershipPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((PreferencesActivity) requireActivity()).openBrowserForMembership(getView());
+                return true;
+            }
+        });
+
+        if (PrefUtils.isPremium(requireContext())) {
+            membershipPreference.setLayoutResource(R.layout.preference_default);
+            membershipPreference.setSummary(R.string.membership_premium);
+        } else {
+            membershipPreference.setLayoutResource(R.layout.preference_button);
+            membershipPreference.setSummary(R.string.membership_free);
+        }
+
+        final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);
         sortPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -209,7 +235,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
         analyticsSummaryPreference.setSummary(HtmlCompat.fromHtml(formattedSummary));
 
-        mAnalyticsSwitch = (SwitchPreferenceCompat)findPreference("pref_key_analytics_switch");
+        mAnalyticsSwitch = findPreference("pref_key_analytics_switch");
         mAnalyticsSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -244,7 +270,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (resultCode != Activity.RESULT_OK || resultData == null) {
+        if (resultCode != RESULT_OK || resultData == null) {
             return;
         }
 
@@ -278,42 +304,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void logOut() {
-        Simplenote application = (Simplenote) getActivity().getApplication();
-        application.getSimperium().deauthorizeUser();
-
-        application.getNotesBucket().reset();
-        application.getTagsBucket().reset();
-        application.getPreferencesBucket().reset();
-
-        application.getNotesBucket().stop();
-        AppLog.add(Type.SYNC, "Stopped note bucket (PreferencesFragment)");
-        application.getTagsBucket().stop();
-        AppLog.add(Type.SYNC, "Stopped tag bucket (PreferencesFragment)");
-        application.getPreferencesBucket().stop();
-        AppLog.add(Type.SYNC, "Stopped preference bucket (PreferencesFragment)");
-
+        AppLog.add(Type.ACTION, "Tapped logout button (PreferencesFragment)");
         AnalyticsTracker.track(
                 AnalyticsTracker.Stat.USER_SIGNED_OUT,
                 AnalyticsTracker.CATEGORY_USER,
                 "preferences_sign_out_button"
         );
 
-        // Resets analytics user back to 'anon' type
-        AnalyticsTracker.refreshMetadata(null);
-        CrashUtils.clearCurrentUser();
-
-        // Remove wp.com token
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-        editor.remove(PrefUtils.PREF_WP_TOKEN);
-
-        // Remove WordPress sites
-        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
-        editor.apply();
-
-        // Remove Passcode Lock password
-        AppLockManager.getInstance().getAppLock().setPassword("");
-
-        WidgetUtils.updateNoteWidgets(requireActivity().getApplicationContext());
+        AuthUtils.logOut((Simplenote) requireActivity().getApplication());
 
         getActivity().finish();
     }

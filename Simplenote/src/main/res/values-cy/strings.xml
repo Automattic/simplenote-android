@@ -79,7 +79,6 @@ Language: cy_GB
     <string name="save">Cadw</string>
     <string name="cancel">Canslo</string>
     <string name="empty_trash">Clirio\'r sbwriel</string>
-    <string name="confirm_empty_trash">Ydych chi\'n siŵr eich bod am wagio\'r sbwriel?</string>
     <string name="yes">Ydw</string>
     <string name="no">Na</string>
     <string name="word">Geiriau</string>

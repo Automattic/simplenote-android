@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 15:54:04+0000
+Translation-Revision-Date: 2021-01-12 11:32:26+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="delete">제거</string>
+    <string name="back">뒤로</string>
     <string name="empty_notes_untagged">태그 없는 메모 없음</string>
     <string name="unpublishing">메모 공개 취소 중…</string>
     <string name="unpublish_successful">메모 공개가 취소되었습니다.</string>
@@ -68,7 +70,6 @@ Language: ko_KR
     <string name="link_california">%1$s%2$s%3$s캘리포니아 사용자를 위한 개인정보 공지%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">네트워크 연결이 필요합니다. 연결을 확인하고 다시 시도하세요.</string>
-    <string name="simperium_dialog_message_password">패스워드 필수 규칙\n\n- 이메일 사용 금지\n- 최소 %1$d글자 이상\n- 줄바꿈 사용 금지\n- 탭 사용 금지</string>
     <string name="simperium_dialog_message_login_reset">비밀번호가 안전하지 않으므로 초기화해야 합니다. 비밀번호 요구 사항은 다음과 같습니다.\n\n- 비밀번호가 이메일과 일치할 수 없음\n- 최소 %1$d자\n- 줄바꿈 없음\n- 탭 없음</string>
     <string name="simperium_button_login_reset">재설정</string>
     <string name="link_terms">%1$s%2$s%3$s서비스 이용 약관%4$s</string>
@@ -122,7 +123,6 @@ Language: ko_KR
     <string name="sort_search_modified">수정됨</string>
     <string name="sort_search_created">생성됨</string>
     <string name="sort_search_alphabetically">알파벳순</string>
-    <string name="welcome_note">Simplenote Android를 시작합니다.\n지침을 보려면 이 메모를 여세요.\n\n새 메모를 만들려면 더하기 아이콘이 있는 파란색 \"새 메모\" 버튼을 누릅니다.\n\n메모를 검색하려면 돋보기 아이콘이 있는 \"검색\" 버튼을 누르고 텍스트를 입력하세요. Simplenote는 텍스트를 입력하는 동안 처음에 최근 검색 내역과 제안 검색 내역을 보여줍니다. 검색이 제출되면 입력한 텍스트와 일치하는 메모가 표시됩니다.\n\n정말 중요한 메모가 있나요? 메모 목록 맨 위에 고정하세요. 두 가지 방법으로 메모를 고정할 수 있습니다. 목록에서 메모를 길게 누르고 핀 아이콘이 있는 \"상단에 고정\" 버튼을 누릅니다. 메모를 확인하면서 세로로 된 세 점 아이콘이 있는 \"추가 옵션\" 버튼을 누르고 \"고정\" 상자를 선택하세요.\n\n태그를 이용하면 메모를 손쉽게 정리할 수 있습니다. 메모 하단의 \"태그 추가…\" 필드에 태그를 만듭니다. 이메일 주소를 태그로 추가해서 다른 사람과 메모를 공유할 수도 있습니다.\n\n메모를 확인하면서 \"추가 옵션\" 메뉴의 \"공유\"를 눌러 다른 Android 앱과 메모를 간편하게 공유할 수 있습니다.\n\n삭제된 메모는 휴지통으로 이동합니다. 원하는 경우 삭제한 메모를 복구하거나 휴지통을 비워 영원히 제거할 수 있습니다.\n\n웹과 다른 기기에서 메모를 확인할 수 있습니다. 시작하려면 http://simplenote.com으로 이동하세요.\n\nSimplenote를 유용하게 활용하시기 바랍니다.</string>
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
     <string name="log_in">로그인</string>
@@ -141,7 +141,6 @@ Language: ko_KR
     <string name="simperium_dialog_progress_logging_in">로그인 중…</string>
     <string name="simperium_dialog_message_signup_existing">입력한 이메일 주소가 이미 Simplenote 계정과 연결되어 있습니다.</string>
     <string name="simperium_dialog_message_signup">입력한 이메일 주소와 비밀번호로 가입할 수 없습니다.</string>
-    <string name="simperium_dialog_message_password_login">비밀번호는 줄바꿈, 공백, 탭을 제외하고 최소 %1$d자여야 합니다.</string>
     <string name="simperium_dialog_message_network">지원되는 네트워크가 없습니다. 네트워크에 연결한 후 다시 시도해 주세요.</string>
     <string name="simperium_dialog_message_login">입력하신 이메일 주소와 비밀번호로 로그인할 수 없습니다.</string>
     <string name="simperium_button_signup">가입</string>
@@ -254,7 +253,6 @@ Language: ko_KR
     <string name="character">문자</string>
     <string name="no">아니요</string>
     <string name="yes">예</string>
-    <string name="confirm_empty_trash">휴지통을 비우시겠습니까?</string>
     <string name="empty_trash">휴지통 비우기</string>
     <string name="cancel">취소</string>
     <string name="save">저장</string>

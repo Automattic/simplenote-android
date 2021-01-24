@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -34,6 +35,7 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
+import java.util.Set;
 
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
@@ -119,9 +121,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                     }
                 }
             );
-            mCss = ThemeUtils.isLightTheme(requireContext())
-                ? ContextUtils.readCssFile(requireContext(), "light.css")
-                : ContextUtils.readCssFile(requireContext(), "dark.css");
+            mCss = ContextUtils.readCssFile(requireContext(), ThemeUtils.getCssFromStyle(requireContext()));
         } else {
             layout = inflater.inflate(R.layout.fragment_note_error, container, false);
             layout.findViewById(R.id.error).setVisibility(View.VISIBLE);
@@ -147,6 +147,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 }
 
                 requireActivity().finish();
+                return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
                 return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
@@ -185,6 +188,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        // Show delete action only when note is in Trash.
+        menu.findItem(R.id.menu_delete).setVisible(mNote != null && mNote.isDeleted());
         // Disable trash action until note is loaded.
         menu.findItem(R.id.menu_trash).setEnabled(!mIsLoadingNote);
 
@@ -220,6 +225,10 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     @Override
     public void onResume() {
         super.onResume();
+        // First inflation of the webview may invalidate the value of uiMode,
+        // so we re-apply it to make sure that the webview has the right css files
+        // Check https://issuetracker.google.com/issues/37124582 for more details
+        ((AppCompatActivity)requireActivity()).getDelegate().applyDayNight();
         checkWebView();
         mNotesBucket.addListener(this);
         AppLog.add(Type.SYNC, "Added note bucket listener (NoteMarkdownFragment)");
@@ -272,6 +281,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public static String getMarkdownFormattedContent(String cssContent, String sourceContent) {
         String header = "<html><head>" +
                 "<link href=\"https://fonts.googleapis.com/css?family=Noto+Serif\" rel=\"stylesheet\">" +
+                "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1,initial-scale=1\">\n" +
                 cssContent + "</head><body>";
 
         String parsedMarkdown = new AndDown().markdownToHtml(
@@ -290,6 +300,16 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
         return header + "<div class=\"note-detail-markdown\">" + parsedMarkdown +
                 "</div></body></html>";
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 
     private static class LoadNoteTask extends AsyncTask<String, Void, Void> {

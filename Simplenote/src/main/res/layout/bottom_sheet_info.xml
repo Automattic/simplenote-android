@@ -10,11 +10,34 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:theme="@style/Theme.Simplestyle.BottomSheetDialog">
+        android:paddingTop="@dimen/padding_small">
+
+        <LinearLayout
+            android:id="@+id/date_time_synced_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/synced"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Label">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
+                android:id="@+id/date_time_synced"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                tools:text="Jan 13, 2020, 22:21"
+                style="@style/Theme.Simplestyle.BottomSheetDialog.Value">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
             android:layout_width="match_parent"
             android:orientation="horizontal">
 
@@ -119,15 +142,16 @@
                 android:layout_width="match_parent">
             </View>
 
-            <com.automattic.simplenote.widgets.RobotoMediumTextView
+            <com.automattic.simplenote.widgets.RobotoRegularTextView
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_small"
                 android:layout_width="match_parent"
+                android:minHeight="@dimen/bottom_sheet_row_height"
                 android:padding="@dimen/padding_large"
                 android:text="@string/references"
-                android:textStyle="bold"
-                android:textColor="?attr/colorAccent">
-            </com.automattic.simplenote.widgets.RobotoMediumTextView>
+                android:textColor="?attr/notePreviewColor"
+                android:textSize="@dimen/text_bottom_sheet">
+            </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/references"

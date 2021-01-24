@@ -43,6 +43,7 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -70,6 +71,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
@@ -101,8 +103,8 @@ import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NotesActivity extends ThemedAppCompatActivity implements NoteListFragment.Callbacks,
-        User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
-        Bucket.Listener<Note> {
+    User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
+    Bucket.Listener<Note> {
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
@@ -145,6 +147,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     private TagsAdapter.TagMenuItem mSelectedTag;
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
+        @Override
+        public void onSyncObject(Bucket<Tag> bucket, String key) {
+
+        }
+
+        @Override
+        public void onLocalQueueChange(Bucket<Tag> bucket, Set<String> queuedObjects) {
+
+        }
+
         void updateNavigationDrawer() {
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -176,7 +188,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
@@ -236,10 +247,18 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         // Creates 'Welcome' note
         checkForFirstLaunch();
 
-        checkForSharedContent();
+        if (savedInstanceState == null) {
+            checkForSharedContent(getIntent());
+        }
 
         currentApp.getSimperium().setOnUserCreatedListener(this);
         currentApp.getSimperium().setUserStatusChangeListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkForSharedContent(intent);
     }
 
     @Override
@@ -323,7 +342,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if(DisplayUtils.isLargeScreenLandscape(this)) {
+        if (DisplayUtils.isLargeScreenLandscape(this)) {
             if (mIsTabletFullscreen) {
                 ft.hide(mNoteListFragment);
             } else {
@@ -384,13 +403,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     private ColorStateList getIconSelector() {
         int[][] states = new int[][] {
-                new int[] { android.R.attr.state_checked}, // checked
-                new int[] {-android.R.attr.state_checked}  // unchecked
+            new int[] {android.R.attr.state_checked}, // checked
+            new int[] {-android.R.attr.state_checked}  // unchecked
         };
 
         int[] colors = new int[] {
-                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.colorAccent),
-                ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.toolbarIconColor)
+            ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.colorAccent),
+            ThemeUtils.getColorFromAttribute(NotesActivity.this, R.attr.toolbarIconColor)
         };
 
         return new ColorStateList(states, colors);
@@ -399,7 +418,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     private ColorStateList getTextSelector() {
         int[][] states = new int[][] {
             new int[] {-android.R.attr.state_enabled}, // disabled
-            new int[] { android.R.attr.state_checked}, // checked
+            new int[] {android.R.attr.state_checked}, // checked
             new int[] {-android.R.attr.state_checked}  // unchecked
         };
 
@@ -431,7 +450,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                             LIST_TAG_VIEWED,
                             CATEGORY_TAG,
                             "selected_tag_in_navigation_drawer",
-                            new HashMap<String, String>(1){{put("tag", "settings");}}
+                            new HashMap<String, String>(1) {{
+                                put("tag", "settings");
+                            }}
                         );
                         mIsSettingsClicked = true;
                         return false;
@@ -450,11 +471,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNavigationMenu.add(GROUP_PRIMARY, SETTINGS_ID, Menu.NONE, getString(R.string.settings)).setIcon(R.drawable.ic_settings_24dp).setCheckable(false);
         mTagsAdapter = new TagsAdapter(this, mNotesBucket);
 
-        if (mSelectedTag == null)
+        if (mSelectedTag == null) {
             mSelectedTag = mTagsAdapter.getDefaultItem();
+        }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open_drawer,
-                R.string.close_drawer) {
+            R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
 
@@ -522,10 +544,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
 
         AnalyticsTracker.track(
-                LIST_TAG_VIEWED,
-                CATEGORY_TAG,
-                "selected_tag_in_navigation_drawer",
-                properties
+            LIST_TAG_VIEWED,
+            CATEGORY_TAG,
+            "selected_tag_in_navigation_drawer",
+            properties
         );
 
         setSelectedTagActive();
@@ -553,10 +575,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     }
 
-    private void checkForSharedContent() {
-        if (getIntent().hasExtra(Intent.EXTRA_TEXT)) {
+    private void checkForSharedContent(Intent intent) {
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
             // Check share action
-            Intent intent = getIntent();
             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
 
@@ -586,8 +607,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     // Lock screen activities are enabled again in NoteEditorActivity.onPause()
                     if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
                         AppLockManager.getInstance().getAppLock().setExemptActivities(
-                                new String[]{"com.automattic.simplenote.NotesActivity",
-                                        "com.automattic.simplenote.NoteEditorActivity"});
+                            new String[] {"com.automattic.simplenote.NotesActivity",
+                                "com.automattic.simplenote.NoteEditorActivity"});
                         AppLockManager.getInstance().getAppLock().setOneTimeTimeout(0);
                     }
                 }
@@ -608,6 +629,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
         mNavigationMenu.removeGroup(GROUP_TERTIARY);
 
+        View emptyTagsDivider = findViewById(R.id.empty_tags_hint_divider);
+        View emptyTagsHint = findViewById(R.id.empty_tags_hint_text);
+
         if (mTagsAdapter.getCountCustom() > 0) {
             mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
 
@@ -622,6 +646,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             mNavigationMenu.add(GROUP_TERTIARY, UNTAGGED_NOTES_ID, Menu.NONE, getString(R.string.untagged_notes)).setIcon(R.drawable.ic_untagged_24dp).setCheckable(true);
             setSelectedTagActive();
+            emptyTagsDivider.setVisibility(View.GONE);
+            emptyTagsHint.setVisibility(View.GONE);
+        } else {
+            emptyTagsDivider.setVisibility(View.VISIBLE);
+            emptyTagsHint.setVisibility(View.VISIBLE);
         }
     }
 
@@ -630,6 +659,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     public void createNewNote(View view) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.SEARCH_EMPTY_TAPPED,
+            AnalyticsTracker.CATEGORY_SEARCH,
+            "search_empty_tapped_new_note"
+        );
         getNoteListFragment().createNewNote(
             isSearchQueryNotNull() ? mSearchView.getQuery().toString() : "", "new_note_search"
         );
@@ -721,8 +755,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         Simperium simperium = currentApp.getSimperium();
         User user = simperium.getUser();
         boolean isNotAuthorized = user.getStatus().equals(User.Status.NOT_AUTHORIZED);
-        return (user.hasAccessToken() && isNotAuthorized) ||
-                (userAccountRequired() && isNotAuthorized);
+        if (user.hasAccessToken() && isNotAuthorized) {
+            AppLog.add(Type.ACCOUNT, "Access token not authorized");
+            return true;
+        }
+        if (userAccountRequired() && isNotAuthorized) {
+            AppLog.add(Type.ACCOUNT, "Access token missing");
+            return true;
+        }
+        return false;
     }
 
     public boolean userIsUnauthorized() {
@@ -748,8 +789,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         // restore the search query if on a landscape tablet
         String searchQuery = null;
-        if (DisplayUtils.isLargeScreenLandscape(this) && mSearchView != null)
+        if (DisplayUtils.isLargeScreenLandscape(this) && mSearchView != null) {
             searchQuery = mSearchView.getQuery().toString();
+        }
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
@@ -844,17 +886,23 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mSearchMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (!mSearchMenuItem.isActionViewExpanded())
+                if (!mSearchMenuItem.isActionViewExpanded()) {
                     showDetailPlaceholder();
+                }
                 return false;
             }
         });
 
+        MenuItem deleteItem = menu.findItem(R.id.menu_delete);
         MenuItem trashItem = menu.findItem(R.id.menu_trash);
 
+        // Show delete action only when note is in Trash.
+        // Change trash action to restore when note is in Trash.
         if (mCurrentNote != null && mCurrentNote.isDeleted()) {
+            deleteItem.setVisible(true);
             trashItem.setTitle(R.string.restore);
         } else {
+            deleteItem.setVisible(false);
             trashItem.setTitle(R.string.trash);
         }
 
@@ -915,12 +963,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             case R.id.menu_markdown_preview:
                 togglePreview(item);
                 return true;
+            case R.id.menu_delete:
+                NoteUtils.showDialogDeletePermanently(NotesActivity.this, mCurrentNote);
+                return true;
             case R.id.menu_trash:
                 if (mNoteEditorFragment != null && mCurrentNote != null) {
-                    mCurrentNote.setDeleted(!mCurrentNote.isDeleted());
-                    mCurrentNote.setModificationDate(Calendar.getInstance());
-                    mCurrentNote.save();
-                    updateViewsAfterTrashAction(mCurrentNote);
+                    trashNote(mCurrentNote);
                 }
 
                 return true;
@@ -929,7 +977,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
                 alert.setTitle(R.string.empty_trash);
                 alert.setMessage(R.string.confirm_empty_trash);
-                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(R.string.cancel, null);
+                alert.setPositiveButton(R.string.empty, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new EmptyTrashTask(NotesActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         setIconAfterAnimation(item, R.drawable.ic_trash_disabled_24dp, R.string.empty_trash);
@@ -938,11 +987,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                             CATEGORY_NOTE,
                             "overflow_menu"
                         );
-                    }
-                });
-                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing, just closing the dialog
                     }
                 });
                 alert.show();
@@ -1052,10 +1096,14 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         menu.findItem(R.id.menu_empty_trash).setVisible(mSelectedTag != null && mSelectedTag.id == TRASH_ID);
     }
 
-    public void updateViewsAfterTrashAction(Note note) {
+    public void trashNote(Note note) {
         if (note == null || isFinishing()) {
             return;
         }
+
+        note.setDeleted(!note.isDeleted());
+        note.setModificationDate(Calendar.getInstance());
+        note.save();
 
         if (note.isDeleted()) {
             List<String> deletedNoteIds = new ArrayList<>();
@@ -1075,13 +1123,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             );
         }
 
-        // If we just deleted/restored the active note, show the placeholder
-        if (mCurrentNote != null && mCurrentNote.getSimperiumKey().equals(note.getSimperiumKey())) {
-            showDetailPlaceholder();
-        }
-
-        NoteListFragment fragment = getNoteListFragment();
-        if (fragment != null) {
+        if (getNoteListFragment() != null) {
+            NoteListFragment fragment = getNoteListFragment();
+            if (DisplayUtils.isLargeScreenLandscape(this)) {
+                fragment.updateSelectionAfterTrashAction();
+            }
             fragment.getPrefs();
             fragment.refreshList();
         }
@@ -1136,10 +1182,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             Intent editNoteIntent = new Intent(this, NoteEditorActivity.class);
             editNoteIntent.putExtras(arguments);
-
-            if (mNoteListFragment.isHidden()) {
-                editNoteIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
 
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
@@ -1232,6 +1274,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        AppLog.add(Type.ACCOUNT, "Access token not authorized");
                         startLoginActivity();
                     }
                 });
@@ -1250,28 +1293,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     }
 
     public void startLoginActivity() {
-        // Clear some account-specific prefs
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove(PrefUtils.PREF_WP_TOKEN);
-        editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
-        editor.apply();
-
-        // Remove Passcode Lock password
-        AppLockManager.getInstance().getAppLock().setPassword("");
+        // Clear account-specific data
+        AuthUtils.logOut((Simplenote) getApplication());
 
         Intent intent = new Intent(NotesActivity.this, SimplenoteAuthenticationActivity.class);
         startActivityForResult(intent, Simperium.SIGNUP_SIGNIN_REQUEST);
-    }
-
-    @Override
-    public void recreate() {
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                NotesActivity.super.recreate();
-            }
-        });
     }
 
     @Override
@@ -1300,10 +1326,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                         }
                     } else if (DisplayUtils.isLargeScreenLandscape(this) && data.hasExtra(Simplenote.SELECTED_NOTE_ID)) {
                         String selectedNoteId = data.getStringExtra(Simplenote.SELECTED_NOTE_ID);
-                        mNoteListFragment.setNoteSelected(selectedNoteId);
-                        if (mNoteEditorFragment != null) {
-                            mNoteEditorFragment.setNote(selectedNoteId);
-                        }
+                        boolean isPreviewEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_PREVIEW_ENABLED, false);
+                        boolean isMarkdownEnabled = data.getBooleanExtra(NoteEditorFragment.ARG_MARKDOWN_ENABLED, false);
+                        onNoteSelected(selectedNoteId, null, isMarkdownEnabled, isPreviewEnabled);
 
                         // Relaunch shortcut dialog if it was showing in editor (Chrome OS).
                         if (data.getBooleanExtra(ShortcutDialogFragment.DIALOG_VISIBLE, false)) {
@@ -1402,9 +1427,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
 
                 invalidateOptionsMenu();
-            // Go to NoteEditorActivity if note editing was fullscreen and orientation was switched to portrait
-            } else if (mNoteListFragment.isHidden() && mCurrentNote != null) {
+            // Go to NoteEditorActivity if a note was selected and orientation was switched to portrait
+            } else if (mCurrentNote != null) {
                 onNoteSelected(mCurrentNote.getSimperiumKey(), null, mCurrentNote.isMarkdownEnabled(), mCurrentNote.isPreviewEnabled());
+                overridePendingTransition(0, 0);
             }
         } else {
             // Show list/sidebar when it was hidden while in landscape orientation.
@@ -1625,8 +1651,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     private View getUndoView() {
         View undoView = mFragmentsContainer;
         if (!DisplayUtils.isLargeScreenLandscape(this) &&
-                getNoteListFragment() != null &&
-                getNoteListFragment().getRootView() != null) {
+            getNoteListFragment() != null &&
+            getNoteListFragment().getRootView() != null) {
             undoView = getNoteListFragment().getRootView();
         }
 
@@ -1637,8 +1663,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         if (mUndoBarController != null) {
             mUndoBarController.setDeletedNoteIds(noteIds);
             mUndoBarController.showUndoBar(
-                    getUndoView(),
-                    getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size())
+                getUndoView(),
+                getResources().getQuantityString(R.plurals.trashed_notes, noteIds.size(), noteIds.size())
             );
         }
     }
@@ -1732,6 +1758,16 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     public void onBeforeUpdateObject(Bucket<Note> bucket, Note note) {
         // noop, NoteEditorFragment will handle this
+    }
+
+    @Override
+    public void onLocalQueueChange(Bucket<Note> bucket, Set<String> queuedObjects) {
+
+    }
+
+    @Override
+    public void onSyncObject(Bucket<Note> bucket, String key) {
+
     }
 
     private static class EmptyTrashTask extends AsyncTask<Void, Void, Void> {

@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 14:54:03+0000
+Translation-Revision-Date: 2021-01-20 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">הסיסמאות חייבות לכלול לפחות ⁦%1$d⁩ תווים.</string>
+    <string name="dialog_tag_conflict_title">התנגשות תגיות</string>
+    <string name="dialog_tag_conflict_message">התגית \'⁦%1$s⁩\' כבר קיימת. האם ברצונך למזג את \'⁦%2$s⁩\' עם התגית \'⁦%3$s⁩\'?</string>
+    <string name="dialog_tag_conflict_button_positive">למזג</string>
+    <string name="description_locked">נעול</string>
+    <string name="style_sepia">ספיה</string>
+    <string name="style_publication">פרסום</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">מונו</string>
+    <string name="style_matrix">מטריקס</string>
+    <string name="style_dialog_locked_title">סגנון פרימיום</string>
+    <string name="style_dialog_locked_message">כדי להשתמש בסגנון זה, עליך להירשם לחברות פרימיום.</string>
+    <string name="style_dialog_locked_button_positive">לשדרג</string>
+    <string name="style_default">ברירת מחדל</string>
+    <string name="style_classic">קלאסי</string>
+    <string name="style_black">שחור</string>
+    <string name="style">סגנון</string>
+    <string name="tag_error_spaces">התגית לא יכולה לכלול רווחים</string>
+    <string name="tag_error_length">התגית ארוכה מדי</string>
+    <string name="tag_error_exists">התגית כבר קיימת</string>
+    <string name="tag_error_empty">תגיות לא יכולות להיות ריקות</string>
+    <string name="dialog_tag_error_message">אירעה שגיאה בהוספת התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר בכתובת ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="dialog_tag_add_title">‎@string/add_tag</string>
+    <string name="dialog_tag_add_hint">‎@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">‎@string/save</string>
+    <string name="dialog_tag_add_button_negative">‎@android:string/cancel</string>
+    <string name="add_tag">להוסיף תגית</string>
+    <string name="empty_tags_hint">לאחר שהוספת את התגיות לפתקים, התגיות שלך יופיעו כאן.</string>
+    <string name="membership_premium">פרימיום</string>
+    <string name="membership_free_upgrade">לשדרג</string>
+    <string name="membership_free">חינם</string>
+    <string name="membership">חברות</string>
+    <string name="synced">מסונכרן</string>
+    <string name="delete_dialog_title">למחוק לצמיתות</string>
+    <string name="delete_dialog_message">האם ברצונך למחוק לצמיתות את הפתק הזה? לא ניתן לבטל פעולה זו.</string>
+    <string name="delete_dialog_error_message">אירעה שגיאה בעת מחיקת הפתק. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר בכתובת ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="delete">מחק</string>
+    <string name="confirm_empty_trash">האם ברצונך למחוק את הפח? כל הפתקים בפח יימחקו לצמיתות. לא ניתן לבטל פעולה זו.</string>
+    <string name="empty">לרוקן</string>
+    <string name="back">חזרה</string>
     <string name="empty_notes_untagged">אין פתקים ללא תגיות</string>
     <string name="unpublishing">מבטל את פרסום פתק…</string>
     <string name="unpublish_successful">פרסום הפתק בוטל.</string>
@@ -68,7 +108,7 @@ Language: he_IL
     <string name="link_california">%1$s%2$s⁦%3$s⁩הצהרת פרטיות למשתמשים מקליפורניה⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">נדרש חיבור פעיל לרשת. יש לבדוק את החיבור ולנסות שוב.</string>
-    <string name="simperium_dialog_message_password">הדרישות לסיסמה הן:\n\n- הסיסמה לא יכולה להיות כתובת האימייל\n- לפחות %1$d תווים\n- ללא שורות חדשות\n- ללא סימני Tab</string>
+    <string name="simperium_dialog_message_password">דרישות הסיסמה הן:\n\n- הסיסמה חייבת להיות שונה מהאימייל\n- הסיסמה חייבת לכלול ⁦%1$d⁩ תווים לפחות\n- ללא שורות חדשות\n- ללא סימני Return\n- ללא סימני Tab</string>
     <string name="simperium_dialog_message_login_reset">הסיסמה שלך לא מאובטחת ועליך לאפס אותה. הדרישות לסיסמה הן:\n\n- הסיסמה לא יכולה להיות כתובת האימייל\n- לפחות %1$d תווים\n- ללא שורות חדשות\n- ללא סימני Tab</string>
     <string name="simperium_button_login_reset">איפוס</string>
     <string name="link_terms">%1$s%2$s%3$sתנאי השימוש%4$s</string>
@@ -122,7 +162,7 @@ Language: he_IL
     <string name="sort_search_modified">בהתאמה</string>
     <string name="sort_search_created">נוצר</string>
     <string name="sort_search_alphabetically">סדר אלפביתי</string>
-    <string name="welcome_note">ברוכים הבאים אל Simplenote Android!\nיש לפתוח את הפתק להוראות.\n\nכדי ליצור פתק חדש, יש להקיש על הכפתור \'פתק חדש\' עם סמל הפלוס (+).\n\nכדי לבצע חיפוש בפתקים שלך, יש להקיש על הכפתור \'חיפוש\' עם הסמל של זכוכית המגדלת ולהזין טקסט. השירות של Simplenote יציג לך את החיפושים האחרונים שביצעת תחילה והצעות לחיפושים בעת ההקלדה. פתקים שתואמים לטקסט שהוזן יוצגו לאחר שהבקשה לחיפוש נשלחה.\n\nיש לך פתק חשוב? ניתן לנעוץ אותו בראש הרשימה של הפתקים. אפשר לנעוץ פתק בשתי דרכים. על ידי לחיצה ארוכה על הפתק ברשימה והקשה על הכפתור \'הצמדה לראש העמוד\' עם סמל הנעץ. על ידי הקשה על הכפתור \'אפשרויות נוספות\' עם הסמל של שלוש הנקודות האנכיות כאשר צופים בפתק ולסמן את התיבה \'לנעוץ\'.\n\nניתן להשתמש בתגיות כדי לארגן את הפתקים שלך ביעילות. יש ליצור את התגית בשדה \'להוסיף תגית…\' בתחתית הפתק. אפשר גם להוסיף כתובת אימייל כתגית כדי לשתף פתק עם מישהו.\n\nאפשר לשתף פתקים באפליקציות אחרות של Android על ידי הקשה על הכפתור \'שיתוף\' בתפריט \'אפשרויות נוספות\' כאשר צופים בפתק.\n\nפתקים שנמחקו מועברים לפח. אפשר לשחזר את הפריטים כרצונך או לרוקן את הפח כדי למחוק אותם לצמיתות.\n\nאפשר לגשת לפתקים שלך ברשת ובמכשירים האחרים שלך. יש לעבור לכתובת http://simplenote.com כדי להתחיל.\n\nאנחנו מקווים שהשירות של Simplenote מוצא חן בעינך!</string>
+    <string name="welcome_note">ברוכים הבאים אל Simplenote Android!\nיש לפתוח את הפתק להוראות.\n\nכדי ליצור פתק חדש, יש להקיש על הכפתור \'להוסיף פתק\' עם הסמל \'+\'.\n\nכדי לבצע חיפוש בפתקים שלך, יש להקיש על הכפתור \'חיפוש\' עם הסמל של זכוכית המגדלת ולהזין טקסט. השירות של Simplenote יציג לך את החיפושים האחרונים שביצעת תחילה והצעות לחיפושים בעת ההקלדה. פתקים שתואמים לטקסט שהוזן יוצגו לאחר שהבקשה לחיפוש נשלחה.\n\nיש לך פתק חשוב? ניתן לנעוץ אותו בראש הרשימה של הפתקים. אפשר לנעוץ פתק בשתי דרכים. על ידי לחיצה ארוכה על הפתק ברשימה והקשה על הכפתור \'הצמדה לראש העמוד\' עם סמל הנעץ. על ידי הקשה על הכפתור \'אפשרויות נוספות\' עם הסמל של שלוש הנקודות האנכיות כאשר צופים בפתק ולסמן את התיבה \'לנעוץ\'.\n\nניתן להשתמש בתגיות כדי לארגן את הפתקים שלך ביעילות. ניתן ליצור פתק במסך \'לערוך תגיות\' באמצעות הכפתור \'להוסיף תגית\' או באמצעות השדה \'להוסיף תגית…\' בתחתית הפתק. אפשר גם להוסיף כתובת אימייל כתגית כדי לשתף פתק עם מישהו.\n\nאפשר לשתף פתקים באפליקציות אחרות של Android על ידי הקשה על הכפתור \'שיתוף\' בתפריט \'אפשרויות נוספות\' כאשר צופים בפתק.\n\nפתקים שנמחקו מועברים לפח. אפשר לשחזר את הפריטים כרצונך או לרוקן את הפח כדי למחוק אותם לצמיתות.\n\nאפשר לגשת לפתקים שלך ברשת ובמכשירים האחרים שלך. יש לעבור לכתובת http://simplenote.com כדי להתחיל.\n\nאנחנו מקווים שהשירות של Simplenote מוצא חן בעינך!</string>
     <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
     <string name="log_in">התחברות</string>
@@ -141,7 +181,6 @@ Language: he_IL
     <string name="simperium_dialog_progress_logging_in">נכנס…</string>
     <string name="simperium_dialog_message_signup_existing">כתובת האימייל שהזנת כבר משויכת לחשבון Simplenote.</string>
     <string name="simperium_dialog_message_signup">לא ניתן ליצור חשבון באמצעות כתובת האימייל והסיסמה שסופקו.</string>
-    <string name="simperium_dialog_message_password_login">הסיסמה חייבת להיות מורכבת מ-%1$d תווים לפחות וללא מעברי שורה, רווחים או תווי טאב.</string>
     <string name="simperium_dialog_message_network">אין רשת זמינה. יש להתחבר לרשת ולנסות שנית.</string>
     <string name="simperium_dialog_message_login">לא ניתן להיכנס באמצעות כתובת האימייל והסיסמה שסופקו.</string>
     <string name="simperium_button_signup">הרשמה</string>
@@ -254,7 +293,6 @@ Language: he_IL
     <string name="character">תו</string>
     <string name="no">לא</string>
     <string name="yes">כן</string>
-    <string name="confirm_empty_trash">בטוח שברצונך לרוקן את הפח?</string>
     <string name="empty_trash">לרוקן את הפח</string>
     <string name="cancel">ביטול</string>
     <string name="save">לשמור</string>

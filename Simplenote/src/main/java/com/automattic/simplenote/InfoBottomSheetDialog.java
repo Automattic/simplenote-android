@@ -28,18 +28,22 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class InfoBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = InfoBottomSheetDialog.class.getSimpleName();
 
-    private Fragment mFragment;
+    private final Fragment mFragment;
+
+    private LinearLayout mDateTimeSyncedLayout;
     private LinearLayout mReferencesLayout;
     private RecyclerView mReferences;
     private TextView mCountCharacters;
     private TextView mCountWords;
     private TextView mDateTimeCreated;
     private TextView mDateTimeModified;
+    private TextView mDateTimeSynced;
 
     public InfoBottomSheetDialog(@NonNull Fragment fragment) {
         mFragment = fragment;
@@ -53,6 +57,8 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         mCountWords = infoView.findViewById(R.id.count_words);
         mDateTimeCreated = infoView.findViewById(R.id.date_time_created);
         mDateTimeModified = infoView.findViewById(R.id.date_time_modified);
+        mDateTimeSynced = infoView.findViewById(R.id.date_time_synced);
+        mDateTimeSyncedLayout = infoView.findViewById(R.id.date_time_synced_layout);
         mReferencesLayout = infoView.findViewById(R.id.references_layout);
         mReferences = infoView.findViewById(R.id.references);
 
@@ -86,6 +92,15 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
             mCountWords.setText(NoteUtils.getWordCount(note.getContent()));
             mDateTimeCreated.setText(DateTimeUtils.getDateTextString(requireContext(), note.getCreationDate()));
             mDateTimeModified.setText(DateTimeUtils.getDateTextString(requireContext(), note.getModificationDate()));
+            Calendar sync = ((Simplenote) requireActivity().getApplication()).getNoteSyncTimes().getLastSyncTime(note.getSimperiumKey());
+
+            if (sync != null) {
+                mDateTimeSynced.setText(DateTimeUtils.getDateTextString(requireContext(), sync));
+                mDateTimeSyncedLayout.setVisibility(View.VISIBLE);
+            } else {
+                mDateTimeSyncedLayout.setVisibility(View.GONE);
+            }
+
             getReferences(note);
         }
     }
@@ -151,9 +166,9 @@ public class InfoBottomSheetDialog extends BottomSheetDialogBase {
         }
 
         private class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView mSubtitle;
-            private TextView mTitle;
-            private View mView;
+            private final TextView mSubtitle;
+            private final TextView mTitle;
+            private final View mView;
 
             private ViewHolder(View itemView) {
                 super(itemView);

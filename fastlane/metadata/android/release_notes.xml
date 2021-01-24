@@ -1,102 +1,56 @@
-<ar>
-2.14:
-
-* تم تحديث الحجم المستهدف لخانة الاختيار لتيسيير النقر
-* تم تحديث إضافة الوسوم لتجنب التكرارات
-</ar>
-<de-DE>
-2.15:
-
-* Zielgröße der Kontrollkästchen für leichteres Antippen aktualisiert
-* Hinzufügen von Schlagwörter zur Vermeidung von Duplikaten aktualisiert
-</de-DE>
 <es-ES>
-2.14:
+2,15:
+* Se ha añadido la fecha/hora sincronizada a la hoja de información de la nota [https://github.com/Automattic/simplenote-android/pull/1140]
+* Se ha añadido la sincronización en segundo plano para evitar la pérdida de datos al salir de la aplicación [https://github.com/Automattic/simplenote-android/pull/1255]
+* Se ha añadido la eliminación permanente de notas de forma individual [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* Hemos actualizado el tamaño de la casilla de verificación de destino para que sea más fácil de tocar
-* Hemos actualizado la adición de etiquetas para evitar duplicados
 </es-ES>
 <fr-FR>
-2.14 :
+2.15 :
+* Ajout de la date/heure synchronisée à la fiche d’information de la note [https://github.com/Automattic/simplenote-android/pull/1140]
+* Ajout de la synchronisation dans l’arrière-plan pour éviter la perte de données lors de la fermeture de l’application [https://github.com/Automattic/simplenote-android/pull/1255]
+* Ajout de la suppression définitive des notes de la corbeille individuellement [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* Mise à jour des dimensions cibles des cases à cocher pour faciliter leur sélection
-* Mise à jour de l’ajout d’étiquettes pour éviter les doublons
 </fr-FR>
 <iw-IL>
-2.14:
+2.15:
+* הוספנו סנכרון של תאריך/שעה כדי לציין גיליונות מידע [https://github.com/Automattic/simplenote-android/pull/1140]
+* הוספנו סנכרון ברקע כדי להימנע מאבדן נתונים כאשר יוצאים מהאפליקציה [https://github.com/Automattic/simplenote-android/pull/1255]
+* הוספנו אפשרות למחוק פתקים לצמיתות מהפח בצורה נפרדת [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* עדכנו את גודל המטרה של תיבת הסימון להקשה קלה יותר
-* עדכנו את הוספת התגיות כדי להימנע מכפילויות
 </iw-IL>
-<id>
-2.14:
-
-* Ukuran target kotak centang diperbarui agar lebih mudah diketuk 
-* Fitur penambahan tag diperbarui agar tidak ada yang terduplikasi
-</id>
 <it-IT>
-2.14:
+2.15:
+* Aggiunta data/ora sincronizzata al foglio informativo delle note [https://github.com/Automattic/simplenote-android/pull/1140]
+* Aggiunta la sincronizzazione in background per evitare la perdita di dati all'uscita dall'app [https://github.com/Automattic/simplenote-android/pull/1255]
+* Aggiunta l'eliminazione definitiva delle singole note dal cestino [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* Dimensione della casella di controllo aggiornata per una più facile attivazione tramite tocco
-* Aggiunta dei tag aggiornata per evitare duplicati
 </it-IT>
-<ja-JP>
-2.14:
-
-* タップしやすいようにチェックボックスのターゲットサイズを更新
- * 重複しないようにタグの追加を更新
-</ja-JP>
-<ko-KR>
-2.14:
-
-* 확인란을 더 누르기 쉽도록 타겟 크기를 업데이트함
-* 중복이 방지되도록 태그 추가를 업데이트함
-</ko-KR>
-<nl-NL>
-2.14:
-
-* Formaat van aanvinkvak bijgewerkt voor eenvoudiger tikken
-* Tags toevoegen bijgewerkt om dubbele tags te voorkomen
-</nl-NL>
-<pt-BR>
-2.14:
-
-* Atualização do tamanho da caixa de seleção para facilitar o toque
-* Melhoria na adição de tags para evitar duplicidade
-</pt-BR>
 <ru-RU>
-2.14:
+2.15.
+* На страницу данных о заметке добавлены дата и время синхронизации [https://github.com/Automattic/simplenote-android/pull/1140].
+* Добавлена фоновая синхронизация, чтобы избежать потери данных при выходе из приложения [https://github.com/Automattic/simplenote-android/pull/1255].
+* Добавлено удаление заметок из корзины по одной без возможности восстановления [https://github.com/Automattic/simplenote-android/pull/1224].
 
-* Изменен размер поля для флажка, чтобы его было удобнее нажимать 
-* Обновлен механизм добавления тегов, чтобы исключить их повторение
 </ru-RU>
 <sv-SE>
-2,14:
+2,15:
+* Lade till synkroniserat datum/tid till anteckningsinformationsbladet [https://github.com/Automattic/simplenote-android/pull/1140]
+* Lade till synkronisering i bakgrunden för att undvika dataförlust när du avslutar appen [https://github.com/Automattic/simplenote-android/pull/1255]
+* Lade till individuell permanent borttagning av anteckningar från papperskorgen [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* Kryssrutans målstorlek har uppdaterats för enklare tryckning
-* Tillägg av etiketter har uppdaterats för att undvika dubbletter
 </sv-SE>
 <tr-TR>
-2.14:
+2.15:
+* Not bilgi sayfasına senkronize edilmiş tarih/saat eklendi [https://github.com/Automattic/simplenote-android/pull/1140]
+* Uygulamadan çıkarken veri kaybını önlemek için arka planda senkronizasyon özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1255]
+* Notların çöp kutusundan tek tek kalıcı olarak silinmesi özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1224]
 
-* Daha kolay dokunma için onay kutusu hedef boyutu güncellendi
-* Yinelemeleri önlemek için etiket ekleme güncellendi
 </tr-TR>
-<zh-CN>
-2.14：
-
-* 更新了复选框目标尺寸，便于点击
-* 更新了添加标签，避免造成重复
-</zh-CN>
-<zh-TW>
-2.14：
-
-* 更新核取方塊目標尺寸以方便點選
-* 更新新增標籤功能，避免造成重複
-</zh-TW>
 <en-US>
-2.14:
- 
-* Updated checkbox target size for easier tapping
-* Updated adding tags to avoid duplicates
+2.15:
+* Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]
+* Added syncing in the background to avoid data loss when exiting the app [https://github.com/Automattic/simplenote-android/pull/1255]
+* Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
+
 </en-US>

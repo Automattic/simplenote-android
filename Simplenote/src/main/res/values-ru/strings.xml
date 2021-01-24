@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-09 08:54:03+0000
+Translation-Revision-Date: 2021-01-21 15:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Минимальная длина пароля — %1$d симв.</string>
+    <string name="dialog_tag_conflict_title">Конфликт меток</string>
+    <string name="dialog_tag_conflict_message">Метка \"%1$s\" уже существует. Объединить \"%2$s\" с меткой \"%3$s\"?</string>
+    <string name="dialog_tag_conflict_button_positive">Объединить</string>
+    <string name="description_locked">Заблокирован</string>
+    <string name="style_sepia">Сепия</string>
+    <string name="style_publication">Публикация</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Моно</string>
+    <string name="style_matrix">Матрица</string>
+    <string name="style_dialog_locked_title">Стиль Premium</string>
+    <string name="style_dialog_locked_message">Этот стиль доступен только владельцам тарифного плана Premium.</string>
+    <string name="style_dialog_locked_button_positive">Улучшить</string>
+    <string name="style_default">По умолчанию</string>
+    <string name="style_classic">Классический</string>
+    <string name="style_black">Чёрный</string>
+    <string name="style">Стиль</string>
+    <string name="tag_error_spaces">Метки не могут содержать пробелы</string>
+    <string name="tag_error_length">Слишком длинная метка</string>
+    <string name="tag_error_exists">Метка уже существует</string>
+    <string name="tag_error_empty">Метка не может быть пустой</string>
+    <string name="dialog_tag_error_message">При добавлении метки произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Добавьте метку</string>
+    <string name="empty_tags_hint">Метки, добавляемые к заметкам, будут отображаться здесь.</string>
+    <string name="membership_premium">Премиум</string>
+    <string name="membership_free_upgrade">Улучшить</string>
+    <string name="membership_free">Бесплатно</string>
+    <string name="membership">Членство</string>
+    <string name="synced">Синхронизировано</string>
+    <string name="delete_dialog_title">Удалить навсегда</string>
+    <string name="delete_dialog_message">Удалить эту заметку навсегда? Это действие нельзя отменить.</string>
+    <string name="delete_dialog_error_message">При удалении этой заметки произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
+    <string name="delete">Удалить</string>
+    <string name="confirm_empty_trash">Очистить корзину? Все заметки будут удалены навсегда. Это действие нельзя отменить.</string>
+    <string name="empty">Пусто</string>
+    <string name="back">Назад</string>
     <string name="empty_notes_untagged">Нет заметок без тегов</string>
     <string name="unpublishing">Отмена публикации заметки…</string>
     <string name="unpublish_successful">Публикация заметки отменена.</string>
@@ -68,7 +108,7 @@ Language: ru
     <string name="link_california">%1$s%2$s%3$sЗаявление о защите конфиденциальности для пользователей из Калифорнии%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Требуется подключение к сети. Проверьте подключение и повторите попытку.</string>
-    <string name="simperium_dialog_message_password">Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
+    <string name="simperium_dialog_message_password">Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты.\n— Минимальное количество символов — %1$d.\n— Нельзя использовать переходы на новую строку.\n— Нельзя использовать символ возврата.\n— Нельзя использовать символ табуляции.</string>
     <string name="simperium_dialog_message_login_reset">Ваш пароль ненадежен, его необходимо сменить. Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
     <string name="simperium_button_login_reset">Сброс</string>
     <string name="link_terms">%1$s%2$s%3$sУсловия предоставления услуг%4$s</string>
@@ -122,7 +162,7 @@ Language: ru
     <string name="sort_search_modified">Изменено</string>
     <string name="sort_search_created">Создано</string>
     <string name="sort_search_alphabetically">По алфавиту</string>
-    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите синюю кнопку \"Новая заметка\" со значком плюса.\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку «Дополнительно» с тремя вертикальными точками во время просмотра заметки и поставьте флажок «Закрепить».\n\nУпорядочьте заметки с помощью меток. Метку можно создать в поле \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать «Поделиться» в меню «Дополнительно» при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
+    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите кнопку \"Новая заметка\" со значком \"плюс\".\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку \"Дополнительно\" с тремя вертикальными точками во время просмотра заметки и поставьте флажок \"Закрепить\".\n\nУпорядочьте заметки с помощью меток. Создайте метку на экране \"Изменить метки\", нажав кнопку \"Добавить метку\" или с помощью поля \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать «Поделиться» в меню «Дополнительно» при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
     <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
     <string name="log_in">Войти</string>
@@ -141,7 +181,6 @@ Language: ru
     <string name="simperium_dialog_progress_logging_in">Вход…</string>
     <string name="simperium_dialog_message_signup_existing">Введенный адрес эл. почты уже связан с учетной записью Simplenote.</string>
     <string name="simperium_dialog_message_signup">Не удалось зарегистрировать с указанным адресом эл. почты и паролем.</string>
-    <string name="simperium_dialog_message_password_login">Пароль должен быть не менее %1$d символов, и не может содержать символы новой строки, пробелы и символы табуляции.</string>
     <string name="simperium_dialog_message_network">Сети недоступны. Подключитесь к сети и повторите попытку.</string>
     <string name="simperium_dialog_message_login">Не удалось войти с указанным адресом эл. почты и паролем.</string>
     <string name="simperium_button_signup">Регистрация</string>
@@ -254,7 +293,6 @@ Language: ru
     <string name="character">Символ</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
-    <string name="confirm_empty_trash">Вы действительно хотите навсегда удалить все заметки из корзины?</string>
     <string name="empty_trash">Очистить корзину</string>
     <string name="cancel">Отмена</string>
     <string name="save">Сохранить</string>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/ripple_overlay">
+
+    <item>
+
+        <shape
+            android:shape="oval">
+
+            <solid
+                android:color="@color/item_publication_light">
+            </solid>
+
+        </shape>
+
+    </item>
+
+</ripple>

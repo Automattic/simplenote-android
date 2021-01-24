@@ -1,0 +1,5 @@
+2,15:
+* Lade till synkroniserat datum/tid till anteckningsinformationsbladet [https://github.com/Automattic/simplenote-android/pull/1140]
+* Lade till synkronisering i bakgrunden för att undvika dataförlust när du avslutar appen [https://github.com/Automattic/simplenote-android/pull/1255]
+* Lade till individuell permanent borttagning av anteckningar från papperskorgen [https://github.com/Automattic/simplenote-android/pull/1224]
+

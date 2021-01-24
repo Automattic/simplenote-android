@@ -78,21 +78,18 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     public SimplenoteEditText(Context context) {
         super(context);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
     public SimplenoteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         listeners = new ArrayList<>();
-        setTypeface(TypefaceCache.getTypeface(context, TypefaceCache.TYPEFACE_NAME_ROBOTO_REGULAR));
         setLinkTokenizer();
     }
 
@@ -194,28 +191,39 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         }
     }
 
-    // Returns the line position of the text cursor
-    private int getCurrentCursorLine() {
-        int selectionStart = getSelectionStart();
-        Layout layout = getLayout();
-
-        if (!(selectionStart == -1)) {
-            return layout.getLineForOffset(selectionStart);
+    private int findStartOfLineOfSelection() {
+        int position = getSelectionStart();
+        // getSelectionStart may return -1 if there is no selection nor cursor
+        if (position == -1) {
+            return 0;
         }
-
+        Editable editable = getText();
+        for (int i = position - 1; i >= 0; i--) {
+            if (editable.charAt(i) == '\n') {
+                return i + 1;
+            }
+        }
         return 0;
     }
 
-    public void insertChecklist() {
-        int start, end;
-        int lineNumber = getCurrentCursorLine();
-        start = getLayout().getLineStart(lineNumber);
-
-        if (getSelectionEnd() > getSelectionStart() && !selectionIsOnSameLine()) {
-            end = getSelectionEnd();
-        } else {
-            end = getLayout().getLineEnd(lineNumber);
+    private int findEndOfLineOfSelection() {
+        // getSelectionEnd may return -1 if there is no selection nor cursor
+        // and as the minimum position is 0, use the max value between 0 and getSelectionEnd()
+        int position = Math.max(0, getSelectionEnd());
+        Editable editable = getText();
+        for (int i = position; i < editable.length(); i++) {
+            if (editable.charAt(i) == '\n') {
+                // We return the max here, because when the cursor is at an empty line,
+                // i-1 would point to the start of line
+                return Math.max(i - 1, position);
+            }
         }
+        return editable.length();
+    }
+
+    public void insertChecklist() {
+        final int start = findStartOfLineOfSelection();
+        final int end = findEndOfLineOfSelection();
 
         SpannableStringBuilder workingString = new SpannableStringBuilder(getText().subSequence(start, end));
         Editable editable = getText();
