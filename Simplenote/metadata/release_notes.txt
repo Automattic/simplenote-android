@@ -1,2 +1,1 @@
-* Added reviewing, verifying, and changing account email address [https://github.com/Automattic/simplenote-android/pull/1277]
-
+- Added reviewing, verifying, and changing account email address
