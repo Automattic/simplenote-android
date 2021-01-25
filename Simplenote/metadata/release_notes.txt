@@ -1,4 +1,2 @@
-* Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]
-* Added syncing in the background to avoid data loss when exiting the app [https://github.com/Automattic/simplenote-android/pull/1255]
-* Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
+* Added reviewing, verifying, and changing account email address [https://github.com/Automattic/simplenote-android/pull/1277]
 
