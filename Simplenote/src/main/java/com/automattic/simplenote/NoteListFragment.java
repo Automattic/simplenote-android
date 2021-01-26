@@ -429,38 +429,68 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
                         switch (item.getItemId()) {
                             case R.id.sort_alphabetical:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "alphabetical_az"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(ALPHABETICAL_ASCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
                             case R.id.sort_alphabetical_reverse:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "alphabetical_za"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(ALPHABETICAL_DESCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
                             case R.id.sort_newest_created:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "created_newest"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_CREATED_DESCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
                             case R.id.sort_oldest_created:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "created_oldest"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_CREATED_ASCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
                             case R.id.sort_newest_modified:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "modified_newest"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
                                     String.valueOf(DATE_MODIFIED_DESCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
                             case R.id.sort_oldest_modified:
+                                AnalyticsTracker.track(
+                                    AnalyticsTracker.Stat.SORT_TAPPED,
+                                    AnalyticsTracker.CATEGORY_SETTING,
+                                    "modified_oldest"
+                                );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                        String.valueOf(DATE_MODIFIED_ASCENDING)
+                                    String.valueOf(DATE_MODIFIED_ASCENDING)
                                 ).apply();
                                 refreshList();
                                 return true;
