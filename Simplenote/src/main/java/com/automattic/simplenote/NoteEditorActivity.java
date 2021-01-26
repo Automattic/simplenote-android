@@ -39,9 +39,11 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SHORTCUT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT_USED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
 import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
@@ -292,6 +294,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_C:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "toggle_checklist");
+
                     if (!isPreviewTabSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.insertChecklist();
@@ -306,6 +310,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_COMMA:
                 if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "keyboard_shortcuts");
                     ShortcutDialogFragment.showShortcuts(NoteEditorActivity.this, isPreviewTabSelected());
                     return true;
                 } else {
@@ -314,6 +319,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             case KeyEvent.KEYCODE_H:
                 if (event.isCtrlPressed()) {
                     if (!isPreviewTabSelected()) {
+                        AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "history_sheet");
+
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showHistory();
                         }
@@ -327,6 +334,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_G:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_previous");
+
                     if (isSearchMatchBarVisible()) {
                         if (mButtonPrevious != null && mButtonPrevious.isEnabled()) {
                             mButtonPrevious.callOnClick();
@@ -337,6 +346,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
                     return true;
                 } else if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_next");
+
                     if (isSearchMatchBarVisible()) {
                         if (mButtonNext != null && mButtonNext.isEnabled()) {
                             mButtonNext.callOnClick();
@@ -351,6 +362,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_I:
                 if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "information_sheet");
+
                     if (!isPreviewTabSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showInfo();
@@ -365,6 +378,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_P:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "markdown");
+
                     if (mNote != null && mNote.isMarkdownEnabled()) {
                         togglePreview();
                     } else {
@@ -378,6 +393,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             case KeyEvent.KEYCODE_S:
                 if (event.isCtrlPressed()) {
                     if (!isPreviewTabSelected()) {
+                        AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "share_sheet");
+
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.shareNote();
                         }
