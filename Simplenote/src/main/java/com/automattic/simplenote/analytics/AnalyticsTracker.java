@@ -11,6 +11,7 @@ public final class AnalyticsTracker {
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_LINK = "link";
     public static String CATEGORY_SEARCH = "search";
+    public static String CATEGORY_SHORTCUT = "shortcut";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
     public static String CATEGORY_WIDGET = "widget";
@@ -162,7 +163,8 @@ public final class AnalyticsTracker {
         SEARCH_MATCH_TAPPED,
         INTERNOTE_LINK_COPIED,
         INTERNOTE_LINK_CREATED,
-        INTERNOTE_LINK_TAPPED
+        INTERNOTE_LINK_TAPPED,
+        SHORTCUT_USED
     }
 
     public interface Tracker {
