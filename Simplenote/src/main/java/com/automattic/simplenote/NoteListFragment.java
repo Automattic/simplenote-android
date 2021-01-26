@@ -431,7 +431,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_alphabetical:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "alphabetical_az"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -442,7 +442,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_alphabetical_reverse:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "alphabetical_za"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -453,7 +453,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_newest_created:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "created_newest"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -464,7 +464,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_oldest_created:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "created_oldest"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -475,7 +475,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_newest_modified:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "modified_newest"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
@@ -486,7 +486,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                             case R.id.sort_oldest_modified:
                                 AnalyticsTracker.track(
                                     AnalyticsTracker.Stat.SORT_TAPPED,
-                                    AnalyticsTracker.CATEGORY_SORT,
+                                    AnalyticsTracker.CATEGORY_SETTING,
                                     "modified_oldest"
                                 );
                                 mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,

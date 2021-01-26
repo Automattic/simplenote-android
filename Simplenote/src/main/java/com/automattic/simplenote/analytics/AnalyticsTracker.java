@@ -11,7 +11,7 @@ public final class AnalyticsTracker {
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_LINK = "link";
     public static String CATEGORY_SEARCH = "search";
-    public static String CATEGORY_SORT = "sort";
+    public static String CATEGORY_SETTING = "setting";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
     public static String CATEGORY_WIDGET = "widget";
