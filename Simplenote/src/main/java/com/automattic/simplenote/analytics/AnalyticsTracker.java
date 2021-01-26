@@ -168,7 +168,7 @@ public final class AnalyticsTracker {
         VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
         VERIFICATION_DISMISSED,
-        SORT_TAPPED
+        SETTINGS_SEARCH_SORT_MODE
     }
 
     public interface Tracker {
