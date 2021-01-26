@@ -11,6 +11,7 @@ public final class AnalyticsTracker {
     public static String CATEGORY_NOTE = "note";
     public static String CATEGORY_LINK = "link";
     public static String CATEGORY_SEARCH = "search";
+    public static String CATEGORY_SORT = "sort";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
     public static String CATEGORY_WIDGET = "widget";
@@ -166,7 +167,8 @@ public final class AnalyticsTracker {
         VERIFICATION_CONFIRM_BUTTON_TAPPED,
         VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
-        VERIFICATION_DISMISSED
+        VERIFICATION_DISMISSED,
+        SORT_TAPPED
     }
 
     public interface Tracker {
