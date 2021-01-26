@@ -1,4 +1,0 @@
-2,14:
-
-* Kryssrutans målstorlek har uppdaterats för enklare tryckning
-* Tillägg av etiketter har uppdaterats för att undvika dubbletter

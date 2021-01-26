@@ -1,4 +1,0 @@
-2.14:
-
-* Atualização do tamanho da caixa de seleção para facilitar o toque
-* Melhoria na adição de tags para evitar duplicidade

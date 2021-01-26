@@ -128,16 +128,13 @@
     <string name="close_drawer">Close drawer</string>
 
     <!-- Sorting Options -->
-    <string name="sort_newest_modified">Newest modified date</string>
-    <string name="sort_oldest_modified">Oldest modified date</string>
-    <string name="sort_newest_created">Newest created date</string>
-    <string name="sort_oldest_created">Oldest created date</string>
-    <string name="sort_alphabetical">Alphabetically, A-Z</string>
-    <string name="sort_alphabetical_reverse">Alphabetically, Z-A</string>
-    <string name="sort_search_alphabetically">Alphabetically</string>
-    <string name="sort_search_created">Created</string>
-    <string name="sort_search_modified">Modified</string>
-    <string name="sort_search_reverse_order">Reverse order</string>
+    <string name="sort_by">Sort by</string>
+    <string name="sort_newest_modified">Modified: Newest</string>
+    <string name="sort_oldest_modified">Modified: Oldest</string>
+    <string name="sort_newest_created">Created: Newest</string>
+    <string name="sort_oldest_created">Created: Oldest</string>
+    <string name="sort_alphabetical">Name: A-Z</string>
+    <string name="sort_alphabetical_reverse">Name: Z-A</string>
 
     <!-- Editor link options -->
     <string name="call">Call</string>
@@ -265,11 +262,14 @@
     <string name="all_notes">All Notes</string>
     <string name="toggle_checklist">Toggle Checklist</string>
 
+    <string name="description_close">Close</string>
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
     <string name="description_locked">Locked</string>
+    <string name="description_mail">Mail</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>
+    <string name="description_warning">Warning</string>
 
     <string name="dialog_tag_conflict_button_positive">Merge</string>
     <string name="dialog_tag_conflict_message">The tag \"%1$s\" already exists. Would you like to merge \"%2$s\" into the \"%3$s\" tag?</string>
@@ -286,7 +286,18 @@
     <string name="empty_tags">No tags</string>
     <string name="empty_tags_search">No tags found</string>
 
+    <string name="fullscreen_review_account_subtitle">You are registered with Simplenote using the email &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Improvements to account security may result in account loss if you no longer have access to this email address.</string>
+    <string name="fullscreen_review_account_title">Review Your Account</string>
+    <string name="fullscreen_review_account_button_primary">Confirm</string>
+    <string name="fullscreen_review_account_button_secondary">Change email</string>
+
+    <string name="fullscreen_verify_email_subtitle">We’ve sent a verification email to &lt;b&gt;%1$s&lt;/b&gt;.  Please, check your inbox and follow the instructions.</string>
+    <string name="fullscreen_verify_email_title">Verify Your Email</string>
+    <string name="fullscreen_verify_email_button_secondary">Resend email</string>
+
     <string name="snackbar_deleted_recent_search">Deleted recent search item.</string>
+
+    <string name="toast_email_sent">Email sent</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>

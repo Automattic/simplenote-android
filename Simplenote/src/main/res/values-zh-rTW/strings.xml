@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 13:54:03+0000
+Translation-Revision-Date: 2021-01-12 11:32:26+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="delete">刪除</string>
+    <string name="back">上一步</string>
     <string name="empty_notes_untagged">沒有未標籤筆記</string>
     <string name="unpublishing">正在取消發表筆記…</string>
     <string name="unpublish_successful">已取消發表筆記。</string>
@@ -68,7 +70,6 @@ Language: zh_TW
     <string name="link_california">%1$s%2$s%3$s加州使用者的隱私權聲明%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">需要網路連線。請檢查你的連線，然後再試一次。</string>
-    <string name="simperium_dialog_message_password">密碼設定要求如下：\n\n- 密碼不能和電子郵件地址相同\n- 長度至少為 %1$d 個字元\n- 不可換行\n- 不含定位字元</string>
     <string name="simperium_dialog_message_login_reset">你的密碼不安全，必須重設。密碼設定要求如下：\n\n- 密碼不能和電子郵件地址相同\n- 長度至少為 %1$d 個字元\n- 不可換行\n- 不含定位字元</string>
     <string name="simperium_button_login_reset">重設</string>
     <string name="link_terms">%1$s%2$s%3$s服務條款%4$s</string>
@@ -122,7 +123,6 @@ Language: zh_TW
     <string name="sort_search_modified">修改時間</string>
     <string name="sort_search_created">建立時間</string>
     <string name="sort_search_alphabetically">依字母順序</string>
-    <string name="welcome_note">歡迎使用 Simplenote Android！\n請開啟此筆記查看說明。\n\n點選附有加號圖示的藍色「新筆記」按鈕，即可建立新的筆記。\n\n若要搜尋筆記，請點選附有放大鏡圖示的「搜尋」按鈕，然後輸入文字。 Simplenote 一開始會顯示你最近搜尋的內容，並會在你輸入文字時提供建議搜尋項目。 送出搜尋項目後，畫面會顯示與輸入文字相符的筆記。\n\n有很重要的筆記？ 將它釘選至筆記清單最上方。 釘選筆記有兩種方法。 長按清單中的筆記，接著點選附有圖釘圖示的「釘選至最上方」按鈕。 檢視筆記時，點選「更多選項」按鈕 (上面有垂直三個點的圖示)，然後勾選「釘選」方塊。\n\n使用標籤可協助你整理筆記。 你可以在筆記底部的「新增標籤…」欄位中建立標籤。 你也可以加上電子郵件地址做為標籤，以便與某人分享筆記。\n\n檢視筆記時，點選「更多選項」選單中的「分享」，即可與其他 Android 應用程式輕鬆分享筆記。\n\n刪除的筆記會移至垃圾桶。 若有需要，你可以還原筆記；也可以清空垃圾桶，永遠刪除它們。\n\n你可以在網路和其他裝置上存取你的筆記。 只需前往 http://simplenote.com 即可開始使用。\n\n希望你喜歡 Simplenote！</string>
     <string name="search_hint">搜尋筆記或標籤</string>
     <string name="log_out">登出</string>
     <string name="log_in">登入</string>
@@ -141,7 +141,6 @@ Language: zh_TW
     <string name="simperium_dialog_progress_logging_in">正在登入…</string>
     <string name="simperium_dialog_message_signup_existing">你輸入的電子郵件地址已與 Simplenote 帳戶建立關聯。</string>
     <string name="simperium_dialog_message_signup">無法使用提供的電子郵件地址和密碼註冊。</string>
-    <string name="simperium_dialog_message_password_login">密碼必須至少為 %1$d 個字元，且不得包括新行、空格和定位點。</string>
     <string name="simperium_dialog_message_network">沒有可用的網路。請連線至網路後再試一次。</string>
     <string name="simperium_dialog_message_login">無法使用提供的電子郵件地址和密碼登入。</string>
     <string name="simperium_button_signup">註冊</string>
@@ -254,7 +253,6 @@ Language: zh_TW
     <string name="character">字元</string>
     <string name="no">否</string>
     <string name="yes">是</string>
-    <string name="confirm_empty_trash">你確定要清空垃圾桶？</string>
     <string name="empty_trash">清空垃圾桶</string>
     <string name="cancel">取消</string>
     <string name="save">儲存</string>

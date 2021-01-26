@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentManager;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -23,6 +25,7 @@ import androidx.work.WorkManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
+import com.automattic.simplenote.models.Account;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
@@ -32,6 +35,7 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
@@ -48,6 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 
 public class Simplenote extends Application implements HeartbeatListener {
@@ -65,6 +70,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final String TAG_SYNC = "sync";
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
+    private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
 
     private Bucket<Note> mNotesBucket;
@@ -73,6 +79,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
+    private boolean mHasShownReviewOrVerify;
     private boolean mIsInBackground = true;
 
     public void onCreate() {
@@ -114,6 +121,7 @@ public class Simplenote extends Application implements HeartbeatListener {
             tagSchema.addIndex(new NoteCountIndexer(mNotesBucket));
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
+            mAccountBucket = mSimperium.bucket(new Account.Schema());
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -142,7 +150,6 @@ public class Simplenote extends Application implements HeartbeatListener {
         mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
 
-    @SuppressWarnings("unused")
     private boolean isFirstLaunch() {
         // NotesActivity sets this pref to false after first launch
         return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
@@ -196,8 +203,72 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mPreferencesBucket;
     }
 
+    public Bucket<Account> getAccountBucket() {
+        return mAccountBucket;
+    }
+
     public boolean isInBackground() {
         return mIsInBackground;
+    }
+
+    private void checkReviewAccountOrVerifyEmail(final Activity activity) {
+        if (isFirstLaunch() || !NetworkUtils.isNetworkAvailable(this) || mHasShownReviewOrVerify) {
+            // Show nothing on first launch, no network connection, or has already shown review/verify.
+            return;
+        }
+
+        Account account;
+
+        try {
+            account = mAccountBucket.get(KEY_EMAIL_VERIFICATION);
+        } catch (BucketObjectMissingException bucketObjectMissingException) {
+            // Show review account when entity does not exist.
+            showReviewAccountOrVerifyEmail(activity, false);
+            return;
+        }
+
+        if (mSimperium == null || mSimperium.getUser() == null) {
+            // Show nothing when Simperium or user cannot be retrieved.
+            return;
+        }
+
+        String email = mSimperium.getUser().getEmail();
+
+        if (account.hasVerifiedEmail(email)) {
+            // Show nothing when email has been verified.
+            return;
+        }
+
+        // Show verify email when email has been sent to account address.  Show review account otherwise.
+        showReviewAccountOrVerifyEmail(activity, account.hasSentEmail(email));
+    }
+
+    private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
+        final FragmentManager fragmentManager;
+        final @IdRes int container;
+
+        if (activity instanceof NotesActivity) {
+            fragmentManager = ((NotesActivity) activity).getSupportFragmentManager();
+            container = R.id.drawer_layout;
+        } else if (activity instanceof NoteEditorActivity) {
+            fragmentManager = ((NoteEditorActivity) activity).getSupportFragmentManager();
+            container = android.R.id.content;
+        } else {
+            return;
+        }
+
+        final Bundle bundle = ReviewAccountVerifyEmailFragment.newBundle(hasSentEmail);
+
+        new FullScreenDialogFragment.Builder(activity)
+            .setContent(ReviewAccountVerifyEmailFragment.class, bundle)
+            .setOnConfirmListener(null)
+            .setOnDismissListener(null)
+            .setToolbarElevation(0)
+            .setViewContainer(container)
+            .build()
+            .show(fragmentManager, FullScreenDialogFragment.TAG);
+
+        mHasShownReviewOrVerify = true;
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
@@ -213,6 +284,11 @@ public class Simplenote extends Application implements HeartbeatListener {
                     public void run() {
                         if (!mIsInBackground) {
                             return;
+                        }
+
+                        if (mAccountBucket != null) {
+                            mAccountBucket.stop();
+                            AppLog.add(Type.SYNC, "Stopped account bucket (Simplenote)");
                         }
 
                         if (mNotesBucket != null) {
@@ -290,6 +366,8 @@ public class Simplenote extends Application implements HeartbeatListener {
 
             String activitySimpleName = activity.getClass().getSimpleName();
 
+            mAccountBucket.start();
+            AppLog.add(Type.SYNC, "Started account bucket (" + activitySimpleName + ")");
             mPreferencesBucket.start();
             AppLog.add(Type.SYNC, "Started preference bucket (" + activitySimpleName + ")");
             mNotesBucket.start();
@@ -300,6 +378,7 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+            checkReviewAccountOrVerifyEmail(activity);
         }
 
         @Override

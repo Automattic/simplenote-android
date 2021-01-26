@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2020-12-10 17:54:55+0000
+Translation-Revision-Date: 2021-01-12 11:32:26+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="delete">Hapus</string>
+    <string name="back">Kembali</string>
     <string name="empty_notes_untagged">Tidak ada catatan tanpa tag</string>
     <string name="unpublishing">Membatalkan penerbitan catatan…</string>
     <string name="unpublish_successful">Catatan tidak diterbitkan.</string>
@@ -68,7 +70,6 @@ Language: id
     <string name="link_california">%1$s%2$s%3$sPemberitahuan Privasi untuk Pengguna di California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Koneksi jaringan diperlukan. Silakan periksa koneksi Anda dan coba lagi.</string>
-    <string name="simperium_dialog_message_password">Persyaratan kata sandi adalah:\n\n- Kata sandi tidak boleh sama dengan email\n- Minimal %1$d karakter\n- Tidak membuat baris baru\n- Tidak boleh ada tab</string>
     <string name="simperium_dialog_message_login_reset">Kata sandi Anda tidak aman dan harus diatur ulang. Persyaratan kata sandi adalah:\n\n- Kata sandi tidak boleh sama dengan email\n- Minimal %1$d karakter\n- Tidak membuat baris baru\n- Tidak boleh ada tab</string>
     <string name="simperium_button_login_reset">Atur Ulang</string>
     <string name="link_terms">%1$s%2$s%3$sKetentuan Layanan%4$s</string>
@@ -122,7 +123,6 @@ Language: id
     <string name="sort_search_modified">Dimodifikasi</string>
     <string name="sort_search_created">Dibuat</string>
     <string name="sort_search_alphabetically">Menurut Abjad</string>
-    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" berwarna biru dengan ikon plus.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag di bidang \"Tambahkan tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
@@ -141,7 +141,6 @@ Language: id
     <string name="simperium_dialog_progress_logging_in">Login…</string>
     <string name="simperium_dialog_message_signup_existing">Alamat email yang Anda masukkan telah dikaitkan dengan akun Simplenote.</string>
     <string name="simperium_dialog_message_signup">Tidak dapat mendaftar dengan alamat email dan kata sandi yang diberikan.</string>
-    <string name="simperium_dialog_message_password_login">Kata sandi minimal harus %1$d karakter, tidak termasuk baris baru, spasi, dan tab.</string>
     <string name="simperium_dialog_message_network">Tidak ada jaringan yang tersedia. Harap hubungkan ke jaringan dan coba lagi.</string>
     <string name="simperium_dialog_message_login">Tidak dapat login dengan alamat email dan kata sandi yang diberikan.</string>
     <string name="simperium_button_signup">Mendaftar</string>
@@ -254,7 +253,6 @@ Language: id
     <string name="character">Karakter</string>
     <string name="no">Tidak</string>
     <string name="yes">Ya</string>
-    <string name="confirm_empty_trash">Anda yakin ingin mengosongkan sampah?</string>
     <string name="empty_trash">Kosongkan sampah</string>
     <string name="cancel">Batalkan</string>
     <string name="save">Simpan</string>
