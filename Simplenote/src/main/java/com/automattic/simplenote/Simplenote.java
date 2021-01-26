@@ -227,8 +227,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             return;
         }
 
-        if (mSimperium == null || mSimperium.getUser() == null) {
-            // Show nothing when Simperium or user cannot be retrieved.
+        if (mSimperium == null || mSimperium.getUser() == null || mSimperium.getUser().getEmail() == null) {
+            // Show nothing when Simperium, user, or email cannot be retrieved.
             return;
         }
 
