@@ -1,6 +1,8 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -160,6 +162,30 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
 
     @Override
     public void onNetworkChange(Bucket<Account> bucket, Bucket.ChangeType type, String key) {
+        dismissIfVerified();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new Handler(Looper.getMainLooper()).postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    dismissIfVerified();
+                }
+            },
+            getResources().getInteger(android.R.integer.config_mediumAnimTime)
+        );
+    }
+
+    @Override
+    public void onViewCreated(FullScreenDialogController controller) {
+        mDialogController = controller;
+    }
+
+    private void dismissIfVerified() {
         if (isDetached() || isRemoving()) {
             return;
         }
@@ -173,11 +199,6 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
         } catch (BucketObjectMissingException bucketObjectMissingException) {
             // Do nothing if account cannot be retrieved.
         }
-    }
-
-    @Override
-    public void onViewCreated(FullScreenDialogController controller) {
-        mDialogController = controller;
     }
 
     public static Bundle newBundle(boolean hasSentEmail) {
