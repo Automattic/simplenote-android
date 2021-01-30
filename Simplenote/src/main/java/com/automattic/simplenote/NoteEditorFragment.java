@@ -232,6 +232,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             try {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
                             } catch (Exception e) {
+                                BrowserUtils.showDialogErrorException(requireContext(), mLinkText);
                                 e.printStackTrace();
                             }
                         }
