@@ -94,6 +94,8 @@ public class ScreenshotTest {
     public void screenshotTest() throws InterruptedException {
         // Pre-checks if the state is dirty
         enterThenDisablePasscodeIfNeeded();
+        dismissVerifyEmailScreenIfNeeded();
+
         logoutIfNeeded();
 
         login();
@@ -104,6 +106,7 @@ public class ScreenshotTest {
         // app changing root activity (from login to notes list) but I haven't had the time to
         // research it properly
         Thread.sleep(2000);
+        dismissVerifyEmailScreenIfNeeded();
         waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 5000);
 
         selectNoteFromNotesList();
@@ -174,6 +177,15 @@ public class ScreenshotTest {
     }
 
     // Flows
+
+    private void dismissVerifyEmailScreenIfNeeded() {
+        // This is quite brittle. Would be good to have a unique identifier instead.
+        final String contentDescription = "Close";
+
+        if (isViewDisplayed(getViewByContent(contentDescription))) {
+            onView(withContentDescription(contentDescription)).perform(click());
+        }
+    }
 
     private void logoutIfNeeded() {
         if (!isViewDisplayed(getViewById(R.id.list_root))) {
@@ -379,6 +391,10 @@ public class ScreenshotTest {
 
     private ViewInteraction getViewById(Integer id) {
         return onView(allOf(ViewMatchers.withId(id), isDisplayed()));
+    }
+
+    private ViewInteraction getViewByContent(String contentDescription) {
+        return onView(allOf(withContentDescription(contentDescription), isDisplayed()));
     }
 
     private Boolean isViewDisplayed(ViewInteraction view) {
