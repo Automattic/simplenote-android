@@ -169,14 +169,13 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     public void onResume() {
         super.onResume();
 
-        new Handler(Looper.getMainLooper()).postDelayed(
+        new Handler(Looper.getMainLooper()).post(
             new Runnable() {
                 @Override
                 public void run() {
                     dismissIfVerified();
                 }
-            },
-            getResources().getInteger(android.R.integer.config_mediumAnimTime)
+            }
         );
     }
 
