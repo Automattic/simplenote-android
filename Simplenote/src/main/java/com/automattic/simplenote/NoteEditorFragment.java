@@ -580,6 +580,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mRootView;
     }
 
+    public void removeScrollListener() {
+        mRootView.setOnScrollChangeListener(
+            new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                }
+            }
+        );
+    }
+
     public void scrollToMatch(int location) {
         if (isAdded()) {
             // Calculate how far to scroll to bring the match into view
