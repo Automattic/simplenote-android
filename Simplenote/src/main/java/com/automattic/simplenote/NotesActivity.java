@@ -634,6 +634,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         if (mTagsAdapter.getCountCustom() > 0) {
             mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+            MenuItem tagsHeader = mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+            tagsHeader.getActionView().findViewById(R.id.edit).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        launchEditTags();
+                    }
+                }
+            );
 
             for (int i = 0; i < mTagsAdapter.getCount(); i++) {
                 String name = mTagsAdapter.getItem(i).name;
@@ -654,7 +663,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     }
 
-    public void launchEditTags(View view) {
+    public void launchEditTags() {
         startActivity(new Intent(NotesActivity.this, TagsActivity.class));
     }
 
