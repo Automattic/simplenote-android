@@ -64,9 +64,9 @@ public class DrawableUtils {
     }
 
     public static void startAnimatedVectorDrawable(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (drawable instanceof AnimatedVectorDrawable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ((AnimatedVectorDrawable) drawable).start();
-        } else {
+        } else if (drawable instanceof AnimatedVectorDrawableCompat) {
             ((AnimatedVectorDrawableCompat) drawable).start();
         }
     }
