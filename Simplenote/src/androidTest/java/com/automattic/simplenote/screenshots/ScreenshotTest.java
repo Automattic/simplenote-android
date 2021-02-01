@@ -258,18 +258,23 @@ public class ScreenshotTest {
     }
 
     private void loadSearchFromNotesList(String query) {
-        final int searchViewId = R.id.search_src_text;
-
         // Tap the search button in the toolbar
-        onView(withId(R.id.menu_search)).perform(click());
+        final int searchButtonId = R.id.menu_search;
+        waitForViewMatching(withId(searchButtonId), 5000);
+        onView(withId(searchButtonId)).perform(click());
+
         // Type the search query
+        final int searchViewId = R.id.search_src_text;
         onView(withId(searchViewId)).perform(typeSearchViewText(query));
         onView(withId(searchViewId)).perform(pressImeActionButton());
     }
 
     private void loadSideMenuFromNotesList() {
         // There is no R.id for the menu drawer button
-        onView(allOf(withContentDescription("Open drawer"))).perform(click());
+        final String contentDescription = "Open drawer";
+
+        waitForViewToBeDisplayed(withContentDescription(contentDescription), 2000);
+        onView(allOf(withContentDescription(contentDescription))).perform(click());
     }
 
     private void loadSettingsFromNotesList() {
