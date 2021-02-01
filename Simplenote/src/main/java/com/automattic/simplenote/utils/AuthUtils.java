@@ -11,6 +11,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
 
 public class AuthUtils {
@@ -39,6 +40,9 @@ public class AuthUtils {
         // Remove WordPress sites
         editor.remove(PrefUtils.PREF_WORDPRESS_SITES);
         editor.apply();
+
+        // Remove note scroll positions
+        application.getSharedPreferences(SCROLL_POSITION_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
 
         // Remove note last sync times
         application.getSharedPreferences(SYNC_TIME_PREFERENCES, Context.MODE_PRIVATE).edit().clear().apply();
