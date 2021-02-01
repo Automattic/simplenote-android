@@ -19,7 +19,7 @@ public class Account extends BucketObject {
     }
 
     public boolean hasSentEmail(String email) {
-        return email.equals(getProperty(FIELD_EMAIL_VERIFICATION_SENT_TO));
+        return email.equalsIgnoreCase((String) getProperty(FIELD_EMAIL_VERIFICATION_SENT_TO));
     }
 
     public boolean hasVerifiedEmail(String email) {
@@ -32,7 +32,7 @@ public class Account extends BucketObject {
         try {
             JSONObject json = new JSONObject((String) token);
             Object username = json.opt(FIELD_EMAIL_VERIFICATION_USERNAME);
-            return email.equals(username);
+            return email.equalsIgnoreCase((String) username);
         } catch (JSONException exception) {
             return false;
         }
