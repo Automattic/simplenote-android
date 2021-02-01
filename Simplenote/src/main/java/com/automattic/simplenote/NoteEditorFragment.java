@@ -460,6 +460,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mMarkdown.setWebViewClient(
                     new WebViewClient() {
                         @Override
+                        public void onPageFinished(final WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            if (mMarkdown.getVisibility() == View.VISIBLE) {
+                                new Handler().postDelayed(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (mNote != null && mNote.getSimperiumKey() != null) {
+                                                ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                            }
+                                        }
+                                    },
+                                    requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                                );
+                            }
+                        }
+
+                        @Override
                         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
                             String url = request.getUrl().toString();
 
