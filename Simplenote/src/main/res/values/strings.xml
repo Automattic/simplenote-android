@@ -272,7 +272,7 @@
     <string name="description_warning">Warning</string>
 
     <string name="dialog_browser_exception_button_copy_url">Copy URL</string>
-    <string name="dialog_browser_exception_message">An app could not be opened with that link.</string>
+    <string name="dialog_browser_exception_message">Cannot open link.  Copy the URL to paste it into a browser.</string>
     <string name="dialog_browser_exception_title">Link Error</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL could not be copied to clipboard</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copied to clipboard</string>
