@@ -67,8 +67,11 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,6 +98,8 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
 import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
@@ -111,6 +116,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
     private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
+
+    private static final String STATE_MATCHES_INDEX = "MATCHES_INDEX";
+    private static final String STATE_MATCHES_LOCATIONS = "MATCHES_LOCATIONS";
 
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
@@ -137,6 +145,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             invalidateOptionsMenu();
         }
     };
+    private int[] mSearchMatchIndexes;
+    private int mSearchMatchIndex;
 
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
@@ -219,6 +229,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         } else {
             mHasTappedNoteListWidgetButton = savedInstanceState.getBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED);
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
+            mSearchMatchIndex = savedInstanceState.getInt(STATE_MATCHES_INDEX, 0);
+            mSearchMatchIndexes = savedInstanceState.getIntArray(STATE_MATCHES_LOCATIONS);
         }
 
         mIsTabletFullscreen = mNoteListFragment.isHidden();
@@ -372,6 +384,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED, mHasTappedNoteListWidgetButton);
+        outState.putInt(STATE_MATCHES_INDEX, mSearchMatchIndex);
+        outState.putIntArray(STATE_MATCHES_LOCATIONS, mSearchMatchIndexes);
         super.onSaveInstanceState(outState);
     }
 
@@ -1191,6 +1205,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
+            if (matchOffsets != null) {
+                setUpSearchMatches(matchOffsets);
+            }
+
             if (isSearchQueryNotNull()) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
@@ -1523,6 +1541,40 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
+            case KeyEvent.KEYCODE_G:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_previous");
+
+                    if (mNoteEditorFragment.hasSearchMatches()) {
+                        if (mSearchMatchIndex > 0) {
+                            mSearchMatchIndex--;
+                            mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                        } else {
+                            Toast.makeText(NotesActivity.this, R.string.item_action_match_error_previous, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(NotesActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_next");
+
+                    if (mNoteEditorFragment.hasSearchMatches()) {
+                        if (mSearchMatchIndex < mSearchMatchIndexes.length - 1) {
+                            mSearchMatchIndex++;
+                            mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                        } else {
+                            Toast.makeText(NotesActivity.this, R.string.item_action_match_error_next, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(NotesActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
             case KeyEvent.KEYCODE_H:
                 if (event.isCtrlPressed()) {
                     AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "history_sheet");
@@ -1609,6 +1661,27 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             default:
                 return super.onKeyUp(keyCode, event);
+        }
+    }
+
+    private void setUpSearchMatches(String matchOffsets) {
+        String[] matches = matchOffsets != null ? matchOffsets.split("\\s+") : new String[]{};
+        String[] matchesStart = new String[matches.length / MATCH_INDEX_COUNT];
+
+        // Get "start" item from matches.  The format is four space-separated integers that
+        // represent the location of the match: "column token start length" ex: "1 3 3 7"
+        for (int i = MATCH_INDEX_START, j = 0; i < matches.length; i += MATCH_INDEX_COUNT, j++) {
+            matchesStart[j] = matches[i];
+        }
+
+        // Remove duplicate items with linked hash set and linked list since full-text search
+        // may return the same position more than once when parsing both title and content.
+        matchesStart = new LinkedHashSet<>(new LinkedList<>(Arrays.asList(matchesStart))).toArray(new String[0]);
+        mSearchMatchIndexes = new int[matchesStart.length];
+
+        // Convert matches string array to integer array.
+        for (int i = 0; i < matchesStart.length; i++) {
+            mSearchMatchIndexes[i] = Integer.parseInt(matchesStart[i]);
         }
     }
 

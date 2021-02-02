@@ -314,6 +314,8 @@
     <string name="category_action">Action</string>
     <string name="category_search">Search</string>
     <string name="item_action_match_error">Select a note in search results to see matches</string>
+    <string name="item_action_match_error_next">There are no more next matches</string>
+    <string name="item_action_match_error_previous">There are no more previous matches</string>
     <string name="item_action_match_next">Next Match</string>
     <string name="item_action_match_previous">Previous Match</string>
     <string name="item_action_note_new" translatable="false">@string/new_note</string>

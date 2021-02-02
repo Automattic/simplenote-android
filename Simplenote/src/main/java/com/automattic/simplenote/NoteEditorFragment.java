@@ -549,6 +549,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mRootView;
     }
 
+    public boolean hasSearchMatches() {
+        return mMatchOffsets != null;
+    }
+
     public void scrollToMatch(int location) {
         if (isAdded()) {
             // Calculate how far to scroll to bring the match into view
