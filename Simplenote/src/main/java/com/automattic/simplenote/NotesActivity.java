@@ -1189,6 +1189,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
+            mNoteEditorFragment.removeScrollListener();
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
