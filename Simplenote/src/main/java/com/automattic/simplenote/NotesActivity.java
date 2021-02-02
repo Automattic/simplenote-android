@@ -67,11 +67,8 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,8 +95,7 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.getIndexesFromOffsets;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
 import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
@@ -1206,7 +1202,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
             if (matchOffsets != null) {
-                setUpSearchMatches(matchOffsets);
+                mSearchMatchIndexes = getIndexesFromOffsets(matchOffsets);
             }
 
             if (isSearchQueryNotNull()) {
@@ -1661,27 +1657,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             default:
                 return super.onKeyUp(keyCode, event);
-        }
-    }
-
-    private void setUpSearchMatches(String matchOffsets) {
-        String[] matches = matchOffsets != null ? matchOffsets.split("\\s+") : new String[]{};
-        String[] matchesStart = new String[matches.length / MATCH_INDEX_COUNT];
-
-        // Get "start" item from matches.  The format is four space-separated integers that
-        // represent the location of the match: "column token start length" ex: "1 3 3 7"
-        for (int i = MATCH_INDEX_START, j = 0; i < matches.length; i += MATCH_INDEX_COUNT, j++) {
-            matchesStart[j] = matches[i];
-        }
-
-        // Remove duplicate items with linked hash set and linked list since full-text search
-        // may return the same position more than once when parsing both title and content.
-        matchesStart = new LinkedHashSet<>(new LinkedList<>(Arrays.asList(matchesStart))).toArray(new String[0]);
-        mSearchMatchIndexes = new int[matchesStart.length];
-
-        // Convert matches string array to integer array.
-        for (int i = 0; i < matchesStart.length; i++) {
-            mSearchMatchIndexes[i] = Integer.parseInt(matchesStart[i]);
         }
     }
 

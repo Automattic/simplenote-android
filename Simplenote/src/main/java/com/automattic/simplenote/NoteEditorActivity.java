@@ -34,9 +34,6 @@ import com.simperium.client.BucketObjectMissingException;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SHORTCUT;
@@ -45,8 +42,7 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIS
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT_USED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.getIndexesFromOffsets;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
@@ -441,25 +437,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     private void setUpSearchMatchBar(Intent intent) {
         if (mSearchMatchIndexes == null) {
-            String matchOffsets = intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS);
-            String[] matches = matchOffsets != null ? matchOffsets.split("\\s+") : new String[]{};
-            String[] matchesStart = new String[matches.length / MATCH_INDEX_COUNT];
-
-            // Get "start" item from matches.  The format is four space-separated integers that
-            // represent the location of the match: "column token start length" ex: "1 3 3 7"
-            for (int i = MATCH_INDEX_START, j = 0; i < matches.length; i += MATCH_INDEX_COUNT, j++) {
-                matchesStart[j] = matches[i];
-            }
-
-            // Remove duplicate items with linked hash set and linked list since full-text search
-            // may return the same position more than once when parsing both title and content.
-            matchesStart = new LinkedHashSet<>(new LinkedList<>(Arrays.asList(matchesStart))).toArray(new String[0]);
-            mSearchMatchIndexes = new int[matchesStart.length];
-
-            // Convert matches string array to integer array.
-            for (int i = 0; i < matchesStart.length; i++) {
-                mSearchMatchIndexes[i] = Integer.parseInt(matchesStart[i]);
-            }
+            mSearchMatchIndexes = getIndexesFromOffsets(intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
         }
 
         mSearchMatchBar = findViewById(R.id.search_match_bar);
