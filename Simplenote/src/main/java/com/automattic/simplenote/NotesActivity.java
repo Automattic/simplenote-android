@@ -633,7 +633,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         View emptyTagsHint = findViewById(R.id.empty_tags_hint_text);
 
         if (mTagsAdapter.getCountCustom() > 0) {
-            mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
             MenuItem tagsHeader = mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
             tagsHeader.getActionView().findViewById(R.id.edit).setOnClickListener(
                 new View.OnClickListener() {
