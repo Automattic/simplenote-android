@@ -581,13 +581,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     public void removeScrollListener() {
-        mRootView.setOnScrollChangeListener(
-            new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                }
-            }
-        );
+        mRootView.setOnScrollChangeListener(null);
     }
 
     public void scrollToMatch(int location) {
