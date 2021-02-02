@@ -22,8 +22,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.AppLog;
-import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -205,6 +205,51 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = sortPreference.getEntries();
                 sortPreference.setSummary(entries[index]);
+
+                switch (index) {
+                    case 0:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "modified_newest"
+                        );
+                        break;
+                    case 1:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "modified_oldest"
+                        );
+                        break;
+                    case 2:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "created_newest"
+                        );
+                        break;
+                    case 3:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "created_oldest"
+                        );
+                        break;
+                    case 4:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "alphabetical_az"
+                        );
+                        break;
+                    case 5:
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+                            AnalyticsTracker.CATEGORY_SETTING,
+                            "alphabetical_za"
+                        );
+                        break;
+                }
 
                 return true;
             }
