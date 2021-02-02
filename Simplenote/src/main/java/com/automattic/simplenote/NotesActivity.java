@@ -638,7 +638,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        launchEditTags();
+                        startActivity(new Intent(NotesActivity.this, TagsActivity.class));
                     }
                 }
             );
@@ -660,10 +660,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             emptyTagsDivider.setVisibility(View.VISIBLE);
             emptyTagsHint.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void launchEditTags() {
-        startActivity(new Intent(NotesActivity.this, TagsActivity.class));
     }
 
     public void createNewNote(View view) {
