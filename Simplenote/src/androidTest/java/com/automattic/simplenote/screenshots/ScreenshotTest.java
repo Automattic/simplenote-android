@@ -2,21 +2,15 @@ package com.automattic.simplenote.screenshots;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.ListView;
 
 import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.IdlingResource;
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -39,7 +33,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -48,7 +41,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -66,13 +58,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static tools.fastlane.screengrab.cleanstatusbar.BarsMode.TRANSPARENT;
@@ -135,6 +124,10 @@ public class ScreenshotTest {
         }
 
         selectNoteFromNotesList();
+
+        // It can happen that the email verification screen appears on the note editor instead of
+        // the note list screen, so look for one and dismiss it if found.
+        dismissVerifyEmailScreenIfNeeded();
 
         Screengrab.screenshot("note");
 
@@ -321,7 +314,9 @@ public class ScreenshotTest {
     // Notes Editor Screen
 
     private void dismissNoteEditor() {
-        onView(withContentDescription("Navigate up")).perform(click());
+        final String contentDescripion = "Navigate up";
+        waitForViewToBeDisplayed(withContentDescription(contentDescripion), 5000);
+        onView(withContentDescription(contentDescripion)).perform(click());
     }
 
     // Search Screen
