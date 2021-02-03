@@ -228,7 +228,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 "internote_link_tapped_editor"
                             );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                        } else {
+                        } else if (!mLinkUrl.startsWith("geo:") && !mLinkUrl.startsWith("mailto:") && !mLinkUrl.startsWith("tel:")) {
                             try {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
                             } catch (Exception e) {
