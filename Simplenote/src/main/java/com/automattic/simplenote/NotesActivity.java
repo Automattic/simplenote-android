@@ -645,7 +645,15 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         View emptyTagsHint = findViewById(R.id.empty_tags_hint_text);
 
         if (mTagsAdapter.getCountCustom() > 0) {
-            mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+            MenuItem tagsHeader = mNavigationMenu.add(GROUP_SECONDARY, TAGS_ID, Menu.NONE, getString(R.string.tags)).setActionView(R.layout.drawer_action_edit).setEnabled(false);
+            tagsHeader.getActionView().findViewById(R.id.edit).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(NotesActivity.this, TagsActivity.class));
+                    }
+                }
+            );
 
             for (int i = 0; i < mTagsAdapter.getCount(); i++) {
                 String name = mTagsAdapter.getItem(i).name;
@@ -664,10 +672,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             emptyTagsDivider.setVisibility(View.VISIBLE);
             emptyTagsHint.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void launchEditTags(View view) {
-        startActivity(new Intent(NotesActivity.this, TagsActivity.class));
     }
 
     public void createNewNote(View view) {
@@ -1197,6 +1201,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
             startActivityForResult(editNoteIntent, Simplenote.INTENT_EDIT_NOTE);
         } else {
+            mNoteEditorFragment.removeScrollListener();
             mNoteEditorFragment.setNote(noteID, matchOffsets);
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);

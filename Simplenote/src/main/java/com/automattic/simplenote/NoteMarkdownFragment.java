@@ -1,7 +1,10 @@
 package com.automattic.simplenote;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,7 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -37,6 +41,7 @@ import com.simperium.client.BucketObjectMissingException;
 import java.lang.ref.SoftReference;
 import java.util.Set;
 
+import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<Note> {
@@ -44,6 +49,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
 
     private Bucket<Note> mNotesBucket;
     private Note mNote;
+    private SharedPreferences mPreferences;
     private String mCss;
     private WebView mMarkdown;
     private boolean mIsLoadingNote;
@@ -85,6 +91,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppLog.add(Type.SCREEN, "Created (NoteMarkdownFragment)");
         mNotesBucket = ((Simplenote) requireActivity().getApplication()).getNotesBucket();
+        mPreferences = requireContext().getSharedPreferences(SCROLL_POSITION_PREFERENCES, Context.MODE_PRIVATE);
 
         // Load note if we were passed an ID.
         Bundle arguments = getArguments();
@@ -95,13 +102,37 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
         }
 
         setHasOptionsMenu(true);
-        View layout;
+        final View layout;
 
         if (BrowserUtils.isWebViewInstalled(requireContext())) {
             layout = inflater.inflate(R.layout.fragment_note_markdown, container, false);
+            ((NestedScrollView) layout).setOnScrollChangeListener(
+                new NestedScrollView.OnScrollChangeListener() {
+                    @Override
+                    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                        mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
+                    }
+                }
+            );
             mMarkdown = layout.findViewById(R.id.markdown);
             mMarkdown.setWebViewClient(
                 new WebViewClient() {
+                    @Override
+                    public void onPageFinished(final WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        new Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mNote != null && mNote.getSimperiumKey() != null) {
+                                        ((NestedScrollView) layout).smoothScrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                    }
+                                }
+                            },
+                            requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                        );
+                    }
+
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
                         String url = request.getUrl().toString();

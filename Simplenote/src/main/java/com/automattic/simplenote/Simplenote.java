@@ -58,6 +58,7 @@ import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KE
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
+    public static final String SCROLL_POSITION_PREFERENCES = "scroll_position";
     public static final String SYNC_TIME_PREFERENCES = "sync_time";
     public static final String TAG = "Simplenote";
     public static final int INTENT_EDIT_NOTE = 2;
@@ -227,8 +228,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             return;
         }
 
-        if (mSimperium == null || mSimperium.getUser() == null) {
-            // Show nothing when Simperium or user cannot be retrieved.
+        if (mSimperium == null || mSimperium.getUser() == null || mSimperium.getUser().getEmail() == null) {
+            // Show nothing when Simperium, user, or email cannot be retrieved.
             return;
         }
 
