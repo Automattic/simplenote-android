@@ -18,10 +18,13 @@ public class AuthUtils {
     public static void logOut(Simplenote application) {
         application.getSimperium().deauthorizeUser();
 
+        application.getAccountBucket().reset();
         application.getNotesBucket().reset();
         application.getTagsBucket().reset();
         application.getPreferencesBucket().reset();
 
+        application.getAccountBucket().stop();
+        AppLog.add(Type.SYNC, "Stopped account bucket (AuthUtils)");
         application.getNotesBucket().stop();
         AppLog.add(Type.SYNC, "Stopped note bucket (AuthUtils)");
         application.getTagsBucket().stop();
