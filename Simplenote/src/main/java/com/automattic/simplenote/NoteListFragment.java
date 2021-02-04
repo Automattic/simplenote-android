@@ -97,11 +97,17 @@ import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
 import static com.automattic.simplenote.models.Suggestion.Type.TAG;
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -429,22 +435,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
                         switch (item.getItemId()) {
                             case R.id.sort_alphabetical:
-                                updateSortOrder("alphabetical_az", ALPHABETICAL_ASCENDING);
+                                updateSortOrder(ALPHABETICAL_ASCENDING_LABEL, ALPHABETICAL_ASCENDING);
                                 return true;
                             case R.id.sort_alphabetical_reverse:
-                                updateSortOrder("alphabetical_za", ALPHABETICAL_DESCENDING);
+                                updateSortOrder(ALPHABETICAL_DESCENDING_LABEL, ALPHABETICAL_DESCENDING);
                                 return true;
                             case R.id.sort_newest_created:
-                                updateSortOrder("created_newest", DATE_CREATED_DESCENDING);
+                                updateSortOrder(DATE_CREATED_DESCENDING_LABEL, DATE_CREATED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_created:
-                                updateSortOrder("created_oldest", DATE_CREATED_ASCENDING);
+                                updateSortOrder(DATE_CREATED_ASCENDING_LABEL, DATE_CREATED_ASCENDING);
                                 return true;
                             case R.id.sort_newest_modified:
-                                updateSortOrder("modified_newest", DATE_MODIFIED_DESCENDING);
+                                updateSortOrder(DATE_MODIFIED_DESCENDING_LABEL, DATE_MODIFIED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_modified:
-                                updateSortOrder("modified_oldest", DATE_MODIFIED_ASCENDING);
+                                updateSortOrder(DATE_MODIFIED_ASCENDING_LABEL, DATE_MODIFIED_ASCENDING);
                                 return true;
                             default:
                                 return false;

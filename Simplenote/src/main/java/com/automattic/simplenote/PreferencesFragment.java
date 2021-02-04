@@ -46,11 +46,17 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -215,22 +221,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 if (!sortPreference.getValue().equals(newValue)) {
                     switch (index) {
                         case ALPHABETICAL_ASCENDING:
-                            trackSortOrder("alphabetical_az");
+                            trackSortOrder(ALPHABETICAL_ASCENDING_LABEL);
                             break;
                         case ALPHABETICAL_DESCENDING:
-                            trackSortOrder("alphabetical_za");
+                            trackSortOrder(ALPHABETICAL_DESCENDING_LABEL);
                             break;
                         case DATE_CREATED_ASCENDING:
-                            trackSortOrder("created_oldest");
+                            trackSortOrder(DATE_CREATED_ASCENDING_LABEL);
                             break;
                         case DATE_CREATED_DESCENDING:
-                            trackSortOrder("created_newest");
+                            trackSortOrder(DATE_CREATED_DESCENDING_LABEL);
                             break;
                         case DATE_MODIFIED_ASCENDING:
-                            trackSortOrder("modified_oldest");
+                            trackSortOrder(DATE_MODIFIED_ASCENDING_LABEL);
                             break;
                         case DATE_MODIFIED_DESCENDING:
-                            trackSortOrder("modified_newest");
+                            trackSortOrder(DATE_MODIFIED_DESCENDING_LABEL);
                             break;
                     }
                 }
