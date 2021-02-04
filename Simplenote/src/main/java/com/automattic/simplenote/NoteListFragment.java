@@ -97,11 +97,17 @@ import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
 import static com.automattic.simplenote.models.Suggestion.Type.TAG;
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -429,70 +435,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
                         switch (item.getItemId()) {
                             case R.id.sort_alphabetical:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "alphabetical_az"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(ALPHABETICAL_ASCENDING_LABEL, ALPHABETICAL_ASCENDING);
                                 return true;
                             case R.id.sort_alphabetical_reverse:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "alphabetical_za"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(ALPHABETICAL_DESCENDING_LABEL, ALPHABETICAL_DESCENDING);
                                 return true;
                             case R.id.sort_newest_created:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "created_newest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(DATE_CREATED_DESCENDING_LABEL, DATE_CREATED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_created:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "created_oldest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(DATE_CREATED_ASCENDING_LABEL, DATE_CREATED_ASCENDING);
                                 return true;
                             case R.id.sort_newest_modified:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "modified_newest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(DATE_MODIFIED_DESCENDING_LABEL, DATE_MODIFIED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_modified:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "modified_oldest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder(DATE_MODIFIED_ASCENDING_LABEL, DATE_MODIFIED_ASCENDING);
                                 return true;
                             default:
                                 return false;
@@ -510,6 +468,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+    }
+
+    private void updateSortOrder(String label, int index) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
+            AnalyticsTracker.CATEGORY_SETTING,
+            label
+        );
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(index)).apply();
+        refreshList();
     }
 
     public void showListPadding(boolean show) {

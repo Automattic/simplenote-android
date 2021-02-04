@@ -22,8 +22,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.AppLog;
-import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -45,6 +45,18 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -205,6 +217,29 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 int index = Integer.parseInt(newValue.toString());
                 CharSequence[] entries = sortPreference.getEntries();
                 sortPreference.setSummary(entries[index]);
+
+                if (!sortPreference.getValue().equals(newValue)) {
+                    switch (index) {
+                        case ALPHABETICAL_ASCENDING:
+                            trackSortOrder(ALPHABETICAL_ASCENDING_LABEL);
+                            break;
+                        case ALPHABETICAL_DESCENDING:
+                            trackSortOrder(ALPHABETICAL_DESCENDING_LABEL);
+                            break;
+                        case DATE_CREATED_ASCENDING:
+                            trackSortOrder(DATE_CREATED_ASCENDING_LABEL);
+                            break;
+                        case DATE_CREATED_DESCENDING:
+                            trackSortOrder(DATE_CREATED_DESCENDING_LABEL);
+                            break;
+                        case DATE_MODIFIED_ASCENDING:
+                            trackSortOrder(DATE_MODIFIED_ASCENDING_LABEL);
+                            break;
+                        case DATE_MODIFIED_DESCENDING:
+                            trackSortOrder(DATE_MODIFIED_DESCENDING_LABEL);
+                            break;
+                    }
+                }
 
                 return true;
             }
@@ -419,6 +454,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         } catch (Exception e) {
             Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void trackSortOrder(String label) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+            AnalyticsTracker.CATEGORY_SETTING,
+            label
+        );
     }
 
     private void updateAnalyticsSwitchState() {
