@@ -429,70 +429,22 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
                         switch (item.getItemId()) {
                             case R.id.sort_alphabetical:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "alphabetical_az"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("alphabetical_az", ALPHABETICAL_ASCENDING);
                                 return true;
                             case R.id.sort_alphabetical_reverse:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "alphabetical_za"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(ALPHABETICAL_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("alphabetical_za", ALPHABETICAL_DESCENDING);
                                 return true;
                             case R.id.sort_newest_created:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "created_newest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("created_newest", DATE_CREATED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_created:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "created_oldest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_CREATED_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("created_oldest", DATE_CREATED_ASCENDING);
                                 return true;
                             case R.id.sort_newest_modified:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "modified_newest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_DESCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("modified_newest", DATE_MODIFIED_DESCENDING);
                                 return true;
                             case R.id.sort_oldest_modified:
-                                AnalyticsTracker.track(
-                                    AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-                                    AnalyticsTracker.CATEGORY_SETTING,
-                                    "modified_oldest"
-                                );
-                                mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER,
-                                    String.valueOf(DATE_MODIFIED_ASCENDING)
-                                ).apply();
-                                refreshList();
+                                updateSortOrder("modified_oldest", DATE_MODIFIED_ASCENDING);
                                 return true;
                             default:
                                 return false;
@@ -510,6 +462,16 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
+    }
+
+    private void updateSortOrder(String label, int index) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
+            AnalyticsTracker.CATEGORY_SETTING,
+            label
+        );
+        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(index)).apply();
+        refreshList();
     }
 
     public void showListPadding(boolean show) {
