@@ -45,6 +45,12 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -208,47 +214,23 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
                 if (!sortPreference.getValue().equals(newValue)) {
                     switch (index) {
-                        case 0:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "modified_newest"
-                            );
+                        case ALPHABETICAL_ASCENDING:
+                            trackSortOrder("alphabetical_az");
                             break;
-                        case 1:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "modified_oldest"
-                            );
+                        case ALPHABETICAL_DESCENDING:
+                            trackSortOrder("alphabetical_za");
                             break;
-                        case 2:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "created_newest"
-                            );
+                        case DATE_CREATED_ASCENDING:
+                            trackSortOrder("created_oldest");
                             break;
-                        case 3:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "created_oldest"
-                            );
+                        case DATE_CREATED_DESCENDING:
+                            trackSortOrder("created_newest");
                             break;
-                        case 4:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "alphabetical_az"
-                            );
+                        case DATE_MODIFIED_ASCENDING:
+                            trackSortOrder("modified_oldest");
                             break;
-                        case 5:
-                            AnalyticsTracker.track(
-                                AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
-                                AnalyticsTracker.CATEGORY_SETTING,
-                                "alphabetical_za"
-                            );
+                        case DATE_MODIFIED_DESCENDING:
+                            trackSortOrder("modified_newest");
                             break;
                     }
                 }
@@ -466,6 +448,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         } catch (Exception e) {
             Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void trackSortOrder(String label) {
+        AnalyticsTracker.track(
+            AnalyticsTracker.Stat.SETTINGS_SEARCH_SORT_MODE,
+            AnalyticsTracker.CATEGORY_SETTING,
+            label
+        );
     }
 
     private void updateAnalyticsSwitchState() {
