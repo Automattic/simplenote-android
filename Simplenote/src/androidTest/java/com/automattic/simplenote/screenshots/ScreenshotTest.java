@@ -54,6 +54,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -71,7 +72,9 @@ import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotTest {
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String NOTE_TITLE = "Lemon Cake & Blueberry";
+
+    private static final String NOTE_FOR_EDITOR_SHOT_TITLE = "Lemon Cake & Blueberry";
+    private static final String NOTE_FOR_INTERLINKING_SHOT_TITLE = "# Colors";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
@@ -114,16 +117,16 @@ public class ScreenshotTest {
         // Obviously, it would be better to have something like "wait for notes to load" but I
         // wasn't able to find a way to achieve this – Gio
         List<String> noteTitles = Arrays.asList(
-                NOTE_TITLE,
+                NOTE_FOR_EDITOR_SHOT_TITLE,
                 "Bret Victor's Quote Collection",
                 "Back on track",
-                "# Colors"
+                NOTE_FOR_INTERLINKING_SHOT_TITLE
         );
         for (String title:noteTitles) {
             waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
         }
 
-        selectNoteFromNotesList();
+        selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
 
         // It can happen that the email verification screen appears on the note editor instead of
         // the note list screen, so look for one and dismiss it if found.
@@ -133,9 +136,14 @@ public class ScreenshotTest {
 
         dismissNoteEditor();
 
+        takeInterNoteLinkingScreenshotFromNotesList();
+
+        loadSideMenuFromNotesList();
+        onView(withText("All Notes")).perform(click());
+
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
-        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 1000);
+        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_FOR_EDITOR_SHOT_TITLE)), 1000);
 
         Screengrab.screenshot("search");
 
@@ -271,8 +279,8 @@ public class ScreenshotTest {
 
     // Notes List Screen
 
-    private void selectNoteFromNotesList() {
-        onView(allOf(withId(R.id.note_title), withText(NOTE_TITLE))).perform(click());
+    private void selectNoteFromNotesList(String title) {
+        onView(allOf(withId(R.id.note_title), withText(title))).perform(click());
     }
 
     private void loadSearchFromNotesList(String query) {
@@ -309,6 +317,57 @@ public class ScreenshotTest {
     private void loadThemeSwitcherFromNotesList() {
         loadSettingsFromNotesList();
         loadThemeSwitcherFromSettings();
+    }
+
+    private void takeInterNoteLinkingScreenshotFromNotesList() throws InterruptedException {
+        /*
+        The code in this method is rather hacky, unfortunately.
+
+        Try as I might, I couldn't find a way to directly add text at the end fo the note.
+
+        Selecting the note places the cursor in the center of the screen, a spot that would vary
+        depending on the screen size and that we cannot use as a reference to move through the text.
+        I tried synthesizing arrow key presses to go to the bottom, but because we don't know where
+        the bottom is, the only way to know it to wait till the Markdown preview screen is
+        displayed. From there one can go back but... the cursor is back in the middle of the text!
+
+        The only reliable option I could come up with was creating a new note every time. By adding
+        all the text in one go, we ensure that the cursor is actually at the proper location.
+
+        The approach adds the extra overhead of having to delete the note to avoid polluting notes
+        list and also emptying the trash.
+        – Gio 2021/02
+         */
+        onView(withContentDescription("New Note")).perform(click());
+
+        String noteText = NOTE_FOR_INTERLINKING_SHOT_TITLE + "\n" +
+                "\n" +
+                // The original note has this quote wrapped in this kind of quotes: “”, but trying
+                // to type them make the tests crash. They're irrelevant for the end result in the
+                // screenshot, so they've been omitted.
+                "Color is so much a matter of direct and immediate perception that any discussion of theory needs to be accompanied by experiments with the colors themselves.\n" +
+                "\n" +
+                "### Blue\n" +
+                "\n" +
+                "Blue is the only color which maintains its own character in all its tones it will always stay blue; whereas yellow is blackened in its shades, and fades away when lightened; red when darkened becomes brown, and diluted with white is no longer red, but another color.";
+
+        // We need to tap everything into a single string otherwise the cursor will jump back to the
+        // center of the text area and mess everything up 🤦‍♂️.
+        onView(withId(R.id.note_content)).perform(typeText(noteText + "\n\n[l"));
+
+        // Give the inter-note linking picker time to appear before taking the screenshot
+        Thread.sleep(500);
+        Screengrab.screenshot("inter-note-linking");
+
+        onView(withContentDescription("More Options")).perform(click());
+
+        onView(withText("Trash")).perform(click());
+
+        // Clean up the the trash
+        loadSideMenuFromNotesList();
+        onView(withText("Trash")).perform(click());
+        onView(withId(R.id.menu_empty_trash)).perform(click());
+        onView(withText("Empty")).perform(click());
     }
 
     // Notes Editor Screen
