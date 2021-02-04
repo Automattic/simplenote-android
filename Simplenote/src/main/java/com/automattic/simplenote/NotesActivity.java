@@ -75,6 +75,7 @@ import java.util.Set;
 
 import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SHORTCUT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_TAG;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
@@ -90,9 +91,11 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIS
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT_USED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.getIndexesFromOffsets;
 import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
 import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
 import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
@@ -109,6 +112,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
     private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
+
+    private static final String STATE_MATCHES_INDEX = "MATCHES_INDEX";
+    private static final String STATE_MATCHES_LOCATIONS = "MATCHES_LOCATIONS";
 
     protected Bucket<Note> mNotesBucket;
     protected Bucket<Tag> mTagsBucket;
@@ -135,6 +141,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             invalidateOptionsMenu();
         }
     };
+    private int[] mSearchMatchIndexes;
+    private int mSearchMatchIndex;
 
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
@@ -217,6 +225,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         } else {
             mHasTappedNoteListWidgetButton = savedInstanceState.getBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED);
             mNoteListFragment = (NoteListFragment) getSupportFragmentManager().findFragmentByTag(TAG_NOTE_LIST);
+            mSearchMatchIndex = savedInstanceState.getInt(STATE_MATCHES_INDEX, 0);
+            mSearchMatchIndexes = savedInstanceState.getIntArray(STATE_MATCHES_LOCATIONS);
         }
 
         mIsTabletFullscreen = mNoteListFragment.isHidden();
@@ -370,6 +380,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean(STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED, mHasTappedNoteListWidgetButton);
+        outState.putInt(STATE_MATCHES_INDEX, mSearchMatchIndex);
+        outState.putIntArray(STATE_MATCHES_LOCATIONS, mSearchMatchIndexes);
         super.onSaveInstanceState(outState);
     }
 
@@ -1194,6 +1206,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             getNoteListFragment().setNoteSelected(noteID);
             setMarkdownShowing(isPreviewEnabled && matchOffsets == null);
 
+            if (matchOffsets != null) {
+                mSearchMatchIndexes = getIndexesFromOffsets(matchOffsets);
+            }
+
             if (isSearchQueryNotNull()) {
                 mTabletSearchQuery = mSearchView.getQuery().toString();
             }
@@ -1490,6 +1506,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         switch (keyCode) {
             case KeyEvent.KEYCODE_C:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "toggle_checklist");
+
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.insertChecklist();
@@ -1503,14 +1521,65 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     return super.onKeyUp(keyCode, event);
                 }
             case KeyEvent.KEYCODE_COMMA:
+                AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "keyboard_shortcuts");
+
                 if (event.isCtrlPressed()) {
                     ShortcutDialogFragment.showShortcuts(NotesActivity.this, false);
                     return true;
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
+            case KeyEvent.KEYCODE_F:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "focus_search");
+
+                    if (mSearchMenuItem != null && mSearchView != null) {
+                        mSearchMenuItem.expandActionView();
+                        mSearchView.requestFocus();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            case KeyEvent.KEYCODE_G:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_previous");
+
+                    if (mNoteEditorFragment.hasSearchMatches()) {
+                        if (mSearchMatchIndex > 0) {
+                            mSearchMatchIndex--;
+                            mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                        } else {
+                            Toast.makeText(NotesActivity.this, R.string.item_action_match_error_previous, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(NotesActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_next");
+
+                    if (mNoteEditorFragment.hasSearchMatches()) {
+                        if (mSearchMatchIndex < mSearchMatchIndexes.length - 1) {
+                            mSearchMatchIndex++;
+                            mNoteEditorFragment.scrollToMatch(mSearchMatchIndexes[mSearchMatchIndex]);
+                        } else {
+                            Toast.makeText(NotesActivity.this, R.string.item_action_match_error_next, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(NotesActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
             case KeyEvent.KEYCODE_H:
                 if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "history_sheet");
+
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showHistory();
@@ -1525,9 +1594,12 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             case KeyEvent.KEYCODE_I:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "create_note");
                     getNoteListFragment().createNewNote("", "keyboard_shortcut");
                     return true;
                 } else if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "information_sheet");
+
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showInfo();
@@ -1542,6 +1614,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             case KeyEvent.KEYCODE_L:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "note_list");
+
                     if (isLargeLandscapeAndNoteSelected()) {
                         toggleSidebar(mMenu.findItem(R.id.menu_sidebar));
                     } else {
@@ -1554,6 +1628,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 }
             case KeyEvent.KEYCODE_P:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "markdown");
+
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mCurrentNote != null && mCurrentNote.isMarkdownEnabled()) {
                             togglePreview(mMenu.findItem(R.id.menu_markdown_preview));
@@ -1569,14 +1645,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                     return super.onKeyUp(keyCode, event);
                 }
             case KeyEvent.KEYCODE_S:
-                if (event.isShiftPressed() && event.isCtrlPressed()) {
-                    if (mSearchMenuItem != null && mSearchView != null) {
-                        mSearchMenuItem.expandActionView();
-                        mSearchView.requestFocus();
-                    }
+                if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "share_sheet");
 
-                    return true;
-                } else if (event.isCtrlPressed()) {
                     if (isLargeLandscapeAndNoteSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.shareNote();

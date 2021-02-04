@@ -12,6 +12,7 @@ public final class AnalyticsTracker {
     public static String CATEGORY_LINK = "link";
     public static String CATEGORY_SEARCH = "search";
     public static String CATEGORY_SETTING = "setting";
+    public static String CATEGORY_SHORTCUT = "shortcut";
     public static String CATEGORY_TAG = "tag";
     public static String CATEGORY_USER = "user";
     public static String CATEGORY_WIDGET = "widget";
@@ -168,7 +169,8 @@ public final class AnalyticsTracker {
         VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
         VERIFICATION_DISMISSED,
-        SETTINGS_SEARCH_SORT_MODE
+        SETTINGS_SEARCH_SORT_MODE,
+        SHORTCUT_USED
     }
 
     public interface Tracker {

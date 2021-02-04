@@ -588,6 +588,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mRootView;
     }
 
+    public boolean hasSearchMatches() {
+        return mMatchOffsets != null;
+    }
+
     public void removeScrollListener() {
         mRootView.setOnScrollChangeListener(null);
     }

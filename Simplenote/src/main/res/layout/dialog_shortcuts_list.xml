@@ -18,7 +18,7 @@
         <TextView
             android:layout_height="@dimen/header_height"
             android:layout_width="match_parent"
-            android:text="@string/action"
+            android:text="@string/category_action"
             style="@style/Shortcut.Header">
         </TextView>
 
@@ -78,7 +78,7 @@
                 android:id="@+id/shortcut_open_search_key_third"
                 android:layout_height="@dimen/key_height"
                 android:layout_width="wrap_content"
-                android:text="@string/key_single_s"
+                android:text="@string/key_single_f"
                 style="@style/Shortcut.Key.Single">
             </TextView>
 

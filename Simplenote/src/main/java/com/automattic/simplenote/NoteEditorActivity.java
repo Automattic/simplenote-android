@@ -34,17 +34,15 @@ import com.simperium.client.BucketObjectMissingException;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SHORTCUT;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.SHORTCUT_USED;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.getIndexesFromOffsets;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
@@ -292,6 +290,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_C:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "toggle_checklist");
+
                     if (!isPreviewTabSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.insertChecklist();
@@ -306,6 +306,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_COMMA:
                 if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "keyboard_shortcuts");
                     ShortcutDialogFragment.showShortcuts(NoteEditorActivity.this, isPreviewTabSelected());
                     return true;
                 } else {
@@ -314,6 +315,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             case KeyEvent.KEYCODE_H:
                 if (event.isCtrlPressed()) {
                     if (!isPreviewTabSelected()) {
+                        AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "history_sheet");
+
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showHistory();
                         }
@@ -325,8 +328,38 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
+            case KeyEvent.KEYCODE_G:
+                if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_previous");
+
+                    if (isSearchMatchBarVisible()) {
+                        if (mButtonPrevious != null && mButtonPrevious.isEnabled()) {
+                            mButtonPrevious.callOnClick();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "search_next");
+
+                    if (isSearchMatchBarVisible()) {
+                        if (mButtonNext != null && mButtonNext.isEnabled()) {
+                            mButtonNext.callOnClick();
+                        }
+                    } else {
+                        Toast.makeText(NoteEditorActivity.this, R.string.item_action_match_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
             case KeyEvent.KEYCODE_I:
                 if (event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "information_sheet");
+
                     if (!isPreviewTabSelected()) {
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.showInfo();
@@ -341,6 +374,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 }
             case KeyEvent.KEYCODE_P:
                 if (event.isShiftPressed() && event.isCtrlPressed()) {
+                    AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "markdown");
+
                     if (mNote != null && mNote.isMarkdownEnabled()) {
                         togglePreview();
                     } else {
@@ -354,6 +389,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             case KeyEvent.KEYCODE_S:
                 if (event.isCtrlPressed()) {
                     if (!isPreviewTabSelected()) {
+                        AnalyticsTracker.track(SHORTCUT_USED, CATEGORY_SHORTCUT, "share_sheet");
+
                         if (mNoteEditorFragment != null) {
                             mNoteEditorFragment.shareNote();
                         }
@@ -383,6 +420,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == INDEX_TAB_PREVIEW;
     }
 
+    private boolean isSearchMatchBarVisible() {
+        return mSearchMatchBar != null && mSearchMatchBar.getVisibility() == View.VISIBLE;
+    }
+
     public void showTabs() {
         mTabLayout.setVisibility(View.VISIBLE);
         mViewPager.setPagingEnabled(true);
@@ -396,25 +437,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     private void setUpSearchMatchBar(Intent intent) {
         if (mSearchMatchIndexes == null) {
-            String matchOffsets = intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS);
-            String[] matches = matchOffsets != null ? matchOffsets.split("\\s+") : new String[]{};
-            String[] matchesStart = new String[matches.length / MATCH_INDEX_COUNT];
-
-            // Get "start" item from matches.  The format is four space-separated integers that
-            // represent the location of the match: "column token start length" ex: "1 3 3 7"
-            for (int i = MATCH_INDEX_START, j = 0; i < matches.length; i += MATCH_INDEX_COUNT, j++) {
-                matchesStart[j] = matches[i];
-            }
-
-            // Remove duplicate items with linked hash set and linked list since full-text search
-            // may return the same position more than once when parsing both title and content.
-            matchesStart = new LinkedHashSet<>(new LinkedList<>(Arrays.asList(matchesStart))).toArray(new String[0]);
-            mSearchMatchIndexes = new int[matchesStart.length];
-
-            // Convert matches string array to integer array.
-            for (int i = 0; i < matchesStart.length; i++) {
-                mSearchMatchIndexes[i] = Integer.parseInt(matchesStart[i]);
-            }
+            mSearchMatchIndexes = getIndexesFromOffsets(intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS));
         }
 
         mSearchMatchBar = findViewById(R.id.search_match_bar);
