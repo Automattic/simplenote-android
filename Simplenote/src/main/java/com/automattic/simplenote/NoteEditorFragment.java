@@ -2,11 +2,13 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -230,13 +232,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 "internote_link_tapped_editor"
                             );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                        } else {
+                        } else if (!mLinkUrl.startsWith("geo:") && !mLinkUrl.startsWith("mailto:") && !mLinkUrl.startsWith("tel:")) {
                             try {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
                             } catch (Exception e) {
                                 BrowserUtils.showDialogErrorException(requireContext(), mLinkText);
                                 e.printStackTrace();
                             }
+                        } else {
+                            Uri uri = Uri.parse(mLinkUrl);
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(uri);
+                            startActivity(i);
                         }
 
                         mode.finish(); // Action picked, so close the CAB
