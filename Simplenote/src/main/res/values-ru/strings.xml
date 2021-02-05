@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-21 15:54:04+0000
+Translation-Revision-Date: 2021-02-03 16:54:39+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="toast_email_sent">Электронное письмо отправлено</string>
+    <string name="fullscreen_verify_email_button_secondary">Отправить письмо ещё раз</string>
+    <string name="fullscreen_verify_email_title">Проверить адрес электронной почты</string>
+    <string name="fullscreen_verify_email_subtitle">На адрес &lt;b>%1$s&lt;/b> отправлено письмо с подтверждением. Проверьте свой почтовый ящик и следуйте инструкциям.</string>
+    <string name="fullscreen_review_account_button_secondary">Изменить адрес электронной почты</string>
+    <string name="fullscreen_review_account_button_primary">Подтвердить</string>
+    <string name="fullscreen_review_account_title">Проверить учётную запись</string>
+    <string name="fullscreen_review_account_subtitle">Вы зарегистрированы в Simplenote с адресом электронной почты &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>В результате повышения безопасности учётной записи вы можете её потерять, если лишитесь доступа к этому адресу электронной почты.</string>
+    <string name="description_warning">Предупреждение</string>
+    <string name="description_mail">Почта</string>
+    <string name="description_close">Закрыть</string>
     <string name="simperium_dialog_message_password_login">Минимальная длина пароля — %1$d симв.</string>
     <string name="dialog_tag_conflict_title">Конфликт меток</string>
     <string name="dialog_tag_conflict_message">Метка \"%1$s\" уже существует. Объединить \"%2$s\" с меткой \"%3$s\"?</string>

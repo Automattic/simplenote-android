@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-02-04 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="toast_email_sent">E-Mail gesendet</string>
+    <string name="fullscreen_verify_email_button_secondary">E-Mail erneut senden</string>
+    <string name="fullscreen_verify_email_title">E-Mail-Adresse bestätigen</string>
+    <string name="fullscreen_verify_email_subtitle">Wir haben an &lt;b>%1$s&lt;/b> eine Verifizierungs-E-Mail gesendet. Sieh bitte in deinem Posteingang nach und befolge die Anweisungen.</string>
+    <string name="fullscreen_review_account_button_secondary">E-Mail-Adresse ändern</string>
+    <string name="fullscreen_review_account_button_primary">Bestätigen</string>
+    <string name="fullscreen_review_account_title">Konto prüfen</string>
+    <string name="fullscreen_review_account_subtitle">Du bist mit der E-Mail-Adresse &lt;b>%1$s&lt;/b> bei Simplenote registriert.&lt;br>&lt;br>Verbesserungen der Kontosicherheit können zum Verlust des Kontos führen, wenn du keinen Zugriff mehr auf diese E-Mail-Adresse hast.</string>
+    <string name="description_warning">Warnung</string>
+    <string name="description_mail">E-Mail</string>
+    <string name="description_close">Schließen</string>
+    <string name="simperium_dialog_message_password_login">Passwörter müssen mindestens %1$d Zeichen lang sein.</string>
+    <string name="dialog_tag_conflict_title">Schlagwortkonflikt</string>
+    <string name="dialog_tag_conflict_message">Das Schlagwort „%1$s“ existiert bereits. Möchtest du „%2$s“ mit dem Schlagwort „%3$s“ zusammenführen?</string>
+    <string name="dialog_tag_conflict_button_positive">Zusammenführen</string>
+    <string name="description_locked">Gesperrt</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">Veröffentlichung</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matrix</string>
+    <string name="style_dialog_locked_title">Premium-Stil</string>
+    <string name="style_dialog_locked_message">Um diesen Stil zu verwenden, benötigst du eine Premium-Mitgliedschaft.</string>
+    <string name="style_dialog_locked_button_positive">Upgrade</string>
+    <string name="style_default">Standard</string>
+    <string name="style_classic">Classic</string>
+    <string name="style_black">Schwarz</string>
+    <string name="style">Stil</string>
+    <string name="tag_error_spaces">Schlagwörter dürfen keine Leerzeichen enthalten</string>
+    <string name="tag_error_length">Schlagwortlänge ist zu lang</string>
+    <string name="tag_error_exists">Das Schlagwort existiert bereits</string>
+    <string name="tag_error_empty">Schlagwörter dürfen nicht leer sein</string>
+    <string name="dialog_tag_error_message">Beim Hinzufügen des Schlagworts ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Schlagwort hinzufügen</string>
+    <string name="empty_tags_hint">Sobald du zu deinen Notizen Schlagwörter hinzufügst, werden deine Schlagwörter hier angezeigt.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Upgrade</string>
+    <string name="membership_free">Kostenlos</string>
+    <string name="membership">Mitgliedschaft</string>
+    <string name="synced">Synchronisiert</string>
+    <string name="delete_dialog_title">Unwiderruflich löschen</string>
+    <string name="delete_dialog_message">Möchtest du diese Notiz endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="delete_dialog_error_message">Beim Löschen der Notiz ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
     <string name="delete">Löschen</string>
+    <string name="confirm_empty_trash">Soll der Papierkorb geleert werden? Alle Notizen im Papierkorb werden endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="empty">Leer</string>
     <string name="back">Zurück</string>
     <string name="empty_notes_untagged">Keine nicht markierten Notizen</string>
     <string name="unpublishing">Veröffentlichung der Notiz wird rückgängig gemacht …</string>
@@ -70,6 +119,7 @@ Language: de
     <string name="link_california">%1$s%2$s%3$sDatenschutzhinweis für Benutzer in Kalifornien%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Eine Netzwerkverbindung ist erforderlich. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="simperium_dialog_message_password">Das Passwort muss folgende Anforderungen erfüllen:\n\n– Das Passwort darf nicht der E-Mail-Adresse entsprechen.\n– Das Passwort muss mindestens aus %1$d Zeichen bestehen.\n– Es dürfen keine neuen Zeilen verwendet werden.\n– Es dürfen keine Return-Zeichen verwendet werden.\n–Es dürfen keine Tabs verwendet werden.</string>
     <string name="simperium_dialog_message_login_reset">Dein Passwort ist nicht sicher und muss zurückgesetzt werden. Das Passwort muss folgende Anforderungen erfüllen:\n\n– Das Passwort darf nicht der E-Mail entsprechen.\n– Das Passwort muss mindestens aus %1$d Zeichen bestehen.\n– Es dürfen keine neuen Zeilen verwendet werden.\n– Es dürfen keine Tabs verwendet werden.</string>
     <string name="simperium_button_login_reset">Zurücksetzen</string>
     <string name="link_terms">%1$s%2$s%3$sGeschäftsbedingungen%4$s</string>
@@ -123,6 +173,7 @@ Language: de
     <string name="sort_search_modified">Geändert</string>
     <string name="sort_search_created">Erstellt</string>
     <string name="sort_search_alphabetically">Alphabetisch</string>
+    <string name="welcome_note">Willkommen bei Simplenote Android!\nIn dieser Notiz findest du Anweisungen.\n\nTippe zum Erstellen einer neuen Notiz auf den Button „Neue Notiz“ mit dem Plus-Icon.\n\nWenn du deine Notizen durchsuchen willst, tippe auf den Button „Suchen“ mit dem Lupensymbol und gib einen Text ein. Simplenote zeigt dir anfangs die letzten Suchen an und macht Suchvorschläge, wenn du Text eingibst. Notizen, die mit dem eingegebenen Text übereinstimmen, werden nach dem Absenden der Suche angezeigt.\n\nHast du eine äußerst wichtige Notiz? Hefte sie an den Anfang der Notizenliste. Zum Anheften von Notizen gibt es zwei Möglichkeiten. Halte die Notiz in der Liste lange gedrückt und tippe auf den Button „An Anfang heften“ mit dem Anheften-Icon. Tippe in der Notiz auf den Button „Weitere Optionen“ mit dem Icon mit drei vertikalen Punkten und aktiviere das Kontrollkästchen „Anheften“.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Erstelle ein Schlagwort entweder auf dem Bildschirm „Schlagwörter bearbeiten“ mithilfe des Buttons „Schlagwort hinzufügen“ oder verwende das Feld „Schlagwort hinzufügen…“ am Ende einer Notiz. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nDu kannst deine Notizen ganz einfach mit anderen Android-Apps teilen, indem du in der Notiz im Menü „Weitere Optionen“ auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
     <string name="search_hint">Notizen oder Schlagwörter suchen</string>
     <string name="log_out">Abmelden</string>
     <string name="log_in">Anmelden</string>

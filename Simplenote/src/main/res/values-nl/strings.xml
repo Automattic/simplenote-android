@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-01-22 14:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="simperium_dialog_message_password_login">Wachtwoorden moeten minimaal %1$d tekens bevatten.</string>
+    <string name="dialog_tag_conflict_title">Tag-conflict</string>
+    <string name="dialog_tag_conflict_message">De tag \'%1$s\' bestaat al. Wil je \'%2$s\' samenvoegen in de tag \'%3$s\'?</string>
+    <string name="dialog_tag_conflict_button_positive">Samenvoegen</string>
+    <string name="description_locked">Vergrendeld</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">Publicatie</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matrix</string>
+    <string name="style_dialog_locked_title">Premium stijl</string>
+    <string name="style_dialog_locked_message">Om deze stijl te kunnen gebruiken, heb je een premium abonnement nodig.</string>
+    <string name="style_dialog_locked_button_positive">Upgraden</string>
+    <string name="style_default">Standaard</string>
+    <string name="style_classic">Klassiek</string>
+    <string name="style_black">Zwart</string>
+    <string name="style">Stijl</string>
+    <string name="tag_error_spaces">Tags mogen geen spaties bevatten</string>
+    <string name="tag_error_length">Tag te lang</string>
+    <string name="tag_error_exists">Tag bestaat al</string>
+    <string name="tag_error_empty">Tags mogen niet leeg zijn</string>
+    <string name="dialog_tag_error_message">Fout opgetreden bij het toevoegen van de tag. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Tag toevoegen</string>
+    <string name="empty_tags_hint">Zodra je tags toevoegt aan je notities, worden je tags hier weergegeven.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Upgraden</string>
+    <string name="membership_free">Gratis</string>
+    <string name="membership">Lidmaatschap</string>
+    <string name="synced">Gesynchroniseerd</string>
+    <string name="delete_dialog_title">Permanent verwijderen</string>
+    <string name="delete_dialog_message">Wil je deze notitie permanent verwijderen? Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="delete_dialog_error_message">Fout bij verwijderen van de notitie. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
     <string name="delete">Verwijderen</string>
+    <string name="confirm_empty_trash">Wil je de prullenbak leegmaken? Alle notities in de prullenbak worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="empty">Leeg</string>
     <string name="back">Terug</string>
     <string name="empty_notes_untagged">Geen niet-getagde opmerkingen</string>
     <string name="unpublishing">Notitie wordt verwijderd</string>
@@ -70,6 +108,7 @@ Language: nl
     <string name="link_california">%1$s%2$s%3$sPrivacyverklaring voor gebruikers in Californië%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Een netwerkverbinding is vereist. Controleer je verbinding en probeer het nogmaals.</string>
+    <string name="simperium_dialog_message_password">De vereisten voor wachtwoorden zijn:\n\n- Wachtwoord mag niet overeenkomen met e-mail\n- Minimaal %1$d tekens\n- Geen nieuwe regels\n- Geen enter\n- Geen tab</string>
     <string name="simperium_dialog_message_login_reset">Je wachtwoord is onveilig en moet opnieuw worden ingesteld. De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
     <string name="simperium_button_login_reset">Resetten</string>
     <string name="link_terms">%1$s%2$s%3$sServicevoorwaarden%4$s</string>
@@ -123,6 +162,7 @@ Language: nl
     <string name="sort_search_modified">Aangepast</string>
     <string name="sort_search_created">Aangemaakt</string>
     <string name="sort_search_alphabetically">Alfabetisch</string>
+    <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wil zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kan een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag ofwel via het scherm \'Tags bewerken\' met de knop \'Tag toevoegen\' of via het veld \'Tag toevoegen…\' onderaan een notitie. Je kan ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kan ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kan je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
