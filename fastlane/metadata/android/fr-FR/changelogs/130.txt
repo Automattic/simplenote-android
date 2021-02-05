@@ -1,5 +1,0 @@
-2.15 :
-* Ajout de la date/heure synchronisée à la fiche d’information de la note [https://github.com/Automattic/simplenote-android/pull/1140]
-* Ajout de la synchronisation dans l’arrière-plan pour éviter la perte de données lors de la fermeture de l’application [https://github.com/Automattic/simplenote-android/pull/1255]
-* Ajout de la suppression définitive des notes de la corbeille individuellement [https://github.com/Automattic/simplenote-android/pull/1224]
-

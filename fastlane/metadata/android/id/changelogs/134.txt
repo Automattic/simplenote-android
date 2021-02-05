@@ -1,0 +1,2 @@
+2.16:
+- Penambahan peninjauan, pemeriksaan, dan pengubahan alamat email akun
