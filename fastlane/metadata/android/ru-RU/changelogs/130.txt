@@ -1,5 +1,0 @@
-2.15.
-* На страницу данных о заметке добавлены дата и время синхронизации [https://github.com/Automattic/simplenote-android/pull/1140].
-* Добавлена фоновая синхронизация, чтобы избежать потери данных при выходе из приложения [https://github.com/Automattic/simplenote-android/pull/1255].
-* Добавлено удаление заметок из корзины по одной без возможности восстановления [https://github.com/Automattic/simplenote-android/pull/1224].
-

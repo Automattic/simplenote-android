@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-21 10:54:05+0000
+Translation-Revision-Date: 2021-02-03 16:54:38+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="toast_email_sent">E-mail inviata</string>
+    <string name="fullscreen_verify_email_button_secondary">Invia di nuovo l\'e-mail</string>
+    <string name="fullscreen_verify_email_title">Verifica la tua e-mail</string>
+    <string name="fullscreen_verify_email_subtitle">Abbiamo inviato un\'e-mail di verifica a &lt;b>%1$s&lt;/b>. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
+    <string name="fullscreen_review_account_button_secondary">Cambia e-mail</string>
+    <string name="fullscreen_review_account_button_primary">Conferma</string>
+    <string name="fullscreen_review_account_title">Verifica il tuo account</string>
+    <string name="fullscreen_review_account_subtitle">Sei registrato su Simplenote con l\'e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>I miglioramenti alla sicurezza dell\'account possono comportare la perdita dell\'account se non hai più accesso a questo indirizzo e-mail.</string>
+    <string name="description_warning">Attenzione</string>
+    <string name="description_mail">E-mail</string>
+    <string name="description_close">Chiudi</string>
     <string name="simperium_dialog_message_password_login">Le password devono contenere un minimo di %1$d caratteri.</string>
     <string name="dialog_tag_conflict_title">Conflitto di tag</string>
     <string name="dialog_tag_conflict_message">Il tag \"%1$s\" esiste già. Desideri unire \"%2$s\" con il tag \"%3$s\"?</string>

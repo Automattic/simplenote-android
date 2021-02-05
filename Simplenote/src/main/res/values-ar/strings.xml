@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-02-04 15:54:04+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="toast_email_sent">تم إرسال رسالة عبر البريد الإلكتروني</string>
+    <string name="fullscreen_verify_email_button_secondary">إعادة إرسال بريد إلكتروني</string>
+    <string name="fullscreen_verify_email_title">التحقُّق من بريدك الإلكتروني</string>
+    <string name="fullscreen_verify_email_subtitle">أرسلنا رسالة بريد إلكتروني خاصة بالتحقق إلى &lt;b>%1$s&lt;/b>. يرجى التحقُّق من علبة الوارد لديك واتباع الإرشادات.</string>
+    <string name="fullscreen_review_account_button_secondary">تغيير البريد الإلكتروني</string>
+    <string name="fullscreen_review_account_button_primary">تأكيد</string>
+    <string name="fullscreen_review_account_title">مراجعة حسابك</string>
+    <string name="fullscreen_review_account_subtitle">لقد قمت بالتسجيل في Simplenote باستخدام البريد الإلكتروني &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>قد تؤدي التحسينات التي يتم إجراؤها على أمان الحساب إلى فقدان الحساب إذا لم يعد لديك حق الوصول إلى عنوان البريد الإلكتروني هذا.</string>
+    <string name="description_warning">تحذير</string>
+    <string name="description_mail">البريد الإلكتروني</string>
+    <string name="description_close">إغلاق</string>
+    <string name="simperium_dialog_message_password_login">يجب ألا تقل كلمات المرور عن ⁦%1$d⁩ من الأحرف.</string>
+    <string name="dialog_tag_conflict_title">وسم الصراع</string>
+    <string name="dialog_tag_conflict_message">الوسم \"⁦%1$s⁩\" موجود بالفعل. هل ترغب في دمج \"⁦%2$s⁩\" في وسم \"⁦%3$s⁩\"؟</string>
+    <string name="dialog_tag_conflict_button_positive">دمج</string>
+    <string name="description_locked">مؤمن</string>
+    <string name="style_sepia">بني</string>
+    <string name="style_publication">النشر</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">مونو</string>
+    <string name="style_matrix">ماتريكس</string>
+    <string name="style_dialog_locked_title">أسلوب مميَّز</string>
+    <string name="style_dialog_locked_message">لاستخدام هذا الأسلوب، يجب أن يكون لديك عضوية مميَّزة.</string>
+    <string name="style_dialog_locked_button_positive">ترقية</string>
+    <string name="style_default">الافتراضي</string>
+    <string name="style_classic">تقليدي</string>
+    <string name="style_black">أسود</string>
+    <string name="style">النمط</string>
+    <string name="tag_error_spaces">يتعذر أن تحتوي الوسوم على مسافات</string>
+    <string name="tag_error_length">الوسم طويل للغاية.</string>
+    <string name="tag_error_exists">يوجد وسم بالفعل</string>
+    <string name="tag_error_empty">يتعذر أن تكون الوسوم فارغة</string>
+    <string name="dialog_tag_error_message">حدث خطأ في أثناء إضافة الوسم. يُرجى المحاولة مرة أخرى. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">إضافة وسم</string>
+    <string name="empty_tags_hint">بمجرد أن تقوم بإضافة الوسوم إلى ملاحظاتك، ستظهر وسومك هنا.</string>
+    <string name="membership_premium">الإصدار المميز</string>
+    <string name="membership_free_upgrade">ترقية</string>
+    <string name="membership_free">مجانًا</string>
+    <string name="membership">العضوية</string>
+    <string name="synced">متزامن</string>
+    <string name="delete_dialog_title">حذف بشكل دائم</string>
+    <string name="delete_dialog_message">هل تريد حذف هذه الملاحظة نهائيًا؟ لا يمكن التراجع عن هذه العملية.</string>
+    <string name="delete_dialog_error_message">حدث خطأ في أثناء حذف الملاحظة. يُرجى المحاولة مرة أخرى. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
     <string name="delete">حذف</string>
+    <string name="confirm_empty_trash">هل تريد تفريغ سلة المهملات؟ سيتم حذف جميع الملاحظات الموجودة في سلة المهملات نهائيًا. لا يمكن التراجع عن هذه العملية.</string>
+    <string name="empty">فارغ</string>
     <string name="back">رجوع</string>
     <string name="empty_notes_untagged">لا توجد أي ملاحظات غير موسومة</string>
     <string name="unpublishing">جارٍ إلغاء نشر الملحوظة…</string>
@@ -70,6 +119,7 @@ Language: ar
     <string name="link_california">%1$s%2$s⁦%3$s⁩إشعار الخصوصية الخاص بالمستخدمين في كاليفورنيا⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">يلزم وجود اتصال بالشبكة. يرجى التحقُّق من اتصالك والمحاولة مرة أخرى.</string>
+    <string name="simperium_dialog_message_password">فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n - يجب ألا تقل عن ⁦%1$d⁩ من الأحرف\n- لا توجد أسطر جديدة\n- لا توجد علامات إدخال\n- لا توجد علامات تبويب</string>
     <string name="simperium_dialog_message_login_reset">كلمة مرورك غير آمنة وتجب إعادة تعيينها. فيما يأتي متطلبات كلمة المرور:\n\n- يتعذر تطابق كلمة المرور مع البريد الإلكتروني\n- %1$d من الأحرف بحد أدنى\n- لا توجد خطوط جديدة\n- لا توجد علامات تبويب</string>
     <string name="simperium_button_login_reset">إعادة تعيين</string>
     <string name="link_terms">%1$s%2$s%3$sشروط الخدمة%4$s</string>
@@ -123,6 +173,7 @@ Language: ar
     <string name="sort_search_modified">معدَّل</string>
     <string name="sort_search_created">تاريخ الإنشاء</string>
     <string name="sort_search_alphabetically">أبجديًا</string>
+    <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذه الملحوظة للحصول على الإرشادات.\n\nلإنشاء ملاحظة جديدة، انقر على زر \"ملاحظة جديدة\" الذي يتضمن أيقونة زائد.\n\nللبحث عن ملحوظاتك، انقر على زر \"بحث\" مع أيقونة العدسة المكبِّرة وأدخل أي نص. سيعرض برنامج Simplenote مبدئيًا عمليات البحث الأخيرة وعمليات البحث المقترحة عند إدخال نص. ستظهر الملحوظات التي تتطابق مع النص الذي تم إدخاله بمجرد إرسال البحث.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ قم بتثبيتها في الجزء العلوي من قائمة الملحوظات. يمكنك تثبيت الملحوظة بطريقتين. اضغط ضغطًا مطولاً على الملحوظة الموجودة في القائمة وانقر على زر \"تثبيت في الأعلى\" مع أيقونة التثبيت. اضغط على زر \"مزيد من الخيارات\" المتمثِّل في أيقونة النقاط الرأسية الثلاث في أثناء عرض ملحوظة، وحدِّد مربع \"التثبيت\".\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. يمكنك إنشاء وسم إما في شاشة \"تحرير الوسوم\" باستخدام زر \"إضافة وسم\" أو حقل \"إضافة وسم…\" الموجود في الجزء السفلي للملاحظة. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على \"مشاركة\" في قائمة \"مزيد من الخيارات\" في أثناء عرض الملحوظة.\n\nتظهر الملحوظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
     <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="log_in">تسجيل الدخول</string>

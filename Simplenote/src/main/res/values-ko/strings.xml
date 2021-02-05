@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-02-03 13:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="toast_email_sent">이메일 보냄</string>
+    <string name="fullscreen_verify_email_button_secondary">이메일 다시 보내기</string>
+    <string name="fullscreen_verify_email_title">이메일 확인</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b>(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="fullscreen_review_account_button_secondary">이메일 변경</string>
+    <string name="fullscreen_review_account_button_primary">확인</string>
+    <string name="fullscreen_review_account_title">계정 검토</string>
+    <string name="fullscreen_review_account_subtitle">이메일 &lt;b>%1$s&lt;/b>을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br>&lt;br>더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
+    <string name="description_warning">경고</string>
+    <string name="description_mail">메일</string>
+    <string name="description_close">닫기</string>
+    <string name="simperium_dialog_message_password_login">비밀번호는 %1$d자 이상이어야 합니다.</string>
+    <string name="dialog_tag_conflict_title">태그 충돌</string>
+    <string name="dialog_tag_conflict_message">\"%1$s\" 태그가 이미 존재합니다. \"%2$s\" 태그를 \"%3$s\" 태그에 병합하시겠어요?</string>
+    <string name="dialog_tag_conflict_button_positive">병합</string>
+    <string name="description_locked">잠금</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">공개</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">모노</string>
+    <string name="style_matrix">행렬</string>
+    <string name="style_dialog_locked_title">프리미엄 스타일</string>
+    <string name="style_dialog_locked_message">이 스타일을 사용하려면 프리미엄 멤버십이 있어야 합니다.</string>
+    <string name="style_dialog_locked_button_positive">업그레이드</string>
+    <string name="style_default">기본</string>
+    <string name="style_classic">클래식</string>
+    <string name="style_black">검정</string>
+    <string name="style">스타일</string>
+    <string name="tag_error_spaces">태그에 공백을 입력할 수 없습니다.</string>
+    <string name="tag_error_length">태그 길이가 너무 깁니다.</string>
+    <string name="tag_error_exists">태그가 이미 존재합니다.</string>
+    <string name="tag_error_empty">태그를 비워둘 수 없습니다.</string>
+    <string name="dialog_tag_error_message">태그를 추가하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">태그 추가</string>
+    <string name="empty_tags_hint">메모에 태그를 추가하면 여기에 태그가 표시됩니다.</string>
+    <string name="membership_premium">프리미엄</string>
+    <string name="membership_free_upgrade">업그레이드</string>
+    <string name="membership_free">무료</string>
+    <string name="membership">멤버십</string>
+    <string name="synced">동기화됨</string>
+    <string name="delete_dialog_title">영구적으로 삭제하기</string>
+    <string name="delete_dialog_message">이 메모를 영구적으로 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="delete_dialog_error_message">메모를 삭제하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
     <string name="delete">제거</string>
+    <string name="confirm_empty_trash">휴지통을 비우시겠어요? 휴지통의 모든 메모가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="empty">비었음</string>
     <string name="back">뒤로</string>
     <string name="empty_notes_untagged">태그 없는 메모 없음</string>
     <string name="unpublishing">메모 공개 취소 중…</string>
@@ -70,6 +119,7 @@ Language: ko_KR
     <string name="link_california">%1$s%2$s%3$s캘리포니아 사용자를 위한 개인정보 공지%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">네트워크 연결이 필요합니다. 연결을 확인하고 다시 시도하세요.</string>
+    <string name="simperium_dialog_message_password">패스워드 필수 규칙: \n\n- 이메일 사용 금지\n- %1$d자 이상\n- 줄바꿈 사용 금지\n- 돌아가기 금지\n- 탭 사용 금지</string>
     <string name="simperium_dialog_message_login_reset">비밀번호가 안전하지 않으므로 초기화해야 합니다. 비밀번호 요구 사항은 다음과 같습니다.\n\n- 비밀번호가 이메일과 일치할 수 없음\n- 최소 %1$d자\n- 줄바꿈 없음\n- 탭 없음</string>
     <string name="simperium_button_login_reset">재설정</string>
     <string name="link_terms">%1$s%2$s%3$s서비스 이용 약관%4$s</string>
@@ -123,6 +173,7 @@ Language: ko_KR
     <string name="sort_search_modified">수정됨</string>
     <string name="sort_search_created">생성됨</string>
     <string name="sort_search_alphabetically">알파벳순</string>
+    <string name="welcome_note">Simplenote Android를 시작합니다.\n지침을 보려면 이 메모를 여세요.\n\n새 메모를 만들려면 더하기 아이콘이 있는 \"새 메모\" 버튼을 누르세요.\n\n메모를 검색하려면 돋보기 아이콘이 있는 \"검색\" 버튼을 누르고 텍스트를 입력하세요. Simplenote는 텍스트를 입력하는 동안 처음에 최근 검색 내역과 제안 검색 내역을 보여줍니다. 검색이 제출되면 입력한 텍스트와 일치하는 메모가 표시됩니다.\n\n정말 중요한 메모가 있나요? 메모 목록 맨 위에 고정하세요. 두 가지 방법으로 메모를 고정할 수 있습니다. 목록에서 메모를 길게 누르고 핀 아이콘이 있는 \"상단에 고정\" 버튼을 누릅니다. 메모를 확인하면서 세로로 된 세 점 아이콘이 있는 \"추가 옵션\" 버튼을 누르고 \"고정\" 상자를 선택하세요.\n\n태그를 이용하면 메모를 손쉽게 정리할 수 있습니다. 태그는 \"태그 추가\" 버튼을 사용하여 \"태그 편집\" 화면에서 만들거나 메모 하단의 \"태그 추가…\" 필드에서 만듭니다. 이메일 주소를 태그로 추가해서 다른 사람과 메모를 공유할 수도 있습니다.\n\n메모를 확인하면서 \"추가 옵션\" 메뉴의 \"공유\"를 눌러 다른 Android 앱과 메모를 간편하게 공유할 수 있습니다.\n\n삭제된 메모는 휴지통으로 이동합니다. 원하는 경우 삭제한 메모를 복구하거나 휴지통을 비워 영원히 제거할 수 있습니다.\n\n웹과 다른 기기에서 메모를 확인할 수 있습니다. 시작하려면 http://simplenote.com으로 이동하세요.\n\nSimplenote를 유용하게 활용하시기 바랍니다.</string>
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
     <string name="log_in">로그인</string>

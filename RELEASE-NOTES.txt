@@ -1,6 +1,10 @@
-2.16
+2.17
 -----
  
+2.16
+-----
+* Added reviewing, verifying, and changing account email address [https://github.com/Automattic/simplenote-android/pull/1277]
+
 2.15
 -----
 * Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]
