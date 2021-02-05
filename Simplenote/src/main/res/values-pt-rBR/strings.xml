@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-02-04 15:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="toast_email_sent">E-mail enviado</string>
+    <string name="fullscreen_verify_email_button_secondary">Reenviar e-mail</string>
+    <string name="fullscreen_verify_email_title">Verificar seu e-mail</string>
+    <string name="fullscreen_verify_email_subtitle">Enviamos um e-mail de verificação para &lt;b>%1$s&lt;/b>. Confira sua caixa de entrada e siga as instruções.</string>
+    <string name="fullscreen_review_account_button_secondary">Alterar e-mail</string>
+    <string name="fullscreen_review_account_button_primary">Confirmar</string>
+    <string name="fullscreen_review_account_title">Revisar sua conta</string>
+    <string name="fullscreen_review_account_subtitle">Você está registrado no Simplenote com o e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Com as melhorias de segurança, você poderá perder sua conta se não tiver mais acesso a esse endereço de e-mail.</string>
+    <string name="description_warning">Atenção</string>
+    <string name="description_mail">E-mail</string>
+    <string name="description_close">Fechar</string>
+    <string name="simperium_dialog_message_password_login">As senhas devem ter no mínimo %1$d caracteres.</string>
+    <string name="dialog_tag_conflict_title">Conflito de tags</string>
+    <string name="dialog_tag_conflict_message">A tag \"%1$s\" já existe. Você gostaria de mesclar as tags \"%2$s\" e \"%3$s\"?</string>
+    <string name="dialog_tag_conflict_button_positive">Mesclar</string>
+    <string name="description_locked">Bloqueada</string>
+    <string name="style_sepia">Sépia</string>
+    <string name="style_publication">Publicação</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matriz</string>
+    <string name="style_dialog_locked_title">Estilo premium</string>
+    <string name="style_dialog_locked_message">Para usar esse estilo, você deve ter uma associação premium.</string>
+    <string name="style_dialog_locked_button_positive">Fazer upgrade</string>
+    <string name="style_default">Padrão</string>
+    <string name="style_classic">Clássico</string>
+    <string name="style_black">Preto</string>
+    <string name="style">Estilo</string>
+    <string name="tag_error_spaces">As tags não podem ter espaços</string>
+    <string name="tag_error_length">O comprimento da tag é muito longo</string>
+    <string name="tag_error_exists">A tag já existe</string>
+    <string name="tag_error_empty">As tags não podem estar vazias</string>
+    <string name="dialog_tag_error_message">Ocorreu um erro ao adicionar a tag. Tente novamente. Se o problema continuar, entre em contato conosco em %1$s%2$s%3$s%4$s%5$s para obter ajuda.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Adicionar tag</string>
+    <string name="empty_tags_hint">Quando você adicionar tags às suas anotações, as tags aparecerão aqui.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Fazer upgrade</string>
+    <string name="membership_free">Gratuita</string>
+    <string name="membership">Associação</string>
+    <string name="synced">Sincronizada</string>
+    <string name="delete_dialog_title">Excluir permanentemente</string>
+    <string name="delete_dialog_message">Deseja excluir essa anotação de forma permanente? Essa ação não pode ser desfeita.</string>
+    <string name="delete_dialog_error_message">Ocorreu um erro ao excluir a anotação. Tente novamente. Se o problema continuar, entre em contato conosco em %1$s%2$s%3$s%4$s%5$s para obter ajuda.</string>
     <string name="delete">Excluir</string>
+    <string name="confirm_empty_trash">Deseja esvaziar a lixeira? Todas as anotações na lixeira serão excluídas permanentemente. Essa ação não pode ser desfeita.</string>
+    <string name="empty">Vazia</string>
     <string name="back">Voltar</string>
     <string name="empty_notes_untagged">Nenhuma nota sem tags</string>
     <string name="unpublishing">Desfazendo publicação de anotação…</string>
@@ -70,6 +119,7 @@ Language: pt_BR
     <string name="link_california">%1$s%2$s%3$sAviso de privacidade para os usuários da California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">É necessária uma conexão de rede. Verifique sua conexão e tente novamente.</string>
+    <string name="simperium_dialog_message_password">Os requisitos de senha são:\n\n- A senha não pode ser igual ao e-mail\n- Deve ter no mínimo %1$d caracteres\n- Não pode ter novas linhas\n- Não pode ter quebra de linha\n- Não pode ter tabulações</string>
     <string name="simperium_dialog_message_login_reset">Sua senha é insegura e precisa ser alterada.  Os requisitos de senha são:\n\n- A senha não pode ser a mesma que o endereço de e-mail\n- Mínimo de %1$d caracteres\n- Sem quebra de linha\n- Sem tabs</string>
     <string name="simperium_button_login_reset">Redefinir</string>
     <string name="link_terms">%1$s%2$s%3$sTermos de serviço%4$s</string>
@@ -123,6 +173,7 @@ Language: pt_BR
     <string name="sort_search_modified">Modificação</string>
     <string name="sort_search_created">Criação</string>
     <string name="sort_search_alphabetically">Ordem alfabética</string>
+    <string name="welcome_note">Boas-vindas ao Simplenote para Android!\nAbra esta anotação para ver as instruções.\n\nPara criar uma anotação, toque no botão \"Nova anotação\" com o ícone de adição.\n\nPara pesquisar suas anotações, toque no botão \"Pesquisar\" com o ícone de lupa e insira algum texto. O Simplenote mostra inicialmente pesquisas recentes e pesquisas sugeridas enquanto você digita. As anotações correspondentes ao texto inserido serão mostradas após o envio da pesquisa.\n\nRecebeu uma anotação muito importante? Fixe-a no topo da lista de anotações. Há duas maneiras de fixar as anotações: pressione e segure a anotação na lista e toque no botão \"Fixar no topo\" com o ícone de alfinete ou toque no botão \"Mais opções\" com o ícone de três pontos verticais ao visualizar uma anotação e marque a caixa \"Fixar\".\n\nUse tags para ajudar a organizar suas anotações. Crie uma tag na tela \"Editar tags\" usando o botão \"Adicionar tag\" ou no campo \"Adicionar tag…\" na parte inferior de uma anotação. Você também pode incluir um endereço de e-mail como tag para compartilhar uma anotação com alguém.\n\nÉ muito fácil compartilhar anotações com outros aplicativos Android. Basta tocar em \"Compartilhar\" no menu \"Mais opções\" ao visualizar uma anotação.\n\nAs anotações excluídas vão para a lixeira. Você pode restaurá-las, se desejar, ou esvaziar a lixeira para eliminá-las permanentemente.\n\nVocê pode acessar suas anotações na Web e em outros dispositivos. Acesse http://simplenote.com para começar.\n\nEsperamos que você goste de usar o Simplenote!</string>
     <string name="search_hint">Pesquisar anotações ou tags</string>
     <string name="log_out">Fazer logout</string>
     <string name="log_in">Fazer login</string>

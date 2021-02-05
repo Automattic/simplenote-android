@@ -1,5 +1,0 @@
-2.15:
-* הוספנו סנכרון של תאריך/שעה כדי לציין גיליונות מידע [https://github.com/Automattic/simplenote-android/pull/1140]
-* הוספנו סנכרון ברקע כדי להימנע מאבדן נתונים כאשר יוצאים מהאפליקציה [https://github.com/Automattic/simplenote-android/pull/1255]
-* הוספנו אפשרות למחוק פתקים לצמיתות מהפח בצורה נפרדת [https://github.com/Automattic/simplenote-android/pull/1224]
-

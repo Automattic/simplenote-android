@@ -1,5 +1,0 @@
-2.15:
-* Not bilgi sayfasına senkronize edilmiş tarih/saat eklendi [https://github.com/Automattic/simplenote-android/pull/1140]
-* Uygulamadan çıkarken veri kaybını önlemek için arka planda senkronizasyon özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1255]
-* Notların çöp kutusundan tek tek kalıcı olarak silinmesi özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1224]
-

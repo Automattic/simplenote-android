@@ -1,56 +1,60 @@
+<ar>
+2.16:
+- تمت إضافة مراجعة عنوان البريد الإلكتروني للحساب والتحقُّق منه وتغييره
+</ar>
+<de-DE>
+2.16:
+- Prüfen, Bestätigen und Ändern der Konto-E-Mail-Adresse hinzugefügt
+</de-DE>
 <es-ES>
-2,15:
-* Se ha añadido la fecha/hora sincronizada a la hoja de información de la nota [https://github.com/Automattic/simplenote-android/pull/1140]
-* Se ha añadido la sincronización en segundo plano para evitar la pérdida de datos al salir de la aplicación [https://github.com/Automattic/simplenote-android/pull/1255]
-* Se ha añadido la eliminación permanente de notas de forma individual [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2.16:
+- Se han añadido la revisión, verificación y cambio de cuentas de las direcciones de correo electrónico
 </es-ES>
 <fr-FR>
-2.15 :
-* Ajout de la date/heure synchronisée à la fiche d’information de la note [https://github.com/Automattic/simplenote-android/pull/1140]
-* Ajout de la synchronisation dans l’arrière-plan pour éviter la perte de données lors de la fermeture de l’application [https://github.com/Automattic/simplenote-android/pull/1255]
-* Ajout de la suppression définitive des notes de la corbeille individuellement [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2.16 :
+- Ajout du contrôle, de la vérification et de la modification de l’adresse e-mail du compte
 </fr-FR>
 <iw-IL>
-2.15:
-* הוספנו סנכרון של תאריך/שעה כדי לציין גיליונות מידע [https://github.com/Automattic/simplenote-android/pull/1140]
-* הוספנו סנכרון ברקע כדי להימנע מאבדן נתונים כאשר יוצאים מהאפליקציה [https://github.com/Automattic/simplenote-android/pull/1255]
-* הוספנו אפשרות למחוק פתקים לצמיתות מהפח בצורה נפרדת [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2:16
+- הוספנו אפשרות לבדיקה, לאימות ולשינוי של כתובת האימייל בחשבון
 </iw-IL>
+<id>
+2.16:
+- Penambahan peninjauan, pemeriksaan, dan pengubahan alamat email akun
+</id>
 <it-IT>
-2.15:
-* Aggiunta data/ora sincronizzata al foglio informativo delle note [https://github.com/Automattic/simplenote-android/pull/1140]
-* Aggiunta la sincronizzazione in background per evitare la perdita di dati all'uscita dall'app [https://github.com/Automattic/simplenote-android/pull/1255]
-* Aggiunta l'eliminazione definitiva delle singole note dal cestino [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2.16:
+- Aggiunta revisione, verifica e modifica dell'indirizzo e-mail dell'account
 </it-IT>
+<ja-JP>
+2.16:
+- アカウントのメールアドレスの確認、検証、変更を追加
+</ja-JP>
+<ko-KR>
+2.16:
+- 계정 이메일 주소 검토, 확인 및 변경을 추가했음
+</ko-KR>
+<pt-BR>
+2.16:
+- Adicionamos revisão, verificação e alteração do endereço de e-mail da conta
+</pt-BR>
 <ru-RU>
-2.15.
-* На страницу данных о заметке добавлены дата и время синхронизации [https://github.com/Automattic/simplenote-android/pull/1140].
-* Добавлена фоновая синхронизация, чтобы избежать потери данных при выходе из приложения [https://github.com/Automattic/simplenote-android/pull/1255].
-* Добавлено удаление заметок из корзины по одной без возможности восстановления [https://github.com/Automattic/simplenote-android/pull/1224].
-
+2.16
+— Добавлена возможность просмотра, проверки и изменения адреса электронной почты учётной записи.
 </ru-RU>
 <sv-SE>
-2,15:
-* Lade till synkroniserat datum/tid till anteckningsinformationsbladet [https://github.com/Automattic/simplenote-android/pull/1140]
-* Lade till synkronisering i bakgrunden för att undvika dataförlust när du avslutar appen [https://github.com/Automattic/simplenote-android/pull/1255]
-* Lade till individuell permanent borttagning av anteckningar från papperskorgen [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2,16:
+– La till granskning, verifiering och ändring av e-postadress för konto
 </sv-SE>
 <tr-TR>
-2.15:
-* Not bilgi sayfasına senkronize edilmiş tarih/saat eklendi [https://github.com/Automattic/simplenote-android/pull/1140]
-* Uygulamadan çıkarken veri kaybını önlemek için arka planda senkronizasyon özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1255]
-* Notların çöp kutusundan tek tek kalıcı olarak silinmesi özelliği eklendi [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2,16:
+- Hesap e-posta adresini inceleme, doğrulama ve değiştirme olanağı eklendi
 </tr-TR>
+<zh-TW>
+2.16：
+- 新增檢閱、驗證和變更帳號電子郵件地址的功能
+</zh-TW>
 <en-US>
-2.15:
-* Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]
-* Added syncing in the background to avoid data loss when exiting the app [https://github.com/Automattic/simplenote-android/pull/1255]
-* Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]
-
+2.16:
+- Added reviewing, verifying, and changing account email address
 </en-US>

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-20 13:54:04+0000
+Translation-Revision-Date: 2021-02-03 16:54:44+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="toast_email_sent">Correo electrónico enviado</string>
+    <string name="fullscreen_verify_email_button_secondary">Reenviar correo electrónico</string>
+    <string name="fullscreen_verify_email_title">Verifica tu correo electrónico</string>
+    <string name="fullscreen_verify_email_subtitle">Hemos enviado un correo electrónico de verificación a &lt;b>%1$s&lt;/b>. Revisa tu bandeja de entrada y sigue las instrucciones.</string>
+    <string name="fullscreen_review_account_button_secondary">Cambiar correo electrónico</string>
+    <string name="fullscreen_review_account_button_primary">Confirmar</string>
+    <string name="fullscreen_review_account_title">Revisa tu cuenta</string>
+    <string name="fullscreen_review_account_subtitle">Tienes una cuenta registrada en Simplenote con el correo electrónico &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Puede que pierdas el acceso a la cuenta debido a las mejoras en la seguridad si ya no tienes acceso a esa dirección de correo electrónico.</string>
+    <string name="description_warning">Advertencia</string>
+    <string name="description_mail">Correo</string>
+    <string name="description_close">Cerrar</string>
     <string name="simperium_dialog_message_password_login">Las contraseñas deben tener como mínimo %1$d caracteres.</string>
     <string name="dialog_tag_conflict_title">Conflicto de etiquetas</string>
     <string name="dialog_tag_conflict_message">La etiqueta \"%1$s\" ya existe. ¿Quieres fusionar \"%2$s\" con la etiqueta \"%3$s\"?</string>
