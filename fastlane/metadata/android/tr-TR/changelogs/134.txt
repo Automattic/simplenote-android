@@ -1,0 +1,2 @@
+2,16:
+- Hesap e-posta adresini inceleme, doğrulama ve değiştirme olanağı eklendi

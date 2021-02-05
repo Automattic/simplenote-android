@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-20 12:54:52+0000
+Translation-Revision-Date: 2021-02-02 16:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="toast_email_sent">E-post skickad</string>
+    <string name="fullscreen_verify_email_button_secondary">Skicka e-post igen</string>
+    <string name="fullscreen_verify_email_title">Verifiera din e-post</string>
+    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b>%1$s&lt;/b>.  Kontrollera din inkorg och följ instruktionerna.</string>
+    <string name="fullscreen_review_account_button_secondary">Ändra e-post</string>
+    <string name="fullscreen_review_account_button_primary">Bekräfta</string>
+    <string name="fullscreen_review_account_title">Granska ditt konto</string>
+    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
+    <string name="description_warning">Varning</string>
+    <string name="description_mail">E-post</string>
+    <string name="description_close">Stäng</string>
     <string name="simperium_dialog_message_password_login">Lösenord måste vara minst %1$d tecken.</string>
     <string name="dialog_tag_conflict_title">Etikettkonflikt</string>
     <string name="dialog_tag_conflict_message">Etiketten %1$s finns redan. Vill du slå samman %2$s med etiketten %3$s?</string>

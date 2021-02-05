@@ -1,5 +1,0 @@
-2.15:
-* Aggiunta data/ora sincronizzata al foglio informativo delle note [https://github.com/Automattic/simplenote-android/pull/1140]
-* Aggiunta la sincronizzazione in background per evitare la perdita di dati all'uscita dall'app [https://github.com/Automattic/simplenote-android/pull/1255]
-* Aggiunta l'eliminazione definitiva delle singole note dal cestino [https://github.com/Automattic/simplenote-android/pull/1224]
-

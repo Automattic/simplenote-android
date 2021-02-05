@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-12 11:32:26+0000
+Translation-Revision-Date: 2021-02-03 10:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="toast_email_sent">Email terkirim</string>
+    <string name="fullscreen_verify_email_button_secondary">Kirim ulang email</string>
+    <string name="fullscreen_verify_email_title">Verifikasi Email Anda</string>
+    <string name="fullscreen_verify_email_subtitle">Kami telah mengirimkan email verifikasi ke &lt;b>%1$s&lt;/b>. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
+    <string name="fullscreen_review_account_button_secondary">Ubah email</string>
+    <string name="fullscreen_review_account_button_primary">Konfirmasi</string>
+    <string name="fullscreen_review_account_title">Tinjau Akun Anda</string>
+    <string name="fullscreen_review_account_subtitle">Anda terdaftar pada SImplenote menggunakan email &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Peningkatan keamanan akun dapat menyebabkan akun hilang jika Anda tidak lagi memiliki akses ke alamat email ini.</string>
+    <string name="description_warning">Peringatan</string>
+    <string name="description_mail">Surat</string>
+    <string name="description_close">Tutup</string>
+    <string name="simperium_dialog_message_password_login">Kata sandi minimal harus terdiri dari %1$d karakter.</string>
+    <string name="dialog_tag_conflict_title">Konflik Tag</string>
+    <string name="dialog_tag_conflict_message">Tag \"%1$s\" sudah ada. Apakah Anda ingin menggabungkan tag \"%2$s\" dengan tag \"%3$s\"?</string>
+    <string name="dialog_tag_conflict_button_positive">Gabungkan</string>
+    <string name="description_locked">Terkunci</string>
+    <string name="style_sepia">Sepia</string>
+    <string name="style_publication">Publikasi</string>
+    <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
+    <string name="style_matrix">Matriks</string>
+    <string name="style_dialog_locked_title">Gaya Premium</string>
+    <string name="style_dialog_locked_message">Untuk menggunakan gaya ini, Anda harus memiliki keanggotaan premium.</string>
+    <string name="style_dialog_locked_button_positive">Lakukan upgrade</string>
+    <string name="style_default">Asal</string>
+    <string name="style_classic">Klasik</string>
+    <string name="style_black">Hitam</string>
+    <string name="style">Gaya</string>
+    <string name="tag_error_spaces">Tag tidak boleh berisi spasi</string>
+    <string name="tag_error_length">Tag terlalu panjang</string>
+    <string name="tag_error_exists">Tag sudah ada</string>
+    <string name="tag_error_empty">Tag tidak boleh kosong</string>
+    <string name="dialog_tag_error_message">Terjadi kesalahan saat menambahkan tag. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
+    <string name="dialog_tag_add_title">@string/add_tag</string>
+    <string name="dialog_tag_add_hint">@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">@string/save</string>
+    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="add_tag">Tambahkan Tag</string>
+    <string name="empty_tags_hint">Setelah Anda menambahkan tag ke catatan, tag akan muncul di sini.</string>
+    <string name="membership_premium">Premium</string>
+    <string name="membership_free_upgrade">Lakukan upgrade</string>
+    <string name="membership_free">Gratis</string>
+    <string name="membership">Keanggotaan</string>
+    <string name="synced">Disinkronkan</string>
+    <string name="delete_dialog_title">Hapus Permanen</string>
+    <string name="delete_dialog_message">Anda yakin ingin menghapus catatan ini secara permanen? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="delete_dialog_error_message">Terjadi kesalahan saat menghapus catatan. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
     <string name="delete">Hapus</string>
+    <string name="confirm_empty_trash">Anda yakin ingin mengosongkan tempat sampah? Semua catatan di tempat sampah akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="empty">Kosong</string>
     <string name="back">Kembali</string>
     <string name="empty_notes_untagged">Tidak ada catatan tanpa tag</string>
     <string name="unpublishing">Membatalkan penerbitan catatan…</string>
@@ -70,6 +119,7 @@ Language: id
     <string name="link_california">%1$s%2$s%3$sPemberitahuan Privasi untuk Pengguna di California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Koneksi jaringan diperlukan. Silakan periksa koneksi Anda dan coba lagi.</string>
+    <string name="simperium_dialog_message_password">Persyaratan kata sandi:\n\n- Kata sandi tidak boleh sama dengan email\n- Harus terdiri dari minimal %1$d karakter\n- Terdiri dari satu baris\n- Tanpa pengembalian\n- Tanpa tab</string>
     <string name="simperium_dialog_message_login_reset">Kata sandi Anda tidak aman dan harus diatur ulang. Persyaratan kata sandi adalah:\n\n- Kata sandi tidak boleh sama dengan email\n- Minimal %1$d karakter\n- Tidak membuat baris baru\n- Tidak boleh ada tab</string>
     <string name="simperium_button_login_reset">Atur Ulang</string>
     <string name="link_terms">%1$s%2$s%3$sKetentuan Layanan%4$s</string>
@@ -123,6 +173,7 @@ Language: id
     <string name="sort_search_modified">Dimodifikasi</string>
     <string name="sort_search_created">Dibuat</string>
     <string name="sort_search_alphabetically">Menurut Abjad</string>
+    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
