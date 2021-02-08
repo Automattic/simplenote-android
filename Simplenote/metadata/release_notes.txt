@@ -1,3 +1,2 @@
-* Added scrolling to last position when opening a note [https://github.com/Automattic/simplenote-android/pull/1300]
-* Added sort bar at top of note list [https://github.com/Automattic/simplenote-android/pull/1284]
-
+* Added scrolling to last position when opening a note
+* Added sort bar at top of note list
