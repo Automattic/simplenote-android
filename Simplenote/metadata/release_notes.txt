@@ -1,1 +1,3 @@
-- Added reviewing, verifying, and changing account email address
+* Added scrolling to last position when opening a note [https://github.com/Automattic/simplenote-android/pull/1300]
+* Added sort bar at top of note list [https://github.com/Automattic/simplenote-android/pull/1284]
+
