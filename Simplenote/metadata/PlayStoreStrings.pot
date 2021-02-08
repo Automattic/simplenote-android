@@ -11,19 +11,17 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0217"
+msgid ""
+"2.17:\n"
+"* Added scrolling to last position when opening a note\n"
+"* Added sort bar at top of note list\n"
+msgstr ""
+
 msgctxt "release_note_0216"
 msgid ""
 "2.16:\n"
 "- Added reviewing, verifying, and changing account email address\n"
-msgstr ""
-
-msgctxt "release_note_0215"
-msgid ""
-"2.15:\n"
-"* Added synced date/time to note information sheet [https://github.com/Automattic/simplenote-android/pull/1140]\n"
-"* Added syncing in the background to avoid data loss when exiting the app [https://github.com/Automattic/simplenote-android/pull/1255]\n"
-"* Added permanently deleting notes from trash individually [https://github.com/Automattic/simplenote-android/pull/1224]\n"
-"\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
