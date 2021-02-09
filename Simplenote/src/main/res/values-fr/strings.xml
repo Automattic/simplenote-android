@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-20 13:54:03+0000
+Translation-Revision-Date: 2021-02-03 16:54:39+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="toast_email_sent">E-mail envoyé</string>
+    <string name="fullscreen_verify_email_button_secondary">Renvoyer l’e-mail</string>
+    <string name="fullscreen_verify_email_title">Vérifiez votre messagerie</string>
+    <string name="fullscreen_verify_email_subtitle">Nous avons envoyé un e-mail de vérification à &lt;b>%1$s&lt;/b>. Consultez votre boîte de réception et suivez les instructions.</string>
+    <string name="fullscreen_review_account_button_secondary">Changez d’adresse e-mail</string>
+    <string name="fullscreen_review_account_button_primary">Confirmer</string>
+    <string name="fullscreen_review_account_title">Passez en revue votre compte</string>
+    <string name="fullscreen_review_account_subtitle">Vous êtes enregistré sur Simplenote avec l’adresse e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Les améliorations apportées à la sécurité de votre compte peuvent entraîner la perte de votre compte si vous n’avez plus accès à cette adresse e-mail.</string>
+    <string name="description_warning">Avertissement</string>
+    <string name="description_mail">E-mail</string>
+    <string name="description_close">Fermer</string>
     <string name="simperium_dialog_message_password_login">Les mots de passe doivent contenir %1$d caractères au maximum.</string>
     <string name="dialog_tag_conflict_title">Conflit d’étiquettes</string>
     <string name="dialog_tag_conflict_message">L’étiquette « %1$s » existe déjà. Voulez-vous fusionner « %2$s » dans l’étiquette « %3$s » ?</string>

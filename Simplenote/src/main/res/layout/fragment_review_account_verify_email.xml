@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:background="?attr/mainBackgroundColor"
+        android:clipToPadding="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/content_width"
+        android:padding="@dimen/padding_large"
+        tools:layout_width="match_parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:contentDescription="@string/description_warning"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="@dimen/icon_fullscreen"
+            android:layout_marginTop="@dimen/padding_small"
+            android:layout_width="@dimen/icon_fullscreen"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:src="@drawable/ic_warning_24dp"
+            android:tint="?attr/toolbarIconColor">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/text_title"
+            android:gravity="center"
+            android:layout_below="@id/image"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:layout_marginLeft="@dimen/padding_extra_small"
+            android:layout_marginRight="@dimen/padding_extra_small"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_width="fill_parent"
+            android:text="@string/fullscreen_review_account_title"
+            android:textColor="?attr/noteTitleColor"
+            android:textSize="@dimen/text_fullscreen_title"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:id="@+id/text_subtitle"
+            android:gravity="start"
+            android:breakStrategy="simple"
+            android:layout_below="@id/text_title"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:layout_marginLeft="@dimen/padding_extra_small"
+            android:layout_marginRight="@dimen/padding_extra_small"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_width="fill_parent"
+            android:text="@string/fullscreen_review_account_subtitle"
+            android:textColor="?attr/noteTitleColor"
+            android:textSize="@dimen/text_fullscreen_subtitle">
+        </TextView>
+
+        <LinearLayout
+            android:layout_below="@id/text_subtitle"
+            android:gravity="bottom"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_primary"
+                android:backgroundTint="?attr/fabColor"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:layout_width="match_parent"
+                android:minHeight="@dimen/minimum_target"
+                android:text="@string/fullscreen_review_account_button_primary"
+                android:textAllCaps="true"
+                android:textColor="?attr/fabIconColor"
+                style="@style/Widget.AppCompat.Button">
+            </androidx.appcompat.widget.AppCompatButton>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_secondary"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:minHeight="@dimen/minimum_target"
+                android:text="@string/fullscreen_review_account_button_secondary"
+                android:textAllCaps="true"
+                android:textColor="?attr/fabColor"
+                style="@style/Widget.AppCompat.Button.Borderless">
+            </androidx.appcompat.widget.AppCompatButton>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

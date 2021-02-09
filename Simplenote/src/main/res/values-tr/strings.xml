@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-21 15:54:04+0000
+Translation-Revision-Date: 2021-02-03 13:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="toast_email_sent">E-posta gönderildi</string>
+    <string name="fullscreen_verify_email_button_secondary">E-postayı tekrar gönder</string>
+    <string name="fullscreen_verify_email_title">E-posta Adresinizi Doğrulayın</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
+    <string name="fullscreen_review_account_button_secondary">E-posta değiştir</string>
+    <string name="fullscreen_review_account_button_primary">Onayla</string>
+    <string name="fullscreen_review_account_title">Hesabınızı İnceleyin</string>
+    <string name="fullscreen_review_account_subtitle">&lt;b>%1$s&lt;/b> e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br>&lt;br>Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
+    <string name="description_warning">Uyarı</string>
+    <string name="description_mail">Posta</string>
+    <string name="description_close">Kapat</string>
     <string name="simperium_dialog_message_password_login">Parolalar en az %1$d karakter olmalıdır.</string>
     <string name="dialog_tag_conflict_title">Etiket Çakışması</string>
     <string name="dialog_tag_conflict_message">\"%1$s\" etiketi zaten var. \"%2$s\" öğesini \"%3$s\" etiketiyle birleştirmek ister misiniz?</string>

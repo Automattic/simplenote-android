@@ -1,5 +1,0 @@
-2,15:
-* Se ha añadido la fecha/hora sincronizada a la hoja de información de la nota [https://github.com/Automattic/simplenote-android/pull/1140]
-* Se ha añadido la sincronización en segundo plano para evitar la pérdida de datos al salir de la aplicación [https://github.com/Automattic/simplenote-android/pull/1255]
-* Se ha añadido la eliminación permanente de notas de forma individual [https://github.com/Automattic/simplenote-android/pull/1224]
-

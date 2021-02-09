@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-20 14:54:04+0000
+Translation-Revision-Date: 2021-02-03 13:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="toast_email_sent">האימייל נשלח</string>
+    <string name="fullscreen_verify_email_button_secondary">לשלוח אימייל מחדש</string>
+    <string name="fullscreen_verify_email_title">לאמת את כתובת האימייל שלך</string>
+    <string name="fullscreen_verify_email_subtitle">שלחנו אימייל לאימות אל &lt;b>%1$s&lt;/b>. יש לבדוק בתיבת הדואר הנכנס ולפעול לפי ההוראות.</string>
+    <string name="fullscreen_review_account_button_secondary">לשנות כתובת אימייל</string>
+    <string name="fullscreen_review_account_button_primary">אישור</string>
+    <string name="fullscreen_review_account_title">לבדוק את החשבון שלך</string>
+    <string name="fullscreen_review_account_subtitle">החשבון שלך רשום עם Simplenote באמצעות האימייל &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>שיפורים באבטחת החשבון עלולים לגרום לאבדן החשבון אם אין לך עוד גישה לכתובת האימייל הזאת.</string>
+    <string name="description_warning">אזהרה</string>
+    <string name="description_mail">דואר</string>
+    <string name="description_close">לסגור</string>
     <string name="simperium_dialog_message_password_login">הסיסמאות חייבות לכלול לפחות ⁦%1$d⁩ תווים.</string>
     <string name="dialog_tag_conflict_title">התנגשות תגיות</string>
     <string name="dialog_tag_conflict_message">התגית \'⁦%1$s⁩\' כבר קיימת. האם ברצונך למזג את \'⁦%2$s⁩\' עם התגית \'⁦%3$s⁩\'?</string>
