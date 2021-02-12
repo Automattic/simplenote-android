@@ -132,7 +132,7 @@ public class ScreenshotTest {
         // the note list screen, so look for one and dismiss it if found.
         dismissVerifyEmailScreenIfNeeded();
 
-        Screengrab.screenshot("note");
+        Screengrab.screenshot("01-note");
 
         dismissNoteEditor();
 
@@ -145,7 +145,7 @@ public class ScreenshotTest {
         // Make sure the results have been rendered
         waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_FOR_EDITOR_SHOT_TITLE)), 1000);
 
-        Screengrab.screenshot("search");
+        Screengrab.screenshot("05-search");
 
         dismissSearch();
 
@@ -153,11 +153,11 @@ public class ScreenshotTest {
 
         dismissSettings();
 
-        Screengrab.screenshot("notes-list");
+        Screengrab.screenshot("02-notes-list");
 
         loadSideMenuFromNotesList();
 
-        Screengrab.screenshot("tags");
+        Screengrab.screenshot("04-tags");
 
         loadSettingsFromSideMenu();
 
@@ -176,7 +176,7 @@ public class ScreenshotTest {
         tapPasscodeKeypad();
         tapPasscodeKeypad();
         tapPasscodeKeypad();
-        Screengrab.screenshot("pin");
+        Screengrab.screenshot("06-pin");
         tapPasscodeKeypad();
 
         loadSettingsFromNotesList();
@@ -357,7 +357,7 @@ public class ScreenshotTest {
 
         // Give the inter-note linking picker time to appear before taking the screenshot
         Thread.sleep(500);
-        Screengrab.screenshot("inter-note-linking");
+        Screengrab.screenshot("03-inter-note-linking");
 
         onView(withContentDescription("More Options")).perform(click());
 
