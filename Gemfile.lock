@@ -236,10 +236,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bigdecimal (~> 1.4)!
-  fastlane (~> 2)!
+  bigdecimal (~> 1.4)
+  fastlane (~> 2)
   fastlane-plugin-wpmreleasetoolkit!
-  nokogiri!
+  nokogiri
 
 BUNDLED WITH
-   2.1.4
+   2.2.10
