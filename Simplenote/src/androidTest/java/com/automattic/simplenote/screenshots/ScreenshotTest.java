@@ -41,6 +41,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import tools.fastlane.screengrab.Screengrab;
@@ -52,6 +54,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -69,7 +72,9 @@ import static tools.fastlane.screengrab.cleanstatusbar.IconVisibility.SHOW;
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotTest {
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String NOTE_TITLE = "# Lemon Cake & Blueberry";
+
+    private static final String NOTE_FOR_EDITOR_SHOT_TITLE = "Lemon Cake & Blueberry";
+    private static final String NOTE_FOR_INTERLINKING_SHOT_TITLE = "# Colors";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
@@ -93,6 +98,8 @@ public class ScreenshotTest {
     public void screenshotTest() throws InterruptedException {
         // Pre-checks if the state is dirty
         enterThenDisablePasscodeIfNeeded();
+        dismissVerifyEmailScreenIfNeeded();
+
         logoutIfNeeded();
 
         login();
@@ -103,19 +110,42 @@ public class ScreenshotTest {
         // app changing root activity (from login to notes list) but I haven't had the time to
         // research it properly
         Thread.sleep(2000);
-        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 5000);
+        dismissVerifyEmailScreenIfNeeded();
+        // We want the full list of notes to be on screen when taking the screenshots, so let's wait
+        // for enough notes to be on screen to be relatively confident that's happened.
+        //
+        // Obviously, it would be better to have something like "wait for notes to load" but I
+        // wasn't able to find a way to achieve this – Gio
+        List<String> noteTitles = Arrays.asList(
+                NOTE_FOR_EDITOR_SHOT_TITLE,
+                "Bret Victor's Quote Collection",
+                "Back on track",
+                NOTE_FOR_INTERLINKING_SHOT_TITLE
+        );
+        for (String title:noteTitles) {
+            waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
+        }
 
-        selectNoteFromNotesList();
+        selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
 
-        Screengrab.screenshot("note");
+        // It can happen that the email verification screen appears on the note editor instead of
+        // the note list screen, so look for one and dismiss it if found.
+        dismissVerifyEmailScreenIfNeeded();
+
+        Screengrab.screenshot("01-note");
 
         dismissNoteEditor();
 
+        takeInterNoteLinkingScreenshotFromNotesList();
+
+        loadSideMenuFromNotesList();
+        onView(withText("All Notes")).perform(click());
+
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
-        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_TITLE)), 1000);
+        waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_FOR_EDITOR_SHOT_TITLE)), 1000);
 
-        Screengrab.screenshot("search");
+        Screengrab.screenshot("05-search");
 
         dismissSearch();
 
@@ -123,11 +153,11 @@ public class ScreenshotTest {
 
         dismissSettings();
 
-        Screengrab.screenshot("notes-list");
+        Screengrab.screenshot("02-notes-list");
 
         loadSideMenuFromNotesList();
 
-        Screengrab.screenshot("tags");
+        Screengrab.screenshot("04-tags");
 
         loadSettingsFromSideMenu();
 
@@ -146,7 +176,7 @@ public class ScreenshotTest {
         tapPasscodeKeypad();
         tapPasscodeKeypad();
         tapPasscodeKeypad();
-        Screengrab.screenshot("pin");
+        Screengrab.screenshot("06-pin");
         tapPasscodeKeypad();
 
         loadSettingsFromNotesList();
@@ -163,6 +193,15 @@ public class ScreenshotTest {
     }
 
     // Flows
+
+    private void dismissVerifyEmailScreenIfNeeded() {
+        // This is quite brittle. Would be good to have a unique identifier instead.
+        final String contentDescription = "Close";
+
+        if (isViewDisplayed(getViewByContent(contentDescription))) {
+            onView(withContentDescription(contentDescription)).perform(click());
+        }
+    }
 
     private void logoutIfNeeded() {
         if (!isViewDisplayed(getViewById(R.id.list_root))) {
@@ -240,23 +279,28 @@ public class ScreenshotTest {
 
     // Notes List Screen
 
-    private void selectNoteFromNotesList() {
-        onView(allOf(withId(R.id.note_title), withText(NOTE_TITLE))).perform(click());
+    private void selectNoteFromNotesList(String title) {
+        onView(allOf(withId(R.id.note_title), withText(title))).perform(click());
     }
 
     private void loadSearchFromNotesList(String query) {
-        final int searchViewId = R.id.search_src_text;
-
         // Tap the search button in the toolbar
-        onView(withId(R.id.menu_search)).perform(click());
+        final int searchButtonId = R.id.menu_search;
+        waitForViewMatching(withId(searchButtonId), 5000);
+        onView(withId(searchButtonId)).perform(click());
+
         // Type the search query
+        final int searchViewId = R.id.search_src_text;
         onView(withId(searchViewId)).perform(typeSearchViewText(query));
         onView(withId(searchViewId)).perform(pressImeActionButton());
     }
 
     private void loadSideMenuFromNotesList() {
         // There is no R.id for the menu drawer button
-        onView(allOf(withContentDescription("Open drawer"))).perform(click());
+        final String contentDescription = "Open drawer";
+
+        waitForViewToBeDisplayed(withContentDescription(contentDescription), 2000);
+        onView(allOf(withContentDescription(contentDescription))).perform(click());
     }
 
     private void loadSettingsFromNotesList() {
@@ -275,10 +319,63 @@ public class ScreenshotTest {
         loadThemeSwitcherFromSettings();
     }
 
+    private void takeInterNoteLinkingScreenshotFromNotesList() throws InterruptedException {
+        /*
+        The code in this method is rather hacky, unfortunately.
+
+        Try as I might, I couldn't find a way to directly add text at the end fo the note.
+
+        Selecting the note places the cursor in the center of the screen, a spot that would vary
+        depending on the screen size and that we cannot use as a reference to move through the text.
+        I tried synthesizing arrow key presses to go to the bottom, but because we don't know where
+        the bottom is, the only way to know it to wait till the Markdown preview screen is
+        displayed. From there one can go back but... the cursor is back in the middle of the text!
+
+        The only reliable option I could come up with was creating a new note every time. By adding
+        all the text in one go, we ensure that the cursor is actually at the proper location.
+
+        The approach adds the extra overhead of having to delete the note to avoid polluting notes
+        list and also emptying the trash.
+        – Gio 2021/02
+         */
+        onView(withContentDescription("New Note")).perform(click());
+
+        String noteText = NOTE_FOR_INTERLINKING_SHOT_TITLE + "\n" +
+                "\n" +
+                // The original note has this quote wrapped in this kind of quotes: “”, but trying
+                // to type them make the tests crash. They're irrelevant for the end result in the
+                // screenshot, so they've been omitted.
+                "Color is so much a matter of direct and immediate perception that any discussion of theory needs to be accompanied by experiments with the colors themselves.\n" +
+                "\n" +
+                "### Blue\n" +
+                "\n" +
+                "Blue is the only color which maintains its own character in all its tones it will always stay blue; whereas yellow is blackened in its shades, and fades away when lightened; red when darkened becomes brown, and diluted with white is no longer red, but another color.";
+
+        // We need to tap everything into a single string otherwise the cursor will jump back to the
+        // center of the text area and mess everything up 🤦‍♂️.
+        onView(withId(R.id.note_content)).perform(typeText(noteText + "\n\n[l"));
+
+        // Give the inter-note linking picker time to appear before taking the screenshot
+        Thread.sleep(500);
+        Screengrab.screenshot("03-inter-note-linking");
+
+        onView(withContentDescription("More Options")).perform(click());
+
+        onView(withText("Trash")).perform(click());
+
+        // Clean up the the trash
+        loadSideMenuFromNotesList();
+        onView(withText("Trash")).perform(click());
+        onView(withId(R.id.menu_empty_trash)).perform(click());
+        onView(withText("Empty")).perform(click());
+    }
+
     // Notes Editor Screen
 
     private void dismissNoteEditor() {
-        onView(withContentDescription("Navigate up")).perform(click());
+        final String contentDescripion = "Navigate up";
+        waitForViewToBeDisplayed(withContentDescription(contentDescripion), 5000);
+        onView(withContentDescription(contentDescripion)).perform(click());
     }
 
     // Search Screen
@@ -368,6 +465,10 @@ public class ScreenshotTest {
 
     private ViewInteraction getViewById(Integer id) {
         return onView(allOf(ViewMatchers.withId(id), isDisplayed()));
+    }
+
+    private ViewInteraction getViewByContent(String contentDescription) {
+        return onView(allOf(withContentDescription(contentDescription), isDisplayed()));
     }
 
     private Boolean isViewDisplayed(ViewInteraction view) {
