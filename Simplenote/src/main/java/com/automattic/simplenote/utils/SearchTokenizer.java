@@ -10,6 +10,7 @@ public class SearchTokenizer {
     static public final char SINGLE_QUOTE = '\'';
     static public final char GLOB = '*';
     static public final char COLON = ':';
+    static public final char COMMA = ',';
     static public final char ESCAPE = '\\';
     static public final char HYPHEN = '-';
 
