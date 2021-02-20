@@ -131,6 +131,12 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             return;
         }
 
+        if (tag.contains(",")) {
+            mButtonPositive.setEnabled(false);
+            mTagLayout.setError(getString(R.string.tag_error_commas));
+            return;
+        }
+
         if (!TagUtils.hashTagValid(tag)) {
             mButtonPositive.setEnabled(false);
             mTagLayout.setError(getString(R.string.tag_error_length));
