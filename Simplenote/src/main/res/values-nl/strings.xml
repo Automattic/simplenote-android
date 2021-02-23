@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-22 14:54:04+0000
+Translation-Revision-Date: 2021-02-19 17:25:09+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL gekopieerd naar klembord</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL kon niet gekopieerd worden naar klembord</string>
+    <string name="dialog_browser_exception_title">Link-fout</string>
+    <string name="dialog_browser_exception_message">Link kan niet geopend worden.  Kopieer de URL om deze in de browser te plakken.</string>
+    <string name="dialog_browser_exception_button_copy_url">URL kopiëren</string>
+    <string name="sort_alphabetical_reverse">Naam: Z-A</string>
+    <string name="sort_alphabetical">Naam: A-Z</string>
+    <string name="sort_oldest_created">Aangemaakt op: Oudste</string>
+    <string name="sort_newest_created">Aangemaakt op: Nieuwste</string>
+    <string name="sort_oldest_modified">Aangepast op: Oudste</string>
+    <string name="sort_newest_modified">Aangepast op: Nieuwste</string>
+    <string name="sort_by">Sorteren op</string>
+    <string name="toast_email_sent">E-mail verzonden</string>
+    <string name="fullscreen_verify_email_button_secondary">E-mail opnieuw verzenden</string>
+    <string name="fullscreen_verify_email_title">Verifieer je e-mail</string>
+    <string name="fullscreen_verify_email_subtitle">We hebben een verificatiemail verzonden naar &lt;b>%1$s&lt;/b>. Controleer je postvak IN en volg de instructies.</string>
+    <string name="fullscreen_review_account_button_secondary">E-mail wijzigen</string>
+    <string name="fullscreen_review_account_button_primary">Bevestigen</string>
+    <string name="fullscreen_review_account_title">Controleer je account</string>
+    <string name="fullscreen_review_account_subtitle">Je staat geregistreerd bij Simplenote met het e-mailadres &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Verbeteringen aan accountbeveiliging kunnen leiden tot accountverlies als je geen toegang meer hebt tot dit e-mailadres.</string>
+    <string name="description_warning">Waarschuwing</string>
+    <string name="description_mail">Mail</string>
+    <string name="description_close">Sluiten</string>
     <string name="simperium_dialog_message_password_login">Wachtwoorden moeten minimaal %1$d tekens bevatten.</string>
     <string name="dialog_tag_conflict_title">Tag-conflict</string>
     <string name="dialog_tag_conflict_message">De tag \'%1$s\' bestaat al. Wil je \'%2$s\' samenvoegen in de tag \'%3$s\'?</string>
@@ -158,10 +181,6 @@ Language: nl
     <string name="description_sort">Sorteren</string>
     <string name="description_down">Omlaag</string>
     <string name="description_delete_item">Item verwijderen</string>
-    <string name="sort_search_reverse_order">Omgekeerde volgorde</string>
-    <string name="sort_search_modified">Aangepast</string>
-    <string name="sort_search_created">Aangemaakt</string>
-    <string name="sort_search_alphabetically">Alfabetisch</string>
     <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wil zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kan een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag ofwel via het scherm \'Tags bewerken\' met de knop \'Tag toevoegen\' of via het veld \'Tag toevoegen…\' onderaan een notitie. Je kan ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kan ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kan je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
@@ -271,12 +290,6 @@ Language: nl
     <string name="view_map">Kaart bekijken</string>
     <string name="email">E-mailen</string>
     <string name="call">Bellen</string>
-    <string name="sort_alphabetical_reverse">Alfabetisch, Z-A</string>
-    <string name="sort_alphabetical">Alfabetisch, A-Z</string>
-    <string name="sort_oldest_created">Oudste aanmaakdatum</string>
-    <string name="sort_newest_created">Nieuwste aanmaakdatum</string>
-    <string name="sort_oldest_modified">Oudste wijzigingsdatum</string>
-    <string name="sort_newest_modified">Nieuwste wijzigingsdatum</string>
     <string name="close_drawer">Schuifmenu sluiten</string>
     <string name="open_drawer">Schuifmenu openen</string>
     <string name="condensed_note_list">Beknopte notitielijst</string>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-04 15:54:04+0000
+Translation-Revision-Date: 2021-02-18 11:54:03+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">تم نسخ عنوان URL إلى الحافظة</string>
+    <string name="dialog_browser_exception_toast_copy_failure">تعذر نسخ عنوان URL إلى الحافظة</string>
+    <string name="dialog_browser_exception_title">خطأ في الرابط</string>
+    <string name="dialog_browser_exception_message">يتعذر فتح الرابط.  انسخ عنوان URL للصقه في متصفح.</string>
+    <string name="dialog_browser_exception_button_copy_url">نسخ عنوان URL</string>
+    <string name="sort_alphabetical_reverse">الاسم: من Z إلى A</string>
+    <string name="sort_alphabetical">الاسم: من A إلى Z</string>
+    <string name="sort_oldest_created">تاريخ الإنشاء: الأقدم</string>
+    <string name="sort_newest_created">تاريخ الإنشاء: الأحدث</string>
+    <string name="sort_oldest_modified">تاريخ التعديل: الأقدم</string>
+    <string name="sort_newest_modified">تاريخ التعديل: الأحدث</string>
+    <string name="sort_by">فرز حسب</string>
     <string name="toast_email_sent">تم إرسال رسالة عبر البريد الإلكتروني</string>
     <string name="fullscreen_verify_email_button_secondary">إعادة إرسال بريد إلكتروني</string>
     <string name="fullscreen_verify_email_title">التحقُّق من بريدك الإلكتروني</string>
@@ -169,10 +181,6 @@ Language: ar
     <string name="description_sort">فرز</string>
     <string name="description_down">أسفل</string>
     <string name="description_delete_item">حذف العنصر</string>
-    <string name="sort_search_reverse_order">عكس الترتيب</string>
-    <string name="sort_search_modified">معدَّل</string>
-    <string name="sort_search_created">تاريخ الإنشاء</string>
-    <string name="sort_search_alphabetically">أبجديًا</string>
     <string name="welcome_note">مرحبًا بك في Simplenote Android!\nافتح هذه الملحوظة للحصول على الإرشادات.\n\nلإنشاء ملاحظة جديدة، انقر على زر \"ملاحظة جديدة\" الذي يتضمن أيقونة زائد.\n\nللبحث عن ملحوظاتك، انقر على زر \"بحث\" مع أيقونة العدسة المكبِّرة وأدخل أي نص. سيعرض برنامج Simplenote مبدئيًا عمليات البحث الأخيرة وعمليات البحث المقترحة عند إدخال نص. ستظهر الملحوظات التي تتطابق مع النص الذي تم إدخاله بمجرد إرسال البحث.\n\nهل حصلتَ على ملحوظة مهمة بالفعل؟ قم بتثبيتها في الجزء العلوي من قائمة الملحوظات. يمكنك تثبيت الملحوظة بطريقتين. اضغط ضغطًا مطولاً على الملحوظة الموجودة في القائمة وانقر على زر \"تثبيت في الأعلى\" مع أيقونة التثبيت. اضغط على زر \"مزيد من الخيارات\" المتمثِّل في أيقونة النقاط الرأسية الثلاث في أثناء عرض ملحوظة، وحدِّد مربع \"التثبيت\".\n\nاستخدم الوسوم للمساعدة على تنظيم ملحوظاتك. يمكنك إنشاء وسم إما في شاشة \"تحرير الوسوم\" باستخدام زر \"إضافة وسم\" أو حقل \"إضافة وسم…\" الموجود في الجزء السفلي للملاحظة. يمكنك أيضًا إضافة عنوان بريد إلكتروني كوسم لمشاركة ملحوظة مع شخص ما.\n\nشارك الملحوظات بسهولة مع تطبيقات Android الأخرى عن طريق الضغط على \"مشاركة\" في قائمة \"مزيد من الخيارات\" في أثناء عرض الملحوظة.\n\nتظهر الملحوظات المحذوفة في سلة المهملات. يمكنك استعادتها إذا كنت ترغب في ذلك، أو إفراغ سلة المهملات للتخلص منها نهائيًا.\n\nيمكنك الوصول إلى ملحوظاتك على الويب وعلى أجهزتك الأخرى. انتقل إلى http://simplenote.com للبدء.\n\nنأمل أن تستمتع باستخدام Simplenote!</string>
     <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
@@ -282,12 +290,6 @@ Language: ar
     <string name="view_map">عرض الخريطة</string>
     <string name="email">البريد الإلكتروني</string>
     <string name="call">اتصال</string>
-    <string name="sort_alphabetical_reverse">أبجديًا من الياء إلى الألف</string>
-    <string name="sort_alphabetical">أبجديًا، من الألف إلى الياء</string>
-    <string name="sort_oldest_created">تاريخ أقدم إنشاء</string>
-    <string name="sort_newest_created">تاريخ أحدث إنشاء</string>
-    <string name="sort_oldest_modified">تاريخ أقدم تعديل</string>
-    <string name="sort_newest_modified">تاريخ أحدث تعديل</string>
     <string name="close_drawer">إغلاق ساحب القائمة</string>
     <string name="open_drawer">فتح ساحب القائمة</string>
     <string name="condensed_note_list">قائمة الملاحظات الموجزة</string>

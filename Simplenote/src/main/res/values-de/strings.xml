@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-04 14:54:04+0000
+Translation-Revision-Date: 2021-02-19 17:24:44+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL in Zwischenablage kopiert</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL konnte nicht in die Zwischenablage kopiert werden</string>
+    <string name="dialog_browser_exception_title">Link-Fehler</string>
+    <string name="dialog_browser_exception_message">Link kann nicht geöffnet werden.  Kopiere die URL, um sie in einen Browser einzufügen.</string>
+    <string name="dialog_browser_exception_button_copy_url">URL kopieren</string>
+    <string name="sort_alphabetical_reverse">Name: Z-A</string>
+    <string name="sort_alphabetical">Name: A-Z</string>
+    <string name="sort_oldest_created">Erstellt: Älteste</string>
+    <string name="sort_newest_created">Erstellt: Neueste</string>
+    <string name="sort_oldest_modified">Geändert: Älteste</string>
+    <string name="sort_newest_modified">Geändert: Neueste</string>
+    <string name="sort_by">Sortieren nach</string>
     <string name="toast_email_sent">E-Mail gesendet</string>
     <string name="fullscreen_verify_email_button_secondary">E-Mail erneut senden</string>
     <string name="fullscreen_verify_email_title">E-Mail-Adresse bestätigen</string>
@@ -169,10 +181,6 @@ Language: de
     <string name="description_sort">Sortieren</string>
     <string name="description_down">Ab</string>
     <string name="description_delete_item">Element löschen</string>
-    <string name="sort_search_reverse_order">Reihenfolge umkehren</string>
-    <string name="sort_search_modified">Geändert</string>
-    <string name="sort_search_created">Erstellt</string>
-    <string name="sort_search_alphabetically">Alphabetisch</string>
     <string name="welcome_note">Willkommen bei Simplenote Android!\nIn dieser Notiz findest du Anweisungen.\n\nTippe zum Erstellen einer neuen Notiz auf den Button „Neue Notiz“ mit dem Plus-Icon.\n\nWenn du deine Notizen durchsuchen willst, tippe auf den Button „Suchen“ mit dem Lupensymbol und gib einen Text ein. Simplenote zeigt dir anfangs die letzten Suchen an und macht Suchvorschläge, wenn du Text eingibst. Notizen, die mit dem eingegebenen Text übereinstimmen, werden nach dem Absenden der Suche angezeigt.\n\nHast du eine äußerst wichtige Notiz? Hefte sie an den Anfang der Notizenliste. Zum Anheften von Notizen gibt es zwei Möglichkeiten. Halte die Notiz in der Liste lange gedrückt und tippe auf den Button „An Anfang heften“ mit dem Anheften-Icon. Tippe in der Notiz auf den Button „Weitere Optionen“ mit dem Icon mit drei vertikalen Punkten und aktiviere das Kontrollkästchen „Anheften“.\n\nMit Schlagwörtern kannst du die Notizen ordnen. Erstelle ein Schlagwort entweder auf dem Bildschirm „Schlagwörter bearbeiten“ mithilfe des Buttons „Schlagwort hinzufügen“ oder verwende das Feld „Schlagwort hinzufügen…“ am Ende einer Notiz. Du kannst auch eine E-Mail-Adresse als Schlagwort hinzufügen, wenn du eine Notiz mit jemandem teilen willst.\n\nDu kannst deine Notizen ganz einfach mit anderen Android-Apps teilen, indem du in der Notiz im Menü „Weitere Optionen“ auf „Teilen“ tippst.\n\nGelöschte Notizen werden in den Papierkorb verschoben. Du kannst sie bei Bedarf wiederherstellen oder den Papierkorb leeren, um sie unwiderruflich zu löschen.\n\nDu hast im Internet und auf deinen anderen Geräten Zugriff auf deine Notizen. Rufe zum Starten http://simplenote.com auf.\n\nViel Spaß mit Simplenote!</string>
     <string name="search_hint">Notizen oder Schlagwörter suchen</string>
     <string name="log_out">Abmelden</string>
@@ -282,12 +290,6 @@ Language: de
     <string name="view_map">Karte anzeigen</string>
     <string name="email">E-Mail</string>
     <string name="call">Telefon</string>
-    <string name="sort_alphabetical_reverse">Alphabetisch, Z-A</string>
-    <string name="sort_alphabetical">Alphabetisch, A-Z</string>
-    <string name="sort_oldest_created">Ältestes Erstellungsdatum</string>
-    <string name="sort_newest_created">Neuestes Erstellungsdatum</string>
-    <string name="sort_oldest_modified">Ältestes Änderungsdatum</string>
-    <string name="sort_newest_modified">Neuestes Änderungsdatum</string>
     <string name="close_drawer">Menübereich schließen </string>
     <string name="open_drawer">Menübereich öffen</string>
     <string name="condensed_note_list">Notizenliste Kurzfassung</string>

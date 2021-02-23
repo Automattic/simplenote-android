@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-02 16:54:04+0000
+Translation-Revision-Date: 2021-02-16 11:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL kopierad till urklipp</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL kunde inte kopieras till urklipp</string>
+    <string name="dialog_browser_exception_title">Länkfel</string>
+    <string name="dialog_browser_exception_message">Kan inte öppna länken.  Kopiera URL för att klistra in i en webbläsare.</string>
+    <string name="dialog_browser_exception_button_copy_url">Kopiera URL</string>
+    <string name="sort_alphabetical_reverse">Namn: Z–A</string>
+    <string name="sort_alphabetical">Namn: A–Z</string>
+    <string name="sort_oldest_created">Skapad: Äldsta</string>
+    <string name="sort_newest_created">Skapad: Nyaste</string>
+    <string name="sort_oldest_modified">Modifierad: Äldsta</string>
+    <string name="sort_newest_modified">Modifierad: Senaste</string>
+    <string name="sort_by">Sortera efter</string>
     <string name="toast_email_sent">E-post skickad</string>
     <string name="fullscreen_verify_email_button_secondary">Skicka e-post igen</string>
     <string name="fullscreen_verify_email_title">Verifiera din e-post</string>
@@ -169,10 +181,6 @@ Language: sv_SE
     <string name="description_sort">Sortera</string>
     <string name="description_down">Ner</string>
     <string name="description_delete_item">Ta bort objekt</string>
-    <string name="sort_search_reverse_order">Omvänd ordning</string>
-    <string name="sort_search_modified">Modified</string>
-    <string name="sort_search_created">Skapad</string>
-    <string name="sort_search_alphabetically">Alfabetiskt</string>
     <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett antingen från Redigera etiketter-skärmen med knappen Lägg till etikett, eller från fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
@@ -282,12 +290,6 @@ Language: sv_SE
     <string name="view_map">Visa karta</string>
     <string name="email">E-post</string>
     <string name="call">Ring</string>
-    <string name="sort_alphabetical_reverse">Alfabetiskt, Ö-A</string>
-    <string name="sort_alphabetical">Alfabetiskt, A-Ö</string>
-    <string name="sort_oldest_created">Tidigast skapad</string>
-    <string name="sort_newest_created">Senast skapad</string>
-    <string name="sort_oldest_modified">Tidigast ändrad</string>
-    <string name="sort_newest_modified">Senast ändrad</string>
     <string name="close_drawer">Stäng låda</string>
     <string name="open_drawer">Öppna låda</string>
     <string name="condensed_note_list">Enkel lista</string>

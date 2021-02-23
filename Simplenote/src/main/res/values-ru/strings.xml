@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 16:54:39+0000
+Translation-Revision-Date: 2021-02-18 17:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL-адрес скопирован в буфер обмена</string>
+    <string name="dialog_browser_exception_toast_copy_failure">Невозможно скопировать URL-адрес в буфер обмена</string>
+    <string name="dialog_browser_exception_title">Ошибка ссылки</string>
+    <string name="dialog_browser_exception_message">Невозможно открыть ссылку.  Скопируйте URL-адрес, чтобы вставить его в браузер.</string>
+    <string name="dialog_browser_exception_button_copy_url">Копировать URL-адрес</string>
+    <string name="sort_alphabetical_reverse">Имя: Я–А</string>
+    <string name="sort_alphabetical">Имя: А–Я</string>
+    <string name="sort_oldest_created">Дата создания: сначала старые</string>
+    <string name="sort_newest_created">Дата создания: сначала новые</string>
+    <string name="sort_oldest_modified">Дата изменения: сначала старые</string>
+    <string name="sort_newest_modified">Дата изменения: сначала новые</string>
+    <string name="sort_by">Приоритет сортировки</string>
     <string name="toast_email_sent">Электронное письмо отправлено</string>
     <string name="fullscreen_verify_email_button_secondary">Отправить письмо ещё раз</string>
     <string name="fullscreen_verify_email_title">Проверить адрес электронной почты</string>
@@ -169,10 +181,6 @@ Language: ru
     <string name="description_sort">Сортировать</string>
     <string name="description_down">Вниз</string>
     <string name="description_delete_item">Удалить элемент</string>
-    <string name="sort_search_reverse_order">В обратном порядке</string>
-    <string name="sort_search_modified">Изменено</string>
-    <string name="sort_search_created">Создано</string>
-    <string name="sort_search_alphabetically">По алфавиту</string>
     <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите кнопку \"Новая заметка\" со значком \"плюс\".\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку \"Дополнительно\" с тремя вертикальными точками во время просмотра заметки и поставьте флажок \"Закрепить\".\n\nУпорядочьте заметки с помощью меток. Создайте метку на экране \"Изменить метки\", нажав кнопку \"Добавить метку\" или с помощью поля \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать «Поделиться» в меню «Дополнительно» при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
     <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
@@ -282,12 +290,6 @@ Language: ru
     <string name="view_map">Посмотреть карту</string>
     <string name="email">Отправить email</string>
     <string name="call">Позвонить</string>
-    <string name="sort_alphabetical_reverse">По алфавиту, Я-А</string>
-    <string name="sort_alphabetical">По алфавиту, А-Я</string>
-    <string name="sort_oldest_created">Дата создания (новые снизу)</string>
-    <string name="sort_newest_created">Дата создания (новые сверху)</string>
-    <string name="sort_oldest_modified">Дата изменения (новые снизу)</string>
-    <string name="sort_newest_modified">Дата изменения (новые сверху)</string>
     <string name="close_drawer">Закрыть боковую панель</string>
     <string name="open_drawer">Открыть боковую панель</string>
     <string name="condensed_note_list">Компактный вид</string>

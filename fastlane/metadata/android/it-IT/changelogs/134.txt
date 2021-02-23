@@ -1,2 +1,0 @@
-2.16:
-- Aggiunta revisione, verifica e modifica dell'indirizzo e-mail dell'account
