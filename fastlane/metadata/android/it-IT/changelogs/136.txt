@@ -1,0 +1,3 @@
+2.17:
+* Aggiunto lo scorrimento fino all'ultima posizione quando si apre una nota
+* Aggiunta la barra di ordinamento nella parte superiore dell'elenco delle note

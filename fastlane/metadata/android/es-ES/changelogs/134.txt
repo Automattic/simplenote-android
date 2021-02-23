@@ -1,2 +1,0 @@
-2.16:
-- Se han añadido la revisión, verificación y cambio de cuentas de las direcciones de correo electrónico

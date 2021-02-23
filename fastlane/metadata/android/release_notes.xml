@@ -1,60 +1,85 @@
 <ar>
-2.16:
-- تمت إضافة مراجعة عنوان البريد الإلكتروني للحساب والتحقُّق منه وتغييره
+2.17:
+* تمت إضافة التمرير إلى الموضع الأخير عند فتح ملحوظة
+* تمت إضافة شريط الفرز في الجزء العلوي من قائمة الملحوظات
 </ar>
 <de-DE>
-2.16:
-- Prüfen, Bestätigen und Ändern der Konto-E-Mail-Adresse hinzugefügt
+2.17:
+* Neu: Scrollen zur letzten Position beim Öffnen einer Notiz
+* Neu: Sortierleiste am Anfang der Notizenliste
 </de-DE>
 <es-ES>
-2.16:
-- Se han añadido la revisión, verificación y cambio de cuentas de las direcciones de correo electrónico
+2.17:
+* Se ha añadido el desplazamiento a la última posición al abrir una nota.
+* Se ha añadido una barra de ordenación en la parte superior de la lista de notas.
 </es-ES>
 <fr-FR>
-2.16 :
-- Ajout du contrôle, de la vérification et de la modification de l’adresse e-mail du compte
+2.17 :
+* Ajout du défilement jusqu’à la dernière position lors de l’ouverture d’une note
+* Ajout d’une barre de tri en haut de la liste des notes
 </fr-FR>
 <iw-IL>
-2:16
-- הוספנו אפשרות לבדיקה, לאימות ולשינוי של כתובת האימייל בחשבון
+2.17:
+* הוספנו אפשרות גלילה למיקום האחרון כאשר פותחים פתק
+* הוספנו סרגל סינון בחלקה העליון של רשימת הפתקים
 </iw-IL>
 <id>
-2.16:
-- Penambahan peninjauan, pemeriksaan, dan pengubahan alamat email akun
+2.17:
+* Menambahkan guliran ke posisi terakhir saat membuka catatan
+* Menambahkan bilah pengurutan di bagian atas daftar catatan
 </id>
 <it-IT>
-2.16:
-- Aggiunta revisione, verifica e modifica dell'indirizzo e-mail dell'account
+2.17:
+* Aggiunto lo scorrimento fino all'ultima posizione quando si apre una nota
+* Aggiunta la barra di ordinamento nella parte superiore dell'elenco delle note
 </it-IT>
 <ja-JP>
-2.16:
-- アカウントのメールアドレスの確認、検証、変更を追加
+2.17:
+* メモを開いたときの最後の位置にスクロール機能を追加
+* メモリストの最上部に並べ替えバーを追加
 </ja-JP>
 <ko-KR>
-2.16:
-- 계정 이메일 주소 검토, 확인 및 변경을 추가했음
+2.17:
+* 메모를 열 때 마지막 위치까지 스크롤하기를 추가했음
+* 메모 목록 상단에 정렬 바를 추가했음
 </ko-KR>
+<nl-NL>
+2.17:
+* Scrollen naar waar je gebleven was toegevoegd bij het openen van een notitie
+* Sorteerbalk toegevoegd bovenaan de notitielijst
+</nl-NL>
 <pt-BR>
-2.16:
-- Adicionamos revisão, verificação e alteração do endereço de e-mail da conta
+2.17:
+* Rolagem adicionada para a última posição ao abrir uma anotação
+* Barra de classificação adicionada na parte superior da lista de anotações
 </pt-BR>
 <ru-RU>
-2.16
-— Добавлена возможность просмотра, проверки и изменения адреса электронной почты учётной записи.
+2.17:
+* Добавлена прокрутка к предыдущему положению при открытии заметки
+* Добавлена строка сортировки над списком заметок
 </ru-RU>
 <sv-SE>
-2,16:
-– La till granskning, verifiering och ändring av e-postadress för konto
+2.17:
+* La till bläddra till sista positionen när en anteckning öppnas
+* La till sorteringsfältet längst upp i anteckningslistan
 </sv-SE>
 <tr-TR>
-2,16:
-- Hesap e-posta adresini inceleme, doğrulama ve değiştirme olanağı eklendi
+2.17:
+* Bir notu açarken son konuma kaydırma eklendi
+* Not listesinin üstüne sıralama çubuğu eklendi
 </tr-TR>
+<zh-CN>
+2.17：
+* 添加了打开笔记时滚动到上次打开的位置的功能
+* 在笔记列表顶部添加了排序栏
+</zh-CN>
 <zh-TW>
-2.16：
-- 新增檢閱、驗證和變更帳號電子郵件地址的功能
+2.17：
+* 新增開啟備註時捲動至最後位置的功能
+* 新增備註清單上方的排序列
 </zh-TW>
 <en-US>
-2.16:
-- Added reviewing, verifying, and changing account email address
+2.17:
+* Added scrolling to last position when opening a note
+* Added sort bar at top of note list
 </en-US>
