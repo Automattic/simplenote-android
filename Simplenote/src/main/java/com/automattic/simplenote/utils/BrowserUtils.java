@@ -78,4 +78,25 @@ public class BrowserUtils {
             .setPositiveButton(android.R.string.ok, null)
             .show();
     }
+
+    public static void showDialogErrorException(Context base, final String url) {
+        final Context context = new ContextThemeWrapper(base, base.getTheme());
+        new AlertDialog.Builder(context)
+            .setTitle(R.string.dialog_browser_exception_title)
+            .setMessage(R.string.dialog_browser_exception_message)
+            .setNeutralButton(R.string.dialog_browser_exception_button_copy_url,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (copyToClipboard(context, url)) {
+                                Toast.makeText(context, R.string.dialog_browser_exception_toast_copy_success, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, R.string.dialog_browser_exception_toast_copy_failure, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            )
+            .setPositiveButton(android.R.string.ok, null)
+            .show();
+    }
 }

@@ -1,0 +1,3 @@
+2.17:
+* Rolagem adicionada para a última posição ao abrir uma anotação
+* Barra de classificação adicionada na parte superior da lista de anotações

@@ -2,11 +2,13 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -84,6 +86,7 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Set;
 
+import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
@@ -159,6 +162,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private HistoryBottomSheetDialog mHistoryBottomSheet;
     private LinearLayout mError;
     private NoteMarkdownFragment mNoteMarkdownFragment;
+    private SharedPreferences mPreferences;
     private String mCss;
     private WebView mMarkdown;
     private boolean mIsPaused;
@@ -228,12 +232,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 "internote_link_tapped_editor"
                             );
                             SimplenoteLinkify.openNote(requireActivity(), mLinkText.replace(SIMPLENOTE_LINK_PREFIX, ""));
-                        } else {
+                        } else if (!mLinkUrl.startsWith("geo:") && !mLinkUrl.startsWith("mailto:") && !mLinkUrl.startsWith("tel:")) {
                             try {
                                 BrowserUtils.launchBrowserOrShowError(requireContext(), mLinkText);
                             } catch (Exception e) {
+                                BrowserUtils.showDialogErrorException(requireContext(), mLinkText);
                                 e.printStackTrace();
                             }
+                        } else {
+                            Uri uri = Uri.parse(mLinkUrl);
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(uri);
+                            startActivity(i);
                         }
 
                         mode.finish(); // Action picked, so close the CAB
@@ -316,6 +326,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onCreate(savedInstanceState);
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(requireContext()));
         AppLog.add(Type.SCREEN, "Created (NoteEditorFragment)");
+        mPreferences = requireContext().getSharedPreferences(SCROLL_POSITION_PREFERENCES, Context.MODE_PRIVATE);
         mInfoBottomSheet = new InfoBottomSheetDialog(this);
         mShareBottomSheet = new ShareBottomSheetDialog(this, this);
         mHistoryBottomSheet = new HistoryBottomSheetDialog(this, this);
@@ -457,6 +468,24 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 mMarkdown.setWebViewClient(
                     new WebViewClient() {
                         @Override
+                        public void onPageFinished(final WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            if (mMarkdown.getVisibility() == View.VISIBLE) {
+                                new Handler().postDelayed(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (mNote != null && mNote.getSimperiumKey() != null) {
+                                                ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                            }
+                                        }
+                                    },
+                                    requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                                );
+                            }
+                        }
+
+                        @Override
                         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request){
                             String url = request.getUrl().toString();
 
@@ -542,11 +571,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
                     ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
                     mShouldScrollToSearchMatch = false;
+                } else if (mNote != null && mNote.getSimperiumKey() != null) {
+                    ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                    mRootView.setOnScrollChangeListener(
+                        new View.OnScrollChangeListener() {
+                            @Override
+                            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                                mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
+                            }
+                        }
+                    );
                 }
             }
         });
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    public void removeScrollListener() {
+        mRootView.setOnScrollChangeListener(null);
     }
 
     public void scrollToMatch(int location) {

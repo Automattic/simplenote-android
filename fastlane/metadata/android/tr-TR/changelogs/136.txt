@@ -1,0 +1,3 @@
+2.17:
+* Bir notu açarken son konuma kaydırma eklendi
+* Not listesinin üstüne sıralama çubuğu eklendi

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 10:54:04+0000
+Translation-Revision-Date: 2021-02-18 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL をクリップボードにコピーしました</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL をクリップボードにコピーできませんでした</string>
+    <string name="dialog_browser_exception_title">リンクエラー</string>
+    <string name="dialog_browser_exception_message">リンクを開けません。  URL をコピーしてブラウザーに貼り付けます。</string>
+    <string name="dialog_browser_exception_button_copy_url">URL をコピー</string>
+    <string name="sort_alphabetical_reverse">名前: Z-A</string>
+    <string name="sort_alphabetical">名前: A-Z</string>
+    <string name="sort_oldest_created">作成日: 最も古い</string>
+    <string name="sort_newest_created">作成日: 最新</string>
+    <string name="sort_oldest_modified">更新日: 最も古い</string>
+    <string name="sort_newest_modified">更新日: 最新</string>
+    <string name="sort_by">並び替え</string>
     <string name="toast_email_sent">メールを送信しました</string>
     <string name="fullscreen_verify_email_button_secondary">メールを再送信</string>
     <string name="fullscreen_verify_email_title">メールアドレスを確認</string>
@@ -169,10 +181,6 @@ Language: ja_JP
     <string name="description_sort">並べ替え</string>
     <string name="description_down">下に</string>
     <string name="description_delete_item">項目を削除</string>
-    <string name="sort_search_reverse_order">順序を逆にする</string>
-    <string name="sort_search_modified">更新日</string>
-    <string name="sort_search_created">作成日</string>
-    <string name="sort_search_alphabetically">アルファベット順</string>
     <string name="welcome_note">Simplenote Android へようこそ !\n手順についてはこのメモを開いてください。\n\n新しいメモを作成するには、「+」アイコンのついた「新しいメモ」ボタンをタップします。\n\nメモを検索するには、虫眼鏡アイコンの「検索」ボタンをタップして、テキストを入力します。 Simplenote では、最初に最近の検索が表示され、テキストを入力すると検索候補が表示されます。 検索を実行すると、入力したテキストに一致するメモが表示されます。\n\nとても重要なメモですか ? メモリストの最上部にピンできます。 メモのピンには2つの方法があります。 リスト内のメモを長押しして、ピンアイコンの「上部に固定」ボタンをタップします。 メモの表示中に3つのドットの「More Options」ボタンをタップして、「Pin」ボックスにチェックマークを入れます。\n\nメモを整理するにはタグを利用します。 タグを作成するには、「タグを編集」画面で「タグを追加」ボタンを使用するか、メモの最下部にある「タグを追加…」フィールドで作成します。 メモを他の人と共有するために、メールアドレスをタグとして追加することもできます。\n\nメモを表示するとき、「その他のオプション」メニューの「共有」をタップすると、簡単に他の Android アプリとメモを共有できます。\n\n削除したメモはゴミ箱に入ります。 ゴミ箱内のメモは必要に応じて復元できます。完全にメモを削除するには、ゴミ箱を空にします。\n\nメモは Web を通じてさまざまな端末でアクセスできます。 開始するには、http://simplenote.com に移動します。\n\nSimplenote をお楽しみください !</string>
     <string name="search_hint">メモまたはタグを検索</string>
     <string name="log_out">ログアウト</string>
@@ -282,12 +290,6 @@ Language: ja_JP
     <string name="view_map">地図を表示</string>
     <string name="email">メールアドレス</string>
     <string name="call">通話</string>
-    <string name="sort_alphabetical_reverse">アルファベット順 (Z-A)</string>
-    <string name="sort_alphabetical">アルファベット順 (A-Z)</string>
-    <string name="sort_oldest_created">作成日が古い順</string>
-    <string name="sort_newest_created">作成日が新しい順</string>
-    <string name="sort_oldest_modified">編集日が古い順</string>
-    <string name="sort_newest_modified">編集日が新しい順</string>
     <string name="close_drawer">ドロワーを閉じる</string>
     <string name="open_drawer">ドロワーを開く</string>
     <string name="condensed_note_list">要約版ノート一覧</string>

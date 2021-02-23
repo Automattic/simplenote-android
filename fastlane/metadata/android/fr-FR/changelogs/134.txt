@@ -1,2 +1,0 @@
-2.16 :
-- Ajout du contrôle, de la vérification et de la modification de l’adresse e-mail du compte

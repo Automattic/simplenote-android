@@ -1,6 +1,8 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -18,10 +20,13 @@ import androidx.fragment.app.Fragment;
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogContent;
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogController;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.models.Account;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.simperium.client.Bucket;
+import com.simperium.client.BucketObjectMissingException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,12 +38,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
+
 /**
  * A {@link FullScreenDialogFragment} for reviewing an account and verifying an email address.  When
  * an account has not been confirmed through a verification email link, the review account interface
  * is shown.  If a verification email has been sent, the verify email interface is shown.
  */
-public class ReviewAccountVerifyEmailFragment extends Fragment implements FullScreenDialogContent {
+public class ReviewAccountVerifyEmailFragment extends Fragment implements FullScreenDialogContent, Bucket.OnNetworkChangeListener<Account> {
     public static final String EXTRA_SENT_EMAIL = "EXTRA_SENT_EMAIL";
 
     private static final String URL_SETTINGS_REDIRECT = "https://app.simplenote.com/settings/";
@@ -47,6 +54,7 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
 
     private AppCompatButton mButtonPrimary;
     private AppCompatButton mButtonSecondary;
+    private Bucket<Account> mBucketAccount;
     private FullScreenDialogController mDialogController;
     private ImageView mImageIcon;
     private String mEmail;
@@ -73,6 +81,9 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mBucketAccount = ((Simplenote) requireActivity().getApplication()).getAccountBucket();
+        mBucketAccount.addOnNetworkChangeListener(this);
+
         View layout = inflater.inflate(R.layout.fragment_review_account_verify_email, container, false);
         mHasSentEmail = getArguments() != null && getArguments().getBoolean(EXTRA_SENT_EMAIL);
         mEmail = ((Simplenote) requireActivity().getApplication()).getSimperium().getUser().getEmail();
@@ -134,6 +145,12 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     }
 
     @Override
+    public void onDestroyView() {
+        mBucketAccount.removeOnNetworkChangeListener(this);
+        super.onDestroyView();
+    }
+
+    @Override
     public boolean onDismissClicked(FullScreenDialogController controller) {
         AnalyticsTracker.track(
             AnalyticsTracker.Stat.VERIFICATION_DISMISSED,
@@ -144,8 +161,43 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     }
 
     @Override
+    public void onNetworkChange(Bucket<Account> bucket, Bucket.ChangeType type, String key) {
+        dismissIfVerified();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new Handler(Looper.getMainLooper()).post(
+            new Runnable() {
+                @Override
+                public void run() {
+                    dismissIfVerified();
+                }
+            }
+        );
+    }
+
+    @Override
     public void onViewCreated(FullScreenDialogController controller) {
         mDialogController = controller;
+    }
+
+    private void dismissIfVerified() {
+        if (isDetached() || isRemoving()) {
+            return;
+        }
+
+        try {
+            Account account = mBucketAccount.get(KEY_EMAIL_VERIFICATION);
+
+            if (account.hasVerifiedEmail(mEmail)) {
+                mDialogController.dismiss();
+            }
+        } catch (BucketObjectMissingException bucketObjectMissingException) {
+            // Do nothing if account cannot be retrieved.
+        }
     }
 
     public static Bundle newBundle(boolean hasSentEmail) {

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-04 14:54:04+0000
+Translation-Revision-Date: 2021-02-19 10:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">網址已複製到剪貼簿</string>
+    <string name="dialog_browser_exception_toast_copy_failure">網址無法複製到剪貼簿</string>
+    <string name="dialog_browser_exception_title">連結錯誤</string>
+    <string name="dialog_browser_exception_message">無法開啟連結。  複製網址並貼到瀏覽器中。</string>
+    <string name="dialog_browser_exception_button_copy_url">複製網址</string>
+    <string name="sort_alphabetical_reverse">名稱：Z 到 A</string>
+    <string name="sort_alphabetical">名稱：A 到 Z</string>
+    <string name="sort_oldest_created">建立時間：最舊</string>
+    <string name="sort_newest_created">建立時間：最新</string>
+    <string name="sort_oldest_modified">修改時間：最舊</string>
+    <string name="sort_newest_modified">修改時間：最新</string>
+    <string name="sort_by">排序依據</string>
     <string name="toast_email_sent">電子郵件已傳送</string>
     <string name="fullscreen_verify_email_button_secondary">重新傳送電子郵件</string>
     <string name="fullscreen_verify_email_title">驗證你的電子郵件</string>
@@ -169,10 +181,6 @@ Language: zh_TW
     <string name="description_sort">排序</string>
     <string name="description_down">向下</string>
     <string name="description_delete_item">刪除項目</string>
-    <string name="sort_search_reverse_order">反向排序</string>
-    <string name="sort_search_modified">修改時間</string>
-    <string name="sort_search_created">建立時間</string>
-    <string name="sort_search_alphabetically">依字母順序</string>
     <string name="welcome_note">歡迎使用 Simplenote Android！\n請開啟此筆記查看說明。\n\n若要建立新筆記，請點選附有加號圖示的「新筆記」按鈕。\n\n若要搜尋筆記，請點選附有放大鏡圖示的「搜尋」按鈕，然後輸入文字。 Simplenote 一開始會顯示你最近搜尋的內容，並會在你輸入文字時提供建議搜尋項目。 送出搜尋項目後，畫面會顯示與輸入文字相符的筆記。\n\n有很重要的筆記？ 將它釘選至筆記清單最上方。 釘選筆記有兩種方法。 長按清單中的筆記，接著點選附有圖釘圖示的「釘選至最上方」按鈕。 在查看筆記時點選附有三個垂直圓點圖示的「更多選項」按鈕，然後勾選「釘選」方塊。\n\n使用標籤可協助你整理筆記。 你可以使用「編輯標籤」畫面的「新增標籤」按鈕，或是透過筆記底部的「新增標籤」欄位建立標籤。 你也可以加上電子郵件地址做為標籤，以便與他人分享筆記。\n\n檢視筆記時，點選「更多選項」選單中的「分享」，即可輕鬆與其他 Android 應用程式分享筆記。\n\n刪除的筆記會移至垃圾桶。 若有需要，你可以還原筆記；也可以清空垃圾桶，將筆記永遠刪除。\n\n你可以在網路和其他裝置上存取自己的筆記。 只要前往 http://simplenote.com 即可開始使用。\n\n希望你會喜歡 Simplenote！</string>
     <string name="search_hint">搜尋筆記或標籤</string>
     <string name="log_out">登出</string>
@@ -282,12 +290,6 @@ Language: zh_TW
     <string name="view_map">檢視地圖</string>
     <string name="email">電子郵件</string>
     <string name="call">致電</string>
-    <string name="sort_alphabetical_reverse">依字母排序，Z-A</string>
-    <string name="sort_alphabetical">依字母排序，A-Z</string>
-    <string name="sort_oldest_created">最舊建立日期</string>
-    <string name="sort_newest_created">最新建立日期</string>
-    <string name="sort_oldest_modified">最舊修改日期</string>
-    <string name="sort_newest_modified">最新修改日期</string>
     <string name="close_drawer">關閉側選單</string>
     <string name="open_drawer">開啟側選單</string>
     <string name="condensed_note_list">精簡版筆記清單</string>

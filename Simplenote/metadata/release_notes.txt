@@ -1,1 +1,2 @@
-- Added reviewing, verifying, and changing account email address
+* Added scrolling to last position when opening a note
+* Added sort bar at top of note list

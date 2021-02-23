@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-04 15:54:04+0000
+Translation-Revision-Date: 2021-02-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">O URL foi copiado para a área de transferência</string>
+    <string name="dialog_browser_exception_toast_copy_failure">Não foi possível copiar o URL para a área de transferência</string>
+    <string name="dialog_browser_exception_title">Erro de link</string>
+    <string name="dialog_browser_exception_message">Não foi possível abrir o link.  Copie o URL para colá-lo no navegador.</string>
+    <string name="dialog_browser_exception_button_copy_url">Copiar URL</string>
+    <string name="sort_alphabetical_reverse">Nome: Z-A</string>
+    <string name="sort_alphabetical">Nome: A-Z</string>
+    <string name="sort_oldest_created">Criação: mais antiga</string>
+    <string name="sort_newest_created">Criação: mais recente</string>
+    <string name="sort_oldest_modified">Modificação: mais antiga</string>
+    <string name="sort_newest_modified">Modificação: mais recente</string>
+    <string name="sort_by">Ordenar por</string>
     <string name="toast_email_sent">E-mail enviado</string>
     <string name="fullscreen_verify_email_button_secondary">Reenviar e-mail</string>
     <string name="fullscreen_verify_email_title">Verificar seu e-mail</string>
@@ -169,10 +181,6 @@ Language: pt_BR
     <string name="description_sort">Ordenar</string>
     <string name="description_down">Para baixo</string>
     <string name="description_delete_item">Excluir o item</string>
-    <string name="sort_search_reverse_order">Ondem inversa</string>
-    <string name="sort_search_modified">Modificação</string>
-    <string name="sort_search_created">Criação</string>
-    <string name="sort_search_alphabetically">Ordem alfabética</string>
     <string name="welcome_note">Boas-vindas ao Simplenote para Android!\nAbra esta anotação para ver as instruções.\n\nPara criar uma anotação, toque no botão \"Nova anotação\" com o ícone de adição.\n\nPara pesquisar suas anotações, toque no botão \"Pesquisar\" com o ícone de lupa e insira algum texto. O Simplenote mostra inicialmente pesquisas recentes e pesquisas sugeridas enquanto você digita. As anotações correspondentes ao texto inserido serão mostradas após o envio da pesquisa.\n\nRecebeu uma anotação muito importante? Fixe-a no topo da lista de anotações. Há duas maneiras de fixar as anotações: pressione e segure a anotação na lista e toque no botão \"Fixar no topo\" com o ícone de alfinete ou toque no botão \"Mais opções\" com o ícone de três pontos verticais ao visualizar uma anotação e marque a caixa \"Fixar\".\n\nUse tags para ajudar a organizar suas anotações. Crie uma tag na tela \"Editar tags\" usando o botão \"Adicionar tag\" ou no campo \"Adicionar tag…\" na parte inferior de uma anotação. Você também pode incluir um endereço de e-mail como tag para compartilhar uma anotação com alguém.\n\nÉ muito fácil compartilhar anotações com outros aplicativos Android. Basta tocar em \"Compartilhar\" no menu \"Mais opções\" ao visualizar uma anotação.\n\nAs anotações excluídas vão para a lixeira. Você pode restaurá-las, se desejar, ou esvaziar a lixeira para eliminá-las permanentemente.\n\nVocê pode acessar suas anotações na Web e em outros dispositivos. Acesse http://simplenote.com para começar.\n\nEsperamos que você goste de usar o Simplenote!</string>
     <string name="search_hint">Pesquisar anotações ou tags</string>
     <string name="log_out">Fazer logout</string>
@@ -282,12 +290,6 @@ Language: pt_BR
     <string name="view_map">Visualizar mapa</string>
     <string name="email">Email</string>
     <string name="call">Ligar</string>
-    <string name="sort_alphabetical_reverse">Alfabeticamente, Z-A</string>
-    <string name="sort_alphabetical">Alfabeticamente, A-Z</string>
-    <string name="sort_oldest_created">Data criada mais antiga</string>
-    <string name="sort_newest_created">Data criada mais recente</string>
-    <string name="sort_oldest_modified">Data modificada mais antiga</string>
-    <string name="sort_newest_modified">Data modificada mais recente</string>
     <string name="close_drawer">Fechar gaveta</string>
     <string name="open_drawer">Abrir gaveta</string>
     <string name="condensed_note_list">Lista de anotações condensada</string>

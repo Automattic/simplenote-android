@@ -15,7 +15,6 @@
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:onClick="launchEditTags"
         android:padding="@dimen/padding_small"
         android:text="@string/edit"
         android:textAllCaps="true"
