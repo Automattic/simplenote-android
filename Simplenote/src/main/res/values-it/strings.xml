@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 16:54:38+0000
+Translation-Revision-Date: 2021-02-19 17:23:33+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL copiato negli appunti</string>
+    <string name="dialog_browser_exception_toast_copy_failure">Impossibile copiare l\'URL negli appunti</string>
+    <string name="dialog_browser_exception_title">Errore link</string>
+    <string name="dialog_browser_exception_message">Impossibile aprire il link.  Copia l\'URL per incollarlo in un browser.</string>
+    <string name="dialog_browser_exception_button_copy_url">Copia URL</string>
+    <string name="sort_alphabetical_reverse">Nome: Z-A</string>
+    <string name="sort_alphabetical">Nome: A-Z</string>
+    <string name="sort_oldest_created">Data di creazione: meno recente</string>
+    <string name="sort_newest_created">Data di creazione: più recente</string>
+    <string name="sort_oldest_modified">Data di modifica: meno recente</string>
+    <string name="sort_newest_modified">Data di modifica: più recente</string>
+    <string name="sort_by">Ordina per</string>
     <string name="toast_email_sent">E-mail inviata</string>
     <string name="fullscreen_verify_email_button_secondary">Invia di nuovo l\'e-mail</string>
     <string name="fullscreen_verify_email_title">Verifica la tua e-mail</string>
@@ -168,10 +180,6 @@ Language: it
     <string name="description_sort">Ordina</string>
     <string name="description_down">Giù</string>
     <string name="description_delete_item">Elimina elemento</string>
-    <string name="sort_search_reverse_order">Ordine inverso</string>
-    <string name="sort_search_modified">Modificato</string>
-    <string name="sort_search_created">Creato</string>
-    <string name="sort_search_alphabetically">In ordine alfabetico</string>
     <string name="welcome_note">Benvenuto in Simplenote Android!\nApri questa nota per istruzioni.\n\nPer creare una nuova nota, tocca il pulsante \"New Note\" (Nuova nota) con l\'icona del segno più.\n\nPer cercare le tue note, tocca il pulsante \"Search\" (Cerca) con l\'icona della lente d\'ingrandimento e inserisci qualsiasi testo. Simplenote ti mostrerà all\'inizio le ricerche recenti e le ricerche suggerite durante l\'inserimento del testo. Le note che corrispondono al testo immesso verranno mostrate una volta che la ricerca è stata inviata.\n\nHai una nota veramente importante? Aggiungila nella parte superiore dell\'elenco delle note. Puoi aggiungere una nota in due modi. Premi a lungo la nota nell\'elenco e tocca il pulsante \"Pin to top\" (Aggiungi in alto) con l\'icona a forma di puntina. Tocca il pulsante \"More Options\" (Altre opzioni) con l\'icona con tre punti verticali durante la visualizzazione di una nota e attiva la casella \"Pin \" (Aggancia).\n\nUsa i tag per aiutarti a organizzare le tue note. Crea un tag nella schermata \"Edit Tags\" (Modifica tag) utilizzando il pulsante \"Add Tag\" (Aggiungi tag) oppure nel campo \"Add tag…\" (Aggiungi tag…) nella parte inferiore di una nota. Puoi anche aggiungere un indirizzo e-mail come tag per condividere una nota con qualcuno.\n\nCondividi facilmente le note con altre app Android toccando \"Share\" (Condividi) durante la visualizzazione di una nota.\n\nLe note eliminate finiscono nel cestino. Se lo desideri, puoi ripristinarle o svuotare il cestino per cancellarle definitivamente.\n\nPuoi accedere alle note sul sito web e da altri dispositivi. Vai su http://simplenote.com per iniziare.\n\nCi auguriamo che l\'utilizzo di Simplenote sia di tuo gradimento!</string>
     <string name="search_hint">Cerca note o tag</string>
     <string name="log_out">Esci da questo account</string>
@@ -281,12 +289,6 @@ Language: it
     <string name="view_map">Apri in mappa</string>
     <string name="email">Email</string>
     <string name="call">Chiama</string>
-    <string name="sort_alphabetical_reverse">Alfabetico, Z-A</string>
-    <string name="sort_alphabetical">Alfabetico, A-Z</string>
-    <string name="sort_oldest_created">Data di creazione più vecchia</string>
-    <string name="sort_newest_created">Data di creazione più recente</string>
-    <string name="sort_oldest_modified">Data di modifica più vecchia</string>
-    <string name="sort_newest_modified">Data di modifica più recente</string>
     <string name="close_drawer">Chiudi menu</string>
     <string name="open_drawer">Apri menu</string>
     <string name="condensed_note_list">Formato lista note ridotta</string>

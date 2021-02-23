@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 13:54:03+0000
+Translation-Revision-Date: 2021-02-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">כתובת ה-URL הועתקה</string>
+    <string name="dialog_browser_exception_toast_copy_failure">לא ניתן היה להעתיק את כתובת ה-URL ללוח</string>
+    <string name="dialog_browser_exception_title">שגיאה בקישור</string>
+    <string name="dialog_browser_exception_message">לא ניתן לפתוח את הקישור.  יש להעתיק את כתובת ה-URL ולהדביק אותה בדפדפן.</string>
+    <string name="dialog_browser_exception_button_copy_url">להעתיק כתובת URL</string>
+    <string name="sort_alphabetical_reverse">שם: מ-Z ל-A</string>
+    <string name="sort_alphabetical">שם: מ-A ל-Z</string>
+    <string name="sort_oldest_created">נוצר: הישן ביותר</string>
+    <string name="sort_newest_created">נוצר: החדש ביותר</string>
+    <string name="sort_oldest_modified">עודכן: הישן ביותר</string>
+    <string name="sort_newest_modified">עודכן: החדש ביותר</string>
+    <string name="sort_by">מיון לפי</string>
     <string name="toast_email_sent">האימייל נשלח</string>
     <string name="fullscreen_verify_email_button_secondary">לשלוח אימייל מחדש</string>
     <string name="fullscreen_verify_email_title">לאמת את כתובת האימייל שלך</string>
@@ -169,10 +181,6 @@ Language: he_IL
     <string name="description_sort">מיון</string>
     <string name="description_down">למטה</string>
     <string name="description_delete_item">למחוק את הפריט</string>
-    <string name="sort_search_reverse_order">להפוך את הסדר</string>
-    <string name="sort_search_modified">בהתאמה</string>
-    <string name="sort_search_created">נוצר</string>
-    <string name="sort_search_alphabetically">סדר אלפביתי</string>
     <string name="welcome_note">ברוכים הבאים אל Simplenote Android!\nיש לפתוח את הפתק להוראות.\n\nכדי ליצור פתק חדש, יש להקיש על הכפתור \'להוסיף פתק\' עם הסמל \'+\'.\n\nכדי לבצע חיפוש בפתקים שלך, יש להקיש על הכפתור \'חיפוש\' עם הסמל של זכוכית המגדלת ולהזין טקסט. השירות של Simplenote יציג לך את החיפושים האחרונים שביצעת תחילה והצעות לחיפושים בעת ההקלדה. פתקים שתואמים לטקסט שהוזן יוצגו לאחר שהבקשה לחיפוש נשלחה.\n\nיש לך פתק חשוב? ניתן לנעוץ אותו בראש הרשימה של הפתקים. אפשר לנעוץ פתק בשתי דרכים. על ידי לחיצה ארוכה על הפתק ברשימה והקשה על הכפתור \'הצמדה לראש העמוד\' עם סמל הנעץ. על ידי הקשה על הכפתור \'אפשרויות נוספות\' עם הסמל של שלוש הנקודות האנכיות כאשר צופים בפתק ולסמן את התיבה \'לנעוץ\'.\n\nניתן להשתמש בתגיות כדי לארגן את הפתקים שלך ביעילות. ניתן ליצור פתק במסך \'לערוך תגיות\' באמצעות הכפתור \'להוסיף תגית\' או באמצעות השדה \'להוסיף תגית…\' בתחתית הפתק. אפשר גם להוסיף כתובת אימייל כתגית כדי לשתף פתק עם מישהו.\n\nאפשר לשתף פתקים באפליקציות אחרות של Android על ידי הקשה על הכפתור \'שיתוף\' בתפריט \'אפשרויות נוספות\' כאשר צופים בפתק.\n\nפתקים שנמחקו מועברים לפח. אפשר לשחזר את הפריטים כרצונך או לרוקן את הפח כדי למחוק אותם לצמיתות.\n\nאפשר לגשת לפתקים שלך ברשת ובמכשירים האחרים שלך. יש לעבור לכתובת http://simplenote.com כדי להתחיל.\n\nאנחנו מקווים שהשירות של Simplenote מוצא חן בעינך!</string>
     <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
@@ -282,12 +290,6 @@ Language: he_IL
     <string name="view_map">לצפות במפה</string>
     <string name="email">לשלוח מייל</string>
     <string name="call">להתקשר</string>
-    <string name="sort_alphabetical_reverse">אלפביתי, יורד</string>
-    <string name="sort_alphabetical">אלפביתי</string>
-    <string name="sort_oldest_created">תאריך יצירה, עולה</string>
-    <string name="sort_newest_created">תאריך יצירה, יורד</string>
-    <string name="sort_oldest_modified">תאריך עריכה, עולה</string>
-    <string name="sort_newest_modified">תאריך עריכה, יורד</string>
     <string name="close_drawer">סגירת מגירה</string>
     <string name="open_drawer">פתיחת מגירה</string>
     <string name="condensed_note_list">רשימה מכווצת</string>
