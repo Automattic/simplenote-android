@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 13:54:03+0000
+Translation-Revision-Date: 2021-02-18 11:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">Adres panoya kopyalandı</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL panoya kopyalanamadı</string>
+    <string name="dialog_browser_exception_title">Bağlantı Hatası</string>
+    <string name="dialog_browser_exception_message">Bağlantı açılmıyor.  Bir tarayıcıya yapıştırmak için URL\'yi kopyalayın.</string>
+    <string name="dialog_browser_exception_button_copy_url">Adresi kopyala</string>
+    <string name="sort_alphabetical_reverse">Ad: Z-A</string>
+    <string name="sort_alphabetical">Ad: A-Z</string>
+    <string name="sort_oldest_created">Oluşturma Tarihi: Eski</string>
+    <string name="sort_newest_created">Oluşturma Tarihi: En yeni</string>
+    <string name="sort_oldest_modified">Değiştirme Tarihi: Eski</string>
+    <string name="sort_newest_modified">Değiştirme Tarihi: En yeni</string>
+    <string name="sort_by">Sırala</string>
     <string name="toast_email_sent">E-posta gönderildi</string>
     <string name="fullscreen_verify_email_button_secondary">E-postayı tekrar gönder</string>
     <string name="fullscreen_verify_email_title">E-posta Adresinizi Doğrulayın</string>
@@ -169,10 +181,6 @@ Language: tr
     <string name="description_sort">Sırala</string>
     <string name="description_down">Aşağı</string>
     <string name="description_delete_item">Ögeyi sil</string>
-    <string name="sort_search_reverse_order">Sıralamayı ters çevir</string>
-    <string name="sort_search_modified">Değiştirilmiş</string>
-    <string name="sort_search_created">Oluşturulma</string>
-    <string name="sort_search_alphabetically">Alfabetik</string>
     <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bun notu açın.\n\nYeni not oluşturmak için artı simgeli \"Yeni Not\" düğmesine dokunun.\n\nNotlarınızı aramak için, büyüteç simgesine sahip \"Ara\" düğmesine dokunun ve bir metin girin. Simplenote ilk olarak son aramaları ve ardından metin girerken önerilen aramaları gösterecektir. Girilen metinle eşleşen notlar, arama gönderildikten sonra gösterilecektir.\n\nGerçekten önemli bir notunuz mu var? Not listesinin en üstüne sabitleyin. Bir notu iki şekilde sabitleyebilirsiniz. Listedeki nota uzun basın ve ataş ikonuna sahip \"Üste Sabitle\" düğmesine basın. Bir notu görüntülerken üç dikey nokta simgesiyle gösterilen \"Diğer Seçenekler\" düğmesine dokunun ve \"Sabitle\" kutusunu işaretleyin.\n\nNotlarınızı organize etmek için etiketleri kullanın. Etiket oluşturmak için \"Etiketleri Düzenle\" ekranında \"Etiket Ekle\" düğmesini veya bir notun altındaki \"Etiket ekle…\" alanını kullanın. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e-posta adresi de ekleyebilirsiniz.\n\nBir notu görüntülerken \"Diğer Seçenekler\" menüsündeki \"Paylaş\"a dokunarak notları diğer Android uygulamalarıyla kolayca paylaşın.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
     <string name="search_hint">Not ve etiket ara</string>
     <string name="log_out">Oturumu kapat</string>
@@ -282,12 +290,6 @@ Language: tr
     <string name="view_map">Haritayı görüntüle</string>
     <string name="email">E-posta</string>
     <string name="call">Telefon</string>
-    <string name="sort_alphabetical_reverse">Alfabetik olarak, Z-A</string>
-    <string name="sort_alphabetical">Alfabetik olarak, A-Z</string>
-    <string name="sort_oldest_created">En eski oluşturma tarihi</string>
-    <string name="sort_newest_created">En son oluşturma tarihi</string>
-    <string name="sort_oldest_modified">En eski değiştirme tarihi</string>
-    <string name="sort_newest_modified">En son değiştirme tarihi</string>
     <string name="close_drawer">Çekmeceyi kapat</string>
     <string name="open_drawer">Çekmeceyi aç</string>
     <string name="condensed_note_list">Sıkıştırılmış not listesi</string>

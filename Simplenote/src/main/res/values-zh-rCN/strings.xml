@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-01-22 17:54:05+0000
+Translation-Revision-Date: 2021-02-19 17:23:46+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL 已复制到剪贴板</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL 无法复制到剪贴板</string>
+    <string name="dialog_browser_exception_title">链接错误</string>
+    <string name="dialog_browser_exception_message">无法打开链接。  复制 URL，将其粘贴到浏览器。</string>
+    <string name="dialog_browser_exception_button_copy_url">复制 URL</string>
+    <string name="sort_alphabetical_reverse">名称：Z-A</string>
+    <string name="sort_alphabetical">名称：A-Z</string>
+    <string name="sort_oldest_created">创建时间：最旧</string>
+    <string name="sort_newest_created">创建时间：最新</string>
+    <string name="sort_oldest_modified">修改时间：最旧</string>
+    <string name="sort_newest_modified">修改时间：最新</string>
+    <string name="sort_by">排序方式</string>
+    <string name="toast_email_sent">电子邮件已发送</string>
+    <string name="fullscreen_verify_email_button_secondary">重发电子邮件</string>
+    <string name="fullscreen_verify_email_title">验证您的电子邮件</string>
+    <string name="fullscreen_verify_email_subtitle">我们已向 &lt;b>%1$s&lt;/b> 发送了一封验证电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
+    <string name="fullscreen_review_account_button_secondary">更改电子邮件地址</string>
+    <string name="fullscreen_review_account_button_primary">确认</string>
+    <string name="fullscreen_review_account_title">检查您的帐户</string>
+    <string name="fullscreen_review_account_subtitle">您已使用电子邮件 &lt;b>%1$s&lt;/b> 注册 Simplenote。&lt;br>&lt;br>如果您无法再访问此电子邮件地址，那么帐户安全性的改进可能会导致您无法找回帐户。</string>
+    <string name="description_warning">警告</string>
+    <string name="description_mail">邮件</string>
+    <string name="description_close">关闭</string>
     <string name="simperium_dialog_message_password_login">密码必须至少为 %1$d 个字符。</string>
     <string name="dialog_tag_conflict_title">标签冲突</string>
     <string name="dialog_tag_conflict_message">标签“%1$s”已存在。 是否希望将“%2$s”合并到“%3$s”标签中？</string>
@@ -158,10 +181,6 @@ Language: zh_CN
     <string name="description_sort">排序</string>
     <string name="description_down">向下</string>
     <string name="description_delete_item">删除项</string>
-    <string name="sort_search_reverse_order">倒序</string>
-    <string name="sort_search_modified">修改时间</string>
-    <string name="sort_search_created">创建时间</string>
-    <string name="sort_search_alphabetically">按字母顺序</string>
     <string name="welcome_note">欢迎使用 Simplenote Android！\n打开此笔记以获取说明。\n\n要创建新笔记，请轻点带加号图标的“新建笔记”按钮。\n\n要搜索您的笔记，请轻点带有放大镜图标的“搜索”按钮，并输入任意文本。 Simplenote 将在输入文本时显示最近的搜索和建议的搜索。 提交搜索后，将显示与输入文本匹配的笔记。\n\n要获取至关重要的笔记？ 将其固定在笔记列表的顶部。 您有两种方法可以固定笔记 长按列表中的笔记并点击带有钉子图标的“固定在顶部”按钮。 在查看笔记的同时，轻点带有三个垂直点图标的“更多选项”按钮，然后选中“固定”框。\n\n使用标签来帮助整理笔记。 使用“编辑标签”屏幕上的“添加标签”按钮或者使用笔记底部的“添加标签…”字段来创建标签。 您也可以添加电子邮件地址，并将其用作标签，以便与他人分享笔记。\n\n在查看笔记的同时，轻点“更多选项”菜单中的“共享”，即可与其他 Android 应用程序轻松共享笔记。\n\n已删除的笔记会进入回收站。 您可以根据需要将其还原，也可以清空回收站，以将其永久删除。\n\n您可以通过 Web 及其他设备访问自己的笔记。 转至 http://simplenote.com，开始使用。\n\n衷心希望您喜欢使用 Simplenote！</string>
     <string name="search_hint">搜索备注或标签</string>
     <string name="log_out">注销</string>
@@ -271,12 +290,6 @@ Language: zh_CN
     <string name="view_map">查看地图</string>
     <string name="email">电子邮件</string>
     <string name="call">呼叫</string>
-    <string name="sort_alphabetical_reverse">按字母顺序，从 Z 到 A</string>
-    <string name="sort_alphabetical">按字母顺序，从 A 到 Z</string>
-    <string name="sort_oldest_created">最旧创建日期</string>
-    <string name="sort_newest_created">最新创建日期</string>
-    <string name="sort_oldest_modified">最旧修改日期</string>
-    <string name="sort_newest_modified">最新修改日期</string>
     <string name="close_drawer">关闭抽屉</string>
     <string name="open_drawer">打开抽屉</string>
     <string name="condensed_note_list">压缩的笔记列表</string>

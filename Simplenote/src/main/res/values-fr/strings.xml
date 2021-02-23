@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 16:54:39+0000
+Translation-Revision-Date: 2021-02-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL copiée dans le presse-papiers.</string>
+    <string name="dialog_browser_exception_toast_copy_failure">L’URL n’a pas pu être copiée dans le presse-papiers.</string>
+    <string name="dialog_browser_exception_title">Erreur de lien</string>
+    <string name="dialog_browser_exception_message">Impossible d’ouvrir le lien.  Copiez l’URL pour la coller dans un navigateur.</string>
+    <string name="dialog_browser_exception_button_copy_url">Copier l’URL</string>
+    <string name="sort_alphabetical_reverse">Nom : Z-A</string>
+    <string name="sort_alphabetical">Nom : A-Z</string>
+    <string name="sort_oldest_created">Création : Plus anciennes</string>
+    <string name="sort_newest_created">Création : Plus récentes</string>
+    <string name="sort_oldest_modified">Modification : Plus anciennes</string>
+    <string name="sort_newest_modified">Modification : Plus récentes</string>
+    <string name="sort_by">Trier par</string>
     <string name="toast_email_sent">E-mail envoyé</string>
     <string name="fullscreen_verify_email_button_secondary">Renvoyer l’e-mail</string>
     <string name="fullscreen_verify_email_title">Vérifiez votre messagerie</string>
@@ -169,10 +181,6 @@ Language: fr
     <string name="description_sort">Trier</string>
     <string name="description_down">Bas</string>
     <string name="description_delete_item">Supprimer l\'élément</string>
-    <string name="sort_search_reverse_order">Inverser l\'ordre</string>
-    <string name="sort_search_modified">Modifié</string>
-    <string name="sort_search_created">Créé</string>
-    <string name="sort_search_alphabetically">Par ordre alphabétique</string>
     <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton « Nouvelle note » avec l’icône plus.\n\nPour rechercher dans vos notes, appuyez sur le bouton de recherche avec l’icône en forme de loupe et saisissez n’importe quel texte. Simplenote affichera initialement vos recherches récentes et des recherches suggérées lorsque vous saisissez du texte. Les notes correspondant au texte saisi apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez-la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l’icône en forme d’épingle. Appuyez sur le bouton « Plus d’options » avec l’icône affichant trois points verticaux lorsque la note est ouverte et cochez la case « Épingler ».\n\nUtilisez des étiquettes pour faciliter l’organisation de vos notes. Créez une étiquette sur l’écran « Modifier les étiquettes » à l’aide du bouton « Ajouter une étiquette » ou avec le champ « Ajouter une étiquette… » en bas d’une note. Vous pouvez également ajouter une adresse e-mail sous forme d’étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d’autres applications Android en appuyant sur « Partager » dans le menu « Plus d’options » lorsque la note est ouverte.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
     <string name="search_hint">Rechercher dans les notes ou les étiquettes</string>
     <string name="log_out">Déconnexion</string>
@@ -282,12 +290,6 @@ Language: fr
     <string name="view_map">Voir la carte</string>
     <string name="email">Email</string>
     <string name="call">Appel</string>
-    <string name="sort_alphabetical_reverse">Alphabétiquement, Z-A</string>
-    <string name="sort_alphabetical">Alphabétiquement, A-Z</string>
-    <string name="sort_oldest_created">Création ancienne</string>
-    <string name="sort_newest_created">Création récente</string>
-    <string name="sort_oldest_modified">Modification ancienne</string>
-    <string name="sort_newest_modified">Modification récente</string>
     <string name="close_drawer">Fermer le tiroir</string>
     <string name="open_drawer">Ouvrir le tiroir</string>
     <string name="condensed_note_list">Vue condensée</string>

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 13:54:03+0000
+Translation-Revision-Date: 2021-02-18 11:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL이 클립보드에 복사됨</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL을 클립보드에 복사할 수 없습니다.</string>
+    <string name="dialog_browser_exception_title">링크 오류</string>
+    <string name="dialog_browser_exception_message">링크를 열 수 없습니다.  URL을 복사하여 브라우저에 붙여넣으세요.</string>
+    <string name="dialog_browser_exception_button_copy_url">URL 복사</string>
+    <string name="sort_alphabetical_reverse">이름: 내림차순</string>
+    <string name="sort_alphabetical">이름: 오름차순</string>
+    <string name="sort_oldest_created">생성됨: 오래된 항목</string>
+    <string name="sort_newest_created">생성됨: 최신순</string>
+    <string name="sort_oldest_modified">수정됨: 오래된 항목</string>
+    <string name="sort_newest_modified">수정됨: 최신순</string>
+    <string name="sort_by">정렬 기준</string>
     <string name="toast_email_sent">이메일 보냄</string>
     <string name="fullscreen_verify_email_button_secondary">이메일 다시 보내기</string>
     <string name="fullscreen_verify_email_title">이메일 확인</string>
@@ -169,10 +181,6 @@ Language: ko_KR
     <string name="description_sort">정렬</string>
     <string name="description_down">아래로</string>
     <string name="description_delete_item">항목 삭제</string>
-    <string name="sort_search_reverse_order">순서 바꾸기</string>
-    <string name="sort_search_modified">수정됨</string>
-    <string name="sort_search_created">생성됨</string>
-    <string name="sort_search_alphabetically">알파벳순</string>
     <string name="welcome_note">Simplenote Android를 시작합니다.\n지침을 보려면 이 메모를 여세요.\n\n새 메모를 만들려면 더하기 아이콘이 있는 \"새 메모\" 버튼을 누르세요.\n\n메모를 검색하려면 돋보기 아이콘이 있는 \"검색\" 버튼을 누르고 텍스트를 입력하세요. Simplenote는 텍스트를 입력하는 동안 처음에 최근 검색 내역과 제안 검색 내역을 보여줍니다. 검색이 제출되면 입력한 텍스트와 일치하는 메모가 표시됩니다.\n\n정말 중요한 메모가 있나요? 메모 목록 맨 위에 고정하세요. 두 가지 방법으로 메모를 고정할 수 있습니다. 목록에서 메모를 길게 누르고 핀 아이콘이 있는 \"상단에 고정\" 버튼을 누릅니다. 메모를 확인하면서 세로로 된 세 점 아이콘이 있는 \"추가 옵션\" 버튼을 누르고 \"고정\" 상자를 선택하세요.\n\n태그를 이용하면 메모를 손쉽게 정리할 수 있습니다. 태그는 \"태그 추가\" 버튼을 사용하여 \"태그 편집\" 화면에서 만들거나 메모 하단의 \"태그 추가…\" 필드에서 만듭니다. 이메일 주소를 태그로 추가해서 다른 사람과 메모를 공유할 수도 있습니다.\n\n메모를 확인하면서 \"추가 옵션\" 메뉴의 \"공유\"를 눌러 다른 Android 앱과 메모를 간편하게 공유할 수 있습니다.\n\n삭제된 메모는 휴지통으로 이동합니다. 원하는 경우 삭제한 메모를 복구하거나 휴지통을 비워 영원히 제거할 수 있습니다.\n\n웹과 다른 기기에서 메모를 확인할 수 있습니다. 시작하려면 http://simplenote.com으로 이동하세요.\n\nSimplenote를 유용하게 활용하시기 바랍니다.</string>
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
@@ -282,12 +290,6 @@ Language: ko_KR
     <string name="view_map">지도 보기</string>
     <string name="email">이메일</string>
     <string name="call">전화</string>
-    <string name="sort_alphabetical_reverse">알파벳순(Z-A)</string>
-    <string name="sort_alphabetical">알파벳순(A-Z)</string>
-    <string name="sort_oldest_created">최초 생성일</string>
-    <string name="sort_newest_created">최근 생성일</string>
-    <string name="sort_oldest_modified">최초 수정일</string>
-    <string name="sort_newest_modified">최근 수정일</string>
     <string name="close_drawer">보관함 닫기</string>
     <string name="open_drawer">보관함 열기</string>
     <string name="condensed_note_list">메모 요약 목록</string>

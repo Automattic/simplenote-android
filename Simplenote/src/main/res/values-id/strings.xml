@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-03 10:54:04+0000
+Translation-Revision-Date: 2021-02-18 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="dialog_browser_exception_toast_copy_success">URL disalin ke clipboard</string>
+    <string name="dialog_browser_exception_toast_copy_failure">URL tidak dapat disalin ke clipboard</string>
+    <string name="dialog_browser_exception_title">Error pada Tautan</string>
+    <string name="dialog_browser_exception_message">Tidak dapat membuka tautan.  Salin URL untuk ditempelkan ke peramban.</string>
+    <string name="dialog_browser_exception_button_copy_url">Salin URL</string>
+    <string name="sort_alphabetical_reverse">Nama: Z-A</string>
+    <string name="sort_alphabetical">Nama: A-Z</string>
+    <string name="sort_oldest_created">Dibuat: Paling lama</string>
+    <string name="sort_newest_created">Dibuat: Paling baru</string>
+    <string name="sort_oldest_modified">Diubah: Paling lama</string>
+    <string name="sort_newest_modified">Diubah: Paling baru</string>
+    <string name="sort_by">Urutkan berdasarkan</string>
     <string name="toast_email_sent">Email terkirim</string>
     <string name="fullscreen_verify_email_button_secondary">Kirim ulang email</string>
     <string name="fullscreen_verify_email_title">Verifikasi Email Anda</string>
@@ -169,10 +181,6 @@ Language: id
     <string name="description_sort">Urutkan</string>
     <string name="description_down">Bawah</string>
     <string name="description_delete_item">Hapus item</string>
-    <string name="sort_search_reverse_order">Urutan terbalik</string>
-    <string name="sort_search_modified">Dimodifikasi</string>
-    <string name="sort_search_created">Dibuat</string>
-    <string name="sort_search_alphabetically">Menurut Abjad</string>
     <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
@@ -282,12 +290,6 @@ Language: id
     <string name="view_map">Tampilkan peta</string>
     <string name="email">Email</string>
     <string name="call">Hubungi</string>
-    <string name="sort_alphabetical_reverse">Menurut abjad, Z-A</string>
-    <string name="sort_alphabetical">Menurut abjad, A-Z</string>
-    <string name="sort_oldest_created">Tanggal dibuat terlama</string>
-    <string name="sort_newest_created">Tanggal dibuat terbaru</string>
-    <string name="sort_oldest_modified">Tanggal modifikasi terlama</string>
-    <string name="sort_newest_modified">Tanggal modifikasi terbaru</string>
     <string name="close_drawer">Tutup laci</string>
     <string name="open_drawer">Buka laci</string>
     <string name="condensed_note_list">Daftar catatan ringkas</string>

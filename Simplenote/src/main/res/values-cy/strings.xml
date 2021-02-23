@@ -49,12 +49,6 @@ Language: cy_GB
     <string name="passcode_enter_old_passcode">Rhowch eich hen cyfringod</string>
     <string name="passcode_wrong_passcode">Cyfringod anghywir, ceisiwch eto.</string>
     <string name="passcode_preference_title">Clo Cyfringod</string>
-    <string name="sort_newest_modified">Dyddiad newidiwyd y diweddaraf</string>
-    <string name="sort_oldest_modified">Dyddiad newidiwyd yr hynaf</string>
-    <string name="sort_newest_created">Dyddiad crëwyd y diweddaraf</string>
-    <string name="sort_oldest_created">Dyddiad crëwyd yr hynaf</string>
-    <string name="sort_alphabetical">Trefn yr Wyddor, A-Z</string>
-    <string name="sort_alphabetical_reverse">Trefn yr Wyddor, Z-A</string>
     <string name="call">Galw</string>
     <string name="email">E-bost</string>
     <string name="view_map">Gweld y map</string>
