@@ -92,8 +92,11 @@
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
+    <string name="import_message_failure">Data could not be loaded</string>
+    <string name="import_message_success">Data loaded</string>
     <string name="export_message_failure">Data could not be saved</string>
     <string name="export_message_success">Data saved to file</string>
+    <string name="import_setting">Import data</string>
     <string name="export_setting">Export data</string>
     <string name="editor">Editor</string>
     <string name="condensed_note_list">Condensed note list</string>

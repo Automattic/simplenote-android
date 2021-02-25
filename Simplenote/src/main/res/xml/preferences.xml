@@ -118,6 +118,11 @@
         </Preference>
 
         <Preference
+            android:key="pref_key_import"
+            android:title="@string/import_setting">
+        </Preference>
+
+        <Preference
             android:key="pref_key_export"
             android:title="@string/export_setting">
         </Preference>
