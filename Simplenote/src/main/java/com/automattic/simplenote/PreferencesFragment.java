@@ -529,11 +529,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
         for (int k = 0; k < notesArray.length(); k++) {
             JSONObject noteJson = notesArray.getJSONObject(k);
-            noteFromJson(noteJson, trashedIds);
+            noteFromJson(noteJson, trashedIds).save();
         }
     }
 
-    private void noteFromJson(JSONObject noteJson, List<String> trashedIds) throws Exception {
+    private Note noteFromJson(JSONObject noteJson, List<String> trashedIds) throws Exception {
         Simplenote currentApp = (Simplenote) requireActivity().getApplication();
         Bucket<Note> noteBucket = currentApp.getNotesBucket();
         Note note = noteBucket.newObject();
@@ -544,7 +544,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         note.setPinned(noteJson.has("pinned") && noteJson.getBoolean("pinned"));
         note.setMarkdownEnabled(noteJson.has("markdown") && noteJson.getBoolean("markdown"));
         note.setDeleted(noteJson.has("id") && trashedIds.contains(noteJson.getString("id")));
-        note.save();
+        return note;
     }
 
     private List<String> jsonToList(JSONArray json) {
