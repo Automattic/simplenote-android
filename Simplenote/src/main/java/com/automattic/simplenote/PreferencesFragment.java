@@ -2,7 +2,6 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,7 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -166,7 +163,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/plain", "application/json"});
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/json"});
                 startActivityForResult(intent, REQUEST_IMPORT_DATA);
                 return true;
             }
@@ -485,70 +482,69 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void importData(Uri uri) {
-        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
-        Bucket<Note> noteBucket = currentApp.getNotesBucket();
-
         try {
-            String noteContent = readFile(uri);
-            if ("json".equals(getFileExtension(uri))) {
-                JSONObject jsonData = new JSONObject(noteContent);
-                JSONArray activeNotes = jsonData.getJSONArray("activeNotes");
-                JSONArray trashedNotes = jsonData.getJSONArray("trashedNotes");
-                List<String> trashedIds = new ArrayList<>();
-                JSONArray notesArray = new JSONArray();
-                for (int i = 0; i < activeNotes.length(); i++) {
-                    notesArray.put(activeNotes.getJSONObject(i));
-                }
-                for (int j = 0; j < trashedNotes.length(); j++) {
-                    notesArray.put(trashedNotes.getJSONObject(j));
-                    trashedIds.add(trashedNotes.getJSONObject(j).getString("id"));
-                }
-                for (int k = 0; k < notesArray.length(); k++) {
-                    JSONObject noteJson = notesArray.getJSONObject(k);
-                    Note note = noteBucket.newObject();
-                    Iterator<String> keys = noteJson.keys();
-                    while (keys.hasNext()) {
-                        String key = keys.next();
-                        switch (key) {
-                            case "id":
-                                note.setDeleted(trashedIds.contains(noteJson.getString(key)));
-                                break;
-                            case "content":
-                                note.setContent(noteJson.getString(key));
-                                break;
-                            case "creationDate":
-                                note.setCreationDate(DateTimeUtils.getDateCalendar(noteJson.getString(key)));
-                                break;
-                            case "lastModified":
-                                note.setModificationDate(DateTimeUtils.getDateCalendar(noteJson.getString(key)));
-                                break;
-                            case "tags":
-                                note.setTags(jsonToList(noteJson.getJSONArray(key)));
-                                break;
-                            case "pinned":
-                                note.setPinned(noteJson.getBoolean(key));
-                                break;
-                            case "markdown":
-                                note.setMarkdownEnabled(noteJson.getBoolean(key));
-                                break;
-                            case "publicURL":
-                                // note.setPublished(?);
-                                break;
-                        }
-                    }
-                    note.save();
-                }
-            } else {
-                Note note = noteBucket.newObject();
-                note.setContent(noteContent);
-                note.setCreationDate(Calendar.getInstance());
-                note.setModificationDate(note.getCreationDate());
-                note.save();
+            String exportContents = readFile(uri);
+            switch (getFileExtension(uri)) {
+                case "json":
+                    importJsonExport(exportContents);
+                    break;
+                case "txt":
+                    importPlaintextFile(exportContents);
+                    break;
+                case "md":
+                    importPlaintextFile(exportContents);
+                    break;
+                default:
+                    Toast.makeText(requireContext(), getString(R.string.import_unknown), Toast.LENGTH_SHORT).show();
+                    return;
             }
             Toast.makeText(requireContext(), getString(R.string.import_message_success), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(requireContext(), getString(R.string.import_message_failure), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void importPlaintextFile(String exportContents) {
+        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+        Bucket<Note> noteBucket = currentApp.getNotesBucket();
+        Note note = noteBucket.newObject();
+        note.setContent(exportContents);
+        note.setCreationDate(Calendar.getInstance());
+        note.setModificationDate(note.getCreationDate());
+        note.save();
+    }
+
+    private void importJsonExport(String exportContents) throws Exception {
+        JSONObject jsonData = new JSONObject(exportContents);
+        JSONArray activeNotes = jsonData.getJSONArray("activeNotes");
+        JSONArray trashedNotes = jsonData.getJSONArray("trashedNotes");
+        List<String> trashedIds = new ArrayList<>();
+        JSONArray notesArray = new JSONArray();
+        for (int i = 0; i < activeNotes.length(); i++) {
+            notesArray.put(activeNotes.getJSONObject(i));
+        }
+        for (int j = 0; j < trashedNotes.length(); j++) {
+            notesArray.put(trashedNotes.getJSONObject(j));
+            trashedIds.add(trashedNotes.getJSONObject(j).getString("id"));
+        }
+        for (int k = 0; k < notesArray.length(); k++) {
+            JSONObject noteJson = notesArray.getJSONObject(k);
+            noteFromJson(noteJson, trashedIds);
+        }
+    }
+
+    private void noteFromJson(JSONObject noteJson, List<String> trashedIds) throws Exception {
+        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+        Bucket<Note> noteBucket = currentApp.getNotesBucket();
+        Note note = noteBucket.newObject();
+        note.setContent(noteJson.has("content") ? noteJson.getString("content") : "");
+        note.setCreationDate(noteJson.has("creationDate") ? DateTimeUtils.getDateCalendar(noteJson.getString("creationDate")) : Calendar.getInstance());
+        note.setModificationDate(noteJson.has("lastModified") ? DateTimeUtils.getDateCalendar(noteJson.getString("lastModified")) : Calendar.getInstance());
+        note.setTags(noteJson.has("tags") ? jsonToList(noteJson.getJSONArray("tags")) : new ArrayList<String>());
+        note.setPinned(noteJson.has("pinned") && noteJson.getBoolean("pinned"));
+        note.setMarkdownEnabled(noteJson.has("markdown") && noteJson.getBoolean("markdown"));
+        note.setDeleted(noteJson.has("id") && trashedIds.contains(noteJson.getString("id")));
+        note.save();
     }
 
     private List<String> jsonToList(JSONArray json) {
@@ -577,14 +573,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     public String getFileExtension(Uri uri) {
-        String extension;
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
-            final MimeTypeMap mime = MimeTypeMap.getSingleton();
-            extension = mime.getExtensionFromMimeType(requireContext().getContentResolver().getType(uri));
-        } else {
-            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
-        }
-        return extension;
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(requireContext().getContentResolver().getType(uri));
     }
 
     private void trackSortOrder(String label) {
