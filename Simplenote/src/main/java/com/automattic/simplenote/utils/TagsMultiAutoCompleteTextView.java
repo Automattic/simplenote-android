@@ -16,11 +16,8 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 
-import static com.automattic.simplenote.utils.SearchTokenizer.COMMA;
-import static com.automattic.simplenote.utils.SearchTokenizer.EMPTY;
-import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
-
 public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTextView implements OnItemClickListener {
+
     private Bucket<Tag> mBucketTag;
     private OnTagAddedListener mTagAddedListener;
     private TextWatcher mTextWatcher = new TextWatcher() {
@@ -39,7 +36,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (count >= 1 && (s.charAt(start) == SPACE || s.charAt(start) == COMMA)) {
+            if (count >= 1 && (s.charAt(start) == ' ' || s.charAt(start) == ',')) {
                 saveTagOrShowError(s.toString());
             }
         }
@@ -85,7 +82,7 @@ public class TagsMultiAutoCompleteTextView extends AppCompatMultiAutoCompleteTex
     }
 
     public void notifyTagsChanged() {
-        String lexical = getText().toString().replace(String.valueOf(COMMA), EMPTY).trim();
+        String lexical = getText().toString().replace(',', ' ').trim();
         String canonical = TagUtils.getCanonicalFromLexical(mBucketTag, lexical);
         notifyTagsChanged(canonical);
     }
