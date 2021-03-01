@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,7 +26,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
-import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.FileUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
@@ -40,13 +39,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -483,8 +479,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private void importData(Uri uri) {
         try {
-            String exportContents = readFile(uri);
-            switch (getFileExtension(uri)) {
+            String exportContents = FileUtils.readFile(requireContext(), uri);
+            switch (FileUtils.getFileExtension(requireContext(), uri)) {
                 case "json":
                     importJsonExport(exportContents);
                     break;
@@ -499,8 +495,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     return;
             }
             Toast.makeText(requireContext(), getString(R.string.import_message_success), Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(requireContext(), getString(R.string.import_message_failure), Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            Toast.makeText(requireContext(), getString(R.string.import_error_date), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(requireContext(), getString(R.string.import_error_file), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            Toast.makeText(requireContext(), getString(R.string.import_error_parse), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -514,66 +514,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         note.save();
     }
 
-    private void importJsonExport(String exportContents) throws Exception {
+    private void importJsonExport(String exportContents) throws JSONException, ParseException {
         JSONObject jsonData = new JSONObject(exportContents);
         JSONArray activeNotes = jsonData.getJSONArray("activeNotes");
         JSONArray trashedNotes = jsonData.getJSONArray("trashedNotes");
-        List<String> trashedIds = new ArrayList<>();
-        JSONArray notesArray = new JSONArray();
         for (int i = 0; i < activeNotes.length(); i++) {
-            notesArray.put(activeNotes.getJSONObject(i));
+            Note.fromJson(requireActivity(), activeNotes.getJSONObject(i)).save();
         }
         for (int j = 0; j < trashedNotes.length(); j++) {
-            notesArray.put(trashedNotes.getJSONObject(j));
-            trashedIds.add(trashedNotes.getJSONObject(j).getString("id"));
+            Note note = Note.fromJson(requireActivity(), trashedNotes.getJSONObject(j));
+            note.setDeleted(true);
+            note.save();
         }
-        for (int k = 0; k < notesArray.length(); k++) {
-            JSONObject noteJson = notesArray.getJSONObject(k);
-            noteFromJson(noteJson, trashedIds).save();
-        }
-    }
-
-    private Note noteFromJson(JSONObject noteJson, List<String> trashedIds) throws Exception {
-        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
-        Bucket<Note> noteBucket = currentApp.getNotesBucket();
-        Note note = noteBucket.newObject();
-        note.setContent(noteJson.has("content") ? noteJson.getString("content") : "");
-        note.setCreationDate(noteJson.has("creationDate") ? DateTimeUtils.getDateCalendar(noteJson.getString("creationDate")) : Calendar.getInstance());
-        note.setModificationDate(noteJson.has("lastModified") ? DateTimeUtils.getDateCalendar(noteJson.getString("lastModified")) : Calendar.getInstance());
-        note.setTags(noteJson.has("tags") ? jsonToList(noteJson.getJSONArray("tags")) : new ArrayList<String>());
-        note.setPinned(noteJson.has("pinned") && noteJson.getBoolean("pinned"));
-        note.setMarkdownEnabled(noteJson.has("markdown") && noteJson.getBoolean("markdown"));
-        note.setDeleted(noteJson.has("id") && trashedIds.contains(noteJson.getString("id")));
-        return note;
-    }
-
-    private List<String> jsonToList(JSONArray json) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < json.length(); i++) {
-            try {
-                list.add(json.getString(i));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
-    }
-
-    private String readFile(Uri uri) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-            stringBuilder.append("\n");
-        }
-        inputStream.close();
-        return stringBuilder.toString();
-    }
-
-    public String getFileExtension(Uri uri) {
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(requireContext().getContentResolver().getType(uri));
     }
 
     private void trackSortOrder(String label) {
