@@ -477,6 +477,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
+    private enum TextMode {
+        WITHOUT_MARKDOWN,
+        WITH_MARKDOWN
+    }
+
     private void importData(Uri uri) {
         try {
             String exportContents = FileUtils.readFile(requireContext(), uri);
@@ -485,10 +490,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     importJsonExport(exportContents);
                     break;
                 case "txt":
-                    importPlaintextFile(exportContents);
+                    importPlaintextFile(exportContents, TextMode.WITHOUT_MARKDOWN);
                     break;
                 case "md":
-                    importPlaintextFile(exportContents);
+                    importPlaintextFile(exportContents, TextMode.WITH_MARKDOWN);
                     break;
                 default:
                     Toast.makeText(requireContext(), getString(R.string.import_unknown), Toast.LENGTH_SHORT).show();
@@ -504,13 +509,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
-    private void importPlaintextFile(String exportContents) {
+    private void importPlaintextFile(String exportContents, TextMode textMode) {
         Simplenote currentApp = (Simplenote) requireActivity().getApplication();
         Bucket<Note> noteBucket = currentApp.getNotesBucket();
         Note note = noteBucket.newObject();
         note.setContent(exportContents);
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
+        note.setMarkdownEnabled(textMode == TextMode.WITH_MARKDOWN);
         note.save();
     }
 
