@@ -42,6 +42,10 @@ public class SignupFragment extends Fragment {
         EditText emailEditText = ((TextInputLayout) view.findViewById(R.id.input_email)).getEditText();
         final Button signupButton = view.findViewById(R.id.button);
         setButtonState(signupButton, emailEditText.getText());
+        listenToEmailChanges(emailEditText, signupButton);
+    }
+
+    private void listenToEmailChanges(EditText emailEditText, final Button signupButton) {
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
