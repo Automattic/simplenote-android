@@ -1,5 +1,6 @@
 package com.automattic.simplenote.authentication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -24,10 +25,12 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.android.ProgressDialogFragment;
+import com.simperium.util.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -175,7 +178,17 @@ public class SignupFragment extends Fragment {
         return new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException error) {
-
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showDialogError(getString(R.string.dialog_message_signup_error));
+                            AppLog.add(AppLog.Type.ACCOUNT, "Sign up failure: " + error.getMessage());
+                            Logger.log(error.getMessage(), error);
+                        }
+                    });
+                }
             }
 
             @Override
