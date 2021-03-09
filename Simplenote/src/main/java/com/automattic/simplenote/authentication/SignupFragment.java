@@ -32,7 +32,8 @@ public class SignupFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
         initUi(view);
         return view;
@@ -119,7 +120,8 @@ public class SignupFragment extends Fragment {
     }
 
     private void initFooter(TextView footer) {
-        String colorLink = Integer.toHexString(ContextCompat.getColor(requireActivity(), com.simperium.R.color.text_link) & 0xffffff);
+        String colorLink = Integer.toHexString(
+            ContextCompat.getColor(requireActivity(), com.simperium.R.color.text_link) & 0xffffff);
         footer.setText(
             Html.fromHtml(
                 String.format(
