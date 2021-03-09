@@ -16,14 +16,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.google.android.material.textfield.TextInputLayout;
+import com.simperium.android.ProgressDialogFragment;
 
 public class SignupFragment extends Fragment {
+    private ProgressDialogFragment progressDialogFragment;
 
     @Nullable
     @Override
@@ -44,6 +49,7 @@ public class SignupFragment extends Fragment {
         final Button signupButton = view.findViewById(R.id.button);
         setButtonState(signupButton, emailEditText.getText());
         listenToEmailChanges(emailEditText, signupButton);
+        listenToSignupClick(signupButton, emailEditText);
     }
 
     private void listenToEmailChanges(EditText emailEditText, final Button signupButton) {
@@ -61,6 +67,47 @@ public class SignupFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
+    }
+
+    private void listenToSignupClick(Button signupButton, final EditText emailEditText) {
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                    showProgressDialog();
+                    signupUser(emailEditText.getText().toString());
+                } else {
+                    showDialogError(getString(R.string.simperium_dialog_message_network));
+                }
+            }
+        });
+    }
+
+    private void showProgressDialog() {
+        progressDialogFragment =
+            ProgressDialogFragment.newInstance(getString(R.string.simperium_dialog_progress_signing_up));
+        progressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
+        progressDialogFragment.show(requireFragmentManager(), ProgressDialogFragment.TAG);
+    }
+
+    private void hideDialogProgress() {
+        if (progressDialogFragment != null && !progressDialogFragment.isHidden()) {
+            progressDialogFragment.dismiss();
+            progressDialogFragment = null;
+        }
+    }
+
+    private void signupUser(String email) {
+
+    }
+
+    private void showDialogError(String message) {
+        hideDialogProgress();
+        new AlertDialog.Builder(requireActivity())
+            .setTitle(R.string.simperium_dialog_title_error)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, null)
+            .show();
     }
 
     private void setButtonState(Button signupButton, CharSequence email) {
