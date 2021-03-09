@@ -2,6 +2,7 @@ package com.automattic.simplenote.authentication;
 
 import android.os.Bundle;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class ConfirmationFragment extends Fragment {
 
     private void initUi(View view) {
         initEmailConfirmation((TextView) view.findViewById(R.id.email_confirmation_text), "email");
+        initSupport((TextView) view.findViewById(R.id.support_text));
     }
 
     private void initEmailConfirmation(TextView emailConfirmation, String email) {
@@ -36,5 +38,17 @@ public class ConfirmationFragment extends Fragment {
             boldEmail));
         emailConfirmation.setText(emailConfirmationText);
         emailConfirmation.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_80));
+    }
+
+    private void initSupport(TextView support) {
+        String supportEmail = getString(R.string.support_email);
+        String link = "<a href='mailto:" + supportEmail + "'>" + supportEmail + "</a>";
+        Spanned supportText = HtmlCompat.fromHtml(String.format(
+            getString(R.string.support_text),
+            link));
+        support.setText(supportText);
+        support.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_50));
+        support.setLinkTextColor(ContextCompat.getColor(requireContext(), R.color.gray_50));
+        support.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
