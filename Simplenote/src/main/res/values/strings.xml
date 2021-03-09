@@ -92,6 +92,7 @@
 
     <!-- Sign Up -->
     <string name="dialog_message_signup_error">We\'re having problems. Please try again soon.</string>
+    <string name="email_confirmation_text">We\'ve sent an email to %1$s. Please check your inbox and follow the instructions.</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
