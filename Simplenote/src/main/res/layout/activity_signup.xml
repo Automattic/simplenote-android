@@ -13,6 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
         android:elevation="0dp"
+        app:title="@string/simperium_button_signup"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         tools:layout_height="wrap_content" />
