@@ -2,7 +2,9 @@ package com.automattic.simplenote.authentication;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -27,7 +29,34 @@ import com.automattic.simplenote.utils.NetworkUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.android.ProgressDialogFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class SignupFragment extends Fragment {
+    private static final int TIMEOUT_SECS = 30;
+    private static final String HTTP_SCHEME = "https";
+    private static final String HTTP_HOST = "app.simplenote.com";
+    private static final String SIMPLENOTE_ACCOUNT_PATH = "account";
+    private static final String SIMPLENOTE_REQUEST_SIGNUP_PATH = "request-signup";
+    private static final String ACCEPT_LANGUAGE = "Accept-Language";
+
+    private static final String JSON_USERNAME = "username";
+    private static final MediaType JSON_MEDIA_TYPE =
+        MediaType.parse("application/json; charset=utf-8");
+
     private ProgressDialogFragment progressDialogFragment;
 
     @Nullable
@@ -99,7 +128,61 @@ public class SignupFragment extends Fragment {
     }
 
     private void signupUser(String email) {
+        new OkHttpClient()
+            .newBuilder()
+            .readTimeout(TIMEOUT_SECS, TimeUnit.SECONDS)
+            .build()
+            .newCall(buildCall(email))
+            .enqueue(buildCallback(email));
+    }
 
+    private Request buildCall(String email) {
+        return new Request.Builder()
+            .url(buildUrl())
+            .post(buildJsonBody(email))
+            .header(ACCEPT_LANGUAGE, getLanguage())
+            .build();
+    }
+
+    private RequestBody buildJsonBody(String email) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(JSON_USERNAME, email);
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("Cannot construct json with supplied email: " + email);
+        }
+        return RequestBody.create(JSON_MEDIA_TYPE, json.toString());
+    }
+
+    private HttpUrl buildUrl() {
+        return new HttpUrl.Builder()
+            .scheme(HTTP_SCHEME)
+            .host(HTTP_HOST)
+            .addPathSegment(SIMPLENOTE_ACCOUNT_PATH)
+            .addPathSegment(SIMPLENOTE_REQUEST_SIGNUP_PATH)
+            .build();
+    }
+
+    private String getLanguage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return LocaleList.getDefault().toLanguageTags();
+        } else {
+            return Locale.getDefault().getLanguage();
+        }
+    }
+
+    private Callback buildCallback(final String email) {
+        return new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull final IOException error) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+
+            }
+        };
     }
 
     private void showDialogError(String message) {
