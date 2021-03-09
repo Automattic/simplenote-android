@@ -39,6 +39,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AppLog;
