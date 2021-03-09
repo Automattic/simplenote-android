@@ -19,6 +19,7 @@
 
     <fragment
         android:id="@+id/fragment_signup"
+        android:name="com.automattic.simplenote.authentication.SignupFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize" />

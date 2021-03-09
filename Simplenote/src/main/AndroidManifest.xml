@@ -128,7 +128,9 @@
             android:name="com.automattic.simplenote.authentication.SimplenoteCredentialsActivity">
         </activity>
 
-        <activity android:name=".authentication.SimplenoteSignupActivity" />
+        <activity
+            android:name=".authentication.SimplenoteSignupActivity"
+            android:theme="@style/Simperium" />
 
         <activity
             android:name="com.automattic.simplenote.StyleActivity"
