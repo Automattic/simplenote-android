@@ -38,6 +38,7 @@ public class SignupFragment extends Fragment {
         initSignupButton(view);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initSignupButton(View view) {
         EditText emailEditText = ((TextInputLayout) view.findViewById(R.id.input_email)).getEditText();
         final Button signupButton = view.findViewById(R.id.button);
