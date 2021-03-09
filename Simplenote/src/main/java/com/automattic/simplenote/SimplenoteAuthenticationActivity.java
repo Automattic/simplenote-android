@@ -34,8 +34,7 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
 
     @Override
     protected void buttonSignupClicked() {
-        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteCredentialsActivity.class);
-        intent.putExtra(EXTRA_IS_LOGIN, false);
+        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
         startActivity(intent);
         finish();
     }
