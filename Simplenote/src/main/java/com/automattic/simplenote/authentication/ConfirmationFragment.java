@@ -17,6 +17,16 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.HtmlCompat;
 
 public class ConfirmationFragment extends Fragment {
+    private final static String CONFIRMATION_EMAIL_KEY = "CONFIRMATION_EMAIL_KEY";
+
+    public static ConfirmationFragment newInstance(String email) {
+        ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CONFIRMATION_EMAIL_KEY, email);
+        confirmationFragment.setArguments(bundle);
+        return confirmationFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -27,12 +37,12 @@ public class ConfirmationFragment extends Fragment {
     }
 
     private void initUi(View view) {
-        initEmailConfirmation((TextView) view.findViewById(R.id.email_confirmation_text), "email");
+        initEmailConfirmation((TextView) view.findViewById(R.id.email_confirmation_text));
         initSupport((TextView) view.findViewById(R.id.support_text));
     }
 
-    private void initEmailConfirmation(TextView emailConfirmation, String email) {
-        String boldEmail = "<b>" + email + "</b>";
+    private void initEmailConfirmation(TextView emailConfirmation) {
+        String boldEmail = "<b>" + requireArguments().getString(CONFIRMATION_EMAIL_KEY) + "</b>";
         Spanned emailConfirmationText = HtmlCompat.fromHtml(String.format(
             getString(R.string.email_confirmation_text),
             boldEmail));

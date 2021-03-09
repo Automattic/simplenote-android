@@ -201,7 +201,7 @@ public class SignupFragment extends Fragment {
                         public void run() {
                             hideDialogProgress();
                             DisplayUtils.hideKeyboard(getView());
-                            showConfirmationScreen();
+                            showConfirmationScreen(email);
                         }
                     });
                 }
@@ -218,8 +218,8 @@ public class SignupFragment extends Fragment {
             .show();
     }
 
-    private void showConfirmationScreen() {
-        ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+    private void showConfirmationScreen(String email) {
+        ConfirmationFragment confirmationFragment = ConfirmationFragment.newInstance(email);
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, confirmationFragment, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
             .commit();
