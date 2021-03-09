@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/email_confirmation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="We've sent an email to example@email.com. Please check your inbox and follow the instructions."
+        tools:textColor="#2c3338" />
+
+    <TextView
+        android:id="@+id/support_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="Didn't get an email? You may already have an account. Contact simplenote@support.com for help."
+        tools:textColor="#646970"
+        tools:textColorLink="#646970" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_mail" />
+
+</LinearLayout>

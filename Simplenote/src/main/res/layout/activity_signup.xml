@@ -18,9 +18,8 @@
         app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         tools:layout_height="wrap_content" />
 
-    <fragment
-        android:id="@+id/fragment_signup"
-        android:name="com.automattic.simplenote.authentication.SignupFragment"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize" />

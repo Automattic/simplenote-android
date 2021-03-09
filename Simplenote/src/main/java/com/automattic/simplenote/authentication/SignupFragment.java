@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -220,7 +219,10 @@ public class SignupFragment extends Fragment {
     }
 
     private void showConfirmationScreen() {
-        Toast.makeText(requireContext(), "It's working...", Toast.LENGTH_LONG).show();
+        ConfirmationFragment confirmationFragment = new ConfirmationFragment();
+        requireFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container, confirmationFragment, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
+            .commit();
     }
 
     private void setButtonState(Button signupButton, CharSequence email) {
