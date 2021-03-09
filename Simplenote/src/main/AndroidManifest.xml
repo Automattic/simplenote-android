@@ -128,6 +128,8 @@
             android:name="com.automattic.simplenote.SimplenoteCredentialsActivity">
         </activity>
 
+        <activity android:name=".SimplenoteSignupActivity" />
+
         <activity
             android:name="com.automattic.simplenote.StyleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
