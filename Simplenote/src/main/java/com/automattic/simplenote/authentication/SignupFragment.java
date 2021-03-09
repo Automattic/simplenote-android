@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.android.ProgressDialogFragment;
@@ -193,7 +195,17 @@ public class SignupFragment extends Fragment {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
-
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideDialogProgress();
+                            DisplayUtils.hideKeyboard(getView());
+                            showConfirmationScreen();
+                        }
+                    });
+                }
             }
         };
     }
@@ -205,6 +217,10 @@ public class SignupFragment extends Fragment {
             .setMessage(message)
             .setPositiveButton(android.R.string.ok, null)
             .show();
+    }
+
+    private void showConfirmationScreen() {
+        Toast.makeText(requireContext(), "It's working...", Toast.LENGTH_LONG).show();
     }
 
     private void setButtonState(Button signupButton, CharSequence email) {
