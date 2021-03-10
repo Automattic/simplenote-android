@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/width_layout"
     android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
     android:clipToPadding="false"
     android:padding="@dimen/margin_default"
     tools:layout_width="match_parent">
