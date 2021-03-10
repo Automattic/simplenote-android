@@ -24,8 +24,12 @@ public class DeepLinkActivity extends AppCompatActivity {
             intent.setData(uri);
             startActivity(intent);
         } else if (uri.getHost().equals(LOGIN_SCHEME)) {
-            AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
             Intent intent = new Intent(this, NotesActivity.class);
+            if (AuthUtils.hasDifferentEmail((Simplenote) getApplication(), uri)) {
+                intent.putExtra(NotesActivity.KEY_ALREADY_LOGGED_IN, true);
+            } else {
+                AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }

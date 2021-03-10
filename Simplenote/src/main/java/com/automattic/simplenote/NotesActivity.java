@@ -109,6 +109,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public static String TAG_NOTE_LIST = "noteList";
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
+    public static final String KEY_ALREADY_LOGGED_IN = "KEY_ALREADY_LOGGED_IN";
+
     private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
 
     protected Bucket<Note> mNotesBucket;
@@ -290,6 +292,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             }
         }
 
+        if (intent.getBooleanExtra(KEY_ALREADY_LOGGED_IN, false)) {
+            intent.removeExtra(KEY_ALREADY_LOGGED_IN);
+            showAlreadyLoggedInDialog();
+        }
+
         if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
             if (intent.getExtras().getSerializable(KEY_LIST_WIDGET_CLICK) == NOTE_LIST_WIDGET_TAPPED) {
                 AnalyticsTracker.track(
@@ -353,6 +360,21 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             ft.show(mNoteListFragment);
         }
         ft.commitNow();
+    }
+
+    private void showAlreadyLoggedInDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_already_logged_in_title)
+            .setMessage(R.string.dialog_already_logged_in_message)
+            .setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AuthUtils.logOut((Simplenote) getApplication());
+                    finish();
+                }
+            })
+            .setNegativeButton(R.string.cancel, null)
+            .show();
     }
 
     @Override

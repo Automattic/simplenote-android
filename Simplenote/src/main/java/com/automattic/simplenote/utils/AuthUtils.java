@@ -64,9 +64,14 @@ public class AuthUtils {
         WidgetUtils.updateNoteWidgets(application);
     }
 
+    public static boolean hasDifferentEmail(Simplenote application, Uri uri) {
+        User user = application.getSimperium().getUser();
+        return user.getStatus().equals(User.Status.AUTHORIZED) &&
+            !user.getEmail().equals(getUserEmail(uri));
+    }
+
     public static void magicLinkLogin(Simplenote application, Uri uri) {
-        String userEmailEncoded = uri.getQueryParameter("email");
-        String userEmail = new String(Base64.decode(userEmailEncoded, Base64.NO_WRAP), StandardCharsets.UTF_8);
+        String userEmail = getUserEmail(uri);
         String spToken = uri.getQueryParameter("token");
 
         User user = application.getSimperium().getUser();
@@ -78,5 +83,10 @@ public class AuthUtils {
         editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
         editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
         editor.apply();
+    }
+
+    private static String getUserEmail(Uri uri) {
+        String userEmailEncoded = uri.getQueryParameter("email");
+        return new String(Base64.decode(userEmailEncoded, Base64.NO_WRAP), StandardCharsets.UTF_8);
     }
 }
