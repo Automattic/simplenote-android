@@ -67,11 +67,11 @@ public class AuthUtils {
     public static boolean hasDifferentEmail(Simplenote application, Uri uri) {
         User user = application.getSimperium().getUser();
         return user.getStatus().equals(User.Status.AUTHORIZED) &&
-            !user.getEmail().equals(getUserEmail(uri));
+            !user.getEmail().equals(extractEmailFromMagicLink(uri));
     }
 
     public static void magicLinkLogin(Simplenote application, Uri uri) {
-        String userEmail = getUserEmail(uri);
+        String userEmail = extractEmailFromMagicLink(uri);
         String spToken = uri.getQueryParameter("token");
 
         User user = application.getSimperium().getUser();
@@ -85,7 +85,7 @@ public class AuthUtils {
         editor.apply();
     }
 
-    private static String getUserEmail(Uri uri) {
+    public static String extractEmailFromMagicLink(Uri uri) {
         String userEmailEncoded = uri.getQueryParameter("email");
         return new String(Base64.decode(userEmailEncoded, Base64.NO_WRAP), StandardCharsets.UTF_8);
     }

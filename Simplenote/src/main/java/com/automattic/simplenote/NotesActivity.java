@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -110,6 +112,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
     public static final String KEY_ALREADY_LOGGED_IN = "KEY_ALREADY_LOGGED_IN";
+    public static final String KEY_MAGIC_LINK_EMAIL = "KEY_MAGIC_LINK_EMAIL";
 
     private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
 
@@ -294,7 +297,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         if (intent.getBooleanExtra(KEY_ALREADY_LOGGED_IN, false)) {
             intent.removeExtra(KEY_ALREADY_LOGGED_IN);
-            showAlreadyLoggedInDialog();
+            showAlreadyLoggedInDialog(intent.getStringExtra(KEY_MAGIC_LINK_EMAIL));
         }
 
         if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
@@ -362,10 +365,21 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         ft.commitNow();
     }
 
-    private void showAlreadyLoggedInDialog() {
+    @SuppressWarnings("ConstantConditions")
+    private void showAlreadyLoggedInDialog(String newEmail) {
+        User currentUser = ((Simplenote) getApplication()).getSimperium().getUser();
+        String currentEmail = currentUser.getEmail();
+        View view = getLayoutInflater().inflate(R.layout.dialog_already_logged_in, null);
+        TextView messageView = view.findViewById(R.id.message);
+        CharSequence text = Html.fromHtml(getString(
+            R.string.dialog_already_logged_in_message,
+            "<br/><br/><b>" + currentEmail + "</b><br/><br/>",
+            "<br/><br/><b>" + newEmail + "</b><br/><br/>"
+        ));
+        messageView.setText(text);
+
         new AlertDialog.Builder(this)
-            .setTitle(R.string.dialog_already_logged_in_title)
-            .setMessage(R.string.dialog_already_logged_in_message)
+            .setView(view)
             .setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

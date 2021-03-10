@@ -27,6 +27,7 @@ public class DeepLinkActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NotesActivity.class);
             if (AuthUtils.hasDifferentEmail((Simplenote) getApplication(), uri)) {
                 intent.putExtra(NotesActivity.KEY_ALREADY_LOGGED_IN, true);
+                intent.putExtra(NotesActivity.KEY_MAGIC_LINK_EMAIL, AuthUtils.extractEmailFromMagicLink(uri));
             } else {
                 AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
             }
