@@ -7,10 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.automattic.simplenote.utils.AuthUtils;
+
 import net.openid.appauth.RedirectUriReceiverActivity;
 
 public class DeepLinkActivity extends AppCompatActivity {
     private static final String AUTHENTICATION_SCHEME = "auth";
+    private static final String LOGIN_SCHEME = "login";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,6 +22,11 @@ public class DeepLinkActivity extends AppCompatActivity {
         if (uri.getHost().equals(AUTHENTICATION_SCHEME)) {
             Intent intent = new Intent(this, RedirectUriReceiverActivity.class);
             intent.setData(uri);
+            startActivity(intent);
+        } else if (uri.getHost().equals(LOGIN_SCHEME)) {
+            AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
+            Intent intent = new Intent(this, NotesActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
         finish();

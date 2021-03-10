@@ -2,17 +2,25 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.util.Base64;
 
 import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.AppLog.Type;
+import com.simperium.android.AndroidClient;
+import com.simperium.client.User;
 
 import org.wordpress.passcodelock.AppLockManager;
 
+import java.nio.charset.StandardCharsets;
+
 import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class AuthUtils {
     public static void logOut(Simplenote application) {
@@ -54,5 +62,21 @@ public class AuthUtils {
         AppLockManager.getInstance().getAppLock().setPassword("");
 
         WidgetUtils.updateNoteWidgets(application);
+    }
+
+    public static void magicLinkLogin(Simplenote application, Uri uri) {
+        String userEmailEncoded = uri.getQueryParameter("email");
+        String userEmail = new String(Base64.decode(userEmailEncoded, Base64.NO_WRAP), StandardCharsets.UTF_8);
+        String spToken = uri.getQueryParameter("token");
+
+        User user = application.getSimperium().getUser();
+        user.setAccessToken(spToken);
+        user.setEmail(userEmail);
+        user.setStatus(User.Status.AUTHORIZED);
+
+        SharedPreferences.Editor editor = AndroidClient.sharedPreferences(application).edit();
+        editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
+        editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
+        editor.apply();
     }
 }
