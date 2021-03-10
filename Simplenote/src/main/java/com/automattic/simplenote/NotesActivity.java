@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -297,7 +297,8 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         if (intent.getBooleanExtra(KEY_ALREADY_LOGGED_IN, false)) {
             intent.removeExtra(KEY_ALREADY_LOGGED_IN);
-            showAlreadyLoggedInDialog(intent.getStringExtra(KEY_MAGIC_LINK_EMAIL));
+            showAlreadyLoggedInDialog(((Simplenote) getApplication()).getSimperium().getUser().getEmail(),
+                intent.getStringExtra(KEY_MAGIC_LINK_EMAIL));
         }
 
         if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
@@ -365,21 +366,18 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         ft.commitNow();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private void showAlreadyLoggedInDialog(String newEmail) {
-        User currentUser = ((Simplenote) getApplication()).getSimperium().getUser();
-        String currentEmail = currentUser.getEmail();
-        View view = getLayoutInflater().inflate(R.layout.dialog_already_logged_in, null);
-        TextView messageView = view.findViewById(R.id.message);
-        CharSequence text = Html.fromHtml(getString(
+    private void showAlreadyLoggedInDialog(String currentEmail, String newEmail) {
+        String newLine = "<br/><br/>";
+        Spanned alreadyLoggedInText = Html.fromHtml(getString(
             R.string.dialog_already_logged_in_message,
-            "<br/><br/><b>" + currentEmail + "</b><br/><br/>",
-            "<br/><br/><b>" + newEmail + "</b><br/><br/>"
+            "<b>" + currentEmail + "</b>",
+            newLine,
+            "<b>" + newEmail + "</b>",
+            newLine
         ));
-        messageView.setText(text);
-
         new AlertDialog.Builder(this)
-            .setView(view)
+            .setTitle(R.string.dialog_already_logged_in_title)
+            .setMessage(alreadyLoggedInText)
             .setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

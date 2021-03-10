@@ -97,7 +97,7 @@
 
     <!-- Sign In with Magic Link -->
     <string name="dialog_already_logged_in_title">Log out?</string>
-    <string name="dialog_already_logged_in_message">You are already logged in as:%1$sYou tried logging in with:%2$sWould you like to log out?</string>
+    <string name="dialog_already_logged_in_message">You are already logged in as %1$s.%2$sYou tried logging in with %3$s.%4$sWould you like to log out?</string>
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
