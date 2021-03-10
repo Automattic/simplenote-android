@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.R;
@@ -47,7 +46,6 @@ public class ConfirmationFragment extends Fragment {
             getString(R.string.email_confirmation_text),
             boldEmail));
         emailConfirmation.setText(emailConfirmationText);
-        emailConfirmation.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_80));
     }
 
     private void initSupport(TextView support) {
@@ -57,8 +55,6 @@ public class ConfirmationFragment extends Fragment {
             getString(R.string.support_text),
             link));
         support.setText(supportText);
-        support.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_50));
-        support.setLinkTextColor(ContextCompat.getColor(requireContext(), R.color.gray_50));
         support.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
