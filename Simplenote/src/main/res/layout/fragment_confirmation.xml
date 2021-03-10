@@ -12,7 +12,8 @@
         android:layout_height="72dp"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_mail" />
+        android:src="@drawable/ic_mail"
+        android:tint="@color/gray_50" />
 
     <TextView
         android:id="@+id/email_confirmation_text"
