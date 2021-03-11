@@ -127,17 +127,7 @@ public class WordPressUtils {
             return true;
         }
 
-        // Manually authorize the user with Simperium
-        User user = app.getSimperium().getUser();
-        user.setAccessToken(spToken);
-        user.setEmail(userEmail);
-        user.setStatus(User.Status.AUTHORIZED);
-
-        // Store the user data in Simperium shared preferences
-        SharedPreferences.Editor editor = AndroidClient.sharedPreferences(app.getApplicationContext()).edit();
-        editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
-        editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
-        editor.apply();
+        app.login(userEmail, spToken);
 
         return true;
     }

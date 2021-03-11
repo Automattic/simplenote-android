@@ -40,6 +40,7 @@ import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
+import com.simperium.android.AndroidClient;
 import com.simperium.android.WebSocketManager;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
@@ -57,6 +58,8 @@ import java.util.concurrent.TimeUnit;
 
 import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
@@ -213,6 +216,20 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     public boolean isInBackground() {
         return mIsInBackground;
+    }
+
+    public void login(String email, String spToken) {
+        // Manually authorize the user with Simperium
+        User user = mSimperium.getUser();
+        user.setAccessToken(spToken);
+        user.setEmail(email);
+        user.setStatus(User.Status.AUTHORIZED);
+
+        // Store the user data in Simperium shared preferences
+        SharedPreferences.Editor editor = AndroidClient.sharedPreferences(this).edit();
+        editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
+        editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
+        editor.apply();
     }
 
     public boolean isLoggedIn() {

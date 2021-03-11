@@ -68,15 +68,7 @@ public class AuthUtils {
         String userEmail = extractEmailFromMagicLink(uri);
         String spToken = uri.getQueryParameter("token");
 
-        User user = application.getSimperium().getUser();
-        user.setAccessToken(spToken);
-        user.setEmail(userEmail);
-        user.setStatus(User.Status.AUTHORIZED);
-
-        SharedPreferences.Editor editor = AndroidClient.sharedPreferences(application).edit();
-        editor.putString(USER_ACCESS_TOKEN_PREFERENCE, user.getAccessToken());
-        editor.putString(USER_EMAIL_PREFERENCE, user.getEmail());
-        editor.apply();
+        application.login(userEmail, spToken);
     }
 
     public static String extractEmailFromMagicLink(Uri uri) {
