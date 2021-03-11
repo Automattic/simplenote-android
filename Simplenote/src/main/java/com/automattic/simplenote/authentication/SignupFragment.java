@@ -56,7 +56,6 @@ public class SignupFragment extends Fragment {
     private static final String SIMPLENOTE_SIGNUP_PATH = "account/request-signup";
     private static final String ACCEPT_LANGUAGE = "Accept-Language";
 
-    private static final String JSON_USERNAME = "username";
     private static final MediaType JSON_MEDIA_TYPE =
         MediaType.parse("application/json; charset=utf-8");
 
@@ -150,7 +149,7 @@ public class SignupFragment extends Fragment {
     private RequestBody buildJsonBody(String email) {
         JSONObject json = new JSONObject();
         try {
-            json.put(JSON_USERNAME, email);
+            json.put("username", email);
         } catch (JSONException e) {
             throw new IllegalArgumentException("Cannot construct json with supplied email: " + email);
         }
