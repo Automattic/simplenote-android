@@ -64,12 +64,6 @@ public class AuthUtils {
         WidgetUtils.updateNoteWidgets(application);
     }
 
-    public static boolean hasDifferentEmail(Simplenote application, Uri uri) {
-        User user = application.getSimperium().getUser();
-        return user.getStatus().equals(User.Status.AUTHORIZED) &&
-            !user.getEmail().equals(extractEmailFromMagicLink(uri));
-    }
-
     public static void magicLinkLogin(Simplenote application, Uri uri) {
         String userEmail = extractEmailFromMagicLink(uri);
         String spToken = uri.getQueryParameter("token");

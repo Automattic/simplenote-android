@@ -7,6 +7,7 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,11 +45,13 @@ import com.simperium.client.Bucket;
 import com.simperium.client.BucketNameInvalid;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.ChannelProvider.HeartbeatListener;
+import com.simperium.client.User;
 
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -210,6 +213,16 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     public boolean isInBackground() {
         return mIsInBackground;
+    }
+
+    public boolean isLoggedIn() {
+        User user = mSimperium.getUser();
+        return user != null && user.getStatus() == User.Status.AUTHORIZED;
+    }
+
+    public String getUserEmail() {
+        User user = mSimperium.getUser();
+        return user != null ? user.getEmail() : null;
     }
 
     private void checkReviewAccountOrVerifyEmail(final Activity activity) {

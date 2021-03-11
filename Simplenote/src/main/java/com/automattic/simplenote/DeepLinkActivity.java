@@ -11,6 +11,8 @@ import com.automattic.simplenote.utils.AuthUtils;
 
 import net.openid.appauth.RedirectUriReceiverActivity;
 
+import java.util.Locale;
+
 public class DeepLinkActivity extends AppCompatActivity {
     private static final String AUTHENTICATION_SCHEME = "auth";
     private static final String LOGIN_SCHEME = "login";
@@ -25,9 +27,12 @@ public class DeepLinkActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (uri.getHost().equals(LOGIN_SCHEME)) {
             Intent intent = new Intent(this, NotesActivity.class);
-            if (AuthUtils.hasDifferentEmail((Simplenote) getApplication(), uri)) {
+            Simplenote app = (Simplenote) getApplication();
+            String email = AuthUtils.extractEmailFromMagicLink(uri);
+            if (app.isLoggedIn() &&
+                !email.toLowerCase(Locale.US).equals(app.getUserEmail().toLowerCase(Locale.US))) {
                 intent.putExtra(NotesActivity.KEY_ALREADY_LOGGED_IN, true);
-                intent.putExtra(NotesActivity.KEY_MAGIC_LINK_EMAIL, AuthUtils.extractEmailFromMagicLink(uri));
+                intent.putExtra(NotesActivity.KEY_MAGIC_LINK_EMAIL, email);
             } else {
                 AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
             }
