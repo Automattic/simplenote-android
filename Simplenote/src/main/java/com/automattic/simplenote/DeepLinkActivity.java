@@ -32,7 +32,6 @@ public class DeepLinkActivity extends AppCompatActivity {
             if (app.isLoggedIn() &&
                 !email.toLowerCase(Locale.US).equals(app.getUserEmail().toLowerCase(Locale.US))) {
                 intent.putExtra(NotesActivity.KEY_ALREADY_LOGGED_IN, true);
-                intent.putExtra(NotesActivity.KEY_MAGIC_LINK_EMAIL, email);
             } else {
                 AuthUtils.magicLinkLogin((Simplenote) getApplication(), uri);
             }

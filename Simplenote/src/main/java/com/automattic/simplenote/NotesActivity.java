@@ -112,7 +112,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     public static String TAG_NOTE_EDITOR = "noteEditor";
 
     public static final String KEY_ALREADY_LOGGED_IN = "KEY_ALREADY_LOGGED_IN";
-    public static final String KEY_MAGIC_LINK_EMAIL = "KEY_MAGIC_LINK_EMAIL";
 
     private static String STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED = "STATE_NOTE_LIST_WIDGET_BUTTON_TAPPED";
 
@@ -297,8 +296,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
         if (intent.getBooleanExtra(KEY_ALREADY_LOGGED_IN, false)) {
             intent.removeExtra(KEY_ALREADY_LOGGED_IN);
-            showAlreadyLoggedInDialog(((Simplenote) getApplication()).getSimperium().getUser().getEmail(),
-                intent.getStringExtra(KEY_MAGIC_LINK_EMAIL));
+            showAlreadyLoggedInDialog();
         }
 
         if (intent.hasExtra(KEY_LIST_WIDGET_CLICK) && intent.getExtras() != null) {
@@ -366,14 +364,11 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         ft.commitNow();
     }
 
-    private void showAlreadyLoggedInDialog(String currentEmail, String newEmail) {
-        String newLine = "<br/><br/>";
+    private void showAlreadyLoggedInDialog() {
+        String email = ((Simplenote) getApplication()).getSimperium().getUser().getEmail();
         Spanned alreadyLoggedInText = Html.fromHtml(getString(
             R.string.dialog_already_logged_in_message,
-            "<b>" + currentEmail + "</b>",
-            newLine,
-            "<b>" + newEmail + "</b>",
-            newLine
+            "<b>" + email + "</b>"
         ));
         new AlertDialog.Builder(this)
             .setTitle(R.string.dialog_already_logged_in_title)
