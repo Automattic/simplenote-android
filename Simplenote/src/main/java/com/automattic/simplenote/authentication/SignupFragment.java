@@ -53,8 +53,7 @@ public class SignupFragment extends Fragment {
     private static final int TIMEOUT_SECS = 30;
     private static final String HTTP_SCHEME = "https";
     private static final String HTTP_HOST = "app.simplenote.com";
-    private static final String SIMPLENOTE_ACCOUNT_PATH = "account";
-    private static final String SIMPLENOTE_REQUEST_SIGNUP_PATH = "request-signup";
+    private static final String SIMPLENOTE_SIGNUP_PATH = "account/request-signup";
     private static final String ACCEPT_LANGUAGE = "Accept-Language";
 
     private static final String JSON_USERNAME = "username";
@@ -162,8 +161,7 @@ public class SignupFragment extends Fragment {
         return new HttpUrl.Builder()
             .scheme(HTTP_SCHEME)
             .host(HTTP_HOST)
-            .addPathSegment(SIMPLENOTE_ACCOUNT_PATH)
-            .addPathSegment(SIMPLENOTE_REQUEST_SIGNUP_PATH)
+            .addPathSegments(SIMPLENOTE_SIGNUP_PATH)
             .build();
     }
 
