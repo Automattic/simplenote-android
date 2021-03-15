@@ -10,8 +10,6 @@ import androidx.preference.PreferenceManager;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.AppLog.Type;
-import com.simperium.android.AndroidClient;
-import com.simperium.client.User;
 
 import org.wordpress.passcodelock.AppLockManager;
 
@@ -19,8 +17,6 @@ import java.nio.charset.StandardCharsets;
 
 import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class AuthUtils {
     public static void logOut(Simplenote application) {
@@ -68,7 +64,7 @@ public class AuthUtils {
         String userEmail = extractEmailFromMagicLink(uri);
         String spToken = uri.getQueryParameter("token");
 
-        application.login(userEmail, spToken);
+        application.loginWithToken(userEmail, spToken);
     }
 
     public static String extractEmailFromMagicLink(Uri uri) {

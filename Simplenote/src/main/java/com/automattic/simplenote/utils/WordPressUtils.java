@@ -10,8 +10,6 @@ import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.Simplenote;
-import com.simperium.android.AndroidClient;
-import com.simperium.client.User;
 
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
@@ -26,9 +24,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class WordPressUtils {
     public static int OAUTH_ACTIVITY_CODE = 1001;
@@ -127,7 +122,7 @@ public class WordPressUtils {
             return true;
         }
 
-        app.login(userEmail, spToken);
+        app.loginWithToken(userEmail, spToken);
 
         return true;
     }

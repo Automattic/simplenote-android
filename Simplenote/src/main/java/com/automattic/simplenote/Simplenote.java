@@ -218,7 +218,7 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mIsInBackground;
     }
 
-    public void login(String email, String spToken) {
+    public void loginWithToken(String email, String spToken) {
         // Manually authorize the user with Simperium
         User user = mSimperium.getUser();
         user.setAccessToken(spToken);
