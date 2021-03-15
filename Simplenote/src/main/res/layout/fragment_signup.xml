@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/width_layout"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:clipToPadding="false"
+    android:padding="@dimen/margin_default"
+    tools:layout_width="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/margin_default_quarter"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginEnd="@dimen/margin_default_quarter"
+        android:layout_marginBottom="@dimen/margin_default_quarter"
+        android:hint="@string/simperium_hint_email"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_email"
+        android:layout_marginTop="@dimen/margin_default_quarter"
+        android:layout_marginBottom="@dimen/margin_default_quarter"
+        android:backgroundTint="@color/button_primary_disabled_selector"
+        android:minHeight="@dimen/height_button"
+        android:text="@string/simperium_button_signup"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/text_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:minHeight="@dimen/height_footer"
+        android:padding="@dimen/margin_default_quarter"
+        android:textColor="@color/text_footer"
+        android:textSize="@dimen/text_footer"
+        tools:text="@string/simperium_footer_signup" />
+
+</RelativeLayout>

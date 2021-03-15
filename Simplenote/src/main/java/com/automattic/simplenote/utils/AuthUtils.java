@@ -2,6 +2,8 @@ package com.automattic.simplenote.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.util.Base64;
 
 import androidx.preference.PreferenceManager;
 
@@ -10,6 +12,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.AppLog.Type;
 
 import org.wordpress.passcodelock.AppLockManager;
+
+import java.nio.charset.StandardCharsets;
 
 import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
 import static com.automattic.simplenote.Simplenote.SYNC_TIME_PREFERENCES;
@@ -54,5 +58,17 @@ public class AuthUtils {
         AppLockManager.getInstance().getAppLock().setPassword("");
 
         WidgetUtils.updateNoteWidgets(application);
+    }
+
+    public static void magicLinkLogin(Simplenote application, Uri uri) {
+        String userEmail = extractEmailFromMagicLink(uri);
+        String spToken = uri.getQueryParameter("token");
+
+        application.loginWithToken(userEmail, spToken);
+    }
+
+    public static String extractEmailFromMagicLink(Uri uri) {
+        String userEmailEncoded = uri.getQueryParameter("email");
+        return new String(Base64.decode(userEmailEncoded, Base64.NO_WRAP), StandardCharsets.UTF_8);
     }
 }

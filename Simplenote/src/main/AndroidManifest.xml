@@ -121,12 +121,16 @@
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.SimplenoteAuthenticationActivity">
+            android:name="com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity">
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.SimplenoteCredentialsActivity">
+            android:name="com.automattic.simplenote.authentication.SimplenoteCredentialsActivity">
         </activity>
+
+        <activity
+            android:name=".authentication.SimplenoteSignupActivity"
+            android:theme="@style/Simperium" />
 
         <activity
             android:name="com.automattic.simplenote.StyleActivity"
@@ -139,9 +143,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
-        <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity"
-            tools:node="replace">
+        <activity android:name="com.automattic.simplenote.DeepLinkActivity">
 
             <intent-filter>
 
@@ -155,6 +157,10 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            tools:node="replace" />
 
         <!--suppress AndroidDomInspection -->
         <activity

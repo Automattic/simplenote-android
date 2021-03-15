@@ -1,4 +1,4 @@
-package com.automattic.simplenote;
+package com.automattic.simplenote.authentication;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.view.ContextThemeWrapper;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+import com.automattic.simplenote.R;
+import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
@@ -34,10 +36,8 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
 
     @Override
     protected void buttonSignupClicked() {
-        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteCredentialsActivity.class);
-        intent.putExtra(EXTRA_IS_LOGIN, false);
+        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

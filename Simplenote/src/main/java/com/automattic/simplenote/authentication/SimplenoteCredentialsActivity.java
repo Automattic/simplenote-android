@@ -1,4 +1,4 @@
-package com.automattic.simplenote;
+package com.automattic.simplenote.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
+import com.automattic.simplenote.BuildConfig;
+import com.automattic.simplenote.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.android.CredentialsActivity;
 
