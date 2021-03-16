@@ -73,6 +73,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
     private static final int REQUEST_IMPORT_DATA = 9003;
 
+    private Bucket<Note> mNotesBucket;
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
 
@@ -94,6 +95,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Simperium simperium = currentApp.getSimperium();
         simperium.setUserStatusChangeListener(this);
         simperium.setOnUserCreatedListener(this);
+        mNotesBucket = currentApp.getNotesBucket();
         mPreferencesBucket = currentApp.getPreferencesBucket();
 
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
@@ -127,7 +129,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 try {
                     BrowserUtils.launchBrowserOrShowError(requireContext(), "https://simplenote.com/help");
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                    toast(R.string.no_browser_available, Toast.LENGTH_LONG);
                 }
                 return true;
             }
@@ -139,7 +141,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 try {
                     BrowserUtils.launchBrowserOrShowError(requireContext(), "http://simplenote.com");
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                    toast(R.string.no_browser_available, Toast.LENGTH_LONG);
                 }
                 return true;
             }
@@ -328,7 +330,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
 
         if (resultData.getData() == null) {
-            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            toast(R.string.export_message_failure);
             return;
         }
 
@@ -468,69 +470,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
                 fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
                 parcelFileDescriptor.close();
-                Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
+                toast(R.string.export_message_success);
             } else {
-                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+                toast(R.string.export_message_failure);
             }
         } catch (Exception e) {
-            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            toast(R.string.export_message_failure);
         }
-    }
-
-    private enum TextMode {
-        WITHOUT_MARKDOWN,
-        WITH_MARKDOWN
     }
 
     private void importData(Uri uri) {
         try {
-            String exportContents = FileUtils.readFile(requireContext(), uri);
-            switch (FileUtils.getFileExtension(requireContext(), uri)) {
-                case "json":
-                    importJsonExport(exportContents);
+            Importer.fromUri(this, uri);
+            toast(R.string.import_message_success);
+        } catch (Importer.ImportException e) {
+            switch (e.getReason()) {
+                case FileError:
+                    toast(R.string.import_error_file);
                     break;
-                case "txt":
-                    importPlaintextFile(exportContents, TextMode.WITHOUT_MARKDOWN);
+                case ParseError:
+                    toast(R.string.import_error_parse);
                     break;
-                case "md":
-                    importPlaintextFile(exportContents, TextMode.WITH_MARKDOWN);
+                case UnknownExportType:
+                    toast(R.string.import_unknown);
                     break;
-                default:
-                    Toast.makeText(requireContext(), getString(R.string.import_unknown), Toast.LENGTH_SHORT).show();
-                    return;
             }
-            Toast.makeText(requireContext(), getString(R.string.import_message_success), Toast.LENGTH_SHORT).show();
-        } catch (ParseException e) {
-            Toast.makeText(requireContext(), getString(R.string.import_error_date), Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Toast.makeText(requireContext(), getString(R.string.import_error_file), Toast.LENGTH_SHORT).show();
-        } catch (JSONException e) {
-            Toast.makeText(requireContext(), getString(R.string.import_error_parse), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void importPlaintextFile(String exportContents, TextMode textMode) {
-        Simplenote currentApp = (Simplenote) requireActivity().getApplication();
-        Bucket<Note> noteBucket = currentApp.getNotesBucket();
-        Note note = noteBucket.newObject();
-        note.setContent(exportContents);
-        note.setCreationDate(Calendar.getInstance());
-        note.setModificationDate(note.getCreationDate());
-        note.setMarkdownEnabled(textMode == TextMode.WITH_MARKDOWN);
-        note.save();
-    }
-
-    private void importJsonExport(String exportContents) throws JSONException, ParseException {
-        JSONObject jsonData = new JSONObject(exportContents);
-        JSONArray activeNotes = jsonData.getJSONArray("activeNotes");
-        JSONArray trashedNotes = jsonData.getJSONArray("trashedNotes");
-        for (int i = 0; i < activeNotes.length(); i++) {
-            Note.fromJson(requireActivity(), activeNotes.getJSONObject(i)).save();
-        }
-        for (int j = 0; j < trashedNotes.length(); j++) {
-            Note note = Note.fromJson(requireActivity(), trashedNotes.getJSONObject(j));
-            note.setDeleted(true);
-            note.save();
         }
     }
 
@@ -610,5 +574,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 fragment.logOut();
             }
         }
+    }
+
+    private void toast(int stringId) {
+        toast(stringId, Toast.LENGTH_SHORT);
+    }
+
+    private void toast(int stringId, int length) {
+        Toast.makeText(requireContext(), getString(stringId), length).show();
     }
 }
