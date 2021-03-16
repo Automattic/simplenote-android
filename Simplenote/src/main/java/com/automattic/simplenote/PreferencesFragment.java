@@ -26,7 +26,6 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
-import com.automattic.simplenote.utils.FileUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
@@ -36,14 +35,10 @@ import com.simperium.client.BucketObjectNameInvalid;
 import com.simperium.client.User;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -73,7 +68,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
     private static final int REQUEST_IMPORT_DATA = 9003;
 
-    private Bucket<Note> mNotesBucket;
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
 
@@ -95,7 +89,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         Simperium simperium = currentApp.getSimperium();
         simperium.setUserStatusChangeListener(this);
         simperium.setOnUserCreatedListener(this);
-        mNotesBucket = currentApp.getNotesBucket();
         mPreferencesBucket = currentApp.getPreferencesBucket();
 
         authenticatePreference.setSummary(currentApp.getSimperium().getUser().getEmail());
