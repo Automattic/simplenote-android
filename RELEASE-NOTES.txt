@@ -1,6 +1,10 @@
+2.19
+-----
+
 2.18
 -----
- 
+* Redesigned signup flow [https://github.com/Automattic/simplenote-android/pull/1340]
+
 2.17
 -----
 * Added scrolling to last position when opening a note [https://github.com/Automattic/simplenote-android/pull/1300]
