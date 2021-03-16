@@ -19,7 +19,6 @@ lines = NOTES.lines
 
 def replace_pr_link_with_markdown_link(string)
   string.gsub(/\[.*\]$/) do |pr_link|
-    puts pr_link
     url = pr_link[1...-1] # strip the []
     id = url.split('/').last
     "[##{id}](#{url})"
