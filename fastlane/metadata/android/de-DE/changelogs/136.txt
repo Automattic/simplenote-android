@@ -1,3 +1,0 @@
-2.17:
-* Neu: Scrollen zur letzten Position beim Öffnen einer Notiz
-* Neu: Sortierleiste am Anfang der Notizenliste
