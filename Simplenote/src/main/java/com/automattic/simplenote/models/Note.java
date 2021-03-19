@@ -1,15 +1,11 @@
 package com.automattic.simplenote.models;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import com.automattic.simplenote.R;
-import com.automattic.simplenote.Simplenote;
-import com.automattic.simplenote.utils.DateTimeUtils;
-import com.automattic.simplenote.utils.TagUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
@@ -23,7 +19,6 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,27 +101,6 @@ public class Note extends BucketObject {
         return noteBucket.query()
                 .where(DELETED_PROPERTY, ComparisonType.NOT_EQUAL_TO, true)
                 .where(TAGS_PROPERTY, ComparisonType.EQUAL_TO, null);
-    }
-
-    public static Note fromContent(String content) {
-        Note note = new Note();
-        note.setContent(content);
-        note.setCreationDate(Calendar.getInstance());
-        note.setModificationDate(note.getCreationDate());
-
-        return note;
-    }
-
-    public static Note fromExportedJson(JSONObject noteJson) throws JSONException, ParseException {
-        Note note = new Note();
-        note.setContent(noteJson.optString("content", ""));
-        note.setCreationDate(noteJson.has("creationDate") ? DateTimeUtils.getDateCalendar(noteJson.getString("creationDate")) : Calendar.getInstance());
-        note.setModificationDate(noteJson.has("lastModified") ? DateTimeUtils.getDateCalendar(noteJson.getString("lastModified")) : Calendar.getInstance());
-        note.setTags(noteJson.has("tags") ? noteJson.getJSONArray("tags") : new JSONArray());
-        note.setPinned(noteJson.optBoolean("pinned", false));
-        note.setMarkdownEnabled(noteJson.optBoolean("markdown", false));
-
-        return note;
     }
 
     @SuppressWarnings("unused")
@@ -344,25 +318,8 @@ public class Note extends BucketObject {
         return tagList;
     }
 
-    public void removeTag(String removedTagName) {
-        JSONArray tags = new JSONArray();
-        String removedHash = TagUtils.hashTag(removedTagName);
-
-        for (String tagName : getTags()) {
-            if (!TagUtils.hashTag(tagName).equals(removedHash)) {
-                tags.put(tagName);
-            }
-        }
-
-        setTags(tags);
-    }
-
     public void setTags(List<String> tags) {
         setProperty(TAGS_PROPERTY, new JSONArray(tags));
-    }
-
-    public void setTags(JSONArray tags) {
-        setProperty(TAGS_PROPERTY, tags);
     }
 
     /**
