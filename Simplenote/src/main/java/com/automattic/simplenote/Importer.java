@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class Importer {
     private Bucket<Note> mNotesBucket;
@@ -56,20 +57,17 @@ public class Importer {
     }
 
     private void importPlaintext(String content) {
-        addNote(Note.fromContent(content));
+        addNote(Note.fromContent(mNotesBucket, content));
     }
 
     private void importMarkdown(String content) {
-        Note note = Note.fromContent(content);
+        Note note = Note.fromContent(mNotesBucket, content);
         note.enableMarkdown();
 
         addNote(note);
     }
 
     private void addNote(Note note) {
-        // @TODO: Is there a reason to add the tags for deleted notes?
-        //        If we un-trash a note then we _do_ want the tags to exist
-        //        so for now we're _always_ creating the tags.
         for (String tagName : note.getTags()) {
             try {
                 TagUtils.createTagIfMissing(mTagsBucket, tagName);
@@ -79,7 +77,6 @@ public class Importer {
             }
         }
 
-        mNotesBucket.add(note);
         note.save();
     }
 
@@ -91,22 +88,25 @@ public class Importer {
         }
     }
 
-    // @TODO: how should we fail on parsing?
-    //          - parse the full document and fail on _any_ failure, before importing any notes
-    //          - parse each note as we go and fail on _any_ failure, after importing some notes
-    //          - parse each note as we go, skipping any failure, importing all other notes
     private void importJsonExport(JSONObject export) throws JSONException, ParseException {
         JSONArray activeNotes = export.optJSONArray("activeNotes");
         JSONArray trashedNotes = export.optJSONArray("trashedNotes");
 
+        ArrayList<Note> notesList = new ArrayList<>();
+
         for (int i = 0; activeNotes != null && i < activeNotes.length(); i++) {
-            addNote(Note.fromExportedJson(activeNotes.getJSONObject(i)));
+            Note note = Note.fromExportedJson(mNotesBucket, activeNotes.getJSONObject(i));
+            notesList.add(note);
         }
 
         for (int j = 0; trashedNotes != null && j < trashedNotes.length(); j++) {
-            Note note = Note.fromExportedJson(trashedNotes.getJSONObject(j));
+            Note note = Note.fromExportedJson(mNotesBucket, trashedNotes.getJSONObject(j));
             note.setDeleted(true);
 
+            notesList.add(note);
+        }
+
+        for (Note note : notesList) {
             addNote(note);
         }
     }

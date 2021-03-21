@@ -106,8 +106,8 @@ public class Note extends BucketObject {
                 .where(TAGS_PROPERTY, ComparisonType.EQUAL_TO, null);
     }
 
-    public static Note fromContent(String content) {
-        Note note = new Note();
+    public static Note fromContent(Bucket<Note> notesBucket, String content) {
+        Note note = notesBucket.newObject();
         note.setContent(content);
         note.setCreationDate(Calendar.getInstance());
         note.setModificationDate(note.getCreationDate());
@@ -115,8 +115,8 @@ public class Note extends BucketObject {
         return note;
     }
 
-    public static Note fromExportedJson(JSONObject noteJson) throws JSONException, ParseException {
-        Note note = new Note();
+    public static Note fromExportedJson(Bucket<Note> notesBucket, JSONObject noteJson) throws JSONException, ParseException {
+        Note note = notesBucket.newObject();
         note.setContent(noteJson.optString("content", ""));
         note.setCreationDate(noteJson.has("creationDate") ? DateTimeUtils.getDateCalendar(noteJson.getString("creationDate")) : Calendar.getInstance());
         note.setModificationDate(noteJson.has("lastModified") ? DateTimeUtils.getDateCalendar(noteJson.getString("lastModified")) : Calendar.getInstance());
