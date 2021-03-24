@@ -1,0 +1,2 @@
+2.18：
+* Redesigned signup flow

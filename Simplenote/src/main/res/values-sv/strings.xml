@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-16 11:54:03+0000
+Translation-Revision-Date: 2021-03-16 16:23:16+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">Du är redan inloggad som %1$s. Logga ut och försök igen.</string>
+    <string name="dialog_already_logged_in_title">Redan inloggad</string>
+    <string name="dialog_message_signup_error">Vi har problem. Försök igen om en stund.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL kopierad till urklipp</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL kunde inte kopieras till urklipp</string>
     <string name="dialog_browser_exception_title">Länkfel</string>
