@@ -75,6 +75,7 @@ public class ScreenshotTest {
 
     private static final String NOTE_FOR_EDITOR_SHOT_TITLE = "Lemon Cake & Blueberry";
     private static final String NOTE_FOR_INTERLINKING_SHOT_TITLE = "# Colors";
+    private static final String NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE = "Blueberry Recipes";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
@@ -126,20 +127,15 @@ public class ScreenshotTest {
             waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
         }
 
-        selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE, "01-note");
 
-        // It can happen that the email verification screen appears on the note editor instead of
-        // the note list screen, so look for one and dismiss it if found.
-        dismissVerifyEmailScreenIfNeeded();
-
-        Screengrab.screenshot("01-note");
-
-        dismissNoteEditor();
-
-        takeInterNoteLinkingScreenshotFromNotesList(NOTE_FOR_INTERLINKING_SHOT_TITLE, "03-inter-note-linking");
-
-        loadSideMenuFromNotesList();
-        onView(withText("All Notes")).perform(click());
+        // What we'd like to do is take a screenshot of the interlinking interface with:
+        //
+        // takeInterNoteLinkingScreenshotFromNotesList(NOTE_FOR_INTERLINKING_SHOT_TITLE, "03-inter-note-linking");
+        //
+        // But that would be confusing on the Play Store page because we don't have descriptions for
+        // the screenshots. So, we take a screenshot of a note with note links in the body instead.
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE, "03-inter-linked-note");
 
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
@@ -279,6 +275,18 @@ public class ScreenshotTest {
 
     // Notes List Screen
 
+    private void selectNoteAndTakeScreenshotFromNotesList(String noteTitle, String screenshotName) {
+        selectNoteFromNotesList(noteTitle);
+
+        // It can happen that the email verification screen appears on the note editor instead of
+        // the note list screen, so look for one and dismiss it if found.
+        dismissVerifyEmailScreenIfNeeded();
+
+        Screengrab.screenshot(screenshotName);
+
+        dismissNoteEditor();
+    }
+
     private void selectNoteFromNotesList(String title) {
         onView(allOf(withId(R.id.note_title), withText(title))).perform(click());
     }
@@ -368,6 +376,11 @@ public class ScreenshotTest {
         onView(withText("Trash")).perform(click());
         onView(withId(R.id.menu_empty_trash)).perform(click());
         onView(withText("Empty")).perform(click());
+
+        // Go back to notes list
+        loadSideMenuFromNotesList();    // The trash activity is obviously not the notes list one,
+                                        // but this method works anyways
+        onView(withText("All Notes")).perform(click());
     }
 
     // Notes Editor Screen
