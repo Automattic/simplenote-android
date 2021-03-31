@@ -136,7 +136,7 @@ public class ScreenshotTest {
 
         dismissNoteEditor();
 
-        takeInterNoteLinkingScreenshotFromNotesList();
+        takeInterNoteLinkingScreenshotFromNotesList(NOTE_FOR_INTERLINKING_SHOT_TITLE, "03-inter-note-linking");
 
         loadSideMenuFromNotesList();
         onView(withText("All Notes")).perform(click());
@@ -319,7 +319,7 @@ public class ScreenshotTest {
         loadThemeSwitcherFromSettings();
     }
 
-    private void takeInterNoteLinkingScreenshotFromNotesList() throws InterruptedException {
+    private void takeInterNoteLinkingScreenshotFromNotesList(String noteName, String screenshotName) throws InterruptedException {
         /*
         The code in this method is rather hacky, unfortunately.
 
@@ -340,7 +340,7 @@ public class ScreenshotTest {
          */
         onView(withContentDescription("New Note")).perform(click());
 
-        String noteText = NOTE_FOR_INTERLINKING_SHOT_TITLE + "\n" +
+        String noteText = noteName + "\n" +
                 "\n" +
                 // The original note has this quote wrapped in this kind of quotes: “”, but trying
                 // to type them make the tests crash. They're irrelevant for the end result in the
@@ -357,7 +357,7 @@ public class ScreenshotTest {
 
         // Give the inter-note linking picker time to appear before taking the screenshot
         Thread.sleep(500);
-        Screengrab.screenshot("03-inter-note-linking");
+        Screengrab.screenshot(screenshotName);
 
         onView(withContentDescription("More Options")).perform(click());
 
