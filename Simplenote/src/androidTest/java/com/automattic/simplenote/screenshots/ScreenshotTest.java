@@ -130,6 +130,12 @@ public class ScreenshotTest {
         // Make sure the results have been rendered
         waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_FOR_EDITOR_SHOT_TITLE)), 1000);
 
+        if (!isPhone()) {
+            // On tablet, because of the landscape setup, select a note and wait for the keyboard to dismiss
+            selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
+            Thread.sleep(1000);
+        }
+
         Screengrab.screenshot("05-search");
 
         dismissSearch();
