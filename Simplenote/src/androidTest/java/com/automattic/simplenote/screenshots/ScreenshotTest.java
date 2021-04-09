@@ -116,7 +116,7 @@ public class ScreenshotTest {
         login();
         waitForNotesInNotesListToLoad();
 
-        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE, "01-note");
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE, "01-note", true);
 
         // What we'd like to do is take a screenshot of the interlinking interface with:
         //
@@ -124,7 +124,7 @@ public class ScreenshotTest {
         //
         // But that would be confusing on the Play Store page because we don't have descriptions for
         // the screenshots. So, we take a screenshot of a note with note links in the body instead.
-        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE, "03-inter-linked-note");
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE, "03-inter-linked-note", false);
 
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
@@ -301,19 +301,35 @@ public class ScreenshotTest {
         }
     }
 
-    private void selectNoteAndTakeScreenshotFromNotesList(String noteTitle, String screenshotName) {
+    private void selectNoteAndTakeScreenshotFromNotesList(String noteTitle, String screenshotName, Boolean fullscrenOnTablet) {
         selectNoteFromNotesList(noteTitle);
 
         // It can happen that the email verification screen appears on the note editor instead of
         // the note list screen, so look for one and dismiss it if found.
         dismissVerifyEmailScreenIfNeeded();
 
-        Screengrab.screenshot(screenshotName);
-
-        // On the tablet, we take screenshots in landscape. The editor, then, is side-by-side the
-        // notes list by default. We only need to dismiss it when running on the phone.
+        // On the table, we take screenshots in landscape and there's a side list view. We need a
+        // different behavior depending on the device.
         if (isPhone()) {
+            Screengrab.screenshot(screenshotName);
             dismissNoteEditor();
+        } else {
+            final String hideDescription = "Hide List";
+            final String showDescription = "Show List";
+
+            if (fullscrenOnTablet) {
+                onView(withContentDescription(hideDescription)).perform(click());
+                // Give time to the animation to run...
+                waitForViewToBeDisplayed(withContentDescription(showDescription), 1000);
+            }
+
+            Screengrab.screenshot(screenshotName);
+
+            if (fullscrenOnTablet) {
+                onView(withContentDescription(showDescription)).perform(click());
+                // Give time to the animation to run...
+                waitForViewToBeDisplayed(withContentDescription(hideDescription), 1000);
+            }
         }
     }
 
