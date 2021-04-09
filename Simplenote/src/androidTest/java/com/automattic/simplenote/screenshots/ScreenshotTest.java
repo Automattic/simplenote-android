@@ -105,27 +105,15 @@ public class ScreenshotTest {
 
         login();
 
-        // Wait for notes to load.
-        // Not 100% sure why, but without this little sleep call, the call to wait for the note that
-        // we need to interact with to be loaded in the list fails. I suspect it might be due to the
-        // app changing root activity (from login to notes list) but I haven't had the time to
-        // research it properly
-        Thread.sleep(2000);
+        waitForNotesInNotesListToLoad();
+
+        // I have no idea why this is the case, but something changed between February and April
+        // 2021, either in our code or Fastlane, resulting in the link highlighting not rendering
+        // in the first run. The only solution I found is... logging out and in again?!
         dismissVerifyEmailScreenIfNeeded();
-        // We want the full list of notes to be on screen when taking the screenshots, so let's wait
-        // for enough notes to be on screen to be relatively confident that's happened.
-        //
-        // Obviously, it would be better to have something like "wait for notes to load" but I
-        // wasn't able to find a way to achieve this – Gio
-        List<String> noteTitles = Arrays.asList(
-                NOTE_FOR_EDITOR_SHOT_TITLE,
-                "Bret Victor's Quote Collection",
-                "Back on track",
-                NOTE_FOR_INTERLINKING_SHOT_TITLE
-        );
-        for (String title:noteTitles) {
-            waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
-        }
+        logoutIfNeeded();
+        login();
+        waitForNotesInNotesListToLoad();
 
         selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE, "01-note");
 
@@ -274,6 +262,31 @@ public class ScreenshotTest {
     }
 
     // Notes List Screen
+
+    private void waitForNotesInNotesListToLoad() throws InterruptedException {
+        // Not 100% sure why, but without this little sleep call, the call to wait for the note that
+        // we need to interact with to be loaded in the list fails.
+        //
+        // Currently, this method is called right after a login, so I suspect it might be due to the
+        // app changing root activity (from login to notes list) but I haven't had the time to
+        // research it properly
+        Thread.sleep(2000);
+        dismissVerifyEmailScreenIfNeeded();
+        // We want the full list of notes to be on screen when taking the screenshots, so let's wait
+        // for enough notes to be on screen to be relatively confident that's happened.
+        //
+        // Obviously, it would be better to have something like "wait for notes to load" but I
+        // wasn't able to find a way to achieve this – Gio
+        List<String> noteTitles = Arrays.asList(
+                NOTE_FOR_EDITOR_SHOT_TITLE,
+                "Bret Victor's Quote Collection",
+                "Back on track",
+                NOTE_FOR_INTERLINKING_SHOT_TITLE
+        );
+        for (String title:noteTitles) {
+            waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
+        }
+    }
 
     private void selectNoteAndTakeScreenshotFromNotesList(String noteTitle, String screenshotName) {
         selectNoteFromNotesList(noteTitle);
