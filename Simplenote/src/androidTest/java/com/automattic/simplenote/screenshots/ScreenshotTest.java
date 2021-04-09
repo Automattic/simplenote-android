@@ -54,6 +54,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
+import static androidx.test.espresso.action.ViewActions.swipeDown;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -207,9 +208,8 @@ public class ScreenshotTest {
 
         loadSettingsFromNotesList();
 
-        // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
-        // that will reveal the logout button.
-        onView(withId(R.id.preferences_container)).perform(swipeUp());
+        // The logout option is down at the bottom of the list, offscreen.
+        scrollDownSettingsScreen();
 
         // Logout
         selectSettingsOption(R.string.log_out, logoutPosition);
@@ -293,7 +293,6 @@ public class ScreenshotTest {
         List<String> noteTitles = Arrays.asList(
                 NOTE_FOR_EDITOR_SHOT_TITLE,
                 "Bret Victor's Quote Collection",
-                "Back on track",
                 NOTE_FOR_INTERLINKING_SHOT_TITLE
         );
         for (String title:noteTitles) {
@@ -465,6 +464,16 @@ public class ScreenshotTest {
     private int logoutPosition = 14;
     private int passcodePosition = 11;
 
+    private void scrollUpSettingsScreen() {
+        // Swipe to perform a scroll, because I couldn't get a reference to a scrollable view.
+        onView(withId(R.id.preferences_container)).perform(swipeDown());
+    }
+
+    private void scrollDownSettingsScreen() {
+        // Swipe to perform a scroll, because I couldn't get a reference to a scrollable view.
+        onView(withId(R.id.preferences_container)).perform(swipeUp());
+    }
+
     // Note: I couldn't find a way to get a straight reference to the item, so I was left with this
     // brittle position based matching.
     private void selectSettingsOption(Integer textId, Integer position) {
@@ -482,6 +491,8 @@ public class ScreenshotTest {
     }
 
     private void loadThemeSwitcherFromSettings() {
+        // Scroll up in case we're on a 7" tablet and the option is offscreen
+        scrollUpSettingsScreen();
         selectSettingsOption(R.string.theme, themePosition);
     }
 
@@ -492,10 +503,20 @@ public class ScreenshotTest {
     }
 
     private void loadPasscodeSetterFromSettings() {
+        if (!isPhone()) {
+            // When on landscape on a 7" tablet, the option is not on screen. On the 10", scrolling
+            // doesn't disrupt the flow, but on the portrait phone screen it does.
+            scrollDownSettingsScreen();
+        }
         selectSettingsOption(R.string.passcode_turn_on, passcodePosition);
     }
 
     private void loadPasscodeUnsetterFromSettings() {
+        if (!isPhone()) {
+            // When on landscape on a 7" tablet, the option is not on screen. On the 10", scrolling
+            // doesn't disrupt the flow, but on the portrait phone screen it does.
+            scrollDownSettingsScreen();
+        }
         selectSettingsOption(R.string.passcode_turn_off, passcodePosition);
     }
 
@@ -691,6 +712,7 @@ public class ScreenshotTest {
         float widthDp = displayMetrics.widthPixels / displayMetrics.density;
         float heightDp = displayMetrics.heightPixels / displayMetrics.density;
         float screenSw = Math.min(widthDp, heightDp);
-        return screenSw < 600;
+        // The threshold should be 600, but on the 7 inch Emulators the value turns out to be 552.
+        return screenSw < 552;
     }
 }
