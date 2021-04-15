@@ -115,11 +115,14 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 }
             );
             mMarkdown = layout.findViewById(R.id.markdown);
+
+            final long delay = requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime);
             mMarkdown.setWebViewClient(
                 new WebViewClient() {
                     @Override
                     public void onPageFinished(final WebView view, String url) {
                         super.onPageFinished(view, url);
+
                         new Handler().postDelayed(
                             new Runnable() {
                                 @Override
@@ -129,7 +132,7 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                                     }
                                 }
                             },
-                            requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
+                            delay
                         );
                     }
 

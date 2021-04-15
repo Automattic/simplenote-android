@@ -2,6 +2,7 @@ package com.automattic.simplenote.screenshots;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -53,6 +54,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
+import static androidx.test.espresso.action.ViewActions.swipeDown;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -75,6 +77,7 @@ public class ScreenshotTest {
 
     private static final String NOTE_FOR_EDITOR_SHOT_TITLE = "Lemon Cake & Blueberry";
     private static final String NOTE_FOR_INTERLINKING_SHOT_TITLE = "# Colors";
+    private static final String NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE = "Blueberry Recipes";
 
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
@@ -104,46 +107,35 @@ public class ScreenshotTest {
 
         login();
 
-        // Wait for notes to load.
-        // Not 100% sure why, but without this little sleep call, the call to wait for the note that
-        // we need to interact with to be loaded in the list fails. I suspect it might be due to the
-        // app changing root activity (from login to notes list) but I haven't had the time to
-        // research it properly
-        Thread.sleep(2000);
+        waitForNotesInNotesListToLoad();
+
+        // I have no idea why this is the case, but something changed between February and April
+        // 2021, either in our code or Fastlane, resulting in the link highlighting not rendering
+        // in the first run. The only solution I found is... logging out and in again?!
         dismissVerifyEmailScreenIfNeeded();
-        // We want the full list of notes to be on screen when taking the screenshots, so let's wait
-        // for enough notes to be on screen to be relatively confident that's happened.
+        logoutIfNeeded();
+        login();
+        waitForNotesInNotesListToLoad();
+
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE, "01-note", true);
+
+        // What we'd like to do is take a screenshot of the interlinking interface with:
         //
-        // Obviously, it would be better to have something like "wait for notes to load" but I
-        // wasn't able to find a way to achieve this – Gio
-        List<String> noteTitles = Arrays.asList(
-                NOTE_FOR_EDITOR_SHOT_TITLE,
-                "Bret Victor's Quote Collection",
-                "Back on track",
-                NOTE_FOR_INTERLINKING_SHOT_TITLE
-        );
-        for (String title:noteTitles) {
-            waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
-        }
-
-        selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
-
-        // It can happen that the email verification screen appears on the note editor instead of
-        // the note list screen, so look for one and dismiss it if found.
-        dismissVerifyEmailScreenIfNeeded();
-
-        Screengrab.screenshot("01-note");
-
-        dismissNoteEditor();
-
-        takeInterNoteLinkingScreenshotFromNotesList();
-
-        loadSideMenuFromNotesList();
-        onView(withText("All Notes")).perform(click());
+        // takeInterNoteLinkingScreenshotFromNotesList(NOTE_FOR_INTERLINKING_SHOT_TITLE, "03-inter-note-linking");
+        //
+        // But that would be confusing on the Play Store page because we don't have descriptions for
+        // the screenshots. So, we take a screenshot of a note with note links in the body instead.
+        selectNoteAndTakeScreenshotFromNotesList(NOTE_FOR_INTERLINKED_NOTE_SHOT_TITLE, "03-inter-linked-note", false);
 
         loadSearchFromNotesList("Recipe");
         // Make sure the results have been rendered
         waitForViewMatching(allOf(withId(R.id.note_title), withText(NOTE_FOR_EDITOR_SHOT_TITLE)), 1000);
+
+        if (!isPhone()) {
+            // On tablet, because of the landscape setup, select a note and wait for the keyboard to dismiss
+            selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
+            Thread.sleep(1000);
+        }
 
         Screengrab.screenshot("05-search");
 
@@ -152,6 +144,12 @@ public class ScreenshotTest {
         enableDarkModeFromNotesList();
 
         dismissSettings();
+
+        // On the tablet, at this point of the flow, there is no note selected. That would make for
+        // an "empty" screenshot. Select one note to make it more interesting.
+        if (!isPhone()) {
+            selectNoteFromNotesList(NOTE_FOR_EDITOR_SHOT_TITLE);
+        }
 
         Screengrab.screenshot("02-notes-list");
 
@@ -210,9 +208,8 @@ public class ScreenshotTest {
 
         loadSettingsFromNotesList();
 
-        // Swipe to perform a scroll (because I couldn't get a reference to a scrollable view)
-        // that will reveal the logout button.
-        onView(withId(R.id.preferences_container)).perform(swipeUp());
+        // The logout option is down at the bottom of the list, offscreen.
+        scrollDownSettingsScreen();
 
         // Logout
         selectSettingsOption(R.string.log_out, logoutPosition);
@@ -279,6 +276,62 @@ public class ScreenshotTest {
 
     // Notes List Screen
 
+    private void waitForNotesInNotesListToLoad() throws InterruptedException {
+        // Not 100% sure why, but without this little sleep call, the call to wait for the note that
+        // we need to interact with to be loaded in the list fails.
+        //
+        // Currently, this method is called right after a login, so I suspect it might be due to the
+        // app changing root activity (from login to notes list) but I haven't had the time to
+        // research it properly
+        Thread.sleep(2000);
+        dismissVerifyEmailScreenIfNeeded();
+        // We want the full list of notes to be on screen when taking the screenshots, so let's wait
+        // for enough notes to be on screen to be relatively confident that's happened.
+        //
+        // Obviously, it would be better to have something like "wait for notes to load" but I
+        // wasn't able to find a way to achieve this – Gio
+        List<String> noteTitles = Arrays.asList(
+                NOTE_FOR_EDITOR_SHOT_TITLE,
+                "Bret Victor's Quote Collection",
+                NOTE_FOR_INTERLINKING_SHOT_TITLE
+        );
+        for (String title:noteTitles) {
+            waitForViewMatching(allOf(withId(R.id.note_title), withText(title)), 5000);
+        }
+    }
+
+    private void selectNoteAndTakeScreenshotFromNotesList(String noteTitle, String screenshotName, Boolean fullscrenOnTablet) {
+        selectNoteFromNotesList(noteTitle);
+
+        // It can happen that the email verification screen appears on the note editor instead of
+        // the note list screen, so look for one and dismiss it if found.
+        dismissVerifyEmailScreenIfNeeded();
+
+        // On the table, we take screenshots in landscape and there's a side list view. We need a
+        // different behavior depending on the device.
+        if (isPhone()) {
+            Screengrab.screenshot(screenshotName);
+            dismissNoteEditor();
+        } else {
+            final String hideDescription = "Hide List";
+            final String showDescription = "Show List";
+
+            if (fullscrenOnTablet) {
+                onView(withContentDescription(hideDescription)).perform(click());
+                // Give time to the animation to run...
+                waitForViewToBeDisplayed(withContentDescription(showDescription), 1000);
+            }
+
+            Screengrab.screenshot(screenshotName);
+
+            if (fullscrenOnTablet) {
+                onView(withContentDescription(showDescription)).perform(click());
+                // Give time to the animation to run...
+                waitForViewToBeDisplayed(withContentDescription(hideDescription), 1000);
+            }
+        }
+    }
+
     private void selectNoteFromNotesList(String title) {
         onView(allOf(withId(R.id.note_title), withText(title))).perform(click());
     }
@@ -319,7 +372,7 @@ public class ScreenshotTest {
         loadThemeSwitcherFromSettings();
     }
 
-    private void takeInterNoteLinkingScreenshotFromNotesList() throws InterruptedException {
+    private void takeInterNoteLinkingScreenshotFromNotesList(String noteName, String screenshotName) throws InterruptedException {
         /*
         The code in this method is rather hacky, unfortunately.
 
@@ -340,7 +393,7 @@ public class ScreenshotTest {
          */
         onView(withContentDescription("New Note")).perform(click());
 
-        String noteText = NOTE_FOR_INTERLINKING_SHOT_TITLE + "\n" +
+        String noteText = noteName + "\n" +
                 "\n" +
                 // The original note has this quote wrapped in this kind of quotes: “”, but trying
                 // to type them make the tests crash. They're irrelevant for the end result in the
@@ -357,7 +410,7 @@ public class ScreenshotTest {
 
         // Give the inter-note linking picker time to appear before taking the screenshot
         Thread.sleep(500);
-        Screengrab.screenshot("03-inter-note-linking");
+        Screengrab.screenshot(screenshotName);
 
         onView(withContentDescription("More Options")).perform(click());
 
@@ -368,6 +421,11 @@ public class ScreenshotTest {
         onView(withText("Trash")).perform(click());
         onView(withId(R.id.menu_empty_trash)).perform(click());
         onView(withText("Empty")).perform(click());
+
+        // Go back to notes list
+        loadSideMenuFromNotesList();    // The trash activity is obviously not the notes list one,
+                                        // but this method works anyways
+        onView(withText("All Notes")).perform(click());
     }
 
     // Notes Editor Screen
@@ -406,6 +464,16 @@ public class ScreenshotTest {
     private int logoutPosition = 14;
     private int passcodePosition = 11;
 
+    private void scrollUpSettingsScreen() {
+        // Swipe to perform a scroll, because I couldn't get a reference to a scrollable view.
+        onView(withId(R.id.preferences_container)).perform(swipeDown());
+    }
+
+    private void scrollDownSettingsScreen() {
+        // Swipe to perform a scroll, because I couldn't get a reference to a scrollable view.
+        onView(withId(R.id.preferences_container)).perform(swipeUp());
+    }
+
     // Note: I couldn't find a way to get a straight reference to the item, so I was left with this
     // brittle position based matching.
     private void selectSettingsOption(Integer textId, Integer position) {
@@ -423,6 +491,8 @@ public class ScreenshotTest {
     }
 
     private void loadThemeSwitcherFromSettings() {
+        // Scroll up in case we're on a 7" tablet and the option is offscreen
+        scrollUpSettingsScreen();
         selectSettingsOption(R.string.theme, themePosition);
     }
 
@@ -433,10 +503,20 @@ public class ScreenshotTest {
     }
 
     private void loadPasscodeSetterFromSettings() {
+        if (!isPhone()) {
+            // When on landscape on a 7" tablet, the option is not on screen. On the 10", scrolling
+            // doesn't disrupt the flow, but on the portrait phone screen it does.
+            scrollDownSettingsScreen();
+        }
         selectSettingsOption(R.string.passcode_turn_on, passcodePosition);
     }
 
     private void loadPasscodeUnsetterFromSettings() {
+        if (!isPhone()) {
+            // When on landscape on a 7" tablet, the option is not on screen. On the 10", scrolling
+            // doesn't disrupt the flow, but on the portrait phone screen it does.
+            scrollDownSettingsScreen();
+        }
         selectSettingsOption(R.string.passcode_turn_off, passcodePosition);
     }
 
@@ -623,5 +703,16 @@ public class ScreenshotTest {
                         .build();
             }
         };
+    }
+
+    // Modified from https://stackoverflow.com/a/30270939/809944
+    private boolean isPhone() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.mActivityTestRule.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float widthDp = displayMetrics.widthPixels / displayMetrics.density;
+        float heightDp = displayMetrics.heightPixels / displayMetrics.density;
+        float screenSw = Math.min(widthDp, heightDp);
+        // The threshold should be 600, but on the 7 inch Emulators the value turns out to be 552.
+        return screenSw < 552;
     }
 }
