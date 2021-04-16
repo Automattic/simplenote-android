@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
+apply plugin: 'kotlin-android'
 
 android {
     buildToolsVersion '29.0.2'
@@ -37,6 +38,12 @@ android {
         targetSdkVersion 29
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    // Avoid duplicate annotations dependencies
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains' , module:'annotations'
     }
 
     lintOptions {
@@ -84,6 +91,10 @@ dependencies {
     implementation 'com.automattic:simperium:develop-c0bbbb8b6c34c671f810f530d2baf857a0ce5d87'
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.2'
+
+    // Kotlin and KTX
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'
