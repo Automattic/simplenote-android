@@ -1,14 +1,15 @@
 ## Testing
 
-### Login
+### Login/Signup
 
 - [ ] Logout
 - [ ] Login with wrong password fails
-- [ ] Login with correct password
+- [ ] Login with correct password succeeds
+- [ ] Signup with unique email address succeeds, welcome note is shown after
 
 ### Sync
 
-- [ ] Create new note appears in other device
+- [ ] Created note appears in other device
 - [ ] Changes to new note sync to/from other device
 - [ ] New tag immediately syncs to/from other device
 - [ ] Removed tag immediately syncs to/from other device
@@ -63,6 +64,7 @@
 - [ ] Can change analytics sharing setting
 - [ ] Changing `Condensed note list` mode immediately updates and reflects in note list
 - [ ] Changing `Sort Order` immediately updates and reflects in note list
+- [ ] Changing `Tag Sorting` immediately updates and reflects in tag list
 - [ ] For each sort type the pinned notes appear first in the note list
 - [ ] Changing `Theme` immediately updates app for desired color scheme
 - [ ] After turning on passcode lock, passcode is required to resume the app (from lock screen, from background, after force-closing it)
