@@ -46,7 +46,7 @@ class AddActivityTest : BaseUITest() {
         onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        val existsMessage = getResourceString(R.string.tag_error_exists) ?: ""
+        val existsMessage = getResourceString(R.string.tag_error_exists)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(existsMessage)))
 
         Assert.assertEquals(tagsBucket.count(), 1)
@@ -60,7 +60,7 @@ class AddActivityTest : BaseUITest() {
         onView(withId(R.id.tag_input)).perform(replaceText(newTag))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        val tooLongMessage = getResourceString(R.string.tag_error_length) ?: ""
+        val tooLongMessage = getResourceString(R.string.tag_error_length)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(tooLongMessage)))
 
         Assert.assertEquals(tagsBucket.count(), 0)
@@ -75,7 +75,7 @@ class AddActivityTest : BaseUITest() {
         onView(withId(R.id.tag_input)).perform(replaceText("tag 1"))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        val spaceMessage = getResourceString(R.string.tag_error_spaces) ?: ""
+        val spaceMessage = getResourceString(R.string.tag_error_spaces)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
         onView(withId(R.id.button_negative)).perform(click())
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
@@ -95,7 +95,7 @@ class AddActivityTest : BaseUITest() {
         onView(withId(R.id.tag_input)).perform(replaceText(""))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        val spaceMessage = getResourceString(R.string.tag_error_empty) ?: ""
+        val spaceMessage = getResourceString(R.string.tag_error_empty)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
         onView(withId(R.id.button_negative)).perform(click())
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))

@@ -24,7 +24,7 @@ open class BaseUITest {
         tagsBucket.clear()
     }
 
-    protected fun getResourceString(id: Int): String? {
+    protected fun getResourceString(id: Int): String {
         val targetContext: Context = InstrumentationRegistry.getInstrumentation().targetContext
         return targetContext.resources.getString(id)
     }
