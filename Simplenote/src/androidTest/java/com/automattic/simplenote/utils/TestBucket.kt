@@ -4,14 +4,7 @@ import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import com.simperium.client.Syncable
 
-abstract class TestBucket<T : Syncable>(name: String) : Bucket<T>(
-        null,
-        name,
-        null,
-        null,
-        null,
-        null) {
-
+abstract class TestBucket<T : Syncable>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
     private val objects: MutableList<T> = mutableListOf()
 
