@@ -110,7 +110,7 @@ class AddTagActivityTest : BaseUITest() {
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
-        onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
+        onView(withId(R.id.tag_input)).perform(replaceText("tag"))
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
         onView(withId(R.id.button_negative)).perform(click())
 
