@@ -17,6 +17,9 @@ open class BaseUITest {
     @Before
     fun setup() {
         application = ApplicationProvider.getApplicationContext() as SimplenoteTest
+        // Make sure to use TestBucket buckets in UI tests
+        application.useDefaultBucketImpl = false
+
         tagsBucket = application.tagsBucket as TestBucket<Tag>
         tagsBucket.clear()
     }
