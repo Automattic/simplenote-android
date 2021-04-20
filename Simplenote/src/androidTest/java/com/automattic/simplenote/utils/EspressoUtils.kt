@@ -13,7 +13,7 @@ fun hasTextInputLayoutErrorText(expectedErrorText: String): Matcher<View> {
                 return false
             }
 
-            val error = (view as TextInputLayout).error ?: return false
+            val error = view.error ?: return false
             val hint = error.toString()
 
             return expectedErrorText == hint;
