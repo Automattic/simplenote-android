@@ -89,7 +89,9 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.automattic:simperium:develop-c0bbbb8b6c34c671f810f530d2baf857a0ce5d87'
-    implementation 'com.automattic:tracks:1.2'
+    implementation('com.automattic:tracks:1.2') {
+        exclude group: "org.jetbrains", module: "annotations-java5"
+    }
     implementation 'org.wordpress:passcodelock:2.0.2'
     
     // Google Support
