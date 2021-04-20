@@ -92,8 +92,7 @@ dependencies {
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.2'
 
-    // Kotlin and KTX
-    implementation 'androidx.core:core-ktx:1.3.2'
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Google Support
