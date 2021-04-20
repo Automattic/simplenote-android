@@ -6,8 +6,7 @@ import com.automattic.simplenote.utils.TestBucket
 import com.simperium.client.Bucket
 
 class SimplenoteTest : Simplenote() {
-    // Decides whether use the default bucket implementation or our own TestBucket
-    var useDefaultBucketImpl = true
+    var useTestBucket = false // Decides whether to use the test bucket implementation or the default.
 
     private val tagsBucket = object : TestBucket<Tag>("tags") {
         override fun build(key: String?): Tag {
@@ -21,19 +20,8 @@ class SimplenoteTest : Simplenote() {
         }
     }
 
-    override fun getTagsBucket(): Bucket<Tag> {
-        if (useDefaultBucketImpl) {
-            return super.getTagsBucket()
-        }
+    override fun getTagsBucket(): Bucket<Tag> = if (useTestBucket) tagsBucket else super.getTagsBucket()
 
-        return tagsBucket
-    }
-
-    override fun getNotesBucket(): Bucket<Note> {
-        if (useDefaultBucketImpl) {
-            return super.getNotesBucket()
-        }
-
-        return notesBucket
-    }
+    override fun getNotesBucket(): Bucket<Note> = if (useTestBucket) notesBucket else super.getNotesBucket()
 }
+
