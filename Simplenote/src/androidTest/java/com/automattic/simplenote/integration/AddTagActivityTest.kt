@@ -72,7 +72,7 @@ class AddTagActivityTest : BaseUITest() {
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
-        onView(withId(R.id.tag_input)).perform(replaceText("tag 1"))
+        onView(withId(R.id.tag_input)).perform(replaceText("tag 3"))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
         val spaceMessage = getResourceString(R.string.tag_error_spaces)
