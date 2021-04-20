@@ -14,9 +14,9 @@ fun hasTextInputLayoutErrorText(expectedErrorText: String): Matcher<View> {
             }
 
             val error = view.error ?: return false
-            val hint = error.toString()
+            val errorStr = error.toString()
 
-            return expectedErrorText == hint;
+            return expectedErrorText == errorStr
         }
 
         override fun describeTo(description: Description) {
