@@ -10,7 +10,7 @@ import org.junit.Before
 import java.security.SecureRandom
 
 open class BaseUITest {
-    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private lateinit var application: SimplenoteTest
     protected lateinit var tagsBucket: TestBucket<Tag>
 
@@ -35,9 +35,8 @@ open class BaseUITest {
         random.nextBytes(bytes)
 
         return (bytes.indices)
-                .map {
-                    charPool[random.nextInt(charPool.size)]
-                }.joinToString("")
+                .map { charPool[random.nextInt(charPool.size)] }
+                .joinToString("")
     }
 
     protected fun createTag(tagName: String) {
