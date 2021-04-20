@@ -15,7 +15,7 @@ import com.automattic.simplenote.BaseUITest
 import com.automattic.simplenote.R
 import com.automattic.simplenote.utils.hasTextInputLayoutErrorText
 import org.hamcrest.CoreMatchers.not
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -25,7 +25,7 @@ class AddTagActivityTest : BaseUITest() {
 
     @Test
     fun addNewValidTag() {
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
 
         ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -33,13 +33,13 @@ class AddTagActivityTest : BaseUITest() {
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
         onView(withId(R.id.button_positive)).perform(click())
 
-        Assert.assertEquals(tagsBucket.count(), 1)
+        assertEquals(tagsBucket.count(), 1)
     }
 
     @Test
     fun addTagAlreadyExists() {
         createTag("tag1")
-        Assert.assertEquals(tagsBucket.count(), 1)
+        assertEquals(tagsBucket.count(), 1)
 
         ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -49,7 +49,7 @@ class AddTagActivityTest : BaseUITest() {
         val existsMessage = getResourceString(R.string.tag_error_exists)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(existsMessage)))
 
-        Assert.assertEquals(tagsBucket.count(), 1)
+        assertEquals(tagsBucket.count(), 1)
     }
 
     @Test
@@ -63,12 +63,12 @@ class AddTagActivityTest : BaseUITest() {
         val tooLongMessage = getResourceString(R.string.tag_error_length)
         onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(tooLongMessage)))
 
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
     }
 
     @Test
     fun addTagWithSpace() {
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -80,12 +80,12 @@ class AddTagActivityTest : BaseUITest() {
         onView(withId(R.id.button_negative)).perform(click())
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
 
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
     }
 
     @Test
     fun addTagEmpty() {
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -101,12 +101,12 @@ class AddTagActivityTest : BaseUITest() {
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
 
 
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
     }
 
     @Test
     fun addTagCancel() {
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -116,13 +116,13 @@ class AddTagActivityTest : BaseUITest() {
 
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
 
-        Assert.assertEquals(tagsBucket.count(), 0)
+        assertEquals(tagsBucket.count(), 0)
     }
 
     @Test
     fun addSecondValidTag() {
         createTag("tag5")
-        Assert.assertEquals(tagsBucket.count(), 1)
+        assertEquals(tagsBucket.count(), 1)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
@@ -131,6 +131,6 @@ class AddTagActivityTest : BaseUITest() {
         onView(withId(R.id.button_positive)).perform(click())
         assertThat(activityScenario.result, hasResultCode(Activity.RESULT_OK))
 
-        Assert.assertEquals(tagsBucket.count(), 2)
+        assertEquals(tagsBucket.count(), 2)
     }
 }
