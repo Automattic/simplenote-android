@@ -40,12 +40,6 @@ android {
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
 
-    // Avoid duplicate annotations dependencies
-    configurations {
-        cleanedAnnotations
-        compile.exclude group: 'org.jetbrains' , module:'annotations'
-    }
-
     lintOptions {
         checkReleaseBuilds false
     }
@@ -89,9 +83,11 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.simperium.android:simperium:0.10.0'
-    implementation 'com.automattic:tracks:1.2'
+    implementation('com.automattic:tracks:1.2') {
+        exclude group: "org.jetbrains", module: "annotations-java5"
+    }
     implementation 'org.wordpress:passcodelock:2.0.2'
-    
+
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0-beta01'
