@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class AddActivityTest : BaseUITest() {
+class AddTagActivityTest : BaseUITest() {
 
     @Test
     fun addNewValidTag() {
