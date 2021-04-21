@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.TestBucket
+import org.junit.After
 import org.junit.Before
 import java.security.SecureRandom
 
@@ -22,6 +23,11 @@ open class BaseUITest {
 
         tagsBucket = application.tagsBucket as TestBucket<Tag>
         tagsBucket.clear()
+    }
+
+    @After
+    fun cleanup() {
+        application.useTestBucket = false
     }
 
     protected fun getResourceString(id: Int): String {
