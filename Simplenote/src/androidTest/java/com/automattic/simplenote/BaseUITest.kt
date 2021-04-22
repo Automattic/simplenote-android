@@ -7,6 +7,7 @@ import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.TestBucket
+import com.simperium.client.BucketObjectMissingException
 import org.junit.After
 import org.junit.Before
 import java.security.SecureRandom
@@ -53,8 +54,12 @@ open class BaseUITest {
         TagUtils.createTagIfMissing(tagsBucket, tagName)
     }
 
-    protected fun getTag(tagName: String): Tag {
+    protected fun getTag(tagName: String): Tag? {
         val hashName = TagUtils.hashTag(tagName)
-        return tagsBucket.getObject(hashName)
+        return try {
+            tagsBucket.getObject(hashName)
+        } catch (b: BucketObjectMissingException) {
+            null
+        }
     }
 }
