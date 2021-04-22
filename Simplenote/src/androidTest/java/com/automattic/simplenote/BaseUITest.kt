@@ -3,6 +3,7 @@ package com.automattic.simplenote
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
+import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.TestBucket
@@ -14,6 +15,7 @@ open class BaseUITest {
     private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private lateinit var application: SimplenoteTest
     protected lateinit var tagsBucket: TestBucket<Tag>
+    protected lateinit var notesBucket: TestBucket<Note>
 
     @Before
     fun setup() {
@@ -23,6 +25,8 @@ open class BaseUITest {
 
         tagsBucket = application.tagsBucket as TestBucket<Tag>
         tagsBucket.clear()
+
+        notesBucket = application.notesBucket as TestBucket<Note>
     }
 
     @After
@@ -47,5 +51,10 @@ open class BaseUITest {
 
     protected fun createTag(tagName: String) {
         TagUtils.createTagIfMissing(tagsBucket, tagName)
+    }
+
+    protected fun getTag(tagName: String): Tag {
+        val hashName = TagUtils.hashTag(tagName)
+        return tagsBucket.getObject(hashName)
     }
 }
