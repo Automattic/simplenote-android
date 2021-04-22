@@ -56,6 +56,15 @@ android {
         // Espresso tests
         animationsDisabled = true
     }
+
+    // Target Java8 to avoid use certain Kotlin's features
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 buildscript {
