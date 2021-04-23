@@ -1,6 +1,5 @@
 package com.automattic.simplenote.integration
 
-import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -36,6 +35,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         launchFragment("tag1")
 
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag5"))
@@ -63,6 +65,9 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(notesBucket.count(), 1)
 
         launchFragment("tag1")
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
@@ -93,6 +98,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         launchFragment("tag10")
 
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
         val tagWithSpace = "tag 3"
@@ -121,6 +129,9 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(notesBucket.count(), 1)
 
         launchFragment("tag10")
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
@@ -154,6 +165,9 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(notesBucket.count(), 3)
 
         launchFragment("tag2")
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
@@ -195,6 +209,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         launchFragment("tag2")
 
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
@@ -204,6 +221,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         val saveText = getResourceString(R.string.save)
         onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val titleMergeDialog = getResourceString(R.string.dialog_tag_conflict_title)
+        onView(withText(titleMergeDialog)).check(matches(isDisplayed()))
 
         val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag3")
         val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
@@ -243,6 +263,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         launchFragment("tag2")
 
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
@@ -252,6 +275,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         val saveText = getResourceString(R.string.save)
         onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val titleMergeDialog = getResourceString(R.string.dialog_tag_conflict_title)
+        onView(withText(titleMergeDialog)).check(matches(isDisplayed()))
 
         val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag1")
         val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
@@ -283,6 +309,9 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(notesBucket.count(), 1)
 
         launchFragment("tag1")
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
