@@ -80,7 +80,7 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
     }
 
     override fun getColumnCount(): Int {
-        TODO("Not yet implemented")
+        return columns.size
     }
 
     override fun getBlob(columnIndex: Int): ByteArray {
