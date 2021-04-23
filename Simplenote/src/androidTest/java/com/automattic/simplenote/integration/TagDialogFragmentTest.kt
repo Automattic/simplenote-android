@@ -109,6 +109,34 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(note.tags, listOf("tag10"))
     }
 
+    @Test
+    fun editTagWithEmpty() {
+        createTag("tag10")
+        // To edit tags, tags should belong a note
+        val note = createNote("Hello World", listOf("tag10"))
+
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(notesBucket.count(), 1)
+
+        launchFragment("tag10")
+
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText(""))
+
+        val tagEmpty = getResourceString(R.string.tag_error_empty)
+        onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tagEmpty)))
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(not(isEnabled())))
+        val cancelText = getResourceString(R.string.cancel)
+        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(note.tags, listOf("tag10"))
+    }
+
     private fun launchFragment(tagName: String): FragmentScenario<TagDialogFragment> {
         val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
             val tag = getTag(tagName)
