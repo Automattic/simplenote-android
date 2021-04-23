@@ -2,11 +2,9 @@ package com.automattic.simplenote.utils
 
 import android.database.AbstractCursor
 import android.database.CharArrayBuffer
-import com.simperium.client.Bucket
-import com.simperium.client.BucketObjectMissingException
-import com.simperium.client.Syncable
+import com.simperium.client.*
 
-abstract class TestBucket<T : Syncable>(name: String) : Bucket<T>(null, name, null, null, null, null) {
+abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
     private val objects: MutableList<T> = mutableListOf()
 
@@ -59,12 +57,17 @@ abstract class TestBucket<T : Syncable>(name: String) : Bucket<T>(null, name, nu
         clear()
     }
 
+    override fun query(): Query<T> {
+        return TestQuery(objects)
+    }
+
     fun clear() {
         objects.clear()
     }
+
 }
 
-class TestObjectCursor<T : Syncable>(private val objects: MutableList<T>) : AbstractCursor(), Bucket.ObjectCursor<T> {
+class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : AbstractCursor(), Bucket.ObjectCursor<T> {
     private val columns = arrayOf("simperiumKey", "object")
 
     override fun getCount(): Int {
@@ -127,5 +130,21 @@ class TestObjectCursor<T : Syncable>(private val objects: MutableList<T>) : Abst
     override fun getObject(): T {
         return objects[position]
     }
+}
 
+class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<T>() {
+    override fun execute(): Bucket.ObjectCursor<T> {
+        // Filter objects by the where clauses
+        val filteredObjects: MutableList<T> = conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
+            when(condition.comparisonType) {
+                ComparisonType.EQUAL_TO -> objects.filter { it.properties.get(condition.key).equals(condition.subject) }
+                ComparisonType.NOT_EQUAL_TO -> objects.filter { !it.properties.get(condition.key).equals(condition.subject) }
+                ComparisonType.LIKE -> objects.filter { it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
+                ComparisonType.NOT_LIKE -> objects.filter { !it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
+                else -> currentObjects // The rest of comparison types are not used in the app
+            } as MutableList
+        })
+
+        return TestObjectCursor(filteredObjects)
+    }
 }
