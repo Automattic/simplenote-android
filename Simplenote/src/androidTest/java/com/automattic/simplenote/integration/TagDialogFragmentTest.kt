@@ -13,6 +13,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.BaseUITest
 import com.automattic.simplenote.R
 import com.automattic.simplenote.TagDialogFragment
+import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.hasTextInputLayoutErrorText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
@@ -174,6 +175,54 @@ class TagDialogFragmentTest : BaseUITest() {
 
         assertEquals(note1.tags, listOf("tag1", "tag10"))
         assertEquals(note2.tags, listOf("tag3", "tag10"))
+        assertEquals(note3.tags, listOf("tag1", "tag3"))
+    }
+
+    @Test
+    fun editTryMergeTagInMultipleNotes() {
+        createTag("tag1")
+        createTag("tag2")
+        createTag("tag3")
+        // To edit tags, tags should belong a note
+        val note1 = createNote("Hello1", listOf("tag1", "tag2"))
+        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+
+        assertEquals(tagsBucket.count(), 3)
+        assertEquals(notesBucket.count(), 3)
+
+        launchFragment("tag2")
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText("tag3"))
+
+        onView(allOf(withText("tag3"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag3")
+        val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
+        onView(withId(R.id.message)).check(matches(withText(mergeMessage)))
+
+        val backText = getResourceString(R.string.back)
+        onView(withText(backText)).perform(click())
+
+        val cancelText = getResourceString(R.string.cancel)
+        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+
+        val tag1 = getTag("tag1")
+        val tag2 = getTag("tag2")
+        val tag3 = getTag("tag3")
+
+        assertNotNull(tag2)
+        assertNotNull(tag1)
+        assertNotNull(tag3)
+
+        assertEquals(note1.tags, listOf("tag1", "tag2"))
+        assertEquals(note2.tags, listOf("tag2", "tag3"))
         assertEquals(note3.tags, listOf("tag1", "tag3"))
     }
 
