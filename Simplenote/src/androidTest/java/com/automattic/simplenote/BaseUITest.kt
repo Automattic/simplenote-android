@@ -28,6 +28,7 @@ open class BaseUITest {
         tagsBucket.clear()
 
         notesBucket = application.notesBucket as TestBucket<Note>
+        notesBucket.clear()
     }
 
     @After
