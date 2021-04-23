@@ -95,8 +95,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
+        val tagWithSpace = "tag 3"
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
-                .perform(ViewActions.replaceText("tag 3"))
+                .perform(ViewActions.replaceText(tagWithSpace))
 
         val tagWithSpaceMessage = getResourceString(R.string.tag_error_spaces)
         onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tagWithSpaceMessage)))
@@ -123,8 +124,9 @@ class TagDialogFragmentTest : BaseUITest() {
 
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
 
+        val emptyTag = ""
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
-                .perform(ViewActions.replaceText(""))
+                .perform(ViewActions.replaceText(emptyTag))
 
         val tagEmpty = getResourceString(R.string.tag_error_empty)
         onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tagEmpty)))

@@ -14,7 +14,7 @@ import java.security.SecureRandom
 
 open class BaseUITest {
     private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-    private lateinit var application: SimplenoteTest
+    protected lateinit var application: SimplenoteTest
     protected lateinit var tagsBucket: TestBucket<Tag>
     protected lateinit var notesBucket: TestBucket<Note>
 
