@@ -25,7 +25,7 @@ class TagDialogFragmentTest : BaseUITest() {
     fun editTagWithValidName() {
         createTag("tag1")
         // To edit tags, tags should belong a note
-        createNote("Hello World", listOf("tag1"))
+        val note = createNote("Hello World", listOf("tag1"))
 
         assertEquals(tagsBucket.count(), 1)
         assertEquals(notesBucket.count(), 1)
@@ -46,6 +46,7 @@ class TagDialogFragmentTest : BaseUITest() {
         assertNull(tag1)
         assertNotNull(tag5)
         assertEquals(tagsBucket.count(), 1)
+        assertEquals(note.tags, listOf("tag5"))
     }
 
     private fun launchFragment(tagName: String) {
