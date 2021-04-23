@@ -12,7 +12,9 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.BaseUITest
 import com.automattic.simplenote.R
 import com.automattic.simplenote.TagDialogFragment
+import com.automattic.simplenote.utils.hasTextInputLayoutErrorText
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,6 +49,33 @@ class TagDialogFragmentTest : BaseUITest() {
         assertNotNull(tag5)
         assertEquals(tagsBucket.count(), 1)
         assertEquals(note.tags, listOf("tag5"))
+    }
+
+    @Test
+    fun editTagTooLong() {
+        createTag("tag1")
+        // To edit tags, tags should belong a note
+        val note = createNote("Hello World", listOf("tag1"))
+
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(notesBucket.count(), 1)
+
+        launchFragment("tag1")
+
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        val longName = getRandomString(258)
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText(longName))
+
+        val tooLongMessage = getResourceString(R.string.tag_error_length)
+        onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tooLongMessage)))
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(not(isEnabled())))
+
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(note.tags, listOf("tag1"))
     }
 
     private fun launchFragment(tagName: String) {
