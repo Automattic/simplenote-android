@@ -304,7 +304,7 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(note.tags, listOf("tag1"))
     }
 
-    private fun launchFragment(tagName: String): FragmentScenario<TagDialogFragment> {
+    private fun launchFragment(tagName: String) {
         val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
             val tag = getTag(tagName)
             TagDialogFragment(
@@ -320,7 +320,5 @@ class TagDialogFragmentTest : BaseUITest() {
             assertEquals(true, fragment.requireDialog().isShowing)
             fragment.parentFragmentManager.executePendingTransactions()
         }
-
-        return scenario
     }
 }
