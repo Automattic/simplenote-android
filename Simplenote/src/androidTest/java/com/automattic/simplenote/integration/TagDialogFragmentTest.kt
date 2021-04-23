@@ -226,6 +226,51 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(note3.tags, listOf("tag1", "tag3"))
     }
 
+    @Test
+    fun editMergeTagInMultipleNotes() {
+        createTag("tag1")
+        createTag("tag2")
+        createTag("tag3")
+        // To edit tags, tags should belong a note
+        val note1 = createNote("Hello1", listOf("tag1", "tag2"))
+        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+
+        assertEquals(tagsBucket.count(), 3)
+        assertEquals(notesBucket.count(), 3)
+
+        launchFragment("tag2")
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText("tag1"))
+
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag1")
+        val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
+        onView(withId(R.id.message)).check(matches(withText(mergeMessage)))
+
+        val mergeText = getResourceString(R.string.dialog_tag_conflict_button_positive)
+        onView(withText(mergeText)).perform(click())
+
+        val tag1 = getTag("tag1")
+        val tag2 = getTag("tag2")
+        val tag3 = getTag("tag3")
+
+        assertNull(tag2)
+        assertNotNull(tag1)
+        assertNotNull(tag3)
+
+        assertEquals(note1.tags, listOf("tag1"))
+        assertEquals(note2.tags, listOf("tag3", "tag1"))
+        assertEquals(note3.tags, listOf("tag1", "tag3"))
+    }
+
     private fun launchFragment(tagName: String): FragmentScenario<TagDialogFragment> {
         val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
             val tag = getTag(tagName)
