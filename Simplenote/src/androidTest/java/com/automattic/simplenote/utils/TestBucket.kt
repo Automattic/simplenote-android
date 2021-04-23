@@ -7,8 +7,13 @@ import com.simperium.client.*
 abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
     private val objects: MutableList<T> = mutableListOf()
+    var newObjectShouldFail = false
 
     override fun newObject(key: String?): T {
+        if (newObjectShouldFail) {
+            throw BucketObjectNameInvalid(key)
+        }
+
         val o = build(key)
         o.bucket = this
 
