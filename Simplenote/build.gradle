@@ -50,6 +50,15 @@ android {
         // Espresso tests
         animationsDisabled = true
     }
+
+    // Target Java8 to avoid use certain Kotlin's features
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 buildscript {
@@ -79,6 +88,9 @@ dependencies {
         exclude group: 'androidx', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
+    // Infrastructure to test fragments
+    debugImplementation "androidx.fragment:fragment-testing:1.3.3"
+
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
