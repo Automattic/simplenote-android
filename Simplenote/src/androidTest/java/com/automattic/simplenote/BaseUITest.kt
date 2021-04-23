@@ -41,6 +41,11 @@ open class BaseUITest {
         return targetContext.resources.getString(id)
     }
 
+    protected fun getResourceStringWithArgs(id: Int, vararg args: Any): String {
+        val targetContext: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        return targetContext.resources.getString(id, *args)
+    }
+
     protected fun getRandomString(len: Int): String {
         val random = SecureRandom()
         val bytes = ByteArray(len)
