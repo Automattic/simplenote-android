@@ -32,7 +32,17 @@ abstract class TestBucket<T : Syncable>(name: String) : Bucket<T>(null, name, nu
     }
 
     override fun sync(`object`: T?) {
-        // Do not do anything
+        `object`?.let { o ->
+            o.bucket = this
+            // Find object by Simperium key
+            val index = objects.indexOfFirst { it.simperiumKey == o.simperiumKey }
+            if (index < 0) { // If object does not exists, add it
+                objects.add(o)
+            } else {
+                // If object exists, replace it
+                objects.set(index, o)
+            }
+        }
     }
 
     override fun remove(`object`: T?) {
