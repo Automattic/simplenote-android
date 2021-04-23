@@ -271,6 +271,39 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(note3.tags, listOf("tag1", "tag3"))
     }
 
+    @Test
+    fun editTagFails() {
+        createTag("tag1")
+        // To edit tags, tags should belong a note
+        val note = createNote("Hello World", listOf("tag1"))
+
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(notesBucket.count(), 1)
+
+        launchFragment("tag1")
+
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText("tag5"))
+        onView(allOf(withText("tag5"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        tagsBucket.newObjectShouldFail = true
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val okText = getResourceString(android.R.string.ok)
+        onView(withText(okText)).check(matches(isDisplayed())).perform(click())
+
+        val tag1 = getTag("tag1")
+        val tag5 = getTag("tag5")
+
+        assertNotNull(tag1)
+        assertNull(tag5)
+        assertEquals(tagsBucket.count(), 1)
+        assertEquals(note.tags, listOf("tag1"))
+    }
+
     private fun launchFragment(tagName: String): FragmentScenario<TagDialogFragment> {
         val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
             val tag = getTag(tagName)
