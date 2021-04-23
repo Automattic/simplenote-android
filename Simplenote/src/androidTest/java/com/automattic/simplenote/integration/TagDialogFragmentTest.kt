@@ -137,6 +137,46 @@ class TagDialogFragmentTest : BaseUITest() {
         assertEquals(note.tags, listOf("tag10"))
     }
 
+    @Test
+    fun editTagInMultipleNotes() {
+        createTag("tag1")
+        createTag("tag2")
+        createTag("tag3")
+        // To edit tags, tags should belong a note
+        val note1 = createNote("Hello1", listOf("tag1", "tag2"))
+        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+
+        assertEquals(tagsBucket.count(), 3)
+        assertEquals(notesBucket.count(), 3)
+
+        launchFragment("tag2")
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .perform(ViewActions.replaceText("tag10"))
+
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+
+        val saveText = getResourceString(R.string.save)
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+
+        val tag1 = getTag("tag1")
+        val tag2 = getTag("tag2")
+        val tag3 = getTag("tag3")
+        val tag10 = getTag("tag10")
+
+        assertNull(tag2)
+        assertNotNull(tag1)
+        assertNotNull(tag3)
+        assertNotNull(tag10)
+
+        assertEquals(note1.tags, listOf("tag1", "tag10"))
+        assertEquals(note2.tags, listOf("tag3", "tag10"))
+        assertEquals(note3.tags, listOf("tag1", "tag3"))
+    }
+
     private fun launchFragment(tagName: String): FragmentScenario<TagDialogFragment> {
         val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
             val tag = getTag(tagName)
