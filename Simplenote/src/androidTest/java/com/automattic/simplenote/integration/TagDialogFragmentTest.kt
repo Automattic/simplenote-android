@@ -145,8 +145,8 @@ class TagDialogFragmentTest : BaseUITest() {
         createTag("tag3")
         // To edit tags, tags should belong a note
         val note1 = createNote("Hello1", listOf("tag1", "tag2"))
-        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
-        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+        val note2 = createNote("Hello2", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello3", listOf("tag1", "tag3"))
 
         assertEquals(tagsBucket.count(), 3)
         assertEquals(notesBucket.count(), 3)
@@ -185,8 +185,8 @@ class TagDialogFragmentTest : BaseUITest() {
         createTag("tag3")
         // To edit tags, tags should belong a note
         val note1 = createNote("Hello1", listOf("tag1", "tag2"))
-        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
-        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+        val note2 = createNote("Hello2", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello3", listOf("tag1", "tag3"))
 
         assertEquals(tagsBucket.count(), 3)
         assertEquals(notesBucket.count(), 3)
@@ -233,8 +233,8 @@ class TagDialogFragmentTest : BaseUITest() {
         createTag("tag3")
         // To edit tags, tags should belong a note
         val note1 = createNote("Hello1", listOf("tag1", "tag2"))
-        val note2 = createNote("Hello1", listOf("tag2", "tag3"))
-        val note3 = createNote("Hello1", listOf("tag1", "tag3"))
+        val note2 = createNote("Hello2", listOf("tag2", "tag3"))
+        val note3 = createNote("Hello3", listOf("tag1", "tag3"))
 
         assertEquals(tagsBucket.count(), 3)
         assertEquals(notesBucket.count(), 3)
