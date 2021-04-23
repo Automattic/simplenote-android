@@ -36,15 +36,21 @@ class TagDialogFragmentTest : BaseUITest() {
         launchFragment("tag1")
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
-        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+        onView(withText(renameTagTitle))
+                .check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag5"))
-        onView(allOf(withText("tag5"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag5"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click())
 
         val tag1 = getTag("tag1")
         val tag5 = getTag("tag5")
@@ -69,19 +75,25 @@ class TagDialogFragmentTest : BaseUITest() {
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val longName = getRandomString(258)
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText(longName))
 
         val tooLongMessage = getResourceString(R.string.tag_error_length)
-        onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tooLongMessage)))
+        onView(withId(R.id.input_tag_name))
+                .check(matches(hasTextInputLayoutErrorText(tooLongMessage)))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(not(isEnabled())))
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(not(isEnabled())))
         val cancelText = getResourceString(R.string.cancel)
-        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+        onView(withText(cancelText))
+                .inRoot(isDialog())
+                .perform(click())
 
         assertEquals(tagsBucket.count(), 1)
         assertEquals(note.tags, listOf("tag1"))
@@ -99,21 +111,28 @@ class TagDialogFragmentTest : BaseUITest() {
         launchFragment("tag10")
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
-        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+        onView(withText(renameTagTitle))
+                .check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val tagWithSpace = "tag 3"
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText(tagWithSpace))
 
         val tagWithSpaceMessage = getResourceString(R.string.tag_error_spaces)
-        onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tagWithSpaceMessage)))
+        onView(withId(R.id.input_tag_name))
+                .check(matches(hasTextInputLayoutErrorText(tagWithSpaceMessage)))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(not(isEnabled())))
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(not(isEnabled())))
         val cancelText = getResourceString(R.string.cancel)
-        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+        onView(withText(cancelText))
+                .inRoot(isDialog())
+                .perform(click())
 
         assertEquals(tagsBucket.count(), 1)
         assertEquals(note.tags, listOf("tag10"))
@@ -133,19 +152,25 @@ class TagDialogFragmentTest : BaseUITest() {
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val emptyTag = ""
         onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText(emptyTag))
 
         val tagEmpty = getResourceString(R.string.tag_error_empty)
-        onView(withId(R.id.input_tag_name)).check(matches(hasTextInputLayoutErrorText(tagEmpty)))
+        onView(withId(R.id.input_tag_name))
+                .check(matches(hasTextInputLayoutErrorText(tagEmpty)))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(not(isEnabled())))
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(not(isEnabled())))
         val cancelText = getResourceString(R.string.cancel)
-        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+        onView(withText(cancelText))
+                .inRoot(isDialog())
+                .perform(click())
 
         assertEquals(tagsBucket.count(), 1)
         assertEquals(note.tags, listOf("tag10"))
@@ -169,15 +194,20 @@ class TagDialogFragmentTest : BaseUITest() {
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag10"))
 
-        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag10"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click())
 
         val tag1 = getTag("tag1")
         val tag2 = getTag("tag2")
@@ -210,30 +240,39 @@ class TagDialogFragmentTest : BaseUITest() {
         launchFragment("tag2")
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
-        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+        onView(withText(renameTagTitle))
+                .check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag3"))
 
-        onView(allOf(withText("tag3"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag3"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click())
 
         val titleMergeDialog = getResourceString(R.string.dialog_tag_conflict_title)
         onView(withText(titleMergeDialog)).check(matches(isDisplayed()))
 
         val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag3")
         val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
-        onView(withId(R.id.message)).check(matches(withText(mergeMessage)))
+        onView(withId(R.id.message))
+                .check(matches(withText(mergeMessage)))
 
         val backText = getResourceString(R.string.back)
         onView(withText(backText)).perform(click())
 
         val cancelText = getResourceString(R.string.cancel)
-        onView(withText(cancelText)).inRoot(isDialog()).perform(click())
+        onView(withText(cancelText))
+                .inRoot(isDialog())
+                .perform(click())
 
         val tag1 = getTag("tag1")
         val tag2 = getTag("tag2")
@@ -266,25 +305,31 @@ class TagDialogFragmentTest : BaseUITest() {
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         onView(allOf(withText("tag2"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag1"))
 
-        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed()))
+                .perform(click())
 
         val titleMergeDialog = getResourceString(R.string.dialog_tag_conflict_title)
-        onView(withText(titleMergeDialog)).check(matches(isDisplayed()))
+        onView(withText(titleMergeDialog))
+                .check(matches(isDisplayed()))
 
         val canonical = TagUtils.getCanonicalFromLexical(tagsBucket, "tag1")
         val mergeMessage = getResourceStringWithArgs(R.string.dialog_tag_conflict_message, canonical, "tag2", canonical)
-        onView(withId(R.id.message)).check(matches(withText(mergeMessage)))
+        onView(withId(R.id.message))
+                .check(matches(withText(mergeMessage)))
 
         val mergeText = getResourceString(R.string.dialog_tag_conflict_button_positive)
-        onView(withText(mergeText)).perform(click())
+        onView(withText(mergeText))
+                .perform(click())
 
         val tag1 = getTag("tag1")
         val tag2 = getTag("tag2")
@@ -313,18 +358,25 @@ class TagDialogFragmentTest : BaseUITest() {
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
 
-        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
         onView(allOf(withText("tag1"), isDescendantOfA(withId(R.id.input_tag_name))))
                 .perform(ViewActions.replaceText("tag5"))
-        onView(allOf(withText("tag5"), isDescendantOfA(withId(R.id.input_tag_name)))).check(matches(isDisplayed()))
+        onView(allOf(withText("tag5"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
 
         tagsBucket.newObjectShouldFail = true
 
         val saveText = getResourceString(R.string.save)
-        onView(withText(saveText)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
+        onView(withText(saveText))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click())
 
         val okText = getResourceString(android.R.string.ok)
-        onView(withText(okText)).check(matches(isDisplayed())).perform(click())
+        onView(withText(okText))
+                .check(matches(isDisplayed()))
+                .perform(click())
 
         val tag1 = getTag("tag1")
         val tag5 = getTag("tag5")
