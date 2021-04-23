@@ -54,6 +54,14 @@ open class BaseUITest {
         TagUtils.createTagIfMissing(tagsBucket, tagName)
     }
 
+    protected fun createNote(content: String, tags: List<String>): Note {
+        val note = notesBucket.newObject(content.hashCode().toString())
+        note.content = content
+        note.tags = tags
+
+        return note
+    }
+
     protected fun getTag(tagName: String): Tag? {
         val hashName = TagUtils.hashTag(tagName)
         return try {
