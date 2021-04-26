@@ -109,6 +109,10 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
     }
 
     override fun getLong(columnIndex: Int): Long {
+        if (columnIndex == 0) {
+            return position.toLong()
+        }
+
         throw RuntimeException("not implemented")
     }
 
@@ -140,8 +144,14 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
 class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<T>() {
     override fun execute(): Bucket.ObjectCursor<T> {
         // Filter objects by the where clauses
-        val filteredObjects: MutableList<T> = conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
-            when(condition.comparisonType) {
+        val filteredObjects: MutableList<T> = filterObjects()
+
+        return TestObjectCursor(filteredObjects)
+    }
+
+    private fun filterObjects(): MutableList<T> {
+        return conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
+            when (condition.comparisonType) {
                 ComparisonType.EQUAL_TO -> objects.filter { it.properties.get(condition.key).equals(condition.subject) }
                 ComparisonType.NOT_EQUAL_TO -> objects.filter { !it.properties.get(condition.key).equals(condition.subject) }
                 ComparisonType.LIKE -> objects.filter { it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
@@ -149,7 +159,9 @@ class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<
                 else -> currentObjects // The rest of comparison types are not used in the app
             } as MutableList
         })
+    }
 
-        return TestObjectCursor(filteredObjects)
+    override fun count(): Int {
+        return filterObjects().size
     }
 }
