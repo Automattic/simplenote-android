@@ -116,4 +116,22 @@ class TagsActivityTest : BaseUITest() {
         val addTagTitle = getResourceString(R.string.add_tag)
         onView(withText(addTagTitle)).inRoot(isToast()).check(matches(isDisplayed()))
     }
+
+    @Test
+    fun clickOnEditTagShouldShowDialog() {
+        createTag("tag1")
+        createTag("tag2")
+        createTag("tag3")
+        createTag("other")
+
+        Assert.assertEquals(tagsBucket.count(), 4)
+
+        ActivityScenario.launch(TagsActivity::class.java)
+
+        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
+                .perform(click())
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+    }
 }
