@@ -97,4 +97,13 @@ class TagsActivityTest : BaseUITest() {
         onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_count))
                 .check(matches(withText("")))
     }
+
+    @Test
+    fun clickOnAddTagShouldShowDialog() {
+        ActivityScenario.launch(TagsActivity::class.java)
+
+        onView(withId(R.id.button_add)).perform(click())
+        val addTagTitle = getResourceString(R.string.add_tag)
+        onView(withText(addTagTitle)).check(matches(isDisplayed()))
+    }
 }
