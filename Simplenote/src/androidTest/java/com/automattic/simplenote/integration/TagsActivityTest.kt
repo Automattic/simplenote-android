@@ -11,6 +11,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.BaseUITest
 import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
+import com.automattic.simplenote.utils.isToast
 import com.automattic.simplenote.utils.withRecyclerView
 import org.junit.Assert
 import org.junit.Test
@@ -105,5 +106,14 @@ class TagsActivityTest : BaseUITest() {
         onView(withId(R.id.button_add)).perform(click())
         val addTagTitle = getResourceString(R.string.add_tag)
         onView(withText(addTagTitle)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun lonTabOnAddTagShouldShowToast() {
+        ActivityScenario.launch(TagsActivity::class.java)
+
+        onView(withId(R.id.button_add)).perform(longClick())
+        val addTagTitle = getResourceString(R.string.add_tag)
+        onView(withText(addTagTitle)).inRoot(isToast()).check(matches(isDisplayed()))
     }
 }
