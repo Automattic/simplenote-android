@@ -14,7 +14,7 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
 import com.automattic.simplenote.utils.isToast
 import com.automattic.simplenote.utils.withRecyclerView
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -33,8 +33,8 @@ class TagsActivityTest : BaseUITest() {
         createNote("Hello2", listOf("tag2"))
         createNote("Hello3", listOf("tag1", "tag2", "tag3"))
 
-        Assert.assertEquals(tagsBucket.count(), 4)
-        Assert.assertEquals(notesBucket.count(), 3)
+        assertEquals(tagsBucket.count(), 4)
+        assertEquals(notesBucket.count(), 3)
 
         ActivityScenario.launch(TagsActivity::class.java)
 
@@ -69,8 +69,8 @@ class TagsActivityTest : BaseUITest() {
         createNote("Hello2", listOf("tag2"))
         createNote("Hello3", listOf("tag1", "tag2", "tag3"))
 
-        Assert.assertEquals(tagsBucket.count(), 4)
-        Assert.assertEquals(notesBucket.count(), 3)
+        assertEquals(tagsBucket.count(), 4)
+        assertEquals(notesBucket.count(), 3)
 
         ActivityScenario.launch(TagsActivity::class.java)
 
@@ -125,7 +125,7 @@ class TagsActivityTest : BaseUITest() {
         createTag("tag3")
         createTag("other")
 
-        Assert.assertEquals(tagsBucket.count(), 4)
+        assertEquals(tagsBucket.count(), 4)
 
         ActivityScenario.launch(TagsActivity::class.java)
 
@@ -147,8 +147,8 @@ class TagsActivityTest : BaseUITest() {
         val note2 = createNote("Hello2", listOf("tag2"))
         val note3 = createNote("Hello3", listOf("tag1", "tag2", "tag3"))
 
-        Assert.assertEquals(tagsBucket.count(), 4)
-        Assert.assertEquals(notesBucket.count(), 3)
+        assertEquals(tagsBucket.count(), 4)
+        assertEquals(notesBucket.count(), 3)
 
         ActivityScenario.launch(TagsActivity::class.java)
 
@@ -176,11 +176,11 @@ class TagsActivityTest : BaseUITest() {
         onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_trash))
                 .perform(click())
 
-        Assert.assertEquals(tagsBucket.count(), 3)
-        Assert.assertEquals(notesBucket.count(), 3)
-        Assert.assertEquals(note1.tags, listOf("tag1", "tag2"))
-        Assert.assertEquals(note2.tags, listOf("tag2"))
-        Assert.assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
+        assertEquals(tagsBucket.count(), 3)
+        assertEquals(notesBucket.count(), 3)
+        assertEquals(note1.tags, listOf("tag1", "tag2"))
+        assertEquals(note2.tags, listOf("tag2"))
+        assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
 
         // Try Delete tag tag2
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
@@ -193,11 +193,11 @@ class TagsActivityTest : BaseUITest() {
         val noText = getResourceString(R.string.no)
         onView(withText(noText)).inRoot(RootMatchers.isDialog()).perform(click())
 
-        Assert.assertEquals(tagsBucket.count(), 3)
-        Assert.assertEquals(notesBucket.count(), 3)
-        Assert.assertEquals(note1.tags, listOf("tag1", "tag2"))
-        Assert.assertEquals(note2.tags, listOf("tag2"))
-        Assert.assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
+        assertEquals(tagsBucket.count(), 3)
+        assertEquals(notesBucket.count(), 3)
+        assertEquals(note1.tags, listOf("tag1", "tag2"))
+        assertEquals(note2.tags, listOf("tag2"))
+        assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
 
         // Delete tag tag2
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
@@ -211,10 +211,10 @@ class TagsActivityTest : BaseUITest() {
         // Avoid flaky tests with AsyncTask
         Thread.sleep(1000)
 
-        Assert.assertEquals(tagsBucket.count(), 2)
-        Assert.assertEquals(notesBucket.count(), 3)
-        Assert.assertEquals(note1.tags, listOf("tag1"))
-        Assert.assertEquals(note2.tags, listOf<String>())
-        Assert.assertEquals(note3.tags, listOf("tag1", "tag3"))
+        assertEquals(tagsBucket.count(), 2)
+        assertEquals(notesBucket.count(), 3)
+        assertEquals(note1.tags, listOf("tag1"))
+        assertEquals(note2.tags, listOf<String>())
+        assertEquals(note3.tags, listOf("tag1", "tag3"))
     }
 }
