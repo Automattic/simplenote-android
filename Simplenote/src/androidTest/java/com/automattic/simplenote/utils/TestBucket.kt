@@ -4,11 +4,33 @@ import android.database.AbstractCursor
 import android.database.CharArrayBuffer
 import com.simperium.client.*
 import org.json.JSONArray
+import java.util.*
 
 abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
     private val objects: MutableList<T> = mutableListOf()
     var newObjectShouldFail = false
+
+    private val onSaveListeners = Collections.synchronizedSet(HashSet<OnSaveObjectListener<T>>())
+    private val onDeleteListeners = Collections.synchronizedSet(HashSet<OnDeleteObjectListener<T>>())
+    private val onChangeListeners = Collections.synchronizedSet(HashSet<OnNetworkChangeListener<T>>())
+    private val onSyncListeners = Collections.synchronizedSet(HashSet<OnSyncObjectListener<T>>())
+
+    override fun addOnDeleteObjectListener(listener: OnDeleteObjectListener<T>?) {
+        onDeleteListeners.add(listener)
+    }
+
+    override fun addOnSaveObjectListener(listener: OnSaveObjectListener<T>?) {
+        onSaveListeners.add(listener)
+    }
+
+    override fun addOnNetworkChangeListener(listener: OnNetworkChangeListener<T>?) {
+        onChangeListeners.add(listener)
+    }
+
+    override fun addOnSyncObjectListener(listener: OnSyncObjectListener<T>?) {
+        onSyncListeners.add(listener)
+    }
 
     override fun newObject(key: String?): T {
         if (newObjectShouldFail) {
@@ -47,11 +69,21 @@ abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name
                 objects.set(index, o)
             }
         }
+
+        // notify listeners
+        onSyncListeners.forEach {
+            it.onSyncObject(this, `object`?.simperiumKey)
+        }
     }
 
     override fun remove(`object`: T?) {
         `object`?.let {
-            objects.remove(it)
+            objects.removeIf { it.simperiumKey == `object`.simperiumKey }
+        }
+
+        // notify listeners
+        onDeleteListeners.forEach {
+            it.onDeleteObject(this, `object`)
         }
     }
 
@@ -142,7 +174,7 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
     }
 }
 
-class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<T>() {
+class TestQuery<T : BucketObject>(private val objects: MutableList<T>) : Query<T>() {
     override fun execute(): Bucket.ObjectCursor<T> {
         // Filter objects by the where clauses
         val filteredObjects: MutableList<T> = filterObjects()
