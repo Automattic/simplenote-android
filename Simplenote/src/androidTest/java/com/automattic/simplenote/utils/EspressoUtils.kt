@@ -2,7 +2,9 @@ package com.automattic.simplenote.utils
 
 import android.content.res.Resources
 import android.view.View
+import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Root
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -75,3 +77,26 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
 }
 
 fun withRecyclerView(recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
+
+fun isToast(): Matcher<Root> {
+    return object : TypeSafeMatcher<Root>() {
+        override fun matchesSafely(root: Root): Boolean {
+            val type = root.windowLayoutParams.get().type
+            // TYPE_APPLICATION_OVERLAY hangs the test
+            if (type == WindowManager.LayoutParams.TYPE_TOAST) {
+                val windowToken = root.decorView.windowToken
+                val appToken = root.decorView.applicationWindowToken
+                if (windowToken === appToken) {
+                    // windowToken == appToken means this window isn't contained by any other windows.
+                    // if it was a window for an activity, it would have TYPE_BASE_APPLICATION.
+                    return true
+                }
+            }
+            return false
+        }
+
+        override fun describeTo(description: Description) {
+
+        }
+    }
+}
