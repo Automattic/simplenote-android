@@ -25,22 +25,22 @@ ENV["PROJECT_NAME"]="Simplenote"
 ENV["validate_translations"]="buildRelease"
 
 SUPPORTED_LOCALES = [
-  { glotpress: "ar", google_play: "ar",  promo_config: {}},
-  { glotpress: "de", google_play: "de-DE",  promo_config: {} },
-  { glotpress: "es", google_play: "es-ES",  promo_config: {} },
-  { glotpress: "fr", google_play: "fr-FR",  promo_config: {} },
-  { glotpress: "he", google_play: "iw-IL",  promo_config: {} },
-  { glotpress: "id", google_play: "id",  promo_config: {} },
-  { glotpress: "it", google_play: "it-IT",  promo_config: {} },
-  { glotpress: "ja", google_play: "ja-JP",  promo_config: {} },
-  { glotpress: "ko", google_play: "ko-KR",  promo_config: {} },
-  { glotpress: "nl", google_play: "nl-NL",  promo_config: {} },
-  { glotpress: "pt-br", google_play: "pt-BR",  promo_config: {} },
-  { glotpress: "ru", google_play: "ru-RU",  promo_config: {} },
-  { glotpress: "sv", google_play: "sv-SE",  promo_config: {} },
-  { glotpress: "tr", google_play: "tr-TR",  promo_config: {} },
-  { glotpress: "zh-cn", google_play: "zh-CN",  promo_config: {} },
-  { glotpress: "zh-tw", google_play: "zh-TW",  promo_config: {} },
+  { glotpress: "ar", android: "ar", google_play: "ar",  promo_config: {}},
+  { glotpress: "de", android: "de", google_play: "de-DE",  promo_config: {} },
+  { glotpress: "es", android: "es", google_play: "es-ES",  promo_config: {} },
+  { glotpress: "fr", android: "fr", google_play: "fr-FR",  promo_config: {} },
+  { glotpress: "he", android: "he", google_play: "iw-IL",  promo_config: {} },
+  { glotpress: "id", android: "id", google_play: "id",  promo_config: {} },
+  { glotpress: "it", android: "it", google_play: "it-IT",  promo_config: {} },
+  { glotpress: "ja", android: "ja", google_play: "ja-JP",  promo_config: {} },
+  { glotpress: "ko", android: "ko", google_play: "ko-KR",  promo_config: {} },
+  { glotpress: "nl", android: "nl", google_play: "nl-NL",  promo_config: {} },
+  { glotpress: "pt-br", android: "pt-rBR", google_play: "pt-BR",  promo_config: {} },
+  { glotpress: "ru", android: "ru", google_play: "ru-RU",  promo_config: {} },
+  { glotpress: "sv", android: "sv", google_play: "sv-SE",  promo_config: {} },
+  { glotpress: "tr", android: "tr", google_play: "tr-TR",  promo_config: {} },
+  { glotpress: "zh-cn", android: "zh-rCN", google_play: "zh-CN",  promo_config: {} },
+  { glotpress: "zh-tw", android: "zh-rTW", google_play: "zh-TW",  promo_config: {} },
 ].freeze
 
 ########################################################################
@@ -65,6 +65,10 @@ SUPPORTED_LOCALES = [
 
     android_bump_version_release()
     new_version = android_get_app_version()
+
+    # need to get prs list before version update to frozen tag
+    get_prs_list(repository:GHHELPER_REPO, milestone:new_version, report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
+
     extract_release_notes_for_version(version: new_version,
       release_notes_file_path:"#{ENV["PROJECT_ROOT_FOLDER"]}RELEASE-NOTES.txt",
       extracted_notes_file_path:release_notes_path)
@@ -75,7 +79,6 @@ SUPPORTED_LOCALES = [
     update_strings_for_translation_automation()
 
     android_tag_build()
-    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
   end
 
   #####################################################################################
@@ -277,7 +280,7 @@ SUPPORTED_LOCALES = [
 ########################################################################
   desc "Get a list of pull request from `start_tag` to the current state"
   lane :get_pullrequests_list do | options |
-    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{options[:start_tag]}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list.txt")
+    get_prs_list(repository:GHHELPER_REPO, milestone:"#{options[:milestone]}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list.txt")
   end
 
   #####################################################################################
