@@ -3,6 +3,7 @@ package com.automattic.simplenote.utils
 import android.database.AbstractCursor
 import android.database.CharArrayBuffer
 import com.simperium.client.*
+import org.json.JSONArray
 
 abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
@@ -152,13 +153,28 @@ class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<
     private fun filterObjects(): MutableList<T> {
         return conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
             when (condition.comparisonType) {
-                ComparisonType.EQUAL_TO -> objects.filter { it.properties.get(condition.key).equals(condition.subject) }
-                ComparisonType.NOT_EQUAL_TO -> objects.filter { !it.properties.get(condition.key).equals(condition.subject) }
+                ComparisonType.EQUAL_TO -> objects.filter { compare(it.properties.get(condition.key), condition.subject) }
+                ComparisonType.NOT_EQUAL_TO -> objects.filter { !compare(it.properties.get(condition.key), condition.subject) }
                 ComparisonType.LIKE -> objects.filter { it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
                 ComparisonType.NOT_LIKE -> objects.filter { !it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
                 else -> currentObjects // The rest of comparison types are not used in the app
             } as MutableList
         })
+    }
+
+    private fun compare(left: Any, right: Any): Boolean {
+        if (left is JSONArray) {
+            for (i in 0 until left.length()) {
+                val o = left.get(i)
+                if (o == right) {
+                    return true
+                }
+            }
+
+            return false
+        } else {
+            return left == right
+        }
     }
 
     override fun count(): Int {
