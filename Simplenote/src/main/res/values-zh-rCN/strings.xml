@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:23:46+0000
+Translation-Revision-Date: 2021-03-23 12:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">您已使用 %1$s 的身份登录。 请注销并重试。</string>
+    <string name="dialog_already_logged_in_title">已登录</string>
+    <string name="support_text">没有收到电子邮件？ 您可能已有帐户。 联系 %1$s 以获取帮助。</string>
+    <string name="email_confirmation_text">我们向 %1$s 发送了一封电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
+    <string name="dialog_message_signup_error">我们遇到了问题。 请稍后重试。</string>
     <string name="dialog_browser_exception_toast_copy_success">URL 已复制到剪贴板</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL 无法复制到剪贴板</string>
     <string name="dialog_browser_exception_title">链接错误</string>
     <string name="dialog_browser_exception_message">无法打开链接。  复制 URL，将其粘贴到浏览器。</string>
     <string name="dialog_browser_exception_button_copy_url">复制 URL</string>
-    <string name="sort_alphabetical_reverse">名称：Z-A</string>
-    <string name="sort_alphabetical">名称：A-Z</string>
+    <string name="sort_alphabetical_reverse">名称：Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">名称：A&amp;#8211;Z</string>
     <string name="sort_oldest_created">创建时间：最旧</string>
     <string name="sort_newest_created">创建时间：最新</string>
     <string name="sort_oldest_modified">修改时间：最旧</string>
@@ -21,11 +26,11 @@ Language: zh_CN
     <string name="toast_email_sent">电子邮件已发送</string>
     <string name="fullscreen_verify_email_button_secondary">重发电子邮件</string>
     <string name="fullscreen_verify_email_title">验证您的电子邮件</string>
-    <string name="fullscreen_verify_email_subtitle">我们已向 &lt;b>%1$s&lt;/b> 发送了一封验证电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
+    <string name="fullscreen_verify_email_subtitle">我们已向 &lt;b&gt;%1$s&lt;/b&gt; 发送了一封验证电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
     <string name="fullscreen_review_account_button_secondary">更改电子邮件地址</string>
     <string name="fullscreen_review_account_button_primary">确认</string>
     <string name="fullscreen_review_account_title">检查您的帐户</string>
-    <string name="fullscreen_review_account_subtitle">您已使用电子邮件 &lt;b>%1$s&lt;/b> 注册 Simplenote。&lt;br>&lt;br>如果您无法再访问此电子邮件地址，那么帐户安全性的改进可能会导致您无法找回帐户。</string>
+    <string name="fullscreen_review_account_subtitle">您已使用电子邮件 &lt;b&gt;%1$s&lt;/b&gt; 注册 Simplenote。&lt;br&gt;&lt;br&gt;如果您无法再访问此电子邮件地址，那么帐户安全性的改进可能会导致您无法找回帐户。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">邮件</string>
     <string name="description_close">关闭</string>
@@ -51,10 +56,10 @@ Language: zh_CN
     <string name="tag_error_exists">标签已存在</string>
     <string name="tag_error_empty">标签不能为空</string>
     <string name="dialog_tag_error_message">添加标签时出错。 请重试。 如果问题仍然存在，请通过 %1$s%2$s%3$s%4$s%5$s 联系我们，我们会竭诚相助。</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">添加标签</string>
     <string name="empty_tags_hint">向笔记添加标签后，标签即会在此处显示。</string>
     <string name="membership_premium">付费</string>
@@ -131,8 +136,8 @@ Language: zh_CN
     <string name="link_california">%1$s%2$s%3$s面向加州用户的隐私声明%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">需要网络连接。请检查您的连接，然后再试一次。</string>
-    <string name="simperium_dialog_message_password">密码要求：\n\n- 密码不能与电子邮件相同\n- 至少包含 %1$d 个字符\n- 不能使用换行符\n- 不能使用回车符\n- 不能使用制表符</string>
-    <string name="simperium_dialog_message_login_reset">您的密码不安全，需要重置。密码要求：\n\n- 密码不能与电子邮件相同\n- 至少包含 %1$d 个字母\n- 不能使用换行符\n- 不能使用制表符</string>
+    <string name="simperium_dialog_message_password">密码要求：\n\n&amp;#8211; 密码不能与电子邮件相同\n&amp;#8211; 至少包含 %1$d 个字符\n&amp;#8211; 不能使用换行符\n&amp;#8211; 不能使用回车符\n&amp;#8211; 不能使用制表符</string>
+    <string name="simperium_dialog_message_login_reset">您的密码不安全，需要重置。密码要求：\n\n&amp;#8211; 密码不能与电子邮件相同\n&amp;#8211; 至少包含 %1$d 个字母\n&amp;#8211; 不能使用换行符\n&amp;#8211; 不能使用制表符</string>
     <string name="simperium_button_login_reset">重置</string>
     <string name="link_terms">%1$s%2$s%3$s服务条款%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$s隐私政策%4$s</string>
@@ -185,7 +190,7 @@ Language: zh_CN
     <string name="search_hint">搜索备注或标签</string>
     <string name="log_out">注销</string>
     <string name="log_in">登录</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">记录笔记最简单的方法。</string>
     <string name="simperium_hint_password">密码</string>
     <string name="simperium_hint_email">电子邮件</string>

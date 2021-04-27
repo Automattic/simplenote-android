@@ -1,33 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:23:33+0000
+Translation-Revision-Date: 2021-03-23 12:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">Hai già effettuato l\'accesso come %1$s. Disconnettiti e riprova.</string>
+    <string name="dialog_already_logged_in_title">Accesso già effettuato</string>
+    <string name="support_text">Non ti è arrivata alcuna e&amp;#8211;mail? Potresti già avere un account. Contatta %1$s per assistenza.</string>
+    <string name="email_confirmation_text">Abbiamo inviato una e&amp;#8211;mail a %1$s. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
+    <string name="dialog_message_signup_error">Stiamo riscontrando dei problemi. Riprova a breve.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copiato negli appunti</string>
     <string name="dialog_browser_exception_toast_copy_failure">Impossibile copiare l\'URL negli appunti</string>
     <string name="dialog_browser_exception_title">Errore link</string>
     <string name="dialog_browser_exception_message">Impossibile aprire il link.  Copia l\'URL per incollarlo in un browser.</string>
     <string name="dialog_browser_exception_button_copy_url">Copia URL</string>
-    <string name="sort_alphabetical_reverse">Nome: Z-A</string>
-    <string name="sort_alphabetical">Nome: A-Z</string>
+    <string name="sort_alphabetical_reverse">Nome: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Nome: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Data di creazione: meno recente</string>
     <string name="sort_newest_created">Data di creazione: più recente</string>
     <string name="sort_oldest_modified">Data di modifica: meno recente</string>
     <string name="sort_newest_modified">Data di modifica: più recente</string>
     <string name="sort_by">Ordina per</string>
-    <string name="toast_email_sent">E-mail inviata</string>
-    <string name="fullscreen_verify_email_button_secondary">Invia di nuovo l\'e-mail</string>
-    <string name="fullscreen_verify_email_title">Verifica la tua e-mail</string>
-    <string name="fullscreen_verify_email_subtitle">Abbiamo inviato un\'e-mail di verifica a &lt;b>%1$s&lt;/b>. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
-    <string name="fullscreen_review_account_button_secondary">Cambia e-mail</string>
+    <string name="toast_email_sent">E&amp;#8211;mail inviata</string>
+    <string name="fullscreen_verify_email_button_secondary">Invia di nuovo l\'e&amp;#8211;mail</string>
+    <string name="fullscreen_verify_email_title">Verifica la tua e&amp;#8211;mail</string>
+    <string name="fullscreen_verify_email_subtitle">Abbiamo inviato un\'e&amp;#8211;mail di verifica a &lt;b&gt;%1$s&lt;/b&gt;. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
+    <string name="fullscreen_review_account_button_secondary">Cambia e&amp;#8211;mail</string>
     <string name="fullscreen_review_account_button_primary">Conferma</string>
     <string name="fullscreen_review_account_title">Verifica il tuo account</string>
-    <string name="fullscreen_review_account_subtitle">Sei registrato su Simplenote con l\'e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>I miglioramenti alla sicurezza dell\'account possono comportare la perdita dell\'account se non hai più accesso a questo indirizzo e-mail.</string>
+    <string name="fullscreen_review_account_subtitle">Sei registrato su Simplenote con l\'e&amp;#8211;mail &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;I miglioramenti alla sicurezza dell\'account possono comportare la perdita dell\'account se non hai più accesso a questo indirizzo e&amp;#8211;mail.</string>
     <string name="description_warning">Attenzione</string>
-    <string name="description_mail">E-mail</string>
+    <string name="description_mail">E&amp;#8211;mail</string>
     <string name="description_close">Chiudi</string>
     <string name="simperium_dialog_message_password_login">Le password devono contenere un minimo di %1$d caratteri.</string>
     <string name="dialog_tag_conflict_title">Conflitto di tag</string>
@@ -50,10 +55,10 @@ Language: it
     <string name="tag_error_exists">Il tag esiste già</string>
     <string name="tag_error_empty">I tag non possono essere vuoti</string>
     <string name="dialog_tag_error_message">Si è verificato un errore durante l\'aggiunta del tag. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Aggiungi tag</string>
     <string name="empty_tags_hint">Una volta aggiunti alle tue note, i tag verranno visualizzati qui. </string>
     <string name="membership_premium">Premium</string>
@@ -130,8 +135,8 @@ Language: it
     <string name="link_california">%1$s%2$s%3$sNota sulla privacy per utenti in California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">È richiesta una connessione di rete. Controlla la connessione e riprova.</string>
-    <string name="simperium_dialog_message_password">I requisiti della password sono:\n\n- La password non può corrispondere all\'e-mail\n- Minimo di %1$d caratteri\n- Nessuna nuova riga\n- Nessuna restituzione\n- Nessuna scheda</string>
-    <string name="simperium_dialog_message_login_reset">La password non è sicura e deve essere reimpostata. I requisiti della password sono:\n\n- La password non può corrispondere all\'e-mail\n- Minimo di %1$d caratteri\n- Nessuna nuova riga\n- Nessuna tabulazione</string>
+    <string name="simperium_dialog_message_password">I requisiti della password sono:\n\n&amp;#8211; La password non può corrispondere all\'e&amp;#8211;mail\n&amp;#8211; Minimo di %1$d caratteri\n&amp;#8211; Nessuna nuova riga\n&amp;#8211; Nessuna restituzione\n&amp;#8211; Nessuna scheda</string>
+    <string name="simperium_dialog_message_login_reset">La password non è sicura e deve essere reimpostata. I requisiti della password sono:\n\n&amp;#8211; La password non può corrispondere all\'e&amp;#8211;mail\n&amp;#8211; Minimo di %1$d caratteri\n&amp;#8211; Nessuna nuova riga\n&amp;#8211; Nessuna tabulazione</string>
     <string name="simperium_button_login_reset">Ripristina</string>
     <string name="link_terms">%1$s%2$s%3$sTermini di servizio%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sInformativa sulla privacy%4$s</string>
@@ -180,30 +185,30 @@ Language: it
     <string name="description_sort">Ordina</string>
     <string name="description_down">Giù</string>
     <string name="description_delete_item">Elimina elemento</string>
-    <string name="welcome_note">Benvenuto in Simplenote Android!\nApri questa nota per istruzioni.\n\nPer creare una nuova nota, tocca il pulsante \"New Note\" (Nuova nota) con l\'icona del segno più.\n\nPer cercare le tue note, tocca il pulsante \"Search\" (Cerca) con l\'icona della lente d\'ingrandimento e inserisci qualsiasi testo. Simplenote ti mostrerà all\'inizio le ricerche recenti e le ricerche suggerite durante l\'inserimento del testo. Le note che corrispondono al testo immesso verranno mostrate una volta che la ricerca è stata inviata.\n\nHai una nota veramente importante? Aggiungila nella parte superiore dell\'elenco delle note. Puoi aggiungere una nota in due modi. Premi a lungo la nota nell\'elenco e tocca il pulsante \"Pin to top\" (Aggiungi in alto) con l\'icona a forma di puntina. Tocca il pulsante \"More Options\" (Altre opzioni) con l\'icona con tre punti verticali durante la visualizzazione di una nota e attiva la casella \"Pin \" (Aggancia).\n\nUsa i tag per aiutarti a organizzare le tue note. Crea un tag nella schermata \"Edit Tags\" (Modifica tag) utilizzando il pulsante \"Add Tag\" (Aggiungi tag) oppure nel campo \"Add tag…\" (Aggiungi tag…) nella parte inferiore di una nota. Puoi anche aggiungere un indirizzo e-mail come tag per condividere una nota con qualcuno.\n\nCondividi facilmente le note con altre app Android toccando \"Share\" (Condividi) durante la visualizzazione di una nota.\n\nLe note eliminate finiscono nel cestino. Se lo desideri, puoi ripristinarle o svuotare il cestino per cancellarle definitivamente.\n\nPuoi accedere alle note sul sito web e da altri dispositivi. Vai su http://simplenote.com per iniziare.\n\nCi auguriamo che l\'utilizzo di Simplenote sia di tuo gradimento!</string>
+    <string name="welcome_note">Benvenuto in Simplenote Android!\nApri questa nota per istruzioni.\n\nPer creare una nuova nota, tocca il pulsante \"New Note\" (Nuova nota) con l\'icona del segno più.\n\nPer cercare le tue note, tocca il pulsante \"Search\" (Cerca) con l\'icona della lente d\'ingrandimento e inserisci qualsiasi testo. Simplenote ti mostrerà all\'inizio le ricerche recenti e le ricerche suggerite durante l\'inserimento del testo. Le note che corrispondono al testo immesso verranno mostrate una volta che la ricerca è stata inviata.\n\nHai una nota veramente importante? Aggiungila nella parte superiore dell\'elenco delle note. Puoi aggiungere una nota in due modi. Premi a lungo la nota nell\'elenco e tocca il pulsante \"Pin to top\" (Aggiungi in alto) con l\'icona a forma di puntina. Tocca il pulsante \"More Options\" (Altre opzioni) con l\'icona con tre punti verticali durante la visualizzazione di una nota e attiva la casella \"Pin \" (Aggancia).\n\nUsa i tag per aiutarti a organizzare le tue note. Crea un tag nella schermata \"Edit Tags\" (Modifica tag) utilizzando il pulsante \"Add Tag\" (Aggiungi tag) oppure nel campo \"Add tag…\" (Aggiungi tag…) nella parte inferiore di una nota. Puoi anche aggiungere un indirizzo e&amp;#8211;mail come tag per condividere una nota con qualcuno.\n\nCondividi facilmente le note con altre app Android toccando \"Share\" (Condividi) durante la visualizzazione di una nota.\n\nLe note eliminate finiscono nel cestino. Se lo desideri, puoi ripristinarle o svuotare il cestino per cancellarle definitivamente.\n\nPuoi accedere alle note sul sito web e da altri dispositivi. Vai su http://simplenote.com per iniziare.\n\nCi auguriamo che l\'utilizzo di Simplenote sia di tuo gradimento!</string>
     <string name="search_hint">Cerca note o tag</string>
     <string name="log_out">Esci da questo account</string>
     <string name="log_in">Accedi</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">Prendere nota ora è semplice.</string>
     <string name="simperium_hint_password">Password</string>
-    <string name="simperium_hint_email">E-mail</string>
+    <string name="simperium_hint_email">E&amp;#8211;mail</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_footer_signup">Creando un account, accetti i nostri %1$s%2$s%3$stermini e condizioni%4$s</string>
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sPassword dimenticata?%4$s</string>
     <string name="simperium_error_password">Password non valida</string>
-    <string name="simperium_error_email">E-mail non valida</string>
+    <string name="simperium_error_email">E&amp;#8211;mail non valida</string>
     <string name="simperium_dialog_title_error">Errore</string>
     <string name="simperium_dialog_progress_signing_up">Registrazione in corso…</string>
     <string name="simperium_dialog_progress_logging_in">Accesso in corso…</string>
-    <string name="simperium_dialog_message_signup_existing">L\'indirizzo e-mail inserito è già associato a un account Simplenote.</string>
-    <string name="simperium_dialog_message_signup">Impossibile effettuare l\'iscrizione con la password e l\'indirizzo e-mail forniti.</string>
+    <string name="simperium_dialog_message_signup_existing">L\'indirizzo e&amp;#8211;mail inserito è già associato a un account Simplenote.</string>
+    <string name="simperium_dialog_message_signup">Impossibile effettuare l\'iscrizione con la password e l\'indirizzo e&amp;#8211;mail forniti.</string>
     <string name="simperium_dialog_message_network">Nessuna rete disponibile. Connettiti a una rete e riprova.</string>
-    <string name="simperium_dialog_message_login">Impossibile accedere con la password e l\'indirizzo e-mail forniti.</string>
+    <string name="simperium_dialog_message_login">Impossibile accedere con la password e l\'indirizzo e&amp;#8211;mail forniti.</string>
     <string name="simperium_button_signup">Registrati</string>
     <string name="simperium_button_login_other">Accedi con WordPress.com</string>
-    <string name="simperium_button_login_email">Accedi con l\'e-mail</string>
+    <string name="simperium_button_login_email">Accedi con l\'e&amp;#8211;mail</string>
     <string name="simperium_button_login">Accedi</string>
     <string name="theme_system">Sistema predefinito</string>
     <string name="toggle_checklist">Attiva checklist</string>
@@ -240,9 +245,9 @@ Language: it
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Rimuovi dall\'alto</string>
     <string name="untagged_notes">Note rimosse</string>
-    <string name="wpcom_log_in_error_unverified">Attiva l’account WordPress.com tramite e-mail e riprova.</string>
+    <string name="wpcom_log_in_error_unverified">Attiva l’account WordPress.com tramite e&amp;#8211;mail e riprova.</string>
     <string name="wpcom_log_in_error_generic">Non è stato possibile accedere con WordPress.com. Riprova.</string>
-    <string name="collaborate_message">Aggiungi un\'e-mail nel campo di tag per collaborare con altri utenti.</string>
+    <string name="collaborate_message">Aggiungi un\'e&amp;#8211;mail nel campo di tag per collaborare con altri utenti.</string>
     <string name="collaborate">Collabora</string>
     <string name="publishing">Pubblicazione della nota in corso…</string>
     <string name="unpublish">Rimuovi link pubblico</string>

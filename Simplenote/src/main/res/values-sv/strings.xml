@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-03-16 16:23:16+0000
+Translation-Revision-Date: 2021-03-24 11:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
@@ -8,6 +8,8 @@ Language: sv_SE
 <resources>
     <string name="dialog_already_logged_in_message">Du är redan inloggad som %1$s. Logga ut och försök igen.</string>
     <string name="dialog_already_logged_in_title">Redan inloggad</string>
+    <string name="support_text">Har du inte fått något e&amp;#8211;postmeddelande? Det kan hända att du redan har ett konto. Kontakta %1$s för att få hjälp.</string>
+    <string name="email_confirmation_text">Vi har skickat ett e&amp;#8211;postmeddelande till %1$s. Kontrollera din inkorg och följ instruktionerna.</string>
     <string name="dialog_message_signup_error">Vi har problem. Försök igen om en stund.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL kopierad till urklipp</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL kunde inte kopieras till urklipp</string>
@@ -21,16 +23,16 @@ Language: sv_SE
     <string name="sort_oldest_modified">Modifierad: Äldsta</string>
     <string name="sort_newest_modified">Modifierad: Senaste</string>
     <string name="sort_by">Sortera efter</string>
-    <string name="toast_email_sent">E-post skickad</string>
-    <string name="fullscreen_verify_email_button_secondary">Skicka e-post igen</string>
-    <string name="fullscreen_verify_email_title">Verifiera din e-post</string>
-    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b>%1$s&lt;/b>.  Kontrollera din inkorg och följ instruktionerna.</string>
-    <string name="fullscreen_review_account_button_secondary">Ändra e-post</string>
+    <string name="toast_email_sent">E&amp;#8211;post skickad</string>
+    <string name="fullscreen_verify_email_button_secondary">Skicka e&amp;#8211;post igen</string>
+    <string name="fullscreen_verify_email_title">Verifiera din e&amp;#8211;post</string>
+    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e&amp;#8211;postverifiering till &lt;b&gt;%1$s&lt;/b&gt;.  Kontrollera din inkorg och följ instruktionerna.</string>
+    <string name="fullscreen_review_account_button_secondary">Ändra e&amp;#8211;post</string>
     <string name="fullscreen_review_account_button_primary">Bekräfta</string>
     <string name="fullscreen_review_account_title">Granska ditt konto</string>
-    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
+    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e&amp;#8211;postadressen &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e&amp;#8211;postadressen.</string>
     <string name="description_warning">Varning</string>
-    <string name="description_mail">E-post</string>
+    <string name="description_mail">E&amp;#8211;post</string>
     <string name="description_close">Stäng</string>
     <string name="simperium_dialog_message_password_login">Lösenord måste vara minst %1$d tecken.</string>
     <string name="dialog_tag_conflict_title">Etikettkonflikt</string>
@@ -54,10 +56,10 @@ Language: sv_SE
     <string name="tag_error_exists">Etiketten finns redan</string>
     <string name="tag_error_empty">Etiketter får inte vara tomma</string>
     <string name="dialog_tag_error_message">Ett fel uppstod när etiketten lades till. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Lägg till etikett</string>
     <string name="empty_tags_hint">När du lägger till etiketter till dina anteckning kommer de visas här.</string>
     <string name="membership_premium">Premium</string>
@@ -75,7 +77,7 @@ Language: sv_SE
     <string name="empty_notes_untagged">Inga omärkta anteckningar</string>
     <string name="unpublishing">Avpublicerar anteckning …</string>
     <string name="unpublish_successful">Anteckning inte publicerad.</string>
-    <string name="web_view_error_button">Gå till WebView-appen</string>
+    <string name="web_view_error_button">Gå till WebView&amp;#8211;appen</string>
     <string name="web_view_error">Du måste ha en webbvy installerad på din enhet för att förhandsgranska markdown.</string>
     <string name="about_help_title">Skaffa hjälp</string>
     <string name="about_help_summary">Vanliga frågor eller kontakta oss</string>
@@ -134,8 +136,8 @@ Language: sv_SE
     <string name="link_california">%1$s%2$s%3$sIntegritetsnotis för användare i Kalifornien%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">En nätverksanslutning krävs. Kontrollera anslutningen och försök igen.</string>
-    <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n– Lösenordet får inte matcha e-postadressen\n– Minst %1$d tecken\n– Inga nya rader\n– Inga retur\n– Inga tabbar</string>
-    <string name="simperium_dialog_message_login_reset">Ditt lösenord är osäkert och måste återställas. Lösenordskraven är:\n\n- Lösenord kan inte matcha e-post\n- Minst %1$d tecken\n- Inga nya rader\n- Inga flikar</string>
+    <string name="simperium_dialog_message_password">Lösenordskraven är:\n\n– Lösenordet får inte matcha e&amp;#8211;postadressen\n– Minst %1$d tecken\n– Inga nya rader\n– Inga retur\n– Inga tabbar</string>
+    <string name="simperium_dialog_message_login_reset">Ditt lösenord är osäkert och måste återställas. Lösenordskraven är:\n\n&amp;#8211; Lösenord kan inte matcha e&amp;#8211;post\n&amp;#8211; Minst %1$d tecken\n&amp;#8211; Inga nya rader\n&amp;#8211; Inga flikar</string>
     <string name="simperium_button_login_reset">Återställ</string>
     <string name="link_terms">%1$s%2$s%3$sAnvändarvillkor%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sIntegritetspolicy%4$s</string>
@@ -184,30 +186,30 @@ Language: sv_SE
     <string name="description_sort">Sortera</string>
     <string name="description_down">Ner</string>
     <string name="description_delete_item">Ta bort objekt</string>
-    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på knappen Ny anteckning med plus-ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök-knappen med förstoringsglas-ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst-knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett antingen från Redigera etiketter-skärmen med knappen Lägg till etikett, eller från fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e-postadress som en etikett.\n\nDela enkelt anteckningar med andra Android-appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
+    <string name="welcome_note">Välkommen till Simplenote Android!\nÖppna den här anteckningen för instruktioner.\n\nSkapa en ny anteckning genom att trycka på knappen Ny anteckning med plus&amp;#8211;ikonen.\n\nSök igenom dina anteckningar genom att trycka på Sök&amp;#8211;knappen med förstoringsglas&amp;#8211;ikonen och ange valfri text. Simplenote visar dig först de senaste sökningarna och därefter föreslagna sökningar när du börjar skriva in text. Anteckningar som matchar angiven text visas när sökningen skickas in.\n\nHar du en mycket viktig anteckning? Fäst den överst på anteckningslistan. Du kan fästa en anteckning på två sätt. Gör ett långt tryck på anteckningen i listan och tryck på Fäst överst&amp;#8211;knappen med fästikonen. Tryck på knappen \"Fler alternativ\" med tre vertikala punkter medan du visar en anteckning och markera rutan \"Fäst\".\n\nAnvänd etiketter för att organisera dina anteckningar. Skapa en etikett antingen från Redigera etiketter&amp;#8211;skärmen med knappen Lägg till etikett, eller från fältet Lägg till etikett… längst ned på en anteckning. Du kan även dela anteckningar med andra användare genom att ange deras e&amp;#8211;postadress som en etikett.\n\nDela enkelt anteckningar med andra Android&amp;#8211;appar genom att trycka på \"Dela\" i menyn \"Fler alternativ\" medan du visar en anteckning.\n\nBorttagna anteckningar finns i papperskorgen. Du kan återställa dem om du vill, eller tömma papperskorgen för att ta bort dem permanent.\n\nDu har åtkomst till dina anteckningar på nätet och från dina andra enheter. Gå till http://simplenote.com för att komma igång.\n\nVi hoppas att du gillar att använda Simplenote!</string>
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">Det enklaste sättet att anteckna på.</string>
     <string name="simperium_hint_password">Lösenord</string>
-    <string name="simperium_hint_email">E-post</string>
+    <string name="simperium_hint_email">E&amp;#8211;post</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_footer_signup">Genom att skapa ett konto samtycker du till våra %1$s%2$s%3$sAnvändarvillkor%4$s</string>
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sForgot password?%4$s</string>
     <string name="simperium_error_password">Ogiltigt lösenord</string>
-    <string name="simperium_error_email">Ogiltig e-post</string>
+    <string name="simperium_error_email">Ogiltig e&amp;#8211;post</string>
     <string name="simperium_dialog_title_error">Fel</string>
     <string name="simperium_dialog_progress_signing_up">Skapar konto…</string>
     <string name="simperium_dialog_progress_logging_in">Loggar in…</string>
-    <string name="simperium_dialog_message_signup_existing">Den angivna e-postadressen är redan associerad med ett Simplenote-konto.</string>
-    <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
+    <string name="simperium_dialog_message_signup_existing">Den angivna e&amp;#8211;postadressen är redan associerad med ett Simplenote&amp;#8211;konto.</string>
+    <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e&amp;#8211;postadressen eller lösenordet.</string>
     <string name="simperium_dialog_message_network">Det finns inget tillgängligt nätverk. Anslut till ett nätverk och försök igen.</string>
-    <string name="simperium_dialog_message_login">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
+    <string name="simperium_dialog_message_login">Det gick inte att skapa kontot med den angivna e&amp;#8211;postadressen eller lösenordet.</string>
     <string name="simperium_button_signup">Skapa konto</string>
     <string name="simperium_button_login_other">Logga in med WordPress.com</string>
-    <string name="simperium_button_login_email">Logga in med e-post</string>
+    <string name="simperium_button_login_email">Logga in med e&amp;#8211;post</string>
     <string name="simperium_button_login">Logga in</string>
     <string name="theme_system">Systemstandard</string>
     <string name="toggle_checklist">Slå på/av checklista</string>
@@ -222,20 +224,20 @@ Language: sv_SE
     <string name="sort_tags_alphabetically">Sortera alfabetiskt</string>
     <string name="empty_note_post">Det går inte att lägga in en tom anteckning.</string>
     <string name="could_not_access_site_data">Kunde inte komma åt webbplatsdata.</string>
-    <string name="wordpress_post_link">Dela WordPress-inlägg</string>
+    <string name="wordpress_post_link">Dela WordPress&amp;#8211;inlägg</string>
     <string name="reconnect_to_wordpress">Anslut till WordPress.com igen.</string>
     <string name="network_error_message">Ett nätverksfel påträffades. Försök igen.</string>
     <string name="select_site">Välj en webbplats att publicera på.</string>
     <string name="post_to_wordpress">Publicera på WordPress</string>
     <string name="untitled_site">Webbplats utan rubrik</string>
     <string name="connect_with_wordpress">Anslut</string>
-    <string name="wordpress_connect_summary">För att publicera en anteckning direkt till en WordPress-webbplats, anslut ditt WordPress.com-konto.</string>
+    <string name="wordpress_connect_summary">För att publicera en anteckning direkt till en WordPress&amp;#8211;webbplats, anslut ditt WordPress.com&amp;#8211;konto.</string>
     <string name="done">Klart</string>
     <string name="success">Anteckningen har publicerats på: %1$s</string>
     <string name="uploading_post">Laddar upp inlägg</string>
     <string name="wordpress_post_draft">Ställ in status till utkast</string>
     <string name="send_post">Publicera</string>
-    <string name="wordpress_post">WordPress-inlägg</string>
+    <string name="wordpress_post">WordPress&amp;#8211;inlägg</string>
     <string name="theme_auto">Mörk på natten bara</string>
     <string name="notes">Anteckningar</string>
     <string name="share_analytics_summary">Hjälp oss att förbättra Simplenote genom att dela användningsdata med vårt analysverktyg. %1$sLäs mer%2$s</string>
@@ -244,9 +246,9 @@ Language: sv_SE
     <string name="logo">Logga</string>
     <string name="unpin_from_top">Ta bort från topp</string>
     <string name="untagged_notes">Omärkta anteckningar</string>
-    <string name="wpcom_log_in_error_unverified">Aktivera ditt WordPress.com-konto via e-post och försök igen.</string>
+    <string name="wpcom_log_in_error_unverified">Aktivera ditt WordPress.com&amp;#8211;konto via e&amp;#8211;post och försök igen.</string>
     <string name="wpcom_log_in_error_generic">Kunde inte logga in med WordPress.com. Försök igen.</string>
-    <string name="collaborate_message">Lägg till en e-post i etikettfältet för att samarbeta med andra användare.</string>
+    <string name="collaborate_message">Lägg till en e&amp;#8211;post i etikettfältet för att samarbeta med andra användare.</string>
     <string name="collaborate">Samarbeta</string>
     <string name="publishing">Publicerar anteckning …</string>
     <string name="unpublish">Ta bort offentlig länk</string>
@@ -291,7 +293,7 @@ Language: sv_SE
     <string name="link">Länk</string>
     <string name="view_in_browser">Öppna i webbläsare</string>
     <string name="view_map">Visa karta</string>
-    <string name="email">E-post</string>
+    <string name="email">E&amp;#8211;post</string>
     <string name="call">Ring</string>
     <string name="close_drawer">Stäng låda</string>
     <string name="open_drawer">Öppna låda</string>

@@ -1,36 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:25:09+0000
+Translation-Revision-Date: 2021-03-24 17:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">Je bent al ingelogd als %1$s. Log uit en probeer het opnieuw.</string>
+    <string name="dialog_already_logged_in_title">Al ingelogd</string>
+    <string name="support_text">Geen e&amp;#8211;mail ontvangen? Misschien heb je al een account. Neem contact op met %1$s voor hulp.</string>
+    <string name="email_confirmation_text">We hebben een e&amp;#8211;mail verzonden naar %1$s. Controleer je postvak IN en volg de instructies.</string>
+    <string name="dialog_message_signup_error">We ondervinden wat problemen. Probeer het later opnieuw.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL gekopieerd naar klembord</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL kon niet gekopieerd worden naar klembord</string>
-    <string name="dialog_browser_exception_title">Link-fout</string>
+    <string name="dialog_browser_exception_title">Link&amp;#8211;fout</string>
     <string name="dialog_browser_exception_message">Link kan niet geopend worden.  Kopieer de URL om deze in de browser te plakken.</string>
     <string name="dialog_browser_exception_button_copy_url">URL kopiëren</string>
-    <string name="sort_alphabetical_reverse">Naam: Z-A</string>
-    <string name="sort_alphabetical">Naam: A-Z</string>
+    <string name="sort_alphabetical_reverse">Naam: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Naam: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Aangemaakt op: Oudste</string>
     <string name="sort_newest_created">Aangemaakt op: Nieuwste</string>
     <string name="sort_oldest_modified">Aangepast op: Oudste</string>
     <string name="sort_newest_modified">Aangepast op: Nieuwste</string>
     <string name="sort_by">Sorteren op</string>
-    <string name="toast_email_sent">E-mail verzonden</string>
-    <string name="fullscreen_verify_email_button_secondary">E-mail opnieuw verzenden</string>
-    <string name="fullscreen_verify_email_title">Verifieer je e-mail</string>
-    <string name="fullscreen_verify_email_subtitle">We hebben een verificatiemail verzonden naar &lt;b>%1$s&lt;/b>. Controleer je postvak IN en volg de instructies.</string>
-    <string name="fullscreen_review_account_button_secondary">E-mail wijzigen</string>
+    <string name="toast_email_sent">E&amp;#8211;mail verzonden</string>
+    <string name="fullscreen_verify_email_button_secondary">E&amp;#8211;mail opnieuw verzenden</string>
+    <string name="fullscreen_verify_email_title">Verifieer je e&amp;#8211;mail</string>
+    <string name="fullscreen_verify_email_subtitle">We hebben een verificatiemail verzonden naar &lt;b&gt;%1$s&lt;/b&gt;. Controleer je postvak IN en volg de instructies.</string>
+    <string name="fullscreen_review_account_button_secondary">E&amp;#8211;mail wijzigen</string>
     <string name="fullscreen_review_account_button_primary">Bevestigen</string>
     <string name="fullscreen_review_account_title">Controleer je account</string>
-    <string name="fullscreen_review_account_subtitle">Je staat geregistreerd bij Simplenote met het e-mailadres &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Verbeteringen aan accountbeveiliging kunnen leiden tot accountverlies als je geen toegang meer hebt tot dit e-mailadres.</string>
+    <string name="fullscreen_review_account_subtitle">Je staat geregistreerd bij Simplenote met het e&amp;#8211;mailadres &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Verbeteringen aan accountbeveiliging kunnen leiden tot accountverlies als je geen toegang meer hebt tot dit e&amp;#8211;mailadres.</string>
     <string name="description_warning">Waarschuwing</string>
     <string name="description_mail">Mail</string>
     <string name="description_close">Sluiten</string>
     <string name="simperium_dialog_message_password_login">Wachtwoorden moeten minimaal %1$d tekens bevatten.</string>
-    <string name="dialog_tag_conflict_title">Tag-conflict</string>
+    <string name="dialog_tag_conflict_title">Tag&amp;#8211;conflict</string>
     <string name="dialog_tag_conflict_message">De tag \'%1$s\' bestaat al. Wil je \'%2$s\' samenvoegen in de tag \'%3$s\'?</string>
     <string name="dialog_tag_conflict_button_positive">Samenvoegen</string>
     <string name="description_locked">Vergrendeld</string>
@@ -51,10 +56,10 @@ Language: nl
     <string name="tag_error_exists">Tag bestaat al</string>
     <string name="tag_error_empty">Tags mogen niet leeg zijn</string>
     <string name="dialog_tag_error_message">Fout opgetreden bij het toevoegen van de tag. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Tag toevoegen</string>
     <string name="empty_tags_hint">Zodra je tags toevoegt aan je notities, worden je tags hier weergegeven.</string>
     <string name="membership_premium">Premium</string>
@@ -69,10 +74,10 @@ Language: nl
     <string name="confirm_empty_trash">Wil je de prullenbak leegmaken? Alle notities in de prullenbak worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.</string>
     <string name="empty">Leeg</string>
     <string name="back">Terug</string>
-    <string name="empty_notes_untagged">Geen niet-getagde opmerkingen</string>
+    <string name="empty_notes_untagged">Geen niet&amp;#8211;getagde opmerkingen</string>
     <string name="unpublishing">Notitie wordt verwijderd</string>
     <string name="unpublish_successful">Notitie verwijderd.</string>
-    <string name="web_view_error_button">Ga naar WebView-app</string>
+    <string name="web_view_error_button">Ga naar WebView&amp;#8211;app</string>
     <string name="web_view_error">Er moet een webversie op je apparaat geïnstalleerd zijn om een voorbeeld van de markdown weer te geven.</string>
     <string name="about_help_title">Ontvang hulp</string>
     <string name="about_help_summary">Veelgestelde vragen of neem contact met ons op</string>
@@ -92,9 +97,9 @@ Language: nl
     <string name="more">Meer</string>
     <string name="website">Naar website</string>
     <string name="log_out_anyway">Toch uitloggen</string>
-    <string name="export_unsynced_notes">Niet-gesynchroniseerde notities exporteren</string>
-    <string name="unsynced_notes_message">Door uit te loggen, worden niet-gesynchroniseerde notities verwijderd.</string>
-    <string name="unsynced_notes">Niet-gesynchroniseerde notities</string>
+    <string name="export_unsynced_notes">Niet&amp;#8211;gesynchroniseerde notities exporteren</string>
+    <string name="unsynced_notes_message">Door uit te loggen, worden niet&amp;#8211;gesynchroniseerde notities verwijderd.</string>
+    <string name="unsynced_notes">Niet&amp;#8211;gesynchroniseerde notities</string>
     <string name="export_setting">Gegevens exporteren</string>
     <string name="export_message_success">Gegevens opgeslagen in bestand</string>
     <string name="export_message_failure">Gegevens konden niet worden opgeslagen</string>
@@ -111,10 +116,10 @@ Language: nl
     <string name="simperium_dialog_title_error_browser">Geen browser gevonden</string>
     <string name="simperium_dialog_button_copy_url">URL kopiëren</string>
     <string name="item_action_toggle_preview_error">Selecteer een notitie om voorbeeldweergave in/uit te schakelen</string>
-    <string name="item_action_toggle_preview_enable_error">Snelle stijl inschakelen voor in-/uitschakelen voorbeeldweergave</string>
-    <string name="item_action_toggle_preview">Voorbeeldweergave in-/uitschakelen</string>
+    <string name="item_action_toggle_preview_enable_error">Snelle stijl inschakelen voor in&amp;#8211;/uitschakelen voorbeeldweergave</string>
+    <string name="item_action_toggle_preview">Voorbeeldweergave in&amp;#8211;/uitschakelen</string>
     <string name="item_action_toggle_list_error">Selecteer een notitie om lijst in/uit te schakelen</string>
-    <string name="item_action_toggle_list">Lijst in-/uitschakelen</string>
+    <string name="item_action_toggle_list">Lijst in&amp;#8211;/uitschakelen</string>
     <string name="item_action_toggle_checklist_error">Selecteer een notitie om checklist in/uit te schakelen</string>
     <string name="item_action_toggle_checklist_edit_error">Selecteer het tabblad Bewerken om checklist in/uit te schakelen</string>
     <string name="item_action_show_share_error">Selecteer een notitie om delen weer te geven</string>
@@ -131,8 +136,8 @@ Language: nl
     <string name="link_california">%1$s%2$s%3$sPrivacyverklaring voor gebruikers in Californië%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Een netwerkverbinding is vereist. Controleer je verbinding en probeer het nogmaals.</string>
-    <string name="simperium_dialog_message_password">De vereisten voor wachtwoorden zijn:\n\n- Wachtwoord mag niet overeenkomen met e-mail\n- Minimaal %1$d tekens\n- Geen nieuwe regels\n- Geen enter\n- Geen tab</string>
-    <string name="simperium_dialog_message_login_reset">Je wachtwoord is onveilig en moet opnieuw worden ingesteld. De wachtwoordvereisten zijn:\n\n- Wachtwoord mag niet hetzelfde zijn als e-mailadres\n- Minimum van %1$d tekens\n- Geen nieuwe regels\n- Geen tabs</string>
+    <string name="simperium_dialog_message_password">De vereisten voor wachtwoorden zijn:\n\n&amp;#8211; Wachtwoord mag niet overeenkomen met e&amp;#8211;mail\n&amp;#8211; Minimaal %1$d tekens\n&amp;#8211; Geen nieuwe regels\n&amp;#8211; Geen enter\n&amp;#8211; Geen tab</string>
+    <string name="simperium_dialog_message_login_reset">Je wachtwoord is onveilig en moet opnieuw worden ingesteld. De wachtwoordvereisten zijn:\n\n&amp;#8211; Wachtwoord mag niet hetzelfde zijn als e&amp;#8211;mailadres\n&amp;#8211; Minimum van %1$d tekens\n&amp;#8211; Geen nieuwe regels\n&amp;#8211; Geen tabs</string>
     <string name="simperium_button_login_reset">Resetten</string>
     <string name="link_terms">%1$s%2$s%3$sServicevoorwaarden%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sPrivacybeleid%4$s</string>
@@ -158,7 +163,7 @@ Language: nl
     <string name="more_options">Meer opties</string>
     <string name="list_show">Lijst weergeven</string>
     <string name="list_hide">Lijst verbergen</string>
-    <string name="toggle_pin">Vastzetten aan bovenkant in-/uitschakelen</string>
+    <string name="toggle_pin">Vastzetten aan bovenkant in&amp;#8211;/uitschakelen</string>
     <string name="search_tags_hint">Zoeken op tags</string>
     <string name="search_tags">Zoeken op tags</string>
     <string name="copy_link">Link kopiëren</string>
@@ -181,33 +186,33 @@ Language: nl
     <string name="description_sort">Sorteren</string>
     <string name="description_down">Omlaag</string>
     <string name="description_delete_item">Item verwijderen</string>
-    <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de knop \'Nieuwe notitie\' met het plus-pictogram.\n\nAls je wil zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kan een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag ofwel via het scherm \'Tags bewerken\' met de knop \'Tag toevoegen\' of via het veld \'Tag toevoegen…\' onderaan een notitie. Je kan ook een e-mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android-apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kan ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kan je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
+    <string name="welcome_note">Welkom bij Simplenote voor Android!\nOpen deze notitie voor instructies.\n\nOm een nieuwe notitie te maken, tik je op de knop \'Nieuwe notitie\' met het plus&amp;#8211;pictogram.\n\nAls je wil zoeken in je notities, tik je op de knop \'Zoeken\' met het vergrootglaspictogram en voer je tekst in. Simplenote geeft recente zoekopdrachten weer wanneer je erop klikt en aanbevolen zoekopdrachten zodra je begint te typen. Notities die overeenkomen met de ingevoerde tekst worden weergegeven zodra de zoekopdracht is gestart.\n\nHeb je een zeer belangrijke notitie? Maak hem dan vast bovenaan de notitielijst. Je kan een notitie op twee manieren vastmaken. Houd de notitie in de lijst ingedrukt en tik op de knop \'Vastmaken aan bovenzijde\' met het punaisepictogram. Tik op de knop \'Meer opties\' met het pictogram met de drie verticale puntjes terwijl je de notitie bekijkt en vink het vakje \'Vastmaken\' aan.\n\nGebruik tags om je notities te ordenen. Maak een tag ofwel via het scherm \'Tags bewerken\' met de knop \'Tag toevoegen\' of via het veld \'Tag toevoegen…\' onderaan een notitie. Je kan ook een e&amp;#8211;mailadres toevoegen als tag om een notitie met iemand te delen.\n\nDeel notities eenvoudig met andere Android&amp;#8211;apps door in het menu \'Meer opties\' op \'Delen\' te tikken terwijl je een notitie bekijkt.\n\nVerwijderde notities worden naar de prullenbak verplaatst. Je kan ze herstellen als je dat wilt, of de prullenbak leegmaken om ze voorgoed te verwijderen.\n\nJe kan je notities openen op internet en je andere apparaten. Ga naar http://simplenote.com om aan de slag te gaan.\n\nWe hopen dat je zult genieten van Simplenote!</string>
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">De eenvoudigste manier om notities bij te houden.</string>
     <string name="simperium_hint_password">Wachtwoord</string>
-    <string name="simperium_hint_email">E-mail</string>
+    <string name="simperium_hint_email">E&amp;#8211;mail</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_footer_signup">Door een account aan te maken, ga je akkoord met onze %1$s%2$s%3$sAlgemene voorwaarden%4$s</string>
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sWachtwoord vergeten?%4$s</string>
     <string name="simperium_error_password">Ongeldig wachtwoord</string>
-    <string name="simperium_error_email">Ongeldig e-mailadres</string>
+    <string name="simperium_error_email">Ongeldig e&amp;#8211;mailadres</string>
     <string name="simperium_dialog_title_error">Fout</string>
     <string name="simperium_dialog_progress_signing_up">Registreren …</string>
     <string name="simperium_dialog_progress_logging_in">Inloggen …</string>
-    <string name="simperium_dialog_message_signup_existing">Het e-mailadres dat je hebt ingevoerd, is al gekoppeld aan een Simplenote-account.</string>
-    <string name="simperium_dialog_message_signup">Kan niet aanmelden met het opgegeven e-mailadres en wachtwoord.</string>
+    <string name="simperium_dialog_message_signup_existing">Het e&amp;#8211;mailadres dat je hebt ingevoerd, is al gekoppeld aan een Simplenote&amp;#8211;account.</string>
+    <string name="simperium_dialog_message_signup">Kan niet aanmelden met het opgegeven e&amp;#8211;mailadres en wachtwoord.</string>
     <string name="simperium_dialog_message_network">Er is geen netwerk beschikbaar. Maak verbinding met een netwerk en probeer het nogmaals.</string>
-    <string name="simperium_dialog_message_login">Kan niet inloggen met het opgegeven e-mailadres en wachtwoord.</string>
+    <string name="simperium_dialog_message_login">Kan niet inloggen met het opgegeven e&amp;#8211;mailadres en wachtwoord.</string>
     <string name="simperium_button_signup">Registreren</string>
     <string name="simperium_button_login_other">Inloggen met WordPress.com</string>
-    <string name="simperium_button_login_email">Inloggen met e-mail</string>
+    <string name="simperium_button_login_email">Inloggen met e&amp;#8211;mail</string>
     <string name="simperium_button_login">Inloggen</string>
     <string name="theme_system">Systeemstandaard</string>
-    <string name="toggle_checklist">Checklist in-/uitschakelen</string>
+    <string name="toggle_checklist">Checklist in&amp;#8211;/uitschakelen</string>
     <string name="log_in_use_widget">Log in om de widget te gebruiken</string>
     <string name="log_in_add_widget">Log in om deze widget toe te voegen</string>
     <string name="select_note">Selecteer notitie</string>
@@ -226,13 +231,13 @@ Language: nl
     <string name="post_to_wordpress">Plaatsen op WordPress</string>
     <string name="untitled_site">Site zonder titel</string>
     <string name="connect_with_wordpress">Verbinden</string>
-    <string name="wordpress_connect_summary">Koppel je WordPress.com-account om een notitie direct op een WordPress-site te plaatsen.</string>
+    <string name="wordpress_connect_summary">Koppel je WordPress.com&amp;#8211;account om een notitie direct op een WordPress&amp;#8211;site te plaatsen.</string>
     <string name="done">Klaar</string>
     <string name="success">Notitie geplaatst op: %1$s</string>
     <string name="uploading_post">Bericht wordt geüpload</string>
     <string name="wordpress_post_draft">Status instellen op concept</string>
     <string name="send_post">Bericht</string>
-    <string name="wordpress_post">WordPress-bericht</string>
+    <string name="wordpress_post">WordPress&amp;#8211;bericht</string>
     <string name="theme_auto">Alleen \'s nachts donker</string>
     <string name="notes">Notities</string>
     <string name="share_analytics_summary">Help ons Simplenote te verbeteren door gebruiksgegevens te delen met onze analysetool. %1$sMeer informatie%2$s</string>
@@ -240,10 +245,10 @@ Language: nl
     <string name="editor">Editor</string>
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Losmaken van bovenzijde</string>
-    <string name="untagged_notes">Niet-getagde notities</string>
-    <string name="wpcom_log_in_error_unverified">Activeer je WordPress.com-account via e-mail en probeer het nogmaals.</string>
+    <string name="untagged_notes">Niet&amp;#8211;getagde notities</string>
+    <string name="wpcom_log_in_error_unverified">Activeer je WordPress.com&amp;#8211;account via e&amp;#8211;mail en probeer het nogmaals.</string>
     <string name="wpcom_log_in_error_generic">Kan niet inloggen via WordPress.com. Probeer het nog eens.</string>
-    <string name="collaborate_message">Voeg een e-mail toe aan het tag-veld om met andere gebruikers samen te werken.</string>
+    <string name="collaborate_message">Voeg een e&amp;#8211;mail toe aan het tag&amp;#8211;veld om met andere gebruikers samen te werken.</string>
     <string name="collaborate">Samenwerken</string>
     <string name="publishing">Notitie wordt gepubliceerd</string>
     <string name="unpublish">Openbare link verwijderen</string>
@@ -288,7 +293,7 @@ Language: nl
     <string name="link">Link</string>
     <string name="view_in_browser">Bekijken in browser</string>
     <string name="view_map">Kaart bekijken</string>
-    <string name="email">E-mailen</string>
+    <string name="email">E&amp;#8211;mailen</string>
     <string name="call">Bellen</string>
     <string name="close_drawer">Schuifmenu sluiten</string>
     <string name="open_drawer">Schuifmenu openen</string>

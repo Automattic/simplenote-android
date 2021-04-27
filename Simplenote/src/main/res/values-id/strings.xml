@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-03-24 09:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">Anda sudah login sebagai %1$s. Harap keluar lalu coba lagi.</string>
+    <string name="dialog_already_logged_in_title">Sudah Login</string>
+    <string name="support_text">Belum menerima email? Anda sudah memiliki akun. Hubungi %1$s untuk mendapatkan bantuan.</string>
+    <string name="email_confirmation_text">Kami telah mengirimkan email ke %1$s. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
+    <string name="dialog_message_signup_error">Kami mengalami masalah. Harap coba lagi nanti.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL disalin ke clipboard</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL tidak dapat disalin ke clipboard</string>
     <string name="dialog_browser_exception_title">Error pada Tautan</string>
     <string name="dialog_browser_exception_message">Tidak dapat membuka tautan.  Salin URL untuk ditempelkan ke peramban.</string>
     <string name="dialog_browser_exception_button_copy_url">Salin URL</string>
-    <string name="sort_alphabetical_reverse">Nama: Z-A</string>
-    <string name="sort_alphabetical">Nama: A-Z</string>
+    <string name="sort_alphabetical_reverse">Nama: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Nama: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Dibuat: Paling lama</string>
     <string name="sort_newest_created">Dibuat: Paling baru</string>
     <string name="sort_oldest_modified">Diubah: Paling lama</string>
@@ -21,11 +26,11 @@ Language: id
     <string name="toast_email_sent">Email terkirim</string>
     <string name="fullscreen_verify_email_button_secondary">Kirim ulang email</string>
     <string name="fullscreen_verify_email_title">Verifikasi Email Anda</string>
-    <string name="fullscreen_verify_email_subtitle">Kami telah mengirimkan email verifikasi ke &lt;b>%1$s&lt;/b>. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
+    <string name="fullscreen_verify_email_subtitle">Kami telah mengirimkan email verifikasi ke &lt;b&gt;%1$s&lt;/b&gt;. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
     <string name="fullscreen_review_account_button_secondary">Ubah email</string>
     <string name="fullscreen_review_account_button_primary">Konfirmasi</string>
     <string name="fullscreen_review_account_title">Tinjau Akun Anda</string>
-    <string name="fullscreen_review_account_subtitle">Anda terdaftar pada SImplenote menggunakan email &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Peningkatan keamanan akun dapat menyebabkan akun hilang jika Anda tidak lagi memiliki akses ke alamat email ini.</string>
+    <string name="fullscreen_review_account_subtitle">Anda terdaftar pada SImplenote menggunakan email &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Peningkatan keamanan akun dapat menyebabkan akun hilang jika Anda tidak lagi memiliki akses ke alamat email ini.</string>
     <string name="description_warning">Peringatan</string>
     <string name="description_mail">Surat</string>
     <string name="description_close">Tutup</string>
@@ -51,10 +56,10 @@ Language: id
     <string name="tag_error_exists">Tag sudah ada</string>
     <string name="tag_error_empty">Tag tidak boleh kosong</string>
     <string name="dialog_tag_error_message">Terjadi kesalahan saat menambahkan tag. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Tambahkan Tag</string>
     <string name="empty_tags_hint">Setelah Anda menambahkan tag ke catatan, tag akan muncul di sini.</string>
     <string name="membership_premium">Premium</string>
@@ -131,8 +136,8 @@ Language: id
     <string name="link_california">%1$s%2$s%3$sPemberitahuan Privasi untuk Pengguna di California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Koneksi jaringan diperlukan. Silakan periksa koneksi Anda dan coba lagi.</string>
-    <string name="simperium_dialog_message_password">Persyaratan kata sandi:\n\n- Kata sandi tidak boleh sama dengan email\n- Harus terdiri dari minimal %1$d karakter\n- Terdiri dari satu baris\n- Tanpa pengembalian\n- Tanpa tab</string>
-    <string name="simperium_dialog_message_login_reset">Kata sandi Anda tidak aman dan harus diatur ulang. Persyaratan kata sandi adalah:\n\n- Kata sandi tidak boleh sama dengan email\n- Minimal %1$d karakter\n- Tidak membuat baris baru\n- Tidak boleh ada tab</string>
+    <string name="simperium_dialog_message_password">Persyaratan kata sandi:\n\n&amp;#8211; Kata sandi tidak boleh sama dengan email\n&amp;#8211; Harus terdiri dari minimal %1$d karakter\n&amp;#8211; Terdiri dari satu baris\n&amp;#8211; Tanpa pengembalian\n&amp;#8211; Tanpa tab</string>
+    <string name="simperium_dialog_message_login_reset">Kata sandi Anda tidak aman dan harus diatur ulang. Persyaratan kata sandi adalah:\n\n&amp;#8211; Kata sandi tidak boleh sama dengan email\n&amp;#8211; Minimal %1$d karakter\n&amp;#8211; Tidak membuat baris baru\n&amp;#8211; Tidak boleh ada tab</string>
     <string name="simperium_button_login_reset">Atur Ulang</string>
     <string name="link_terms">%1$s%2$s%3$sKetentuan Layanan%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sKebijakan Privasi%4$s</string>
@@ -181,11 +186,11 @@ Language: id
     <string name="description_sort">Urutkan</string>
     <string name="description_down">Bawah</string>
     <string name="description_delete_item">Hapus item</string>
-    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
+    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata&amp;#8211;kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">Cara paling mudah menyimpan catatan.</string>
     <string name="simperium_hint_password">Kata Sandi</string>
     <string name="simperium_hint_email">Email</string>

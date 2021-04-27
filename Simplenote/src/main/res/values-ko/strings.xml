@@ -1,11 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:03+0000
+Translation-Revision-Date: 2021-03-24 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">이미 %1$s(으)로 로그인하셨습니다. 로그아웃하고 다시 시도하세요.</string>
+    <string name="dialog_already_logged_in_title">이미 로그인됨</string>
+    <string name="support_text">이메일을 받지 못하셨나요? 이미 계정이 있을 수도 있습니다. 도움말은 %1$s에 문의하세요.</string>
+    <string name="email_confirmation_text">%1$s(으)로 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="dialog_message_signup_error">문제가 있습니다. 다시 시도해주세요.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL이 클립보드에 복사됨</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL을 클립보드에 복사할 수 없습니다.</string>
     <string name="dialog_browser_exception_title">링크 오류</string>
@@ -21,11 +26,11 @@ Language: ko_KR
     <string name="toast_email_sent">이메일 보냄</string>
     <string name="fullscreen_verify_email_button_secondary">이메일 다시 보내기</string>
     <string name="fullscreen_verify_email_title">이메일 확인</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b>(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt;(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
     <string name="fullscreen_review_account_button_secondary">이메일 변경</string>
     <string name="fullscreen_review_account_button_primary">확인</string>
     <string name="fullscreen_review_account_title">계정 검토</string>
-    <string name="fullscreen_review_account_subtitle">이메일 &lt;b>%1$s&lt;/b>을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br>&lt;br>더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
+    <string name="fullscreen_review_account_subtitle">이메일 &lt;b&gt;%1$s&lt;/b&gt;을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br&gt;&lt;br&gt;더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
     <string name="description_warning">경고</string>
     <string name="description_mail">메일</string>
     <string name="description_close">닫기</string>
@@ -51,10 +56,10 @@ Language: ko_KR
     <string name="tag_error_exists">태그가 이미 존재합니다.</string>
     <string name="tag_error_empty">태그를 비워둘 수 없습니다.</string>
     <string name="dialog_tag_error_message">태그를 추가하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">태그 추가</string>
     <string name="empty_tags_hint">메모에 태그를 추가하면 여기에 태그가 표시됩니다.</string>
     <string name="membership_premium">프리미엄</string>
@@ -131,8 +136,8 @@ Language: ko_KR
     <string name="link_california">%1$s%2$s%3$s캘리포니아 사용자를 위한 개인정보 공지%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">네트워크 연결이 필요합니다. 연결을 확인하고 다시 시도하세요.</string>
-    <string name="simperium_dialog_message_password">패스워드 필수 규칙: \n\n- 이메일 사용 금지\n- %1$d자 이상\n- 줄바꿈 사용 금지\n- 돌아가기 금지\n- 탭 사용 금지</string>
-    <string name="simperium_dialog_message_login_reset">비밀번호가 안전하지 않으므로 초기화해야 합니다. 비밀번호 요구 사항은 다음과 같습니다.\n\n- 비밀번호가 이메일과 일치할 수 없음\n- 최소 %1$d자\n- 줄바꿈 없음\n- 탭 없음</string>
+    <string name="simperium_dialog_message_password">패스워드 필수 규칙: \n\n&amp;#8211; 이메일 사용 금지\n&amp;#8211; %1$d자 이상\n&amp;#8211; 줄바꿈 사용 금지\n&amp;#8211; 돌아가기 금지\n&amp;#8211; 탭 사용 금지</string>
+    <string name="simperium_dialog_message_login_reset">비밀번호가 안전하지 않으므로 초기화해야 합니다. 비밀번호 요구 사항은 다음과 같습니다.\n\n&amp;#8211; 비밀번호가 이메일과 일치할 수 없음\n&amp;#8211; 최소 %1$d자\n&amp;#8211; 줄바꿈 없음\n&amp;#8211; 탭 없음</string>
     <string name="simperium_button_login_reset">재설정</string>
     <string name="link_terms">%1$s%2$s%3$s서비스 이용 약관%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$s개인정보 처리 방침%4$s</string>
@@ -185,7 +190,7 @@ Language: ko_KR
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
     <string name="log_in">로그인</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">메모를 보관하는 가장 간단한 방법입니다.</string>
     <string name="simperium_hint_password">비밀번호</string>
     <string name="simperium_hint_email">이메일</string>

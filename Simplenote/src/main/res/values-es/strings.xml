@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-03-22 15:54:06+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">Has iniciado sesión como %1$s. Cierra sesión e inténtalo de nuevo.</string>
+    <string name="dialog_already_logged_in_title">Ya has iniciado sesión</string>
+    <string name="support_text">¿No has recibido un correo electrónico? Es posible que ya tengas una cuenta. Si necesitas ayuda, ponte en contacto con %1$s.</string>
+    <string name="email_confirmation_text">Hemos enviado un correo electrónico a %1$s. Revisa tu bandeja de entrada y sigue las instrucciones.</string>
+    <string name="dialog_message_signup_error">Estamos teniendo algunos problemas. Inténtalo de nuevo pronto.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copiada en el portapapeles</string>
     <string name="dialog_browser_exception_toast_copy_failure">La URL no se ha podido copiar en el portapapeles</string>
     <string name="dialog_browser_exception_title">Error del enlace</string>
     <string name="dialog_browser_exception_message">No se puede abrir el enlace.  Copia la URL para pegarla en un navegador.</string>
     <string name="dialog_browser_exception_button_copy_url">Copiar URL</string>
-    <string name="sort_alphabetical_reverse">Nombre: Z-A</string>
-    <string name="sort_alphabetical">Nombre: A-Z</string>
+    <string name="sort_alphabetical_reverse">Nombre: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Nombre: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Creación: Más antiguo</string>
     <string name="sort_newest_created">Creación: Más nuevo</string>
     <string name="sort_oldest_modified">Modificado: Más antiguo</string>
@@ -21,11 +26,11 @@ Language: es
     <string name="toast_email_sent">Correo electrónico enviado</string>
     <string name="fullscreen_verify_email_button_secondary">Reenviar correo electrónico</string>
     <string name="fullscreen_verify_email_title">Verifica tu correo electrónico</string>
-    <string name="fullscreen_verify_email_subtitle">Hemos enviado un correo electrónico de verificación a &lt;b>%1$s&lt;/b>. Revisa tu bandeja de entrada y sigue las instrucciones.</string>
+    <string name="fullscreen_verify_email_subtitle">Hemos enviado un correo electrónico de verificación a &lt;b&gt;%1$s&lt;/b&gt;. Revisa tu bandeja de entrada y sigue las instrucciones.</string>
     <string name="fullscreen_review_account_button_secondary">Cambiar correo electrónico</string>
     <string name="fullscreen_review_account_button_primary">Confirmar</string>
     <string name="fullscreen_review_account_title">Revisa tu cuenta</string>
-    <string name="fullscreen_review_account_subtitle">Tienes una cuenta registrada en Simplenote con el correo electrónico &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Puede que pierdas el acceso a la cuenta debido a las mejoras en la seguridad si ya no tienes acceso a esa dirección de correo electrónico.</string>
+    <string name="fullscreen_review_account_subtitle">Tienes una cuenta registrada en Simplenote con el correo electrónico &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Puede que pierdas el acceso a la cuenta debido a las mejoras en la seguridad si ya no tienes acceso a esa dirección de correo electrónico.</string>
     <string name="description_warning">Advertencia</string>
     <string name="description_mail">Correo</string>
     <string name="description_close">Cerrar</string>
@@ -51,10 +56,10 @@ Language: es
     <string name="tag_error_exists">La etiqueta ya existe</string>
     <string name="tag_error_empty">Las etiquetas no pueden estar vacías</string>
     <string name="dialog_tag_error_message">Se ha producido un error al añadir la etiqueta. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Añadir etiqueta</string>
     <string name="empty_tags_hint">Cuando añadas etiquetas a tus notas, las etiquetas aparecerán aquí.</string>
     <string name="membership_premium">Premium</string>
@@ -131,8 +136,8 @@ Language: es
     <string name="link_california">%1$s%2$s%3$sAviso de privacidad para usuarios de California%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Una conexión de red es obligatoria. Comprueba la conexión e inténtalo de nuevo.</string>
-    <string name="simperium_dialog_message_password">Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener nuevas líneas\n- No puede contener saltos de línea\n- No puede contener espacios</string>
-    <string name="simperium_dialog_message_login_reset">Tu contraseña no es segura y debes cambiarla. Los requisitos de la contraseña son los siguientes:\n\n- La contraseña no puede coincidir con el correo electrónico\n- Debe tener %1$d caracteres como mínimo\n- No puede contener saltos de línea\n- No puede contener espacios</string>
+    <string name="simperium_dialog_message_password">Los requisitos de la contraseña son los siguientes:\n\n&amp;#8211; La contraseña no puede coincidir con el correo electrónico\n&amp;#8211; Debe tener %1$d caracteres como mínimo\n&amp;#8211; No puede contener nuevas líneas\n&amp;#8211; No puede contener saltos de línea\n&amp;#8211; No puede contener espacios</string>
+    <string name="simperium_dialog_message_login_reset">Tu contraseña no es segura y debes cambiarla. Los requisitos de la contraseña son los siguientes:\n\n&amp;#8211; La contraseña no puede coincidir con el correo electrónico\n&amp;#8211; Debe tener %1$d caracteres como mínimo\n&amp;#8211; No puede contener saltos de línea\n&amp;#8211; No puede contener espacios</string>
     <string name="simperium_button_login_reset">Restablecer</string>
     <string name="link_terms">%1$s%2$s%3$sCondiciones del servicio%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sPolítica de privacidad%4$s</string>
@@ -185,7 +190,7 @@ Language: es
     <string name="search_hint">Buscar notas o etiquetas</string>
     <string name="log_out">Salir</string>
     <string name="log_in">Acceder</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">Lo más fácil para tener notas.</string>
     <string name="simperium_hint_password">Contraseña</string>
     <string name="simperium_hint_email">Correo electrónico</string>

@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-03-24 09:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">すでに %1$s としてログインしています。 ログアウトして再度お試しください。</string>
+    <string name="dialog_already_logged_in_title">すでにログイン済み</string>
+    <string name="support_text">メールが届きませんでしたか ? すでにアカウントをお持ちの可能性があります。 %1$s に問い合わせてサポートを受けてください。</string>
+    <string name="email_confirmation_text">%1$s にメールを送信しました。 受信箱を確認して手順に従ってください。</string>
+    <string name="dialog_message_signup_error">問題が発生しました。 すぐにもう一度実行してください。</string>
     <string name="dialog_browser_exception_toast_copy_success">URL をクリップボードにコピーしました</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL をクリップボードにコピーできませんでした</string>
     <string name="dialog_browser_exception_title">リンクエラー</string>
     <string name="dialog_browser_exception_message">リンクを開けません。  URL をコピーしてブラウザーに貼り付けます。</string>
     <string name="dialog_browser_exception_button_copy_url">URL をコピー</string>
-    <string name="sort_alphabetical_reverse">名前: Z-A</string>
-    <string name="sort_alphabetical">名前: A-Z</string>
+    <string name="sort_alphabetical_reverse">名前: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">名前: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">作成日: 最も古い</string>
     <string name="sort_newest_created">作成日: 最新</string>
     <string name="sort_oldest_modified">更新日: 最も古い</string>
@@ -21,11 +26,11 @@ Language: ja_JP
     <string name="toast_email_sent">メールを送信しました</string>
     <string name="fullscreen_verify_email_button_secondary">メールを再送信</string>
     <string name="fullscreen_verify_email_title">メールアドレスを確認</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
     <string name="fullscreen_review_account_button_secondary">メールアドレスを変更</string>
     <string name="fullscreen_review_account_button_primary">確認</string>
     <string name="fullscreen_review_account_title">アカウントの設定を確認</string>
-    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b>%1$s&lt;/b> で Simplenote に登録されました。&lt;br>&lt;br>アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
+    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b&gt;%1$s&lt;/b&gt; で Simplenote に登録されました。&lt;br&gt;&lt;br&gt;アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">メール</string>
     <string name="description_close">閉じる</string>
@@ -51,10 +56,10 @@ Language: ja_JP
     <string name="tag_error_exists">タグはすでに存在します</string>
     <string name="tag_error_empty">タグは空白にできません</string>
     <string name="dialog_tag_error_message">タグの追加中にエラーが発生しました。 もう一度お試しください。 問題が解決しない場合は、%1$s%2$s%3$s%4$s%5$s までお問い合わせください。</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">タグを追加</string>
     <string name="empty_tags_hint">メモにタグを追加すると、タグがこちらに表示されます。</string>
     <string name="membership_premium">プレミアム</string>
@@ -131,8 +136,8 @@ Language: ja_JP
     <string name="link_california">%1$s%2$s%3$sカリフォルニア州のユーザーへのプライバシー通知%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">ネットワーク接続が必要です。接続を確認して、もう一度お試しください。</string>
-    <string name="simperium_dialog_message_password">パスワードの要件は次のとおりです。\n\n- パスワードはメールと一致してはならない\n- %1$d文字以上\n- 改行不使用\n- 「戻る」不使用\n- タブ不使用</string>
-    <string name="simperium_dialog_message_login_reset">パスワードの安全でないため、リセットする必要があります。パスワードの要件は次のとおりです。\n\n- パスワードがメールと一致しません\n- %1$d文字以上入力してください\n- 改行は使用できません\n- タブは使用できません</string>
+    <string name="simperium_dialog_message_password">パスワードの要件は次のとおりです。\n\n&amp;#8211; パスワードはメールと一致してはならない\n&amp;#8211; %1$d文字以上\n&amp;#8211; 改行不使用\n&amp;#8211; 「戻る」不使用\n&amp;#8211; タブ不使用</string>
+    <string name="simperium_dialog_message_login_reset">パスワードの安全でないため、リセットする必要があります。パスワードの要件は次のとおりです。\n\n&amp;#8211; パスワードがメールと一致しません\n&amp;#8211; %1$d文字以上入力してください\n&amp;#8211; 改行は使用できません\n&amp;#8211; タブは使用できません</string>
     <string name="simperium_button_login_reset">リセット</string>
     <string name="link_terms">%1$s%2$s%3$s利用規約%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sプライバシーポリシー%4$s</string>
@@ -185,7 +190,7 @@ Language: ja_JP
     <string name="search_hint">メモまたはタグを検索</string>
     <string name="log_out">ログアウト</string>
     <string name="log_in">ログイン</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">最も手軽にメモを残せる方法です。</string>
     <string name="simperium_hint_password">パスワード</string>
     <string name="simperium_hint_email">メール</string>

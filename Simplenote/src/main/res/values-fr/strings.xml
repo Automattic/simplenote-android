@@ -1,37 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-03-24 13:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
-    <string name="dialog_browser_exception_toast_copy_success">URL copiée dans le presse-papiers.</string>
-    <string name="dialog_browser_exception_toast_copy_failure">L’URL n’a pas pu être copiée dans le presse-papiers.</string>
+    <string name="dialog_already_logged_in_message">Vous êtes déjà connecté en tant que %1$s. Déconnectez&amp;#8211;vous et réessayez.</string>
+    <string name="dialog_already_logged_in_title">Vous êtes déjà connecté</string>
+    <string name="support_text">Vous n’avez pas reçu d’e&amp;#8211;mail ? Vous avez peut&amp;#8211;être déjà un compte. Si vous avez besoin d’aide, contactez %1$s.</string>
+    <string name="email_confirmation_text">Nous avons envoyé un e&amp;#8211;mail à %1$s. Consultez votre boîte de réception et suivez les instructions.</string>
+    <string name="dialog_message_signup_error">Nous rencontrons des problèmes. Veuillez réessayer un peu plus tard.</string>
+    <string name="dialog_browser_exception_toast_copy_success">URL copiée dans le presse&amp;#8211;papiers.</string>
+    <string name="dialog_browser_exception_toast_copy_failure">L’URL n’a pas pu être copiée dans le presse&amp;#8211;papiers.</string>
     <string name="dialog_browser_exception_title">Erreur de lien</string>
     <string name="dialog_browser_exception_message">Impossible d’ouvrir le lien.  Copiez l’URL pour la coller dans un navigateur.</string>
     <string name="dialog_browser_exception_button_copy_url">Copier l’URL</string>
-    <string name="sort_alphabetical_reverse">Nom : Z-A</string>
-    <string name="sort_alphabetical">Nom : A-Z</string>
+    <string name="sort_alphabetical_reverse">Nom : Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Nom : A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Création : Plus anciennes</string>
     <string name="sort_newest_created">Création : Plus récentes</string>
     <string name="sort_oldest_modified">Modification : Plus anciennes</string>
     <string name="sort_newest_modified">Modification : Plus récentes</string>
     <string name="sort_by">Trier par</string>
-    <string name="toast_email_sent">E-mail envoyé</string>
-    <string name="fullscreen_verify_email_button_secondary">Renvoyer l’e-mail</string>
+    <string name="toast_email_sent">E&amp;#8211;mail envoyé</string>
+    <string name="fullscreen_verify_email_button_secondary">Renvoyer l’e&amp;#8211;mail</string>
     <string name="fullscreen_verify_email_title">Vérifiez votre messagerie</string>
-    <string name="fullscreen_verify_email_subtitle">Nous avons envoyé un e-mail de vérification à &lt;b>%1$s&lt;/b>. Consultez votre boîte de réception et suivez les instructions.</string>
-    <string name="fullscreen_review_account_button_secondary">Changez d’adresse e-mail</string>
+    <string name="fullscreen_verify_email_subtitle">Nous avons envoyé un e&amp;#8211;mail de vérification à &lt;b&gt;%1$s&lt;/b&gt;. Consultez votre boîte de réception et suivez les instructions.</string>
+    <string name="fullscreen_review_account_button_secondary">Changez d’adresse e&amp;#8211;mail</string>
     <string name="fullscreen_review_account_button_primary">Confirmer</string>
     <string name="fullscreen_review_account_title">Passez en revue votre compte</string>
-    <string name="fullscreen_review_account_subtitle">Vous êtes enregistré sur Simplenote avec l’adresse e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Les améliorations apportées à la sécurité de votre compte peuvent entraîner la perte de votre compte si vous n’avez plus accès à cette adresse e-mail.</string>
+    <string name="fullscreen_review_account_subtitle">Vous êtes enregistré sur Simplenote avec l’adresse e&amp;#8211;mail &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Les améliorations apportées à la sécurité de votre compte peuvent entraîner la perte de votre compte si vous n’avez plus accès à cette adresse e&amp;#8211;mail.</string>
     <string name="description_warning">Avertissement</string>
-    <string name="description_mail">E-mail</string>
+    <string name="description_mail">E&amp;#8211;mail</string>
     <string name="description_close">Fermer</string>
     <string name="simperium_dialog_message_password_login">Les mots de passe doivent contenir %1$d caractères au maximum.</string>
     <string name="dialog_tag_conflict_title">Conflit d’étiquettes</string>
-    <string name="dialog_tag_conflict_message">L’étiquette « %1$s » existe déjà. Voulez-vous fusionner « %2$s » dans l’étiquette « %3$s » ?</string>
+    <string name="dialog_tag_conflict_message">L’étiquette « %1$s » existe déjà. Voulez&amp;#8211;vous fusionner « %2$s » dans l’étiquette « %3$s » ?</string>
     <string name="dialog_tag_conflict_button_positive">Fusionner</string>
     <string name="description_locked">Verrouillé</string>
     <string name="style_sepia">Sépia</string>
@@ -50,12 +55,12 @@ Language: fr
     <string name="tag_error_length">L’étiquette est trop longue.</string>
     <string name="tag_error_exists">Cette étiquette existe déjà.</string>
     <string name="tag_error_empty">Les étiquettes ne peuvent pas être vides.</string>
-    <string name="dialog_tag_error_message">Une erreur est survenue lors de l’ajout de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
-    <string name="add_tag">Ajouter le mot-clé</string>
+    <string name="dialog_tag_error_message">Une erreur est survenue lors de l’ajout de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez&amp;#8211;nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
+    <string name="add_tag">Ajouter le mot&amp;#8211;clé</string>
     <string name="empty_tags_hint">Lorsque vous ajoutez des étiquettes à vos notes, vos étiquettes apparaissent ici.</string>
     <string name="membership_premium">Premium</string>
     <string name="membership_free_upgrade">Mise à niveau</string>
@@ -63,10 +68,10 @@ Language: fr
     <string name="membership">Inscription</string>
     <string name="synced">Synchronisé</string>
     <string name="delete_dialog_title">Supprimer définitivement</string>
-    <string name="delete_dialog_message">Voulez-vous supprimer définitivement cette note ? Cette action ne peut pas être annulée.</string>
-    <string name="delete_dialog_error_message">Une erreur est survenue lors de la suppression de la note. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="delete_dialog_message">Voulez&amp;#8211;vous supprimer définitivement cette note ? Cette action ne peut pas être annulée.</string>
+    <string name="delete_dialog_error_message">Une erreur est survenue lors de la suppression de la note. Veuillez réessayer. Si le problème persiste, contactez&amp;#8211;nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
     <string name="delete">Effacer</string>
-    <string name="confirm_empty_trash">Voulez-vous vider la corbeille ? Toutes les notes dans la corbeille seront supprimées définitivement. Cette action ne peut pas être annulée.</string>
+    <string name="confirm_empty_trash">Voulez&amp;#8211;vous vider la corbeille ? Toutes les notes dans la corbeille seront supprimées définitivement. Cette action ne peut pas être annulée.</string>
     <string name="empty">Vider</string>
     <string name="back">Retour</string>
     <string name="empty_notes_untagged">Aucune note sans étiquette</string>
@@ -99,14 +104,14 @@ Language: fr
     <string name="export_message_success">Données enregistrées dans le fichier</string>
     <string name="export_message_failure">Les données n’ont pas pu être enregistrées</string>
     <string name="export_file">simplenote.json</string>
-    <string name="rename_tag_message_length">L’étiquette est trop longue. Réessayez avec un nom plus court. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
-    <string name="rename_tag_message">Une erreur s’est produite lors du changement de nom de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="rename_tag_message_length">L’étiquette est trop longue. Réessayez avec un nom plus court. Si le problème persiste, contactez&amp;#8211;nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="rename_tag_message">Une erreur s’est produite lors du changement de nom de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez&amp;#8211;nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
     <string name="rename_tag_error_spaces">Les étiquettes ne peuvent pas contenir d’espace</string>
     <string name="rename_tag_error_length">L’étiquette est trop longue.</string>
     <string name="rename_tag_error_empty">Les étiquettes ne peuvent pas être vides.</string>
     <string name="simperium_url">http://simplenote.com</string>
-    <string name="simperium_error_browser_copy_success">URL copiée dans le presse-papiers.</string>
-    <string name="simperium_error_browser_copy_failure">L’URL n’a pas pu être copiée dans le presse-papiers.</string>
+    <string name="simperium_error_browser_copy_success">URL copiée dans le presse&amp;#8211;papiers.</string>
+    <string name="simperium_error_browser_copy_failure">L’URL n’a pas pu être copiée dans le presse&amp;#8211;papiers.</string>
     <string name="simperium_error_browser">Veuillez vérifier qu’un navigateur est installé et activé.</string>
     <string name="simperium_dialog_title_error_browser">Aucun navigateur détecté</string>
     <string name="simperium_dialog_button_copy_url">Copier l’URL</string>
@@ -131,8 +136,8 @@ Language: fr
     <string name="link_california">%1$s%2$s%3$sAvis de confidentialité pour les utilisateurs californiens%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Une connexion réseau est obligatoire. Veuillez vérifier votre connexion et réessayer.</string>
-    <string name="simperium_dialog_message_password">Les exigences en matière de mots de passe sont les suivantes :\n\n- Le mot de passe et l’adresse e-mail ne doivent pas être identiques\n- Il doit comporter au moins %1$d caractères\n- Il ne doit pas comporter de retour à la ligne\n- Il ne doit pas comporter de retour\n- Il ne doit pas comporter de tabulation</string>
-    <string name="simperium_dialog_message_login_reset">Votre mot de passe n’est pas sûr et doit être réinitialisé. Les exigences en matière de mots de passe sont les suivantes :\n\n- Le mot de passe et l’adresse e-mail ne doivent pas être identiques\n- Il doit comporter au moins %1$d caractères\n- Il ne doit pas comporter de retour à la ligne\n- Il ne doit pas comporter de tabulation</string>
+    <string name="simperium_dialog_message_password">Les exigences en matière de mots de passe sont les suivantes :\n\n&amp;#8211; Le mot de passe et l’adresse e&amp;#8211;mail ne doivent pas être identiques\n&amp;#8211; Il doit comporter au moins %1$d caractères\n&amp;#8211; Il ne doit pas comporter de retour à la ligne\n&amp;#8211; Il ne doit pas comporter de retour\n&amp;#8211; Il ne doit pas comporter de tabulation</string>
+    <string name="simperium_dialog_message_login_reset">Votre mot de passe n’est pas sûr et doit être réinitialisé. Les exigences en matière de mots de passe sont les suivantes :\n\n&amp;#8211; Le mot de passe et l’adresse e&amp;#8211;mail ne doivent pas être identiques\n&amp;#8211; Il doit comporter au moins %1$d caractères\n&amp;#8211; Il ne doit pas comporter de retour à la ligne\n&amp;#8211; Il ne doit pas comporter de tabulation</string>
     <string name="simperium_button_login_reset">Réinitialiser</string>
     <string name="link_terms">%1$s%2$s%3$sConditions d’utilisation%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sPolitique de confidentialité%4$s</string>
@@ -181,30 +186,30 @@ Language: fr
     <string name="description_sort">Trier</string>
     <string name="description_down">Bas</string>
     <string name="description_delete_item">Supprimer l\'élément</string>
-    <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton « Nouvelle note » avec l’icône plus.\n\nPour rechercher dans vos notes, appuyez sur le bouton de recherche avec l’icône en forme de loupe et saisissez n’importe quel texte. Simplenote affichera initialement vos recherches récentes et des recherches suggérées lorsque vous saisissez du texte. Les notes correspondant au texte saisi apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez-la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l’icône en forme d’épingle. Appuyez sur le bouton « Plus d’options » avec l’icône affichant trois points verticaux lorsque la note est ouverte et cochez la case « Épingler ».\n\nUtilisez des étiquettes pour faciliter l’organisation de vos notes. Créez une étiquette sur l’écran « Modifier les étiquettes » à l’aide du bouton « Ajouter une étiquette » ou avec le champ « Ajouter une étiquette… » en bas d’une note. Vous pouvez également ajouter une adresse e-mail sous forme d’étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d’autres applications Android en appuyant sur « Partager » dans le menu « Plus d’options » lorsque la note est ouverte.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
+    <string name="welcome_note">Bienvenue sur Simplenote Android !\nOuvrez cette note pour obtenir des instructions.\n\nPour créer une nouvelle note, appuyez sur le bouton « Nouvelle note » avec l’icône plus.\n\nPour rechercher dans vos notes, appuyez sur le bouton de recherche avec l’icône en forme de loupe et saisissez n’importe quel texte. Simplenote affichera initialement vos recherches récentes et des recherches suggérées lorsque vous saisissez du texte. Les notes correspondant au texte saisi apparaissent une fois la recherche envoyée.\n\nVous avez une note vraiment importante ? Épinglez&amp;#8211;la en haut de la liste des notes. Vous pouvez épingler une note de deux manières. Appuyez longuement sur la note dans la liste et appuyez sur le bouton « Épingler en haut » avec l’icône en forme d’épingle. Appuyez sur le bouton « Plus d’options » avec l’icône affichant trois points verticaux lorsque la note est ouverte et cochez la case « Épingler ».\n\nUtilisez des étiquettes pour faciliter l’organisation de vos notes. Créez une étiquette sur l’écran « Modifier les étiquettes » à l’aide du bouton « Ajouter une étiquette » ou avec le champ « Ajouter une étiquette… » en bas d’une note. Vous pouvez également ajouter une adresse e&amp;#8211;mail sous forme d’étiquette pour partager une note avec un tiers.\n\nPartagez facilement les notes avec d’autres applications Android en appuyant sur « Partager » dans le menu « Plus d’options » lorsque la note est ouverte.\n\nLes notes supprimées sont envoyées dans la corbeille. Vous pouvez les restaurer au besoin ou vider la corbeille pour les supprimer définitivement.\n\nVous pouvez accéder à vos notes sur le Web et sur vos autres appareils. Accédez à http://simplenote.com pour commencer.\n\nNous espérons que vous appréciez Simplenote !</string>
     <string name="search_hint">Rechercher dans les notes ou les étiquettes</string>
     <string name="log_out">Déconnexion</string>
     <string name="log_in">Connexion</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">La manière la plus simple de conserver des notes.</string>
     <string name="simperium_hint_password">Mot de passe</string>
-    <string name="simperium_hint_email">E-mail</string>
+    <string name="simperium_hint_email">E&amp;#8211;mail</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_footer_signup">En créant un compte, vous acceptez nos %1$s%2$s%3$sconditions générales%4$s.</string>
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sMot de passe oublié ?%4$s</string>
     <string name="simperium_error_password">Mot de passe invalide</string>
-    <string name="simperium_error_email">E-mail non valide</string>
+    <string name="simperium_error_email">E&amp;#8211;mail non valide</string>
     <string name="simperium_dialog_title_error">Erreur</string>
     <string name="simperium_dialog_progress_signing_up">Inscription en cours…</string>
     <string name="simperium_dialog_progress_logging_in">Connexion en cours…</string>
-    <string name="simperium_dialog_message_signup_existing">L\'adresse e-mail saisie est déjà associée à un compte Simplenote.</string>
-    <string name="simperium_dialog_message_signup">Impossible de s\'inscrire avec l\'adresse e-mail et le mot de passe fournis.</string>
-    <string name="simperium_dialog_message_network">Aucun réseau disponible. Connectez-vous à un réseau et essayez de nouveau.</string>
-    <string name="simperium_dialog_message_login">Impossible de se connecter avec l\'adresse e-mail et le mot de passe fournis.</string>
+    <string name="simperium_dialog_message_signup_existing">L\'adresse e&amp;#8211;mail saisie est déjà associée à un compte Simplenote.</string>
+    <string name="simperium_dialog_message_signup">Impossible de s\'inscrire avec l\'adresse e&amp;#8211;mail et le mot de passe fournis.</string>
+    <string name="simperium_dialog_message_network">Aucun réseau disponible. Connectez&amp;#8211;vous à un réseau et essayez de nouveau.</string>
+    <string name="simperium_dialog_message_login">Impossible de se connecter avec l\'adresse e&amp;#8211;mail et le mot de passe fournis.</string>
     <string name="simperium_button_signup">S\'inscrire</string>
     <string name="simperium_button_login_other">Se connecter avec WordPress.com</string>
-    <string name="simperium_button_login_email">Se connecter avec l\'adresse e-mail</string>
+    <string name="simperium_button_login_email">Se connecter avec l\'adresse e&amp;#8211;mail</string>
     <string name="simperium_button_login">Connexion</string>
     <string name="theme_system">Paramètres par défaut du système</string>
     <string name="toggle_checklist">Basculer sur la liste de contrôle</string>
@@ -226,7 +231,7 @@ Language: fr
     <string name="post_to_wordpress">Article vers WordPress</string>
     <string name="untitled_site">Site sans titre</string>
     <string name="connect_with_wordpress">Connexion</string>
-    <string name="wordpress_connect_summary">Pour publier une note directement sur un site WordPress, connectez-vous à votre compte WordPress.com.</string>
+    <string name="wordpress_connect_summary">Pour publier une note directement sur un site WordPress, connectez&amp;#8211;vous à votre compte WordPress.com.</string>
     <string name="done">Terminé</string>
     <string name="success">Note publiée avec succès sur : %1$s</string>
     <string name="uploading_post">Chargement de l\'article</string>
@@ -235,21 +240,21 @@ Language: fr
     <string name="wordpress_post">Article WordPress</string>
     <string name="theme_auto">Sombre la nuit uniquement</string>
     <string name="notes">Notes</string>
-    <string name="share_analytics_summary">Aidez-nous à améliorer Simplenote en partageant les données d\'utilisation avec notre outil d\'analyse. %1$sEn savoir plus%2$s</string>
+    <string name="share_analytics_summary">Aidez&amp;#8211;nous à améliorer Simplenote en partageant les données d\'utilisation avec notre outil d\'analyse. %1$sEn savoir plus%2$s</string>
     <string name="share_analytics">Partager les données d\'utilisation</string>
     <string name="editor">Éditeur</string>
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Désépingler du haut</string>
     <string name="untagged_notes">Notes non étiquetées</string>
-    <string name="wpcom_log_in_error_unverified">Activez votre compte WordPress.com par e-mail et réessayez.</string>
+    <string name="wpcom_log_in_error_unverified">Activez votre compte WordPress.com par e&amp;#8211;mail et réessayez.</string>
     <string name="wpcom_log_in_error_generic">Impossible de se connecter à WordPress.com. Veuillez réessayer.</string>
-    <string name="collaborate_message">Ajoutez un e-mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
+    <string name="collaborate_message">Ajoutez un e&amp;#8211;mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
     <string name="collaborate">Collaborer</string>
     <string name="publishing">Publication de la note en cours…</string>
     <string name="unpublish">Supprimer le lien public</string>
     <string name="no_browser_available">« Impossible d’ouvrir le site web. Aucun navigateur disponible. »</string>
     <string name="blog">Blog</string>
-    <string name="rate_us">Donnez-nous votre avis</string>
+    <string name="rate_us">Donnez&amp;#8211;nous votre avis</string>
     <string name="twitter">Twitter</string>
     <string name="about_play_store">Google Play Store</string>
     <string name="markdown_show">Montrer Markdown</string>
@@ -262,7 +267,7 @@ Language: fr
     <string name="history">Historique</string>
     <string name="restore">Restaurer</string>
     <string name="edit">Modifier</string>
-    <string name="tags">Mots-clés</string>
+    <string name="tags">Mots&amp;#8211;clés</string>
     <string name="noted">Avec note</string>
     <string name="font_size_extra_large">Très grand</string>
     <string name="font_size_large">Grand</string>
@@ -295,7 +300,7 @@ Language: fr
     <string name="condensed_note_list">Vue condensée</string>
     <string name="rename_tag">Renommer tag</string>
     <string name="new_note_list">Nouvelle note…</string>
-    <string name="confirm_delete_tag">Êtes-vous sûr de vouloir supprimer ce tag ?</string>
+    <string name="confirm_delete_tag">Êtes&amp;#8211;vous sûr de vouloir supprimer ce tag ?</string>
     <string name="note_deleted">Note placée dans la corbeille</string>
     <string name="undo">Défaire</string>
     <string name="yesterday">Hier</string>

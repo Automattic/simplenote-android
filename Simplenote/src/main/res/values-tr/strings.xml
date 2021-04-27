@@ -1,31 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:03+0000
+Translation-Revision-Date: 2021-03-24 11:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="dialog_already_logged_in_message">%1$s olarak zaten giriş yaptınız. Çıkış yapıp tekrar deneyin.</string>
+    <string name="dialog_already_logged_in_title">Zaten Giriş Yapıldı</string>
+    <string name="support_text">E&amp;#8211;postayı almadınız mı? Zaten bir hesabınız olabilir. Yardım için %1$s ile iletişime geçin.</string>
+    <string name="email_confirmation_text">%1$s adresine bir e&amp;#8211;posta gönderdik. Lütfen gelen kutunuzu kontrol edin ve talimatları izleyin.</string>
+    <string name="dialog_message_signup_error">Sorun yaşanıyor. Lütfen kısa bir süre sonra tekrar deneyin.</string>
     <string name="dialog_browser_exception_toast_copy_success">Adres panoya kopyalandı</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL panoya kopyalanamadı</string>
     <string name="dialog_browser_exception_title">Bağlantı Hatası</string>
     <string name="dialog_browser_exception_message">Bağlantı açılmıyor.  Bir tarayıcıya yapıştırmak için URL\'yi kopyalayın.</string>
     <string name="dialog_browser_exception_button_copy_url">Adresi kopyala</string>
-    <string name="sort_alphabetical_reverse">Ad: Z-A</string>
-    <string name="sort_alphabetical">Ad: A-Z</string>
+    <string name="sort_alphabetical_reverse">Ad: Z&amp;#8211;A</string>
+    <string name="sort_alphabetical">Ad: A&amp;#8211;Z</string>
     <string name="sort_oldest_created">Oluşturma Tarihi: Eski</string>
     <string name="sort_newest_created">Oluşturma Tarihi: En yeni</string>
     <string name="sort_oldest_modified">Değiştirme Tarihi: Eski</string>
     <string name="sort_newest_modified">Değiştirme Tarihi: En yeni</string>
     <string name="sort_by">Sırala</string>
-    <string name="toast_email_sent">E-posta gönderildi</string>
-    <string name="fullscreen_verify_email_button_secondary">E-postayı tekrar gönder</string>
-    <string name="fullscreen_verify_email_title">E-posta Adresinizi Doğrulayın</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
-    <string name="fullscreen_review_account_button_secondary">E-posta değiştir</string>
+    <string name="toast_email_sent">E&amp;#8211;posta gönderildi</string>
+    <string name="fullscreen_verify_email_button_secondary">E&amp;#8211;postayı tekrar gönder</string>
+    <string name="fullscreen_verify_email_title">E&amp;#8211;posta Adresinizi Doğrulayın</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; adresine bir doğrulama e&amp;#8211;postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
+    <string name="fullscreen_review_account_button_secondary">E&amp;#8211;posta değiştir</string>
     <string name="fullscreen_review_account_button_primary">Onayla</string>
     <string name="fullscreen_review_account_title">Hesabınızı İnceleyin</string>
-    <string name="fullscreen_review_account_subtitle">&lt;b>%1$s&lt;/b> e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br>&lt;br>Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
+    <string name="fullscreen_review_account_subtitle">&lt;b&gt;%1$s&lt;/b&gt; e&amp;#8211;postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br&gt;&lt;br&gt;Bu e&amp;#8211;posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
     <string name="description_warning">Uyarı</string>
     <string name="description_mail">Posta</string>
     <string name="description_close">Kapat</string>
@@ -51,10 +56,10 @@ Language: tr
     <string name="tag_error_exists">Etiket zaten var</string>
     <string name="tag_error_empty">Etiketler boş olamaz</string>
     <string name="dialog_tag_error_message">Etiketi eklerken bir hata oluştu. Lütfen tekrar deneyin. Sorun devam ederse yardım için %1$s%2$s%3$s%4$s%5$s adresinden bize ulaşın.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
+    <string name="dialog_tag_add_title">\@string/add_tag</string>
+    <string name="dialog_tag_add_hint">\@string/tag_name</string>
+    <string name="dialog_tag_add_button_positive">\@string/save</string>
+    <string name="dialog_tag_add_button_negative">\@android:string/cancel</string>
     <string name="add_tag">Etiket ekle</string>
     <string name="empty_tags_hint">Notlarınıza eklediğiniz etiketler burada görünür.</string>
     <string name="membership_premium">Premium</string>
@@ -131,8 +136,8 @@ Language: tr
     <string name="link_california">%1$s%2$s%3$sKaliforniya\'daki Kullanıcılar için Gizlilik Bildirimi%4$s</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Bir ağ bağlantısı gereklidir. Lütfen bağlantınızı kontrol edip tekrar deneyin.</string>
-    <string name="simperium_dialog_message_password">Parola gereksinimleri:\n\n- Parola e-posta ile aynı olamaz\n- En az %1$d karakter içermelidir\n- Yeni satır içeremez\n- Dönüş içeremez\n- Sekme içeremez</string>
-    <string name="simperium_dialog_message_login_reset">Parolanız güvenli değil ve sıfırlanması gerekiyor. Parola gereksinimleri:\n\n- Parola ile e-posta adresi aynı olamaz\n- En az %1$d karakter olmalıdır\n- Yeni satır kullanılamaz\n- Sekme olamaz</string>
+    <string name="simperium_dialog_message_password">Parola gereksinimleri:\n\n&amp;#8211; Parola e&amp;#8211;posta ile aynı olamaz\n&amp;#8211; En az %1$d karakter içermelidir\n&amp;#8211; Yeni satır içeremez\n&amp;#8211; Dönüş içeremez\n&amp;#8211; Sekme içeremez</string>
+    <string name="simperium_dialog_message_login_reset">Parolanız güvenli değil ve sıfırlanması gerekiyor. Parola gereksinimleri:\n\n&amp;#8211; Parola ile e&amp;#8211;posta adresi aynı olamaz\n&amp;#8211; En az %1$d karakter olmalıdır\n&amp;#8211; Yeni satır kullanılamaz\n&amp;#8211; Sekme olamaz</string>
     <string name="simperium_button_login_reset">Sıfırla</string>
     <string name="link_terms">%1$s%2$s%3$sHizmet Koşulları%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sGizlilik Politikası%4$s</string>
@@ -181,30 +186,30 @@ Language: tr
     <string name="description_sort">Sırala</string>
     <string name="description_down">Aşağı</string>
     <string name="description_delete_item">Ögeyi sil</string>
-    <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bun notu açın.\n\nYeni not oluşturmak için artı simgeli \"Yeni Not\" düğmesine dokunun.\n\nNotlarınızı aramak için, büyüteç simgesine sahip \"Ara\" düğmesine dokunun ve bir metin girin. Simplenote ilk olarak son aramaları ve ardından metin girerken önerilen aramaları gösterecektir. Girilen metinle eşleşen notlar, arama gönderildikten sonra gösterilecektir.\n\nGerçekten önemli bir notunuz mu var? Not listesinin en üstüne sabitleyin. Bir notu iki şekilde sabitleyebilirsiniz. Listedeki nota uzun basın ve ataş ikonuna sahip \"Üste Sabitle\" düğmesine basın. Bir notu görüntülerken üç dikey nokta simgesiyle gösterilen \"Diğer Seçenekler\" düğmesine dokunun ve \"Sabitle\" kutusunu işaretleyin.\n\nNotlarınızı organize etmek için etiketleri kullanın. Etiket oluşturmak için \"Etiketleri Düzenle\" ekranında \"Etiket Ekle\" düğmesini veya bir notun altındaki \"Etiket ekle…\" alanını kullanın. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e-posta adresi de ekleyebilirsiniz.\n\nBir notu görüntülerken \"Diğer Seçenekler\" menüsündeki \"Paylaş\"a dokunarak notları diğer Android uygulamalarıyla kolayca paylaşın.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
+    <string name="welcome_note">Simplenote Android\'e Hoş Geldiniz!\nYönergeler için bun notu açın.\n\nYeni not oluşturmak için artı simgeli \"Yeni Not\" düğmesine dokunun.\n\nNotlarınızı aramak için, büyüteç simgesine sahip \"Ara\" düğmesine dokunun ve bir metin girin. Simplenote ilk olarak son aramaları ve ardından metin girerken önerilen aramaları gösterecektir. Girilen metinle eşleşen notlar, arama gönderildikten sonra gösterilecektir.\n\nGerçekten önemli bir notunuz mu var? Not listesinin en üstüne sabitleyin. Bir notu iki şekilde sabitleyebilirsiniz. Listedeki nota uzun basın ve ataş ikonuna sahip \"Üste Sabitle\" düğmesine basın. Bir notu görüntülerken üç dikey nokta simgesiyle gösterilen \"Diğer Seçenekler\" düğmesine dokunun ve \"Sabitle\" kutusunu işaretleyin.\n\nNotlarınızı organize etmek için etiketleri kullanın. Etiket oluşturmak için \"Etiketleri Düzenle\" ekranında \"Etiket Ekle\" düğmesini veya bir notun altındaki \"Etiket ekle…\" alanını kullanın. Ayrıca, bir kişiyle not paylaşmak için etiket olarak e&amp;#8211;posta adresi de ekleyebilirsiniz.\n\nBir notu görüntülerken \"Diğer Seçenekler\" menüsündeki \"Paylaş\"a dokunarak notları diğer Android uygulamalarıyla kolayca paylaşın.\n\nSilinen notlar çöp kutusuna gider. İsterseniz bunları geri yükleyebilir veya notlardan sonsuza kadar kurtulmak için çöp kutusunu boşaltabilirsiniz.\n\nNotlarınıza web\'den ve diğer cihazlarınızdan erişebilirsiniz. Başlamak için http://simplenote.com sitesine gidin.\n\nUmarız Simplenote\'u kullanmak hoşunuza gider!</string>
     <string name="search_hint">Not ve etiket ara</string>
     <string name="log_out">Oturumu kapat</string>
     <string name="log_in">Oturum aç</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">Not tutmanın en basit yolu.</string>
     <string name="simperium_hint_password">Parola</string>
-    <string name="simperium_hint_email">E-posta</string>
+    <string name="simperium_hint_email">E&amp;#8211;posta</string>
     <string name="simperium_footer_signup_url">https://simplenote.com/terms/</string>
     <string name="simperium_footer_signup">Hesap oluşturarak %1$s%2$s%3$sHüküm ve Koşullarımızı%4$s kabul etmiş olursunuz</string>
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sParolanızı mı unuttunuz?%4$s</string>
     <string name="simperium_error_password">Geçersiz parola</string>
-    <string name="simperium_error_email">Geçersiz e-posta</string>
+    <string name="simperium_error_email">Geçersiz e&amp;#8211;posta</string>
     <string name="simperium_dialog_title_error">Hata</string>
     <string name="simperium_dialog_progress_signing_up">Kaydınız yapılıyor…</string>
     <string name="simperium_dialog_progress_logging_in">Oturum açılıyor…</string>
-    <string name="simperium_dialog_message_signup_existing">Girdiğiniz e-posta adresi bir Simplenote hesabıyla zaten ilişkilendirilmiş.</string>
-    <string name="simperium_dialog_message_signup">Verilen e-posta adresi ve parolayla kaydolunamadı.</string>
+    <string name="simperium_dialog_message_signup_existing">Girdiğiniz e&amp;#8211;posta adresi bir Simplenote hesabıyla zaten ilişkilendirilmiş.</string>
+    <string name="simperium_dialog_message_signup">Verilen e&amp;#8211;posta adresi ve parolayla kaydolunamadı.</string>
     <string name="simperium_dialog_message_network">Kullanılabilir ağ yok. Lütfen bir ağa bağlanıp tekrar deneyin.</string>
-    <string name="simperium_dialog_message_login">Verilen e-posta adresi ve parolayla oturum açılamadı.</string>
+    <string name="simperium_dialog_message_login">Verilen e&amp;#8211;posta adresi ve parolayla oturum açılamadı.</string>
     <string name="simperium_button_signup">Kaydol</string>
     <string name="simperium_button_login_other">WordPress.com\'la Oturum Aç</string>
-    <string name="simperium_button_login_email">E-postayla Oturum Aç</string>
+    <string name="simperium_button_login_email">E&amp;#8211;postayla Oturum Aç</string>
     <string name="simperium_button_login">Oturum Aç</string>
     <string name="theme_system">Sistem varsayılanı</string>
     <string name="toggle_checklist">Kontrol listesine geç</string>
@@ -241,9 +246,9 @@ Language: tr
     <string name="logo">Logo</string>
     <string name="unpin_from_top">Üste sabitlemeyi kaldır</string>
     <string name="untagged_notes">Etiketsiz Notlar</string>
-    <string name="wpcom_log_in_error_unverified">WordPress.com hesabınızı e-posta aracılığıyla etkinleştirin ve tekrar deneyin.</string>
+    <string name="wpcom_log_in_error_unverified">WordPress.com hesabınızı e&amp;#8211;posta aracılığıyla etkinleştirin ve tekrar deneyin.</string>
     <string name="wpcom_log_in_error_generic">WordPress.com ile giriş yapılamadı. Lütfen yeniden deneyin.</string>
-    <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
+    <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e&amp;#8211;posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
     <string name="publishing">Not yayınlanıyor…</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
@@ -288,7 +293,7 @@ Language: tr
     <string name="link">Bağlantı</string>
     <string name="view_in_browser">Tarayıcıda görüntüle</string>
     <string name="view_map">Haritayı görüntüle</string>
-    <string name="email">E-posta</string>
+    <string name="email">E&amp;#8211;posta</string>
     <string name="call">Telefon</string>
     <string name="close_drawer">Çekmeceyi kapat</string>
     <string name="open_drawer">Çekmeceyi aç</string>

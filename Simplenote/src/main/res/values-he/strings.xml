@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-03-24 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
-    <string name="dialog_browser_exception_toast_copy_success">כתובת ה-URL הועתקה</string>
-    <string name="dialog_browser_exception_toast_copy_failure">לא ניתן היה להעתיק את כתובת ה-URL ללוח</string>
+    <string name="dialog_already_logged_in_message">כבר התחברת עם שם המשתמש ⁦%1$s⁩. יש להתנתק ולנסות שוב.</string>
+    <string name="dialog_already_logged_in_title">כבר התחברת למערכת</string>
+    <string name="support_text">לא קיבלת את הודעת האימייל? ייתכן שכבר יש לך חשבון. ניתן ליצור קשר עם ⁦%1$s⁩ לעזרה.</string>
+    <string name="email_confirmation_text">שלחנו הודעה לאימייל ⁦%1$s⁩. יש לבדוק את תיבת הדואר הנכנס ולפעול לפי ההוראות.</string>
+    <string name="dialog_message_signup_error">נתקלנו בכמה בעיות. יש לנסות שוב בקרוב.</string>
+    <string name="dialog_browser_exception_toast_copy_success">כתובת ה&amp;#8211;URL הועתקה</string>
+    <string name="dialog_browser_exception_toast_copy_failure">לא ניתן היה להעתיק את כתובת ה&amp;#8211;URL ללוח</string>
     <string name="dialog_browser_exception_title">שגיאה בקישור</string>
-    <string name="dialog_browser_exception_message">לא ניתן לפתוח את הקישור.  יש להעתיק את כתובת ה-URL ולהדביק אותה בדפדפן.</string>
+    <string name="dialog_browser_exception_message">לא ניתן לפתוח את הקישור.  יש להעתיק את כתובת ה&amp;#8211;URL ולהדביק אותה בדפדפן.</string>
     <string name="dialog_browser_exception_button_copy_url">להעתיק כתובת URL</string>
-    <string name="sort_alphabetical_reverse">שם: מ-Z ל-A</string>
-    <string name="sort_alphabetical">שם: מ-A ל-Z</string>
+    <string name="sort_alphabetical_reverse">שם: מ&amp;#8211;Z ל&amp;#8211;A</string>
+    <string name="sort_alphabetical">שם: מ&amp;#8211;A ל&amp;#8211;Z</string>
     <string name="sort_oldest_created">נוצר: הישן ביותר</string>
     <string name="sort_newest_created">נוצר: החדש ביותר</string>
     <string name="sort_oldest_modified">עודכן: הישן ביותר</string>
@@ -21,11 +26,11 @@ Language: he_IL
     <string name="toast_email_sent">האימייל נשלח</string>
     <string name="fullscreen_verify_email_button_secondary">לשלוח אימייל מחדש</string>
     <string name="fullscreen_verify_email_title">לאמת את כתובת האימייל שלך</string>
-    <string name="fullscreen_verify_email_subtitle">שלחנו אימייל לאימות אל &lt;b>%1$s&lt;/b>. יש לבדוק בתיבת הדואר הנכנס ולפעול לפי ההוראות.</string>
+    <string name="fullscreen_verify_email_subtitle">שלחנו אימייל לאימות אל &lt;b&gt;%1$s&lt;/b&gt;. יש לבדוק בתיבת הדואר הנכנס ולפעול לפי ההוראות.</string>
     <string name="fullscreen_review_account_button_secondary">לשנות כתובת אימייל</string>
     <string name="fullscreen_review_account_button_primary">אישור</string>
     <string name="fullscreen_review_account_title">לבדוק את החשבון שלך</string>
-    <string name="fullscreen_review_account_subtitle">החשבון שלך רשום עם Simplenote באמצעות האימייל &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>שיפורים באבטחת החשבון עלולים לגרום לאבדן החשבון אם אין לך עוד גישה לכתובת האימייל הזאת.</string>
+    <string name="fullscreen_review_account_subtitle">החשבון שלך רשום עם Simplenote באמצעות האימייל &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;שיפורים באבטחת החשבון עלולים לגרום לאבדן החשבון אם אין לך עוד גישה לכתובת האימייל הזאת.</string>
     <string name="description_warning">אזהרה</string>
     <string name="description_mail">דואר</string>
     <string name="description_close">לסגור</string>
@@ -99,14 +104,14 @@ Language: he_IL
     <string name="export_message_success">התונים נשמרו בקובץ</string>
     <string name="export_message_failure">לא ניתן היה לשמור את הנתונים</string>
     <string name="export_file">simplenote.json</string>
-    <string name="rename_tag_message_length">התגית ארוכה מדי. עליך לנסות שוב עם שם קצר יותר. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב-⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
-    <string name="rename_tag_message">אירעה שגיאה במהלך שינוי השם של התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב-⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="rename_tag_message_length">התגית ארוכה מדי. עליך לנסות שוב עם שם קצר יותר. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב&amp;#8211;⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="rename_tag_message">אירעה שגיאה במהלך שינוי השם של התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר ב&amp;#8211;⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
     <string name="rename_tag_error_spaces">התגית לא יכולה לכלול רווחים.</string>
     <string name="rename_tag_error_length">התגית ארוכה מדי</string>
     <string name="rename_tag_error_empty">תגיות לא יכולות להיות ריקות</string>
     <string name="simperium_url">http://simplenote.com</string>
-    <string name="simperium_error_browser_copy_success">כתובת ה-URL הועתקה ללוח</string>
-    <string name="simperium_error_browser_copy_failure">לא ניתן היה להעתיק את כתובת ה-URL ללוח</string>
+    <string name="simperium_error_browser_copy_success">כתובת ה&amp;#8211;URL הועתקה ללוח</string>
+    <string name="simperium_error_browser_copy_failure">לא ניתן היה להעתיק את כתובת ה&amp;#8211;URL ללוח</string>
     <string name="simperium_error_browser">עליך לוודא שהדפדפן הותקן והופעל.</string>
     <string name="simperium_dialog_title_error_browser">לא אותר דפדפן</string>
     <string name="simperium_dialog_button_copy_url">להעתיק כתובת URL</string>
@@ -131,8 +136,8 @@ Language: he_IL
     <string name="link_california">%1$s%2$s⁦%3$s⁩הצהרת פרטיות למשתמשים מקליפורניה⁦%4$s⁩</string>
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">נדרש חיבור פעיל לרשת. יש לבדוק את החיבור ולנסות שוב.</string>
-    <string name="simperium_dialog_message_password">דרישות הסיסמה הן:\n\n- הסיסמה חייבת להיות שונה מהאימייל\n- הסיסמה חייבת לכלול ⁦%1$d⁩ תווים לפחות\n- ללא שורות חדשות\n- ללא סימני Return\n- ללא סימני Tab</string>
-    <string name="simperium_dialog_message_login_reset">הסיסמה שלך לא מאובטחת ועליך לאפס אותה. הדרישות לסיסמה הן:\n\n- הסיסמה לא יכולה להיות כתובת האימייל\n- לפחות %1$d תווים\n- ללא שורות חדשות\n- ללא סימני Tab</string>
+    <string name="simperium_dialog_message_password">דרישות הסיסמה הן:\n\n&amp;#8211; הסיסמה חייבת להיות שונה מהאימייל\n&amp;#8211; הסיסמה חייבת לכלול ⁦%1$d⁩ תווים לפחות\n&amp;#8211; ללא שורות חדשות\n&amp;#8211; ללא סימני Return\n&amp;#8211; ללא סימני Tab</string>
+    <string name="simperium_dialog_message_login_reset">הסיסמה שלך לא מאובטחת ועליך לאפס אותה. הדרישות לסיסמה הן:\n\n&amp;#8211; הסיסמה לא יכולה להיות כתובת האימייל\n&amp;#8211; לפחות %1$d תווים\n&amp;#8211; ללא שורות חדשות\n&amp;#8211; ללא סימני Tab</string>
     <string name="simperium_button_login_reset">איפוס</string>
     <string name="link_terms">%1$s%2$s%3$sתנאי השימוש%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sהצהרת הפרטיות%4$s</string>
@@ -185,7 +190,7 @@ Language: he_IL
     <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
     <string name="log_in">התחברות</string>
-    <string name="simperium_title">@string/app_name</string>
+    <string name="simperium_title">\@string/app_name</string>
     <string name="simperium_subtitle">הדרך הפשוטה ביותר לרשום פתקים.</string>
     <string name="simperium_hint_password">סיסמה</string>
     <string name="simperium_hint_email">אימייל</string>
@@ -220,13 +225,13 @@ Language: he_IL
     <string name="empty_note_post">אין אפשרות לפרסם הערה ריקה.</string>
     <string name="could_not_access_site_data">אין אפשרות לגשת לנתונים של האתר.</string>
     <string name="wordpress_post_link">שיתוף פוסט של WordPress</string>
-    <string name="reconnect_to_wordpress">יש להתחבר מחדש ל-WordPress.com.</string>
+    <string name="reconnect_to_wordpress">יש להתחבר מחדש ל&amp;#8211;WordPress.com.</string>
     <string name="network_error_message">נתקלנו בשגיאת רשת. יש לנסות שוב.</string>
     <string name="select_site">יש לבחור אתר שבו ברצונך לפרסם.</string>
-    <string name="post_to_wordpress">פרסום ב-WordPress</string>
+    <string name="post_to_wordpress">פרסום ב&amp;#8211;WordPress</string>
     <string name="untitled_site">אתר ללא שם</string>
     <string name="connect_with_wordpress">התחברות</string>
-    <string name="wordpress_connect_summary">כדי לפרסם הערה ישירות לאתר ב-WordPress.com, עליך להתחבר לחשבון שלך ב-WordPress.com.</string>
+    <string name="wordpress_connect_summary">כדי לפרסם הערה ישירות לאתר ב&amp;#8211;WordPress.com, עליך להתחבר לחשבון שלך ב&amp;#8211;WordPress.com.</string>
     <string name="done">בוצע</string>
     <string name="success">ההערה פורסמה בהצלחה באתר: %1$s</string>
     <string name="uploading_post">טוען את הפוסט</string>
@@ -241,7 +246,7 @@ Language: he_IL
     <string name="logo">לוגו</string>
     <string name="unpin_from_top">הסרת הנעץ מהראש הדף</string>
     <string name="untagged_notes">הסרת התגיות מהערות</string>
-    <string name="wpcom_log_in_error_unverified">יש להפעיל את החשבון שלך ב-WordPress.com באמצעות האימייל ולנסות שוב.</string>
+    <string name="wpcom_log_in_error_unverified">יש להפעיל את החשבון שלך ב&amp;#8211;WordPress.com באמצעות האימייל ולנסות שוב.</string>
     <string name="wpcom_log_in_error_generic">לא ניתן היה להתחבר עם WordPress.com. יש לנסות שוב.</string>
     <string name="collaborate_message">הוספת אימייל בשדה \'תגית\' לצורך שיתוף פעולה בעריכה עם משתמשים אחרים.</string>
     <string name="collaborate">שיתוף פעולה בעריכה</string>
