@@ -167,6 +167,24 @@ SUPPORTED_LOCALES = [
   end
 
   #####################################################################################
+  # download_translations
+  # -----------------------------------------------------------------------------------
+  # This lane download the string translations from GlotPress
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane download_translations
+  #####################################################################################
+  lane :download_translations do |options|
+    # Adapt the GP project URL and lint_task as needed if testing a project other than WordPress
+    android_download_translations(
+      res_dir: File.join(ENV['PROJECT_NAME'], 'src', 'main', 'res'),
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      locales: SUPPORTED_LOCALES,
+      lint_task: 'lintRelease'
+    )
+  end
+
+  #####################################################################################
   # finalize_release
   # -----------------------------------------------------------------------------------
   # This lane finalize a release: updates store metadata and runs the release checks
@@ -183,7 +201,12 @@ SUPPORTED_LOCALES = [
     android_finalize_prechecks(options)
     configure_apply(force: is_ci)
     hotfix = android_current_branch_is_hotfix
-    android_update_metadata(options) unless hotfix
+    android_download_translations(
+      res_dir: File.join(ENV['PROJECT_NAME'], 'src', 'main', 'res'),
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      locales: SUPPORTED_LOCALES,
+      lint_task: 'lintRelease'
+    ) unless hotfix
     android_bump_version_final_release() unless hotfix
     version = android_get_release_version() unless hotfix
     download_metadata_strings(version: version["name"], build_number: version["code"]) unless hotfix
