@@ -155,8 +155,8 @@ class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<
             when (condition.comparisonType) {
                 ComparisonType.EQUAL_TO -> objects.filter { compare(it.properties.get(condition.key), condition.subject) }
                 ComparisonType.NOT_EQUAL_TO -> objects.filter { !compare(it.properties.get(condition.key), condition.subject) }
-                ComparisonType.LIKE -> objects.filter { it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
-                ComparisonType.NOT_LIKE -> objects.filter { !it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
+                ComparisonType.LIKE -> objects.filter { compareLike(it.properties.get(condition.key), (condition.subject)) }
+                ComparisonType.NOT_LIKE -> objects.filter { !compareLike(it.properties.get(condition.key), (condition.subject.toString())) }
                 else -> currentObjects // The rest of comparison types are not used in the app
             } as MutableList
         })
@@ -174,6 +174,21 @@ class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<
             return false
         } else {
             return left == right
+        }
+    }
+
+    private fun compareLike(left: Any, right: Any): Boolean {
+        if (left is JSONArray) {
+            for (i in 0 until left.length()) {
+                val o = left.get(i)
+                if (right.toString() == "%%" || o.toString().contains(right.toString())) {
+                    return true
+                }
+            }
+
+            return false
+        } else {
+            return right.toString() == "%%" || left.toString().contains(right.toString().replace("%", ""))
         }
     }
 
