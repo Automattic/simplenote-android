@@ -1,10 +1,12 @@
 package com.automattic.simplenote.integration
 
 import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.MediumTest
@@ -14,6 +16,7 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
 import com.automattic.simplenote.utils.isToast
 import com.automattic.simplenote.utils.withRecyclerView
+import org.hamcrest.CoreMatchers
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -216,5 +219,30 @@ class TagsActivityTest : BaseUITest() {
         assertEquals(note1.tags, listOf("tag1"))
         assertEquals(note2.tags, listOf<String>())
         assertEquals(note3.tags, listOf("tag1", "tag3"))
+    }
+
+    @Test
+    fun scrollTags() {
+        for (i in 1 until 51) {
+            val tagName = "tag${i}"
+            createTag(tagName)
+        }
+
+        assertEquals(tagsBucket.count(), 50)
+
+        ActivityScenario.launch(TagsActivity::class.java)
+
+        onView(withId(R.id.list)).
+            perform(scrollToPosition<RecyclerView.ViewHolder>(49))
+
+        onView(withRecyclerView(R.id.list).atPositionOnView(49, R.id.tag_name))
+                .perform(click())
+
+        val renameTagTitle = getResourceString(R.string.rename_tag)
+        onView(withText(renameTagTitle)).check(matches(isDisplayed()))
+        onView(CoreMatchers.allOf(withText("tag50"), isDescendantOfA(withId(R.id.input_tag_name))))
+                .check(matches(isDisplayed()))
+
+        assertEquals(tagsBucket.count(), 50)
     }
 }
