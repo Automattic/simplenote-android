@@ -14,6 +14,8 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.BaseUITest
 import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
+import com.automattic.simplenote.models.Note
+import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.isToast
 import com.automattic.simplenote.utils.withRecyclerView
 import org.hamcrest.CoreMatchers
@@ -25,82 +27,73 @@ import org.junit.runner.RunWith
 @MediumTest
 class TagsActivityTest : BaseUITest() {
 
-    @Test
-    fun listTagsShouldShowCompleteListTags() {
-        createTag("tag1")
-        createTag("tag2")
-        createTag("tag3")
-        createTag("other")
+    inner class TagAndCounter(val tag: Tag, val counter: String)
+    inner class TestData(val tags: List<TagAndCounter>, val notes: List<Note>)
+
+    private fun launchTagsActivityWithTestData(): TestData {
+        val tags = mutableListOf<TagAndCounter>()
+        val notes = mutableListOf<Note>()
+
+        tags.add(TagAndCounter(createTag("tag1"), "2"))
+        tags.add(TagAndCounter(createTag("tag2"), "3"))
+        tags.add(TagAndCounter(createTag("tag3"), "1"))
+        tags.add(TagAndCounter(createTag("other"), ""))
         // To edit tags, tags should belong a note
-        createNote("Hello1", listOf("tag1", "tag2"))
-        createNote("Hello2", listOf("tag2"))
-        createNote("Hello3", listOf("tag1", "tag2", "tag3"))
+        notes.add(createNote("Hello1", listOf("tag1", "tag2")))
+        notes.add(createNote("Hello2", listOf("tag2")))
+        notes.add(createNote("Hello3", listOf("tag1", "tag2", "tag3")))
 
         assertEquals(tagsBucket.count(), 4)
         assertEquals(notesBucket.count(), 3)
 
         ActivityScenario.launch(TagsActivity::class.java)
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_name))
-                .check(matches(withText("tag1")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_count))
-                .check(matches(withText("2")))
+        return TestData(tags, notes)
+    }
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
-                .check(matches(withText("tag2")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_count))
-                .check(matches(withText("3")))
+    @Test
+    fun listTagsShouldShowCompleteListTags() {
+        val testData = launchTagsActivityWithTestData()
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_name))
-                .check(matches(withText("tag3")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_count))
-                .check(matches(withText("1")))
-
-        onView(withRecyclerView(R.id.list).atPositionOnView(3, R.id.tag_name))
-                .check(matches(withText("other")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(3, R.id.tag_count))
-                .check(matches(withText("")))
+        testData.tags.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                .check(matches(withText(tagAndCounter.counter)))
+        }
     }
 
     @Test
     fun searchTagsShouldReturnMatchedTags() {
-        createTag("tag1")
-        createTag("tag2")
-        createTag("tag3")
-        createTag("other")
-        createNote("Hello1", listOf("tag1", "tag2"))
-        createNote("Hello2", listOf("tag2"))
-        createNote("Hello3", listOf("tag1", "tag2", "tag3"))
+        val testData = launchTagsActivityWithTestData()
 
-        assertEquals(tagsBucket.count(), 4)
-        assertEquals(notesBucket.count(), 3)
+        val firstSearchPhrase = "tag"
+        val secondSearchPhrase = "ot"
 
-        ActivityScenario.launch(TagsActivity::class.java)
-
+        // Activate search bar
         onView(withId(R.id.menu_search)).perform(click())
 
-        onView(isAssignableFrom(EditText::class.java)).perform(typeText("tag"))
+        // Type in the first search phrase
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText(firstSearchPhrase))
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_name))
-                .check(matches(withText("tag1")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_count))
-                .check(matches(withText("2")))
+        // All tags starting with tag should be shown
+        testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                    .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                    .check(matches(withText(tagAndCounter.counter)))
+        }
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
-                .check(matches(withText("tag2")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_count))
-                .check(matches(withText("3")))
+        // Type in the second search phrase
+        onView(isAssignableFrom(EditText::class.java)).perform(replaceText(secondSearchPhrase))
 
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_name))
-                .check(matches(withText("tag3")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_count))
-                .check(matches(withText("1")))
-
-        onView(isAssignableFrom(EditText::class.java)).perform(replaceText("ot"))
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_name))
-                .check(matches(withText("other")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_count))
-                .check(matches(withText("")))
+        // Jus the tag other should be shown
+        testData.tags.filter { it.tag.name.startsWith(secondSearchPhrase) }.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                    .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                    .check(matches(withText(tagAndCounter.counter)))
+        }
     }
 
     @Test
@@ -123,14 +116,7 @@ class TagsActivityTest : BaseUITest() {
 
     @Test
     fun clickOnEditTagShouldShowDialog() {
-        createTag("tag1")
-        createTag("tag2")
-        createTag("tag3")
-        createTag("other")
-
-        assertEquals(tagsBucket.count(), 4)
-
-        ActivityScenario.launch(TagsActivity::class.java)
+        launchTagsActivityWithTestData()
 
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
                 .perform(click())
@@ -141,84 +127,76 @@ class TagsActivityTest : BaseUITest() {
 
     @Test
     fun deleteTagsShowRemoveTagsFromNotes() {
-        createTag("other")
-        createTag("tag1")
-        createTag("tag2")
-        createTag("tag3")
-        // To edit tags, tags should belong a note
-        val note1 = createNote("Hello1", listOf("tag1", "tag2"))
-        val note2 = createNote("Hello2", listOf("tag2"))
-        val note3 = createNote("Hello3", listOf("tag1", "tag2", "tag3"))
+        val testData = launchTagsActivityWithTestData()
 
-        assertEquals(tagsBucket.count(), 4)
-        assertEquals(notesBucket.count(), 3)
-
-        ActivityScenario.launch(TagsActivity::class.java)
-
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_name))
-                .check(matches(withText("other")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_count))
-                .check(matches(withText("")))
-
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
-                .check(matches(withText("tag1")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_count))
-                .check(matches(withText("2")))
-
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_name))
-                .check(matches(withText("tag2")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.tag_count))
-                .check(matches(withText("3")))
-
-        onView(withRecyclerView(R.id.list).atPositionOnView(3, R.id.tag_name))
-                .check(matches(withText("tag3")))
-        onView(withRecyclerView(R.id.list).atPositionOnView(3, R.id.tag_count))
-                .check(matches(withText("1")))
+        // Check data is displayed
+        testData.tags.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                    .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                    .check(matches(withText(tagAndCounter.counter)))
+        }
 
         // Delete tag other
-        onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.tag_trash))
-                .perform(click())
+        var tagToDelete = "other"
+        testData.tags.forEachIndexed { index, tagAndCounter ->
+            if (tagAndCounter.tag.name == tagToDelete) {
+                onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
+                        .perform(click())
+            }
+        }
 
         assertEquals(tagsBucket.count(), 3)
         assertEquals(notesBucket.count(), 3)
-        assertEquals(note1.tags, listOf("tag1", "tag2"))
-        assertEquals(note2.tags, listOf("tag2"))
-        assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
+        assertEquals(testData.notes[0].tags, listOf("tag1", "tag2"))
+        assertEquals(testData.notes[1].tags, listOf("tag2"))
+        assertEquals(testData.notes[2].tags, listOf("tag1", "tag2", "tag3"))
 
         // Try Delete tag tag2
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
-                .perform(click())
-
         val deleteTagTitle = getResourceString(R.string.delete_tag)
         val confirmDeleteTagMessage = getResourceString(R.string.confirm_delete_tag)
-        onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
-        onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
-        val noText = getResourceString(R.string.no)
-        onView(withText(noText)).inRoot(RootMatchers.isDialog()).perform(click())
+        tagToDelete = "tag2"
+        testData.tags.forEachIndexed { index, tagAndCounter ->
+            if (tagAndCounter.tag.name == tagToDelete) {
+                onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
+                        .perform(click())
+
+
+                onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
+                onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
+                val noText = getResourceString(R.string.no)
+                onView(withText(noText)).inRoot(RootMatchers.isDialog()).perform(click())
+            }
+        }
 
         assertEquals(tagsBucket.count(), 3)
         assertEquals(notesBucket.count(), 3)
-        assertEquals(note1.tags, listOf("tag1", "tag2"))
-        assertEquals(note2.tags, listOf("tag2"))
-        assertEquals(note3.tags, listOf("tag1", "tag2", "tag3"))
+        assertEquals(testData.notes[0].tags, listOf("tag1", "tag2"))
+        assertEquals(testData.notes[1].tags, listOf("tag2"))
+        assertEquals(testData.notes[2].tags, listOf("tag1", "tag2", "tag3"))
 
         // Delete tag tag2
-        onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
-                .perform(click())
+        testData.tags.forEachIndexed { index, tagAndCounter ->
+            if (tagAndCounter.tag.name == tagToDelete) {
+                onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
+                        .perform(click())
 
-        onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
-        onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
-        val yesText = getResourceString(R.string.yes)
-        onView(withText(yesText)).inRoot(RootMatchers.isDialog()).perform(click())
+                onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
+                onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
+                val yesText = getResourceString(R.string.yes)
+                onView(withText(yesText)).inRoot(RootMatchers.isDialog()).perform(click())
 
-        // Avoid flaky tests with AsyncTask
-        Thread.sleep(1000)
+                // Avoid flaky tests with AsyncTask
+                Thread.sleep(1000)
 
-        assertEquals(tagsBucket.count(), 2)
-        assertEquals(notesBucket.count(), 3)
-        assertEquals(note1.tags, listOf("tag1"))
-        assertEquals(note2.tags, listOf<String>())
-        assertEquals(note3.tags, listOf("tag1", "tag3"))
+                assertEquals(tagsBucket.count(), 2)
+                assertEquals(notesBucket.count(), 3)
+                assertEquals(testData.notes[0].tags, listOf("tag1"))
+                assertEquals(testData.notes[1].tags, listOf<String>())
+                assertEquals(testData.notes[2].tags, listOf("tag1", "tag3"))
+            }
+        }
+
     }
 
     @Test
