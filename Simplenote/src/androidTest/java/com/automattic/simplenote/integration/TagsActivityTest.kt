@@ -26,31 +26,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 @MediumTest
 class TagsActivityTest : BaseUITest() {
-
-    inner class TagAndCounter(val tag: Tag, val counter: String)
-    inner class TestData(val tags: List<TagAndCounter>, val notes: List<Note>)
-
-    private fun launchTagsActivityWithTestData(): TestData {
-        val tags = mutableListOf<TagAndCounter>()
-        val notes = mutableListOf<Note>()
-
-        tags.add(TagAndCounter(createTag("tag1"), "2"))
-        tags.add(TagAndCounter(createTag("tag2"), "3"))
-        tags.add(TagAndCounter(createTag("tag3"), "1"))
-        tags.add(TagAndCounter(createTag("other"), ""))
-        // To edit tags, tags should belong a note
-        notes.add(createNote("Hello1", listOf("tag1", "tag2")))
-        notes.add(createNote("Hello2", listOf("tag2")))
-        notes.add(createNote("Hello3", listOf("tag1", "tag2", "tag3")))
-
-        assertEquals(tagsBucket.count(), 4)
-        assertEquals(notesBucket.count(), 3)
-
-        ActivityScenario.launch(TagsActivity::class.java)
-
-        return TestData(tags, notes)
-    }
-
     @Test
     fun listTagsShouldShowCompleteListTags() {
         val testData = launchTagsActivityWithTestData()
@@ -223,4 +198,28 @@ class TagsActivityTest : BaseUITest() {
 
         assertEquals(tagsBucket.count(), 50)
     }
+
+    private fun launchTagsActivityWithTestData(): TestData {
+        val tags = mutableListOf<TagAndCounter>()
+        val notes = mutableListOf<Note>()
+
+        tags.add(TagAndCounter(createTag("tag1"), "2"))
+        tags.add(TagAndCounter(createTag("tag2"), "3"))
+        tags.add(TagAndCounter(createTag("tag3"), "1"))
+        tags.add(TagAndCounter(createTag("other"), ""))
+        // To edit tags, tags should belong a note
+        notes.add(createNote("Hello1", listOf("tag1", "tag2")))
+        notes.add(createNote("Hello2", listOf("tag2")))
+        notes.add(createNote("Hello3", listOf("tag1", "tag2", "tag3")))
+
+        assertEquals(tagsBucket.count(), 4)
+        assertEquals(notesBucket.count(), 3)
+
+        ActivityScenario.launch(TagsActivity::class.java)
+
+        return TestData(tags, notes)
+    }
+
+    inner class TagAndCounter(val tag: Tag, val counter: String)
+    inner class TestData(val tags: List<TagAndCounter>, val notes: List<Note>)
 }
