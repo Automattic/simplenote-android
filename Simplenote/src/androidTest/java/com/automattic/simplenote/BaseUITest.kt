@@ -58,8 +58,9 @@ open class BaseUITest {
                 .joinToString("")
     }
 
-    protected fun createTag(tagName: String) {
+    protected fun createTag(tagName: String): Tag {
         TagUtils.createTagIfMissing(tagsBucket, tagName)
+        return tagsBucket.getObject(TagUtils.hashTag(tagName))
     }
 
     protected fun createNote(content: String, tags: List<String>): Note {
