@@ -3,11 +3,34 @@ package com.automattic.simplenote.utils
 import android.database.AbstractCursor
 import android.database.CharArrayBuffer
 import com.simperium.client.*
+import org.json.JSONArray
+import java.util.*
 
 abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name, null, null, null, null) {
     // Store objects in memory
     private val objects: MutableList<T> = mutableListOf()
     var newObjectShouldFail = false
+
+    private val onSaveListeners = Collections.synchronizedSet(HashSet<OnSaveObjectListener<T>>())
+    private val onDeleteListeners = Collections.synchronizedSet(HashSet<OnDeleteObjectListener<T>>())
+    private val onChangeListeners = Collections.synchronizedSet(HashSet<OnNetworkChangeListener<T>>())
+    private val onSyncListeners = Collections.synchronizedSet(HashSet<OnSyncObjectListener<T>>())
+
+    override fun addOnDeleteObjectListener(listener: OnDeleteObjectListener<T>?) {
+        onDeleteListeners.add(listener)
+    }
+
+    override fun addOnSaveObjectListener(listener: OnSaveObjectListener<T>?) {
+        onSaveListeners.add(listener)
+    }
+
+    override fun addOnNetworkChangeListener(listener: OnNetworkChangeListener<T>?) {
+        onChangeListeners.add(listener)
+    }
+
+    override fun addOnSyncObjectListener(listener: OnSyncObjectListener<T>?) {
+        onSyncListeners.add(listener)
+    }
 
     override fun newObject(key: String?): T {
         if (newObjectShouldFail) {
@@ -46,11 +69,21 @@ abstract class TestBucket<T : BucketObject>(name: String) : Bucket<T>(null, name
                 objects.set(index, o)
             }
         }
+
+        // notify listeners
+        onSyncListeners.forEach {
+            it.onSyncObject(this, `object`?.simperiumKey)
+        }
     }
 
     override fun remove(`object`: T?) {
         `object`?.let {
-            objects.remove(it)
+            objects.removeIf { it.simperiumKey == `object`.simperiumKey }
+        }
+
+        // notify listeners
+        onDeleteListeners.forEach {
+            it.onDeleteObject(this, `object`)
         }
     }
 
@@ -109,6 +142,10 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
     }
 
     override fun getLong(columnIndex: Int): Long {
+        if (columnIndex == 0) {
+            return position.toLong()
+        }
+
         throw RuntimeException("not implemented")
     }
 
@@ -137,19 +174,57 @@ class TestObjectCursor<T : BucketObject>(private val objects: MutableList<T>) : 
     }
 }
 
-class TestQuery<T : BucketObject>(private val objects:  MutableList<T>) : Query<T>() {
+class TestQuery<T : BucketObject>(private val objects: MutableList<T>) : Query<T>() {
     override fun execute(): Bucket.ObjectCursor<T> {
         // Filter objects by the where clauses
-        val filteredObjects: MutableList<T> = conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
-            when(condition.comparisonType) {
-                ComparisonType.EQUAL_TO -> objects.filter { it.properties.get(condition.key).equals(condition.subject) }
-                ComparisonType.NOT_EQUAL_TO -> objects.filter { !it.properties.get(condition.key).equals(condition.subject) }
-                ComparisonType.LIKE -> objects.filter { it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
-                ComparisonType.NOT_LIKE -> objects.filter { !it.properties.get(condition.key).toString().contains(condition.subject.toString()) }
+        val filteredObjects: MutableList<T> = filterObjects()
+
+        return TestObjectCursor(filteredObjects)
+    }
+
+    private fun filterObjects(): MutableList<T> {
+        return conditions.fold(objects, { currentObjects: MutableList<T>, condition: Condition ->
+            when (condition.comparisonType) {
+                ComparisonType.EQUAL_TO -> objects.filter { compare(it.properties.get(condition.key), condition.subject) }
+                ComparisonType.NOT_EQUAL_TO -> objects.filter { !compare(it.properties.get(condition.key), condition.subject) }
+                ComparisonType.LIKE -> objects.filter { compareLike(it.properties.get(condition.key), (condition.subject)) }
+                ComparisonType.NOT_LIKE -> objects.filter { !compareLike(it.properties.get(condition.key), (condition.subject.toString())) }
                 else -> currentObjects // The rest of comparison types are not used in the app
             } as MutableList
         })
+    }
 
-        return TestObjectCursor(filteredObjects)
+    private fun compare(left: Any, right: Any): Boolean {
+        if (left is JSONArray) {
+            for (i in 0 until left.length()) {
+                val o = left.get(i)
+                if (o == right) {
+                    return true
+                }
+            }
+
+            return false
+        } else {
+            return left == right
+        }
+    }
+
+    private fun compareLike(left: Any, right: Any): Boolean {
+        if (left is JSONArray) {
+            for (i in 0 until left.length()) {
+                val o = left.get(i)
+                if (right.toString() == "%%" || o.toString().contains(right.toString())) {
+                    return true
+                }
+            }
+
+            return false
+        } else {
+            return right.toString() == "%%" || left.toString().contains(right.toString().replace("%", ""))
+        }
+    }
+
+    override fun count(): Int {
+        return filterObjects().size
     }
 }
