@@ -106,7 +106,7 @@ class TagsActivityTest : BaseUITest() {
     }
 
     @Test
-    fun lonTabOnAddTagShouldShowToast() {
+    fun longTabOnAddTagShouldShowToast() {
         ActivityScenario.launch(TagsActivity::class.java)
 
         onView(withId(R.id.button_add)).perform(longClick())
