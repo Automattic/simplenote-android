@@ -29,6 +29,7 @@ class AddTagActivityTest : BaseUITest() {
 
         ActivityScenario.launch(AddTagActivity::class.java)
 
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
         onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
         onView(withId(R.id.button_positive)).perform(click())
@@ -43,6 +44,8 @@ class AddTagActivityTest : BaseUITest() {
 
         ActivityScenario.launch(AddTagActivity::class.java)
 
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+
         onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
@@ -55,6 +58,8 @@ class AddTagActivityTest : BaseUITest() {
     @Test
     fun addTagTooLong() {
         ActivityScenario.launch(AddTagActivity::class.java)
+
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
         val newTag = getRandomString(257)
         onView(withId(R.id.tag_input)).perform(replaceText(newTag))
@@ -72,6 +77,8 @@ class AddTagActivityTest : BaseUITest() {
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+
         onView(withId(R.id.tag_input)).perform(replaceText("tag 3"))
         onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
@@ -88,6 +95,8 @@ class AddTagActivityTest : BaseUITest() {
         assertEquals(tagsBucket.count(), 0)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
         onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
@@ -110,6 +119,8 @@ class AddTagActivityTest : BaseUITest() {
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
 
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+
         onView(withId(R.id.tag_input)).perform(replaceText("tag"))
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
         onView(withId(R.id.button_negative)).perform(click())
@@ -125,6 +136,8 @@ class AddTagActivityTest : BaseUITest() {
         assertEquals(tagsBucket.count(), 1)
 
         val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+
+        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
         onView(withId(R.id.tag_input)).perform(replaceText("tag6"))
         onView(withId(R.id.button_positive)).check(matches(isEnabled()))
