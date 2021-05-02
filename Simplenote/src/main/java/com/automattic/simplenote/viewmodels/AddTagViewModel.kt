@@ -19,38 +19,30 @@ class AddTagViewModel(
     private val _showKeyboard = MutableLiveData<Boolean>()
     val showKeyboard = _showKeyboard
 
-    private val _enableSaveButton = MutableLiveData(false)
-    val enableSaveButton = _enableSaveButton
-
     private val _tagError = MutableLiveData<Int?>()
     val tagError = _tagError
 
     fun validateTag(tagName: String) {
         if (tagName.isEmpty()) {
-            _enableSaveButton.value = false
             _tagError.value = R.string.tag_error_empty
             return
         }
 
         if (tagName.contains(" ")) {
-            _enableSaveButton.value = false
             _tagError.value = R.string.tag_error_spaces
             return
         }
 
         if (!TagUtils.hashTagValid(tagName)) {
-            _enableSaveButton.value = false
             _tagError.value = R.string.tag_error_length
             return
         }
 
         if (!TagUtils.isTagMissing(tagsBucket, tagName)) {
-            _enableSaveButton.value = false
             _tagError.value = R.string.tag_error_exists
             return
         }
 
-        _enableSaveButton.value = true
         _tagError.value = null
     }
 

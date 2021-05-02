@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.viewmodels.AddTagViewModel;
 import com.automattic.simplenote.viewmodels.ViewModelFactory;
@@ -30,7 +29,6 @@ import com.automattic.simplenote.widgets.MorphSetup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 
 import java.util.Objects;
 
@@ -54,8 +52,11 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         viewModel = viewModelProvider.get(AddTagViewModel.class);
 
         setObservers();
-        setLayout();
+        setupLayout();
+        setupViews();
+    }
 
+    private void setupViews() {
         TextView title = findViewById(R.id.title);
         title.setText(getString(R.string.add_tag));
 
@@ -102,9 +103,10 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
                 }
             }
         );
+        mButtonPositive.setEnabled(false);
     }
 
-    private void setLayout() {
+    private void setupLayout() {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
@@ -126,20 +128,18 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     }
 
     private void setObservers() {
-        // Setup an observer to enable or disable the Save button
-        viewModel.getEnableSaveButton().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean enable) {
-                mButtonPositive.setEnabled(enable);
-            }
-        });
-
         // Setup observer to show an error in case the tag name is not valid
         viewModel.getTagError().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer error) {
-                String errorMessage = error == null ? null : getString(error);
-                mTagLayout.setError(errorMessage);
+                if (error == null) {
+                    mTagLayout.setError(null);
+                    mButtonPositive.setEnabled(true);
+                } else {
+                    String errorMessage = getString(error);
+                    mTagLayout.setError(errorMessage);
+                    mButtonPositive.setEnabled(false);
+                }
             }
         });
 
