@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.automattic.simplenote.databinding.ActivityTagAddBinding;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -33,20 +34,16 @@ import com.simperium.client.Bucket;
 import java.util.Objects;
 
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
-    private Bucket<Tag> mBucketTag;
-    private Button mButtonNegative;
-    private Button mButtonPositive;
-    private TextInputEditText mTagInput;
-    private TextInputLayout mTagLayout;
     private AddTagViewModel viewModel;
+    private ActivityTagAddBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_add);
+        binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
-        mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
+        Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
         ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(AddTagViewModel.class);
@@ -54,19 +51,14 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         setObservers();
         setupLayout();
         setupViews();
+
+        setContentView(binding.getRoot());
     }
 
     private void setupViews() {
-        TextView title = findViewById(R.id.title);
-        title.setText(getString(R.string.add_tag));
-
-        mTagLayout = findViewById(R.id.tag_layout);
-        mTagInput = findViewById(R.id.tag_input);
-
-        if (mTagInput != null) {
-            mTagInput.addTextChangedListener(this);
-
-            new Handler().postDelayed(
+        binding.title.setText(getString(R.string.add_tag));
+        binding.tagInput.addTextChangedListener(this);
+        new Handler().postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -74,11 +66,9 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
                     }
                 },
                 MorphCircleToRectangle.DURATION
-            );
-        }
+        );
 
-        mButtonNegative = findViewById(R.id.button_negative);
-        mButtonNegative.setOnClickListener(
+        binding.buttonNegative.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,30 +77,24 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             }
         );
 
-        mButtonPositive = findViewById(R.id.button_positive);
-        mButtonPositive.setOnClickListener(
+        binding.buttonPositive.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String tag = mTagInput.getText() != null ? mTagInput.getText().toString() : "";
-                    boolean tagSaved = viewModel.saveTag(tag);
-                    if (tagSaved) {
-                        setResult(RESULT_OK);
-                        finishAfterTransition();
-                    } else {
-                        showDialogError();
-                    }
+                    TextInputEditText tagInput = binding.tagInput;
+                    String tag = tagInput.getText() != null ? tagInput.getText().toString() : "";
+                    viewModel.saveTag(tag);
                 }
             }
         );
-        mButtonPositive.setEnabled(false);
+        binding.buttonPositive.setEnabled(false);
     }
 
     private void setupLayout() {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
-        LinearLayout layout = findViewById(R.id.layout);
+        LinearLayout layout = binding.layout;
         layout.getLayoutParams().width = Math.min(widthMaximum, widthScreen - widthMargin);
         layout.requestLayout();
 
@@ -133,12 +117,12 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onChanged(Integer error) {
                 if (error == null) {
-                    mTagLayout.setError(null);
-                    mButtonPositive.setEnabled(true);
+                    binding.tagLayout.setError(null);
+                    binding.buttonPositive.setEnabled(true);
                 } else {
                     String errorMessage = getString(error);
-                    mTagLayout.setError(errorMessage);
-                    mButtonPositive.setEnabled(false);
+                    binding.tagLayout.setError(errorMessage);
+                    binding.buttonPositive.setEnabled(false);
                 }
             }
         });
@@ -148,10 +132,23 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onChanged(Boolean showKeyboard) {
                 if (showKeyboard) {
-                    mTagInput.requestFocus();
-                    DisplayUtils.showKeyboard(mTagInput);
+                    binding.tagInput.requestFocus();
+                    DisplayUtils.showKeyboard(binding.tagInput);
                 } else {
-                    DisplayUtils.hideKeyboard(mTagInput);
+                    DisplayUtils.hideKeyboard(binding.tagInput);
+                }
+            }
+        });
+
+        // Setup observer for result of saving a tag
+        viewModel.isResultOK().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean tagSaved) {
+                if (tagSaved) {
+                    setResult(RESULT_OK);
+                    finishAfterTransition();
+                } else {
+                    showDialogError();
                 }
             }
         });
@@ -160,7 +157,6 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         String tag = s.toString();
-
         viewModel.validateTag(tag);
     }
 
