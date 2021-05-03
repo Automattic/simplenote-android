@@ -1,10 +1,8 @@
 package com.automattic.simplenote.viewmodels
 
-import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import com.automattic.simplenote.R
 import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.utils.DisplayUtils
 import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
@@ -21,6 +19,9 @@ class AddTagViewModel(
 
     private val _tagError = MutableLiveData<Int?>()
     val tagError = _tagError
+
+    private val _isResultOK = MutableLiveData<Boolean>()
+    val isResultOK = _isResultOK
 
     fun validateTag(tagName: String) {
         if (tagName.isEmpty()) {
@@ -46,14 +47,14 @@ class AddTagViewModel(
         _tagError.value = null
     }
 
-    fun saveTag(tagName: String): Boolean {
+    fun saveTag(tagName: String) {
         try {
             _showKeyboard.value = false
 
             TagUtils.createTagIfMissing(tagsBucket, tagName)
-            return true
+            _isResultOK.value = true
         } catch (bucketObjectNameInvalid: BucketObjectNameInvalid) {
-            return false
+            _isResultOK.value = false
         }
     }
 
