@@ -100,6 +100,7 @@ dependencies {
     }
     // Infrastructure to test fragments
     debugImplementation "androidx.fragment:fragment-testing:1.3.3"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
