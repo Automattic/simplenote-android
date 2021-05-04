@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 
 class AddTagViewModel(
         private val tagsBucket: Bucket<Tag>,
-        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ScopedViewModel(defaultDispatcher) {
 
     private val _showKeyboard = MutableLiveData<Boolean>()
