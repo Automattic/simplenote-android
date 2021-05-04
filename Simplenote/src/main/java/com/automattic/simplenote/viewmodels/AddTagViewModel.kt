@@ -1,5 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.automattic.simplenote.R
 import com.automattic.simplenote.models.Tag
@@ -15,13 +16,13 @@ class AddTagViewModel(
 ) : ScopedViewModel(defaultDispatcher) {
 
     private val _showKeyboard = MutableLiveData<Boolean>()
-    val showKeyboard = _showKeyboard
+    val showKeyboard: LiveData<Boolean> = _showKeyboard
 
     private val _tagError = MutableLiveData<Int?>()
-    val tagError = _tagError
+    val tagError: LiveData<Int?> = _tagError
 
     private val _isResultOK = MutableLiveData<Boolean>()
-    val isResultOK = _isResultOK
+    val isResultOK: LiveData<Boolean> = _isResultOK
 
     fun validateTag(tagName: String) {
         if (tagName.isEmpty()) {
