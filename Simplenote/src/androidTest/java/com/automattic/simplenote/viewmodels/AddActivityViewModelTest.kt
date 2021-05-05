@@ -4,12 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.SmallTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.automattic.simplenote.R
 import com.automattic.simplenote.SimplenoteTest
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.repositories.SimperiumTagsRepository
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.TestBucket
 import com.automattic.simplenote.utils.getRandomStringOfLen
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,7 +49,7 @@ class AddActivityViewModelTest {
     fun validateSpaceTag() {
         viewModel.updateUiState("tag 5")
 
-      //  assertEquals(viewModel.tagError.value, R.string.tag_error_spaces)
+        assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_spaces)
     }
 
     @Test
@@ -55,7 +57,7 @@ class AddActivityViewModelTest {
         val randomLongTag = getRandomStringOfLen(279)
         viewModel.updateUiState(randomLongTag)
 
-     //   assertEquals(viewModel.tagError.value, R.string.tag_error_length)
+        assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_length)
     }
 
     @Test
@@ -65,28 +67,30 @@ class AddActivityViewModelTest {
 
         viewModel.updateUiState(tagName)
 
-    //    assertEquals(viewModel.tagError.value, R.string.tag_error_exists)
+        assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_exists)
     }
 
     @Test
     fun validateValidTag() {
         viewModel.updateUiState("tag1")
 
-    //    assertNull(viewModel.tagError.value)
+        assertEquals(viewModel.uiState.value?.errorMsg, -1)
     }
 
     @Test
     fun saveTagCorrectly() {
-      //  viewModel.saveTag("tag1")
+        viewModel.updateUiState("tag1")
+        viewModel.saveTag()
 
-    //    assertEquals(viewModel.isResultOK.value, true)
+        assertEquals(viewModel.event.value, AddTagViewModel.Event.FINISH)
     }
 
     @Test
     fun saveTagWithError() {
         tagsBucket.newObjectShouldFail = true
-    //    viewModel.saveTag("tag1")
+        viewModel.updateUiState("tag1")
+        viewModel.saveTag()
 
-   //     assertEquals(viewModel.isResultOK.value, false)
+        assertEquals(viewModel.event.value, AddTagViewModel.Event.SHOW_ERROR)
     }
 }
