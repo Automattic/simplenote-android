@@ -8,7 +8,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,34 +27,32 @@ import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.MorphCircleToRectangle;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.client.Bucket;
 
 import java.util.Objects;
 
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private AddTagViewModel viewModel;
-    private ActivityTagAddBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
-        binding = ActivityTagAddBinding.inflate(getLayoutInflater());
+        ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
         Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
         ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(AddTagViewModel.class);
 
-        setObservers();
-        setupLayout();
-        setupViews();
+        setObservers(binding);
+        setupLayout(binding);
+        setupViews(binding);
 
         setContentView(binding.getRoot());
     }
 
-    private void setupViews() {
+    private void setupViews(ActivityTagAddBinding binding) {
         binding.title.setText(getString(R.string.add_tag));
         binding.tagInput.addTextChangedListener(this);
         new Handler().postDelayed(
@@ -90,7 +87,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         binding.buttonPositive.setEnabled(false);
     }
 
-    private void setupLayout() {
+    private void setupLayout(ActivityTagAddBinding binding) {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
@@ -111,7 +108,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         MorphSetup.setSharedElementTransitions(this, layout, getResources().getDimensionPixelSize(R.dimen.corner_radius_dialog));
     }
 
-    private void setObservers() {
+    private void setObservers(ActivityTagAddBinding binding) {
         // Setup observer to show an error in case the tag name is not valid
         viewModel.getTagError().observe(this, new Observer<Integer>() {
             @Override
