@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.automattic.simplenote.databinding.ActivityTagAddBinding;
@@ -26,69 +25,50 @@ import com.automattic.simplenote.viewmodels.AddTagViewModel;
 import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.MorphCircleToRectangle;
 import com.automattic.simplenote.widgets.MorphSetup;
-import com.google.android.material.textfield.TextInputEditText;
 import com.simperium.client.Bucket;
 
 import java.util.Objects;
 
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private AddTagViewModel viewModel;
-    private ActivityTagAddBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
-        binding = ActivityTagAddBinding.inflate(getLayoutInflater());
+        ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
         Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
         ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(AddTagViewModel.class);
 
-        setObservers();
-        setupLayout();
-        setupViews();
+        setObservers(binding);
+        setupLayout(binding);
+        setupViews(binding);
 
         setContentView(binding.getRoot());
     }
 
-    private void setupViews() {
+    private void setupViews(ActivityTagAddBinding binding) {
         binding.title.setText(getString(R.string.add_tag));
         binding.tagInput.addTextChangedListener(this);
         new Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        viewModel.showKeyboard();
-                    }
-                },
+                () -> viewModel.start(),
                 MorphCircleToRectangle.DURATION
         );
 
         binding.buttonNegative.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finishAfterTransition();
-                }
-            }
+                v -> viewModel.close()
         );
 
         binding.buttonPositive.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextInputEditText tagInput = binding.tagInput;
-                    String tag = tagInput.getText() != null ? tagInput.getText().toString() : "";
-                    viewModel.saveTag(tag);
-                }
-            }
+                v -> viewModel.saveTag()
         );
         binding.buttonPositive.setEnabled(false);
     }
 
-    private void setupLayout() {
+    private void setupLayout(ActivityTagAddBinding binding) {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
@@ -97,57 +77,51 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         layout.requestLayout();
 
         ((View) layout.getParent()).setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finishAfterTransition();
-                }
-            }
+                view -> viewModel.close()
         );
         layout.setOnClickListener(null);
 
         MorphSetup.setSharedElementTransitions(this, layout, getResources().getDimensionPixelSize(R.dimen.corner_radius_dialog));
     }
 
-    private void setObservers() {
-        // Setup observer to show an error in case the tag name is not valid
-        viewModel.getTagError().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer error) {
-                if (error == null) {
-                    binding.tagLayout.setError(null);
-                    binding.buttonPositive.setEnabled(true);
-                } else {
-                    String errorMessage = getString(error);
-                    binding.tagLayout.setError(errorMessage);
-                    binding.buttonPositive.setEnabled(false);
-                }
-            }
-        });
-
-        // Setup observer to show or hide the keyboard
-        viewModel.getShowKeyboard().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean showKeyboard) {
-                if (showKeyboard) {
+    private void setObservers(ActivityTagAddBinding binding) {
+        // Observe changes in the UI state
+        viewModel.getUiState().observe(this, uiState -> {
+            switch (uiState.getStatus()) {
+                case STARTED:
+                    // When the screen is started, the keyboard should be shown
                     binding.tagInput.requestFocus();
                     DisplayUtils.showKeyboard(binding.tagInput);
-                } else {
+                    break;
+                case VALID:
+                    // When the tag name is updated and is valid, enable save button
+                    binding.tagLayout.setError(null);
+                    binding.buttonPositive.setEnabled(true);
+                    break;
+                case ERROR:
+                    // When there is an error in the tag name, disable save button and show error
+                    binding.tagLayout.setError(getString(uiState.getErrorMsg()));
+                    binding.buttonPositive.setEnabled(false);
+                    break;
+                case SAVING:
+                    // When the user click on Save, hide the keyboard
                     DisplayUtils.hideKeyboard(binding.tagInput);
-                }
+                    break;
             }
         });
 
-        // Setup observer for result of saving a tag
-        viewModel.isResultOK().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean tagSaved) {
-                if (tagSaved) {
+        viewModel.getEvent().observe(this, event -> {
+            switch (event) {
+                case CLOSE:
+                    finishAfterTransition();
+                    break;
+                case FINISH:
                     setResult(RESULT_OK);
                     finishAfterTransition();
-                } else {
+                    break;
+                case SHOW_ERROR:
                     showDialogError();
-                }
+                    break;
             }
         });
     }
@@ -155,7 +129,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         String tag = s.toString();
-        viewModel.validateTag(tag);
+        viewModel.updateUiState(tag);
     }
 
     @Override
@@ -180,11 +154,5 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             .setPositiveButton(android.R.string.ok, null)
             .show();
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
     }
 }

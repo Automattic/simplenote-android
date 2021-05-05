@@ -10,51 +10,69 @@ import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
 
 class AddTagViewModel(private val tagsBucket: Bucket<Tag>) : ViewModel() {
-    private val _showKeyboard = MutableLiveData<Boolean>()
-    val showKeyboard: LiveData<Boolean> = _showKeyboard
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState> = _uiState
 
-    private val _tagError = MutableLiveData<Int?>()
-    val tagError: LiveData<Int?> = _tagError
+    private val _event = SingleLiveEvent<Event>()
+    val event: LiveData<Event> = _event
 
-    private val _isResultOK = MutableLiveData<Boolean>()
-    val isResultOK: LiveData<Boolean> = _isResultOK
-
-    fun validateTag(tagName: String) {
+    fun updateUiState(tagName: String) {
         if (tagName.isEmpty()) {
-            _tagError.value = R.string.tag_error_empty
+            _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_empty)
             return
         }
 
         if (tagName.contains(" ")) {
-            _tagError.value = R.string.tag_error_spaces
+            _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_spaces)
             return
         }
 
         if (!TagUtils.hashTagValid(tagName)) {
-            _tagError.value = R.string.tag_error_length
+            _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_length)
             return
         }
 
         if (!TagUtils.isTagMissing(tagsBucket, tagName)) {
-            _tagError.value = R.string.tag_error_exists
+            _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_exists)
             return
         }
 
-        _tagError.value = null
+        _uiState.value = UiState(tagName, Status.VALID)
     }
 
-    fun saveTag(tagName: String) {
+    fun saveTag() {
         try {
-            _showKeyboard.value = false
+            val tagName = _uiState.value?.tagName ?: ""
+            _uiState.value = UiState(tagName, Status.SAVING)
 
             TagUtils.createTagIfMissing(tagsBucket, tagName)
-            _isResultOK.value = true
+
+            _event.postValue(Event.FINISH)
         } catch (bucketObjectNameInvalid: BucketObjectNameInvalid) {
-            _isResultOK.value = false
+            _event.postValue(Event.SHOW_ERROR)
         }
     }
 
-    fun showKeyboard() {
-        _showKeyboard.value = true
+    fun start() {
+        _uiState.value = UiState("", Status.STARTED)
+    }
+
+    fun close() {
+        _event.postValue(Event.CLOSE)
+    }
+
+    data class UiState(val tagName: String, val status: Status, val errorMsg: Int = -1)
+
+    enum class Status {
+        STARTED,
+        VALID,
+        SAVING,
+        ERROR,
+    }
+
+    enum class Event {
+        CLOSE,
+        FINISH,
+        SHOW_ERROR
     }
 }
