@@ -5,9 +5,8 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import com.automattic.simplenote.AddTagActivity
-import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.repositories.SimperiumTagsRepository
 import com.simperium.client.Bucket
 
 class ViewModelFactory constructor(
@@ -23,7 +22,7 @@ class ViewModelFactory constructor(
     ) = with(modelClass) {
         when {
             isAssignableFrom(AddTagViewModel::class.java) ->
-                AddTagViewModel(tagsBucket)
+                AddTagViewModel(SimperiumTagsRepository(tagsBucket))
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
