@@ -33,26 +33,27 @@ import java.util.Objects;
 
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private AddTagViewModel viewModel;
+    private ActivityTagAddBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
-        ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
+        binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
         Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
         ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(AddTagViewModel.class);
 
-        setObservers(binding);
-        setupLayout(binding);
-        setupViews(binding);
+        setObservers();
+        setupLayout();
+        setupViews();
 
         setContentView(binding.getRoot());
     }
 
-    private void setupViews(ActivityTagAddBinding binding) {
+    private void setupViews() {
         binding.title.setText(getString(R.string.add_tag));
         binding.tagInput.addTextChangedListener(this);
         new Handler().postDelayed(
@@ -87,7 +88,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         binding.buttonPositive.setEnabled(false);
     }
 
-    private void setupLayout(ActivityTagAddBinding binding) {
+    private void setupLayout() {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
@@ -108,7 +109,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         MorphSetup.setSharedElementTransitions(this, layout, getResources().getDimensionPixelSize(R.dimen.corner_radius_dialog));
     }
 
-    private void setObservers(ActivityTagAddBinding binding) {
+    private void setObservers() {
         // Setup observer to show an error in case the tag name is not valid
         viewModel.getTagError().observe(this, new Observer<Integer>() {
             @Override
@@ -179,5 +180,11 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
             .setPositiveButton(android.R.string.ok, null)
             .show();
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
