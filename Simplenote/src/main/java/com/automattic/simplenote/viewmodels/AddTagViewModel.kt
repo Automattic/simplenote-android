@@ -2,19 +2,14 @@ package com.automattic.simplenote.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.automattic.simplenote.R
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 
-class AddTagViewModel(
-        private val tagsBucket: Bucket<Tag>,
-        defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-) : ScopedViewModel(defaultDispatcher) {
-
+class AddTagViewModel(private val tagsBucket: Bucket<Tag>) : ViewModel() {
     private val _showKeyboard = MutableLiveData<Boolean>()
     val showKeyboard: LiveData<Boolean> = _showKeyboard
 
