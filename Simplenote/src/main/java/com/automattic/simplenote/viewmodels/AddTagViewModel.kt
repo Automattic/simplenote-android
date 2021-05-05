@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.automattic.simplenote.R
-import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.utils.TagUtils
-import com.simperium.client.Bucket
-import com.simperium.client.BucketObjectNameInvalid
+import com.automattic.simplenote.repositories.TagsRepository
 
-class AddTagViewModel(private val tagsBucket: Bucket<Tag>) : ViewModel() {
+class AddTagViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
@@ -27,12 +24,12 @@ class AddTagViewModel(private val tagsBucket: Bucket<Tag>) : ViewModel() {
             return
         }
 
-        if (!TagUtils.hashTagValid(tagName)) {
+        if (!tagsRepository.isTagValid(tagName)) {
             _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_length)
             return
         }
 
-        if (!TagUtils.isTagMissing(tagsBucket, tagName)) {
+        if (!tagsRepository.isTagMissing(tagName)) {
             _uiState.value = UiState(tagName, Status.ERROR, R.string.tag_error_exists)
             return
         }
@@ -41,16 +38,11 @@ class AddTagViewModel(private val tagsBucket: Bucket<Tag>) : ViewModel() {
     }
 
     fun saveTag() {
-        try {
-            val tagName = _uiState.value?.tagName ?: ""
-            _uiState.value = UiState(tagName, Status.SAVING)
+        val tagName = _uiState.value?.tagName ?: ""
+        _uiState.value = UiState(tagName, Status.SAVING)
 
-            TagUtils.createTagIfMissing(tagsBucket, tagName)
-
-            _event.postValue(Event.FINISH)
-        } catch (bucketObjectNameInvalid: BucketObjectNameInvalid) {
-            _event.postValue(Event.SHOW_ERROR)
-        }
+        val result = tagsRepository.saveTag(tagName)
+        _event.postValue(if (result) Event.FINISH else Event.SHOW_ERROR)
     }
 
     fun start() {
