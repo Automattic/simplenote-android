@@ -1,48 +1,34 @@
 package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.filters.SmallTest
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.R
-import com.automattic.simplenote.SimplenoteTest
-import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.repositories.SimperiumTagsRepository
-import com.automattic.simplenote.utils.TagUtils
-import com.automattic.simplenote.utils.TestBucket
-import com.automattic.simplenote.utils.getRandomStringOfLen
+import com.automattic.simplenote.repositories.FakeTagsRepository
+import com.automattic.simplenote.utils.getLocalRandomStringOfLen
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4ClassRunner::class)
-@SmallTest
+
 class AddActivityViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
-    protected lateinit var tagsBucket: TestBucket<Tag>
-    protected lateinit var viewModel: AddTagViewModel
+    private lateinit var viewModel: AddTagViewModel
+    private val fakeTagsRepository = FakeTagsRepository()
 
     @Before
     fun setup() {
-        val application = ApplicationProvider.getApplicationContext() as SimplenoteTest
-        // Make sure to use TestBucket buckets in UI tests
-        application.useTestBucket = true
+        fakeTagsRepository.clear()
+        fakeTagsRepository.failAtSave = false
 
-        tagsBucket = application.tagsBucket as TestBucket<Tag>
-        tagsBucket.clear()
-        tagsBucket.newObjectShouldFail = false
-
-        viewModel = AddTagViewModel(SimperiumTagsRepository(tagsBucket))
+        viewModel = AddTagViewModel(fakeTagsRepository)
     }
 
     @Test
     fun validateEmptyTag() {
         viewModel.updateUiState("")
 
-      //  assertEquals(viewModel.tagError.value, R.string.tag_error_empty)
+        //  assertEquals(viewModel.tagError.value, R.string.tag_error_empty)
     }
 
     @Test
@@ -54,7 +40,7 @@ class AddActivityViewModelTest {
 
     @Test
     fun validateTooLongTag() {
-        val randomLongTag = getRandomStringOfLen(279)
+        val randomLongTag = getLocalRandomStringOfLen(279)
         viewModel.updateUiState(randomLongTag)
 
         assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_length)
@@ -63,7 +49,7 @@ class AddActivityViewModelTest {
     @Test
     fun validateTagExists() {
         val tagName = "tag1"
-        TagUtils.createTagIfMissing(tagsBucket, tagName)
+        fakeTagsRepository.saveTag(tagName)
 
         viewModel.updateUiState(tagName)
 
@@ -87,7 +73,7 @@ class AddActivityViewModelTest {
 
     @Test
     fun saveTagWithError() {
-        tagsBucket.newObjectShouldFail = true
+        fakeTagsRepository.failAtSave = true
         viewModel.updateUiState("tag1")
         viewModel.saveTag()
 
