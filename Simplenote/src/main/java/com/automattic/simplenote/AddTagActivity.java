@@ -84,7 +84,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private void setObservers(ActivityTagAddBinding binding) {
         // Observe changes in the UI state
         viewModel.getUiState().observe(this, uiState -> {
-            // Validate if the current status has an error
+            // Validate if the current state has an error
             if (uiState.getErrorMsg() != null) {
                 binding.tagLayout.setError(getString(uiState.getErrorMsg()));
                 binding.buttonPositive.setEnabled(false);
