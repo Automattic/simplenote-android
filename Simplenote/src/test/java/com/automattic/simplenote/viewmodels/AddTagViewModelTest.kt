@@ -28,7 +28,7 @@ class AddActivityViewModelTest {
     fun validateEmptyTag() {
         viewModel.updateUiState("")
 
-        //  assertEquals(viewModel.tagError.value, R.string.tag_error_empty)
+        assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_empty)
     }
 
     @Test
