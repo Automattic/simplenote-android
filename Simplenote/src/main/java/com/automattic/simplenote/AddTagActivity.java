@@ -47,16 +47,14 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         setupLayout(binding);
         setupViews(binding);
 
+        viewModel.start();
+
         setContentView(binding.getRoot());
     }
 
     private void setupViews(ActivityTagAddBinding binding) {
         binding.title.setText(getString(R.string.add_tag));
         binding.tagInput.addTextChangedListener(this);
-        new Handler().postDelayed(
-                () -> viewModel.start(),
-                MorphCircleToRectangle.DURATION
-        );
 
         binding.buttonNegative.setOnClickListener(
                 v -> viewModel.close()
@@ -65,7 +63,6 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         binding.buttonPositive.setOnClickListener(
                 v -> viewModel.saveTag()
         );
-        binding.buttonPositive.setEnabled(false);
     }
 
     private void setupLayout(ActivityTagAddBinding binding) {
@@ -87,31 +84,34 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private void setObservers(ActivityTagAddBinding binding) {
         // Observe changes in the UI state
         viewModel.getUiState().observe(this, uiState -> {
-            switch (uiState.getStatus()) {
-                case STARTED:
-                    // When the screen is started, the keyboard should be shown
-                    binding.tagInput.requestFocus();
-                    DisplayUtils.showKeyboard(binding.tagInput);
-                    break;
-                case VALID:
-                    // When the tag name is updated and is valid, enable save button
-                    binding.tagLayout.setError(null);
-                    binding.buttonPositive.setEnabled(true);
-                    break;
-                case ERROR:
-                    // When there is an error in the tag name, disable save button and show error
-                    binding.tagLayout.setError(getString(uiState.getErrorMsg()));
-                    binding.buttonPositive.setEnabled(false);
-                    break;
-                case SAVING:
-                    // When the user click on Save, hide the keyboard
-                    DisplayUtils.hideKeyboard(binding.tagInput);
-                    break;
+            // Validate if the current status has an error
+            if (uiState.getErrorMsg() != null) {
+                binding.tagLayout.setError(getString(uiState.getErrorMsg()));
+                binding.buttonPositive.setEnabled(false);
+            } else {
+                // If there is not an error, enable save button
+                binding.tagLayout.setError(null);
+                binding.buttonPositive.setEnabled(true);
+            }
+
+            // Check if the keyboard should be closed
+            if (!uiState.isKeyboardShowing()) {
+                DisplayUtils.hideKeyboard(binding.tagInput);
             }
         });
 
         viewModel.getEvent().observe(this, event -> {
             switch (event) {
+                case START:
+                    binding.buttonPositive.setEnabled(false);
+                    new Handler().postDelayed(
+                            () -> {
+                                binding.tagInput.requestFocus();
+                                DisplayUtils.showKeyboard(binding.tagInput);
+                            },
+                            MorphCircleToRectangle.DURATION
+                    );
+                    break;
                 case CLOSE:
                     finishAfterTransition();
                     break;
