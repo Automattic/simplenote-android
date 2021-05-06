@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.R
 import com.automattic.simplenote.repositories.FakeTagsRepository
 import com.automattic.simplenote.utils.getLocalRandomStringOfLen
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,6 +22,16 @@ class AddActivityViewModelTest {
         fakeTagsRepository.failAtSave = false
 
         viewModel = AddTagViewModel(fakeTagsRepository)
+    }
+
+    @Test
+    fun startShouldSetupUiState() {
+        viewModel.start()
+
+        assertEquals(viewModel.event.value, AddTagViewModel.Event.START)
+        assertNull(viewModel.uiState.value?.errorMsg)
+        assertTrue(viewModel.uiState.value!!.isKeyboardShowing)
+        assertEquals(viewModel.uiState.value!!.tagName, "")
     }
 
     @Test
@@ -60,7 +70,7 @@ class AddActivityViewModelTest {
     fun validateValidTag() {
         viewModel.updateUiState("tag1")
 
-        assertEquals(viewModel.uiState.value?.errorMsg, -1)
+        assertNull(viewModel.uiState.value?.errorMsg)
     }
 
     @Test
