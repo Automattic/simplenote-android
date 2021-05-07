@@ -2,25 +2,24 @@ package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.R
-import com.automattic.simplenote.repositories.FakeTagsRepository
+import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.utils.getLocalRandomStringOfLen
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 
 
 class AddActivityViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: AddTagViewModel
-    private val fakeTagsRepository = FakeTagsRepository()
+    private val fakeTagsRepository = mock(TagsRepository::class.java)
 
     @Before
     fun setup() {
-        fakeTagsRepository.clear()
-        fakeTagsRepository.failAtSave = false
-
         viewModel = AddTagViewModel(fakeTagsRepository)
     }
 
@@ -59,7 +58,9 @@ class AddActivityViewModelTest {
     @Test
     fun validateTagExists() {
         val tagName = "tag1"
-        fakeTagsRepository.saveTag(tagName)
+
+        `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(false)
 
         viewModel.updateUiState(tagName)
 
@@ -68,14 +69,23 @@ class AddActivityViewModelTest {
 
     @Test
     fun validateValidTag() {
-        viewModel.updateUiState("tag1")
+        val tagName = "tag1"
+
+        `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
+
+        viewModel.updateUiState(tagName)
 
         assertNull(viewModel.uiState.value?.errorMsg)
     }
 
     @Test
     fun saveTagCorrectly() {
-        viewModel.updateUiState("tag1")
+        val tagName = "tag1"
+        viewModel.updateUiState(tagName)
+
+        `when`(fakeTagsRepository.saveTag(tagName)).thenReturn(true)
+
         viewModel.saveTag()
 
         assertEquals(viewModel.event.value, AddTagViewModel.Event.FINISH)
@@ -83,7 +93,6 @@ class AddActivityViewModelTest {
 
     @Test
     fun saveTagWithError() {
-        fakeTagsRepository.failAtSave = true
         viewModel.updateUiState("tag1")
         viewModel.saveTag()
 
