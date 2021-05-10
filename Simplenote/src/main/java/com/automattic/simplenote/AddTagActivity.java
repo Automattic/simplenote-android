@@ -93,11 +93,6 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
                 binding.tagLayout.setError(null);
                 binding.buttonPositive.setEnabled(true);
             }
-
-            // Check if the keyboard should be closed
-            if (!uiState.isKeyboardShowing()) {
-                DisplayUtils.hideKeyboard(binding.tagInput);
-            }
         });
 
         viewModel.getEvent().observe(this, event -> {
@@ -116,10 +111,14 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
                     finishAfterTransition();
                     break;
                 case FINISH:
+                    DisplayUtils.hideKeyboard(binding.tagInput);
+
                     setResult(RESULT_OK);
                     finishAfterTransition();
                     break;
                 case SHOW_ERROR:
+                    DisplayUtils.hideKeyboard(binding.tagInput);
+
                     showDialogError();
                     break;
             }
