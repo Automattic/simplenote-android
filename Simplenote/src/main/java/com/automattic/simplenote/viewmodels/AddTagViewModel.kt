@@ -14,34 +14,33 @@ class AddTagViewModel(private val tagsRepository: TagsRepository) : ViewModel() 
     val event: LiveData<Event> = _event
 
     fun updateUiState(tagName: String) {
-        val currentIsKeyboardShowing = _uiState.value?.isKeyboardShowing ?: true
         if (tagName.isEmpty()) {
-            _uiState.value = UiState(tagName, currentIsKeyboardShowing, R.string.tag_error_empty)
+            _uiState.value = UiState(tagName, R.string.tag_error_empty)
             return
         }
 
         if (tagName.contains(" ")) {
-            _uiState.value = UiState(tagName, currentIsKeyboardShowing, R.string.tag_error_spaces)
+            _uiState.value = UiState(tagName, R.string.tag_error_spaces)
             return
         }
 
         if (!tagsRepository.isTagValid(tagName)) {
-            _uiState.value = UiState(tagName, currentIsKeyboardShowing, R.string.tag_error_length)
+            _uiState.value = UiState(tagName, R.string.tag_error_length)
             return
         }
 
         if (!tagsRepository.isTagMissing(tagName)) {
-            _uiState.value = UiState(tagName, currentIsKeyboardShowing, R.string.tag_error_exists)
+            _uiState.value = UiState(tagName, R.string.tag_error_exists)
             return
         }
 
-        _uiState.value = UiState(tagName, currentIsKeyboardShowing)
+        _uiState.value = UiState(tagName)
     }
 
     fun saveTag() {
         val tagName = _uiState.value?.tagName ?: ""
         // Keyboard should be closed
-        _uiState.value = UiState(tagName, false)
+        _uiState.value = UiState(tagName)
 
         val result = tagsRepository.saveTag(tagName)
         _event.postValue(if (result) Event.FINISH else Event.SHOW_ERROR)
@@ -49,7 +48,7 @@ class AddTagViewModel(private val tagsRepository: TagsRepository) : ViewModel() 
 
     fun start() {
         // Show keyboard at startup
-        _uiState.value = UiState("", true)
+        _uiState.value = UiState("")
         _event.postValue(Event.START)
     }
 
@@ -57,7 +56,7 @@ class AddTagViewModel(private val tagsRepository: TagsRepository) : ViewModel() 
         _event.postValue(Event.CLOSE)
     }
 
-    data class UiState(val tagName: String, val isKeyboardShowing: Boolean, val errorMsg: Int? = null)
+    data class UiState(val tagName: String, val errorMsg: Int? = null)
 
     enum class Event {
         START,

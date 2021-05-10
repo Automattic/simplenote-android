@@ -4,7 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.R
 import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.utils.getLocalRandomStringOfLen
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +30,6 @@ class AddActivityViewModelTest {
 
         assertEquals(viewModel.event.value, AddTagViewModel.Event.START)
         assertNull(viewModel.uiState.value?.errorMsg)
-        assertTrue(viewModel.uiState.value!!.isKeyboardShowing)
         assertEquals(viewModel.uiState.value!!.tagName, "")
     }
 
