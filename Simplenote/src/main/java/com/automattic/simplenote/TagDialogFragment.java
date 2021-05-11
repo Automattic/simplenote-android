@@ -146,6 +146,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         mButtonNeutral = mDialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL);
         mButtonPositive = mDialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE);
 
+        // Set observers when views are available
         setObservers();
 
         showDialogRenameTag();
