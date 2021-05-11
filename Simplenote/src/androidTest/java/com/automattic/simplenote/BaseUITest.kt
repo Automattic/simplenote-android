@@ -7,13 +7,13 @@ import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.TestBucket
+import com.automattic.simplenote.utils.getRandomStringOfLen
 import com.simperium.client.BucketObjectMissingException
 import org.junit.After
 import org.junit.Before
 import java.security.SecureRandom
 
 open class BaseUITest {
-    private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     protected lateinit var application: SimplenoteTest
     protected lateinit var tagsBucket: TestBucket<Tag>
     protected lateinit var notesBucket: TestBucket<Note>
@@ -49,13 +49,7 @@ open class BaseUITest {
     }
 
     protected fun getRandomString(len: Int): String {
-        val random = SecureRandom()
-        val bytes = ByteArray(len)
-        random.nextBytes(bytes)
-
-        return (bytes.indices)
-                .map { charPool[random.nextInt(charPool.size)] }
-                .joinToString("")
+        return getRandomStringOfLen(len)
     }
 
     protected fun createTag(tagName: String): Tag {

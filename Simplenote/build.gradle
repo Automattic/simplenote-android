@@ -65,6 +65,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 buildscript {
@@ -96,6 +100,7 @@ dependencies {
     }
     // Infrastructure to test fragments
     debugImplementation "androidx.fragment:fragment-testing:1.3.3"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
@@ -105,7 +110,10 @@ dependencies {
         exclude group: "org.jetbrains", module: "annotations-java5"
     }
     implementation 'org.wordpress:passcodelock:2.0.2'
-    
+
+    // Kotlin's coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0-beta01'
@@ -114,6 +122,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.work:work-runtime:2.5.0'
     implementation 'androidx.concurrent:concurrent-futures:1.1.0'
+    // Support for ViewModels and LiveData
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     // Google Play Services
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     // Third Party

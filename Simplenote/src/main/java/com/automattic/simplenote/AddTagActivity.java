@@ -8,143 +8,127 @@ import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.automattic.simplenote.databinding.ActivityTagAddBinding;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.viewmodels.AddTagViewModel;
+import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.MorphCircleToRectangle;
 import com.automattic.simplenote.widgets.MorphSetup;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.client.Bucket;
-import com.simperium.client.BucketObjectNameInvalid;
 
 import java.util.Objects;
 
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
-    private Bucket<Tag> mBucketTag;
-    private Button mButtonNegative;
-    private Button mButtonPositive;
-    private TextInputEditText mTagInput;
-    private TextInputLayout mTagLayout;
+    private AddTagViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_add);
+        ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
+        Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
+        ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
+        viewModel = viewModelProvider.get(AddTagViewModel.class);
+
+        setObservers(binding);
+        setupLayout(binding);
+        setupViews(binding);
+
+        viewModel.start();
+
+        setContentView(binding.getRoot());
+    }
+
+    private void setupViews(ActivityTagAddBinding binding) {
+        binding.title.setText(getString(R.string.add_tag));
+        binding.tagInput.addTextChangedListener(this);
+
+        binding.buttonNegative.setOnClickListener(
+                v -> viewModel.close()
+        );
+
+        binding.buttonPositive.setOnClickListener(
+                v -> viewModel.saveTag()
+        );
+    }
+
+    private void setupLayout(ActivityTagAddBinding binding) {
         int widthScreen = getResources().getDisplayMetrics().widthPixels;
         int widthMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
         int widthMaximum = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 312, getResources().getDisplayMetrics());
-        LinearLayout layout = findViewById(R.id.layout);
+        LinearLayout layout = binding.layout;
         layout.getLayoutParams().width = Math.min(widthMaximum, widthScreen - widthMargin);
         layout.requestLayout();
 
         ((View) layout.getParent()).setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finishAfterTransition();
-                }
-            }
+                view -> viewModel.close()
         );
         layout.setOnClickListener(null);
 
         MorphSetup.setSharedElementTransitions(this, layout, getResources().getDimensionPixelSize(R.dimen.corner_radius_dialog));
+    }
 
-        mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
+    private void setObservers(ActivityTagAddBinding binding) {
+        // Observe changes in the UI state
+        viewModel.getUiState().observe(this, uiState -> {
+            // Validate if the current state has an error
+            if (uiState.getErrorMsg() != null) {
+                binding.tagLayout.setError(getString(uiState.getErrorMsg()));
+                binding.buttonPositive.setEnabled(false);
+            } else {
+                // If there is not an error, enable save button
+                binding.tagLayout.setError(null);
+                binding.buttonPositive.setEnabled(true);
+            }
+        });
 
-        TextView title = findViewById(R.id.title);
-        title.setText(getString(R.string.add_tag));
-
-        mTagLayout = findViewById(R.id.tag_layout);
-        mTagInput = findViewById(R.id.tag_input);
-
-        if (mTagInput != null) {
-            mTagInput.addTextChangedListener(this);
-
-            new Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        mTagInput.requestFocus();
-                        DisplayUtils.showKeyboard(mTagInput);
-                    }
-                },
-                MorphCircleToRectangle.DURATION
-            );
-        }
-
-        mButtonNegative = findViewById(R.id.button_negative);
-        mButtonNegative.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        viewModel.getEvent().observe(this, event -> {
+            switch (event) {
+                case START:
+                    binding.buttonPositive.setEnabled(false);
+                    new Handler().postDelayed(
+                            () -> {
+                                binding.tagInput.requestFocus();
+                                DisplayUtils.showKeyboard(binding.tagInput);
+                            },
+                            MorphCircleToRectangle.DURATION
+                    );
+                    break;
+                case CLOSE:
                     finishAfterTransition();
-                }
-            }
-        );
+                    break;
+                case FINISH:
+                    DisplayUtils.hideKeyboard(binding.tagInput);
 
-        mButtonPositive = findViewById(R.id.button_positive);
-        mButtonPositive.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        DisplayUtils.hideKeyboard(v);
-                        String tag = mTagInput.getText() != null ? mTagInput.getText().toString() : "";
-                        TagUtils.createTagIfMissing(mBucketTag, tag);
-                        setResult(RESULT_OK);
-                        finishAfterTransition();
-                    } catch (BucketObjectNameInvalid bucketObjectNameInvalid) {
-                        showDialogError();
-                    }
-                }
+                    setResult(RESULT_OK);
+                    finishAfterTransition();
+                    break;
+                case SHOW_ERROR:
+                    DisplayUtils.hideKeyboard(binding.tagInput);
+
+                    showDialogError();
+                    break;
             }
-        );
-        mButtonPositive.setEnabled(false);
+        });
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         String tag = s.toString();
-
-        if (tag.isEmpty()) {
-            mButtonPositive.setEnabled(false);
-            mTagLayout.setError(getString(R.string.tag_error_empty));
-            return;
-        }
-
-        if (tag.contains(" ")) {
-            mButtonPositive.setEnabled(false);
-            mTagLayout.setError(getString(R.string.tag_error_spaces));
-            return;
-        }
-
-        if (!TagUtils.hashTagValid(tag)) {
-            mButtonPositive.setEnabled(false);
-            mTagLayout.setError(getString(R.string.tag_error_length));
-            return;
-        }
-
-        if (!TagUtils.isTagMissing(mBucketTag, tag)) {
-            mButtonPositive.setEnabled(false);
-            mTagLayout.setError(getString(R.string.tag_error_exists));
-            return;
-        }
-
-        mButtonPositive.setEnabled(true);
-        mTagLayout.setError(null);
+        viewModel.updateUiState(tag);
     }
 
     @Override
