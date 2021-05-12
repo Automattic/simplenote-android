@@ -8,9 +8,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.repositories.TagsRepository
 
-class TagDialogViewModel(
-        private val tagsRepository: TagsRepository
-) : ViewModel() {
+class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
