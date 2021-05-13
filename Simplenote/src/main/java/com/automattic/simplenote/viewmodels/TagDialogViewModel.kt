@@ -24,22 +24,29 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
     }
 
     fun updateUiState(tagName: String) {
+        // Make sure the UI state exists
+        val currentUiState = _uiState.value
+        if (currentUiState == null) {
+            _event.postValue(ShowErrorEvent)
+            return
+        }
+
         if (tagName.isEmpty()) {
-            _uiState.value = _uiState.value!!.copy(tagName = tagName, errorMsg = R.string.tag_error_empty)
+            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_empty)
             return
         }
 
         if (tagName.contains(" ")) {
-            _uiState.value = _uiState.value!!.copy(tagName = tagName, errorMsg = R.string.tag_error_spaces)
+            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_spaces)
             return
         }
 
         if (!tagsRepository.isTagValid(tagName)) {
-            _uiState.value = _uiState.value!!.copy(tagName = tagName, errorMsg = R.string.tag_error_length)
+            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_length)
             return
         }
 
-        _uiState.value = _uiState.value!!.copy(tagName = tagName, errorMsg = null)
+        _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = null)
     }
 
     fun renameTagIfValid() {
