@@ -65,12 +65,12 @@ class TagDialogViewModelTest {
 
     @Test
     fun validateValidTag() {
-        val tagName = "tag2"
+        val hewTagName = "tag2"
 
-        `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
-        `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagValid(hewTagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagConflict(hewTagName, tagName)).thenReturn(false)
 
-        viewModel.updateUiState(tagName)
+        viewModel.updateUiState(hewTagName)
 
         assertNull(viewModel.uiState.value?.errorMsg)
     }
@@ -88,11 +88,11 @@ class TagDialogViewModelTest {
         val newTagName = "tag2"
 
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagMissing(newTagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
         viewModel.renameTagIfValid()
 
-        assertEquals(viewModel.uiState.value!!.tagName, newTagName)
+        assertEquals(viewModel.uiState.value?.tagName, newTagName)
         assertTrue(viewModel.event.value is FinishEvent)
     }
 
@@ -101,7 +101,7 @@ class TagDialogViewModelTest {
         val newTagName = "tag2"
 
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagMissing(newTagName)).thenReturn(false)
+        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(true)
         `when`(fakeTagsRepository.getCanonicalTagName(newTagName)).thenReturn(newTagName)
         viewModel.renameTagIfValid()
 
@@ -116,7 +116,7 @@ class TagDialogViewModelTest {
         val newTagName = "tag2"
 
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagMissing(newTagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
         viewModel.renameTagIfValid()
 
