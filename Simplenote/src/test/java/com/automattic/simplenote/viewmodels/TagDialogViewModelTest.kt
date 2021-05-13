@@ -42,6 +42,13 @@ class TagDialogViewModelTest {
     }
 
     @Test
+    fun closeShouldTriggerEventClose() {
+        viewModel.close()
+
+        assertEquals(viewModel.event.value, TagDialogEvent.CloseEvent)
+    }
+
+    @Test
     fun validateEmptyTag() {
         viewModel.updateUiState("")
 
@@ -119,6 +126,30 @@ class TagDialogViewModelTest {
         `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
         viewModel.renameTagIfValid()
+
+        assertEquals(viewModel.uiState.value?.tagName, newTagName)
+        assertTrue(viewModel.event.value is TagDialogEvent.ShowErrorEvent)
+    }
+
+    @Test
+    fun renameTagValid() {
+        val newTagName = "tag2"
+
+        viewModel.updateUiState(newTagName)
+        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
+        viewModel.renameTag()
+
+        assertEquals(viewModel.uiState.value?.tagName, newTagName)
+        assertTrue(viewModel.event.value is TagDialogEvent.FinishEvent)
+    }
+
+    @Test
+    fun renameTagError() {
+        val newTagName = "tag2"
+
+        viewModel.updateUiState(newTagName)
+        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
+        viewModel.renameTag()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
         assertTrue(viewModel.event.value is TagDialogEvent.ShowErrorEvent)
