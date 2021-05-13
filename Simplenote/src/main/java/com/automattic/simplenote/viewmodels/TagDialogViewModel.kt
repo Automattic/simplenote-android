@@ -64,7 +64,7 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
         }
 
         // If there is another tag with the same name
-        if (!tagsRepository.isTagMissing(currentState.tagName)) {
+        if (tagsRepository.isTagConflict(currentState.tagName, currentState.oldTag.name)) {
             // get canonical name
             val canonicalTagName = tagsRepository.getCanonicalTagName(currentState.tagName)
             _event.postValue(ConflictEvent(canonicalTagName, currentState.oldTag.name))
