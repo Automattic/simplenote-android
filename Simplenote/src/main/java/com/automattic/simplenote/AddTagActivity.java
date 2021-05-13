@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.automattic.simplenote.databinding.ActivityTagAddBinding;
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -39,7 +40,8 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
         Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
-        ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, this, null);
+        Bucket<Note> mNoteTag = ((Simplenote) getApplication()).getNotesBucket();
+        ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, mNoteTag, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(AddTagViewModel.class);
 
