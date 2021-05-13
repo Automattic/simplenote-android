@@ -29,6 +29,11 @@ class SimperiumTagsRepository(
         return TagUtils.isTagMissing(tagsBucket, tagName)
     }
 
+    override fun isTagConflict(tagName: String, oldTagName: String): Boolean {
+        val isRenamingToLexical = TagUtils.hashTag(tagName).equals(TagUtils.hashTag(oldTagName))
+        return !isRenamingToLexical && !isTagMissing(tagName)
+    }
+
     override fun getCanonicalTagName(tagName: String): String {
         return TagUtils.getCanonicalFromLexical(tagsBucket, tagName)
     }
