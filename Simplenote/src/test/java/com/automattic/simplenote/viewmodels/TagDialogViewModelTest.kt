@@ -37,8 +37,8 @@ class TagDialogViewModelTest {
     @Test
     fun startShouldSetupUiState() {
         assertNull(viewModel.uiState.value?.errorMsg)
-        assertEquals(viewModel.uiState.value!!.tagName, tagName)
-        assertEquals(viewModel.uiState.value!!.oldTag, tag)
+        assertEquals(viewModel.uiState.value?.tagName, tagName)
+        assertEquals(viewModel.uiState.value?.oldTag, tag)
     }
 
     @Test
@@ -105,7 +105,7 @@ class TagDialogViewModelTest {
         `when`(fakeTagsRepository.getCanonicalTagName(newTagName)).thenReturn(newTagName)
         viewModel.renameTagIfValid()
 
-        assertEquals(viewModel.uiState.value!!.tagName, newTagName)
+        assertEquals(viewModel.uiState.value?.tagName, newTagName)
         assertTrue(viewModel.event.value is ConflictEvent)
         assertEquals((viewModel.event.value as ConflictEvent).canonicalTagName, newTagName)
         assertEquals((viewModel.event.value as ConflictEvent).oldTagName, tagName)
@@ -120,7 +120,7 @@ class TagDialogViewModelTest {
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
         viewModel.renameTagIfValid()
 
-        assertEquals(viewModel.uiState.value!!.tagName, newTagName)
+        assertEquals(viewModel.uiState.value?.tagName, newTagName)
         assertTrue(viewModel.event.value is ShowErrorEvent)
     }
 }
