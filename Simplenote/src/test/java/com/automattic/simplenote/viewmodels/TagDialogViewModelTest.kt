@@ -80,7 +80,7 @@ class TagDialogViewModelTest {
         viewModel.updateUiState(tagName)
         viewModel.renameTagIfValid()
 
-        assertTrue(viewModel.event.value is FinishEvent)
+        assertTrue(viewModel.event.value is TagDialogEvent.FinishEvent)
     }
 
     @Test
@@ -93,7 +93,7 @@ class TagDialogViewModelTest {
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
-        assertTrue(viewModel.event.value is FinishEvent)
+        assertTrue(viewModel.event.value is TagDialogEvent.FinishEvent)
     }
 
     @Test
@@ -106,9 +106,9 @@ class TagDialogViewModelTest {
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
-        assertTrue(viewModel.event.value is ConflictEvent)
-        assertEquals((viewModel.event.value as ConflictEvent).canonicalTagName, newTagName)
-        assertEquals((viewModel.event.value as ConflictEvent).oldTagName, tagName)
+        assertTrue(viewModel.event.value is TagDialogEvent.ConflictEvent)
+        assertEquals((viewModel.event.value as TagDialogEvent.ConflictEvent).canonicalTagName, newTagName)
+        assertEquals((viewModel.event.value as TagDialogEvent.ConflictEvent).oldTagName, tagName)
     }
 
     @Test
@@ -121,6 +121,6 @@ class TagDialogViewModelTest {
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
-        assertTrue(viewModel.event.value is ShowErrorEvent)
+        assertTrue(viewModel.event.value is TagDialogEvent.ShowErrorEvent)
     }
 }
