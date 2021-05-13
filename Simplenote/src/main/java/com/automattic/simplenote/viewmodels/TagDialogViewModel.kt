@@ -20,14 +20,14 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
     }
 
     fun close() {
-        _event.postValue(CloseEvent)
+        _event.postValue(TagDialogEvent.CloseEvent)
     }
 
     fun updateUiState(tagName: String) {
         // Make sure the UI state exists
         val currentUiState = _uiState.value
         if (currentUiState == null) {
-            _event.postValue(ShowErrorEvent)
+            _event.postValue(TagDialogEvent.ShowErrorEvent)
             return
         }
 
@@ -53,13 +53,13 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
         val currentState = uiState.value
 
         if (currentState == null) {
-            _event.postValue(ShowErrorEvent)
+            _event.postValue(TagDialogEvent.ShowErrorEvent)
             return
         }
 
         // If the tag did not changed, do not anything
         if (currentState.tagName == currentState.oldTag.name) {
-            _event.postValue(FinishEvent)
+            _event.postValue(TagDialogEvent.FinishEvent)
             return
         }
 
@@ -67,7 +67,7 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
         if (tagsRepository.isTagConflict(currentState.tagName, currentState.oldTag.name)) {
             // get canonical name
             val canonicalTagName = tagsRepository.getCanonicalTagName(currentState.tagName)
-            _event.postValue(ConflictEvent(canonicalTagName, currentState.oldTag.name))
+            _event.postValue(TagDialogEvent.ConflictEvent(canonicalTagName, currentState.oldTag.name))
             return
         }
 
@@ -78,28 +78,29 @@ class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel
         val currentState = _uiState.value
 
         if (currentState == null) {
-            _event.postValue(ShowErrorEvent)
+            _event.postValue(TagDialogEvent.ShowErrorEvent)
             return
         }
 
         val result = tagsRepository.renameTag(currentState.tagName, currentState.oldTag)
         if (result) {
-            _event.postValue(FinishEvent)
+            _event.postValue(TagDialogEvent.FinishEvent)
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.TAG_EDITOR_ACCESSED,
                     AnalyticsTracker.CATEGORY_TAG,
                     "tag_alert_edit_box"
             )
         } else {
-            _event.postValue(ShowErrorEvent)
+            _event.postValue(TagDialogEvent.ShowErrorEvent)
         }
     }
 
     data class UiState(val tagName: String, val oldTag: Tag, val errorMsg: Int? = null)
 }
 
-sealed class TagDialogEvent
-object CloseEvent : TagDialogEvent()
-object FinishEvent : TagDialogEvent()
-object ShowErrorEvent : TagDialogEvent()
-data class ConflictEvent(val canonicalTagName: String, val oldTagName: String): TagDialogEvent()
+sealed class TagDialogEvent {
+    object CloseEvent : TagDialogEvent()
+    object FinishEvent : TagDialogEvent()
+    object ShowErrorEvent : TagDialogEvent()
+    data class ConflictEvent(val canonicalTagName: String, val oldTagName: String): TagDialogEvent()
+}

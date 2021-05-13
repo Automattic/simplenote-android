@@ -23,10 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DialogUtils;
-import com.automattic.simplenote.viewmodels.CloseEvent;
-import com.automattic.simplenote.viewmodels.ConflictEvent;
-import com.automattic.simplenote.viewmodels.FinishEvent;
-import com.automattic.simplenote.viewmodels.ShowErrorEvent;
+import com.automattic.simplenote.viewmodels.TagDialogEvent;
 import com.automattic.simplenote.viewmodels.TagDialogViewModel;
 import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.google.android.material.textfield.TextInputEditText;
@@ -125,16 +122,16 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         });
 
         viewModel.getEvent().observe(this, event -> {
-            if (event instanceof CloseEvent || event instanceof FinishEvent) {
+            if (event instanceof TagDialogEvent.CloseEvent || event instanceof TagDialogEvent.FinishEvent) {
                 dismiss();
-            } else if (event instanceof ShowErrorEvent) {
+            } else if (event instanceof TagDialogEvent.ShowErrorEvent) {
                 Context context = requireContext();
                 DialogUtils.showDialogWithEmail(
                         context,
                         context.getString(R.string.rename_tag_message)
                 );
-            } else if (event instanceof ConflictEvent) {
-                ConflictEvent conflictEvent = (ConflictEvent) event;
+            } else if (event instanceof TagDialogEvent.ConflictEvent) {
+                TagDialogEvent.ConflictEvent conflictEvent = (TagDialogEvent.ConflictEvent) event;
                 showDialogErrorConflict(conflictEvent.getCanonicalTagName(), conflictEvent.getOldTagName());
             }
         });
