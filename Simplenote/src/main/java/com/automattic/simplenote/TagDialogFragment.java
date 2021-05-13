@@ -126,10 +126,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
                 dismiss();
             } else if (event instanceof TagDialogEvent.ShowErrorEvent) {
                 Context context = requireContext();
-                DialogUtils.showDialogWithEmail(
-                        context,
-                        context.getString(R.string.rename_tag_message)
-                );
+                DialogUtils.showDialogWithEmail(context, context.getString(R.string.rename_tag_message));
             } else if (event instanceof TagDialogEvent.ConflictEvent) {
                 TagDialogEvent.ConflictEvent conflictEvent = (TagDialogEvent.ConflictEvent) event;
                 showDialogErrorConflict(conflictEvent.getCanonicalTagName(), conflictEvent.getOldTagName());
