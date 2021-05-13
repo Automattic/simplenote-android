@@ -63,8 +63,6 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, mBucketNote, this, null);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(TagDialogViewModel.class);
-
-        viewModel.start(mTag);
     }
 
     @Override
@@ -142,6 +140,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
         // Set observers when views are available
         setObservers();
+        viewModel.start(mTag);
 
         showDialogRenameTag();
         mEditTextTag.setText(mTag.getName());
