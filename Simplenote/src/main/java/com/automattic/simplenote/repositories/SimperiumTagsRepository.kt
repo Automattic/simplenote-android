@@ -74,7 +74,7 @@ class SimperiumTagsRepository(
         return localAllTags()
     }
 
-    fun localAllTags(): List<TagItem> {
+    private fun localAllTags(): List<TagItem> {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
         val cursor = tagQuery.execute()
 
