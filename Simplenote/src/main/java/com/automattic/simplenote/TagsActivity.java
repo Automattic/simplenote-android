@@ -132,7 +132,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         });
 
         setObservers();
-        viewModel.start();
 
         refreshTags();
     }
@@ -272,20 +271,14 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         super.onResume();
         disableScreenshotsIfLocked(this);
 
-        mTagsBucket.addOnNetworkChangeListener(this);
-        mTagsBucket.addOnSaveObjectListener(this);
-        mTagsBucket.addOnDeleteObjectListener(this);
-        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)");
+        viewModel.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        mTagsBucket.removeOnNetworkChangeListener(this);
-        mTagsBucket.removeOnSaveObjectListener(this);
-        mTagsBucket.removeOnDeleteObjectListener(this);
-        AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)");
+        viewModel.pause();
     }
 
     @Override

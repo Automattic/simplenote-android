@@ -9,6 +9,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -19,10 +21,23 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _event = SingleLiveEvent<TagsEvent>()
     val event: LiveData<TagsEvent> = _event
 
+    private var jobTagsFlow: Job? = null
+
     fun start() {
         viewModelScope.launch {
             val tagItems = withContext(Dispatchers.IO) { tagsRepository.allTags() }
             _uiState.value = UiState(tagItems)
+        }
+
+        jobTagsFlow = viewModelScope.launch {
+            tagsRepository.tagsChanged().collect {
+                val searchQuery = _uiState.value?.searchQuery
+                val tagItems = withContext(Dispatchers.IO) {
+                    if (searchQuery == null) tagsRepository.allTags()
+                    else tagsRepository.searchTags(searchQuery)
+                }
+                _uiState.value = UiState(tagItems, searchQuery)
+            }
         }
     }
 
@@ -36,6 +51,10 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     fun close() {
         _event.postValue(TagsEvent.FinishEvent)
+    }
+
+    fun pause() {
+        jobTagsFlow?.cancel()
     }
 
     fun clickEditTag(tagItem: TagItem) {
