@@ -5,9 +5,16 @@ import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.stub
 
 
 @ExperimentalCoroutinesApi
@@ -30,5 +37,41 @@ class TagsViewModelTest {
         tagItems.add(TagItem(Tag("tag3"), 5))
         tagItems.add(TagItem(Tag("tag4"), 10))
         tagItems.add(TagItem(Tag("tag5"), 0))
+    }
+
+    @Test
+    fun startShouldSetupUiState() = runBlockingTest {
+        fakeTagsRepository.stub {
+            onBlocking { allTags() }.doReturn(tagItems)
+        }
+        fakeTagsRepository.stub {
+            onBlocking { tagsChanged() }.doReturn(emptyFlow())
+        }
+        viewModel.start()
+
+        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.searchUpdate, false)
+        assertNull(viewModel.uiState.value?.searchQuery)
+    }
+
+    @Test
+    fun clickAddTagShouldTriggerAddTagEvent() {
+        viewModel.clickAddTag()
+
+        assertEquals(viewModel.event.value, TagsEvent.AddTagEvent)
+    }
+
+    @Test
+    fun lonClickAddTagShouldTriggerLongAddTagEvent() {
+        viewModel.longClickAddTag()
+
+        assertEquals(viewModel.event.value, TagsEvent.LongAddTagEvent)
+    }
+
+    @Test
+    fun closeShouldTriggerFinishEvent() {
+        viewModel.close()
+
+        assertEquals(viewModel.event.value, TagsEvent.FinishEvent)
     }
 }
