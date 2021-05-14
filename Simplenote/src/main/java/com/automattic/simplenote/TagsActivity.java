@@ -98,15 +98,11 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                     return Unit.INSTANCE;
                 },
                 (TagItem tagItem) -> {
-                    viewModel.longClickEditTag(tagItem);
-                    return Unit.INSTANCE;
-                },
-                (TagItem tagItem) -> {
                     viewModel.clickDeleteTag(tagItem);
                     return Unit.INSTANCE;
                 },
-                (TagItem tagItem) -> {
-                    viewModel.longClickDeleteTag(tagItem);
+                (View view) -> {
+                    viewModel.longClickDeleteTag(view);
                     return Unit.INSTANCE;
                 }
         );
@@ -164,6 +160,33 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
             } else if (event instanceof TagsEvent.FinishEvent) {
                 finish();
+            } else if (event instanceof TagsEvent.EditTagEvent) {
+                TagsEvent.EditTagEvent editTagEvent = (TagsEvent.EditTagEvent) event;
+                TagDialogFragment dialog = new TagDialogFragment(
+                        editTagEvent.getTagItem().getTag(),
+                        mNotesBucket,
+                        mTagsBucket
+                );
+                dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
+            } else if (event instanceof TagsEvent.DeleteTagEvent) {
+                TagsEvent.DeleteTagEvent deleteTagEvent = (TagsEvent.DeleteTagEvent) event;
+                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
+                alert.setTitle(R.string.delete_tag);
+                alert.setMessage(getString(R.string.confirm_delete_tag));
+                alert.setNegativeButton(R.string.no, null);
+                alert.setPositiveButton(
+                        R.string.yes,
+                        (dialog, whichButton) -> viewModel.deleteTag(deleteTagEvent.getTagItem())
+                );
+                alert.show();
+            } else if (event instanceof TagsEvent.LongDeleteTagEvent) {
+                TagsEvent.LongDeleteTagEvent longDeleteTagEvent = (TagsEvent.LongDeleteTagEvent) event;
+                View v = longDeleteTagEvent.getView();
+                if (v.isHapticFeedbackEnabled()) {
+                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
             }
         });
     }

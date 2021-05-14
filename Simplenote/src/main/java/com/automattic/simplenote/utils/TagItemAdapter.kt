@@ -1,6 +1,7 @@
 package com.automattic.simplenote.utils
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,16 +11,14 @@ import com.automattic.simplenote.models.TagItem
 
 class TagItemAdapter(
         private val onEditClick: (tagItem: TagItem) -> Unit,
-        private val onLongEditClick: (tagItem: TagItem) -> Unit,
         private val onDeleteClick: (tagItem: TagItem) -> Unit,
-        private val onLongDeleteClick: (tagItem: TagItem) -> Unit,
+        private val onLongDeleteClick: (view: View) -> Unit,
 ) : ListAdapter<TagItem, TagItemAdapter.TagItemViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagItemViewHolder {
         val binding = TagsListRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TagItemViewHolder(
                 binding,
                 onEditClick,
-                onLongEditClick,
                 onDeleteClick,
                 onLongDeleteClick
         )
@@ -33,9 +32,8 @@ class TagItemAdapter(
     class TagItemViewHolder(
             private val binding: TagsListRowBinding,
             private val onEditClick: (tagItem: TagItem) -> Unit,
-            private val onLongEditClick: (tagItem: TagItem) -> Unit,
             private val onDeleteClick: (tagItem: TagItem) -> Unit,
-            private val onLongDeleteClick: (tagItem: TagItem) -> Unit,
+            private val onLongDeleteClick: (view: View) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(currentTagItem: TagItem) {
             binding.apply {
@@ -45,16 +43,12 @@ class TagItemAdapter(
                     onDeleteClick(currentTagItem)
                 }
                 tagTrash.setOnLongClickListener {
-                    onLongDeleteClick(currentTagItem)
+                    onLongDeleteClick(it)
                     true
                 }
 
                 binding.root.setOnClickListener {
                     onEditClick(currentTagItem)
-                }
-                binding.root.setOnLongClickListener {
-                    onLongEditClick(currentTagItem)
-                    true
                 }
             }
         }
