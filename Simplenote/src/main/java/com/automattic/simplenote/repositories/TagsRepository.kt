@@ -12,4 +12,5 @@ interface TagsRepository {
     fun renameTag(tagName: String, oldTag: Tag): Boolean
     suspend fun allTags(): List<TagItem>
     suspend fun searchTags(query: String): List<TagItem>
+    suspend fun deleteTag(tag: Tag)
 }
