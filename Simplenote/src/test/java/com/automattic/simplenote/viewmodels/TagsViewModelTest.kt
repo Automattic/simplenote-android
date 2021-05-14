@@ -74,4 +74,20 @@ class TagsViewModelTest {
 
         assertEquals(viewModel.event.value, TagsEvent.FinishEvent)
     }
+
+    @Test
+    fun closeSearchShouldCleanQuery() = runBlockingTest {
+        fakeTagsRepository.stub {
+            onBlocking { allTags() }.doReturn(tagItems)
+        }
+        fakeTagsRepository.stub {
+            onBlocking { tagsChanged() }.doReturn(emptyFlow())
+        }
+        viewModel.start()
+        viewModel.closeSearch()
+
+        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.searchUpdate, true)
+        assertNull(viewModel.uiState.value?.searchQuery)
+    }
 }
