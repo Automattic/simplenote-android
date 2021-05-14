@@ -31,18 +31,18 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
         jobTagsFlow = viewModelScope.launch {
             tagsRepository.tagsChanged().collect {
-                updateUiState()
+                val searchQuery = _uiState.value?.searchQuery
+                updateUiState(searchQuery)
             }
         }
     }
 
-    private suspend fun updateUiState() {
-        val searchQuery = _uiState.value?.searchQuery
+    private suspend fun updateUiState(searchQuery: String?, searchUpdate: Boolean = false) {
         val tagItems = withContext(Dispatchers.IO) {
             if (searchQuery == null) tagsRepository.allTags()
             else tagsRepository.searchTags(searchQuery)
         }
-        _uiState.value = UiState(tagItems, searchQuery)
+        _uiState.value = UiState(tagItems, searchUpdate, searchQuery)
     }
 
     fun clickAddTag() {
@@ -57,13 +57,24 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
         _event.postValue(TagsEvent.FinishEvent)
     }
 
+    fun closeSearch() {
+        _uiState.value = _uiState.value?.copy(searchUpdate = true, searchQuery = null)
+    }
+
+    fun search(searchQuery: String) {
+        viewModelScope.launch {
+            updateUiState(searchQuery, true)
+        }
+    }
+
     fun pause() {
         jobTagsFlow?.cancel()
     }
 
     fun updateOnResult() {
         viewModelScope.launch {
-            updateUiState()
+            val searchQuery = _uiState.value?.searchQuery
+            updateUiState(searchQuery)
         }
     }
 
@@ -94,13 +105,13 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
         }
     }
 
-    data class UiState(val tagItems: List<TagItem>, val searchQuery: String? = null)
+    data class UiState(val tagItems: List<TagItem>, val searchUpdate: Boolean = false, val searchQuery: String? = null)
 }
 
 sealed class TagsEvent {
     object AddTagEvent : TagsEvent()
     object LongAddTagEvent : TagsEvent()
-    object FinishEvent: TagsEvent()
+    object FinishEvent : TagsEvent()
     data class EditTagEvent(val tagItem: TagItem) : TagsEvent()
     data class DeleteTagEvent(val tagItem: TagItem) : TagsEvent()
     data class LongDeleteTagEvent(val view: View) : TagsEvent()
