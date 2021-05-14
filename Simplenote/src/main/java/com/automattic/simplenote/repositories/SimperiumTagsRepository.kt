@@ -5,10 +5,15 @@ import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
+import com.automattic.simplenote.utils.AppLog
 import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
 import com.simperium.client.Query
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class SimperiumTagsRepository(
         private val tagsBucket: Bucket<Tag>,
@@ -70,11 +75,26 @@ class SimperiumTagsRepository(
         cursor.close()
     }
 
-    override suspend fun allTags(): List<TagItem> {
-        return localAllTags()
+    @ExperimentalCoroutinesApi
+    override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
+        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
+        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
+        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
+
+        tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
+        tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
+        tagsBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
+        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)")
+
+        awaitClose {
+            tagsBucket.removeOnSaveObjectListener(callbackOnSaveObject)
+            tagsBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
+            tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
+            AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
+        }
     }
 
-    private fun localAllTags(): List<TagItem> {
+    override suspend fun allTags(): List<TagItem> {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
         val cursor = tagQuery.execute()
 
@@ -82,10 +102,6 @@ class SimperiumTagsRepository(
     }
 
     override suspend fun searchTags(query: String): List<TagItem> {
-        return localSearchTags(query)
-    }
-
-    private fun localSearchTags(query: String): List<TagItem> {
         val tags = Tag.all(tagsBucket)
                 .where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, "%$query%")
                 .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)

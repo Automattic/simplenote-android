@@ -2,6 +2,7 @@ package com.automattic.simplenote.repositories
 
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
+import kotlinx.coroutines.flow.Flow
 
 interface TagsRepository {
     fun saveTag(tagName: String): Boolean
@@ -13,4 +14,5 @@ interface TagsRepository {
     suspend fun allTags(): List<TagItem>
     suspend fun searchTags(query: String): List<TagItem>
     suspend fun deleteTag(tag: Tag)
+    suspend fun tagsChanged(): Flow<Boolean>
 }
