@@ -51,7 +51,30 @@ class SimperiumTagsRepository(
         }
     }
 
+    override suspend fun deleteTag(tag: Tag) {
+        tag.delete()
+        deleteTagFromNotes(tag)
+    }
+
+    private fun deleteTagFromNotes(tag: Tag) {
+        val cursor = tag.findNotes(notesBucket, tag.name)
+
+        while (cursor.moveToNext()) {
+            val note = cursor.getObject()
+            val tags = note.tags
+            tags.remove(tag.name)
+            note.tags = tags
+            note.save()
+        }
+
+        cursor.close()
+    }
+
     override suspend fun allTags(): List<TagItem> {
+        return localAllTags()
+    }
+
+    fun localAllTags(): List<TagItem> {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
         val cursor = tagQuery.execute()
 
@@ -59,6 +82,10 @@ class SimperiumTagsRepository(
     }
 
     override suspend fun searchTags(query: String): List<TagItem> {
+        return localSearchTags(query)
+    }
+
+    private fun localSearchTags(query: String): List<TagItem> {
         val tags = Tag.all(tagsBucket)
                 .where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, "%$query%")
                 .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)

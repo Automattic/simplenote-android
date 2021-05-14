@@ -5,10 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
@@ -19,7 +21,7 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     fun start() {
         viewModelScope.launch {
-            val tagItems = tagsRepository.allTags()
+            val tagItems = withContext(Dispatchers.IO) { tagsRepository.allTags() }
             _uiState.value = UiState(tagItems)
         }
     }
@@ -41,15 +43,26 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     }
 
     fun clickDeleteTag(tagItem: TagItem) {
-        _event.postValue(TagsEvent.DeleteTagEvent(tagItem))
+        if (tagItem.noteCount > 0) {
+            _event.postValue(TagsEvent.DeleteTagEvent(tagItem))
+        } else {
+            deleteTag(tagItem)
+        }
     }
 
     fun longClickDeleteTag(view: View) {
         _event.postValue(TagsEvent.LongDeleteTagEvent(view))
     }
 
-    fun deleteTag(TagItem: TagItem) {
-
+    fun deleteTag(tagItem: TagItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tagsRepository.deleteTag(tagItem.tag)
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.TAG_MENU_DELETED,
+                    AnalyticsTracker.CATEGORY_TAG,
+                    "list_trash_button"
+            )
+        }
     }
 
     data class UiState(val tagItems: List<TagItem>, val searchQuery: String? = null)
@@ -58,9 +71,6 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 sealed class TagsEvent {
     object AddTagEvent : TagsEvent()
     object LongAddTagEvent : TagsEvent()
-    object ShowSearch : TagsEvent()
-    object CloseSearch : TagsEvent()
-    object ResultEvent : TagsEvent()
     object FinishEvent: TagsEvent()
     data class EditTagEvent(val tagItem: TagItem) : TagsEvent()
     data class DeleteTagEvent(val tagItem: TagItem) : TagsEvent()
