@@ -194,9 +194,8 @@ public class TagsActivity extends ThemedAppCompatActivity {
     }
 
     private void showTagDialogFragment(TagsEvent.EditTagEvent event) {
-        TagsEvent.EditTagEvent editTagEvent = event;
         TagDialogFragment dialog = new TagDialogFragment(
-                editTagEvent.getTagItem().getTag(),
+                event.getTagItem().getTag(),
                 mNotesBucket,
                 mTagsBucket
         );
