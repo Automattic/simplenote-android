@@ -284,7 +284,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
-            refreshTags();
+            viewModel.updateOnResult();
         }
 
         super.onActivityResult(requestCode, resultCode, data);

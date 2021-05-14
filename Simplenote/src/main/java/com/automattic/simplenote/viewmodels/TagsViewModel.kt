@@ -31,14 +31,18 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
         jobTagsFlow = viewModelScope.launch {
             tagsRepository.tagsChanged().collect {
-                val searchQuery = _uiState.value?.searchQuery
-                val tagItems = withContext(Dispatchers.IO) {
-                    if (searchQuery == null) tagsRepository.allTags()
-                    else tagsRepository.searchTags(searchQuery)
-                }
-                _uiState.value = UiState(tagItems, searchQuery)
+                updateUiState()
             }
         }
+    }
+
+    private suspend fun updateUiState() {
+        val searchQuery = _uiState.value?.searchQuery
+        val tagItems = withContext(Dispatchers.IO) {
+            if (searchQuery == null) tagsRepository.allTags()
+            else tagsRepository.searchTags(searchQuery)
+        }
+        _uiState.value = UiState(tagItems, searchQuery)
     }
 
     fun clickAddTag() {
@@ -55,6 +59,12 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     fun pause() {
         jobTagsFlow?.cancel()
+    }
+
+    fun updateOnResult() {
+        viewModelScope.launch {
+            updateUiState()
+        }
     }
 
     fun clickEditTag(tagItem: TagItem) {
