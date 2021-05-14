@@ -62,7 +62,7 @@ import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
 import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
-public class TagsActivity extends ThemedAppCompatActivity implements Bucket.Listener<Tag> {
+public class TagsActivity extends ThemedAppCompatActivity {
     private static final int REQUEST_ADD_TAG = 9000;
 
     private Bucket<Note> mNotesBucket;
@@ -132,14 +132,16 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         });
 
         setObservers();
-
-        refreshTags();
     }
 
     private void setObservers() {
-        viewModel.getUiState().observe(this, uiState -> {
-            tagItemAdapter.submitList(uiState.getTagItems());
-        });
+        viewModel.getUiState().observe(this, uiState ->
+                tagItemAdapter.submitList(uiState.getTagItems(), () -> {
+                    if (uiState.getSearchUpdate()) {
+                        mTagsList.scrollToPosition(0);
+                        checkEmptyList();
+                }
+        }));
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel.getEvent().observe(this, event -> {
@@ -196,21 +198,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         DrawableUtils.tintMenuWithAttribute(TagsActivity.this, menu, R.attr.toolbarIconColor);
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
-        mSearchMenuItem.setOnActionExpandListener(
-            new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    mIsSearching = false;
-                    return true;
-                }
-
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    mIsSearching = true;
-                    return true;
-                }
-            }
-        );
         SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
         LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
         ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
@@ -233,10 +220,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 @Override
                 public boolean onQueryTextChange(String query) {
                     if (mSearchMenuItem.isActionViewExpanded()) {
-                        mSearchQuery = query;
-                        refreshTagsSearch();
-                        mTagsList.scrollToPosition(0);
-                        checkEmptyList();
+                        viewModel.search(query);
                     }
 
                     return true;
@@ -253,11 +237,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
-                    mIsSearching = false;
-                    mSearchQuery = "";
-                    refreshTags();
-                    mTagsList.scrollToPosition(0);
-                    checkEmptyList();
+                    viewModel.closeSearch();
                     return false;
                 }
             }
@@ -305,21 +285,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         }
     }
 
-    protected void refreshTags() {
-        Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
-        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-      //  mTagsAdapter.swapCursor(cursor);
-    }
-
-    protected void refreshTagsSearch() {
-        Query<Tag> tags = Tag.all(mTagsBucket)
-            .where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + mSearchQuery + "%")
-            .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
-            .reorder();
-        Bucket.ObjectCursor<Tag> cursor = tags.execute();
-//        mTagsAdapter.swapCursor(cursor);
-    }
-
     private void setEmptyListImage(@DrawableRes int image) {
         if (mEmptyViewImage != null) {
             if (image != -1) {
@@ -345,67 +310,5 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Tag> bucket, Tag object) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Tag> bucket, Tag object) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onLocalQueueChange(Bucket<Tag> bucket, Set<String> queuedObjects) {
-
-    }
-
-    @Override
-    public void onSyncObject(Bucket<Tag> bucket, String key) {
-
     }
 }
