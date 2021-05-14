@@ -57,8 +57,8 @@ class SimperiumTagsRepository(
     }
 
     override suspend fun deleteTag(tag: Tag) {
-        tag.delete()
         deleteTagFromNotes(tag)
+        tag.delete()
     }
 
     private fun deleteTagFromNotes(tag: Tag) {
