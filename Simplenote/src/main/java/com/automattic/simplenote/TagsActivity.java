@@ -42,6 +42,7 @@ import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.viewmodels.AddTagViewModel;
+import com.automattic.simplenote.viewmodels.TagsEvent;
 import com.automattic.simplenote.viewmodels.TagsViewModel;
 import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
@@ -107,18 +108,8 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsList.setEmptyView(emptyView);
 
         mButtonAdd = findViewById(R.id.button_add);
-        mButtonAdd.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
-                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
-                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
-                    startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
-                }
-            }
-        );
+        mButtonAdd.setOnClickListener(v -> viewModel.addTag());
+
         mButtonAdd.setOnLongClickListener(
             new View.OnLongClickListener() {
                 @Override
@@ -133,7 +124,21 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             }
         );
 
+        setObservers();
+
         refreshTags();
+    }
+
+    private void setObservers() {
+        viewModel.getEvent().observe(this, event -> {
+            if (event instanceof TagsEvent.AddTagEvent) {
+                Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
+                intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
+                intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
+                startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+            }
+        });
     }
 
     @Override
