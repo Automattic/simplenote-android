@@ -1,5 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,18 +37,18 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     }
 
     fun clickEditTag(tagItem: TagItem) {
-
-    }
-
-    fun longClickEditTag(tagItem: TagItem) {
-
+        _event.postValue(TagsEvent.EditTagEvent(tagItem))
     }
 
     fun clickDeleteTag(tagItem: TagItem) {
-
+        _event.postValue(TagsEvent.DeleteTagEvent(tagItem))
     }
 
-    fun longClickDeleteTag(tagItem: TagItem) {
+    fun longClickDeleteTag(view: View) {
+        _event.postValue(TagsEvent.LongDeleteTagEvent(view))
+    }
+
+    fun deleteTag(TagItem: TagItem) {
 
     }
 
@@ -63,4 +64,5 @@ sealed class TagsEvent {
     object FinishEvent: TagsEvent()
     data class EditTagEvent(val tagItem: TagItem) : TagsEvent()
     data class DeleteTagEvent(val tagItem: TagItem) : TagsEvent()
+    data class LongDeleteTagEvent(val view: View) : TagsEvent()
 }
