@@ -65,18 +65,16 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 public class TagsActivity extends ThemedAppCompatActivity {
     private static final int REQUEST_ADD_TAG = 9000;
 
-    private Bucket<Note> mNotesBucket;
-    private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
     private ImageButton mButtonAdd;
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
-    private String mSearchQuery;
     private TextView mEmptyViewText;
-    private boolean mIsSearching;
 
     private TagsViewModel viewModel;
     private TagItemAdapter tagItemAdapter;
+    Bucket<Tag> mTagsBucket;
+    Bucket<Note> mNotesBucket;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,6 +104,12 @@ public class TagsActivity extends ThemedAppCompatActivity {
                 }
         );
 
+        setupViews();
+
+        setObservers();
+    }
+
+    private void setupViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         SpannableString title = new SpannableString(getString(R.string.edit_tags));
@@ -121,7 +125,7 @@ public class TagsActivity extends ThemedAppCompatActivity {
         View emptyView = findViewById(R.id.empty);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
-        checkEmptyList();
+        checkEmptyList(false);
         mTagsList.setEmptyView(emptyView);
 
         mButtonAdd = findViewById(R.id.button_add);
@@ -130,64 +134,81 @@ public class TagsActivity extends ThemedAppCompatActivity {
             viewModel.longClickAddTag();
             return true;
         });
-
-        setObservers();
     }
 
     private void setObservers() {
         viewModel.getUiState().observe(this, uiState ->
-                tagItemAdapter.submitList(uiState.getTagItems(), () -> {
-                    if (uiState.getSearchUpdate()) {
-                        mTagsList.scrollToPosition(0);
-                        checkEmptyList();
-                }
+            tagItemAdapter.submitList(uiState.getTagItems(), () -> {
+                if (uiState.getSearchUpdate()) {
+                    mTagsList.scrollToPosition(0);
+                    boolean isSearching = uiState.getSearchQuery() != null;
+                    checkEmptyList(isSearching);
+            }
         }));
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel.getEvent().observe(this, event -> {
             if (event instanceof TagsEvent.AddTagEvent) {
-                Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
-                intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
-                intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
-                startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+                startAddTagActivity();
             } else if (event instanceof TagsEvent.LongAddTagEvent) {
-                if (mButtonAdd.isHapticFeedbackEnabled()) {
-                    mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                }
-
-                Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+                showLongAddToast();
             } else if (event instanceof TagsEvent.FinishEvent) {
                 finish();
             } else if (event instanceof TagsEvent.EditTagEvent) {
-                TagsEvent.EditTagEvent editTagEvent = (TagsEvent.EditTagEvent) event;
-                TagDialogFragment dialog = new TagDialogFragment(
-                        editTagEvent.getTagItem().getTag(),
-                        mNotesBucket,
-                        mTagsBucket
-                );
-                dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
+                showTagDialogFragment((TagsEvent.EditTagEvent) event);
             } else if (event instanceof TagsEvent.DeleteTagEvent) {
-                TagsEvent.DeleteTagEvent deleteTagEvent = (TagsEvent.DeleteTagEvent) event;
-                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
-                alert.setTitle(R.string.delete_tag);
-                alert.setMessage(getString(R.string.confirm_delete_tag));
-                alert.setNegativeButton(R.string.no, null);
-                alert.setPositiveButton(
-                        R.string.yes,
-                        (dialog, whichButton) -> viewModel.deleteTag(deleteTagEvent.getTagItem())
-                );
-                alert.show();
+                showDeleteDialog((TagsEvent.DeleteTagEvent) event);
             } else if (event instanceof TagsEvent.LongDeleteTagEvent) {
-                TagsEvent.LongDeleteTagEvent longDeleteTagEvent = (TagsEvent.LongDeleteTagEvent) event;
-                View v = longDeleteTagEvent.getView();
-                if (v.isHapticFeedbackEnabled()) {
-                    v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                }
-
-                Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
+                showLongDeleteToast((TagsEvent.LongDeleteTagEvent) event);
             }
         });
+    }
+
+    private void showLongAddToast() {
+        if (mButtonAdd.isHapticFeedbackEnabled()) {
+            mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
+
+        Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showLongDeleteToast(TagsEvent.LongDeleteTagEvent event) {
+        View v = event.getView();
+        if (v.isHapticFeedbackEnabled()) {
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
+
+        Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDeleteDialog(TagsEvent.DeleteTagEvent event) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
+        alert.setTitle(R.string.delete_tag);
+        alert.setMessage(getString(R.string.confirm_delete_tag));
+        alert.setNegativeButton(R.string.no, null);
+        alert.setPositiveButton(
+                R.string.yes,
+                (dialog, whichButton) -> viewModel.deleteTag(event.getTagItem())
+        );
+        alert.show();
+    }
+
+    private void showTagDialogFragment(TagsEvent.EditTagEvent event) {
+        TagsEvent.EditTagEvent editTagEvent = event;
+        TagDialogFragment dialog = new TagDialogFragment(
+                editTagEvent.getTagItem().getTag(),
+                mNotesBucket,
+                mTagsBucket
+        );
+        dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
+    }
+
+    private void startAddTagActivity() {
+        Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
+        startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
     }
 
     @Override
@@ -233,15 +254,10 @@ public class TagsActivity extends ThemedAppCompatActivity {
             }
         );
 
-        searchView.setOnCloseListener(
-            new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    viewModel.closeSearch();
-                    return false;
-                }
-            }
-        );
+        searchView.setOnCloseListener(() -> {
+            viewModel.closeSearch();
+            return false;
+        });
 
         return true;
     }
@@ -270,8 +286,8 @@ public class TagsActivity extends ThemedAppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void checkEmptyList() {
-        if (mIsSearching) {
+    public void checkEmptyList(boolean isSearching) {
+        if (isSearching) {
             if (DisplayUtils.isLandscape(TagsActivity.this) && !DisplayUtils.isLargeScreen(TagsActivity.this)) {
                 setEmptyListImage(-1);
             } else {
