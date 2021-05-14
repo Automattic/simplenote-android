@@ -72,7 +72,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
     private String mSearchQuery;
-    private TagsAdapter mTagsAdapter;
     private TextView mEmptyViewText;
     private boolean mIsSearching;
 
@@ -117,7 +116,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         }
 
         mTagsList = findViewById(R.id.list);
-        mTagsAdapter = new TagsAdapter();
         mTagsList.setAdapter(tagItemAdapter);
         mTagsList.setLayoutManager(new LinearLayoutManager(TagsActivity.this));
         View emptyView = findViewById(R.id.empty);
@@ -317,7 +315,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     protected void refreshTags() {
         Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
         Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-        mTagsAdapter.swapCursor(cursor);
+      //  mTagsAdapter.swapCursor(cursor);
     }
 
     protected void refreshTagsSearch() {
@@ -326,7 +324,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
             .reorder();
         Bucket.ObjectCursor<Tag> cursor = tags.execute();
-        mTagsAdapter.swapCursor(cursor);
+//        mTagsAdapter.swapCursor(cursor);
     }
 
     private void setEmptyListImage(@DrawableRes int image) {
@@ -416,155 +414,5 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     @Override
     public void onSyncObject(Bucket<Tag> bucket, String key) {
 
-    }
-
-    private static class RemoveTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
-        private SoftReference<TagsActivity> mTagsActivityReference;
-
-        private RemoveTagFromNotesTask(TagsActivity context) {
-            mTagsActivityReference = new SoftReference<>(context);
-        }
-
-        @Override
-        protected Void doInBackground(Tag... removedTags) {
-            TagsActivity activity = mTagsActivityReference.get();
-            Tag tag = removedTags[0];
-
-            if (tag != null) {
-                Bucket.ObjectCursor<Note> cursor = tag.findNotes(activity.mNotesBucket, tag.getName());
-
-                while (cursor.moveToNext()) {
-                    Note note = cursor.getObject();
-                    List<String> tags = note.getTags();
-                    tags.remove(tag.getName());
-                    note.setTags(tags);
-                    note.save();
-                }
-
-                cursor.close();
-            }
-
-            return null;
-        }
-    }
-
-    private class TagsAdapter extends BaseCursorAdapter<TagsAdapter.ViewHolder> {
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private TextView mCount;
-            private TextView mTitle;
-
-            private ViewHolder(View itemView) {
-                super(itemView);
-
-                mTitle = itemView.findViewById(R.id.tag_name);
-                mCount = itemView.findViewById(R.id.tag_count);
-
-                ImageButton deleteButton = itemView.findViewById(R.id.tag_trash);
-                deleteButton.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!hasItem(getAdapterPosition())) {
-                                return;
-                            }
-
-                            @SuppressWarnings("unchecked")
-                            final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
-                            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
-
-                            if (tagCount == 0) {
-                                deleteTag(tag);
-                            } else if (tagCount > 0) {
-                                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
-                                alert.setTitle(R.string.delete_tag);
-                                alert.setMessage(getString(R.string.confirm_delete_tag));
-                                alert.setNegativeButton(R.string.no, null);
-                                alert.setPositiveButton(
-                                    R.string.yes,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            deleteTag(tag);
-                                        }
-                                    }
-                                );
-                                alert.show();
-                            }
-                        }
-                    }
-                );
-                deleteButton.setOnLongClickListener(
-                    new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            if (v.isHapticFeedbackEnabled()) {
-                                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                            }
-
-                            Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                    }
-                );
-
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                if (!hasItem(getAdapterPosition())) {
-                    return;
-                }
-
-                //noinspection unchecked
-                TagDialogFragment dialog = new TagDialogFragment(
-                    ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject(),
-                    mNotesBucket,
-                    mTagsBucket
-                );
-                dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
-            }
-
-            private void deleteTag(Tag tag) {
-                tag.delete();
-                new RemoveTagFromNotesTask(TagsActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
-                AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.TAG_MENU_DELETED,
-                    AnalyticsTracker.CATEGORY_TAG,
-                    "list_trash_button"
-                );
-            }
-        }
-
-        private TagsAdapter() {
-            super(null);
-        }
-
-        @NonNull
-        @Override
-        public TagsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View contactView = inflater.inflate(R.layout.tags_list_row, parent, false);
-            return new TagsAdapter.ViewHolder(contactView);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TagsAdapter.ViewHolder holder, Cursor cursor) {
-            @SuppressWarnings("unchecked")
-            Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
-            holder.mTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
-
-            if (tagCount > 0) {
-                holder.mCount.setText(String.valueOf(tagCount));
-            } else {
-                holder.mCount.setText("");
-            }
-        }
-
-        @Override
-        public void swapCursor(Cursor newCursor) {
-            super.swapCursor(newCursor);
-        }
     }
 }
