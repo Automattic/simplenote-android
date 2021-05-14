@@ -13,7 +13,11 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     private val _event = SingleLiveEvent<TagsEvent>()
     val event: LiveData<TagsEvent> = _event
-    
+
+    fun addTag() {
+        _event.postValue(TagsEvent.AddTagEvent)
+    }
+
     data class UiState(private val tags: List<TagItem>, private val searchQuery: String)
 }
 
@@ -23,5 +27,6 @@ sealed class TagsEvent {
     object ShowSearch : TagsEvent()
     object CloseSearch : TagsEvent()
     object ResultEvent : TagsEvent()
+    object FinishEvent: TagsEvent()
     data class EditTagEvent(val tag: Tag) : TagsEvent()
 }
