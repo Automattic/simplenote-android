@@ -22,6 +22,10 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
         _event.postValue(TagsEvent.LongAddTagEvent)
     }
 
+    fun close() {
+        _event.postValue(TagsEvent.FinishEvent)
+    }
+
     data class UiState(private val tags: List<TagItem>, private val searchQuery: String)
 }
 
