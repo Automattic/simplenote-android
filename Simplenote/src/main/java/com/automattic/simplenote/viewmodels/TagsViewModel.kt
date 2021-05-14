@@ -3,9 +3,11 @@ package com.automattic.simplenote.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
+import kotlinx.coroutines.launch
 
 class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
@@ -13,6 +15,13 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     private val _event = SingleLiveEvent<TagsEvent>()
     val event: LiveData<TagsEvent> = _event
+
+    fun start() {
+        viewModelScope.launch {
+            val tagItems = tagsRepository.allTags()
+            _uiState.value = UiState(tagItems)
+        }
+    }
 
     fun clickAddTag() {
         _event.postValue(TagsEvent.AddTagEvent)
@@ -26,7 +35,23 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
         _event.postValue(TagsEvent.FinishEvent)
     }
 
-    data class UiState(private val tags: List<TagItem>, private val searchQuery: String)
+    fun clickEditTag(tagItem: TagItem) {
+
+    }
+
+    fun longClickEditTag(tagItem: TagItem) {
+
+    }
+
+    fun clickDeleteTag(tagItem: TagItem) {
+
+    }
+
+    fun longClickDeleteTag(tagItem: TagItem) {
+
+    }
+
+    data class UiState(val tagItems: List<TagItem>, val searchQuery: String? = null)
 }
 
 sealed class TagsEvent {
@@ -36,5 +61,6 @@ sealed class TagsEvent {
     object CloseSearch : TagsEvent()
     object ResultEvent : TagsEvent()
     object FinishEvent: TagsEvent()
-    data class EditTagEvent(val tag: Tag) : TagsEvent()
+    data class EditTagEvent(val tagItem: TagItem) : TagsEvent()
+    data class DeleteTagEvent(val tagItem: TagItem) : TagsEvent()
 }

@@ -35,11 +35,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.models.TagItem;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.TagItemAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.viewmodels.TagsEvent;
 import com.automattic.simplenote.viewmodels.TagsViewModel;
@@ -52,6 +54,8 @@ import com.simperium.client.Query;
 import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.Set;
+
+import kotlin.Unit;
 
 import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
 import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
@@ -73,6 +77,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     private boolean mIsSearching;
 
     private TagsViewModel viewModel;
+    private TagItemAdapter tagItemAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,25 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
         viewModel = viewModelProvider.get(TagsViewModel.class);
 
+        tagItemAdapter = new TagItemAdapter(
+                (TagItem tagItem) -> {
+                    viewModel.clickEditTag(tagItem);
+                    return Unit.INSTANCE;
+                },
+                (TagItem tagItem) -> {
+                    viewModel.longClickEditTag(tagItem);
+                    return Unit.INSTANCE;
+                },
+                (TagItem tagItem) -> {
+                    viewModel.clickDeleteTag(tagItem);
+                    return Unit.INSTANCE;
+                },
+                (TagItem tagItem) -> {
+                    viewModel.longClickDeleteTag(tagItem);
+                    return Unit.INSTANCE;
+                }
+        );
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         SpannableString title = new SpannableString(getString(R.string.edit_tags));
@@ -98,7 +122,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
 
         mTagsList = findViewById(R.id.list);
         mTagsAdapter = new TagsAdapter();
-        mTagsList.setAdapter(mTagsAdapter);
+        mTagsList.setAdapter(tagItemAdapter);
         mTagsList.setLayoutManager(new LinearLayoutManager(TagsActivity.this));
         View emptyView = findViewById(R.id.empty);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
@@ -114,11 +138,17 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         });
 
         setObservers();
+        viewModel.start();
 
         refreshTags();
     }
 
     private void setObservers() {
+        viewModel.getUiState().observe(this, uiState -> {
+            tagItemAdapter.submitList(uiState.getTagItems());
+        });
+
+        // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel.getEvent().observe(this, event -> {
             if (event instanceof TagsEvent.AddTagEvent) {
                 Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
