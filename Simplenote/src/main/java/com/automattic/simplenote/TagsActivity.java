@@ -132,6 +132,8 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 }
 
                 Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+            } else if (event instanceof TagsEvent.FinishEvent) {
+                finish();
             }
         });
     }
@@ -294,7 +296,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            viewModel.close();
             return true;
         }
 
