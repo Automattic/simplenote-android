@@ -68,6 +68,8 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     }
 
     fun pause() {
+        // When the job for tagsFlow is cancelled, the awaitClose block is called
+        // This remove the listeners for the tags bucket
         jobTagsFlow?.cancel()
     }
 
