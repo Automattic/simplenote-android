@@ -28,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +41,9 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.viewmodels.AddTagViewModel;
+import com.automattic.simplenote.viewmodels.TagsViewModel;
+import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
@@ -68,10 +72,20 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     private TextView mEmptyViewText;
     private boolean mIsSearching;
 
+    private TagsViewModel viewModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
+
+        Simplenote application = (Simplenote) getApplication();
+        mTagsBucket = application.getTagsBucket();
+        mNotesBucket = application.getNotesBucket();
+
+        ViewModelFactory viewModelFactory = new ViewModelFactory(mTagsBucket, mNotesBucket, this, null);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
+        viewModel = viewModelProvider.get(TagsViewModel.class);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,10 +95,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        Simplenote application = (Simplenote) getApplication();
-        mTagsBucket = application.getTagsBucket();
-        mNotesBucket = application.getNotesBucket();
 
         mTagsList = findViewById(R.id.list);
         mTagsAdapter = new TagsAdapter();
