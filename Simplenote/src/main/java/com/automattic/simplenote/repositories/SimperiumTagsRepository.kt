@@ -4,9 +4,11 @@ import android.util.Log
 import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
+import com.simperium.client.Query
 
 class SimperiumTagsRepository(
         private val tagsBucket: Bucket<Tag>,
@@ -46,6 +48,35 @@ class SimperiumTagsRepository(
         } catch (e: BucketObjectNameInvalid) {
             Log.e(Simplenote.TAG, "Unable to rename tag", e)
             false
+        }
+    }
+
+    override suspend fun allTags(): List<TagItem> {
+        val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
+        val cursor = tagQuery.execute()
+
+        return cursorToTagItems(cursor)
+    }
+
+    override suspend fun searchTags(query: String): List<TagItem> {
+        val tags = Tag.all(tagsBucket)
+                .where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, "%$query%")
+                .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
+                .reorder()
+        val cursor = tags.execute()
+
+        return cursorToTagItems(cursor)
+    }
+
+    private fun cursorToTagItems(cursor: Bucket.ObjectCursor<Tag>): List<TagItem> {
+        return (1 .. cursor.count).map {
+            cursor.moveToNext()
+            val tag = cursor.`object`
+            val noteCount: Int = notesBucket
+                    .query()
+                    .where(Note.TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.name)
+                    .count()
+            TagItem(tag, noteCount)
         }
     }
 }
