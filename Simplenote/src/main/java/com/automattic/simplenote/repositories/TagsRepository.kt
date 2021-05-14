@@ -1,6 +1,7 @@
 package com.automattic.simplenote.repositories
 
 import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.models.TagItem
 
 interface TagsRepository {
     fun saveTag(tagName: String): Boolean
@@ -9,4 +10,6 @@ interface TagsRepository {
     fun isTagConflict(tagName: String, oldTagName: String): Boolean
     fun getCanonicalTagName(tagName: String): String
     fun renameTag(tagName: String, oldTag: Tag): Boolean
+    suspend fun allTags(): List<TagItem>
+    suspend fun searchTags(query: String): List<TagItem>
 }
