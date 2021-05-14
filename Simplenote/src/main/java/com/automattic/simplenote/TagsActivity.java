@@ -41,7 +41,6 @@ import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.viewmodels.AddTagViewModel;
 import com.automattic.simplenote.viewmodels.TagsEvent;
 import com.automattic.simplenote.viewmodels.TagsViewModel;
 import com.automattic.simplenote.viewmodels.ViewModelFactory;
@@ -108,21 +107,11 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         mTagsList.setEmptyView(emptyView);
 
         mButtonAdd = findViewById(R.id.button_add);
-        mButtonAdd.setOnClickListener(v -> viewModel.addTag());
-
-        mButtonAdd.setOnLongClickListener(
-            new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (v.isHapticFeedbackEnabled()) {
-                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    }
-
-                    Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            }
-        );
+        mButtonAdd.setOnClickListener(v -> viewModel.clickAddTag());
+        mButtonAdd.setOnLongClickListener(v -> {
+            viewModel.longClickAddTag();
+            return true;
+        });
 
         setObservers();
 
@@ -137,6 +126,12 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
                 startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+            } else if (event instanceof TagsEvent.LongAddTagEvent) {
+                if (mButtonAdd.isHapticFeedbackEnabled()) {
+                    mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
+
+                Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
             }
         });
     }
