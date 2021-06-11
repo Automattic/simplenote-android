@@ -10,10 +10,12 @@ import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
 import com.simperium.client.Query
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.withContext
 
 class SimperiumTagsRepository(
         private val tagsBucket: Bucket<Tag>,
@@ -94,21 +96,21 @@ class SimperiumTagsRepository(
         }
     }
 
-    override suspend fun allTags(): List<TagItem> {
+    override suspend fun allTags(): List<TagItem> = withContext(Dispatchers.IO) {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
         val cursor = tagQuery.execute()
 
-        return cursorToTagItems(cursor)
+        return@withContext cursorToTagItems(cursor)
     }
 
-    override suspend fun searchTags(query: String): List<TagItem> {
+    override suspend fun searchTags(query: String): List<TagItem> = withContext(Dispatchers.IO) {
         val tags = Tag.all(tagsBucket)
                 .where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, "%$query%")
                 .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
                 .reorder()
         val cursor = tags.execute()
 
-        return cursorToTagItems(cursor)
+        return@withContext cursorToTagItems(cursor)
     }
 
     private fun cursorToTagItems(cursor: Bucket.ObjectCursor<Tag>): List<TagItem> {
