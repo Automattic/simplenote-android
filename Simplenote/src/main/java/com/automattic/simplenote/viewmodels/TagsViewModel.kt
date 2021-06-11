@@ -96,7 +96,7 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     }
 
     fun deleteTag(tagItem: TagItem) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             tagsRepository.deleteTag(tagItem.tag)
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.TAG_MENU_DELETED,

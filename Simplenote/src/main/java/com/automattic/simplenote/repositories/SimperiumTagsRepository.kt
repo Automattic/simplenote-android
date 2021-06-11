@@ -58,7 +58,7 @@ class SimperiumTagsRepository(
         }
     }
 
-    override suspend fun deleteTag(tag: Tag) {
+    override suspend fun deleteTag(tag: Tag) = withContext(Dispatchers.IO) {
         deleteTagFromNotes(tag)
         tag.delete()
     }
