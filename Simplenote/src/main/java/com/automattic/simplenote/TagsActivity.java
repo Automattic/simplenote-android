@@ -138,13 +138,14 @@ public class TagsActivity extends ThemedAppCompatActivity {
 
     private void setObservers() {
         viewModel.getUiState().observe(this, uiState ->
-            tagItemAdapter.submitList(uiState.getTagItems(), () -> {
-                if (uiState.getSearchUpdate()) {
-                    mTagsList.scrollToPosition(0);
-                    boolean isSearching = uiState.getSearchQuery() != null;
-                    checkEmptyList(isSearching);
-            }
-        }));
+                tagItemAdapter.submitList(uiState.getTagItems(), () -> {
+                    if (uiState.getSearchUpdate()) {
+                        mTagsList.scrollToPosition(0);
+                        boolean isSearching = uiState.getSearchQuery() != null;
+                        checkEmptyList(isSearching);
+                    }
+                })
+        );
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel.getEvent().observe(this, event -> {
