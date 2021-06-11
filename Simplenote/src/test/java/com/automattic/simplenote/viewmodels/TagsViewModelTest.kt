@@ -112,10 +112,6 @@ class TagsViewModelTest {
         }
         viewModel.search(searchQuery)
 
-        // Flay tests regarding runBlockingTest. I will include this sleep here for now
-        // while we find the bug in runBlockingTest
-        Thread.sleep(500)
-
         assertEquals(viewModel.uiState.value?.tagItems, filteredList)
         assertEquals(viewModel.uiState.value?.searchUpdate, true)
         assertEquals(viewModel.uiState.value?.searchQuery, "tag2")
@@ -182,10 +178,6 @@ class TagsViewModelTest {
         }
         viewModel.updateOnResult()
 
-        // Flay tests regarding runBlockingTest. I will include this sleep here for now
-        // while we find the bug in runBlockingTest
-        Thread.sleep(500)
-
         assertEquals(viewModel.uiState.value?.tagItems, updatedTags)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
@@ -220,10 +212,6 @@ class TagsViewModelTest {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
         viewModel.updateOnResult()
-
-        // Flay tests regarding runBlockingTest. I will include this sleep here for now
-        // while we find the bug in runBlockingTest
-        Thread.sleep(500)
 
         assertEquals(viewModel.uiState.value?.tagItems, updatedTags)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)

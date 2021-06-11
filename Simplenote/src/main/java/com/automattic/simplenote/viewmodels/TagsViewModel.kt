@@ -25,7 +25,7 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
 
     fun start() {
         viewModelScope.launch {
-            val tagItems = withContext(Dispatchers.IO) { tagsRepository.allTags() }
+            val tagItems = tagsRepository.allTags()
             _uiState.value = UiState(tagItems)
         }
 
@@ -38,10 +38,9 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
     }
 
     private suspend fun updateUiState(searchQuery: String?, searchUpdate: Boolean = false) {
-        val tagItems = withContext(Dispatchers.IO) {
-            if (searchQuery == null) tagsRepository.allTags()
+        val tagItems = if (searchQuery == null) tagsRepository.allTags()
             else tagsRepository.searchTags(searchQuery)
-        }
+
         _uiState.value = UiState(tagItems, searchUpdate, searchQuery)
     }
 
