@@ -1,20 +1,17 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 import android.app.ActivityOptions;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -30,14 +26,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.models.TagItem;
-import com.automattic.simplenote.utils.AppLog;
-import com.automattic.simplenote.utils.BaseCursorAdapter;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -49,18 +41,8 @@ import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
-import com.simperium.client.Query;
-
-import java.lang.ref.SoftReference;
-import java.util.List;
-import java.util.Set;
 
 import kotlin.Unit;
-
-import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
-import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
-import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
-import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 public class TagsActivity extends ThemedAppCompatActivity {
     private static final int REQUEST_ADD_TAG = 9000;
@@ -125,7 +107,7 @@ public class TagsActivity extends ThemedAppCompatActivity {
         View emptyView = findViewById(R.id.empty);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
-        checkEmptyList(false);
+        setLabelEmptyTagList();
         mTagsList.setEmptyView(emptyView);
 
         mButtonAdd = findViewById(R.id.button_add);
@@ -142,7 +124,11 @@ public class TagsActivity extends ThemedAppCompatActivity {
                     if (uiState.getSearchUpdate()) {
                         mTagsList.scrollToPosition(0);
                         boolean isSearching = uiState.getSearchQuery() != null;
-                        checkEmptyList(isSearching);
+                        if (isSearching) {
+                            setLabelEmptyTagListSearchResults();
+                        } else {
+                            setLabelEmptyTagList();
+                        }
                     }
                 })
         );
@@ -286,19 +272,20 @@ public class TagsActivity extends ThemedAppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void checkEmptyList(boolean isSearching) {
-        if (isSearching) {
-            if (DisplayUtils.isLandscape(TagsActivity.this) && !DisplayUtils.isLargeScreen(TagsActivity.this)) {
-                setEmptyListImage(-1);
-            } else {
-                setEmptyListImage(R.drawable.ic_search_24dp);
-            }
+    private void setLabelEmptyTagList() {
+        setEmptyListImage(R.drawable.ic_tag_24dp);
+        setEmptyListMessage(getString(R.string.empty_tags));
+    }
 
-            setEmptyListMessage(getString(R.string.empty_tags_search));
+    private void setLabelEmptyTagListSearchResults() {
+        if (DisplayUtils.isLandscape(TagsActivity.this) &&
+                !DisplayUtils.isLargeScreen(TagsActivity.this)) {
+            setEmptyListImage(-1);
         } else {
-            setEmptyListImage(R.drawable.ic_tag_24dp);
-            setEmptyListMessage(getString(R.string.empty_tags));
+            setEmptyListImage(R.drawable.ic_search_24dp);
         }
+
+        setEmptyListMessage(getString(R.string.empty_tags_search));
     }
 
     private void setEmptyListImage(@DrawableRes int image) {
