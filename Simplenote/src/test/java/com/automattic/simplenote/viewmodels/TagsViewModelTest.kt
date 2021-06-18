@@ -27,20 +27,17 @@ class TagsViewModelTest {
 
     private lateinit var viewModel: TagsViewModel
     private val fakeTagsRepository = mock(TagsRepository::class.java)
-    private val tagItems = mutableListOf<TagItem>()
+    private val tagItems = listOf(
+        TagItem(Tag("tag1"), 0),
+        TagItem(Tag("tag2"), 2),
+        TagItem(Tag("tag3"), 5),
+        TagItem(Tag("tag4"), 10),
+        TagItem(Tag("tag5"), 0),
+    )
 
     @Before
     fun setup() {
         viewModel = TagsViewModel(fakeTagsRepository)
-    }
-
-    @Before
-    fun setupTags() {
-        tagItems.add(TagItem(Tag("tag1"), 0))
-        tagItems.add(TagItem(Tag("tag2"), 2))
-        tagItems.add(TagItem(Tag("tag3"), 5))
-        tagItems.add(TagItem(Tag("tag4"), 10))
-        tagItems.add(TagItem(Tag("tag5"), 0))
     }
 
     @Test
@@ -119,8 +116,10 @@ class TagsViewModelTest {
 
     @Test
     fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runBlockingTest {
+        val mutableTagItems = tagItems.toMutableList()
+
         fakeTagsRepository.stub {
-            onBlocking { allTags() }.doReturn(tagItems)
+            onBlocking { allTags() }.doReturn(mutableTagItems)
         }
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(emptyFlow())
@@ -128,22 +127,21 @@ class TagsViewModelTest {
         viewModel.start()
 
         // Add a new tag
-        tagItems.add(TagItem(Tag("tag10"), 2))
+        mutableTagItems.add(TagItem(Tag("tag10"), 2))
 
         fakeTagsRepository.stub {
-            onBlocking { allTags() }.doReturn(tagItems)
+            onBlocking { allTags() }.doReturn(mutableTagItems)
         }
 
         viewModel.updateOnResult()
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, mutableTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
     }
 
     @Test
     fun clickEditTagShouldTriggerEventEditTagEvent() {
-
         viewModel.clickEditTag(tagItems[0])
 
         assertEquals(viewModel.event.value, TagsEvent.EditTagEvent(tagItems[0]))
