@@ -155,7 +155,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun clickDeleteTagOfTagWithNotesShouldDeleteTagDirectly() = runBlockingTest {
+    fun clickDeleteTagOfTagWithoutNotesShouldDeleteTagDirectly() = runBlockingTest {
         fakeTagsRepository.stub {
             onBlocking { deleteTag(any()) }.doReturn(Unit)
         }
@@ -164,12 +164,12 @@ class TagsViewModelTest {
             onBlocking { tagsChanged() }.doReturn(flow{ emit(true) })
         }
 
-        val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag2" }
+        val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag1" }
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
 
-        viewModel.clickDeleteTag(tagItems[1])
+        viewModel.clickDeleteTag(tagItems[0])
 
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
