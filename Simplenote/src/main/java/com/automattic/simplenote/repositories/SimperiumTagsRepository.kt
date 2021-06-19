@@ -78,21 +78,23 @@ class SimperiumTagsRepository(
     }
 
     @ExperimentalCoroutinesApi
-    override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
-        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
+    override suspend fun tagsChanged(): Flow<Boolean> = withContext(Dispatchers.IO) {
+        callbackFlow {
+            val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
+            val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
+            val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
 
-        tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
-        tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
-        tagsBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
-        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)")
+            tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
+            tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
+            tagsBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
+            AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)")
 
-        awaitClose {
-            tagsBucket.removeOnSaveObjectListener(callbackOnSaveObject)
-            tagsBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
-            tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
-            AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
+            awaitClose {
+                tagsBucket.removeOnSaveObjectListener(callbackOnSaveObject)
+                tagsBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
+                tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
+                AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
+            }
         }
     }
 
