@@ -87,6 +87,38 @@ class TagsViewModelTest {
     }
 
     @Test
+    fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runBlockingTest {
+        val variableTagItems = tagItems.toMutableList()
+
+        fakeTagsRepository.stub {
+            onBlocking { allTags() }.doReturn(tagItems)
+        }
+
+        val tagsFlow = MutableSharedFlow<Boolean>()
+        fakeTagsRepository.stub {
+            onBlocking { tagsChanged() }.doReturn(tagsFlow)
+        }
+
+        viewModel.start()
+
+        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.searchUpdate, false)
+        assertNull(viewModel.uiState.value?.searchQuery)
+
+        viewModel.pause()
+
+        variableTagItems.add(TagItem(Tag("tag6"), 3))
+        fakeTagsRepository.stub {
+            onBlocking { allTags() }.doReturn(variableTagItems)
+        }
+        tagsFlow.emit(true)
+
+        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.searchUpdate, false)
+        assertNull(viewModel.uiState.value?.searchQuery)
+    }
+
+    @Test
     fun clickAddTagShouldTriggerAddTagEvent() {
         viewModel.clickAddTag()
 
