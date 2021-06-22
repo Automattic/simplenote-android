@@ -27,13 +27,6 @@ android {
     }
 }
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-}
-
 dependencies {
     compileOnly 'androidx.wear:wear:1.0.0'
 
