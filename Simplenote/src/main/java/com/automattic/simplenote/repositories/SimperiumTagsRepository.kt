@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class SimperiumTagsRepository(
@@ -78,25 +79,23 @@ class SimperiumTagsRepository(
     }
 
     @ExperimentalCoroutinesApi
-    override suspend fun tagsChanged(): Flow<Boolean> = withContext(Dispatchers.IO) {
-        callbackFlow {
-            val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
-            val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
-            val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
+    override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
+        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
+        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
+        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
 
-            tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
-            tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
-            tagsBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
-            AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)")
+        tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
+        tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
+        tagsBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
+        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)")
 
-            awaitClose {
-                tagsBucket.removeOnSaveObjectListener(callbackOnSaveObject)
-                tagsBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
-                tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
-                AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
-            }
+        awaitClose {
+            tagsBucket.removeOnSaveObjectListener(callbackOnSaveObject)
+            tagsBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
+            tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
+            AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun allTags(): List<TagItem> = withContext(Dispatchers.IO) {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
