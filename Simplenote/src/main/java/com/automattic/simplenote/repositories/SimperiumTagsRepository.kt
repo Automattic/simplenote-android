@@ -69,10 +69,7 @@ class SimperiumTagsRepository(
 
         while (cursor.moveToNext()) {
             val note = cursor.getObject()
-            val tags = note.tags
-            tags.remove(tag.name)
-            note.tags = tags
-            note.save()
+            note.removeTag(tag.name)
         }
 
         cursor.close()
