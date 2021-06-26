@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
@@ -156,7 +157,7 @@ public class TagsActivity extends ThemedAppCompatActivity {
             mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         }
 
-        Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
+        toast(R.string.add_tag);
     }
 
     private void showLongDeleteToast(TagsEvent.LongDeleteTagEvent event) {
@@ -165,7 +166,11 @@ public class TagsActivity extends ThemedAppCompatActivity {
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         }
 
-        Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
+        toast(R.string.delete_tag);
+    }
+
+    private void toast(@StringRes int resId) {
+        Toast.makeText(TagsActivity.this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 
     private void showDeleteDialog(TagsEvent.DeleteTagEvent event) {
