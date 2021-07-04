@@ -51,7 +51,7 @@ public class TagUtils {
 
     /**
      * Find the tags that match the canonical representation of tagSearch
-     *~
+     *
      * @param tags      {@link List<String>} list of tags where tagSearch is going to be matched.
      * @param tagSearch {@link String} tag to be searched.
      * @return          {@link List<String>} Sublist of tags that matched tagSearch's canonical
