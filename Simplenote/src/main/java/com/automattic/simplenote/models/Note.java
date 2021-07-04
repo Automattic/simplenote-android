@@ -498,9 +498,11 @@ public class Note extends BucketObject {
         }
     }
 
-    public void removeTag(String tag) {
+    public void removeTag(String tagName) {
         List<String> tags = getTags();
-        tags.remove(tag);
+
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        tags.removeAll(tagsMatched);
 
         setTags(tags);
         save();
