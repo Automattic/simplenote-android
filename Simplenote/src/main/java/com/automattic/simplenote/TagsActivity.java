@@ -1,20 +1,17 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+
 import android.app.ActivityOptions;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,57 +19,80 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
-import com.automattic.simplenote.utils.AppLog;
-import com.automattic.simplenote.utils.BaseCursorAdapter;
+import com.automattic.simplenote.models.TagItem;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.TagItemAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
+import com.automattic.simplenote.viewmodels.TagsEvent;
+import com.automattic.simplenote.viewmodels.TagsViewModel;
+import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.automattic.simplenote.widgets.MorphSetup;
 import com.simperium.client.Bucket;
-import com.simperium.client.Query;
 
-import java.lang.ref.SoftReference;
-import java.util.List;
-import java.util.Set;
+import kotlin.Unit;
 
-import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
-import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
-import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
-import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-
-public class TagsActivity extends ThemedAppCompatActivity implements Bucket.Listener<Tag> {
+public class TagsActivity extends ThemedAppCompatActivity {
     private static final int REQUEST_ADD_TAG = 9000;
 
-    private Bucket<Note> mNotesBucket;
-    private Bucket<Tag> mTagsBucket;
     private EmptyViewRecyclerView mTagsList;
     private ImageButton mButtonAdd;
     private ImageView mEmptyViewImage;
     private MenuItem mSearchMenuItem;
-    private String mSearchQuery;
-    private TagsAdapter mTagsAdapter;
     private TextView mEmptyViewText;
-    private boolean mIsSearching;
+
+    private TagsViewModel viewModel;
+    private TagItemAdapter tagItemAdapter;
+    Bucket<Tag> mTagsBucket;
+    Bucket<Note> mNotesBucket;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
 
+        Simplenote application = (Simplenote) getApplication();
+        mTagsBucket = application.getTagsBucket();
+        mNotesBucket = application.getNotesBucket();
+
+        ViewModelFactory viewModelFactory = new ViewModelFactory(mTagsBucket, mNotesBucket, this, null);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
+        viewModel = viewModelProvider.get(TagsViewModel.class);
+
+        tagItemAdapter = new TagItemAdapter(
+                (TagItem tagItem) -> {
+                    viewModel.clickEditTag(tagItem);
+                    return Unit.INSTANCE;
+                },
+                (TagItem tagItem) -> {
+                    viewModel.clickDeleteTag(tagItem);
+                    return Unit.INSTANCE;
+                },
+                (View view) -> {
+                    viewModel.longClickDeleteTag(view);
+                    return Unit.INSTANCE;
+                }
+        );
+
+        setupViews();
+
+        setObservers();
+    }
+
+    private void setupViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         SpannableString title = new SpannableString(getString(R.string.edit_tags));
@@ -82,48 +102,104 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Simplenote application = (Simplenote) getApplication();
-        mTagsBucket = application.getTagsBucket();
-        mNotesBucket = application.getNotesBucket();
-
         mTagsList = findViewById(R.id.list);
-        mTagsAdapter = new TagsAdapter();
-        mTagsList.setAdapter(mTagsAdapter);
+        mTagsList.setAdapter(tagItemAdapter);
         mTagsList.setLayoutManager(new LinearLayoutManager(TagsActivity.this));
         View emptyView = findViewById(R.id.empty);
         mEmptyViewImage = emptyView.findViewById(R.id.image);
         mEmptyViewText = emptyView.findViewById(R.id.text);
-        checkEmptyList();
+        setLabelEmptyTagList();
         mTagsList.setEmptyView(emptyView);
 
         mButtonAdd = findViewById(R.id.button_add);
-        mButtonAdd.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
-                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
-                    intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
-                    startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
-                }
-            }
-        );
-        mButtonAdd.setOnLongClickListener(
-            new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (v.isHapticFeedbackEnabled()) {
-                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        mButtonAdd.setOnClickListener(v -> viewModel.clickAddTag());
+        mButtonAdd.setOnLongClickListener(v -> {
+            viewModel.longClickAddTag();
+            return true;
+        });
+    }
+
+    private void setObservers() {
+        viewModel.getUiState().observe(this, uiState ->
+                tagItemAdapter.submitList(uiState.getTagItems(), () -> {
+                    if (uiState.getSearchUpdate()) {
+                        mTagsList.scrollToPosition(0);
+                        boolean isSearching = uiState.getSearchQuery() != null;
+                        if (isSearching) {
+                            setLabelEmptyTagListSearchResults();
+                        } else {
+                            setLabelEmptyTagList();
+                        }
                     }
-
-                    Toast.makeText(TagsActivity.this, getString(R.string.add_tag), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            }
+                })
         );
 
-        refreshTags();
+        // Observe different events such as clicks on add tags, edit tags and delete tags
+        viewModel.getEvent().observe(this, event -> {
+            if (event instanceof TagsEvent.AddTagEvent) {
+                startAddTagActivity();
+            } else if (event instanceof TagsEvent.LongAddTagEvent) {
+                showLongAddToast();
+            } else if (event instanceof TagsEvent.FinishEvent) {
+                finish();
+            } else if (event instanceof TagsEvent.EditTagEvent) {
+                showTagDialogFragment((TagsEvent.EditTagEvent) event);
+            } else if (event instanceof TagsEvent.DeleteTagEvent) {
+                showDeleteDialog((TagsEvent.DeleteTagEvent) event);
+            } else if (event instanceof TagsEvent.LongDeleteTagEvent) {
+                showLongDeleteToast((TagsEvent.LongDeleteTagEvent) event);
+            }
+        });
+    }
+
+    private void showLongAddToast() {
+        if (mButtonAdd.isHapticFeedbackEnabled()) {
+            mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
+
+        toast(R.string.add_tag);
+    }
+
+    private void showLongDeleteToast(TagsEvent.LongDeleteTagEvent event) {
+        View v = event.getView();
+        if (v.isHapticFeedbackEnabled()) {
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
+
+        toast(R.string.delete_tag);
+    }
+
+    private void toast(@StringRes int resId) {
+        Toast.makeText(TagsActivity.this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDeleteDialog(TagsEvent.DeleteTagEvent event) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
+        alert.setTitle(R.string.delete_tag);
+        alert.setMessage(getString(R.string.confirm_delete_tag));
+        alert.setNegativeButton(R.string.no, null);
+        alert.setPositiveButton(
+                R.string.yes,
+                (dialog, whichButton) -> viewModel.deleteTag(event.getTagItem())
+        );
+        alert.show();
+    }
+
+    private void showTagDialogFragment(TagsEvent.EditTagEvent event) {
+        TagDialogFragment dialog = new TagDialogFragment(
+                event.getTagItem().getTag(),
+                mNotesBucket,
+                mTagsBucket
+        );
+        dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
+    }
+
+    private void startAddTagActivity() {
+        Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
+        startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
     }
 
     @Override
@@ -134,21 +210,6 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         DrawableUtils.tintMenuWithAttribute(TagsActivity.this, menu, R.attr.toolbarIconColor);
 
         mSearchMenuItem = menu.findItem(R.id.menu_search);
-        mSearchMenuItem.setOnActionExpandListener(
-            new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    mIsSearching = false;
-                    return true;
-                }
-
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    mIsSearching = true;
-                    return true;
-                }
-            }
-        );
         SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
         LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
         ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
@@ -171,10 +232,7 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
                 @Override
                 public boolean onQueryTextChange(String query) {
                     if (mSearchMenuItem.isActionViewExpanded()) {
-                        mSearchQuery = query;
-                        refreshTagsSearch();
-                        mTagsList.scrollToPosition(0);
-                        checkEmptyList();
+                        viewModel.search(query);
                     }
 
                     return true;
@@ -187,19 +245,10 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
             }
         );
 
-        searchView.setOnCloseListener(
-            new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    mIsSearching = false;
-                    mSearchQuery = "";
-                    refreshTags();
-                    mTagsList.scrollToPosition(0);
-                    checkEmptyList();
-                    return false;
-                }
-            }
-        );
+        searchView.setOnCloseListener(() -> {
+            viewModel.closeSearch();
+            return false;
+        });
 
         return true;
     }
@@ -209,59 +258,39 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
         super.onResume();
         disableScreenshotsIfLocked(this);
 
-        mTagsBucket.addOnNetworkChangeListener(this);
-        mTagsBucket.addOnSaveObjectListener(this);
-        mTagsBucket.addOnDeleteObjectListener(this);
-        AppLog.add(AppLog.Type.SYNC, "Added tag bucket listener (TagsActivity)");
+        viewModel.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        mTagsBucket.removeOnNetworkChangeListener(this);
-        mTagsBucket.removeOnSaveObjectListener(this);
-        mTagsBucket.removeOnDeleteObjectListener(this);
-        AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)");
+        viewModel.pause();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
-            refreshTags();
+            viewModel.updateOnResult();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void checkEmptyList() {
-        if (mIsSearching) {
-            if (DisplayUtils.isLandscape(TagsActivity.this) && !DisplayUtils.isLargeScreen(TagsActivity.this)) {
-                setEmptyListImage(-1);
-            } else {
-                setEmptyListImage(R.drawable.ic_search_24dp);
-            }
+    private void setLabelEmptyTagList() {
+        setEmptyListImage(R.drawable.ic_tag_24dp);
+        setEmptyListMessage(getString(R.string.empty_tags));
+    }
 
-            setEmptyListMessage(getString(R.string.empty_tags_search));
+    private void setLabelEmptyTagListSearchResults() {
+        if (DisplayUtils.isLandscape(TagsActivity.this) &&
+                !DisplayUtils.isLargeScreen(TagsActivity.this)) {
+            setEmptyListImage(-1);
         } else {
-            setEmptyListImage(R.drawable.ic_tag_24dp);
-            setEmptyListMessage(getString(R.string.empty_tags));
+            setEmptyListImage(R.drawable.ic_search_24dp);
         }
-    }
 
-    protected void refreshTags() {
-        Query<Tag> tagQuery = Tag.all(mTagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME);
-        Bucket.ObjectCursor<Tag> cursor = tagQuery.execute();
-        mTagsAdapter.swapCursor(cursor);
-    }
-
-    protected void refreshTagsSearch() {
-        Query<Tag> tags = Tag.all(mTagsBucket)
-            .where(NAME_PROPERTY, Query.ComparisonType.LIKE, "%" + mSearchQuery + "%")
-            .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
-            .reorder();
-        Bucket.ObjectCursor<Tag> cursor = tags.execute();
-        mTagsAdapter.swapCursor(cursor);
+        setEmptyListMessage(getString(R.string.empty_tags_search));
     }
 
     private void setEmptyListImage(@DrawableRes int image) {
@@ -284,222 +313,10 @@ public class TagsActivity extends ThemedAppCompatActivity implements Bucket.List
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            viewModel.close();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBeforeUpdateObject(Bucket<Tag> bucket, Tag object) {
-    }
-
-    @Override
-    public void onDeleteObject(Bucket<Tag> bucket, Tag object) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onNetworkChange(Bucket<Tag> bucket, Bucket.ChangeType type, String key) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onSaveObject(Bucket<Tag> bucket, Tag object) {
-        runOnUiThread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsSearching) {
-                        refreshTagsSearch();
-                    } else {
-                        refreshTags();
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void onLocalQueueChange(Bucket<Tag> bucket, Set<String> queuedObjects) {
-
-    }
-
-    @Override
-    public void onSyncObject(Bucket<Tag> bucket, String key) {
-
-    }
-
-    private static class RemoveTagFromNotesTask extends AsyncTask<Tag, Void, Void> {
-        private SoftReference<TagsActivity> mTagsActivityReference;
-
-        private RemoveTagFromNotesTask(TagsActivity context) {
-            mTagsActivityReference = new SoftReference<>(context);
-        }
-
-        @Override
-        protected Void doInBackground(Tag... removedTags) {
-            TagsActivity activity = mTagsActivityReference.get();
-            Tag tag = removedTags[0];
-
-            if (tag != null) {
-                Bucket.ObjectCursor<Note> cursor = tag.findNotes(activity.mNotesBucket, tag.getName());
-
-                while (cursor.moveToNext()) {
-                    Note note = cursor.getObject();
-                    List<String> tags = note.getTags();
-                    tags.remove(tag.getName());
-                    note.setTags(tags);
-                    note.save();
-                }
-
-                cursor.close();
-            }
-
-            return null;
-        }
-    }
-
-    private class TagsAdapter extends BaseCursorAdapter<TagsAdapter.ViewHolder> {
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private TextView mCount;
-            private TextView mTitle;
-
-            private ViewHolder(View itemView) {
-                super(itemView);
-
-                mTitle = itemView.findViewById(R.id.tag_name);
-                mCount = itemView.findViewById(R.id.tag_count);
-
-                ImageButton deleteButton = itemView.findViewById(R.id.tag_trash);
-                deleteButton.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!hasItem(getAdapterPosition())) {
-                                return;
-                            }
-
-                            @SuppressWarnings("unchecked")
-                            final Tag tag = ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject();
-                            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
-
-                            if (tagCount == 0) {
-                                deleteTag(tag);
-                            } else if (tagCount > 0) {
-                                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
-                                alert.setTitle(R.string.delete_tag);
-                                alert.setMessage(getString(R.string.confirm_delete_tag));
-                                alert.setNegativeButton(R.string.no, null);
-                                alert.setPositiveButton(
-                                    R.string.yes,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            deleteTag(tag);
-                                        }
-                                    }
-                                );
-                                alert.show();
-                            }
-                        }
-                    }
-                );
-                deleteButton.setOnLongClickListener(
-                    new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            if (v.isHapticFeedbackEnabled()) {
-                                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                            }
-
-                            Toast.makeText(TagsActivity.this, getString(R.string.delete_tag), Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                    }
-                );
-
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                if (!hasItem(getAdapterPosition())) {
-                    return;
-                }
-
-                //noinspection unchecked
-                TagDialogFragment dialog = new TagDialogFragment(
-                    ((Bucket.ObjectCursor<Tag>) getItem(getAdapterPosition())).getObject(),
-                    mNotesBucket,
-                    mTagsBucket
-                );
-                dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
-            }
-
-            private void deleteTag(Tag tag) {
-                tag.delete();
-                new RemoveTagFromNotesTask(TagsActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tag);
-                AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.TAG_MENU_DELETED,
-                    AnalyticsTracker.CATEGORY_TAG,
-                    "list_trash_button"
-                );
-            }
-        }
-
-        private TagsAdapter() {
-            super(null);
-        }
-
-        @NonNull
-        @Override
-        public TagsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View contactView = inflater.inflate(R.layout.tags_list_row, parent, false);
-            return new TagsAdapter.ViewHolder(contactView);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TagsAdapter.ViewHolder holder, Cursor cursor) {
-            @SuppressWarnings("unchecked")
-            Tag tag = ((Bucket.ObjectCursor<Tag>)cursor).getObject();
-            holder.mTitle.setText(tag.getName());
-            final int tagCount = mNotesBucket.query().where(TAGS_PROPERTY, Query.ComparisonType.EQUAL_TO, tag.getName()).count();
-
-            if (tagCount > 0) {
-                holder.mCount.setText(String.valueOf(tagCount));
-            } else {
-                holder.mCount.setText("");
-            }
-        }
-
-        @Override
-        public void swapCursor(Cursor newCursor) {
-            super.swapCursor(newCursor);
-        }
     }
 }

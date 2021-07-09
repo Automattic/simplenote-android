@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.TagUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
 import com.simperium.client.BucketSchema;
@@ -447,6 +448,16 @@ public class Note extends BucketObject {
         } else {
             removeSystemTag(PUBLISHED_TAG);
         }
+    }
+
+    public void removeTag(String tagName) {
+        List<String> tags = getTags();
+
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        tags.removeAll(tagsMatched);
+
+        setTags(tags);
+        save();
     }
 
     private boolean hasSystemTag(String tag) {
