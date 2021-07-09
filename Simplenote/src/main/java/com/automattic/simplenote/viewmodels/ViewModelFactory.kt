@@ -27,6 +27,8 @@ class ViewModelFactory constructor(
                 AddTagViewModel(SimperiumTagsRepository(tagsBucket, notesBucket))
             isAssignableFrom(TagDialogViewModel::class.java) ->
                 TagDialogViewModel(SimperiumTagsRepository(tagsBucket, notesBucket))
+            isAssignableFrom(TagsViewModel::class.java) ->
+                TagsViewModel(SimperiumTagsRepository(tagsBucket, notesBucket))
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

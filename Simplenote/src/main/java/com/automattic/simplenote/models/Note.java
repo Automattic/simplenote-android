@@ -498,6 +498,16 @@ public class Note extends BucketObject {
         }
     }
 
+    public void removeTag(String tagName) {
+        List<String> tags = getTags();
+
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        tags.removeAll(tagsMatched);
+
+        setTags(tags);
+        save();
+    }
+
     private boolean hasSystemTag(String tag) {
         if (TextUtils.isEmpty(tag))
             return false;
