@@ -90,6 +90,8 @@ public class TagsActivity extends ThemedAppCompatActivity {
         setupViews();
 
         setObservers();
+
+        viewModel.start();
     }
 
     private void setupViews() {
@@ -258,14 +260,14 @@ public class TagsActivity extends ThemedAppCompatActivity {
         super.onResume();
         disableScreenshotsIfLocked(this);
 
-        viewModel.start();
+        viewModel.startListeningTagChanges();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        viewModel.pause();
+        viewModel.stopListeningTagChanges();
     }
 
     @Override
