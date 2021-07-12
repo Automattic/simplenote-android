@@ -145,7 +145,7 @@ class TagsActivityTest : BaseUITest() {
         launchTagsActivityWithTestData()
 
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
-                .perform(click())
+            .perform(click())
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
@@ -158,9 +158,9 @@ class TagsActivityTest : BaseUITest() {
         // Check data is displayed
         testData.tags.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
-                    .check(matches(withText(tagAndCounter.tag.name)))
+                .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
-                    .check(matches(withText(tagAndCounter.counter)))
+                .check(matches(withText(tagAndCounter.counter)))
         }
 
         // Delete tag other
@@ -168,7 +168,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
             }
         }
 
@@ -185,7 +185,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
 
 
                 onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
@@ -205,7 +205,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
 
                 onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
                 onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
@@ -236,16 +236,16 @@ class TagsActivityTest : BaseUITest() {
 
         ActivityScenario.launch(TagsActivity::class.java)
 
-        onView(withId(R.id.list)).
-            perform(scrollToPosition<RecyclerView.ViewHolder>(49))
+        onView(withId(R.id.list))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(49))
 
         onView(withRecyclerView(R.id.list).atPositionOnView(49, R.id.tag_name))
-                .perform(click())
+            .perform(click())
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
         onView(CoreMatchers.allOf(withText("tag50"), isDescendantOfA(withId(R.id.input_tag_name))))
-                .check(matches(isDisplayed()))
+            .check(matches(isDisplayed()))
 
         assertEquals(tagsBucket.count(), 50)
     }
