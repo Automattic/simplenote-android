@@ -121,6 +121,9 @@ dependencies {
     // Support for ViewModels and LiveData
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    // Support for androidx Fragments
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
+
     // Google Play Services
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     // Third Party
