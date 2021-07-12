@@ -70,6 +70,7 @@ class TagsViewModelTest {
         }
 
         viewModel.start()
+        viewModel.startListeningTagChanges()
 
         assertEquals(viewModel.uiState.value?.tagItems, tagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
@@ -100,12 +101,13 @@ class TagsViewModelTest {
         }
 
         viewModel.start()
+        viewModel.startListeningTagChanges()
 
         assertEquals(viewModel.uiState.value?.tagItems, tagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
 
-        viewModel.pause()
+        viewModel.stopListeningTagChanges()
 
         variableTagItems.add(TagItem(Tag("tag6"), 3))
         fakeTagsRepository.stub {
