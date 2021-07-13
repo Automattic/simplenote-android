@@ -122,6 +122,10 @@
             android:title="@string/export_setting">
         </Preference>
 
+        <Preference
+            android:key="pref_key_delete_account"
+            android:title="@string/delete_account">
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory

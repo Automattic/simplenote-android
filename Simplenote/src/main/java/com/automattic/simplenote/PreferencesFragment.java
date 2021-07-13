@@ -116,6 +116,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        Preference deleteAppPreference = findPreference("pref_key_delete_account");
+        deleteAppPreference.setLayoutResource(R.layout.preference_red);
+        deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
+
         findPreference("pref_key_help").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

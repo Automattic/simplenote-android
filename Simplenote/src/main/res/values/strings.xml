@@ -9,6 +9,7 @@
     <string name="share">Share</string>
     <string name="new_note">New Note</string>
     <string name="account">Account</string>
+    <string name="delete_account">Delete Account</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="words">Words</string>
