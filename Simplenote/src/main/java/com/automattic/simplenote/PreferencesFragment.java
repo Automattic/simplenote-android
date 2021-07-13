@@ -27,6 +27,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
+import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
@@ -322,9 +323,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             // TODO: make network call and depending on response show the corresponding dialogs
-                            showDeleteAccountConfirmationDialog();
+                            //showDeleteAccountConfirmationDialog();
 
-                            // TODO: in case of error in a response, we are waiting for the design
+                            DialogUtils.showDialogWithEmail(
+                                    requireContext(),
+                                    getString(R.string.delete_account_error_message)
+                            );
                         }
                     }
                 )
