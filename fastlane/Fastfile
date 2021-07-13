@@ -182,10 +182,18 @@ SUPPORTED_LOCALES = [
 
     hotfix = android_current_branch_is_hotfix
     unless hotfix 
+      UI.message('Checking app strings translation status...')
       check_translation_progress(
         glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
         abort_on_violations: false
       )
+
+      UI.message("Checking release notes strings translation status...")
+      check_translation_progress(
+        glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
+        abort_on_violations: false
+      )
+
       android_update_metadata(options) 
       android_bump_version_final_release() 
     end
