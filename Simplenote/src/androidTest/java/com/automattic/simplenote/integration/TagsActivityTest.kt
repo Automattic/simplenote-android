@@ -1,6 +1,7 @@
 package com.automattic.simplenote.integration
 
 import android.widget.EditText
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -17,6 +18,7 @@ import com.automattic.simplenote.TagsActivity
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.isToast
+import com.automattic.simplenote.utils.withItemCount
 import com.automattic.simplenote.utils.withRecyclerView
 import org.hamcrest.CoreMatchers
 import org.junit.Assert.assertEquals
@@ -26,6 +28,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 @MediumTest
 class TagsActivityTest : BaseUITest() {
+    private lateinit var activityScenario: ActivityScenario<TagsActivity>
+
     @Test
     fun listTagsShouldShowCompleteListTags() {
         val testData = launchTagsActivityWithTestData()
@@ -52,23 +56,70 @@ class TagsActivityTest : BaseUITest() {
         onView(isAssignableFrom(EditText::class.java)).perform(typeText(firstSearchPhrase))
 
         // All tags starting with tag should be shown
-        testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }.forEachIndexed { index, tagAndCounter ->
+        val filteredTagsFirstPhrase = testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }
+        filteredTagsFirstPhrase.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
-                    .check(matches(withText(tagAndCounter.tag.name)))
+                .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
-                    .check(matches(withText(tagAndCounter.counter)))
+                .check(matches(withText(tagAndCounter.counter)))
         }
+
+        onView(withId(R.id.list)).check(withItemCount(filteredTagsFirstPhrase.count()))
 
         // Type in the second search phrase
         onView(isAssignableFrom(EditText::class.java)).perform(replaceText(secondSearchPhrase))
 
         // Jus the tag other should be shown
-        testData.tags.filter { it.tag.name.startsWith(secondSearchPhrase) }.forEachIndexed { index, tagAndCounter ->
+        val filteredTagsSecondPhrase = testData.tags.filter { it.tag.name.startsWith(secondSearchPhrase) }
+        filteredTagsSecondPhrase.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
-                    .check(matches(withText(tagAndCounter.tag.name)))
+                .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
-                    .check(matches(withText(tagAndCounter.counter)))
+                .check(matches(withText(tagAndCounter.counter)))
         }
+
+        onView(withId(R.id.list)).check(withItemCount(filteredTagsSecondPhrase.count()))
+    }
+
+    @Test
+    fun searchTagsShouldKeepFilteredListAtReenter() {
+        val testData = launchTagsActivityWithTestData()
+
+        val firstSearchPhrase = "tag"
+
+        // Activate search bar
+        onView(withId(R.id.menu_search)).perform(click())
+
+        // Type in the first search phrase
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText(firstSearchPhrase))
+
+        // All tags starting with tag should be shown
+        val filteredTags = testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }
+        filteredTags.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                .check(matches(withText(tagAndCounter.counter)))
+        }
+
+        onView(withId(R.id.list)).check(withItemCount(filteredTags.count()))
+
+
+        // Change the state of the activity to CREATED which calls onPause and onStop
+        activityScenario.moveToState(Lifecycle.State.CREATED)
+
+        // Change the state of the activity to RESUMED
+        activityScenario.moveToState(Lifecycle.State.RESUMED)
+
+        // All tags starting with tag should be shown when activity becomes RESUMED again
+        filteredTags.forEachIndexed { index, tagAndCounter ->
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
+                .check(matches(withText(tagAndCounter.tag.name)))
+            onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
+                .check(matches(withText(tagAndCounter.counter)))
+        }
+
+        onView(withId(R.id.list)).check(withItemCount(filteredTags.count()))
     }
 
     @Test
@@ -94,7 +145,7 @@ class TagsActivityTest : BaseUITest() {
         launchTagsActivityWithTestData()
 
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_name))
-                .perform(click())
+            .perform(click())
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
@@ -107,9 +158,9 @@ class TagsActivityTest : BaseUITest() {
         // Check data is displayed
         testData.tags.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
-                    .check(matches(withText(tagAndCounter.tag.name)))
+                .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
-                    .check(matches(withText(tagAndCounter.counter)))
+                .check(matches(withText(tagAndCounter.counter)))
         }
 
         // Delete tag other
@@ -117,7 +168,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
             }
         }
 
@@ -134,7 +185,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
 
 
                 onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
@@ -154,7 +205,7 @@ class TagsActivityTest : BaseUITest() {
         testData.tags.forEachIndexed { index, tagAndCounter ->
             if (tagAndCounter.tag.name == tagToDelete) {
                 onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.tag_trash))
-                        .perform(click())
+                    .perform(click())
 
                 onView(withText(deleteTagTitle)).check(matches(isDisplayed()))
                 onView(withText(confirmDeleteTagMessage)).check(matches(isDisplayed()))
@@ -185,16 +236,16 @@ class TagsActivityTest : BaseUITest() {
 
         ActivityScenario.launch(TagsActivity::class.java)
 
-        onView(withId(R.id.list)).
-            perform(scrollToPosition<RecyclerView.ViewHolder>(49))
+        onView(withId(R.id.list))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(49))
 
         onView(withRecyclerView(R.id.list).atPositionOnView(49, R.id.tag_name))
-                .perform(click())
+            .perform(click())
 
         val renameTagTitle = getResourceString(R.string.rename_tag)
         onView(withText(renameTagTitle)).check(matches(isDisplayed()))
         onView(CoreMatchers.allOf(withText("tag50"), isDescendantOfA(withId(R.id.input_tag_name))))
-                .check(matches(isDisplayed()))
+            .check(matches(isDisplayed()))
 
         assertEquals(tagsBucket.count(), 50)
     }
@@ -215,7 +266,7 @@ class TagsActivityTest : BaseUITest() {
         assertEquals(tagsBucket.count(), 4)
         assertEquals(notesBucket.count(), 3)
 
-        ActivityScenario.launch(TagsActivity::class.java)
+        activityScenario = ActivityScenario.launch(TagsActivity::class.java)
 
         return TestData(tags, notes)
     }

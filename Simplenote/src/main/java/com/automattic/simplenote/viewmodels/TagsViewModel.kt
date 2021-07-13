@@ -28,7 +28,9 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
             val tagItems = tagsRepository.allTags()
             _uiState.value = UiState(tagItems)
         }
+    }
 
+    fun startListeningTagChanges() {
         jobTagsFlow = viewModelScope.launch {
             tagsRepository.tagsChanged().collect {
                 val searchQuery = _uiState.value?.searchQuery
@@ -66,7 +68,7 @@ class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
         }
     }
 
-    fun pause() {
+    fun stopListeningTagChanges() {
         // When the job for tagsFlow is cancelled, the awaitClose block is called
         // This remove the listeners for the tags bucket
         jobTagsFlow?.cancel()
