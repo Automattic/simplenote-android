@@ -121,6 +121,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                showDeleteAccountDialog();
                 return true;
             }
         });
@@ -311,6 +312,56 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+    }
+
+    private void showDeleteAccountDialog() {
+        final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
+                .setTitle(R.string.delete_account)
+                .setMessage(R.string.delete_account_message)
+                .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // TODO: make network call and depending on response show the corresponding dialogs
+                            showDeleteAccountConfirmationDialog();
+
+                            // TODO: in case of error in a response, we are waiting for the design
+                        }
+                    }
+                )
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        dialogDeleteAccount.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                int simplenoteRed50 = getResources().getColor(R.color.red_50);
+                dialogDeleteAccount
+                        .getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(simplenoteRed50);
+            }
+        });
+        dialogDeleteAccount.show();
+    }
+
+    private void showDeleteAccountConfirmationDialog() {
+        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        Simperium simperium = currentApp.getSimperium();
+        String userEmail = simperium.getUser().getEmail();
+
+        AlertDialog dialogDeleteAccountConfirmation = new AlertDialog.Builder(
+                new ContextThemeWrapper(requireContext(), R.style.Dialog))
+                .setTitle(R.string.confirm_account_deletion)
+                .setMessage(getString(R.string.account_deletion_message, userEmail))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }
+                )
+                .create();
+
+        dialogDeleteAccountConfirmation.show();
     }
 
     @Override
