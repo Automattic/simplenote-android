@@ -4,8 +4,12 @@ import android.content.res.Resources
 import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.Root
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import com.google.android.material.textfield.TextInputLayout
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -99,4 +103,23 @@ fun isToast(): Matcher<Root> {
 
         }
     }
+}
+
+class RecyclerViewItemCountAssertion(private val matcher: Matcher<Int>) : ViewAssertion {
+    override fun check(view: View?, noViewFoundException: NoMatchingViewException?) {
+        if (noViewFoundException != null) {
+            throw noViewFoundException
+        }
+        val recyclerView = view as RecyclerView
+        val adapter = recyclerView.adapter
+        assertThat(adapter!!.itemCount, matcher)
+    }
+}
+
+fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
+    return withItemCount(`is`(expectedCount))
+}
+
+fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
+    return RecyclerViewItemCountAssertion(matcher)
 }
