@@ -23,7 +23,7 @@ public class AccountNetworkUtils {
     private static final String ACCEPT_LANGUAGE = "Accept-Language";
 
     // URL endpoints
-    private static final String SIMPLENOTE_DELETE_ACCOUNT = "account/request-signup";
+    private static final String SIMPLENOTE_DELETE_ACCOUNT = "account/request-delete";
 
     private static final MediaType JSON_MEDIA_TYPE =
             MediaType.parse("application/json; charset=utf-8");
