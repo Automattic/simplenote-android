@@ -22,6 +22,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.AccountNetworkUtils;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
@@ -40,10 +41,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -316,19 +322,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showDeleteAccountDialog() {
+        final Callback callbackDeleteAccount = getAccountDeleteCallbackHandler();
+
         final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
                 .setTitle(R.string.delete_account)
                 .setMessage(R.string.delete_account_message)
                 .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // TODO: make network call and depending on response show the corresponding dialogs
-                            //showDeleteAccountConfirmationDialog();
-
-                            DialogUtils.showDialogWithEmail(
-                                    requireContext(),
-                                    getString(R.string.delete_account_error_message)
-                            );
+                            Simplenote currentApp = (Simplenote) getActivity().getApplication();
+                            Simperium simperium = currentApp.getSimperium();
+                            String userEmail = simperium.getUser().getEmail();
+                            String userToken = simperium.getUser().getAccessToken();
+                            AccountNetworkUtils.makeDeleteAccountRequest(
+                                    userEmail,
+                                    userToken,
+                                    callbackDeleteAccount);
                         }
                     }
                 )
@@ -345,6 +354,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
         dialogDeleteAccount.show();
+    }
+
+    private final Callback getAccountDeleteCallbackHandler() {
+        return new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showDialogDeleteAccountError();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    showDeleteAccountConfirmationDialog();
+                } else {
+                    showDialogDeleteAccountError();
+                }
+            }
+        };
+    }
+
+    private void showDialogDeleteAccountError() {
+        DialogUtils.showDialogWithEmail(
+                requireContext(),
+                getString(R.string.delete_account_error_message)
+        );
     }
 
     private void showDeleteAccountConfirmationDialog() {
