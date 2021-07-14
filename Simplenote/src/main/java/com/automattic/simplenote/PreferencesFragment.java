@@ -356,7 +356,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         dialogDeleteAccount.show();
     }
 
-    private final Callback getAccountDeleteCallbackHandler() {
+    private Callback getAccountDeleteCallbackHandler() {
         return new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
