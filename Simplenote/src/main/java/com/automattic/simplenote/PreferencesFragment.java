@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -32,6 +33,7 @@ import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
+import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -77,6 +79,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
+    private ProgressDialogFragment mProgressDialogFragment;
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -321,6 +324,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
     }
 
+    private void showProgressDialogDeleteAccount() {
+        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.deleting_account_message));
+        mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
+        mProgressDialogFragment.show(requireActivity().getSupportFragmentManager(), ProgressDialogFragment.TAG);
+    }
+
+    private void closeProgressDialogDeleteAccount() {
+        if (mProgressDialogFragment != null && !mProgressDialogFragment.isHidden()) {
+            mProgressDialogFragment.dismiss();
+            mProgressDialogFragment = null;
+        }
+    }
+
     private void showDeleteAccountDialog() {
         final Callback callbackDeleteAccount = getAccountDeleteCallbackHandler();
 
@@ -330,7 +346,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Simplenote currentApp = (Simplenote) getActivity().getApplication();
+                            showProgressDialogDeleteAccount();
+
+                            // Make HTTP request to delete account with email and token
+                            Simplenote currentApp = (Simplenote) requireActivity().getApplication();
                             Simperium simperium = currentApp.getSimperium();
                             String userEmail = simperium.getUser().getEmail();
                             String userToken = simperium.getUser().getAccessToken();
@@ -363,28 +382,26 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        closeProgressDialogDeleteAccount();
                         showDialogDeleteAccountError();
                     }
                 });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+            public void onResponse(Call call, final Response response) throws IOException {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialogDeleteAccount();
+
+                        if (response.isSuccessful()) {
                             showDeleteAccountConfirmationDialog();
-                        }
-                    });
-                } else {
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                        } else {
                             showDialogDeleteAccountError();
                         }
-                    });
-                }
+                    }
+                });
             }
         };
     }
