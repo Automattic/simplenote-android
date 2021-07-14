@@ -360,15 +360,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         return new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showDialogDeleteAccountError();
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showDialogDeleteAccountError();
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    showDeleteAccountConfirmationDialog();
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showDeleteAccountConfirmationDialog();
+                        }
+                    });
                 } else {
-                    showDialogDeleteAccountError();
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showDialogDeleteAccountError();
+                        }
+                    });
                 }
             }
         };
