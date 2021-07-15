@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -366,7 +367,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         dialogDeleteAccount.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                int simplenoteRed50 = getResources().getColor(R.color.red_50);
+                Activity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                int simplenoteRed50 = ContextCompat.getColor(activity.getApplicationContext(), R.color.red_50);
                 dialogDeleteAccount
                         .getButton(AlertDialog.BUTTON_POSITIVE)
                         .setTextColor(simplenoteRed50);
@@ -395,7 +401,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     public void run() {
                         closeProgressDialogDeleteAccount();
 
-                        // TODO: add comment here about the behavior of the endpoint
+                        // The delete account requests return 200 when the request was processed
+                        // successfully. These requests send an email to the user with instructions
+                        // to delete the account. This email is valid for 24h. If the user sends
+                        // another request for deletion and the previous request is still valid,
+                        // the server sends a response with code 202. We take both 200 and 202 as
+                        // successful responses
                         if (response.isSuccessful() || response.code() == 202) {
                             showDeleteAccountConfirmationDialog();
                         } else {
