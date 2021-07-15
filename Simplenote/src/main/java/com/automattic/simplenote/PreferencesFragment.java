@@ -15,6 +15,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -326,6 +327,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showProgressDialogDeleteAccount() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
         mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.requesting_message));
         mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
         mProgressDialogFragment.show(requireActivity().getSupportFragmentManager(), ProgressDialogFragment.TAG);
@@ -347,17 +353,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            FragmentActivity activity = getActivity();
+                            if (activity == null) {
+                                return;
+                            }
+
                             showProgressDialogDeleteAccount();
 
-                            // Make HTTP request to delete account with email and token
-                            Simplenote currentApp = (Simplenote) requireActivity().getApplication();
+                            Simplenote currentApp = (Simplenote) activity.getApplication();
                             Simperium simperium = currentApp.getSimperium();
                             String userEmail = simperium.getUser().getEmail();
                             String userToken = simperium.getUser().getAccessToken();
-                            AccountNetworkUtils.makeDeleteAccountRequest(
-                                    userEmail,
-                                    userToken,
-                                    callbackDeleteAccount);
+
+                            // makeDeleteAccountRequest can throw an exception when it cannot build
+                            // the JSON object. In those cases, we show the error dialog since
+                            // it can be related to memory constraints or something else that is
+                            // just a transient fault
+                            try {
+                                AccountNetworkUtils.makeDeleteAccountRequest(
+                                        userEmail,
+                                        userToken,
+                                        callbackDeleteAccount);
+                            } catch (IllegalArgumentException exception) {
+                                showDialogDeleteAccountError();
+                            }
                         }
                     }
                 )
@@ -367,7 +386,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         dialogDeleteAccount.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                Activity activity = getActivity();
+                FragmentActivity activity = getActivity();
                 if (activity == null) {
                     return;
                 }
@@ -385,7 +404,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         return new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                requireActivity().runOnUiThread(new Runnable() {
+                FragmentActivity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         closeProgressDialogDeleteAccount();
@@ -396,7 +420,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                requireActivity().runOnUiThread(new Runnable() {
+                FragmentActivity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         closeProgressDialogDeleteAccount();
@@ -419,14 +448,24 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showDialogDeleteAccountError() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
         DialogUtils.showDialogWithEmail(
-                requireContext(),
+                activity.getApplicationContext(),
                 getString(R.string.delete_account_error_message)
         );
     }
 
     private void showDeleteAccountConfirmationDialog() {
-        Simplenote currentApp = (Simplenote) getActivity().getApplication();
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        Simplenote currentApp = (Simplenote) activity.getApplication();
         Simperium simperium = currentApp.getSimperium();
         String userEmail = simperium.getUser().getEmail();
 
