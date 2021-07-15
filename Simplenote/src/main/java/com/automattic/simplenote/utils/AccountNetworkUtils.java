@@ -19,7 +19,8 @@ import okhttp3.RequestBody;
 public class AccountNetworkUtils {
     private static final int TIMEOUT_SECS = 30;
     private static final String HTTP_SCHEME = "https";
-    private static final String HTTP_HOST = "app.simplenote.com";
+    // NOTE: once it is ready to merge, change it to app.simplenote.com
+    private static final String HTTP_HOST = "pr-418-dot-simple-note-hrd.appspot.com";
     private static final String ACCEPT_LANGUAGE = "Accept-Language";
 
     // URL endpoints
