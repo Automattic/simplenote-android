@@ -395,7 +395,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     public void run() {
                         closeProgressDialogDeleteAccount();
 
-                        if (response.isSuccessful()) {
+                        // TODO: add comment here about the behavior of the endpoint
+                        if (response.isSuccessful() || response.code() == 202) {
                             showDeleteAccountConfirmationDialog();
                         } else {
                             showDialogDeleteAccountError();
@@ -420,7 +421,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         AlertDialog dialogDeleteAccountConfirmation = new AlertDialog.Builder(
                 new ContextThemeWrapper(requireContext(), R.style.Dialog))
-                .setTitle(R.string.confirm_account_deletion)
+                .setTitle(R.string.request_received)
                 .setMessage(getString(R.string.account_deletion_message, userEmail))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
