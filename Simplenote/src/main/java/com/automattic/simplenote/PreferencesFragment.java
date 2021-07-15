@@ -370,11 +370,16 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                             // it can be related to memory constraints or something else that is
                             // just a transient fault
                             try {
+                                AppLog.add(Type.ACCOUNT, "Making request to delete account");
+
                                 AccountNetworkUtils.makeDeleteAccountRequest(
                                         userEmail,
                                         userToken,
                                         callbackDeleteAccount);
                             } catch (IllegalArgumentException exception) {
+                                AppLog.add(Type.ACCOUNT, "Error trying to make request " +
+                                        "to delete account. Error: " + exception.getMessage());
+
                                 showDialogDeleteAccountError();
                             }
                         }
@@ -409,6 +414,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     return;
                 }
 
+                AppLog.add(Type.ACCOUNT, "Failure while calling server to delete account");
+
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -437,8 +444,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         // the server sends a response with code 202. We take both 200 and 202 as
                         // successful responses
                         if (response.isSuccessful() || response.code() == 202) {
+                            AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
+
                             showDeleteAccountConfirmationDialog();
                         } else {
+                            AppLog.add(Type.ACCOUNT, "Request to delete account had an " +
+                                    "error. Error code: " + response.code());
+
                             showDialogDeleteAccountError();
                         }
                     }
