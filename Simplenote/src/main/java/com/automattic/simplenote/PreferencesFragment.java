@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -334,7 +335,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.requesting_message));
         mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
-        mProgressDialogFragment.show(requireActivity().getSupportFragmentManager(), ProgressDialogFragment.TAG);
+        mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
     }
 
     private void closeProgressDialogDeleteAccount() {
@@ -345,9 +346,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showDeleteAccountDialog() {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
         final Callback callbackDeleteAccount = getAccountDeleteCallbackHandler();
 
-        final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog))
+        final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
                 .setTitle(R.string.delete_account)
                 .setMessage(R.string.delete_account_message)
                 .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
@@ -442,8 +448,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                         // to delete the account. This email is valid for 24h. If the user sends
                         // another request for deletion and the previous request is still valid,
                         // the server sends a response with code 202. We take both 200 and 202 as
-                        // successful responses
-                        if (response.isSuccessful() || response.code() == 202) {
+                        // successful responses. Both codes are handled by isSuccessful()
+                        if (response.isSuccessful()) {
                             AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
 
                             showDeleteAccountConfirmationDialog();
@@ -460,13 +466,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showDialogDeleteAccountError() {
-        FragmentActivity activity = getActivity();
-        if (activity == null) {
+        Context context = getContext();
+        if (context == null) {
             return;
         }
 
         DialogUtils.showDialogWithEmail(
-                activity.getApplicationContext(),
+                context,
                 getString(R.string.delete_account_error_message)
         );
     }
@@ -482,7 +488,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         String userEmail = simperium.getUser().getEmail();
 
         AlertDialog dialogDeleteAccountConfirmation = new AlertDialog.Builder(
-                new ContextThemeWrapper(requireContext(), R.style.Dialog))
+                new ContextThemeWrapper(activity, R.style.Dialog))
                 .setTitle(R.string.request_received)
                 .setMessage(getString(R.string.account_deletion_message, userEmail))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
