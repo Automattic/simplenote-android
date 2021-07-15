@@ -325,7 +325,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     }
 
     private void showProgressDialogDeleteAccount() {
-        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.deleting_account_message));
+        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.requesting_message));
         mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
         mProgressDialogFragment.show(requireActivity().getSupportFragmentManager(), ProgressDialogFragment.TAG);
     }
