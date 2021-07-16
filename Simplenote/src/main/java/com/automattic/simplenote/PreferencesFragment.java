@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -477,7 +478,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         try {
             AppLog.add(Type.IMPORT, "Importing notes from " + uri + ".");
 
-            Importer.fromUri(this, uri);
+            FragmentActivity activity = getActivity();
+            if (activity == null) {
+                AppLog.add(Type.IMPORT, "Could not import notes since activity is null");
+                return;
+            }
+
+            Importer.fromUri(activity, uri);
             toast(R.string.import_message_success);
 
             AppLog.add(Type.IMPORT, "Notes imported correctly!");

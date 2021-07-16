@@ -2,7 +2,7 @@ package com.automattic.simplenote;
 
 import android.net.Uri;
 
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -20,20 +20,20 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Importer {
-    private Bucket<Note> mNotesBucket;
-    private Bucket<Tag> mTagsBucket;
+    private final Bucket<Note> mNotesBucket;
+    private final Bucket<Tag> mTagsBucket;
 
     public Importer(Simplenote simplenote) {
         mNotesBucket = simplenote.getNotesBucket();
         mTagsBucket = simplenote.getTagsBucket();
     }
 
-    public static void fromUri(Fragment fragment, Uri uri) throws ImportException {
+    public static void fromUri(FragmentActivity activity, Uri uri) throws ImportException {
         try {
-            new Importer((Simplenote) fragment.getActivity().getApplication())
+            new Importer((Simplenote) activity.getApplication())
                     .dispatchFileImport(
-                            FileUtils.getFileExtension(fragment.requireContext(), uri),
-                            FileUtils.readFile(fragment.requireContext(), uri)
+                            FileUtils.getFileExtension(activity, uri),
+                            FileUtils.readFile(activity, uri)
                     );
         } catch (IOException e) {
             throw new ImportException(FailureReason.FileError);
