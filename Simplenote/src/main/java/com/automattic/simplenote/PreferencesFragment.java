@@ -67,6 +67,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private static final int REQUEST_EXPORT_DATA = 9001;
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
+    private static final int REQUEST_IMPORT_DATA = 9003;
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
@@ -122,7 +123,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 try {
                     BrowserUtils.launchBrowserOrShowError(requireContext(), "https://simplenote.com/help");
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                    toast(R.string.no_browser_available, Toast.LENGTH_LONG);
                 }
                 return true;
             }
@@ -134,7 +135,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 try {
                     BrowserUtils.launchBrowserOrShowError(requireContext(), "http://simplenote.com");
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), R.string.no_browser_available, Toast.LENGTH_LONG).show();
+                    toast(R.string.no_browser_available, Toast.LENGTH_LONG);
                 }
                 return true;
             }
@@ -144,6 +145,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
+                return true;
+            }
+        });
+
+        findPreference("pref_key_import").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/json"});
+                startActivityForResult(intent, REQUEST_IMPORT_DATA);
                 return true;
             }
         });
@@ -311,7 +324,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
 
         if (resultData.getData() == null) {
-            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            toast(R.string.export_message_failure);
             return;
         }
 
@@ -321,6 +334,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 break;
             case REQUEST_EXPORT_UNSYNCED:
                 exportData(resultData.getData(), true);
+                break;
+            case REQUEST_IMPORT_DATA:
+                importData(resultData.getData());
                 break;
         }
     }
@@ -448,12 +464,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
                 fileOutputStream.write(account.toString(2).replace("\\/","/").getBytes());
                 parcelFileDescriptor.close();
-                Toast.makeText(requireContext(), getString(R.string.export_message_success), Toast.LENGTH_SHORT).show();
+                toast(R.string.export_message_success);
             } else {
-                Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+                toast(R.string.export_message_failure);
             }
         } catch (Exception e) {
-            Toast.makeText(requireContext(), getString(R.string.export_message_failure), Toast.LENGTH_SHORT).show();
+            toast(R.string.export_message_failure);
+        }
+    }
+
+    private void importData(Uri uri) {
+        try {
+            Importer.fromUri(this, uri);
+            toast(R.string.import_message_success);
+        } catch (Importer.ImportException e) {
+            switch (e.getReason()) {
+                case FileError:
+                    toast(R.string.import_error_file);
+                    break;
+                case ParseError:
+                    toast(R.string.import_error_parse);
+                    break;
+                case UnknownExportType:
+                    toast(R.string.import_unknown);
+                    break;
+            }
         }
     }
 
@@ -533,5 +568,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 fragment.logOut();
             }
         }
+    }
+
+    private void toast(int stringId) {
+        toast(stringId, Toast.LENGTH_SHORT);
+    }
+
+    private void toast(int stringId, int length) {
+        Toast.makeText(requireContext(), getString(stringId), length).show();
     }
 }
