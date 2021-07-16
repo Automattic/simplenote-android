@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -22,14 +25,19 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
+import com.automattic.simplenote.utils.AccountNetworkUtils;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.CrashUtils;
+import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
+import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -39,10 +47,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -71,6 +84,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
+    private SimplenoteProgressDialogFragment mProgressDialogFragment;
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -113,6 +127,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 } else {
                     new LogOutTask(PreferencesFragment.this).execute();
                 }
+                return true;
+            }
+        });
+
+        Preference deleteAppPreference = findPreference("pref_key_delete_account");
+        int preferenceLayout = ThemeUtils.isLightTheme(requireActivity()) ?
+                R.layout.preference_red_light : R.layout.preference_red_dark;
+        deleteAppPreference.setLayoutResource(preferenceLayout);
+        deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDeleteAccountDialog();
                 return true;
             }
         });
@@ -315,6 +341,185 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+    }
+
+    private void showProgressDialogDeleteAccount() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(R.string.requesting_message));
+        mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
+    }
+
+    private void closeProgressDialogDeleteAccount() {
+        if (mProgressDialogFragment != null && !mProgressDialogFragment.isHidden()) {
+            mProgressDialogFragment.dismiss();
+            mProgressDialogFragment = null;
+        }
+    }
+
+    private void showDeleteAccountDialog() {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
+        final Callback callbackDeleteAccount = getAccountDeleteCallbackHandler();
+
+        final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
+                .setTitle(R.string.delete_account)
+                .setMessage(R.string.delete_account_message)
+                .setPositiveButton(R.string.delete_account, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            FragmentActivity activity = getActivity();
+                            if (activity == null) {
+                                return;
+                            }
+
+                            showProgressDialogDeleteAccount();
+
+                            Simplenote currentApp = (Simplenote) activity.getApplication();
+                            Simperium simperium = currentApp.getSimperium();
+                            String userEmail = simperium.getUser().getEmail();
+                            String userToken = simperium.getUser().getAccessToken();
+
+                            // makeDeleteAccountRequest can throw an exception when it cannot build
+                            // the JSON object. In those cases, we show the error dialog since
+                            // it can be related to memory constraints or something else that is
+                            // just a transient fault
+                            try {
+                                AppLog.add(Type.ACCOUNT, "Making request to delete account");
+
+                                AccountNetworkUtils.makeDeleteAccountRequest(
+                                        userEmail,
+                                        userToken,
+                                        callbackDeleteAccount);
+                            } catch (IllegalArgumentException exception) {
+                                AppLog.add(Type.ACCOUNT, "Error trying to make request " +
+                                        "to delete account. Error: " + exception.getMessage());
+
+                                showDialogDeleteAccountError();
+                            }
+                        }
+                    }
+                )
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+
+        dialogDeleteAccount.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                FragmentActivity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                int colorResource = ThemeUtils.isLightTheme(activity) ?
+                        R.color.red_50 :
+                        R.color.red_20;
+                int colorRed = ContextCompat.getColor(activity.getApplicationContext(),
+                        colorResource);
+                dialogDeleteAccount
+                        .getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(colorRed);
+            }
+        });
+        dialogDeleteAccount.show();
+    }
+
+    private Callback getAccountDeleteCallbackHandler() {
+        return new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                FragmentActivity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                AppLog.add(Type.ACCOUNT, "Failure while calling server to delete account");
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialogDeleteAccount();
+                        showDialogDeleteAccountError();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                FragmentActivity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialogDeleteAccount();
+
+                        // The delete account requests return 200 when the request was processed
+                        // successfully. These requests send an email to the user with instructions
+                        // to delete the account. This email is valid for 24h. If the user sends
+                        // another request for deletion and the previous request is still valid,
+                        // the server sends a response with code 202. We take both 200 and 202 as
+                        // successful responses. Both codes are handled by isSuccessful()
+                        if (response.isSuccessful()) {
+                            AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
+
+                            showDeleteAccountConfirmationDialog();
+                        } else {
+                            AppLog.add(Type.ACCOUNT, "Request to delete account had an " +
+                                    "error. Error code: " + response.code());
+
+                            showDialogDeleteAccountError();
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+    private void showDialogDeleteAccountError() {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
+        DialogUtils.showDialogWithEmail(
+                context,
+                getString(R.string.error_ocurred_message)
+        );
+    }
+
+    private void showDeleteAccountConfirmationDialog() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        Simplenote currentApp = (Simplenote) activity.getApplication();
+        Simperium simperium = currentApp.getSimperium();
+        String userEmail = simperium.getUser().getEmail();
+
+        AlertDialog dialogDeleteAccountConfirmation = new AlertDialog.Builder(
+                new ContextThemeWrapper(activity, R.style.Dialog))
+                .setTitle(R.string.request_received)
+                .setMessage(getString(R.string.account_deletion_message, userEmail))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }
+                )
+                .create();
+
+        dialogDeleteAccountConfirmation.show();
     }
 
     @Override
