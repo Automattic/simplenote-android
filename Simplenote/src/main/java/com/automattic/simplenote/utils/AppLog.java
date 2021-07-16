@@ -24,7 +24,8 @@ public class AppLog {
         LAYOUT,
         NETWORK,
         SCREEN,
-        SYNC
+        SYNC,
+        IMPORT
     }
 
     public static void add(Type type, String message) {
