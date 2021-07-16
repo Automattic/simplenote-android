@@ -35,6 +35,7 @@ import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
+import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
@@ -130,7 +131,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         Preference deleteAppPreference = findPreference("pref_key_delete_account");
-        deleteAppPreference.setLayoutResource(R.layout.preference_red);
+        int preferenceLayout = ThemeUtils.isLightTheme(requireActivity()) ?
+                R.layout.preference_red_light : R.layout.preference_red_dark;
+        deleteAppPreference.setLayoutResource(preferenceLayout);
         deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -401,10 +404,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     return;
                 }
 
-                int simplenoteRed50 = ContextCompat.getColor(activity.getApplicationContext(), R.color.red_50);
+                int colorResource = ThemeUtils.isLightTheme(activity) ?
+                        R.color.red_50 :
+                        R.color.red_20;
+                int colorRed = ContextCompat.getColor(activity.getApplicationContext(),
+                        colorResource);
                 dialogDeleteAccount
                         .getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setTextColor(simplenoteRed50);
+                        .setTextColor(colorRed);
             }
         });
         dialogDeleteAccount.show();
