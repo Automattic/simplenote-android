@@ -335,7 +335,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
 
         mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(R.string.requesting_message));
-        mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
         mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
     }
 
