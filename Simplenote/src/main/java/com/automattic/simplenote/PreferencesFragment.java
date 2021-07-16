@@ -35,6 +35,7 @@ import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
 import com.simperium.Simperium;
 import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
@@ -82,7 +83,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
-    private ProgressDialogFragment mProgressDialogFragment;
+    private SimplenoteProgressDialogFragment mProgressDialogFragment;
 
     public PreferencesFragment() {
         // Required empty public constructor
@@ -333,8 +334,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             return;
         }
 
-        mProgressDialogFragment = ProgressDialogFragment.newInstance(getString(R.string.requesting_message));
-        mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
+        mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(R.string.requesting_message));
+        mProgressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
         mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
     }
 
