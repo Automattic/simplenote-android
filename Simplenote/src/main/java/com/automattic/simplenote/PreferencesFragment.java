@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -473,7 +472,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         DialogUtils.showDialogWithEmail(
                 context,
-                getString(R.string.delete_account_error_message)
+                getString(R.string.error_ocurred_message)
         );
     }
 

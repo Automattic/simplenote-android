@@ -13,7 +13,7 @@
     <string name="delete_account_message">By deleting your account, all notes created with this account will be permanently deleted. This action is not reversible.</string>
     <string name="request_received">Request Received</string>
     <string name="account_deletion_message">An email was sent to %1$s. Check your inbox and follow the instructions to confirm account deletion.\n\nYour account won\'t be deleted until we receive your confirmation.</string>
-    <string name="delete_account_error_message">An error occurred deleting your account. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
+    <string name="error_ocurred_message">An error occurred. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
     <string name="requesting_message">Requesting…</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
