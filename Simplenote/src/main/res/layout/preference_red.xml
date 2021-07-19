@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        android:textColor="@color/red_50"
+        android:textColor="@color/text_button_red"
         tools:text="Title">
     </TextView>
 

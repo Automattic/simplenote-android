@@ -131,9 +131,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         Preference deleteAppPreference = findPreference("pref_key_delete_account");
-        int preferenceLayout = ThemeUtils.isLightTheme(requireActivity()) ?
-                R.layout.preference_red_light : R.layout.preference_red_dark;
-        deleteAppPreference.setLayoutResource(preferenceLayout);
         deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -404,11 +401,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                     return;
                 }
 
-                int colorResource = ThemeUtils.isLightTheme(activity) ?
-                        R.color.red_50 :
-                        R.color.red_20;
-                int colorRed = ContextCompat.getColor(activity.getApplicationContext(),
-                        colorResource);
+                int colorRed = ContextCompat.getColor(activity, R.color.text_button_red);
                 dialogDeleteAccount
                         .getButton(AlertDialog.BUTTON_POSITIVE)
                         .setTextColor(colorRed);

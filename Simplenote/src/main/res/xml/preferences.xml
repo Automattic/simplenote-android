@@ -124,7 +124,8 @@
 
         <Preference
             android:key="pref_key_delete_account"
-            android:title="@string/delete_account">
+            android:title="@string/delete_account"
+            android:layout="@layout/preference_red">
         </Preference>
     </PreferenceCategory>
 

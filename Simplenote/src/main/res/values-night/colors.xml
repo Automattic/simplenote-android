@@ -22,5 +22,5 @@
     <color name="style_preview_black_title">@android:color/white</color>
     <color name="style_preview_default_content">@color/text_content_dark</color>
     <color name="style_preview_default_title">@color/text_title_dark</color>
-
+    <color name="text_button_red">@color/red_20</color>
 </resources>
