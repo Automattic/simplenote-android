@@ -137,6 +137,7 @@ public final class AnalyticsTracker {
         ONE_PASSWORD_LOGIN,
         ONE_PASSWORD_SIGNUP,
         USER_ACCOUNT_CREATED,
+        USER_ACCOUNT_DELETE_REQUESTED,
         USER_SIGNED_IN,
         USER_SIGNED_OUT,
         APPLICATION_OPENED,

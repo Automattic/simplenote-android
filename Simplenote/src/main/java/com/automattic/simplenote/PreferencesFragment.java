@@ -130,6 +130,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         deleteAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.USER_ACCOUNT_DELETE_REQUESTED,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "preferences_delete_account_button"
+                );
+
                 showDeleteAccountDialog();
                 return true;
             }
@@ -737,6 +743,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
 
             AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.USER_ACCOUNT_DELETE_REQUESTED,
+                    AnalyticsTracker.CATEGORY_USER,
+                    "delete_account_request_success"
+            );
 
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -760,6 +771,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
 
             AppLog.add(Type.ACCOUNT, "Failure while calling server to delete account");
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.USER_ACCOUNT_DELETE_REQUESTED,
+                    AnalyticsTracker.CATEGORY_USER,
+                    "delete_account_request_failure"
+            );
 
             activity.runOnUiThread(new Runnable() {
                 @Override
