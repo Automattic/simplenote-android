@@ -26,6 +26,7 @@ import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.AccountNetworkUtils;
+import com.automattic.simplenote.utils.AccountNetworkUtils.DeleteAccountRequestHandler;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
@@ -35,7 +36,6 @@ import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
-import com.automattic.simplenote.utils.ThemeUtils;
 import com.simperium.Simperium;
 import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
@@ -47,15 +47,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
@@ -350,7 +345,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             return;
         }
 
-        final Callback callbackDeleteAccount = getAccountDeleteCallbackHandler();
+        final DeleteAccountRequestHandler deleteAccountHandler = new DeleteAccountRequestHandlerImpl();
 
         final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
                 .setTitle(R.string.delete_account)
@@ -380,7 +375,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                                 AccountNetworkUtils.makeDeleteAccountRequest(
                                         userEmail,
                                         userToken,
-                                        callbackDeleteAccount);
+                                        deleteAccountHandler);
                             } catch (IllegalArgumentException exception) {
                                 AppLog.add(Type.ACCOUNT, "Error trying to make request " +
                                         "to delete account. Error: " + exception.getMessage());
@@ -408,60 +403,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
         dialogDeleteAccount.show();
-    }
-
-    private Callback getAccountDeleteCallbackHandler() {
-        return new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                FragmentActivity activity = getActivity();
-                if (activity == null) {
-                    return;
-                }
-
-                AppLog.add(Type.ACCOUNT, "Failure while calling server to delete account");
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeProgressDialogDeleteAccount();
-                        showDialogDeleteAccountError();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                FragmentActivity activity = getActivity();
-                if (activity == null) {
-                    return;
-                }
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeProgressDialogDeleteAccount();
-
-                        // The delete account requests return 200 when the request was processed
-                        // successfully. These requests send an email to the user with instructions
-                        // to delete the account. This email is valid for 24h. If the user sends
-                        // another request for deletion and the previous request is still valid,
-                        // the server sends a response with code 202. We take both 200 and 202 as
-                        // successful responses. Both codes are handled by isSuccessful()
-                        if (response.isSuccessful()) {
-                            AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
-
-                            showDeleteAccountConfirmationDialog();
-                        } else {
-                            AppLog.add(Type.ACCOUNT, "Request to delete account had an " +
-                                    "error. Error code: " + response.code());
-
-                            showDialogDeleteAccountError();
-                        }
-                    }
-                });
-            }
-        };
     }
 
     private void showDialogDeleteAccountError() {
@@ -730,6 +671,45 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             } else {
                 fragment.logOut();
             }
+        }
+    }
+
+    class DeleteAccountRequestHandlerImpl implements DeleteAccountRequestHandler {
+
+        @Override
+        public void onSuccess() {
+            FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+
+            AppLog.add(Type.ACCOUNT, "Request to delete account was successful");
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    closeProgressDialogDeleteAccount();
+                    showDeleteAccountConfirmationDialog();
+                }
+            });
+        }
+
+        @Override
+        public void onFailure() {
+            FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+
+            AppLog.add(Type.ACCOUNT, "Failure while calling server to delete account");
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    closeProgressDialogDeleteAccount();
+                    showDialogDeleteAccountError();
+                }
+            });
         }
     }
 }
