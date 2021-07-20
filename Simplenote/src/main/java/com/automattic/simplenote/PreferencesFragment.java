@@ -345,7 +345,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             return;
         }
 
-        final DeleteAccountRequestHandler deleteAccountHandler = new DeleteAccountRequestHandlerImpl();
+        final DeleteAccountRequestHandler deleteAccountHandler = new DeleteAccountRequestHandlerImpl(this);
 
         final AlertDialog dialogDeleteAccount = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog))
                 .setTitle(R.string.delete_account)
@@ -674,11 +674,21 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
     }
 
-    class DeleteAccountRequestHandlerImpl implements DeleteAccountRequestHandler {
+    static class DeleteAccountRequestHandlerImpl implements DeleteAccountRequestHandler {
+        final WeakReference<PreferencesFragment> preferencesFragment;
+
+        DeleteAccountRequestHandlerImpl(PreferencesFragment fragment) {
+            this.preferencesFragment = new WeakReference<>(fragment);
+        }
 
         @Override
         public void onSuccess() {
-            FragmentActivity activity = getActivity();
+            final PreferencesFragment fragment = preferencesFragment.get();
+            if (fragment == null) {
+                return;
+            }
+
+            FragmentActivity activity = fragment.getActivity();
             if (activity == null) {
                 return;
             }
@@ -688,15 +698,20 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    closeProgressDialogDeleteAccount();
-                    showDeleteAccountConfirmationDialog();
+                    fragment.closeProgressDialogDeleteAccount();
+                    fragment.showDeleteAccountConfirmationDialog();
                 }
             });
         }
 
         @Override
         public void onFailure() {
-            FragmentActivity activity = getActivity();
+            final PreferencesFragment fragment = preferencesFragment.get();
+            if (fragment == null) {
+                return;
+            }
+
+            FragmentActivity activity = fragment.getActivity();
             if (activity == null) {
                 return;
             }
@@ -706,8 +721,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    closeProgressDialogDeleteAccount();
-                    showDialogDeleteAccountError();
+                    fragment.closeProgressDialogDeleteAccount();
+                    fragment.showDialogDeleteAccountError();
                 }
             });
         }
