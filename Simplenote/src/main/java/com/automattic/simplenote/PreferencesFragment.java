@@ -153,6 +153,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         findPreference("pref_key_import").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SETTINGS_IMPORT_NOTES,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "preferences_import_data_button"
+                );
+
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");

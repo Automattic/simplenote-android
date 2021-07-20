@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.FileUtils;
@@ -30,11 +31,18 @@ public class Importer {
 
     public static void fromUri(FragmentActivity activity, Uri uri) throws ImportException {
         try {
+            String fileType = FileUtils.getFileExtension(activity, uri);
             new Importer((Simplenote) activity.getApplication())
                     .dispatchFileImport(
-                            FileUtils.getFileExtension(activity, uri),
+                            fileType,
                             FileUtils.readFile(activity, uri)
                     );
+
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.SETTINGS_IMPORT_NOTES,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "import_notes_type_" + fileType
+            );
         } catch (IOException e) {
             throw new ImportException(FailureReason.FileError);
         }
