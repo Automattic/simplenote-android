@@ -491,20 +491,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         } catch (Importer.ImportException e) {
             switch (e.getReason()) {
                 case FileError:
-                    AppLog.add(Type.IMPORT, "File error while importing note. Exception: "
-                            + e.getMessage());
+                    AppLog.add(Type.IMPORT, "File error while importing note. Exception: " + e.getMessage());
 
                     toast(R.string.import_error_file);
                     break;
                 case ParseError:
-                    AppLog.add(Type.IMPORT, "Parse error while importing note. Exception: "
-                            + e.getMessage());
+                    AppLog.add(Type.IMPORT, "Parse error while importing note. Exception: " + e.getMessage());
 
                     toast(R.string.import_error_parse);
                     break;
                 case UnknownExportType:
-                    AppLog.add(Type.IMPORT, "Unknown error while importing note. " +
-                            "Exception: " + e.getMessage());
+                    AppLog.add(Type.IMPORT, "Unknown error while importing note. Exception: " + e.getMessage());
 
                     toast(R.string.import_unknown);
                     break;
