@@ -176,6 +176,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         findPreference("pref_key_import").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.SETTINGS_IMPORT_NOTES,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "preferences_import_data_button"
+                );
+
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
@@ -620,17 +626,33 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
     private void importData(Uri uri) {
         try {
-            Importer.fromUri(this, uri);
+            AppLog.add(Type.IMPORT, "Importing notes from " + uri + ".");
+
+            FragmentActivity activity = getActivity();
+            if (activity == null) {
+                AppLog.add(Type.IMPORT, "Could not import notes since activity is null");
+                return;
+            }
+
+            Importer.fromUri(activity, uri);
             toast(R.string.import_message_success);
+
+            AppLog.add(Type.IMPORT, "Notes imported correctly!");
         } catch (Importer.ImportException e) {
             switch (e.getReason()) {
                 case FileError:
+                    AppLog.add(Type.IMPORT, "File error while importing note. Exception: " + e.getMessage());
+
                     toast(R.string.import_error_file);
                     break;
                 case ParseError:
+                    AppLog.add(Type.IMPORT, "Parse error while importing note. Exception: " + e.getMessage());
+
                     toast(R.string.import_error_parse);
                     break;
                 case UnknownExportType:
+                    AppLog.add(Type.IMPORT, "Unknown error while importing note. Exception: " + e.getMessage());
+
                     toast(R.string.import_unknown);
                     break;
             }
