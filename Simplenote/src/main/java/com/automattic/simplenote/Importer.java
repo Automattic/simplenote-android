@@ -2,8 +2,9 @@ package com.automattic.simplenote;
 
 import android.net.Uri;
 
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.FileUtils;
@@ -20,21 +21,28 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Importer {
-    private Bucket<Note> mNotesBucket;
-    private Bucket<Tag> mTagsBucket;
+    private final Bucket<Note> mNotesBucket;
+    private final Bucket<Tag> mTagsBucket;
 
     public Importer(Simplenote simplenote) {
         mNotesBucket = simplenote.getNotesBucket();
         mTagsBucket = simplenote.getTagsBucket();
     }
 
-    public static void fromUri(Fragment fragment, Uri uri) throws ImportException {
+    public static void fromUri(FragmentActivity activity, Uri uri) throws ImportException {
         try {
-            new Importer((Simplenote) fragment.getActivity().getApplication())
+            String fileType = FileUtils.getFileExtension(activity, uri);
+            new Importer((Simplenote) activity.getApplication())
                     .dispatchFileImport(
-                            FileUtils.getFileExtension(fragment.requireContext(), uri),
-                            FileUtils.readFile(fragment.requireContext(), uri)
+                            fileType,
+                            FileUtils.readFile(activity, uri)
                     );
+
+            AnalyticsTracker.track(
+                    AnalyticsTracker.Stat.SETTINGS_IMPORT_NOTES,
+                    AnalyticsTracker.CATEGORY_NOTE,
+                    "import_notes_type_" + fileType
+            );
         } catch (IOException e) {
             throw new ImportException(FailureReason.FileError);
         }
