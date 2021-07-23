@@ -7,7 +7,6 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +35,6 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
-import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
@@ -52,11 +50,9 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
 import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
@@ -76,6 +72,8 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final String AUTH_PROVIDER = "simplenote.com";
     private static final String TAG_SYNC = "sync";
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
+
+    private Activity mCurrentActivity;
 
     private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
@@ -242,36 +240,8 @@ public class Simplenote extends Application implements HeartbeatListener {
         return user != null ? user.getEmail() : null;
     }
 
-    private void checkReviewAccountOrVerifyEmail(final Activity activity) {
-        if (isFirstLaunch() || !NetworkUtils.isNetworkAvailable(this) || mHasShownReviewOrVerify) {
-            // Show nothing on first launch, no network connection, or has already shown review/verify.
-            return;
-        }
-
-        Account account;
-
-        try {
-            account = mAccountBucket.get(KEY_EMAIL_VERIFICATION);
-        } catch (BucketObjectMissingException bucketObjectMissingException) {
-            // Show review account when entity does not exist.
-            showReviewAccountOrVerifyEmail(activity, false);
-            return;
-        }
-
-        if (mSimperium == null || mSimperium.getUser() == null || mSimperium.getUser().getEmail() == null) {
-            // Show nothing when Simperium, user, or email cannot be retrieved.
-            return;
-        }
-
-        String email = mSimperium.getUser().getEmail();
-
-        if (account.hasVerifiedEmail(email)) {
-            // Show nothing when email has been verified.
-            return;
-        }
-
-        // Show verify email when email has been sent to account address.  Show review account otherwise.
-        showReviewAccountOrVerifyEmail(activity, account.hasSentEmail(email));
+    public void showReviewVerifyAccount(boolean hasSentEmail) {
+        showReviewAccountOrVerifyEmail(mCurrentActivity, hasSentEmail);
     }
 
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
@@ -409,11 +379,12 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-            checkReviewAccountOrVerifyEmail(activity);
+
         }
 
         @Override
         public void onActivityStarted(@NonNull Activity activity) {
+            mCurrentActivity = activity;
         }
 
         @Override
