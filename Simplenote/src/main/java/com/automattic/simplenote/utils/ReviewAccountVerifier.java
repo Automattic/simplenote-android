@@ -42,6 +42,10 @@ public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Acc
         this.simplenote = simplenote;
     }
 
+    public void clearStatus() {
+        currentStatus = Status.UNKNOWN;
+    }
+
     @Override
     public void onNetworkChange(Bucket<Account> bucket, Bucket.ChangeType type, String key) {
         // If we already know the answer, we avoid computing it again
@@ -55,7 +59,7 @@ public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Acc
         if (type == Bucket.ChangeType.INDEX && email != null) {
             try {
                 Account account = bucket.get(KEY_EMAIL_VERIFICATION);
-                boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
+                boolean hasVerifiedEmail = false;//account.hasVerifiedEmail(email);
                 if (!hasVerifiedEmail) {
                     currentStatus = Status.UNVERIFIED;
 

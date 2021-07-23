@@ -75,6 +75,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
     private Activity mCurrentActivity;
+    private ReviewAccountVerifier mReviewAccountVerifier;
 
     private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
@@ -128,7 +129,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
-            mAccountBucket.addOnNetworkChangeListener(new ReviewAccountVerifier(this));
+            mReviewAccountVerifier = new ReviewAccountVerifier(this);
+            mAccountBucket.addOnNetworkChangeListener(mReviewAccountVerifier);
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -240,6 +242,10 @@ public class Simplenote extends Application implements HeartbeatListener {
     public String getUserEmail() {
         User user = mSimperium.getUser();
         return user != null ? user.getEmail() : null;
+    }
+
+    public ReviewAccountVerifier getReviewAccountVerifier() {
+        return mReviewAccountVerifier;
     }
 
     public void showReviewVerifyAccount(boolean hasSentEmail) {

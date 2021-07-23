@@ -27,6 +27,9 @@ public class AuthUtils {
         application.getTagsBucket().reset();
         application.getPreferencesBucket().reset();
 
+        // We have to verify the account for the next user
+        application.getReviewAccountVerifier().clearStatus();
+
         application.getAccountBucket().stop();
         AppLog.add(Type.SYNC, "Stopped account bucket (AuthUtils)");
         application.getNotesBucket().stop();
