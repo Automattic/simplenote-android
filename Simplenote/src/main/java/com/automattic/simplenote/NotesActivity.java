@@ -54,6 +54,7 @@ import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.NoteUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ReviewAccountVerifier;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -1387,6 +1388,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
                 if (resultCode == Activity.RESULT_CANCELED && userAuthenticationIsInvalid()) {
                     finish();
+                } else {
+                    Simplenote simplenote = (Simplenote) getApplication();
+                    ReviewAccountVerifier verifier = new ReviewAccountVerifier(simplenote);
+                    verifier.startJob();
                 }
 
                 break;
