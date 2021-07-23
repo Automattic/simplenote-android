@@ -1,18 +1,7 @@
 package com.automattic.simplenote.utils;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
 
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Account;
