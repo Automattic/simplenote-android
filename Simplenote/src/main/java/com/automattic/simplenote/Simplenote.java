@@ -159,11 +159,6 @@ public class Simplenote extends Application implements HeartbeatListener {
         mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
     }
 
-    private boolean isFirstLaunch() {
-        // NotesActivity sets this pref to false after first launch
-        return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
-    }
-
     public static boolean analyticsIsEnabled() {
         if (mPreferencesBucket == null) {
             return true;
