@@ -36,6 +36,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.ReviewAccountVerifier;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
 import com.simperium.android.AndroidClient;
@@ -127,6 +128,7 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
+            mAccountBucket.addOnNetworkChangeListener(new ReviewAccountVerifier(this));
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
