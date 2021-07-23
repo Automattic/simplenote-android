@@ -59,7 +59,7 @@ public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Acc
         if (type == Bucket.ChangeType.INDEX && email != null) {
             try {
                 Account account = bucket.get(KEY_EMAIL_VERIFICATION);
-                boolean hasVerifiedEmail = false;//account.hasVerifiedEmail(email);
+                boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
                 if (!hasVerifiedEmail) {
                     currentStatus = Status.UNVERIFIED;
 
