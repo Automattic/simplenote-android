@@ -39,9 +39,11 @@ public class ReviewAccountVerifier {
                     public void onChanged(WorkInfo workInfo) {
                         if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                             boolean hasVerifiedEmail = workInfo.getOutputData()
-                                    .getBoolean(AccountCheckerWorker.KEY_RESULT, false);
+                                    .getBoolean(AccountCheckerWorker.KEY_RESULT_HAS_VERIFIED_EMAIL, false);
                             if (!hasVerifiedEmail) {
-                                simplenote.showReviewVerifyAccount(false);
+                                boolean hasSentEmail = workInfo.getOutputData()
+                                        .getBoolean(AccountCheckerWorker.KEY_RESULT_HAS_SENT_EMAIL, true);
+                                simplenote.showReviewVerifyAccount(hasSentEmail);
                             }
                         }
 
@@ -51,7 +53,8 @@ public class ReviewAccountVerifier {
     }
 
     public static class AccountCheckerWorker extends Worker {
-        public static final String KEY_RESULT = "result";
+        public static final String KEY_RESULT_HAS_VERIFIED_EMAIL = "result_has_verified_email";
+        public static final String KEY_RESULT_HAS_SENT_EMAIL = "result_has_sent_email";
 
 
         public AccountCheckerWorker(
@@ -78,12 +81,14 @@ public class ReviewAccountVerifier {
             }
 
             String email = simplenote.getUserEmail();
-            boolean result = account.hasVerifiedEmail(email);
-            Data output = new Data.Builder()
-                    .putBoolean(KEY_RESULT, result)
+            boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
+            boolean hasSentEmail = account.hasSentEmail(email);
+            Data result = new Data.Builder()
+                    .putBoolean(KEY_RESULT_HAS_VERIFIED_EMAIL, hasVerifiedEmail)
+                    .putBoolean(KEY_RESULT_HAS_SENT_EMAIL, hasSentEmail)
                     .build();
 
-            return Result.success(output);
+            return Result.success(result);
         }
     }
 }
