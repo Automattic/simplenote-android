@@ -43,30 +43,32 @@ public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Acc
         }
 
         String email = simplenote.getUserEmail();
+        if (type != Bucket.ChangeType.INDEX || email == null) {
+            return;
+        }
+
         // When a network change of type INDEX is received, it means that the channel finished indexing the bucket, thus
         // we can check whether the account is verified or not
-        if (type == Bucket.ChangeType.INDEX && email != null) {
-            try {
-                Account account = bucket.get(KEY_EMAIL_VERIFICATION);
-                boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
-                if (!hasVerifiedEmail) {
-                    currentStatus = Status.UNVERIFIED;
+        try {
+            Account account = bucket.get(KEY_EMAIL_VERIFICATION);
+            boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
+            if (!hasVerifiedEmail) {
+                currentStatus = Status.UNVERIFIED;
 
-                    final boolean hasSentEmail = account.hasSentEmail(email);
-                    Looper looper = Looper.getMainLooper();
-                    Handler handler = new Handler(looper);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            simplenote.showReviewVerifyAccount(hasSentEmail);
-                        }
-                    });
-                } else {
-                    currentStatus = Status.VERIFIED;
-                }
-            } catch (BucketObjectMissingException e) {
-                AppLog.add(AppLog.Type.SYNC, "Account for email verification is missing");
+                final boolean hasSentEmail = account.hasSentEmail(email);
+                Looper looper = Looper.getMainLooper();
+                Handler handler = new Handler(looper);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        simplenote.showReviewVerifyAccount(hasSentEmail);
+                    }
+                });
+            } else {
+                currentStatus = Status.VERIFIED;
             }
+        } catch (BucketObjectMissingException e) {
+            AppLog.add(AppLog.Type.SYNC, "Account for email verification is missing");
         }
     }
 }
