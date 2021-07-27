@@ -577,6 +577,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                         new View.OnScrollChangeListener() {
                             @Override
                             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                                if (mNote == null) {
+                                    return;
+                                }
                                 mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
                             }
                         }
