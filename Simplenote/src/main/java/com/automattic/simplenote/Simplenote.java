@@ -36,7 +36,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.ReviewAccountVerifier;
+import com.automattic.simplenote.utils.AccountVerificationWatcher;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
 import com.simperium.android.AndroidClient;
@@ -75,7 +75,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
     private Activity mCurrentActivity;
-    private ReviewAccountVerifier mReviewAccountVerifier;
+    private AccountVerificationWatcher mAccountVerificationWatcher;
 
     private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
@@ -129,8 +129,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
-            mReviewAccountVerifier = new ReviewAccountVerifier(this);
-            mAccountBucket.addOnNetworkChangeListener(mReviewAccountVerifier);
+            mAccountVerificationWatcher = new AccountVerificationWatcher(this);
+            mAccountBucket.addOnNetworkChangeListener(mAccountVerificationWatcher);
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -239,8 +239,8 @@ public class Simplenote extends Application implements HeartbeatListener {
         return user != null ? user.getEmail() : null;
     }
 
-    public ReviewAccountVerifier getReviewAccountVerifier() {
-        return mReviewAccountVerifier;
+    public AccountVerificationWatcher getReviewAccountVerifier() {
+        return mAccountVerificationWatcher;
     }
 
     public void showReviewVerifyAccount(boolean hasSentEmail) {

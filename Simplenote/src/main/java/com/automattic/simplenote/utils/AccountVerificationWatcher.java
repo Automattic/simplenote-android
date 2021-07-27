@@ -11,13 +11,13 @@ import com.simperium.client.BucketObjectMissingException;
 import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 
 /**
- * When a user login into their account, Simplenote starts indexing the different buckets including Bucket<Account>.
- * We setup a OnNetworkChangeListener on the account bucket to listen when the bucket is indexed. One of the parameters
- * of the callback onNetworkChange called is Bucket.ChangeType. If this parameter is INDEX, then we know that the
- * account bucket was indexed (synchronized). When the account bucket is synchronized, we can check whether the account
- * was verified or not
+ * Monitors account verification status by watching the `account` bucket and notifies of status and changes.
+ *
+ * When connecting this monitor will wait until we have received positive confirmation from the
+ * server that we're sync'd before reporting the verification status because the account might
+ * have (and probably was) updated from another device.
  */
-public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Account> {
+public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListener<Account> {
     private enum Status {
         UNKNOWN,
         UNVERIFIED,
@@ -27,7 +27,7 @@ public class ReviewAccountVerifier implements Bucket.OnNetworkChangeListener<Acc
     private final Simplenote simplenote;
     private Status currentStatus = Status.UNKNOWN;
 
-    public ReviewAccountVerifier(Simplenote simplenote) {
+    public AccountVerificationWatcher(Simplenote simplenote) {
         this.simplenote = simplenote;
     }
 
