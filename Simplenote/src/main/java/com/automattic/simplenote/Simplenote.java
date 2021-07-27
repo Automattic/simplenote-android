@@ -15,6 +15,7 @@ import android.util.Log;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
@@ -86,7 +87,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
-    private boolean mHasShownReviewOrVerify;
     private boolean mIsInBackground = true;
 
     public void onCreate() {
@@ -129,7 +129,10 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
+            // Setup Account Verification Watcher to listen to network changes on the account bucket
             mAccountVerificationWatcher = new AccountVerificationWatcher(this);
+            VerificationListener verificationListener = new VerificationListener();
+            mAccountVerificationWatcher.addVerificationStateListener(verificationListener);
             mAccountBucket.addOnNetworkChangeListener(mAccountVerificationWatcher);
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
@@ -243,8 +246,31 @@ public class Simplenote extends Application implements HeartbeatListener {
         return mAccountVerificationWatcher;
     }
 
-    public void showReviewVerifyAccount(boolean hasSentEmail) {
-        showReviewAccountOrVerifyEmail(mCurrentActivity, hasSentEmail);
+    private void showUnverifiedAccount() {
+        showReviewAccountOrVerifyEmail(mCurrentActivity, false);
+    }
+
+    private void showWaitingOnEmailConfirmation() {
+        showReviewAccountOrVerifyEmail(mCurrentActivity, true);
+    }
+
+    private void dismissReviewAccountDialog() {
+        FragmentManager fragmentManager;
+        if (mCurrentActivity instanceof NotesActivity) {
+            fragmentManager = ((NotesActivity) mCurrentActivity).getSupportFragmentManager();
+        } else if (mCurrentActivity instanceof NoteEditorActivity) {
+            fragmentManager = ((NoteEditorActivity) mCurrentActivity).getSupportFragmentManager();
+        } else {
+            return;
+        }
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment instanceof FullScreenDialogFragment) {
+                ((FullScreenDialogFragment) fragment).dismiss();
+
+                return;
+            }
+        }
     }
 
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
@@ -271,8 +297,6 @@ public class Simplenote extends Application implements HeartbeatListener {
             .setViewContainer(container)
             .build()
             .show(fragmentManager, FullScreenDialogFragment.TAG);
-
-        mHasShownReviewOrVerify = true;
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
@@ -435,6 +459,24 @@ public class Simplenote extends Application implements HeartbeatListener {
         @Override
         public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
             mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
+        }
+    }
+
+    private class VerificationListener implements AccountVerificationWatcher.VerificationStateListener {
+        @Override
+        public void onUpdate(AccountVerificationWatcher.Status status) {
+            switch (status) {
+                case VERIFIED:
+                    dismissReviewAccountDialog();
+                    return;
+
+                case SENT_EMAIL:
+                    showWaitingOnEmailConfirmation();
+                    return;
+
+                case UNVERIFIED:
+                    showUnverifiedAccount();
+            }
         }
     }
 }
