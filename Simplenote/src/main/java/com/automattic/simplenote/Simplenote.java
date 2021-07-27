@@ -11,6 +11,7 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.multidex.MultiDexApplication;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -41,6 +43,7 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
@@ -56,10 +59,14 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class Simplenote extends Application implements HeartbeatListener {
+import dagger.hilt.android.HiltAndroidApp;
+
+@HiltAndroidApp
+public class Simplenote extends MultiDexApplication implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
     public static final String SCROLL_POSITION_PREFERENCES = "scroll_position";
