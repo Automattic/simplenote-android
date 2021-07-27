@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildToolsVersion '29.0.2'
@@ -130,6 +132,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.commonsware.cwac:anddown:0.4.0'
     implementation 'net.openid:appauth:0.7.0'
+
+    // Dagger Hilt dependencies
+    implementation 'com.google.dagger:hilt-android:2.38'
+    kapt 'com.google.dagger:hilt-compiler:2.38'
+
     wearApp project(':Wear')
 }
 
