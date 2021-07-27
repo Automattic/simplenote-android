@@ -17,6 +17,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
+import androidx.multidex.MultiDexApplication;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -56,12 +57,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.HiltAndroidApp;
+
 import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
 import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
-public class Simplenote extends Application implements HeartbeatListener {
+@HiltAndroidApp
+public class Simplenote extends MultiDexApplication implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
     public static final String SCROLL_POSITION_PREFERENCES = "scroll_position";

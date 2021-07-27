@@ -38,6 +38,7 @@ android {
         versionCode 138
         minSdkVersion 23
         targetSdkVersion 29
+        multiDexEnabled true
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
@@ -120,6 +121,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.work:work-runtime:2.4.0'
     implementation 'androidx.concurrent:concurrent-futures:1.1.0'
+    implementation "androidx.multidex:multidex:2.0.1"
     // Support for ViewModels and LiveData
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
@@ -135,6 +137,7 @@ dependencies {
 
     // Dagger Hilt dependencies
     implementation 'com.google.dagger:hilt-android:2.38'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.38'
     kapt 'com.google.dagger:hilt-compiler:2.38'
 
     wearApp project(':Wear')
