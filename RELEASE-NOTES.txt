@@ -1,6 +1,7 @@
 2.19
 -----
 * Added support to import notes [https://github.com/Automattic/simplenote-android/pull/1333]
+* Fixed crash when searching notes in tablets [https://github.com/Automattic/simplenote-android/pull/1425]
 * Fixed email verification screen appears with verified accounts [https://github.com/Automattic/simplenote-android/pull/1423]
 
 2.18
