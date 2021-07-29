@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TagsViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
+@HiltViewModel
+class TagsViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
