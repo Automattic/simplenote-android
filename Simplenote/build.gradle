@@ -137,8 +137,8 @@ dependencies {
 
     // Dagger Hilt dependencies
     implementation 'com.google.dagger:hilt-android:2.38'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.38'
-    kapt 'com.google.dagger:hilt-compiler:2.38'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
+    kapt 'com.google.dagger:hilt-compiler:2.38.1'
 
     wearApp project(':Wear')
 }
