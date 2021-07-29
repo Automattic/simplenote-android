@@ -36,7 +36,6 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
         this.listener = listener;
     }
 
-
     private void updateState(Status newState) {
         if (newState != currentState) {
             currentState = newState;
@@ -44,11 +43,10 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
         }
     }
 
-    private boolean isValidChangeType(Bucket.ChangeType type, String key) {
+    private static boolean isValidChangeType(Bucket.ChangeType type, String key) {
         return type == Bucket.ChangeType.INDEX ||
                (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
                (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
-
     }
 
     @Override
