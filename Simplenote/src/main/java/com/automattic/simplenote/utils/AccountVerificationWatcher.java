@@ -45,17 +45,17 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
 
     private static boolean isValidChangeType(Bucket.ChangeType type, String key) {
         return type == Bucket.ChangeType.INDEX ||
-               (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
-               (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
+                (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
+                (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
     }
 
     @Override
     public void onNetworkChange(final Bucket<Account> bucket, Bucket.ChangeType type, String key) {
         // If the key for email verification is removed, the status is changed to UNVERIFIED immediately
-       if (type == Bucket.ChangeType.REMOVE && KEY_EMAIL_VERIFICATION.equals(key)) {
-           updateState(Status.UNVERIFIED);
-           return;
-       }
+        if (type == Bucket.ChangeType.REMOVE && KEY_EMAIL_VERIFICATION.equals(key)) {
+            updateState(Status.UNVERIFIED);
+            return;
+        }
 
         String email = simplenote.getUserEmail();
         if (!isValidChangeType(type, key) || email == null) {
