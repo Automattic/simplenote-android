@@ -2,6 +2,8 @@ package com.automattic.simplenote.utils;
 
 import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 
+import androidx.annotation.NonNull;
+
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Account;
 import com.simperium.client.Bucket;
@@ -16,7 +18,6 @@ import com.simperium.client.BucketObjectMissingException;
  */
 public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListener<Account> {
     public enum Status {
-        UNKNOWN,
         SENT_EMAIL,
         UNVERIFIED,
         VERIFIED,
@@ -28,30 +29,25 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
 
     private final Simplenote simplenote;
     private final VerificationStateListener listener;
-    private Status currentState = Status.UNKNOWN;
+    private Status currentState;
 
-    public AccountVerificationWatcher(Simplenote simplenote, VerificationStateListener listener) {
+    public AccountVerificationWatcher(Simplenote simplenote, @NonNull VerificationStateListener listener) {
         this.simplenote = simplenote;
         this.listener = listener;
     }
 
-    private void notifyListener(Status status) {
-        if (listener != null) {
-            listener.onUpdate(status);
-        }
-    }
 
     private void updateState(Status newState) {
         if (newState != currentState) {
             currentState = newState;
-            notifyListener(newState);
+            listener.onUpdate(newState);
         }
     }
 
     private boolean isValidChangeType(Bucket.ChangeType type, String key) {
         return type == Bucket.ChangeType.INDEX ||
-                (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
-                (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
+               (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
+               (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
 
     }
 
