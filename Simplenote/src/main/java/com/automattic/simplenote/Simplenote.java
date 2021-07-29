@@ -130,9 +130,8 @@ public class Simplenote extends Application implements HeartbeatListener {
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
             // Setup Account Verification Watcher to listen to network changes on the account bucket
-            mAccountVerificationWatcher = new AccountVerificationWatcher(this);
             VerificationListener verificationListener = new VerificationListener();
-            mAccountVerificationWatcher.addVerificationStateListener(verificationListener);
+            mAccountVerificationWatcher = new AccountVerificationWatcher(this, verificationListener);
             mAccountBucket.addOnNetworkChangeListener(mAccountVerificationWatcher);
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));

@@ -1,14 +1,11 @@
 package com.automattic.simplenote.utils;
 
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
+
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.models.Account;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 
 /**
  * Monitors account verification status by watching the `account` bucket and notifies of status and changes.
@@ -19,6 +16,7 @@ import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
  */
 public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListener<Account> {
     public enum Status {
+        UNKNOWN,
         SENT_EMAIL,
         UNVERIFIED,
         VERIFIED,
@@ -29,33 +27,44 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
     }
 
     private final Simplenote simplenote;
-    private final List<VerificationStateListener> listeners = new ArrayList<>();
+    private final VerificationStateListener listener;
+    private Status currentState = Status.UNKNOWN;
 
-    public AccountVerificationWatcher(Simplenote simplenote) {
+    public AccountVerificationWatcher(Simplenote simplenote, VerificationStateListener listener) {
         this.simplenote = simplenote;
+        this.listener = listener;
     }
 
-    public void addVerificationStateListener(VerificationStateListener listener) {
-        listeners.add(listener);
-    }
-
-    private void notifyListeners(Status status) {
-        for (VerificationStateListener listener : listeners) {
+    private void notifyListener(Status status) {
+        if (listener != null) {
             listener.onUpdate(status);
         }
     }
 
+    private void updateState(Status newState) {
+        if (newState != currentState) {
+            currentState = newState;
+            notifyListener(newState);
+        }
+    }
+
+    private boolean isValidChangeType(Bucket.ChangeType type, String key) {
+        return type == Bucket.ChangeType.INDEX ||
+                (type == Bucket.ChangeType.INSERT && KEY_EMAIL_VERIFICATION.equals(key)) ||
+                (type == Bucket.ChangeType.MODIFY && KEY_EMAIL_VERIFICATION.equals(key));
+
+    }
+
     @Override
     public void onNetworkChange(final Bucket<Account> bucket, Bucket.ChangeType type, String key) {
-        // If the account is removed, the status is changed to UNVERIFIED immediately since the account will not be
-        // available
-       if (type == Bucket.ChangeType.REMOVE) {
-            notifyListeners(Status.UNVERIFIED);
+        // If the key for email verification is removed, the status is changed to UNVERIFIED immediately
+       if (type == Bucket.ChangeType.REMOVE && KEY_EMAIL_VERIFICATION.equals(key)) {
+            notifyListener(Status.UNVERIFIED);
            return;
        }
 
         String email = simplenote.getUserEmail();
-        if ((type != Bucket.ChangeType.INDEX && type != Bucket.ChangeType.MODIFY) || email == null) {
+        if (!isValidChangeType(type, key) || email == null) {
             return;
         }
 
@@ -71,10 +80,10 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
 
         boolean hasVerifiedEmail = account.hasVerifiedEmail(email);
         if (hasVerifiedEmail) {
-            notifyListeners(Status.VERIFIED);
+            updateState(Status.VERIFIED);
         } else {
             Status statusUpdate = account.hasSentEmail(email) ? Status.SENT_EMAIL : Status.UNVERIFIED;
-            notifyListeners(statusUpdate);
+            updateState(statusUpdate);
         }
     }
 }
