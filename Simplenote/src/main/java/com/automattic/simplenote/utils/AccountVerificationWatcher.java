@@ -70,7 +70,7 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
 
         Account account;
         try {
-            // When a network change of type INDEX or MODIFY is received, it means that the account bucket finished
+            // When a network change of type INDEX, INDEX or MODIFY is received, it means that the account bucket finished
             // indexing or there were some changes in the account. In both cases, we need to check for the account status
             account = bucket.get(KEY_EMAIL_VERIFICATION);
         } catch (BucketObjectMissingException e) {
