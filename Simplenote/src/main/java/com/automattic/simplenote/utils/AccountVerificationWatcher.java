@@ -59,7 +59,7 @@ public class AccountVerificationWatcher implements Bucket.OnNetworkChangeListene
     public void onNetworkChange(final Bucket<Account> bucket, Bucket.ChangeType type, String key) {
         // If the key for email verification is removed, the status is changed to UNVERIFIED immediately
        if (type == Bucket.ChangeType.REMOVE && KEY_EMAIL_VERIFICATION.equals(key)) {
-            notifyListener(Status.UNVERIFIED);
+           updateState(Status.UNVERIFIED);
            return;
        }
 
