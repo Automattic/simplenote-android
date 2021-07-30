@@ -20,7 +20,7 @@ import com.automattic.simplenote.R
  */
 
 inline fun <reified T : DialogFragment> launchDialogFragmentInHiltContainer(
-    @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    @StyleRes themeResId: Int = R.style.Base_Theme_Simplestyle,
     crossinline instantiate: () -> T
 ): ActivityScenario<HiltTestActivity> {
     val startActivityIntent = Intent.makeMainActivity(
