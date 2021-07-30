@@ -141,6 +141,7 @@
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
         <item name="colorAccent">@color/item_default_light</item>
+        <item name="colorSecondary">@color/item_publication_light</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
@@ -149,6 +150,7 @@
         <item name="colorAccent">@color/item_black_light</item>
         <item name="colorPrimary">@android:color/black</item>
         <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorSecondary">@color/item_publication_dark</item>
     </style>
 
     <style name="Theme.Simplestyle.BottomSheetDialog.Classic" parent="@style/Theme.Simplestyle.BottomSheetDialog">

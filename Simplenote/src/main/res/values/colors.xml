@@ -126,6 +126,7 @@
     <color name="text_title_dark">@android:color/white</color>
     <color name="text_title_disabled">@color/gray_30</color>
     <color name="text_title_light">@color/gray_80</color>
+    <color name="text_button_red">@color/red_50</color>
 
     <!-- SIMPERIUM -->
     <color name="background_button_disabled">@color/gray_20</color>

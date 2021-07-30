@@ -32,7 +32,7 @@ public class AppLog {
         String log;
 
         if (type == Type.ACCOUNT || type == Type.DEVICE) {
-            log = message;
+            log = message + "\n";
         } else {
             String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US).format(new Date());
             log = timestamp + " - " + type.toString() + ": " + message + "\n";
