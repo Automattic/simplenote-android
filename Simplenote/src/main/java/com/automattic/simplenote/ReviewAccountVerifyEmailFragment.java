@@ -45,7 +45,7 @@ import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
  * an account has not been confirmed through a verification email link, the review account interface
  * is shown.  If a verification email has been sent, the verify email interface is shown.
  */
-public class ReviewAccountVerifyEmailFragment extends Fragment implements FullScreenDialogContent, Bucket.OnNetworkChangeListener<Account> {
+public class ReviewAccountVerifyEmailFragment extends Fragment implements FullScreenDialogContent {
     public static final String EXTRA_SENT_EMAIL = "EXTRA_SENT_EMAIL";
 
     private static final String URL_SETTINGS_REDIRECT = "https://app.simplenote.com/settings/";
@@ -82,7 +82,6 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBucketAccount = ((Simplenote) requireActivity().getApplication()).getAccountBucket();
-        mBucketAccount.addOnNetworkChangeListener(this);
 
         View layout = inflater.inflate(R.layout.fragment_review_account_verify_email, container, false);
         mHasSentEmail = getArguments() != null && getArguments().getBoolean(EXTRA_SENT_EMAIL);
@@ -146,7 +145,6 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
 
     @Override
     public void onDestroyView() {
-        mBucketAccount.removeOnNetworkChangeListener(this);
         super.onDestroyView();
     }
 
@@ -158,11 +156,6 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
             "verification_dismissed"
         );
         return false;
-    }
-
-    @Override
-    public void onNetworkChange(Bucket<Account> bucket, Bucket.ChangeType type, String key) {
-        dismissIfVerified();
     }
 
     @Override
