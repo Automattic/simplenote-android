@@ -5,7 +5,7 @@ orbs:
 version: 2.1
 jobs:
   Test:
-    executor: 
+    executor:
       name: android/default
       api-version: "29"
     steps:
@@ -20,7 +20,7 @@ jobs:
       - android/save-gradle-cache
       - android/save-test-results
   Lint:
-    executor: 
+    executor:
       name: android/default
       api-version: "29"
     steps:
