@@ -2,6 +2,7 @@ package com.automattic.simplenote.utils;
 
 import android.util.Log;
 
+import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -11,6 +12,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 public class TagUtils {
@@ -165,4 +169,42 @@ public class TagUtils {
             .replace(".", "%2E")
             .replace("_", "%5F");
     }
+
+    /**
+     * Rename a tag in a note, given the name of the tag to be renamed and the new tag name.
+     * @param tagOld The tag to be renamed.
+     * @param tagNew The tag to replace the old tag.
+     * @param note The note object to be modified.
+     */
+    public static void renameTagInNote(Note note, String tagOld, String tagNew) {
+        List<String> tags = note.getTags();
+
+        List<String> tagHashList = new ArrayList<>();
+        for (String tag : tags) {
+            tagHashList.add(TagUtils.hashTag(tag));
+        }
+
+        String tagOldHash = TagUtils.hashTag(tagOld);
+        String tagNewHash = TagUtils.hashTag(tagNew);
+        boolean isOldHashEqualNew = tagOldHash.equals(tagNewHash);
+
+        ListIterator<String> iterator = tags.listIterator();
+        while (iterator.hasNext()) {
+            String tag = iterator.next();
+
+            if (tag.equals(tagOld)) {
+                // Remove old tag
+                iterator.remove();
+
+                if (isOldHashEqualNew || !tagHashList.contains(tagNewHash)) {
+                    // Add new tag
+                    iterator.add(tagNew);
+                }
+            }
+
+        }
+
+        note.setTags(tags);
+    }
+
 }
