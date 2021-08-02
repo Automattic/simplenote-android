@@ -59,3 +59,7 @@ google-upload-credentials.json
 # Everything without a .enc extension is ignored
 .configure-files/*
 !.configure-files/*.enc
+# This secret is not part of the repository anymore, but we keep it in the
+# gitignore for retrocompatibility, so that it won't appear as a new file and
+# be accidentally checked in the repository.
+google-upload-credentials.json

@@ -43,6 +43,8 @@ SUPPORTED_LOCALES = [
   { glotpress: "zh-tw", google_play: "zh-TW",  promo_config: {} },
 ].freeze
 
+UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-android', 'secrets', 'google-upload-credentials.json')
+
 ########################################################################
 # Release Lanes
 ########################################################################
@@ -382,7 +384,7 @@ SUPPORTED_LOCALES = [
       skip_upload_changelogs: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
-      json_key: './google-upload-credentials.json',
+      json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY,
     ) unless upload_track.blank?
 
     apk_file_path
