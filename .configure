@@ -1,7 +1,7 @@
 {
   "project_name": "simplenote-android",
   "branch": "trunk",
-  "pinned_hash": "22b584c6e99946ef9fb20ce62b8f729c5bea16b7",
+  "pinned_hash": "1fa6315925665d577d1570adb56906c4ed47bc2c",
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
@@ -20,12 +20,12 @@
     },
     {
       "file": "android/debug.keystore",
-      "destination": "~/.android/debug_a8c.keystore",
+      "destination": "~/.configure/simplenote-android/secrets/debug_a8c.keystore",
       "encrypt": true
     },
     {
       "file": "android/Simplenote/google-upload-credentials.json",
-      "destination": "google-upload-credentials.json",
+      "destination": "~/.configure/simplenote-android/secrets/google-upload-credentials.json",
       "encrypt": false
     }
   ],
