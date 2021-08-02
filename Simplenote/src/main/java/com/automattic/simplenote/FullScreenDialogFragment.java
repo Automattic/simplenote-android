@@ -187,9 +187,7 @@ public class FullScreenDialogFragment extends DialogFragment {
             showActivityBar();
         }
 
-        if (getFragmentManager() != null) {
-            getFragmentManager().popBackStackImmediate();
-        }
+        super.dismiss();
     }
 
     @Override
