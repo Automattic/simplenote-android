@@ -91,7 +91,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'androidx.work:work-runtime:2.4.0'
+    implementation 'androidx.work:work-runtime:2.5.0'
     implementation 'androidx.concurrent:concurrent-futures:1.1.0'
     // Google Play Services
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'

@@ -179,6 +179,12 @@ public class FullScreenDialogFragment extends DialogFragment {
 
     @Override
     public void dismiss() {
+        // If isStateSaved() is true, it means that the application is not in the foreground, thus, we cannot
+        // dismiss the dialog because it would cause an IllegalStateException
+        if (isStateSaved()) {
+            return;
+        }
+
         if (mOnDismissListener != null) {
             mOnDismissListener.onDismiss();
         }
@@ -187,9 +193,7 @@ public class FullScreenDialogFragment extends DialogFragment {
             showActivityBar();
         }
 
-        if (getFragmentManager() != null) {
-            getFragmentManager().popBackStackImmediate();
-        }
+        super.dismiss();
     }
 
     @Override

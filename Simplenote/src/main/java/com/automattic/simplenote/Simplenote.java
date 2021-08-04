@@ -1,5 +1,9 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -7,7 +11,6 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +19,7 @@ import android.util.Log;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
@@ -32,11 +36,11 @@ import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AccountVerificationWatcher;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
-import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
@@ -52,14 +56,8 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
-import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
@@ -77,6 +75,8 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final String TAG_SYNC = "sync";
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
+    private Activity mCurrentActivity;
+
     private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
 
@@ -86,7 +86,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
-    private boolean mHasShownReviewOrVerify;
     private boolean mIsInBackground = true;
 
     public void onCreate() {
@@ -129,6 +128,9 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
+            mAccountBucket.addOnNetworkChangeListener(
+                    new AccountVerificationWatcher(this, new VerificationListener())
+            );
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -155,11 +157,6 @@ public class Simplenote extends Application implements HeartbeatListener {
         AppLog.add(Type.NETWORK, "Heartbeat received");
         mHeartbeatHandler.removeCallbacks(mHeartbeatRunnable);
         mHeartbeatHandler.postDelayed(mHeartbeatRunnable, HEARTBEAT_TIMEOUT);
-    }
-
-    private boolean isFirstLaunch() {
-        // NotesActivity sets this pref to false after first launch
-        return PrefUtils.getBoolPref(this, PrefUtils.PREF_FIRST_LAUNCH, true);
     }
 
     public static boolean analyticsIsEnabled() {
@@ -242,36 +239,31 @@ public class Simplenote extends Application implements HeartbeatListener {
         return user != null ? user.getEmail() : null;
     }
 
-    private void checkReviewAccountOrVerifyEmail(final Activity activity) {
-        if (isFirstLaunch() || !NetworkUtils.isNetworkAvailable(this) || mHasShownReviewOrVerify) {
-            // Show nothing on first launch, no network connection, or has already shown review/verify.
+    private void showUnverifiedAccount() {
+        showReviewAccountOrVerifyEmail(mCurrentActivity, false);
+    }
+
+    private void showWaitingOnEmailConfirmation() {
+        showReviewAccountOrVerifyEmail(mCurrentActivity, true);
+    }
+
+    private void dismissReviewAccountDialog() {
+        FragmentManager fragmentManager;
+        if (mCurrentActivity instanceof NotesActivity) {
+            fragmentManager = ((NotesActivity) mCurrentActivity).getSupportFragmentManager();
+        } else if (mCurrentActivity instanceof NoteEditorActivity) {
+            fragmentManager = ((NoteEditorActivity) mCurrentActivity).getSupportFragmentManager();
+        } else {
             return;
         }
 
-        Account account;
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment instanceof FullScreenDialogFragment) {
+                ((FullScreenDialogFragment) fragment).dismiss();
 
-        try {
-            account = mAccountBucket.get(KEY_EMAIL_VERIFICATION);
-        } catch (BucketObjectMissingException bucketObjectMissingException) {
-            // Show review account when entity does not exist.
-            showReviewAccountOrVerifyEmail(activity, false);
-            return;
+                return;
+            }
         }
-
-        if (mSimperium == null || mSimperium.getUser() == null || mSimperium.getUser().getEmail() == null) {
-            // Show nothing when Simperium, user, or email cannot be retrieved.
-            return;
-        }
-
-        String email = mSimperium.getUser().getEmail();
-
-        if (account.hasVerifiedEmail(email)) {
-            // Show nothing when email has been verified.
-            return;
-        }
-
-        // Show verify email when email has been sent to account address.  Show review account otherwise.
-        showReviewAccountOrVerifyEmail(activity, account.hasSentEmail(email));
     }
 
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
@@ -298,8 +290,6 @@ public class Simplenote extends Application implements HeartbeatListener {
             .setViewContainer(container)
             .build()
             .show(fragmentManager, FullScreenDialogFragment.TAG);
-
-        mHasShownReviewOrVerify = true;
     }
 
     private class ApplicationLifecycleMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
@@ -409,11 +399,12 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         @Override
         public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-            checkReviewAccountOrVerifyEmail(activity);
+
         }
 
         @Override
         public void onActivityStarted(@NonNull Activity activity) {
+            mCurrentActivity = activity;
         }
 
         @Override
@@ -461,6 +452,24 @@ public class Simplenote extends Application implements HeartbeatListener {
         @Override
         public void onUpdate(String entityId, Calendar lastSyncTime, boolean isSynced) {
             mPreferences.edit().putLong(entityId, lastSyncTime.getTimeInMillis()).apply();
+        }
+    }
+
+    private class VerificationListener implements AccountVerificationWatcher.VerificationStateListener {
+        @Override
+        public void onUpdate(AccountVerificationWatcher.Status status) {
+            switch (status) {
+                case VERIFIED:
+                    dismissReviewAccountDialog();
+                    return;
+
+                case SENT_EMAIL:
+                    showWaitingOnEmailConfirmation();
+                    return;
+
+                case UNVERIFIED:
+                    showUnverifiedAccount();
+            }
         }
     }
 }
