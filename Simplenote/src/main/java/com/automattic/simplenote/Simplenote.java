@@ -128,7 +128,6 @@ public class Simplenote extends Application implements HeartbeatListener {
             mTagsBucket = mSimperium.bucket(tagSchema);
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
-            // Setup Account Verification Watcher to listen to network changes on the account bucket
             mAccountBucket.addOnNetworkChangeListener(
                     new AccountVerificationWatcher(this, new VerificationListener())
             );
