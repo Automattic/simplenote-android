@@ -1,5 +1,9 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -32,12 +36,12 @@ import com.automattic.simplenote.models.NoteCountIndexer;
 import com.automattic.simplenote.models.NoteTagger;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.utils.AccountVerificationWatcher;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
-import com.automattic.simplenote.utils.AccountVerificationWatcher;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
 import com.simperium.android.AndroidClient;
@@ -54,10 +58,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
 
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
@@ -76,7 +76,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     private static final long HEARTBEAT_TIMEOUT =  WebSocketManager.HEARTBEAT_INTERVAL * 2;
 
     private Activity mCurrentActivity;
-    private AccountVerificationWatcher mAccountVerificationWatcher;
 
     private static Bucket<Account> mAccountBucket;
     private static Bucket<Preferences> mPreferencesBucket;
@@ -130,9 +129,9 @@ public class Simplenote extends Application implements HeartbeatListener {
             mPreferencesBucket = mSimperium.bucket(new Preferences.Schema());
             mAccountBucket = mSimperium.bucket(new Account.Schema());
             // Setup Account Verification Watcher to listen to network changes on the account bucket
-            VerificationListener verificationListener = new VerificationListener();
-            mAccountVerificationWatcher = new AccountVerificationWatcher(this, verificationListener);
-            mAccountBucket.addOnNetworkChangeListener(mAccountVerificationWatcher);
+            mAccountBucket.addOnNetworkChangeListener(
+                    new AccountVerificationWatcher(this, new VerificationListener())
+            );
             // Every time a note changes or is deleted we need to reindex the tag counts
             mNotesBucket.addListener(new NoteTagger(mTagsBucket));
         } catch (BucketNameInvalid e) {
@@ -239,10 +238,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     public String getUserEmail() {
         User user = mSimperium.getUser();
         return user != null ? user.getEmail() : null;
-    }
-
-    public AccountVerificationWatcher getReviewAccountVerifier() {
-        return mAccountVerificationWatcher;
     }
 
     private void showUnverifiedAccount() {
