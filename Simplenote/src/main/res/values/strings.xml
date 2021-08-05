@@ -112,7 +112,6 @@
     <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
 
     <!-- Tags -->
-    <string name="test_dialog_string">@string/save</string>
     <string name="add_tag">Add Tag</string>
     <string name="dialog_tag_add_button_negative" translatable="false">@android:string/cancel</string>
     <string name="dialog_tag_add_button_positive" translatable="false">@string/save</string>
