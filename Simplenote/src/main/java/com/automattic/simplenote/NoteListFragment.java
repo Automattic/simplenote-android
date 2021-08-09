@@ -1,9 +1,24 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SEARCH;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.RECENT_SEARCH_TAPPED;
+import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
+import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
+import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
+import static com.automattic.simplenote.models.Suggestion.Type.TAG;
+import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
+import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -40,11 +55,8 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.ListFragment;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,28 +98,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_SEARCH;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.RECENT_SEARCH_TAPPED;
-import static com.automattic.simplenote.models.Note.TAGS_PROPERTY;
-import static com.automattic.simplenote.models.Preferences.MAX_RECENT_SEARCHES;
-import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
-import static com.automattic.simplenote.models.Suggestion.Type.HISTORY;
-import static com.automattic.simplenote.models.Suggestion.Type.QUERY;
-import static com.automattic.simplenote.models.Suggestion.Type.TAG;
-import static com.automattic.simplenote.models.Tag.NAME_PROPERTY;
-import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
-import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_DESCENDING_LABEL;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_ASCENDING_LABEL;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_CREATED_DESCENDING_LABEL;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
-import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
 
 /**
  * A list fragment representing a list of Notes. This fragment also supports
@@ -160,10 +150,8 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     private ListView mList;
     private RecyclerView mSuggestionList;
     private RelativeLayout mSuggestionLayout;
-    private SharedPreferences mPreferences;
     private String mSelectedNoteId;
     private SuggestionAdapter mSuggestionAdapter;
-    private TextView mSortOrder;
     private RefreshListTask mRefreshListTask;
     private RefreshListForSearchTask mRefreshListForSearchTask;
     private int mDeletedItemIndex;
@@ -368,7 +356,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             createNewNote("", "new_note_shortcut");
         }
 
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         mRootView = view.findViewById(R.id.list_root);
 
         LinearLayout emptyView = view.findViewById(android.R.id.empty);
@@ -409,75 +396,14 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
         mSuggestionAdapter = new SuggestionAdapter(new ArrayList<Suggestion>());
         mSuggestionList.setAdapter(mSuggestionAdapter);
         mSuggestionList.setLayoutManager(new LinearLayoutManager(requireContext()));
-        @SuppressLint("InflateParams")
-        LinearLayout sortLayoutContainer = (LinearLayout) getLayoutInflater().inflate(R.layout.sort_bar, null, false);
-        RelativeLayout sortLayoutContent = sortLayoutContainer.findViewById(R.id.sort_content);
-        mSortOrder = sortLayoutContainer.findViewById(R.id.sort_order);
-        mSortOrder.setText(getSortOrderText());
-        sortLayoutContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = ThemeUtils.getStyle(requireContext()) == R.style.Style_Sepia ?
-                    new ContextThemeWrapper(requireContext(), R.style.ToolbarTheme_Popup_Sepia) :
-                    mSortOrder.getContext();
-                PopupMenu popup = new PopupMenu(context, mSortOrder, Gravity.START);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.sort_bar, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        // Do nothing when same sort is selected.
-                        if (mSortOrder.getText().equals(item.getTitle())) {
-                            return false;
-                        }
 
-                        mSortOrder.setText(item.getTitle());
-
-                        switch (item.getItemId()) {
-                            case R.id.sort_alphabetical:
-                                updateSortOrder(ALPHABETICAL_ASCENDING_LABEL, ALPHABETICAL_ASCENDING);
-                                return true;
-                            case R.id.sort_alphabetical_reverse:
-                                updateSortOrder(ALPHABETICAL_DESCENDING_LABEL, ALPHABETICAL_DESCENDING);
-                                return true;
-                            case R.id.sort_newest_created:
-                                updateSortOrder(DATE_CREATED_DESCENDING_LABEL, DATE_CREATED_DESCENDING);
-                                return true;
-                            case R.id.sort_oldest_created:
-                                updateSortOrder(DATE_CREATED_ASCENDING_LABEL, DATE_CREATED_ASCENDING);
-                                return true;
-                            case R.id.sort_newest_modified:
-                                updateSortOrder(DATE_MODIFIED_DESCENDING_LABEL, DATE_MODIFIED_DESCENDING);
-                                return true;
-                            case R.id.sort_oldest_modified:
-                                updateSortOrder(DATE_MODIFIED_ASCENDING_LABEL, DATE_MODIFIED_ASCENDING);
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-                popup.show();
-            }
-        });
         mList = view.findViewById(android.R.id.list);
-        mList.addHeaderView(sortLayoutContainer);
 
         mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
         setListAdapter(mNotesAdapter);
 
         getListView().setOnItemLongClickListener(this);
         getListView().setMultiChoiceModeListener(this);
-    }
-
-    private void updateSortOrder(String label, int index) {
-        AnalyticsTracker.track(
-            AnalyticsTracker.Stat.LIST_SORTBAR_MODE_CHANGED,
-            AnalyticsTracker.CATEGORY_SETTING,
-            label
-        );
-        mPreferences.edit().putString(PrefUtils.PREF_SORT_ORDER, String.valueOf(index)).apply();
-        refreshList();
     }
 
     public void showListPadding(boolean show) {
@@ -487,25 +413,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             mList.getPaddingRight(),
             show ? (int) getResources().getDimension(R.dimen.note_list_item_padding_bottom_button) : 0
         );
-    }
-
-    private @StringRes
-    int getSortOrderText() {
-        switch (PrefUtils.getIntPref(requireContext(), PrefUtils.PREF_SORT_ORDER)) {
-            case ALPHABETICAL_ASCENDING:
-                return R.string.sort_alphabetical;
-            case ALPHABETICAL_DESCENDING:
-                return R.string.sort_alphabetical_reverse;
-            case DATE_CREATED_ASCENDING:
-                return R.string.sort_oldest_created;
-            case DATE_CREATED_DESCENDING:
-                return R.string.sort_newest_created;
-            case DATE_MODIFIED_ASCENDING:
-                return R.string.sort_oldest_modified;
-            case DATE_MODIFIED_DESCENDING:
-            default:
-                return R.string.sort_newest_modified;
-        }
     }
 
     public void createNewNote(String title, String label) {
@@ -672,7 +579,6 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
     }
 
     public void refreshList() {
-        mSortOrder.setText(getSortOrderText());
         refreshList(false);
     }
 
