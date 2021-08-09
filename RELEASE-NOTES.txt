@@ -1,3 +1,7 @@
+2.20
+-----
+
+
 2.19
 -----
 * Added support to import notes [https://github.com/Automattic/simplenote-android/pull/1333]
