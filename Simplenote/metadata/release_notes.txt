@@ -1,1 +1,5 @@
-* Redesigned signup flow
+* Added support to import notes
+* Fixed crash when searching notes in tablets
+* Added In App Account Deletion
+* Fixed email verification screen appears with verified accounts
+* Changed the new note icon
