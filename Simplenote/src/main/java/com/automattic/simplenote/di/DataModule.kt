@@ -7,6 +7,7 @@ import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.repositories.SimperiumTagsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.simperium.client.Bucket
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,15 +16,15 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
+abstract class DataModule {
+    companion object {
+        @Provides
+        fun providesTagsBucket(@ApplicationContext appContext: Context): Bucket<Tag> = (appContext as Simplenote).tagsBucket
 
-    @Provides
-    fun providesTagsBucket(@ApplicationContext appContext: Context): Bucket<Tag> = (appContext as Simplenote).tagsBucket
+        @Provides
+        fun providesNotesBucket(@ApplicationContext appContext: Context): Bucket<Note> = (appContext as Simplenote).notesBucket
+    }
 
-    @Provides
-    fun providesNotesBucket(@ApplicationContext appContext: Context): Bucket<Note> = (appContext as Simplenote).notesBucket
-
-    @Provides
-    fun providesTagsRepository(tagsBucket: Bucket<Tag>, notesBucket: Bucket<Note>): TagsRepository =
-        SimperiumTagsRepository(tagsBucket, notesBucket)
+    @Binds
+    abstract fun bindsTagsRepository(repository: SimperiumTagsRepository): TagsRepository
 }
