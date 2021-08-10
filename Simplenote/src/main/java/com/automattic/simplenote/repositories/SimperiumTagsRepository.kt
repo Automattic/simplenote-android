@@ -17,8 +17,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SimperiumTagsRepository(
+class SimperiumTagsRepository @Inject constructor(
         private val tagsBucket: Bucket<Tag>,
         private val notesBucket: Bucket<Note>
 ) : TagsRepository {
