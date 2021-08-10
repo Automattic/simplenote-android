@@ -49,7 +49,7 @@
         android:layout_margin="@dimen/padding_small"
         android:layout_width="@dimen/minimum_target"
         android:padding="@dimen/padding_medium"
-        android:src="@drawable/ic_add_24dp"
+        android:src="@drawable/ic_new_note_24dp"
         android:tint="@android:color/white"
         android:visibility="gone">
     </ImageView>

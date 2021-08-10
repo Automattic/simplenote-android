@@ -63,7 +63,7 @@
         android:layout_marginBottom="@dimen/padding_large"
         android:layout_marginEnd="@dimen/padding_large"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_add_24dp"
+        android:src="@drawable/ic_new_note_24dp"
         app:backgroundTint="?attr/fabColor"
         app:borderWidth="0dp"
         app:elevation="8dp"

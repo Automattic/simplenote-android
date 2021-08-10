@@ -9,6 +9,12 @@
     <string name="share">Share</string>
     <string name="new_note">New Note</string>
     <string name="account">Account</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_message">By deleting your account, all notes created with this account will be permanently deleted. This action is not reversible.</string>
+    <string name="request_received">Request Received</string>
+    <string name="account_deletion_message">An email was sent to %1$s. Check your inbox and follow the instructions to confirm account deletion.\n\nYour account won\'t be deleted until we receive your confirmation.</string>
+    <string name="error_ocurred_message">An error occurred. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
+    <string name="requesting_message">Requesting…</string>
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="words">Words</string>
@@ -101,8 +107,13 @@
 
     <!-- Preferences -->
     <string name="export_file">simplenote.json</string>
+    <string name="import_error_file">Cannot read file</string>
+    <string name="import_error_parse">Cannot parse file</string>
+    <string name="import_message_success">Data loaded</string>
+    <string name="import_unknown">Unknown format</string>
     <string name="export_message_failure">Data could not be saved</string>
     <string name="export_message_success">Data saved to file</string>
+    <string name="import_setting">Import data</string>
     <string name="export_setting">Export data</string>
     <string name="editor">Editor</string>
     <string name="condensed_note_list">Condensed note list</string>

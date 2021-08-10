@@ -40,20 +40,22 @@
 
     <ImageView
         android:id="@+id/widget_button"
+        android:layout_width="@dimen/minimum_target"
+        android:layout_height="@dimen/minimum_target"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginBottom="@dimen/padding_small"
         android:background="@drawable/bg_ripple_oval_mono_dark"
         android:clickable="true"
         android:contentDescription="@string/new_note"
         android:focusable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_height="@dimen/minimum_target"
-        android:layout_margin="@dimen/padding_small"
-        android:layout_width="@dimen/minimum_target"
         android:padding="@dimen/padding_medium"
-        android:src="@drawable/ic_add_24dp"
+        android:src="@drawable/ic_new_note_24dp"
         android:tint="@color/gray_100"
         android:visibility="gone"
-        tools:visibility="visible">
-    </ImageView>
+        tools:visibility="visible"></ImageView>
 
 </RelativeLayout>
