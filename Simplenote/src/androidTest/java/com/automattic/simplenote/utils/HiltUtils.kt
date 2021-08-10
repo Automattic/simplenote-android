@@ -10,6 +10,8 @@ import com.automattic.simplenote.HiltTestActivity
 import com.automattic.simplenote.R
 
 /**
+ * Source: https://developer.android.com/training/dependency-injection/hilt-testing#launchfragment
+ *
  * launchDialogFragmentInHiltContainer from the androidx.fragment:fragment-testing library
  * is NOT possible to use right now as it uses a hardcoded Activity under the hood
  * (i.e. [EmptyFragmentActivity]) which is not annotated with @AndroidEntryPoint.
