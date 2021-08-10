@@ -5,12 +5,15 @@ orbs:
 version: 2.1
 jobs:
   Test:
-    executor: 
+    executor:
       name: android/default
       api-version: "29"
     steps:
       - checkout
       - android/restore-gradle-cache
+      - run:
+          name: Configure gradle
+          command: echo $'\norg.gradle.jvmargs=-Xmx3072m -XX:+HeapDumpOnOutOfMemoryError -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false' >> gradle.properties
       - run:
           name: Build
           command: ./gradlew --stacktrace assembleDebug assembleRelease
@@ -20,7 +23,7 @@ jobs:
       - android/save-gradle-cache
       - android/save-test-results
   Lint:
-    executor: 
+    executor:
       name: android/default
       api-version: "29"
     steps:
