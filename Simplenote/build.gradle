@@ -38,7 +38,6 @@ android {
         versionCode 138
         minSdkVersion 23
         targetSdkVersion 29
-        multiDexEnabled true
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
