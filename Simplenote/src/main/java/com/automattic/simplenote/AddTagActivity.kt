@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class AddTagActivity : AppCompatActivity(), TextWatcher {
+class AddTagActivity : AppCompatActivity() {
     private val viewModel: AddTagViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,14 +106,6 @@ class AddTagActivity : AppCompatActivity(), TextWatcher {
             }
         })
     }
-
-    override fun afterTextChanged(s: Editable) {
-        viewModel.updateUiState(s.toString())
-    }
-
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
     private fun showDialogError() {
         val dialog = AlertDialog.Builder(ContextThemeWrapper(this@AddTagActivity, R.style.Dialog))
