@@ -28,8 +28,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.automattic.simplenote.models.Note;
-import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.models.TagItem;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -38,13 +36,13 @@ import com.automattic.simplenote.utils.TagItemAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.viewmodels.TagsEvent;
 import com.automattic.simplenote.viewmodels.TagsViewModel;
-import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import com.automattic.simplenote.widgets.MorphSetup;
-import com.simperium.client.Bucket;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import kotlin.Unit;
 
+@AndroidEntryPoint
 public class TagsActivity extends ThemedAppCompatActivity {
     private static final int REQUEST_ADD_TAG = 9000;
 
@@ -56,21 +54,13 @@ public class TagsActivity extends ThemedAppCompatActivity {
 
     private TagsViewModel viewModel;
     private TagItemAdapter tagItemAdapter;
-    Bucket<Tag> mTagsBucket;
-    Bucket<Note> mNotesBucket;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
 
-        Simplenote application = (Simplenote) getApplication();
-        mTagsBucket = application.getTagsBucket();
-        mNotesBucket = application.getNotesBucket();
-
-        ViewModelFactory viewModelFactory = new ViewModelFactory(mTagsBucket, mNotesBucket, this, null);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
-        viewModel = viewModelProvider.get(TagsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TagsViewModel.class);
 
         tagItemAdapter = new TagItemAdapter(
                 (TagItem tagItem) -> {
@@ -188,11 +178,7 @@ public class TagsActivity extends ThemedAppCompatActivity {
     }
 
     private void showTagDialogFragment(TagsEvent.EditTagEvent event) {
-        TagDialogFragment dialog = new TagDialogFragment(
-                event.getTagItem().getTag(),
-                mNotesBucket,
-                mTagsBucket
-        );
+        TagDialogFragment dialog = new TagDialogFragment(event.getTagItem().getTag());
         dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
     }
 

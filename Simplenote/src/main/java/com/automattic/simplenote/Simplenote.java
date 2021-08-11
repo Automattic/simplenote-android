@@ -1,5 +1,10 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -7,7 +12,6 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,15 +56,12 @@ import org.wordpress.passcodelock.AppLockManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
-import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
+import dagger.hilt.android.HiltAndroidApp;
 
+@HiltAndroidApp
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";

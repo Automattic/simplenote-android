@@ -20,26 +20,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.viewmodels.TagDialogEvent;
 import com.automattic.simplenote.viewmodels.TagDialogViewModel;
-import com.automattic.simplenote.viewmodels.ViewModelFactory;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.simperium.client.Bucket;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class TagDialogFragment extends AppCompatDialogFragment implements TextWatcher, OnShowListener {
     public static String DIALOG_TAG = "dialog_tag";
 
     private AlertDialog mDialogEditTag;
-    private Bucket<Note> mBucketNote;
-    private Bucket<Tag> mBucketTag;
     private Button mButtonNegative;
     private Button mButtonNeutral;
     private Button mButtonPositive;
-    private Tag mTag;
+    private final Tag tag;
     private TextInputEditText mEditTextTag;
     private TextInputLayout mEditTextLayout;
     private TextView mMessage;
@@ -50,19 +48,15 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
     private TagDialogViewModel viewModel;
 
-    public TagDialogFragment(Tag tag, Bucket<Note> bucketNote, Bucket<Tag> bucketTag) {
-        mTag = tag;
-        mBucketNote = bucketNote;
-        mBucketTag = bucketTag;
+    public TagDialogFragment(Tag tag) {
+        this.tag = tag;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, mBucketNote, this, null);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
-        viewModel = viewModelProvider.get(TagDialogViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TagDialogViewModel.class);
     }
 
     @Override
@@ -140,10 +134,10 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
         // Set observers when views are available
         setObservers();
-        viewModel.start(mTag);
+        viewModel.start(tag);
 
         showDialogRenameTag();
-        mEditTextTag.setText(mTag.getName());
+        mEditTextTag.setText(tag.getName());
     }
 
     @Override
