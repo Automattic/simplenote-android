@@ -1,6 +1,6 @@
 2.20
 -----
-
+* Removed sort bar from notes list but still accessible from settings [1438](https://github.com/Automattic/simplenote-android/pull/1438)
 
 2.19
 -----
