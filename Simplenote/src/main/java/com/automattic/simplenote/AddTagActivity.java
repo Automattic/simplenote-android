@@ -30,6 +30,9 @@ import com.simperium.client.Bucket;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AddTagActivity extends AppCompatActivity implements TextWatcher {
     private AddTagViewModel viewModel;
 
@@ -39,11 +42,7 @@ public class AddTagActivity extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         ActivityTagAddBinding binding = ActivityTagAddBinding.inflate(getLayoutInflater());
 
-        Bucket<Tag> mBucketTag = ((Simplenote) getApplication()).getTagsBucket();
-        Bucket<Note> mNoteTag = ((Simplenote) getApplication()).getNotesBucket();
-        ViewModelFactory viewModelFactory = new ViewModelFactory(mBucketTag, mNoteTag, this, null);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, viewModelFactory);
-        viewModel = viewModelProvider.get(AddTagViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
 
         setObservers(binding);
         setupLayout(binding);

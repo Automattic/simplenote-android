@@ -1,9 +1,5 @@
 package com.automattic.simplenote;
 
-import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
-import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
-import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -41,6 +37,7 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
 import com.simperium.Simperium;
@@ -59,6 +56,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.HiltAndroidApp;
+
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
+import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
+import static com.simperium.android.AsyncAuthClient.USER_ACCESS_TOKEN_PREFERENCE;
+import static com.simperium.android.AsyncAuthClient.USER_EMAIL_PREFERENCE;
+
+@HiltAndroidApp
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
@@ -86,6 +91,7 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Handler mHeartbeatHandler;
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
+    private boolean mHasShownReviewOrVerify;
     private boolean mIsInBackground = true;
 
     public void onCreate() {
@@ -265,7 +271,6 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         }
     }
-
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
         final FragmentManager fragmentManager;
         final @IdRes int container;

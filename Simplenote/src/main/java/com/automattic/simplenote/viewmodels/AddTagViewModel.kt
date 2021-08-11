@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.automattic.simplenote.R
 import com.automattic.simplenote.repositories.TagsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AddTagViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
+@HiltViewModel
+class AddTagViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 

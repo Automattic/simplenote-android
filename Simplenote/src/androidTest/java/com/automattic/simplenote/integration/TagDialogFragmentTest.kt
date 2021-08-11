@@ -1,6 +1,6 @@
 package com.automattic.simplenote.integration
 
-import androidx.fragment.app.testing.launchFragment
+import androidx.fragment.app.DialogFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -14,6 +14,7 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.TagDialogFragment
 import com.automattic.simplenote.utils.TagUtils
 import com.automattic.simplenote.utils.hasTextInputLayoutErrorText
+import com.automattic.simplenote.utils.launchDialogFragmentInHiltContainer
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.*
@@ -388,20 +389,15 @@ class TagDialogFragmentTest : BaseUITest() {
     }
 
     private fun launchFragment(tagName: String) {
-        val scenario = launchFragment(null, R.style.Base_Theme_Simplestyle) {
-            val tag = getTag(tagName)
-            TagDialogFragment(
-                    tag,
-                    notesBucket,
-                    tagsBucket
-            )
+        val activityScenario = launchDialogFragmentInHiltContainer(R.style.Base_Theme_Simplestyle) {
+            TagDialogFragment(getTag(tagName))
         }
 
-        // Validates the dialog is shown
-        scenario.onFragment { fragment ->
+        activityScenario.onActivity {
+            val fragment = it.supportFragmentManager.fragments[0] as DialogFragment
             assertNotNull(fragment.dialog)
             assertEquals(true, fragment.requireDialog().isShowing)
-            fragment.parentFragmentManager.executePendingTransactions()
+            it.supportFragmentManager.executePendingTransactions()
         }
     }
 }

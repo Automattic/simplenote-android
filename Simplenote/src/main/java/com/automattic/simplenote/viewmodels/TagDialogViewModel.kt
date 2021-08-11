@@ -7,8 +7,11 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.repositories.TagsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TagDialogViewModel(private val tagsRepository: TagsRepository) : ViewModel() {
+@HiltViewModel
+class TagDialogViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
