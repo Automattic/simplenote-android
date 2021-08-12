@@ -29,8 +29,8 @@ class AddTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityTagAddBinding = ActivityTagAddBinding.inflate(layoutInflater)
 
-        binding.setObservers(this)
-        binding.setupLayout(this)
+        binding.setObservers()
+        binding.setupLayout()
         binding.setupViews()
 
         viewModel.start()
@@ -45,7 +45,7 @@ class AddTagActivity : AppCompatActivity() {
         buttonPositive.setOnClickListener { viewModel.saveTag() }
     }
 
-    private fun ActivityTagAddBinding.setupLayout(activity: AddTagActivity) {
+    private fun ActivityTagAddBinding.setupLayout() {
         val widthScreen = resources.displayMetrics.widthPixels
         val widthMargin =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56f, resources.displayMetrics).toInt()
@@ -56,15 +56,15 @@ class AddTagActivity : AppCompatActivity() {
         (layout.parent as View).setOnClickListener { viewModel.close() }
         layout.setOnClickListener(null)
         MorphSetup.setSharedElementTransitions(
-            activity,
+            this@AddTagActivity,
             layout,
             resources.getDimensionPixelSize(R.dimen.corner_radius_dialog)
         )
     }
 
-    private fun ActivityTagAddBinding.setObservers(activity: AddTagActivity) {
+    private fun ActivityTagAddBinding.setObservers() {
         // Observe changes in the UI state
-        viewModel.uiState.observe(activity, { (_, errorMsg) ->
+        viewModel.uiState.observe(this@AddTagActivity, { (_, errorMsg) ->
             // Validate if the current state has an error
             if (errorMsg != null) {
                 tagLayout.error = getString(errorMsg)
@@ -76,7 +76,7 @@ class AddTagActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.event.observe(activity, { event: AddTagViewModel.Event? ->
+        viewModel.event.observe(this@AddTagActivity, { event: AddTagViewModel.Event? ->
             when (event) {
                 AddTagViewModel.Event.START -> {
                     buttonPositive.isEnabled = false
