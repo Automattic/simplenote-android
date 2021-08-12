@@ -390,7 +390,7 @@ class TagDialogFragmentTest : BaseUITest() {
 
     private fun launchFragment(tagName: String) {
         val activityScenario = launchDialogFragmentInHiltContainer(R.style.Base_Theme_Simplestyle) {
-            TagDialogFragment(getTag(tagName))
+            TagDialogFragment(getTag(tagName)!!)
         }
 
         activityScenario.onActivity {
