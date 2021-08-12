@@ -26,7 +26,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TagDialogFragment(private val tag: Tag?) : AppCompatDialogFragment(), TextWatcher, OnShowListener {
+class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextWatcher, OnShowListener {
     private var mDialogEditTag: AlertDialog? = null
     private var mButtonNegative: Button? = null
     private var mButtonNeutral: Button? = null
