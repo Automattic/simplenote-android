@@ -19,7 +19,6 @@ import com.automattic.simplenote.viewmodels.AddTagViewModel
 import com.automattic.simplenote.widgets.MorphCircleToRectangle
 import com.automattic.simplenote.widgets.MorphSetup
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
@@ -125,7 +124,7 @@ class AddTagActivity : AppCompatActivity() {
             )
             .setPositiveButton(android.R.string.ok, null)
             .show()
-        (Objects.requireNonNull<Any?>(dialog.findViewById(android.R.id.message)) as TextView).movementMethod =
-            LinkMovementMethod.getInstance()
+
+        dialog.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
     }
 }
