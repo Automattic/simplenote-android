@@ -15,7 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.DialogUtils
 import com.automattic.simplenote.viewmodels.TagDialogEvent
@@ -27,6 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextWatcher, OnShowListener {
+    private val viewModel: TagDialogViewModel by viewModels()
+
     private var mDialogEditTag: AlertDialog? = null
     private var mButtonNegative: Button? = null
     private var mButtonNeutral: Button? = null
@@ -38,15 +40,11 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
     private var mClickListenerNeutralConflict: View.OnClickListener? = null
     private var mClickListenerPositiveConflict: View.OnClickListener? = null
     private var mClickListenerPositiveRename: View.OnClickListener? = null
-    private var viewModel: TagDialogViewModel? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TagDialogViewModel::class.java)
-    }
+
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        viewModel!!.close()
+        viewModel.close()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -70,14 +68,14 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
         builder.setView(view)
         mDialogEditTag = builder.create()
         mDialogEditTag!!.setOnShowListener(this)
-        mClickListenerNegativeRename = View.OnClickListener { v: View? -> viewModel!!.close() }
-        mClickListenerPositiveRename = View.OnClickListener { v: View? -> viewModel!!.renameTagIfValid() }
+        mClickListenerNegativeRename = View.OnClickListener { v: View? -> viewModel.close() }
+        mClickListenerPositiveRename = View.OnClickListener { v: View? -> viewModel.renameTagIfValid() }
         mClickListenerNeutralConflict = View.OnClickListener { v: View? -> showDialogRenameTag() }
-        mClickListenerPositiveConflict = View.OnClickListener { v: View? -> viewModel!!.renameTag() }
+        mClickListenerPositiveConflict = View.OnClickListener { v: View? -> viewModel.renameTag() }
     }
 
     private fun setObservers() {
-        viewModel!!.uiState.observe(this, { (_, _, errorMsg) ->
+        viewModel.uiState.observe(this, { (_, _, errorMsg) ->
             // Validate if the current state has an error
             if (errorMsg != null) {
                 mEditTextLayout!!.error = getString(errorMsg)
@@ -88,7 +86,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
                 mButtonPositive!!.isEnabled = true
             }
         })
-        viewModel!!.event.observe(this, { event: TagDialogEvent? ->
+        viewModel.event.observe(this, { event: TagDialogEvent? ->
             if (event is CloseEvent || event is TagDialogEvent.FinishEvent) {
                 dismiss()
             } else if (event is ShowErrorEvent) {
@@ -108,14 +106,14 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
 
         // Set observers when views are available
         setObservers()
-        viewModel!!.start(tag!!)
+        viewModel.start(tag!!)
         showDialogRenameTag()
         mEditTextTag!!.setText(tag.name)
     }
 
     override fun afterTextChanged(s: Editable) {
         val tagName = s.toString()
-        viewModel!!.updateUiState(tagName)
+        viewModel.updateUiState(tagName)
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
