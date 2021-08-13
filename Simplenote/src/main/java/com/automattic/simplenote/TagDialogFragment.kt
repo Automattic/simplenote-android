@@ -69,11 +69,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         _dialogEditTag = builder.create()
         dialogEditTag.setOnShowListener(this)
 
-        mClickListenerNegativeRename = View.OnClickListener { viewModel.close() }
-        mClickListenerPositiveRename = View.OnClickListener { viewModel.renameTagIfValid() }
-        mClickListenerNeutralConflict = View.OnClickListener { showDialogRenameTag() }
-        mClickListenerPositiveConflict = View.OnClickListener { viewModel.renameTag() }
-
         return dialogEditTag
     }
 
@@ -124,8 +119,8 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         mEditTextLayout!!.visibility = View.GONE
         mButtonNegative!!.visibility = View.GONE
         mButtonNeutral!!.visibility = View.VISIBLE
-        mButtonNeutral!!.setOnClickListener(mClickListenerNeutralConflict)
-        mButtonPositive!!.setOnClickListener(mClickListenerPositiveConflict)
+        mButtonNeutral!!.setOnClickListener { showDialogRenameTag() }
+        mButtonPositive!!.setOnClickListener { viewModel.renameTag() }
     }
 
     private fun showDialogRenameTag() {
@@ -136,8 +131,8 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         mEditTextLayout!!.visibility = View.VISIBLE
         mButtonNegative!!.visibility = View.VISIBLE
         mButtonNeutral!!.visibility = View.GONE
-        mButtonNegative!!.setOnClickListener(mClickListenerNegativeRename)
-        mButtonPositive!!.setOnClickListener(mClickListenerPositiveRename)
+        mButtonNegative!!.setOnClickListener { viewModel.close() }
+        mButtonPositive!!.setOnClickListener { viewModel.renameTagIfValid() }
     }
 
     companion object {
