@@ -37,10 +37,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private var mEditTextTag: TextInputEditText? = null
     private var mEditTextLayout: TextInputLayout? = null
     private var mMessage: TextView? = null
-    private var mClickListenerNegativeRename: View.OnClickListener? = null
-    private var mClickListenerNeutralConflict: View.OnClickListener? = null
-    private var mClickListenerPositiveConflict: View.OnClickListener? = null
-    private var mClickListenerPositiveRename: View.OnClickListener? = null
 
 
     override fun onConfigurationChanged(newConfig: Configuration) {
