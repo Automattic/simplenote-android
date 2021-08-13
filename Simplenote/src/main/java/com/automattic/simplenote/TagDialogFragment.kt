@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.DialogUtils
@@ -26,7 +27,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextWatcher, OnShowListener {
+class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnShowListener {
     private val viewModel: TagDialogViewModel by viewModels()
 
     private var mDialogEditTag: AlertDialog? = null
@@ -63,7 +64,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
         mEditTextTag = mEditTextLayout!!.editText as TextInputEditText?
         mMessage = view.findViewById(R.id.message)
         if (mEditTextTag != null) {
-            mEditTextTag!!.addTextChangedListener(this)
+            mEditTextTag!!.doAfterTextChanged { s -> viewModel.updateUiState(s.toString()) }
         }
         builder.setView(view)
         mDialogEditTag = builder.create()
@@ -112,13 +113,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
         mEditTextTag!!.setText(tag.name)
     }
 
-    override fun afterTextChanged(s: Editable) {
-        val tagName = s.toString()
-        viewModel.updateUiState(tagName)
-    }
-
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
         mDialogEditTag!!.setTitle(R.string.dialog_tag_conflict_title)
         mMessage!!.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
