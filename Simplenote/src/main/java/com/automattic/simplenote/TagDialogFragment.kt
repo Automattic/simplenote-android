@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.widget.doAfterTextChanged
@@ -32,10 +31,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private var _binding: EditTagBinding? = null
     private val binding  get() = _binding!!
 
-    private var mButtonNegative: Button? = null
-    private var mButtonNeutral: Button? = null
-    private var mButtonPositive: Button? = null
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         viewModel.close()
@@ -49,6 +44,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _dialogEditTag = null
     }
 
     private fun buildDialog(): Dialog {
@@ -70,10 +66,10 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         viewModel.uiState.observe(this, { (_, _, errorMsg) ->
             if (errorMsg != null) {
                 binding.inputTagName.error = getString(errorMsg)
-                mButtonPositive!!.isEnabled = false
+                dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
             } else {
                 binding.inputTagName.error = null
-                mButtonPositive!!.isEnabled = true
+                dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
             }
         })
 
@@ -93,40 +89,49 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     override fun onShow(dialog: DialogInterface) {
-        mButtonNegative = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
-        mButtonNeutral = dialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL)
-        mButtonPositive = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
-
-        // Set observers when views are available
         setObservers()
         viewModel.start(tag)
-        showDialogRenameTag()
         binding.inputTagName.editText?.setText(tag.name)
+        showDialogRenameTag()
     }
 
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
-        dialogEditTag.setTitle(R.string.dialog_tag_conflict_title)
         binding.message.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
-        mButtonNeutral!!.setText(R.string.back)
-        mButtonPositive!!.setText(R.string.dialog_tag_conflict_button_positive)
         binding.message.visibility = View.VISIBLE
         binding.inputTagName.visibility = View.GONE
-        mButtonNegative!!.visibility = View.GONE
-        mButtonNeutral!!.visibility = View.VISIBLE
-        mButtonNeutral!!.setOnClickListener { showDialogRenameTag() }
-        mButtonPositive!!.setOnClickListener { viewModel.renameTag() }
+
+        dialogEditTag.setTitle(R.string.dialog_tag_conflict_title)
+
+        val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
+        positiveButton.text = getString(R.string.dialog_tag_conflict_button_positive)
+        positiveButton.setOnClickListener { viewModel.renameTag() }
+
+        val negativeButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
+        negativeButton.visibility = View.GONE
+
+        val neutralButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL)
+        neutralButton.text = getString(R.string.back)
+        neutralButton.visibility = View.VISIBLE
+        neutralButton.setOnClickListener { showDialogRenameTag() }
     }
 
     private fun showDialogRenameTag() {
-        dialogEditTag.setTitle(R.string.rename_tag)
-        mButtonNegative!!.setText(R.string.cancel)
-        mButtonPositive!!.setText(R.string.save)
         binding.message.visibility = View.GONE
         binding.inputTagName.visibility = View.VISIBLE
-        mButtonNegative!!.visibility = View.VISIBLE
-        mButtonNeutral!!.visibility = View.GONE
-        mButtonNegative!!.setOnClickListener { viewModel.close() }
-        mButtonPositive!!.setOnClickListener { viewModel.renameTagIfValid() }
+
+        dialogEditTag.setTitle(R.string.rename_tag)
+
+        val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
+        positiveButton.text = getString(R.string.save)
+        positiveButton.setOnClickListener { viewModel.renameTagIfValid() }
+
+        val negativeButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
+        negativeButton.text = getString(R.string.cancel)
+        negativeButton.visibility = View.VISIBLE
+        negativeButton.setOnClickListener { viewModel.close() }
+
+        val neutralButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL)
+        neutralButton.visibility = View.GONE
     }
 
     companion object {
