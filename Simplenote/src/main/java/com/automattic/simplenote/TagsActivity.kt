@@ -6,15 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.*
-import android.view.View.OnLongClickListener
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.utils.*
@@ -27,30 +26,30 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TagsActivity : ThemedAppCompatActivity() {
+    private val viewModel: TagsViewModel by viewModels()
+
     private var mTagsList: EmptyViewRecyclerView? = null
     private var mButtonAdd: ImageButton? = null
     private var mEmptyViewImage: ImageView? = null
     private var mSearchMenuItem: MenuItem? = null
     private var mEmptyViewText: TextView? = null
-    private var viewModel: TagsViewModel? = null
     private var tagItemAdapter: TagItemAdapter? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
-        viewModel = ViewModelProvider(this).get(TagsViewModel::class.java)
         tagItemAdapter = TagItemAdapter(
             { tagItem: TagItem? ->
-                viewModel!!.clickEditTag(tagItem!!)
+                viewModel.clickEditTag(tagItem!!)
             },
             { tagItem: TagItem? ->
-                viewModel!!.clickDeleteTag(tagItem!!)
+                viewModel.clickDeleteTag(tagItem!!)
             }
         ) { view: View? ->
-            viewModel!!.longClickDeleteTag(view!!)
+            viewModel.longClickDeleteTag(view!!)
         }
         setupViews()
         setObservers()
-        viewModel!!.start()
+        viewModel.start()
     }
 
     private fun setupViews() {
@@ -70,15 +69,15 @@ class TagsActivity : ThemedAppCompatActivity() {
         setLabelEmptyTagList()
         mTagsList!!.setEmptyView(emptyView)
         mButtonAdd = findViewById(R.id.button_add)
-        mButtonAdd!!.setOnClickListener { viewModel!!.clickAddTag() }
+        mButtonAdd!!.setOnClickListener { viewModel.clickAddTag() }
         mButtonAdd!!.setOnLongClickListener {
-            viewModel!!.longClickAddTag()
+            viewModel.longClickAddTag()
             true
         }
     }
 
     private fun setObservers() {
-        viewModel!!.uiState.observe(this, { (tagItems, searchUpdate, searchQuery) ->
+        viewModel.uiState.observe(this, { (tagItems, searchUpdate, searchQuery) ->
             tagItemAdapter!!.submitList(
                 tagItems) {
                 if (searchUpdate) {
@@ -95,7 +94,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         )
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
-        viewModel!!.event.observe(this, { event: TagsEvent ->
+        viewModel.event.observe(this, { event: TagsEvent ->
             when (event) {
                 is AddTagEvent -> startAddTagActivity()
                 is LongAddTagEvent -> showLongAddToast()
@@ -133,7 +132,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         alert.setNegativeButton(R.string.no, null)
         alert.setPositiveButton(
             R.string.yes
-        ) { _: DialogInterface?, _: Int -> viewModel!!.deleteTag(event.tagItem) }
+        ) { _: DialogInterface?, _: Int -> viewModel.deleteTag(event.tagItem) }
         alert.show()
     }
 
@@ -173,7 +172,7 @@ class TagsActivity : ThemedAppCompatActivity() {
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(query: String): Boolean {
                     if (mSearchMenuItem!!.isActionViewExpanded) {
-                        viewModel!!.search(query)
+                        viewModel.search(query)
                     }
                     return true
                 }
@@ -184,7 +183,7 @@ class TagsActivity : ThemedAppCompatActivity() {
             }
         )
         searchView.setOnCloseListener {
-            viewModel!!.closeSearch()
+            viewModel.closeSearch()
             false
         }
         return true
@@ -193,17 +192,17 @@ class TagsActivity : ThemedAppCompatActivity() {
     override fun onResume() {
         super.onResume()
         DisplayUtils.disableScreenshotsIfLocked(this)
-        viewModel!!.startListeningTagChanges()
+        viewModel.startListeningTagChanges()
     }
 
     public override fun onPause() {
         super.onPause()
-        viewModel!!.stopListeningTagChanges()
+        viewModel.stopListeningTagChanges()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
-            viewModel!!.updateOnResult()
+            viewModel.updateOnResult()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -243,7 +242,7 @@ class TagsActivity : ThemedAppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            viewModel!!.close()
+            viewModel.close()
             return true
         }
         return super.onOptionsItemSelected(item)
