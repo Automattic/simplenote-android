@@ -10,18 +10,16 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
+import com.automattic.simplenote.databinding.EditTagBinding
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.utils.DialogUtils
 import com.automattic.simplenote.viewmodels.TagDialogEvent
 import com.automattic.simplenote.viewmodels.TagDialogEvent.*
 import com.automattic.simplenote.viewmodels.TagDialogViewModel
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,13 +29,12 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private var _dialogEditTag: AlertDialog? = null
     private val dialogEditTag get() = _dialogEditTag!!
 
+    private var _binding: EditTagBinding? = null
+    private val binding  get() = _binding!!
+
     private var mButtonNegative: Button? = null
     private var mButtonNeutral: Button? = null
     private var mButtonPositive: Button? = null
-    private var mEditTextTag: TextInputEditText? = null
-    private var mEditTextLayout: TextInputLayout? = null
-    private var mMessage: TextView? = null
-
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -45,25 +42,26 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        _binding = EditTagBinding.inflate(LayoutInflater.from(context))
         return buildDialog()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun buildDialog(): Dialog {
         val context: Context = ContextThemeWrapper(requireContext(), R.style.Dialog)
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.rename_tag)
-        builder.setNegativeButton(R.string.cancel, null)
-        builder.setPositiveButton(R.string.save, null)
-        val view = LayoutInflater.from(context).inflate(R.layout.edit_tag, null)
-        mEditTextLayout = view.findViewById(R.id.input_tag_name)
-        mEditTextTag = mEditTextLayout!!.editText as TextInputEditText?
-        mMessage = view.findViewById(R.id.message)
-        if (mEditTextTag != null) {
-            mEditTextTag!!.doAfterTextChanged { s -> viewModel.updateUiState(s.toString()) }
-        }
-        builder.setView(view)
-        _dialogEditTag = builder.create()
+        _dialogEditTag = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .setTitle(R.string.rename_tag)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.save, null)
+            .create()
+
         dialogEditTag.setOnShowListener(this)
+        binding.inputTagName.editText?.doAfterTextChanged { s -> viewModel.updateUiState(s.toString()) }
 
         return dialogEditTag
     }
@@ -71,10 +69,10 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private fun setObservers() {
         viewModel.uiState.observe(this, { (_, _, errorMsg) ->
             if (errorMsg != null) {
-                mEditTextLayout!!.error = getString(errorMsg)
+                binding.inputTagName.error = getString(errorMsg)
                 mButtonPositive!!.isEnabled = false
             } else {
-                mEditTextLayout!!.error = null
+                binding.inputTagName.error = null
                 mButtonPositive!!.isEnabled = true
             }
         })
@@ -103,16 +101,16 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         setObservers()
         viewModel.start(tag)
         showDialogRenameTag()
-        mEditTextTag!!.setText(tag.name)
+        binding.inputTagName.editText?.setText(tag.name)
     }
 
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
         dialogEditTag.setTitle(R.string.dialog_tag_conflict_title)
-        mMessage!!.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
+        binding.message.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
         mButtonNeutral!!.setText(R.string.back)
         mButtonPositive!!.setText(R.string.dialog_tag_conflict_button_positive)
-        mMessage!!.visibility = View.VISIBLE
-        mEditTextLayout!!.visibility = View.GONE
+        binding.message.visibility = View.VISIBLE
+        binding.inputTagName.visibility = View.GONE
         mButtonNegative!!.visibility = View.GONE
         mButtonNeutral!!.visibility = View.VISIBLE
         mButtonNeutral!!.setOnClickListener { showDialogRenameTag() }
@@ -123,8 +121,8 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         dialogEditTag.setTitle(R.string.rename_tag)
         mButtonNegative!!.setText(R.string.cancel)
         mButtonPositive!!.setText(R.string.save)
-        mMessage!!.visibility = View.GONE
-        mEditTextLayout!!.visibility = View.VISIBLE
+        binding.message.visibility = View.GONE
+        binding.inputTagName.visibility = View.VISIBLE
         mButtonNegative!!.visibility = View.VISIBLE
         mButtonNeutral!!.visibility = View.GONE
         mButtonNegative!!.setOnClickListener { viewModel.close() }
