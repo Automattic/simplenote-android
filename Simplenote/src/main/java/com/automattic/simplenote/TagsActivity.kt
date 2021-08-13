@@ -58,23 +58,23 @@ class TagsActivity : ThemedAppCompatActivity() {
         setSupportActionBar(toolbar)
         val title = SpannableString(getString(R.string.edit_tags))
         if (supportActionBar != null) {
-            supportActionBar!!.setTitle(title)
+            supportActionBar!!.title = title
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
         mTagsList = findViewById(R.id.list)
-        mTagsList!!.setAdapter(tagItemAdapter)
-        mTagsList!!.setLayoutManager(LinearLayoutManager(this@TagsActivity))
+        mTagsList!!.adapter = tagItemAdapter
+        mTagsList!!.layoutManager = LinearLayoutManager(this@TagsActivity)
         val emptyView = findViewById<View>(R.id.empty)
         mEmptyViewImage = emptyView.findViewById(R.id.image)
         mEmptyViewText = emptyView.findViewById(R.id.text)
         setLabelEmptyTagList()
         mTagsList!!.setEmptyView(emptyView)
         mButtonAdd = findViewById(R.id.button_add)
-        mButtonAdd!!.setOnClickListener(View.OnClickListener { v: View? -> viewModel!!.clickAddTag() })
-        mButtonAdd!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        mButtonAdd!!.setOnClickListener { viewModel!!.clickAddTag() }
+        mButtonAdd!!.setOnLongClickListener {
             viewModel!!.longClickAddTag()
             true
-        })
+        }
     }
 
     private fun setObservers() {
@@ -96,18 +96,25 @@ class TagsActivity : ThemedAppCompatActivity() {
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel!!.event.observe(this, { event: TagsEvent? ->
-            if (event is AddTagEvent) {
-                startAddTagActivity()
-            } else if (event is LongAddTagEvent) {
-                showLongAddToast()
-            } else if (event is TagsEvent.FinishEvent) {
-                finish()
-            } else if (event is EditTagEvent) {
-                showTagDialogFragment(event)
-            } else if (event is DeleteTagEvent) {
-                showDeleteDialog(event)
-            } else if (event is LongDeleteTagEvent) {
-                showLongDeleteToast(event)
+            when (event) {
+                is AddTagEvent -> {
+                    startAddTagActivity()
+                }
+                is LongAddTagEvent -> {
+                    showLongAddToast()
+                }
+                is FinishEvent -> {
+                    finish()
+                }
+                is EditTagEvent -> {
+                    showTagDialogFragment(event)
+                }
+                is DeleteTagEvent -> {
+                    showDeleteDialog(event)
+                }
+                is LongDeleteTagEvent -> {
+                    showLongDeleteToast(event)
+                }
             }
         })
     }
@@ -138,7 +145,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         alert.setNegativeButton(R.string.no, null)
         alert.setPositiveButton(
             R.string.yes
-        ) { dialog: DialogInterface?, whichButton: Int -> viewModel!!.deleteTag(event.tagItem) }
+        ) { _: DialogInterface?, _: Int -> viewModel!!.deleteTag(event.tagItem) }
         alert.show()
     }
 
@@ -163,7 +170,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         inflater.inflate(R.menu.tags_list, menu)
         DrawableUtils.tintMenuWithAttribute(this@TagsActivity, menu, R.attr.toolbarIconColor)
         mSearchMenuItem = menu.findItem(R.id.menu_search)
-        val searchView = mSearchMenuItem!!.getActionView() as SearchView
+        val searchView = mSearchMenuItem!!.actionView as SearchView
         val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
         (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
 
@@ -177,7 +184,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(query: String): Boolean {
-                    if (mSearchMenuItem!!.isActionViewExpanded()) {
+                    if (mSearchMenuItem!!.isActionViewExpanded) {
                         viewModel!!.search(query)
                     }
                     return true
