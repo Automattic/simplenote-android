@@ -1,310 +1,260 @@
-package com.automattic.simplenote;
+package com.automattic.simplenote
 
-import static com.automattic.simplenote.TagDialogFragment.DIALOG_TAG;
-import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.SpannableString;
-import android.view.HapticFeedbackConstants;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.automattic.simplenote.models.TagItem;
-import com.automattic.simplenote.utils.DisplayUtils;
-import com.automattic.simplenote.utils.DrawableUtils;
-import com.automattic.simplenote.utils.HtmlCompat;
-import com.automattic.simplenote.utils.TagItemAdapter;
-import com.automattic.simplenote.utils.ThemeUtils;
-import com.automattic.simplenote.viewmodels.TagsEvent;
-import com.automattic.simplenote.viewmodels.TagsViewModel;
-import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
-import com.automattic.simplenote.widgets.MorphSetup;
-
-import dagger.hilt.android.AndroidEntryPoint;
-import kotlin.Unit;
+import android.app.ActivityOptions
+import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import android.text.SpannableString
+import android.view.*
+import android.view.View.OnLongClickListener
+import android.widget.*
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.automattic.simplenote.models.TagItem
+import com.automattic.simplenote.utils.*
+import com.automattic.simplenote.viewmodels.TagsEvent
+import com.automattic.simplenote.viewmodels.TagsEvent.*
+import com.automattic.simplenote.viewmodels.TagsViewModel
+import com.automattic.simplenote.widgets.EmptyViewRecyclerView
+import com.automattic.simplenote.widgets.MorphSetup
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-public class TagsActivity extends ThemedAppCompatActivity {
-    private static final int REQUEST_ADD_TAG = 9000;
-
-    private EmptyViewRecyclerView mTagsList;
-    private ImageButton mButtonAdd;
-    private ImageView mEmptyViewImage;
-    private MenuItem mSearchMenuItem;
-    private TextView mEmptyViewText;
-
-    private TagsViewModel viewModel;
-    private TagItemAdapter tagItemAdapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tags);
-
-        viewModel = new ViewModelProvider(this).get(TagsViewModel.class);
-
-        tagItemAdapter = new TagItemAdapter(
-                (TagItem tagItem) -> {
-                    viewModel.clickEditTag(tagItem);
-                    return Unit.INSTANCE;
-                },
-                (TagItem tagItem) -> {
-                    viewModel.clickDeleteTag(tagItem);
-                    return Unit.INSTANCE;
-                },
-                (View view) -> {
-                    viewModel.longClickDeleteTag(view);
-                    return Unit.INSTANCE;
-                }
-        );
-
-        setupViews();
-
-        setObservers();
-
-        viewModel.start();
-    }
-
-    private void setupViews() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        SpannableString title = new SpannableString(getString(R.string.edit_tags));
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+class TagsActivity : ThemedAppCompatActivity() {
+    private var mTagsList: EmptyViewRecyclerView? = null
+    private var mButtonAdd: ImageButton? = null
+    private var mEmptyViewImage: ImageView? = null
+    private var mSearchMenuItem: MenuItem? = null
+    private var mEmptyViewText: TextView? = null
+    private var viewModel: TagsViewModel? = null
+    private var tagItemAdapter: TagItemAdapter? = null
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tags)
+        viewModel = ViewModelProvider(this).get(TagsViewModel::class.java)
+        tagItemAdapter = TagItemAdapter(
+            { tagItem: TagItem? ->
+                viewModel!!.clickEditTag(tagItem!!)
+            },
+            { tagItem: TagItem? ->
+                viewModel!!.clickDeleteTag(tagItem!!)
+            }
+        ) { view: View? ->
+            viewModel!!.longClickDeleteTag(view!!)
         }
-
-        mTagsList = findViewById(R.id.list);
-        mTagsList.setAdapter(tagItemAdapter);
-        mTagsList.setLayoutManager(new LinearLayoutManager(TagsActivity.this));
-        View emptyView = findViewById(R.id.empty);
-        mEmptyViewImage = emptyView.findViewById(R.id.image);
-        mEmptyViewText = emptyView.findViewById(R.id.text);
-        setLabelEmptyTagList();
-        mTagsList.setEmptyView(emptyView);
-
-        mButtonAdd = findViewById(R.id.button_add);
-        mButtonAdd.setOnClickListener(v -> viewModel.clickAddTag());
-        mButtonAdd.setOnLongClickListener(v -> {
-            viewModel.longClickAddTag();
-            return true;
-        });
+        setupViews()
+        setObservers()
+        viewModel!!.start()
     }
 
-    private void setObservers() {
-        viewModel.getUiState().observe(this, uiState ->
-                tagItemAdapter.submitList(uiState.getTagItems(), () -> {
-                    if (uiState.getSearchUpdate()) {
-                        mTagsList.scrollToPosition(0);
-                        boolean isSearching = uiState.getSearchQuery() != null;
-                        if (isSearching) {
-                            setLabelEmptyTagListSearchResults();
-                        } else {
-                            setLabelEmptyTagList();
-                        }
+    private fun setupViews() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val title = SpannableString(getString(R.string.edit_tags))
+        if (supportActionBar != null) {
+            supportActionBar!!.setTitle(title)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        }
+        mTagsList = findViewById(R.id.list)
+        mTagsList!!.setAdapter(tagItemAdapter)
+        mTagsList!!.setLayoutManager(LinearLayoutManager(this@TagsActivity))
+        val emptyView = findViewById<View>(R.id.empty)
+        mEmptyViewImage = emptyView.findViewById(R.id.image)
+        mEmptyViewText = emptyView.findViewById(R.id.text)
+        setLabelEmptyTagList()
+        mTagsList!!.setEmptyView(emptyView)
+        mButtonAdd = findViewById(R.id.button_add)
+        mButtonAdd!!.setOnClickListener(View.OnClickListener { v: View? -> viewModel!!.clickAddTag() })
+        mButtonAdd!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+            viewModel!!.longClickAddTag()
+            true
+        })
+    }
+
+    private fun setObservers() {
+        viewModel!!.uiState.observe(this, { (tagItems, searchUpdate, searchQuery) ->
+            tagItemAdapter!!.submitList(
+                tagItems) {
+                if (searchUpdate) {
+                    mTagsList!!.scrollToPosition(0)
+                    val isSearching = searchQuery != null
+                    if (isSearching) {
+                        setLabelEmptyTagListSearchResults()
+                    } else {
+                        setLabelEmptyTagList()
                     }
-                })
-        );
+                }
+            }
+        }
+        )
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
-        viewModel.getEvent().observe(this, event -> {
-            if (event instanceof TagsEvent.AddTagEvent) {
-                startAddTagActivity();
-            } else if (event instanceof TagsEvent.LongAddTagEvent) {
-                showLongAddToast();
-            } else if (event instanceof TagsEvent.FinishEvent) {
-                finish();
-            } else if (event instanceof TagsEvent.EditTagEvent) {
-                showTagDialogFragment((TagsEvent.EditTagEvent) event);
-            } else if (event instanceof TagsEvent.DeleteTagEvent) {
-                showDeleteDialog((TagsEvent.DeleteTagEvent) event);
-            } else if (event instanceof TagsEvent.LongDeleteTagEvent) {
-                showLongDeleteToast((TagsEvent.LongDeleteTagEvent) event);
+        viewModel!!.event.observe(this, { event: TagsEvent? ->
+            if (event is AddTagEvent) {
+                startAddTagActivity()
+            } else if (event is LongAddTagEvent) {
+                showLongAddToast()
+            } else if (event is TagsEvent.FinishEvent) {
+                finish()
+            } else if (event is EditTagEvent) {
+                showTagDialogFragment(event)
+            } else if (event is DeleteTagEvent) {
+                showDeleteDialog(event)
+            } else if (event is LongDeleteTagEvent) {
+                showLongDeleteToast(event)
             }
-        });
+        })
     }
 
-    private void showLongAddToast() {
-        if (mButtonAdd.isHapticFeedbackEnabled()) {
-            mButtonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+    private fun showLongAddToast() {
+        if (mButtonAdd!!.isHapticFeedbackEnabled) {
+            mButtonAdd!!.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
-
-        toast(R.string.add_tag);
+        toast(R.string.add_tag)
     }
 
-    private void showLongDeleteToast(TagsEvent.LongDeleteTagEvent event) {
-        View v = event.getView();
-        if (v.isHapticFeedbackEnabled()) {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+    private fun showLongDeleteToast(event: LongDeleteTagEvent) {
+        val v = event.view
+        if (v.isHapticFeedbackEnabled) {
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
-
-        toast(R.string.delete_tag);
+        toast(R.string.delete_tag)
     }
 
-    private void toast(@StringRes int resId) {
-        Toast.makeText(TagsActivity.this, getString(resId), Toast.LENGTH_SHORT).show();
+    private fun toast(@StringRes resId: Int) {
+        Toast.makeText(this@TagsActivity, getString(resId), Toast.LENGTH_SHORT).show()
     }
 
-    private void showDeleteDialog(TagsEvent.DeleteTagEvent event) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(TagsActivity.this, R.style.Dialog));
-        alert.setTitle(R.string.delete_tag);
-        alert.setMessage(getString(R.string.confirm_delete_tag));
-        alert.setNegativeButton(R.string.no, null);
+    private fun showDeleteDialog(event: DeleteTagEvent) {
+        val alert = AlertDialog.Builder(ContextThemeWrapper(this@TagsActivity, R.style.Dialog))
+        alert.setTitle(R.string.delete_tag)
+        alert.setMessage(getString(R.string.confirm_delete_tag))
+        alert.setNegativeButton(R.string.no, null)
         alert.setPositiveButton(
-                R.string.yes,
-                (dialog, whichButton) -> viewModel.deleteTag(event.getTagItem())
-        );
-        alert.show();
+            R.string.yes
+        ) { dialog: DialogInterface?, whichButton: Int -> viewModel!!.deleteTag(event.tagItem) }
+        alert.show()
     }
 
-    private void showTagDialogFragment(TagsEvent.EditTagEvent event) {
-        TagDialogFragment dialog = new TagDialogFragment(event.getTagItem().getTag());
-        dialog.show(getSupportFragmentManager().beginTransaction(), DIALOG_TAG);
+    private fun showTagDialogFragment(event: EditTagEvent) {
+        val dialog = TagDialogFragment(event.tagItem.tag)
+        dialog.show(supportFragmentManager.beginTransaction(), TagDialogFragment.DIALOG_TAG)
     }
 
-    private void startAddTagActivity() {
-        Intent intent = new Intent(TagsActivity.this, AddTagActivity.class);
-        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.drawerBackgroundColor));
-        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START, ThemeUtils.getColorFromAttribute(TagsActivity.this, R.attr.fabColor));
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TagsActivity.this, mButtonAdd, "shared_button");
-        startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle());
+    private fun startAddTagActivity() {
+        val intent = Intent(this@TagsActivity, AddTagActivity::class.java)
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END,
+            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.drawerBackgroundColor))
+        intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START,
+            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.fabColor))
+        val options = ActivityOptions.makeSceneTransitionAnimation(this@TagsActivity, mButtonAdd, "shared_button")
+        startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle())
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.tags_list, menu);
-        DrawableUtils.tintMenuWithAttribute(TagsActivity.this, menu, R.attr.toolbarIconColor);
-
-        mSearchMenuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
-        LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
-        ((LinearLayout.LayoutParams) searchEditFrame.getLayoutParams()).leftMargin = 0;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.tags_list, menu)
+        DrawableUtils.tintMenuWithAttribute(this@TagsActivity, menu, R.attr.toolbarIconColor)
+        mSearchMenuItem = menu.findItem(R.id.menu_search)
+        val searchView = mSearchMenuItem!!.getActionView() as SearchView
+        val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
+        (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
 
         // Workaround for setting the search placeholder text color.
-        @SuppressWarnings("ResourceType")
-        String hintHexColor = getString(R.color.text_title_disabled).replace("ff", "");
-        searchView.setQueryHint(
-            HtmlCompat.fromHtml(
-                String.format(
-                    "<font color=\"%s\">%s</font>",
-                    hintHexColor,
-                    getString(R.string.search_tags_hint)
-                )
-            )
-        );
-
+        val hintHexColor = getString(R.color.text_title_disabled).replace("ff", "")
+        searchView.queryHint = HtmlCompat.fromHtml(String.format(
+            "<font color=\"%s\">%s</font>",
+            hintHexColor,
+            getString(R.string.search_tags_hint)
+        ))
         searchView.setOnQueryTextListener(
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String query) {
-                    if (mSearchMenuItem.isActionViewExpanded()) {
-                        viewModel.search(query);
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(query: String): Boolean {
+                    if (mSearchMenuItem!!.isActionViewExpanded()) {
+                        viewModel!!.search(query)
                     }
-
-                    return true;
+                    return true
                 }
 
-                @Override
-                public boolean onQueryTextSubmit(String queryText) {
-                    return true;
+                override fun onQueryTextSubmit(queryText: String): Boolean {
+                    return true
                 }
             }
-        );
-
-        searchView.setOnCloseListener(() -> {
-            viewModel.closeSearch();
-            return false;
-        });
-
-        return true;
+        )
+        searchView.setOnCloseListener {
+            viewModel!!.closeSearch()
+            false
+        }
+        return true
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        disableScreenshotsIfLocked(this);
-
-        viewModel.startListeningTagChanges();
+    override fun onResume() {
+        super.onResume()
+        DisplayUtils.disableScreenshotsIfLocked(this)
+        viewModel!!.startListeningTagChanges()
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        viewModel.stopListeningTagChanges();
+    public override fun onPause() {
+        super.onPause()
+        viewModel!!.stopListeningTagChanges()
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
-            viewModel.updateOnResult();
+            viewModel!!.updateOnResult()
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private void setLabelEmptyTagList() {
-        setEmptyListImage(R.drawable.ic_tag_24dp);
-        setEmptyListMessage(getString(R.string.empty_tags));
+    private fun setLabelEmptyTagList() {
+        setEmptyListImage(R.drawable.ic_tag_24dp)
+        setEmptyListMessage(getString(R.string.empty_tags))
     }
 
-    private void setLabelEmptyTagListSearchResults() {
-        if (DisplayUtils.isLandscape(TagsActivity.this) &&
-                !DisplayUtils.isLargeScreen(TagsActivity.this)) {
-            setEmptyListImage(-1);
+    private fun setLabelEmptyTagListSearchResults() {
+        if (DisplayUtils.isLandscape(this@TagsActivity) &&
+            !DisplayUtils.isLargeScreen(this@TagsActivity)
+        ) {
+            setEmptyListImage(-1)
         } else {
-            setEmptyListImage(R.drawable.ic_search_24dp);
+            setEmptyListImage(R.drawable.ic_search_24dp)
         }
-
-        setEmptyListMessage(getString(R.string.empty_tags_search));
+        setEmptyListMessage(getString(R.string.empty_tags_search))
     }
 
-    private void setEmptyListImage(@DrawableRes int image) {
+    private fun setEmptyListImage(@DrawableRes image: Int) {
         if (mEmptyViewImage != null) {
             if (image != -1) {
-                mEmptyViewImage.setVisibility(View.VISIBLE);
-                mEmptyViewImage.setImageResource(image);
+                mEmptyViewImage!!.visibility = View.VISIBLE
+                mEmptyViewImage!!.setImageResource(image)
             } else {
-                mEmptyViewImage.setVisibility(View.GONE);
+                mEmptyViewImage!!.visibility = View.GONE
             }
         }
     }
 
-    private void setEmptyListMessage(String message) {
+    private fun setEmptyListMessage(message: String?) {
         if (mEmptyViewText != null && message != null) {
-            mEmptyViewText.setText(message);
+            mEmptyViewText!!.text = message
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            viewModel.close();
-            return true;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            viewModel!!.close()
+            return true
         }
+        return super.onOptionsItemSelected(item)
+    }
 
-        return super.onOptionsItemSelected(item);
+    companion object {
+        private const val REQUEST_ADD_TAG = 9000
     }
 }
