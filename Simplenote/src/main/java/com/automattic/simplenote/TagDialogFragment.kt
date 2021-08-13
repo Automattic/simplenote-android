@@ -90,9 +90,13 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
 
     override fun onShow(dialog: DialogInterface) {
         setObservers()
+        startUiState()
+        showDialogRenameTag()
+    }
+
+    private fun startUiState() {
         viewModel.start(tag)
         binding.inputTagName.editText?.setText(tag.name)
-        showDialogRenameTag()
     }
 
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
