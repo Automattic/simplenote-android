@@ -60,7 +60,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
         builder.setPositiveButton(R.string.save, null)
         val view = LayoutInflater.from(context).inflate(R.layout.edit_tag, null)
         mEditTextLayout = view.findViewById(R.id.input_tag_name)
-        mEditTextTag = mEditTextLayout!!.getEditText() as TextInputEditText?
+        mEditTextTag = mEditTextLayout!!.editText as TextInputEditText?
         mMessage = view.findViewById(R.id.message)
         if (mEditTextTag != null) {
             mEditTextTag!!.addTextChangedListener(this)
@@ -68,33 +68,34 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
         builder.setView(view)
         mDialogEditTag = builder.create()
         mDialogEditTag!!.setOnShowListener(this)
-        mClickListenerNegativeRename = View.OnClickListener { v: View? -> viewModel.close() }
-        mClickListenerPositiveRename = View.OnClickListener { v: View? -> viewModel.renameTagIfValid() }
-        mClickListenerNeutralConflict = View.OnClickListener { v: View? -> showDialogRenameTag() }
-        mClickListenerPositiveConflict = View.OnClickListener { v: View? -> viewModel.renameTag() }
+        mClickListenerNegativeRename = View.OnClickListener { viewModel.close() }
+        mClickListenerPositiveRename = View.OnClickListener { viewModel.renameTagIfValid() }
+        mClickListenerNeutralConflict = View.OnClickListener { showDialogRenameTag() }
+        mClickListenerPositiveConflict = View.OnClickListener { viewModel.renameTag() }
     }
 
     private fun setObservers() {
         viewModel.uiState.observe(this, { (_, _, errorMsg) ->
-            // Validate if the current state has an error
             if (errorMsg != null) {
                 mEditTextLayout!!.error = getString(errorMsg)
                 mButtonPositive!!.isEnabled = false
             } else {
-                // If there is not an error, enable save button
                 mEditTextLayout!!.error = null
                 mButtonPositive!!.isEnabled = true
             }
         })
-        viewModel.event.observe(this, { event: TagDialogEvent? ->
-            if (event is CloseEvent || event is TagDialogEvent.FinishEvent) {
-                dismiss()
-            } else if (event is ShowErrorEvent) {
-                val context = requireContext()
-                DialogUtils.showDialogWithEmail(context, context.getString(R.string.rename_tag_message))
-            } else if (event is ConflictEvent) {
-                val (canonicalTagName, oldTagName) = event
-                showDialogErrorConflict(canonicalTagName, oldTagName)
+
+        viewModel.event.observe(this, { event: TagDialogEvent ->
+            when (event) {
+                CloseEvent, FinishEvent -> dismiss()
+                ShowErrorEvent -> {
+                    val context = requireContext()
+                    DialogUtils.showDialogWithEmail(context, context.getString(R.string.rename_tag_message))
+                }
+                is ConflictEvent -> {
+                    val (canonicalTagName, oldTagName) = event
+                    showDialogErrorConflict(canonicalTagName, oldTagName)
+                }
             }
         })
     }
@@ -106,7 +107,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), TextW
 
         // Set observers when views are available
         setObservers()
-        viewModel.start(tag!!)
+        viewModel.start(tag)
         showDialogRenameTag()
         mEditTextTag!!.setText(tag.name)
     }
