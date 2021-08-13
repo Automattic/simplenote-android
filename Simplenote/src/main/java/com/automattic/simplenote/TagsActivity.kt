@@ -95,26 +95,14 @@ class TagsActivity : ThemedAppCompatActivity() {
         )
 
         // Observe different events such as clicks on add tags, edit tags and delete tags
-        viewModel!!.event.observe(this, { event: TagsEvent? ->
+        viewModel!!.event.observe(this, { event: TagsEvent ->
             when (event) {
-                is AddTagEvent -> {
-                    startAddTagActivity()
-                }
-                is LongAddTagEvent -> {
-                    showLongAddToast()
-                }
-                is FinishEvent -> {
-                    finish()
-                }
-                is EditTagEvent -> {
-                    showTagDialogFragment(event)
-                }
-                is DeleteTagEvent -> {
-                    showDeleteDialog(event)
-                }
-                is LongDeleteTagEvent -> {
-                    showLongDeleteToast(event)
-                }
+                is AddTagEvent -> startAddTagActivity()
+                is LongAddTagEvent -> showLongAddToast()
+                is FinishEvent -> finish()
+                is EditTagEvent -> showTagDialogFragment(event)
+                is DeleteTagEvent -> showDeleteDialog(event)
+                is LongDeleteTagEvent -> showLongDeleteToast(event)
             }
         })
     }
