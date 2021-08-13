@@ -99,6 +99,9 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         binding.inputTagName.editText?.setText(tag.name)
     }
 
+    /**
+     * Change the dialog layout to show a conflict message in which the user can merge two tags or cancel the merge
+     */
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
         binding.message.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
         binding.message.visibility = View.VISIBLE
@@ -119,6 +122,9 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
         neutralButton.setOnClickListener { showDialogRenameTag() }
     }
 
+    /**
+     * Change the dialog layout to show the default view in which the user can update the tag name
+     */
     private fun showDialogRenameTag() {
         binding.message.visibility = View.GONE
         binding.inputTagName.visibility = View.VISIBLE
