@@ -28,7 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnShowListener {
     private val viewModel: TagDialogViewModel by viewModels()
 
-    private var mDialogEditTag: AlertDialog? = null
+    private var _dialogEditTag: AlertDialog? = null
+    private val dialogEditTag get() = _dialogEditTag!!
+
     private var mButtonNegative: Button? = null
     private var mButtonNeutral: Button? = null
     private var mButtonPositive: Button? = null
@@ -47,11 +49,10 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        setupDialog()
-        return mDialogEditTag!!
+        return buildDialog()
     }
 
-    private fun setupDialog() {
+    private fun buildDialog(): Dialog {
         val context: Context = ContextThemeWrapper(requireContext(), R.style.Dialog)
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.rename_tag)
@@ -65,12 +66,15 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
             mEditTextTag!!.doAfterTextChanged { s -> viewModel.updateUiState(s.toString()) }
         }
         builder.setView(view)
-        mDialogEditTag = builder.create()
-        mDialogEditTag!!.setOnShowListener(this)
+        _dialogEditTag = builder.create()
+        dialogEditTag.setOnShowListener(this)
+
         mClickListenerNegativeRename = View.OnClickListener { viewModel.close() }
         mClickListenerPositiveRename = View.OnClickListener { viewModel.renameTagIfValid() }
         mClickListenerNeutralConflict = View.OnClickListener { showDialogRenameTag() }
         mClickListenerPositiveConflict = View.OnClickListener { viewModel.renameTag() }
+
+        return dialogEditTag
     }
 
     private fun setObservers() {
@@ -100,9 +104,9 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     override fun onShow(dialog: DialogInterface) {
-        mButtonNegative = mDialogEditTag!!.getButton(DialogInterface.BUTTON_NEGATIVE)
-        mButtonNeutral = mDialogEditTag!!.getButton(DialogInterface.BUTTON_NEUTRAL)
-        mButtonPositive = mDialogEditTag!!.getButton(DialogInterface.BUTTON_POSITIVE)
+        mButtonNegative = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
+        mButtonNeutral = dialogEditTag.getButton(DialogInterface.BUTTON_NEUTRAL)
+        mButtonPositive = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
 
         // Set observers when views are available
         setObservers()
@@ -112,7 +116,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     private fun showDialogErrorConflict(canonical: String, tagOld: String) {
-        mDialogEditTag!!.setTitle(R.string.dialog_tag_conflict_title)
+        dialogEditTag.setTitle(R.string.dialog_tag_conflict_title)
         mMessage!!.text = getString(R.string.dialog_tag_conflict_message, canonical, tagOld, canonical)
         mButtonNeutral!!.setText(R.string.back)
         mButtonPositive!!.setText(R.string.dialog_tag_conflict_button_positive)
@@ -125,7 +129,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     private fun showDialogRenameTag() {
-        mDialogEditTag!!.setTitle(R.string.rename_tag)
+        dialogEditTag.setTitle(R.string.rename_tag)
         mButtonNegative!!.setText(R.string.cancel)
         mButtonPositive!!.setText(R.string.save)
         mMessage!!.visibility = View.GONE
