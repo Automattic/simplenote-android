@@ -89,7 +89,6 @@ class TagsActivity : ThemedAppCompatActivity() {
         }
         )
 
-        // Observe different events such as clicks on add tags, edit tags and delete tags
         viewModel.event.observe(this, { event: TagsEvent ->
             when (event) {
                 is AddTagEvent -> startAddTagActivity()
@@ -115,10 +114,6 @@ class TagsActivity : ThemedAppCompatActivity() {
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
         toast(R.string.delete_tag)
-    }
-
-    private fun toast(@StringRes resId: Int) {
-        Toast.makeText(this@TagsActivity, getString(resId), Toast.LENGTH_SHORT).show()
     }
 
     private fun showDeleteDialog(event: DeleteTagEvent) {
