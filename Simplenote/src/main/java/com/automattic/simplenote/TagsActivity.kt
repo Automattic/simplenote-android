@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.utils.*
@@ -38,15 +39,10 @@ class TagsActivity : ThemedAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         tagItemAdapter = TagItemAdapter(
-            { tagItem: TagItem? ->
-                viewModel.clickEditTag(tagItem!!)
-            },
-            { tagItem: TagItem? ->
-                viewModel.clickDeleteTag(tagItem!!)
-            }
-        ) { view: View? ->
-            viewModel.longClickDeleteTag(view!!)
-        }
+            viewModel::clickEditTag,
+            viewModel::clickDeleteTag,
+            viewModel::longClickDeleteTag
+        )
         setupViews()
         setObservers()
         viewModel.start()
@@ -151,6 +147,10 @@ class TagsActivity : ThemedAppCompatActivity() {
         startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle())
     }
 
+    private fun Int.toHexString(): String {
+        return Integer.toHexString(this)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         val inflater = menuInflater
@@ -162,7 +162,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
 
         // Workaround for setting the search placeholder text color.
-        val hintHexColor = getString(R.color.text_title_disabled).replace("ff", "")
+        val hintHexColor = getColorStr(R.color.text_title_disabled)
         searchView.queryHint = HtmlCompat.fromHtml(String.format(
             "<font color=\"%s\">%s</font>",
             hintHexColor,
