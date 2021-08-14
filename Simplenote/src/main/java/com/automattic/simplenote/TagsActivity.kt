@@ -142,10 +142,6 @@ class TagsActivity : ThemedAppCompatActivity() {
         startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle())
     }
 
-    private fun Int.toHexString(): String {
-        return Integer.toHexString(this)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         val inflater = menuInflater
