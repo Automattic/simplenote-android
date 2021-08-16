@@ -29,8 +29,6 @@ class TagsActivity : ThemedAppCompatActivity() {
     private var _binding: ActivityTagsBinding? = null
     private val binding  get() = _binding!!
 
-    private var mSearchMenuItem: MenuItem? = null
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -148,25 +146,26 @@ class TagsActivity : ThemedAppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        val inflater = menuInflater
-        inflater.inflate(R.menu.tags_list, menu)
+
+        menuInflater.inflate(R.menu.tags_list, menu)
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor)
-        mSearchMenuItem = menu.findItem(R.id.menu_search)
-        val searchView = mSearchMenuItem!!.actionView as SearchView
+        val searchMenuItem = menu.findItem(R.id.menu_search)
+        val searchView = searchMenuItem.actionView as SearchView
         val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
         (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
 
-        // Workaround for setting the search placeholder text color.
+
         val hintHexColor = getColorStr(R.color.text_title_disabled)
         searchView.queryHint = HtmlCompat.fromHtml(String.format(
             "<font color=\"%s\">%s</font>",
             hintHexColor,
             getString(R.string.search_tags_hint)
         ))
+
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(query: String): Boolean {
-                    if (mSearchMenuItem!!.isActionViewExpanded) {
+                    if (searchMenuItem.isActionViewExpanded) {
                         viewModel.search(query)
                     }
                     return true
@@ -177,10 +176,12 @@ class TagsActivity : ThemedAppCompatActivity() {
                 }
             }
         )
+
         searchView.setOnCloseListener {
             viewModel.closeSearch()
             false
         }
+
         return true
     }
 
