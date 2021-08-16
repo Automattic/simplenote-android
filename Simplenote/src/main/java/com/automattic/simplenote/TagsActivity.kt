@@ -9,19 +9,16 @@ import android.view.*
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.automattic.simplenote.models.TagItem
+import com.automattic.simplenote.databinding.ActivityTagsBinding
 import com.automattic.simplenote.utils.*
 import com.automattic.simplenote.viewmodels.TagsEvent
 import com.automattic.simplenote.viewmodels.TagsEvent.*
 import com.automattic.simplenote.viewmodels.TagsViewModel
-import com.automattic.simplenote.widgets.EmptyViewRecyclerView
 import com.automattic.simplenote.widgets.MorphSetup
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,55 +26,62 @@ import dagger.hilt.android.AndroidEntryPoint
 class TagsActivity : ThemedAppCompatActivity() {
     private val viewModel: TagsViewModel by viewModels()
 
-    private var mTagsList: EmptyViewRecyclerView? = null
-    private var mButtonAdd: ImageButton? = null
-    private var mEmptyViewImage: ImageView? = null
+    private var _binding: ActivityTagsBinding? = null
+    private val binding  get() = _binding!!
+
     private var mSearchMenuItem: MenuItem? = null
-    private var mEmptyViewText: TextView? = null
-    private var tagItemAdapter: TagItemAdapter? = null
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tags)
-        tagItemAdapter = TagItemAdapter(
+
+        _binding = ActivityTagsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.setupViews()
+        binding.setObservers()
+
+        viewModel.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun ActivityTagsBinding.setupViews() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = SpannableString(getString(R.string.edit_tags))
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        val tagItemAdapter = TagItemAdapter(
             viewModel::clickEditTag,
             viewModel::clickDeleteTag,
             viewModel::longClickDeleteTag
         )
-        setupViews()
-        setObservers()
-        viewModel.start()
-    }
+        list.adapter = tagItemAdapter
+        list.layoutManager = LinearLayoutManager(this@TagsActivity)
 
-    private fun setupViews() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val title = SpannableString(getString(R.string.edit_tags))
-        if (supportActionBar != null) {
-            supportActionBar!!.title = title
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
-        mTagsList = findViewById(R.id.list)
-        mTagsList!!.adapter = tagItemAdapter
-        mTagsList!!.layoutManager = LinearLayoutManager(this@TagsActivity)
-        val emptyView = findViewById<View>(R.id.empty)
-        mEmptyViewImage = emptyView.findViewById(R.id.image)
-        mEmptyViewText = emptyView.findViewById(R.id.text)
+
         setLabelEmptyTagList()
-        mTagsList!!.setEmptyView(emptyView)
-        mButtonAdd = findViewById(R.id.button_add)
-        mButtonAdd!!.setOnClickListener { viewModel.clickAddTag() }
-        mButtonAdd!!.setOnLongClickListener {
+
+        buttonAdd.setOnClickListener { viewModel.clickAddTag() }
+        buttonAdd.setOnLongClickListener {
             viewModel.longClickAddTag()
             true
         }
     }
 
-    private fun setObservers() {
-        viewModel.uiState.observe(this, { (tagItems, searchUpdate, searchQuery) ->
-            tagItemAdapter!!.submitList(
+    private fun ActivityTagsBinding.setObservers() {
+        viewModel.uiState.observe(this@TagsActivity, { (tagItems, searchUpdate, searchQuery) ->
+            val adapter = list.adapter as TagItemAdapter
+            adapter.submitList(
                 tagItems) {
                 if (searchUpdate) {
-                    mTagsList!!.scrollToPosition(0)
+                    list.scrollToPosition(0)
                     val isSearching = searchQuery != null
                     if (isSearching) {
                         setLabelEmptyTagListSearchResults()
@@ -89,7 +93,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         }
         )
 
-        viewModel.event.observe(this, { event: TagsEvent ->
+        viewModel.event.observe(this@TagsActivity, { event: TagsEvent ->
             when (event) {
                 is AddTagEvent -> startAddTagActivity()
                 is LongAddTagEvent -> showLongAddToast()
@@ -102,8 +106,8 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     private fun showLongAddToast() {
-        if (mButtonAdd!!.isHapticFeedbackEnabled) {
-            mButtonAdd!!.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        if (binding.buttonAdd.isHapticFeedbackEnabled) {
+            binding.buttonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
         toast(R.string.add_tag)
     }
@@ -117,7 +121,7 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     private fun showDeleteDialog(event: DeleteTagEvent) {
-        val alert = AlertDialog.Builder(ContextThemeWrapper(this@TagsActivity, R.style.Dialog))
+        val alert = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Dialog))
         alert.setTitle(R.string.delete_tag)
         alert.setMessage(getString(R.string.confirm_delete_tag))
         alert.setNegativeButton(R.string.no, null)
@@ -133,12 +137,12 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     private fun startAddTagActivity() {
-        val intent = Intent(this@TagsActivity, AddTagActivity::class.java)
+        val intent = Intent(this, AddTagActivity::class.java)
         intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END,
-            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.drawerBackgroundColor))
+            ThemeUtils.getColorFromAttribute(this, R.attr.drawerBackgroundColor))
         intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START,
-            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.fabColor))
-        val options = ActivityOptions.makeSceneTransitionAnimation(this@TagsActivity, mButtonAdd, "shared_button")
+            ThemeUtils.getColorFromAttribute(this, R.attr.fabColor))
+        val options = ActivityOptions.makeSceneTransitionAnimation(this, binding.buttonAdd, "shared_button")
         startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle())
     }
 
@@ -146,7 +150,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         super.onCreateOptionsMenu(menu)
         val inflater = menuInflater
         inflater.inflate(R.menu.tags_list, menu)
-        DrawableUtils.tintMenuWithAttribute(this@TagsActivity, menu, R.attr.toolbarIconColor)
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor)
         mSearchMenuItem = menu.findItem(R.id.menu_search)
         val searchView = mSearchMenuItem!!.actionView as SearchView
         val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
@@ -204,8 +208,8 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     private fun setLabelEmptyTagListSearchResults() {
-        if (DisplayUtils.isLandscape(this@TagsActivity) &&
-            !DisplayUtils.isLargeScreen(this@TagsActivity)
+        if (DisplayUtils.isLandscape(this) &&
+            !DisplayUtils.isLargeScreen(this)
         ) {
             setEmptyListImage(-1)
         } else {
@@ -215,19 +219,17 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     private fun setEmptyListImage(@DrawableRes image: Int) {
-        if (mEmptyViewImage != null) {
-            if (image != -1) {
-                mEmptyViewImage!!.visibility = View.VISIBLE
-                mEmptyViewImage!!.setImageResource(image)
-            } else {
-                mEmptyViewImage!!.visibility = View.GONE
-            }
+        if (image != -1) {
+            binding.empty.image.visibility = View.VISIBLE
+            binding.empty.image.setImageResource(image)
+        } else {
+            binding.empty.image.visibility = View.GONE
         }
     }
 
     private fun setEmptyListMessage(message: String?) {
-        if (mEmptyViewText != null && message != null) {
-            mEmptyViewText!!.text = message
+        message?.let {
+            binding.empty.text.text = it
         }
     }
 
