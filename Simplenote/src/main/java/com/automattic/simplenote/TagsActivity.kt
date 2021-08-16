@@ -63,8 +63,8 @@ class TagsActivity : ThemedAppCompatActivity() {
         list.adapter = tagItemAdapter
         list.layoutManager = LinearLayoutManager(this@TagsActivity)
 
-
         setLabelEmptyTagList()
+        list.setEmptyView(empty.root)
 
         buttonAdd.setOnClickListener { viewModel.clickAddTag() }
         buttonAdd.setOnLongClickListener {
