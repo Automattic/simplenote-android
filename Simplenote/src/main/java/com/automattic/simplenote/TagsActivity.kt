@@ -1,6 +1,5 @@
 package com.automattic.simplenote
 
-import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.DialogInterface
 import android.content.Intent
@@ -28,7 +27,7 @@ class TagsActivity : ThemedAppCompatActivity() {
     private val viewModel: TagsViewModel by viewModels()
 
     private var _binding: ActivityTagsBinding? = null
-    private val binding  get() = _binding!!
+    private val binding get() = _binding!!
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +76,10 @@ class TagsActivity : ThemedAppCompatActivity() {
     private fun ActivityTagsBinding.setObservers() {
         viewModel.uiState.observe(this@TagsActivity, { (tagItems, searchUpdate, searchQuery) ->
             val adapter = list.adapter as TagItemAdapter
-            adapter.submitList(
-                tagItems) {
+            adapter.submitList(tagItems) {
                 if (searchUpdate) {
                     list.scrollToPosition(0)
-                    val isSearching = searchQuery != null
-                    if (isSearching) {
+                    if (searchQuery != null) {
                         setLabelEmptyTagListSearchResults()
                     } else {
                         setLabelEmptyTagList()
@@ -124,9 +121,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         alert.setTitle(R.string.delete_tag)
         alert.setMessage(getString(R.string.confirm_delete_tag))
         alert.setNegativeButton(R.string.no, null)
-        alert.setPositiveButton(
-            R.string.yes
-        ) { _: DialogInterface?, _: Int -> viewModel.deleteTag(event.tagItem) }
+        alert.setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int -> viewModel.deleteTag(event.tagItem) }
         alert.show()
     }
 
