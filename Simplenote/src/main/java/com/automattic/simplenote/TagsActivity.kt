@@ -1,5 +1,6 @@
 package com.automattic.simplenote
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.DialogInterface
 import android.content.Intent
@@ -134,6 +135,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         dialog.show(supportFragmentManager.beginTransaction(), TagDialogFragment.DIALOG_TAG)
     }
 
+    @Suppress("DEPRECATION")
     private fun startAddTagActivity() {
         val intent = Intent(this, AddTagActivity::class.java)
         intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END,
@@ -196,6 +198,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         viewModel.stopListeningTagChanges()
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_ADD_TAG) {
             viewModel.updateOnResult()
