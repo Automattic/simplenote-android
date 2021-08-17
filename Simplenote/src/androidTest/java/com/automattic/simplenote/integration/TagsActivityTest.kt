@@ -21,6 +21,7 @@ import com.automattic.simplenote.utils.isToast
 import com.automattic.simplenote.utils.withItemCount
 import com.automattic.simplenote.utils.withRecyclerView
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,6 +30,15 @@ import org.junit.runner.RunWith
 @MediumTest
 class TagsActivityTest : BaseUITest() {
     private lateinit var activityScenario: ActivityScenario<TagsActivity>
+
+    @Test
+    fun listTagsWithEmptyTagsShouldShowEmptyView() {
+        launchTagsActivityEmptyTags()
+        onView(withId(R.id.empty)).check(matches(isDisplayed()))
+
+        val noTagsText = getResourceString(R.string.empty_tags)
+        onView(withId(R.id.text)).check(matches(withText(noTagsText)))
+    }
 
     @Test
     fun listTagsShouldShowCompleteListTags() {
@@ -40,6 +50,8 @@ class TagsActivityTest : BaseUITest() {
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
                 .check(matches(withText(tagAndCounter.counter)))
         }
+
+        onView(withId(R.id.empty)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -79,6 +91,8 @@ class TagsActivityTest : BaseUITest() {
         }
 
         onView(withId(R.id.list)).check(withItemCount(filteredTagsSecondPhrase.count()))
+
+        onView(withId(R.id.empty)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -120,6 +134,24 @@ class TagsActivityTest : BaseUITest() {
         }
 
         onView(withId(R.id.list)).check(withItemCount(filteredTags.count()))
+    }
+
+    @Test
+    fun searchTagsWithNoResultsShouldShowEmptyView() {
+        launchTagsActivityWithTestData()
+
+        onView(withId(R.id.empty)).check(matches(not(isDisplayed())))
+
+        val notMatchesPhrase = "nomatches"
+        // Activate search bar
+        onView(withId(R.id.menu_search)).perform(click())
+
+        // Type in the first search phrase
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText(notMatchesPhrase))
+
+        onView(withId(R.id.empty)).check(matches(isDisplayed()))
+        val noTagsFoundText = getResourceString(R.string.empty_tags_search)
+        onView(withId(R.id.text)).check(matches(withText(noTagsFoundText)))
     }
 
     @Test
@@ -269,6 +301,10 @@ class TagsActivityTest : BaseUITest() {
         activityScenario = ActivityScenario.launch(TagsActivity::class.java)
 
         return TestData(tags, notes)
+    }
+
+    private fun launchTagsActivityEmptyTags() {
+        ActivityScenario.launch(TagsActivity::class.java)
     }
 
     inner class TagAndCounter(val tag: Tag, val counter: String)
