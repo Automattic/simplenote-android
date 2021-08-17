@@ -26,24 +26,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class TagsActivity : ThemedAppCompatActivity() {
     private val viewModel: TagsViewModel by viewModels()
 
-    private var _binding: ActivityTagsBinding? = null
-    private val binding get() = _binding!!
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityTagsBinding.inflate(layoutInflater)
+        val binding = ActivityTagsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.setupViews()
         binding.setObservers()
 
         viewModel.start()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun ActivityTagsBinding.setupViews() {
@@ -55,12 +47,11 @@ class TagsActivity : ThemedAppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val tagItemAdapter = TagItemAdapter(
+        list.adapter = TagItemAdapter(
             viewModel::clickEditTag,
             viewModel::clickDeleteTag,
             viewModel::longClickDeleteTag
         )
-        list.adapter = tagItemAdapter
         list.layoutManager = LinearLayoutManager(this@TagsActivity)
 
         setLabelEmptyTagList()
@@ -101,9 +92,9 @@ class TagsActivity : ThemedAppCompatActivity() {
         })
     }
 
-    private fun showLongAddToast() {
-        if (binding.buttonAdd.isHapticFeedbackEnabled) {
-            binding.buttonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+    private fun ActivityTagsBinding.showLongAddToast() {
+        if (buttonAdd.isHapticFeedbackEnabled) {
+            buttonAdd.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
         toast(R.string.add_tag)
     }
@@ -131,13 +122,13 @@ class TagsActivity : ThemedAppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun startAddTagActivity() {
-        val intent = Intent(this, AddTagActivity::class.java)
+    private fun ActivityTagsBinding.startAddTagActivity() {
+        val intent = Intent(this@TagsActivity, AddTagActivity::class.java)
         intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_END,
-            ThemeUtils.getColorFromAttribute(this, R.attr.drawerBackgroundColor))
+            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.drawerBackgroundColor))
         intent.putExtra(MorphSetup.EXTRA_SHARED_ELEMENT_COLOR_START,
-            ThemeUtils.getColorFromAttribute(this, R.attr.fabColor))
-        val options = ActivityOptions.makeSceneTransitionAnimation(this, binding.buttonAdd, "shared_button")
+            ThemeUtils.getColorFromAttribute(this@TagsActivity, R.attr.fabColor))
+        val options = ActivityOptions.makeSceneTransitionAnimation(this@TagsActivity, buttonAdd, "shared_button")
         startActivityForResult(intent, REQUEST_ADD_TAG, options.toBundle())
     }
 
@@ -201,14 +192,14 @@ class TagsActivity : ThemedAppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun setLabelEmptyTagList() {
+    private fun ActivityTagsBinding.setLabelEmptyTagList() {
         setEmptyListImage(R.drawable.ic_tag_24dp)
         setEmptyListMessage(getString(R.string.empty_tags))
     }
 
-    private fun setLabelEmptyTagListSearchResults() {
-        if (DisplayUtils.isLandscape(this) &&
-            !DisplayUtils.isLargeScreen(this)
+    private fun ActivityTagsBinding.setLabelEmptyTagListSearchResults() {
+        if (DisplayUtils.isLandscape(this@TagsActivity) &&
+            !DisplayUtils.isLargeScreen(this@TagsActivity)
         ) {
             setEmptyListImage(-1)
         } else {
@@ -217,18 +208,18 @@ class TagsActivity : ThemedAppCompatActivity() {
         setEmptyListMessage(getString(R.string.empty_tags_search))
     }
 
-    private fun setEmptyListImage(@DrawableRes image: Int) {
+    private fun ActivityTagsBinding.setEmptyListImage(@DrawableRes image: Int) {
         if (image != -1) {
-            binding.empty.image.visibility = View.VISIBLE
-            binding.empty.image.setImageResource(image)
+            empty.image.visibility = View.VISIBLE
+            empty.image.setImageResource(image)
         } else {
-            binding.empty.image.visibility = View.GONE
+            empty.image.visibility = View.GONE
         }
     }
 
-    private fun setEmptyListMessage(message: String?) {
+    private fun ActivityTagsBinding.setEmptyListMessage(message: String?) {
         message?.let {
-            binding.empty.text.text = it
+            empty.text.text = it
         }
     }
 
