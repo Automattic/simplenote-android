@@ -111,6 +111,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
 
         val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
         positiveButton.text = getString(R.string.dialog_tag_conflict_button_positive)
+        positiveButton.visibility = View.VISIBLE
         positiveButton.setOnClickListener { viewModel.renameTag() }
 
         val negativeButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
@@ -133,6 +134,7 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
 
         val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
         positiveButton.text = getString(R.string.save)
+        positiveButton.visibility = View.VISIBLE
         positiveButton.setOnClickListener { viewModel.renameTagIfValid() }
 
         val negativeButton = dialogEditTag.getButton(DialogInterface.BUTTON_NEGATIVE)
