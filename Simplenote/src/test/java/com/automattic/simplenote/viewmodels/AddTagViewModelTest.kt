@@ -13,7 +13,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 
-class AddActivityViewModelTest {
+class AddTagViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: AddTagViewModel
