@@ -26,8 +26,6 @@ import com.simperium.client.AuthResponseListener;
 import com.simperium.client.User;
 import com.simperium.util.Logger;
 
-import java.io.IOException;
-
 public class SimplenoteCredentialsActivity extends CredentialsActivity {
     AuthResponseListener mAuthListener = new AuthResponseListener() {
         @Override
