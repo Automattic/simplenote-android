@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.ContextThemeWrapper;
 import android.widget.EditText;
 
@@ -16,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.automattic.simplenote.BuildConfig;
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.utils.AccountNetworkUtils;
+import com.automattic.simplenote.utils.AccountVerificationEmailHandler;
 import com.automattic.simplenote.utils.AppLog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simperium.android.CredentialsActivity;
@@ -26,14 +27,6 @@ import com.simperium.client.User;
 import com.simperium.util.Logger;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class SimplenoteCredentialsActivity extends CredentialsActivity {
     AuthResponseListener mAuthListener = new AuthResponseListener() {
@@ -120,33 +113,16 @@ public class SimplenoteCredentialsActivity extends CredentialsActivity {
     }
 
     private void sendVerificationEmail() {
-        byte[] data = getEmail().getBytes(StandardCharsets.UTF_8);
-        String encodedEmail = Base64.encodeToString(data, Base64.NO_WRAP);
-        new OkHttpClient()
-                .newBuilder()
-                .readTimeout(3000, TimeUnit.SECONDS)
-                .build()
-                .newCall(new Request.Builder().url("https://app.simplenote.com/account/verify-email/" + encodedEmail).build())
-                .enqueue(
-                        new Callback() {
-                            @Override
-                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                AppLog.add(AppLog.Type.AUTH, "Verification email error (" + e.getMessage() + " - " + call.request().url() + ")");
-                            }
+        AccountNetworkUtils.makeSendVerificationEmailRequest(getEmail(), new AccountVerificationEmailHandler() {
+            @Override
+            public void onSuccess(@NonNull String url) {
+                AppLog.add(AppLog.Type.AUTH, "Email sent (200 - " + url + ")");
+            }
 
-                            @Override
-                            public void onResponse(@NonNull Call call, @NonNull Response response) {
-                                String message = "Verification email ";
-
-                                if (response.code() == 200) {
-                                    message += "sent";
-                                } else {
-                                    message += "error";
-                                }
-
-                                AppLog.add(AppLog.Type.AUTH, message + " (" + response.code() + " - " + call.request().url() + ")");
-                            }
-                        }
-                );
+            @Override
+            public void onFailure(@NonNull Exception e, @NonNull String url) {
+                AppLog.add(AppLog.Type.AUTH, "Verification email error (" + e.getMessage() + " - " + url + ")");
+            }
+        });
     }
 }
