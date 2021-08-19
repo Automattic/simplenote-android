@@ -1,5 +1,15 @@
 package com.automattic.simplenote;
 
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
+import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -37,16 +47,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_NOTE_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
-import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_COUNT;
-import static com.automattic.simplenote.utils.MatchOffsetHighlighter.MATCH_INDEX_START;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteEditorActivity extends ThemedAppCompatActivity {
     private static final String STATE_TAB_EDIT = "TAB_EDIT";
@@ -88,6 +88,13 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            // Add a custom handler for back button click
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleBackPressed();
+                }
+            });
         }
 
         mNoteEditorFragment = new NoteEditorFragment();
@@ -222,8 +229,23 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        handleBackPressed();
+    }
+
+    private void handleBackPressed() {
         AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
-        super.onBackPressed();
+        if (isTaskRoot()) {
+            // The editor can be the task root when it comes from an action on a widget
+            // In these cases, instead of going to the home screen, the notes activity
+            // is started
+            Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+            finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
