@@ -239,7 +239,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             // In these cases, instead of going to the home screen, the notes activity
             // is started
             Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
             super.onBackPressed();
