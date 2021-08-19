@@ -241,6 +241,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+
+            finish();
         } else {
             super.onBackPressed();
         }
