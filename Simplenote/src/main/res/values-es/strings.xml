@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-08-19 20:49:18+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="import_setting">Importar datos</string>
+    <string name="import_unknown">Formato desconocido</string>
+    <string name="import_message_success">Fecha cargada</string>
+    <string name="import_error_parse">No se puede analizar el archivo</string>
+    <string name="import_error_file">No se puede leer el archivo</string>
+    <string name="requesting_message">Solicitando…</string>
+    <string name="error_ocurred_message">Ha ocurrido un error. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
+    <string name="account_deletion_message">Se ha enviado un correo electrónico a %1$s. Comprueba tu bandeja de entrada y sigue las instrucciones para confirmar la eliminación de la cuenta.\n\nTu cuenta no se eliminará hasta que recibamos tu confirmación.</string>
+    <string name="request_received">Solicitud recibida</string>
+    <string name="delete_account_message">Si eliminas tu cuenta, se eliminarán de forma permanente todas las notas que hayas creado con ella. Esta acción es irreversible.</string>
+    <string name="delete_account">Eliminar cuenta</string>
+    <string name="dialog_already_logged_in_message">Has iniciado sesión como %1$s. Cierra sesión e inténtalo de nuevo.</string>
+    <string name="dialog_already_logged_in_title">Ya has iniciado sesión</string>
+    <string name="support_text">¿No has recibido un correo electrónico? Es posible que ya tengas una cuenta. Si necesitas ayuda, ponte en contacto con %1$s.</string>
+    <string name="email_confirmation_text">Hemos enviado un correo electrónico a %1$s. Revisa tu bandeja de entrada y sigue las instrucciones.</string>
+    <string name="dialog_message_signup_error">Estamos teniendo algunos problemas. Inténtalo de nuevo pronto.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copiada en el portapapeles</string>
     <string name="dialog_browser_exception_toast_copy_failure">La URL no se ha podido copiar en el portapapeles</string>
     <string name="dialog_browser_exception_title">Error del enlace</string>
@@ -137,7 +153,7 @@ Language: es
     <string name="link_terms">%1$s%2$s%3$sCondiciones del servicio%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sPolítica de privacidad%4$s</string>
     <string name="link_divider">·</string>
-    <string name="about_hiring">¿Eres desarrollador? Buscamos personal.</string>
+    <string name="about_hiring">Trabaja con nosotros.</string>
     <string name="about_hiring_title">Empleos</string>
     <string name="about_contribute_title">Contribuir</string>
     <string name="about_contribute_subtitle">github.com</string>

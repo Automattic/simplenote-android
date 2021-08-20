@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-08-19 20:52:13+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="import_setting">Impor data</string>
+    <string name="import_unknown">Format tidak dikenali</string>
+    <string name="import_message_success">Data dimuat</string>
+    <string name="import_error_parse">Tidak dapat mengurai file</string>
+    <string name="import_error_file">Tidak dapat membaca file</string>
+    <string name="requesting_message">Meminta…</string>
+    <string name="error_ocurred_message">Terjadi error. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
+    <string name="account_deletion_message">Email dikirim ke %1$s. Periksa kotak masuk Anda dan ikuti petunjuk untuk mengonfirmasi penghapusan akun.\n\nAkun tidak akan dihapus hingga kami menerima konfirmasi Anda.</string>
+    <string name="request_received">Permintaan Diterima</string>
+    <string name="delete_account_message">Dengan menghapus akun, semua catatan yang dibuat dengan akun ini akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="delete_account">Hapus Akun</string>
+    <string name="dialog_already_logged_in_message">Anda sudah login sebagai %1$s. Harap keluar lalu coba lagi.</string>
+    <string name="dialog_already_logged_in_title">Sudah Login</string>
+    <string name="support_text">Belum menerima email? Anda sudah memiliki akun. Hubungi %1$s untuk mendapatkan bantuan.</string>
+    <string name="email_confirmation_text">Kami telah mengirimkan email ke %1$s. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
+    <string name="dialog_message_signup_error">Kami mengalami masalah. Harap coba lagi nanti.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL disalin ke clipboard</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL tidak dapat disalin ke clipboard</string>
     <string name="dialog_browser_exception_title">Error pada Tautan</string>
