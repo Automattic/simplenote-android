@@ -1,5 +1,17 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
+import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +42,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -85,18 +96,6 @@ import com.simperium.client.Query;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Set;
-
-import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_CHECKLIST_INSERTED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_CONTENT_SHARED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
-import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
-import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
@@ -547,48 +546,45 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
         }
 
-        ViewTreeObserver viewTreeObserver = mContentEditText.getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // If a note was loaded with search matches, scroll to the first match in the editor
-                if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
-                    if (!isAdded()) {
-                        return;
-                    }
-
-                    // Get the character location of the first search match
-                    int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(
-                            mContentEditText.getText(),
-                            mMatchOffsets
-                    );
-                    if (matchLocation == 0) {
-                        return;
-                    }
-
-                    // Calculate how far to scroll to bring the match into view
-                    Layout layout = mContentEditText.getLayout();
-                    int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
-                    mShouldScrollToSearchMatch = false;
-                } else if (mNote != null && mNote.getSimperiumKey() != null) {
-                    ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
-                    mRootView.setOnScrollChangeListener(
-                        new View.OnScrollChangeListener() {
-                            @Override
-                            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                                if (mNote == null) {
-                                    return;
-                                }
-                                mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
-                            }
-                        }
-                    );
-                }
-            }
-        });
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    private void setupScroll() {
+        // If a note was loaded with search matches, scroll to the first match in the editor
+        if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
+            if (!isAdded()) {
+                return;
+            }
+
+            // Get the character location of the first search match
+            int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(
+                    mContentEditText.getText(),
+                    mMatchOffsets
+            );
+            if (matchLocation == 0) {
+                return;
+            }
+
+            // Calculate how far to scroll to bring the match into view
+            Layout layout = mContentEditText.getLayout();
+            int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
+            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+            mShouldScrollToSearchMatch = false;
+        } else if (mNote != null && mNote.getSimperiumKey() != null) {
+            ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+            mRootView.setOnScrollChangeListener(
+                new View.OnScrollChangeListener() {
+                    @Override
+                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                        if (mNote == null) {
+                            return;
+                        }
+                        mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
+                    }
+                }
+            );
+        }
     }
 
     public void removeScrollListener() {
@@ -1008,6 +1004,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             // Restore the cursor position if possible.
             int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
+            // Set the scroll position after the note's content has been rendered
+            mRootView.post(new Runnable() {
+                @Override
+                public void run() {
+                    setupScroll();
+                }
+            });
 
             if (isNoteUpdate) {
                 // Update markdown and preview flags from updated note.
