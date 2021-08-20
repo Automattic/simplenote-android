@@ -2,6 +2,7 @@
 -----
 * Removed sort bar from notes list but still accessible from settings [#1438](https://github.com/Automattic/simplenote-android/pull/1438)
 * Fixed back button return to home screen when a note is accessed from a widget [#1450](https://github.com/Automattic/simplenote-android/pull/1450)
+* [Internal] Added login alert for compromised password
 
 2.19
 -----
