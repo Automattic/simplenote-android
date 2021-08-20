@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-08-19 20:53:20+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="import_setting">לייבא נתונים</string>
+    <string name="import_unknown">פורמט לא מוכר</string>
+    <string name="import_message_success">הנתונים נטענו</string>
+    <string name="import_error_parse">לא ניתן לנתח את הקובץ</string>
+    <string name="import_error_file">לא ניתן לקרוא את הקובץ</string>
+    <string name="requesting_message">שולח בקשה…</string>
+    <string name="error_ocurred_message">אירעה שגיאה. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר בכתובת ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
+    <string name="account_deletion_message">הודעת אימייל נשלחה אל ⁦%1$s⁩. יש לבדוק את תיבת הדואר הנכנס ולפעול לפי ההוראות לאישור המחיקה של החשבון.\n\nהחשבון שלך לא יימחק עד שנקבל את אישורך.</string>
+    <string name="request_received">הבקשה התקבלה</string>
+    <string name="delete_account_message">על ידי מחיקת החשבון שלך, כל הפתקים שנוצרו באמצעות החשבון הזה יימחקו לצמיתות. לא ניתן לבטל את הפעולה הזאת.</string>
+    <string name="delete_account">למחוק חשבון</string>
+    <string name="dialog_already_logged_in_message">כבר התחברת עם שם המשתמש ⁦%1$s⁩. יש להתנתק ולנסות שוב.</string>
+    <string name="dialog_already_logged_in_title">כבר התחברת למערכת</string>
+    <string name="support_text">לא קיבלת את הודעת האימייל? ייתכן שכבר יש לך חשבון. ניתן ליצור קשר עם ⁦%1$s⁩ לעזרה.</string>
+    <string name="email_confirmation_text">שלחנו הודעה לאימייל ⁦%1$s⁩. יש לבדוק את תיבת הדואר הנכנס ולפעול לפי ההוראות.</string>
+    <string name="dialog_message_signup_error">נתקלנו בכמה בעיות. יש לנסות שוב בקרוב.</string>
     <string name="dialog_browser_exception_toast_copy_success">כתובת ה-URL הועתקה</string>
     <string name="dialog_browser_exception_toast_copy_failure">לא ניתן היה להעתיק את כתובת ה-URL ללוח</string>
     <string name="dialog_browser_exception_title">שגיאה בקישור</string>

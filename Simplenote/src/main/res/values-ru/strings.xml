@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 17:54:04+0000
+Translation-Revision-Date: 2021-08-19 20:49:09+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="import_setting">Импорт данных</string>
+    <string name="import_unknown">Неизвестный формат</string>
+    <string name="import_message_success">Данные загружены</string>
+    <string name="import_error_parse">Не удалось выполнить анализ файла</string>
+    <string name="import_error_file">Не удалось прочитать файл</string>
+    <string name="requesting_message">Запрос выполняется…</string>
+    <string name="error_ocurred_message">Произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
+    <string name="account_deletion_message">Мы выслали письмо на адрес %1$s. Проверьте почту и следуйте инструкциям, чтобы подтвердить удаление учётной записи.\n\nВаша учётная запись будет удалена только после получения вашего подтверждения.</string>
+    <string name="request_received">Запрос получен</string>
+    <string name="delete_account_message">При удалении учётной записи все созданные в ней заметки будут безвозвратно удалены. Это действие нельзя отменить.</string>
+    <string name="delete_account">Удалить учётную запись</string>
+    <string name="dialog_already_logged_in_message">Вы уже вошли как %1$s. Выйдите из системы и повторите попытку.</string>
+    <string name="dialog_already_logged_in_title">Вход уже выполнен</string>
+    <string name="support_text">Письмо не пришло? Возможно, у вас уже есть учётная запись. Обратитесь за помощью в %1$s.</string>
+    <string name="email_confirmation_text">Мы отправили эл. письмо на адрес %1$s. Проверьте свой почтовый ящик и следуйте инструкциям.</string>
+    <string name="dialog_message_signup_error">Произошла ошибка. Повторите попытку позже.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL-адрес скопирован в буфер обмена</string>
     <string name="dialog_browser_exception_toast_copy_failure">Невозможно скопировать URL-адрес в буфер обмена</string>
     <string name="dialog_browser_exception_title">Ошибка ссылки</string>

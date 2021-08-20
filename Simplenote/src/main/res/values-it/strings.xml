@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:23:33+0000
+Translation-Revision-Date: 2021-08-19 20:47:58+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="import_setting">Importa dati</string>
+    <string name="import_unknown">Formato sconosciuto</string>
+    <string name="import_message_success">Dati caricati</string>
+    <string name="import_error_parse">Impossibile analizzare il file</string>
+    <string name="import_error_file">Impossibile leggere il file</string>
+    <string name="requesting_message">Richiesta in corso…</string>
+    <string name="error_ocurred_message">Si è verificato un errore. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
+    <string name="account_deletion_message">È stata inviata un\'e-mail a %1$s. Controlla la posta in arrivo e segui le istruzioni per confermare l\'eliminazione dell\'account.\n\nIl tuo account non verrà eliminato fino alla ricezione della conferma.</string>
+    <string name="request_received">Richiesta ricevuta</string>
+    <string name="delete_account_message">Eliminando il tuo account, tutte le note create con esso verranno eliminate definitivamente. Questa azione non potrà essere annullata.</string>
+    <string name="delete_account">Elimina account</string>
+    <string name="dialog_already_logged_in_message">Hai già effettuato l\'accesso come %1$s. Disconnettiti e riprova.</string>
+    <string name="dialog_already_logged_in_title">Accesso già effettuato</string>
+    <string name="support_text">Non ti è arrivata alcuna e-mail? Potresti già avere un account. Contatta %1$s per assistenza.</string>
+    <string name="email_confirmation_text">Abbiamo inviato una e-mail a %1$s. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
+    <string name="dialog_message_signup_error">Stiamo riscontrando dei problemi. Riprova a breve.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copiato negli appunti</string>
     <string name="dialog_browser_exception_toast_copy_failure">Impossibile copiare l\'URL negli appunti</string>
     <string name="dialog_browser_exception_title">Errore link</string>

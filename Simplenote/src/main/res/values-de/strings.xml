@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:24:44+0000
+Translation-Revision-Date: 2021-08-19 20:48:21+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="import_setting">Daten importieren</string>
+    <string name="import_unknown">Unbekanntes Format</string>
+    <string name="import_message_success">Daten geladen</string>
+    <string name="import_error_parse">Datei kann nicht geparst werden</string>
+    <string name="import_error_file">Datei kann nicht gelesen werden</string>
+    <string name="requesting_message">Anfrage läuft …</string>
+    <string name="error_ocurred_message">Ein Fehler ist aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
+    <string name="account_deletion_message">Es wurde eine E-Mail an %1$s gesendet. Bitte sieh in deinem Posteingang nach und folge den Anweisungen, um die Kontolöschung zu bestätigen.\n\nDein Konto wird erst gelöscht, wenn wir die Bestätigung dafür erhalten haben.</string>
+    <string name="request_received">Anfrage erhalten</string>
+    <string name="delete_account_message">Wenn du dein Konto löschst, werden alle Notizen, die in diesem Konto erstellt wurden, unwiderruflich gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <string name="delete_account">Konto löschen</string>
+    <string name="dialog_already_logged_in_message">Du bist bereits als %1$s angemeldet. Melde dich ab und versuche es erneut.</string>
+    <string name="dialog_already_logged_in_title">Bereits angemeldet</string>
+    <string name="support_text">Du hast keine E-Mail bekommen? Vielleicht hast du schon ein Konto. Wende dich für Unterstützung an %1$s.</string>
+    <string name="email_confirmation_text">Wir haben eine E-Mail an %1$s gesendet. Sieh bitte in deinem Posteingang nach und befolge die Anweisungen.</string>
+    <string name="dialog_message_signup_error">Momentan gibt es ein paar Probleme. Bitte versuche es später erneut.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL in Zwischenablage kopiert</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL konnte nicht in die Zwischenablage kopiert werden</string>
     <string name="dialog_browser_exception_title">Link-Fehler</string>

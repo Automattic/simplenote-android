@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:03+0000
+Translation-Revision-Date: 2021-08-19 20:48:54+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="import_setting">데이터 가져오기</string>
+    <string name="import_unknown">알 수 없는 형식</string>
+    <string name="import_message_success">데이터 로드됨</string>
+    <string name="import_error_parse">파일 구문을 분석할 수 없음</string>
+    <string name="import_error_file">파일을 읽을 수 없음</string>
+    <string name="requesting_message">요청 중…</string>
+    <string name="error_ocurred_message">오류가 발생했습니다. 다시 시도하세요. 문제가 계속 발생하면 %1$s%2$s%3$s%4$s%5$s에서 도움말을 문의하세요.</string>
+    <string name="account_deletion_message">이메일을 %1$s(으)로 보냈습니다. 받은 편지함을 확인하고 지침에 따라 계정 삭제를 확인하세요.\n\n시스템에 확인이 수신될 때까지 계정이 삭제되지 않습니다.</string>
+    <string name="request_received">요청 수신됨</string>
+    <string name="delete_account_message">계정을 삭제하면 이 계정을 통해 생성된 모든 메모가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="delete_account">계정 삭제</string>
+    <string name="dialog_already_logged_in_message">이미 %1$s(으)로 로그인하셨습니다. 로그아웃하고 다시 시도하세요.</string>
+    <string name="dialog_already_logged_in_title">이미 로그인됨</string>
+    <string name="support_text">이메일을 받지 못하셨나요? 이미 계정이 있을 수도 있습니다. 도움말은 %1$s에 문의하세요.</string>
+    <string name="email_confirmation_text">%1$s(으)로 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="dialog_message_signup_error">문제가 있습니다. 다시 시도해주세요.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL이 클립보드에 복사됨</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL을 클립보드에 복사할 수 없습니다.</string>
     <string name="dialog_browser_exception_title">링크 오류</string>
