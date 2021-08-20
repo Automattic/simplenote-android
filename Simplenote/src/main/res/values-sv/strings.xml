@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-03-16 16:23:16+0000
+Translation-Revision-Date: 2021-08-19 20:50:33+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="import_setting">Importera data</string>
+    <string name="import_unknown">Okänt format</string>
+    <string name="import_message_success">Data laddat</string>
+    <string name="import_error_parse">Kan inte analysera fil</string>
+    <string name="import_error_file">Kan inte läsa fil</string>
+    <string name="requesting_message">Begär…</string>
+    <string name="error_ocurred_message">Ett okänt fel uppstod. Försök igen. Om problemet fortsätter, kontakta oss på %1$s%2$s%3$s%4$s%5$s för hjälp.</string>
+    <string name="account_deletion_message">Ett e-postmeddelande har skickats till %1$s. Kolla din inkorg och följ instruktionerna för att bekräfta kontoborttagningen.\n\nDitt konto kommer inte att tas bort förrän vi har mottagit din bekräftelse.</string>
+    <string name="request_received">Begäran mottagen</string>
+    <string name="delete_account_message">Om du tar bort ditt konto kommer alla anteckningar som har skapats med kontot att tas bort permanent. Det går inte att ångra den här åtgärden.</string>
+    <string name="delete_account">Ta bort konto</string>
     <string name="dialog_already_logged_in_message">Du är redan inloggad som %1$s. Logga ut och försök igen.</string>
     <string name="dialog_already_logged_in_title">Redan inloggad</string>
+    <string name="support_text">Har du inte fått något e-postmeddelande? Det kan hända att du redan har ett konto. Kontakta %1$s för att få hjälp.</string>
+    <string name="email_confirmation_text">Vi har skickat ett e-postmeddelande till %1$s. Kontrollera din inkorg och följ instruktionerna.</string>
     <string name="dialog_message_signup_error">Vi har problem. Försök igen om en stund.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL kopierad till urklipp</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL kunde inte kopieras till urklipp</string>
