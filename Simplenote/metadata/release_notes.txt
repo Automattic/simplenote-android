@@ -1,5 +1,2 @@
-* Added support to import notes
-* Fixed crash when searching notes in tablets
-* Added In App Account Deletion
-* Fixed email verification screen appears with verified accounts
-* Changed the new note icon
+* Removed sort bar from notes list but still accessible from settings
+* Fixed back button return to home screen when a note is accessed from a widget
