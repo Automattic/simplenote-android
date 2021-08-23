@@ -583,8 +583,17 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             // Calculate how far to scroll to bring the match into view
             Layout layout = mContentEditText.getLayout();
-            int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+            if (layout == null) {
+                mRootView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setScroll();
+                    }
+                });
+            } else {
+                int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
+                ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+            }
         } else if (mNote != null && mNote.getSimperiumKey() != null) {
             ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
             mRootView.setOnScrollChangeListener(
@@ -1763,6 +1772,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (fragment.mMatchOffsets != null) {
                 int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
+                fragment.mShouldScrollToSearchMatch = true;
             }
 
             fragment.mContentEditText.addTextChangedListener(fragment);
