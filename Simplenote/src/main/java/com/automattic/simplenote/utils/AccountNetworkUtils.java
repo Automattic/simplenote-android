@@ -2,11 +2,15 @@ package com.automattic.simplenote.utils;
 
 import android.os.Build;
 import android.os.LocaleList;
+import android.util.Base64;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +31,7 @@ public class AccountNetworkUtils {
 
     // URL endpoints
     private static final String SIMPLENOTE_DELETE_ACCOUNT = "account/request-delete";
+    private static final String SIMPLENOTE_SEND_VERIFICATION_EMAIL = "verify-email/";
 
     private static final MediaType JSON_MEDIA_TYPE =
             MediaType.parse("application/json; charset=utf-8");
@@ -54,6 +59,37 @@ public class AccountNetworkUtils {
                 }
             }
         });
+    }
+
+    public static void makeSendVerificationEmailRequest(String email, final AccountVerificationEmailHandler handler) {
+        byte[] data = email.getBytes(StandardCharsets.UTF_8);
+        String encodedEmail = Base64.encodeToString(data, Base64.NO_WRAP);
+        new OkHttpClient()
+                .newBuilder()
+                .readTimeout(3000, TimeUnit.SECONDS)
+                .build()
+                .newCall(new Request.Builder().url(buildUrl(SIMPLENOTE_SEND_VERIFICATION_EMAIL  + encodedEmail)).build())
+                .enqueue(
+                        new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                String url = call.request().url().toString();
+                                handler.onFailure(e, url);
+                            }
+
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                                String url = call.request().url().toString();
+                                if (response.code() == 200) {
+                                    handler.onSuccess(url);
+                                } else {
+
+                                    handler.onFailure(new Exception("Error code: " + response.code()), url);
+                                }
+
+                            }
+                        }
+                );
     }
 
     private static Request buildDeleteAccountRequest(String email, String token) {
@@ -95,10 +131,5 @@ public class AccountNetworkUtils {
         } else {
             return Locale.getDefault().getLanguage();
         }
-    }
-
-    public interface DeleteAccountRequestHandler {
-        void onSuccess();
-        void onFailure();
     }
 }
