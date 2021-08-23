@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -550,7 +551,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return mRootView;
     }
 
-    private void setupScroll() {
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
+            mRootView.post(new Runnable() {
+                @Override
+                public void run() {
+                    setScroll();
+                }
+            });
+        }
+    }
+
+    private void setScroll() {
         // If a note was loaded with search matches, scroll to the first match in the editor
         if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
             if (!isAdded()) {
@@ -570,7 +585,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             Layout layout = mContentEditText.getLayout();
             int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
             ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
-            mShouldScrollToSearchMatch = false;
         } else if (mNote != null && mNote.getSimperiumKey() != null) {
             ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
             mRootView.setOnScrollChangeListener(
@@ -1008,7 +1022,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mRootView.post(new Runnable() {
                 @Override
                 public void run() {
-                    setupScroll();
+                    setScroll();
                 }
             });
 
@@ -1130,6 +1144,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Remove search highlight spans when note content changes
         if (mMatchOffsets != null) {
             mMatchOffsets = null;
+            mShouldScrollToSearchMatch = false;
             mHighlighter.removeMatches();
         }
 
@@ -1748,7 +1763,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (fragment.mMatchOffsets != null) {
                 int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
-                fragment.mShouldScrollToSearchMatch = true;
             }
 
             fragment.mContentEditText.addTextChangedListener(fragment);
