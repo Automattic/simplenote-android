@@ -379,7 +379,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         mViewPager.setPagingEnabled(false);
     }
 
-    private boolean isPreviewTabSelected() {
+    boolean isPreviewTabSelected() {
         return mNote != null && mNote.isMarkdownEnabled() && mViewPager != null && mViewPager.getCurrentItem() == INDEX_TAB_PREVIEW;
     }
 

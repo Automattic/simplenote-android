@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -1207,6 +1208,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        hideToolbarForLandscapeEditing();
+    }
+
+    @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
             String tags = getNoteTagsString().trim();
@@ -1217,6 +1224,26 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (tags.length() > 0) {
                 setChips(tags);
             }
+        }
+
+        hideToolbarForLandscapeEditing();
+    }
+
+    void hideToolbarForLandscapeEditing() {
+        if (getActivity() == null || !(getActivity() instanceof NoteEditorActivity)) {
+            return;
+        }
+
+        NoteEditorActivity activity = (NoteEditorActivity)  getActivity();
+        int displayMode = getResources().getConfiguration().orientation;
+        if (mContentEditText.hasFocus() &&
+                displayMode == Configuration.ORIENTATION_LANDSCAPE &&
+                !activity.isPreviewTabSelected()) {
+            activity.hideTabs();
+            activity.getSupportActionBar().hide();
+        } else {
+            activity.showTabs();
+            activity.getSupportActionBar().show();
         }
     }
 
