@@ -565,6 +565,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
+    private int getFirstSearchMatchLocation() {
+        if (getActivity() != null && getActivity() instanceof NoteEditorActivity) {
+            return ((NoteEditorActivity) getActivity()).getCurrentSearchMatchIndexLocation();
+        }
+
+        int defaultFirstLocation = MatchOffsetHighlighter.getFirstMatchLocation(
+                mContentEditText.getText(),
+                mMatchOffsets
+        );
+
+        return defaultFirstLocation;
+    }
+
     private void setScroll() {
         // If a note was loaded with search matches, scroll to the first match in the editor
         if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
@@ -573,10 +586,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             // Get the character location of the first search match
-            int matchLocation = MatchOffsetHighlighter.getFirstMatchLocation(
-                    mContentEditText.getText(),
-                    mMatchOffsets
-            );
+            int matchLocation = getFirstSearchMatchLocation();
             if (matchLocation == 0) {
                 return;
             }
