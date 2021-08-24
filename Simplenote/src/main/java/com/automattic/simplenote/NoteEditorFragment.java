@@ -35,6 +35,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +44,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -556,10 +558,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         super.onConfigurationChanged(newConfig);
 
         if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
-            mRootView.post(new Runnable() {
+            // mContentEditText.getLayout() can be null after a configuration change, thus, we need to check when the
+            // layout becomes available so that the scroll position can be set.
+            mRootView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
-                public void run() {
-                    setScroll();
+                public boolean onPreDraw() {
+                    if (mContentEditText.getLayout() != null) {
+                        setScroll();
+                        mRootView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    }
+                    return true;
                 }
             });
         }
@@ -593,14 +601,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             // Calculate how far to scroll to bring the match into view
             Layout layout = mContentEditText.getLayout();
-            if (layout == null) {
-                mRootView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        setScroll();
-                    }
-                });
-            } else {
+            if (layout != null) {
                 int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
                 ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
             }
