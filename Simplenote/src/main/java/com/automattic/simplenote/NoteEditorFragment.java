@@ -140,7 +140,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private boolean mIsLoadingNote;
     private boolean mIsMarkdownEnabled;
     private boolean mIsPreviewEnabled;
-    private boolean mShouldScrollToSearchMatch;
     private ActionMode mActionMode;
     private MenuItem mChecklistMenuItem;
     private MenuItem mCopyMenuItem;
@@ -558,7 +557,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         // If the user changes configuration and is still traversing keywords, we need to keep the scroll to the last
         // keyword checked
-        if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
+        if (mMatchOffsets != null) {
             // mContentEditText.getLayout() can be null after a configuration change, thus, we need to check when the
             // layout becomes available so that the scroll position can be set.
             mRootView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -589,7 +588,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void setScroll() {
         // If a note was loaded with search matches, scroll to the first match in the editor
-        if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
+        if (mMatchOffsets != null) {
             if (!isAdded()) {
                 return;
             }
@@ -1165,7 +1164,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         // Remove search highlight spans when note content changes
         if (mMatchOffsets != null) {
             mMatchOffsets = null;
-            mShouldScrollToSearchMatch = false;
             mHighlighter.removeMatches();
         }
 
@@ -1784,7 +1782,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (fragment.mMatchOffsets != null) {
                 int columnIndex = fragment.mNote.getBucket().getSchema().getFullTextIndex().getColumnIndex(Note.CONTENT_PROPERTY);
                 fragment.mHighlighter.highlightMatches(fragment.mMatchOffsets, columnIndex);
-                fragment.mShouldScrollToSearchMatch = true;
             }
 
             fragment.mContentEditText.addTextChangedListener(fragment);
