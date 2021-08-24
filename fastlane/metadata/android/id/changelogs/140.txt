@@ -1,0 +1,6 @@
+2.19:
+* Penambahan dukungan untuk mengimpor catatan
+* Perbaikan kerusakan saat mencari catatan di tablet
+* Penambahan penghapusan Akun di Dalam Aplikasi
+* Perbaikan layar verifikasi email muncul dengan akun terverifikasi
+* Perubahan gambar catatan baru

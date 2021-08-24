@@ -11,6 +11,13 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0220"
+msgid ""
+"2.20:\n"
+"* Removed sort bar from notes list but still accessible from settings\n"
+"* Fixed back button return to home screen when a note is accessed from a widget\n"
+msgstr ""
+
 msgctxt "release_note_0219"
 msgid ""
 "2.19:\n"
@@ -19,12 +26,6 @@ msgid ""
 "* Added In App Account Deletion\n"
 "* Fixed email verification screen appears with verified accounts\n"
 "* Changed the new note icon\n"
-msgstr ""
-
-msgctxt "release_note_0218"
-msgid ""
-"2.18:\n"
-"* Redesigned signup flow\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!

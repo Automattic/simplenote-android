@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:03+0000
+Translation-Revision-Date: 2021-08-19 20:51:46+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="import_setting">Verileri içe aktar</string>
+    <string name="import_unknown">Bilinmeyen biçim</string>
+    <string name="import_message_success">Veri yüklendi</string>
+    <string name="import_error_parse">Dosya ayrıştırılamıyor</string>
+    <string name="import_error_file">Dosya okunamıyor</string>
+    <string name="requesting_message">İsteniyor…</string>
+    <string name="error_ocurred_message">Bir hata oluştu. Lütfen tekrar deneyin. Sorun devam ederse yardım için %1$s%2$s%3$s%4$s%5$s adresinden bize ulaşın.</string>
+    <string name="account_deletion_message">%1$s adresine bir e-posta gönderildi. Gelen kutunuzu kontrol edin ve hesap silme işlemini onaylamak için talimatları izleyin.\n\nOnayınız alınana kadar hesabınız silinmeyecek.</string>
+    <string name="request_received">İstek Alındı</string>
+    <string name="delete_account_message">Hesabınızı sildiğinizde bu hesapla oluşturulan tüm notlar kalıcı olarak silinecektir. Bu eylem geri alınamaz.</string>
+    <string name="delete_account">Hesabı Sil</string>
+    <string name="dialog_already_logged_in_message">%1$s olarak zaten giriş yaptınız. Çıkış yapıp tekrar deneyin.</string>
+    <string name="dialog_already_logged_in_title">Zaten Giriş Yapıldı</string>
+    <string name="support_text">E-postayı almadınız mı? Zaten bir hesabınız olabilir. Yardım için %1$s ile iletişime geçin.</string>
+    <string name="email_confirmation_text">%1$s adresine bir e-posta gönderdik. Lütfen gelen kutunuzu kontrol edin ve talimatları izleyin.</string>
+    <string name="dialog_message_signup_error">Sorun yaşanıyor. Lütfen kısa bir süre sonra tekrar deneyin.</string>
     <string name="dialog_browser_exception_toast_copy_success">Adres panoya kopyalandı</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL panoya kopyalanamadı</string>
     <string name="dialog_browser_exception_title">Bağlantı Hatası</string>

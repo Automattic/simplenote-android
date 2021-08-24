@@ -398,4 +398,8 @@
     <string name="simperium_subtitle">The simplest way to keep notes.</string>
     <string name="simperium_title" translatable="false">@string/app_name</string>
     <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_account_verification">Account Verification Required</string>
+    <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_okay">Okay</string>
 </resources>

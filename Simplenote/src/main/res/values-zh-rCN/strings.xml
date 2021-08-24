@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-19 17:23:46+0000
+Translation-Revision-Date: 2021-08-19 20:52:59+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="import_setting">导入数据</string>
+    <string name="import_unknown">未知格式</string>
+    <string name="import_message_success">数据已加载</string>
+    <string name="import_error_parse">无法解析文件</string>
+    <string name="import_error_file">无法读取文件</string>
+    <string name="requesting_message">正在请求…</string>
+    <string name="error_ocurred_message">发生错误。 请重试。 如果问题仍然存在，请通过 %1$s%2$s%3$s%4$s%5$s 联系我们，我们会竭诚相助。</string>
+    <string name="account_deletion_message">我们已向 %1$s 发送一封电子邮件。 请检查您的收件箱，按照电子邮件中的说明来确认账户删除。\n\n在收到您的确认之前，我们不会删除您的账户。</string>
+    <string name="request_received">请求已收到</string>
+    <string name="delete_account_message">删除您的账户将永久删除使用此账户创建的所有备注。 此操作不可撤消。</string>
+    <string name="delete_account">删除账户</string>
+    <string name="dialog_already_logged_in_message">您已使用 %1$s 的身份登录。 请注销并重试。</string>
+    <string name="dialog_already_logged_in_title">已登录</string>
+    <string name="support_text">没有收到电子邮件？ 您可能已有帐户。 联系 %1$s 以获取帮助。</string>
+    <string name="email_confirmation_text">我们向 %1$s 发送了一封电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
+    <string name="dialog_message_signup_error">我们遇到了问题。 请稍后重试。</string>
     <string name="dialog_browser_exception_toast_copy_success">URL 已复制到剪贴板</string>
     <string name="dialog_browser_exception_toast_copy_failure">URL 无法复制到剪贴板</string>
     <string name="dialog_browser_exception_title">链接错误</string>

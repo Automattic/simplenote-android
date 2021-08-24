@@ -30,9 +30,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.19-rc-1"
+            versionName "2.20-rc-1"
         }
-        versionCode 139
+        versionCode 141
         minSdkVersion 23
         targetSdkVersion 29
 
@@ -81,7 +81,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.simperium.android:simperium:0.10.0'
+    implementation 'com.automattic:simperium:develop-c0bbbb8b6c34c671f810f530d2baf857a0ce5d87'
     implementation 'com.automattic:tracks:1.2'
     implementation 'org.wordpress:passcodelock:2.0.2'
 
@@ -103,9 +103,15 @@ dependencies {
 }
 
 repositories {
-    jcenter()
+    maven {
+        url "https://a8c-libs.s3.amazonaws.com/android"
+        content {
+            includeGroup "com.automattic"
+        }
+    }
     maven { url "https://maven.google.com" }
     maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+    jcenter()
 }
 
 if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){

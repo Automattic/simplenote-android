@@ -1,5 +1,5 @@
 # Simplenote for Android
-[![Version](https://img.shields.io/badge/version-2.18-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/2.18) [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android) [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
+[![Version](https://img.shields.io/badge/version-2.19-blue.svg)](https://github.com/Automattic/simplenote-android/releases/tag/2.19) [![CircleCI](https://img.shields.io/circleci/build/gh/Automattic/simplenote-android.svg?label=circleci)](https://circleci.com/gh/Automattic/simplenote-android) [![Travis CI](https://img.shields.io/travis/Automattic/simplenote-android/develop.svg?label=travisci)](https://travis-ci.org/Automattic/simplenote-android)
 
 Simplenote for Android. Learn more at [Simplenote.com](https://simplenote.com).
 
