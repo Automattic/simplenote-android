@@ -1,10 +1,11 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +22,13 @@ import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogConten
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogController;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Account;
+import com.automattic.simplenote.utils.AccountNetworkUtils;
+import com.automattic.simplenote.utils.AccountVerificationEmailHandler;
 import com.automattic.simplenote.utils.AppLog;
-import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static com.automattic.simplenote.models.Account.KEY_EMAIL_VERIFICATION;
 
 /**
  * A {@link FullScreenDialogFragment} for reviewing an account and verifying an email address.  When
@@ -200,34 +190,18 @@ public class ReviewAccountVerifyEmailFragment extends Fragment implements FullSc
     }
 
     private void sendVerificationEmail() {
-        byte[] data = mEmail.getBytes(StandardCharsets.UTF_8);
-        String encodedEmail = Base64.encodeToString(data, Base64.NO_WRAP);
-        new OkHttpClient()
-            .newBuilder()
-            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .build()
-            .newCall(new Request.Builder().url(URL_VERIFY_EMAIL + encodedEmail).build())
-            .enqueue(
-                new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        AppLog.add(Type.AUTH, "Verification email error (" + e.getMessage() + " - " + call.request().url() + ")");
-                    }
+        AccountNetworkUtils.makeSendVerificationEmailRequest(mEmail, new AccountVerificationEmailHandler() {
+            @Override
+            public void onSuccess(@NonNull String url) {
+                AppLog.add(AppLog.Type.AUTH, "Email sent (200 - " + url + ")");
+            }
 
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) {
-                        String message = "Verification email ";
+            @Override
+            public void onFailure(@NonNull Exception e, @NonNull String url) {
+                AppLog.add(AppLog.Type.AUTH, "Verification email error (" + e.getMessage() + " - " + url + ")");
+            }
+        });
 
-                        if (response.code() == 200) {
-                            message += "sent";
-                        } else {
-                            message += "error";
-                        }
-
-                        AppLog.add(Type.AUTH, message + " (" + response.code() + " - " + call.request().url() + ")");
-                    }
-                }
-            );
         mHasSentEmail = true;
     }
 

@@ -1,0 +1,6 @@
+2.19 :
+* Ajout de la prise en charge pour importer des notes
+* Résolution d’une défaillance lors de la recherche de notes sur tablettes
+* Ajout de la suppression de compte dans l’application
+* Correction de l’affichage de l’écran de vérification des e-mails avec des comptes vérifiés
+* Modification de l’icône de nouvelle note

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-02-18 11:54:04+0000
+Translation-Revision-Date: 2021-08-19 20:51:02+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="import_setting">Importer des données</string>
+    <string name="import_unknown">Format inconnu</string>
+    <string name="import_message_success">Données chargées</string>
+    <string name="import_error_parse">Impossible d’analyser le fichier</string>
+    <string name="import_error_file">Impossible de lire le fichier</string>
+    <string name="requesting_message">Demande en cours…</string>
+    <string name="error_ocurred_message">Une erreur est survenue. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
+    <string name="account_deletion_message">Un e-mail a été envoyé à %1$s. Consultez votre boîte de réception et suivez les instructions pour confirmer la suppression du compte.\n\nVotre compte ne sera pas supprimé tant que nous n’aurons pas reçu votre confirmation.</string>
+    <string name="request_received">Demande reçue</string>
+    <string name="delete_account_message">En supprimant votre compte, toutes les notes créées avec ce compte seront supprimées définitivement. Cette action est irréversible.</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="dialog_already_logged_in_message">Vous êtes déjà connecté en tant que %1$s. Déconnectez-vous et réessayez.</string>
+    <string name="dialog_already_logged_in_title">Vous êtes déjà connecté</string>
+    <string name="support_text">Vous n’avez pas reçu d’e-mail ? Vous avez peut-être déjà un compte. Si vous avez besoin d’aide, contactez %1$s.</string>
+    <string name="email_confirmation_text">Nous avons envoyé un e-mail à %1$s. Consultez votre boîte de réception et suivez les instructions.</string>
+    <string name="dialog_message_signup_error">Nous rencontrons des problèmes. Veuillez réessayer un peu plus tard.</string>
     <string name="dialog_browser_exception_toast_copy_success">URL copiée dans le presse-papiers.</string>
     <string name="dialog_browser_exception_toast_copy_failure">L’URL n’a pas pu être copiée dans le presse-papiers.</string>
     <string name="dialog_browser_exception_title">Erreur de lien</string>

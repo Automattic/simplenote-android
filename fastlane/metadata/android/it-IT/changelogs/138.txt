@@ -1,2 +1,0 @@
-2.18:
-* Nuovo sistema di registrazione
