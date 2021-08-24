@@ -154,6 +154,9 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
         } else if (isTagNameInvalidSpaces()) {
             mButtonPositive.setEnabled(false);
             mEditTextLayout.setError(getString(R.string.rename_tag_error_spaces));
+        } else if (isTagNameInvalidCommas()) {
+            mButtonPositive.setEnabled(false);
+            mEditTextLayout.setError(getString(R.string.rename_tag_error_commas));
         }
     }
 
@@ -170,7 +173,7 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
     }
 
     private boolean isTagNameValid() {
-        return !isTagNameInvalidSpaces() && !isTagNameInvalidLength() && !isTagNameInvalidEmpty();
+        return !isTagNameInvalidSpaces() && !isTagNameInvalidLength() && !isTagNameInvalidEmpty() && !isTagNameInvalidCommas();
     }
 
     private boolean isTagNameInvalidEmpty() {
@@ -183,6 +186,10 @@ public class TagDialogFragment extends AppCompatDialogFragment implements TextWa
 
     private boolean isTagNameInvalidSpaces() {
         return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(" ");
+    }
+
+    private boolean isTagNameInvalidCommas() {
+        return mEditTextTag.getText() != null && mEditTextTag.getText().toString().contains(",");
     }
 
     private void showDialogErrorConflict(String canonical, String tagOld) {
