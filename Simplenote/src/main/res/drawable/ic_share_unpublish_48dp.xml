@@ -20,7 +20,7 @@
 
     <item
         android:bottom="@dimen/padding_small"
-        android:drawable="@drawable/ic_unpublish_24dp"
+        android:drawable="@drawable/ic_publish_24dp"
         android:end="@dimen/padding_small"
         android:start="@dimen/padding_small"
         android:top="@dimen/padding_small">
