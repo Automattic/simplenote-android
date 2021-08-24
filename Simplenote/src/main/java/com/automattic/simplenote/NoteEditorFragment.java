@@ -571,6 +571,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             });
         }
+
+        hideToolbarForLandscapeEditing();
     }
 
     private int getFirstSearchMatchLocation() {
@@ -1241,12 +1243,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mPlaceholderView != null) {
             mPlaceholderView.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        hideToolbarForLandscapeEditing();
     }
 
     @Override
