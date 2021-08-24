@@ -2,6 +2,7 @@
 -----
 * [Internal] Added login alert for unverified accounts [#1449](https://github.com/Automattic/simplenote-android/pull/1449)
 * Fixed scroll position of a note with matching keyword in not persistent [#1454](https://github.com/Automattic/simplenote-android/pull/1454)
+* Fixed editor's background color in landscape mode with dark theme [#1457](https://github.com/Automattic/simplenote-android/pull/1457)
 
 2.20
 -----
