@@ -416,6 +416,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         }
     }
 
+    public Integer getCurrentSearchMatchIndexLocation() {
+        return mSearchMatchIndexes[mSearchMatchIndex];
+    }
+
     private void setUpSearchMatchBar(Intent intent) {
         if (mSearchMatchIndexes == null) {
             String matchOffsets = intent.getStringExtra(NoteEditorFragment.ARG_MATCH_OFFSETS);
