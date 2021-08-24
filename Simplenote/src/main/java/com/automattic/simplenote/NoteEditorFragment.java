@@ -556,6 +556,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        // If the user changes configuration and is still traversing keywords, we need to keep the scroll to the last
+        // keyword checked
         if (mShouldScrollToSearchMatch && mMatchOffsets != null) {
             // mContentEditText.getLayout() can be null after a configuration change, thus, we need to check when the
             // layout becomes available so that the scroll position can be set.
