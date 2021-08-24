@@ -42,12 +42,6 @@ android {
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
 
-    // Avoid duplicate annotations dependencies
-    configurations {
-        cleanedAnnotations
-        compile.exclude group: 'org.jetbrains' , module:'annotations'
-    }
-
     lintOptions {
         checkReleaseBuilds false
     }
@@ -142,7 +136,7 @@ dependencies {
     implementation 'net.openid:appauth:0.7.0'
 
     // Dagger Hilt dependencies
-    implementation 'com.google.dagger:hilt-android:2.38'
+    implementation 'com.google.dagger:hilt-android:2.38.1'
     annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
     kapt 'com.google.dagger:hilt-compiler:2.38.1'
 
