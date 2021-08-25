@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class TagUtils {
@@ -45,6 +47,29 @@ public class TagUtils {
         if (isTagMissing(bucket, name)) {
             createTag(bucket, name, bucket.count());
         }
+    }
+
+    /**
+     * Find the tags that match the canonical representation of tagSearch
+     *
+     * @param tags      {@link List<String>} list of tags where tagSearch is going to be matched.
+     * @param tagSearch {@link String} tag to be searched.
+     * @return          {@link List<String>} Sublist of tags that matched tagSearch's canonical
+     *                  representation.
+     */
+    public static List<String> findTagsMatch(List<String> tags, String tagSearch) {
+        List<String> tagsMatched = new ArrayList<>();
+
+        // Get the canonical hash of tag that is searched
+        String tagSearchHash = hashTag(tagSearch);
+        for (String tag : tags) {
+            String tagHash = hashTag(tag);
+            if (tagHash.equals(tagSearchHash)) {
+                tagsMatched.add(tag);
+            }
+        }
+
+        return tagsMatched;
     }
 
     /**

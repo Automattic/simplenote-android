@@ -12,6 +12,9 @@ jobs:
       - checkout
       - android/restore-gradle-cache
       - run:
+          name: Configure gradle
+          command: echo $'\norg.gradle.jvmargs=-Xmx3072m -XX:+HeapDumpOnOutOfMemoryError -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false' >> gradle.properties
+      - run:
           name: Build
           command: ./gradlew --stacktrace assembleDebug assembleRelease
       - run:

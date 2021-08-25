@@ -342,17 +342,14 @@ public class Note extends BucketObject {
         return tagList;
     }
 
-    public void removeTag(String removedTagName) {
-        JSONArray tags = new JSONArray();
-        String removedHash = TagUtils.hashTag(removedTagName);
+    public void removeTag(String tagName) {
+        List<String> tags = getTags();
 
-        for (String tagName : getTags()) {
-            if (!TagUtils.hashTag(tagName).equals(removedHash)) {
-                tags.put(tagName);
-            }
-        }
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        tags.removeAll(tagsMatched);
 
         setTags(tags);
+        save();
     }
 
     public void setTags(List<String> tags) {
