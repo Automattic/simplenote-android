@@ -2,6 +2,7 @@
 -----
 * [Internal] Added login alert for unverified accounts [#1449](https://github.com/Automattic/simplenote-android/pull/1449)
 * Fixed scroll position of a note with matching keyword in not persistent [#1454](https://github.com/Automattic/simplenote-android/pull/1454)
+* Update icons [#1458](https://github.com/Automattic/simplenote-android/pull/1458)
 
 2.20
 -----
