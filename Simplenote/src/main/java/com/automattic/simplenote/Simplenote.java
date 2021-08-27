@@ -59,6 +59,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.HiltAndroidApp;
+
+@HiltAndroidApp
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
     public static final String SELECTED_NOTE_ID = "selectedNoteId";
@@ -265,7 +268,6 @@ public class Simplenote extends Application implements HeartbeatListener {
             }
         }
     }
-
     private void showReviewAccountOrVerifyEmail(final Activity activity, boolean hasSentEmail) {
         final FragmentManager fragmentManager;
         final @IdRes int container;
