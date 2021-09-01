@@ -571,6 +571,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
             });
         }
+
+        hideToolbarForLandscapeEditing();
     }
 
     private int getFirstSearchMatchLocation() {
@@ -1254,6 +1256,31 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             } else if (tags.length() > 0) {
                 setChips(tags);
             }
+        }
+
+        hideToolbarForLandscapeEditing();
+    }
+
+    void hideToolbarForLandscapeEditing() {
+        if (getActivity() == null || !(getActivity() instanceof NoteEditorActivity)) {
+            return;
+        }
+
+        NoteEditorActivity activity = (NoteEditorActivity)  getActivity();
+        int displayMode = getResources().getConfiguration().orientation;
+
+        if (mContentEditText.hasFocus() &&
+                displayMode == Configuration.ORIENTATION_LANDSCAPE &&
+                !activity.isPreviewTabSelected()) {
+            if (mNote.isMarkdownEnabled()) {
+                activity.hideTabs();
+            }
+            activity.getSupportActionBar().hide();
+        } else {
+            if (mNote.isMarkdownEnabled()) {
+                activity.showTabs();
+            }
+            activity.getSupportActionBar().show();
         }
     }
 
