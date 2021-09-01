@@ -1269,23 +1269,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         NoteEditorActivity activity = (NoteEditorActivity)  getActivity();
         int displayMode = getResources().getConfiguration().orientation;
 
-        new Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mContentEditText.hasFocus() &&
-                                displayMode == Configuration.ORIENTATION_LANDSCAPE &&
-                                !activity.isPreviewTabSelected()) {
-                            activity.hideTabs();
-                            activity.getSupportActionBar().hide();
-                        } else {
-                            activity.showTabs();
-                            activity.getSupportActionBar().show();
-                        }
-                    }
-                },
-                300
-        );
+        if (mContentEditText.hasFocus() &&
+                displayMode == Configuration.ORIENTATION_LANDSCAPE &&
+                !activity.isPreviewTabSelected()) {
+            activity.hideTabs();
+            activity.getSupportActionBar().hide();
+        } else {
+            activity.showTabs();
+            activity.getSupportActionBar().show();
+        }
     }
 
     private Note getNote() {
