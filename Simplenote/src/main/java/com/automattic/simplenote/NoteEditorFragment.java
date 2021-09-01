@@ -1272,10 +1272,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         if (mContentEditText.hasFocus() &&
                 displayMode == Configuration.ORIENTATION_LANDSCAPE &&
                 !activity.isPreviewTabSelected()) {
-            activity.hideTabs();
+            if (mNote.isMarkdownEnabled()) {
+                activity.hideTabs();
+            }
             activity.getSupportActionBar().hide();
         } else {
-            activity.showTabs();
+            if (mNote.isMarkdownEnabled()) {
+                activity.showTabs();
+            }
             activity.getSupportActionBar().show();
         }
     }
