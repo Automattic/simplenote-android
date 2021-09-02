@@ -49,6 +49,7 @@ import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DeleteAccountRequestHandler;
 import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
+import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
 import com.simperium.Simperium;
@@ -393,17 +394,23 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                             // it can be related to memory constraints or something else that is
                             // just a transient fault
                             try {
-                                AppLog.add(Type.ACCOUNT, "Making request to delete account");
+                                if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                                    AppLog.add(Type.ACCOUNT, "Making request to delete account");
+                                    String userToken = simperium.getUser().getAccessToken();
+                                    AccountNetworkUtils.makeDeleteAccountRequest(
+                                            userEmail,
+                                            userToken,
+                                            deleteAccountHandler);
+                                } else {
+                                    AppLog.add(Type.ACCOUNT, "No connectivity to make request to delete account");
+                                    closeProgressDialogDeleteAccount();
+                                    showDialogDeleteAccountNoConnectivity();
+                                }
 
-                                String userToken = simperium.getUser().getAccessToken();
-                                AccountNetworkUtils.makeDeleteAccountRequest(
-                                        userEmail,
-                                        userToken,
-                                        deleteAccountHandler);
                             } catch (IllegalArgumentException exception) {
                                 AppLog.add(Type.ACCOUNT, "Error trying to make request " +
                                         "to delete account. Error: " + exception.getMessage());
-
+                                closeProgressDialogDeleteAccount();
                                 showDialogDeleteAccountError();
                             }
                         }
@@ -427,6 +434,28 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
         dialogDeleteAccount.show();
+    }
+
+    private void showDialogDeleteAccountNoConnectivity() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        AlertDialog dialogDeleteAccountConfirmation = new AlertDialog.Builder(
+                new ContextThemeWrapper(activity, R.style.Dialog))
+                .setTitle(R.string.error)
+                .setMessage(R.string.simperium_dialog_message_network)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }
+                )
+                .create();
+
+        dialogDeleteAccountConfirmation.show();
     }
 
     private void showDialogDeleteAccountError() {
