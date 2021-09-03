@@ -102,7 +102,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:235-b39349535a80eec6d0f32581847d14d000d237f4'
+    implementation 'com.automattic:simperium:develop-78e8200288a4d0e75937720cbd0e503ddb04f035'
     implementation('com.automattic:tracks:1.2') {
         exclude group: "org.jetbrains", module: "annotations-java5"
     }
