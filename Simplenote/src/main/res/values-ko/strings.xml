@@ -67,10 +67,6 @@ Language: ko_KR
     <string name="tag_error_exists">태그가 이미 존재합니다.</string>
     <string name="tag_error_empty">태그를 비워둘 수 없습니다.</string>
     <string name="dialog_tag_error_message">태그를 추가하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">태그 추가</string>
     <string name="empty_tags_hint">메모에 태그를 추가하면 여기에 태그가 표시됩니다.</string>
     <string name="membership_premium">프리미엄</string>
@@ -201,7 +197,6 @@ Language: ko_KR
     <string name="search_hint">메모 또는 태그 검색</string>
     <string name="log_out">로그아웃</string>
     <string name="log_in">로그인</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">메모를 보관하는 가장 간단한 방법입니다.</string>
     <string name="simperium_hint_password">비밀번호</string>
     <string name="simperium_hint_email">이메일</string>

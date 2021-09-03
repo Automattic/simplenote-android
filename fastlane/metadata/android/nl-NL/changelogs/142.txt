@@ -1,0 +1,3 @@
+2.20:
+* Sorteerbalk verwijderd uit notitielijst, maar deze is nog steeds beschikbaar via instellingen
+* Probleem opgelost met de terug-knop op het terug naar home-scherm wanneer een notitie wordt geopend vanuit een widget.

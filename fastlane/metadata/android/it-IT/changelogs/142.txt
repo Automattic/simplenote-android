@@ -1,0 +1,3 @@
+2.20:
+* Barra di ordinamento rimossa dall'elenco delle note, ma ancora accessibile dalle impostazioni
+* Risolto il problema con il pulsante di ritorno alla schermata principale quando si accede a una nota da un widget

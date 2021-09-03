@@ -67,10 +67,6 @@ Language: zh_CN
     <string name="tag_error_exists">标签已存在</string>
     <string name="tag_error_empty">标签不能为空</string>
     <string name="dialog_tag_error_message">添加标签时出错。 请重试。 如果问题仍然存在，请通过 %1$s%2$s%3$s%4$s%5$s 联系我们，我们会竭诚相助。</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">添加标签</string>
     <string name="empty_tags_hint">向笔记添加标签后，标签即会在此处显示。</string>
     <string name="membership_premium">付费</string>
@@ -201,7 +197,6 @@ Language: zh_CN
     <string name="search_hint">搜索备注或标签</string>
     <string name="log_out">注销</string>
     <string name="log_in">登录</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">记录笔记最简单的方法。</string>
     <string name="simperium_hint_password">密码</string>
     <string name="simperium_hint_email">电子邮件</string>

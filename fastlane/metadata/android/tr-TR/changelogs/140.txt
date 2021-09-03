@@ -1,6 +1,0 @@
-2.19:
-* Notları içe aktarmak için destek eklendi
-* Tabletlerde not ararken oluşan kilitlenme durumu düzeltildi
-* Uygulamada Hesap Silme özelliği eklendi
-* Doğrulanmış hesaplarda artık sabit e-posta doğrulama ekranı görüntülenir
-* Yeni not simgesi değiştirildi

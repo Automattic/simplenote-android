@@ -1,6 +1,0 @@
-2.19:
-* Unterstützung zum Importieren von Notizen hinzugefügt
-* Absturz beim Durchsuchen von Notizen auf Tablets behoben
-* In-App-Kontolöschung hinzugefügt
-* Anzeige des E-Mail-Verifizierungsbildschirms in verifizierten Konten behoben
-* Icon für neue Notizen geändert

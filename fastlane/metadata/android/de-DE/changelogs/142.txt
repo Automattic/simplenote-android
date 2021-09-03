@@ -1,0 +1,4 @@
+2.20:
+* Die Sortierleiste wurde von der Notizenliste entfernt, ist aber immer noch über die Einstellungen zugänglich
+.* Ein Fehler bei der Schaltfläche „Zurück zur Startseite“, wenn auf eine Notiz über ein Widget zugegriffen wird, wurde behoben
+.

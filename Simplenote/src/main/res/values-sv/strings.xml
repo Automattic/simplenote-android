@@ -67,10 +67,6 @@ Language: sv_SE
     <string name="tag_error_exists">Etiketten finns redan</string>
     <string name="tag_error_empty">Etiketter får inte vara tomma</string>
     <string name="dialog_tag_error_message">Ett fel uppstod när etiketten lades till. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Lägg till etikett</string>
     <string name="empty_tags_hint">När du lägger till etiketter till dina anteckning kommer de visas här.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: sv_SE
     <string name="search_hint">Sök anteckningar eller etiketter</string>
     <string name="log_out">Logga ut</string>
     <string name="log_in">Logga in</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Det enklaste sättet att anteckna på.</string>
     <string name="simperium_hint_password">Lösenord</string>
     <string name="simperium_hint_email">E-post</string>

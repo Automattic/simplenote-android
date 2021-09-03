@@ -67,10 +67,6 @@ Language: ru
     <string name="tag_error_exists">Метка уже существует</string>
     <string name="tag_error_empty">Метка не может быть пустой</string>
     <string name="dialog_tag_error_message">При добавлении метки произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Добавьте метку</string>
     <string name="empty_tags_hint">Метки, добавляемые к заметкам, будут отображаться здесь.</string>
     <string name="membership_premium">Премиум</string>
@@ -201,7 +197,6 @@ Language: ru
     <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
     <string name="log_in">Войти</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Простой способ хранить заметки.</string>
     <string name="simperium_hint_password">Пароль</string>
     <string name="simperium_hint_email">Электронная почта</string>

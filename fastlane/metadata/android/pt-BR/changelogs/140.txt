@@ -1,6 +1,0 @@
-2.19:
-* Suporte adicionado para importar anotações
-* Falha corrigida ao pesquisar anotações em tablets
-* Exclusão de conta no aplicativo adicionada
-* Exibição da tela de verificação de e-mail com contas verificadas corrigida
-* Alteração do novo ícone de anotação

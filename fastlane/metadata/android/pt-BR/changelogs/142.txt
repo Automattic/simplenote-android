@@ -1,0 +1,3 @@
+2.20:
+* Removemos a barra de ordenação da lista de anotações. Agora você pode acessá-la pelas configurações
+* Fixamos o botão Voltar na tela inicial para quando uma anotação é acessada a partir de um widget

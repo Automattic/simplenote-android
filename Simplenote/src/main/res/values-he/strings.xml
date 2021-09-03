@@ -67,10 +67,6 @@ Language: he_IL
     <string name="tag_error_exists">התגית כבר קיימת</string>
     <string name="tag_error_empty">תגיות לא יכולות להיות ריקות</string>
     <string name="dialog_tag_error_message">אירעה שגיאה בהוספת התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר בכתובת ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
-    <string name="dialog_tag_add_title">‎@string/add_tag</string>
-    <string name="dialog_tag_add_hint">‎@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">‎@string/save</string>
-    <string name="dialog_tag_add_button_negative">‎@android:string/cancel</string>
     <string name="add_tag">להוסיף תגית</string>
     <string name="empty_tags_hint">לאחר שהוספת את התגיות לפתקים, התגיות שלך יופיעו כאן.</string>
     <string name="membership_premium">פרימיום</string>
@@ -201,7 +197,6 @@ Language: he_IL
     <string name="search_hint">לחפש פתקים או תגיות</string>
     <string name="log_out">התנתקות</string>
     <string name="log_in">התחברות</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">הדרך הפשוטה ביותר לרשום פתקים.</string>
     <string name="simperium_hint_password">סיסמה</string>
     <string name="simperium_hint_email">אימייל</string>

@@ -67,10 +67,6 @@ Language: fr
     <string name="tag_error_exists">Cette étiquette existe déjà.</string>
     <string name="tag_error_empty">Les étiquettes ne peuvent pas être vides.</string>
     <string name="dialog_tag_error_message">Une erreur est survenue lors de l’ajout de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Ajouter le mot-clé</string>
     <string name="empty_tags_hint">Lorsque vous ajoutez des étiquettes à vos notes, vos étiquettes apparaissent ici.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: fr
     <string name="search_hint">Rechercher dans les notes ou les étiquettes</string>
     <string name="log_out">Déconnexion</string>
     <string name="log_in">Connexion</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">La manière la plus simple de conserver des notes.</string>
     <string name="simperium_hint_password">Mot de passe</string>
     <string name="simperium_hint_email">E-mail</string>

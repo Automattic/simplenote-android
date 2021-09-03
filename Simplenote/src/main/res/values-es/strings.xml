@@ -67,10 +67,6 @@ Language: es
     <string name="tag_error_exists">La etiqueta ya existe</string>
     <string name="tag_error_empty">Las etiquetas no pueden estar vacías</string>
     <string name="dialog_tag_error_message">Se ha producido un error al añadir la etiqueta. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Añadir etiqueta</string>
     <string name="empty_tags_hint">Cuando añadas etiquetas a tus notas, las etiquetas aparecerán aquí.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: es
     <string name="search_hint">Buscar notas o etiquetas</string>
     <string name="log_out">Salir</string>
     <string name="log_in">Acceder</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Lo más fácil para tener notas.</string>
     <string name="simperium_hint_password">Contraseña</string>
     <string name="simperium_hint_email">Correo electrónico</string>

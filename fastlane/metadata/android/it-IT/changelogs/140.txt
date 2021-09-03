@@ -1,6 +1,0 @@
-2.19:
-* Aggiunto supporto per importazione note
-* Corretto arresto anomalo durante la ricerca delle note nei tablet
-* Aggiunta eliminazione account in-app
-* Corretta schermata di verifica e-mail che compare con gli account verificati
-* Cambiata icona nuova nota
