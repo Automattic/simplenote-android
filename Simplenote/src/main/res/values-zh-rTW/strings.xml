@@ -67,10 +67,6 @@ Language: zh_TW
     <string name="tag_error_exists">標籤已經存在</string>
     <string name="tag_error_empty">標籤不能為空白</string>
     <string name="dialog_tag_error_message">新增標籤時發生錯誤。 請再試一次。 如果問題持續發生，請聯絡我們尋求協助：%1$s%2$s%3$s%4$s%5$s。</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">新增標籤</string>
     <string name="empty_tags_hint">為筆記新增標籤後，你的標籤會顯示在這裡。</string>
     <string name="membership_premium">進階版</string>
@@ -201,7 +197,6 @@ Language: zh_TW
     <string name="search_hint">搜尋筆記或標籤</string>
     <string name="log_out">登出</string>
     <string name="log_in">登入</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">輕鬆作筆記的最佳方式。</string>
     <string name="simperium_hint_password">密碼</string>
     <string name="simperium_hint_email">電子郵件</string>

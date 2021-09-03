@@ -67,10 +67,6 @@ Language: ar
     <string name="tag_error_exists">يوجد وسم بالفعل</string>
     <string name="tag_error_empty">يتعذر أن تكون الوسوم فارغة</string>
     <string name="dialog_tag_error_message">حدث خطأ في أثناء إضافة الوسم. يُرجى المحاولة مرة أخرى. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">إضافة وسم</string>
     <string name="empty_tags_hint">بمجرد أن تقوم بإضافة الوسوم إلى ملاحظاتك، ستظهر وسومك هنا.</string>
     <string name="membership_premium">الإصدار المميز</string>
@@ -201,7 +197,6 @@ Language: ar
     <string name="search_hint">البحث عن الملحوظات أو الوسوم</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="log_in">تسجيل الدخول</string>
-    <string name="simperium_title">‎@string/app_name</string>
     <string name="simperium_subtitle">الطريقة الأسهل للاحتفاظ بالملحوظات.</string>
     <string name="simperium_hint_password">كلمة المرور</string>
     <string name="simperium_hint_email">البريد الإلكتروني</string>

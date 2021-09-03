@@ -67,10 +67,6 @@ Language: pt_BR
     <string name="tag_error_exists">A tag já existe</string>
     <string name="tag_error_empty">As tags não podem estar vazias</string>
     <string name="dialog_tag_error_message">Ocorreu um erro ao adicionar a tag. Tente novamente. Se o problema continuar, entre em contato conosco em %1$s%2$s%3$s%4$s%5$s para obter ajuda.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Adicionar tag</string>
     <string name="empty_tags_hint">Quando você adicionar tags às suas anotações, as tags aparecerão aqui.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: pt_BR
     <string name="search_hint">Pesquisar anotações ou tags</string>
     <string name="log_out">Fazer logout</string>
     <string name="log_in">Fazer login</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">A melhor forma de manter notas.</string>
     <string name="simperium_hint_password">Senha</string>
     <string name="simperium_hint_email">E-mail</string>

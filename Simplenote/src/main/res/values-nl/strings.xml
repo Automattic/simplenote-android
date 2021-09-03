@@ -67,10 +67,6 @@ Language: nl
     <string name="tag_error_exists">Tag bestaat al</string>
     <string name="tag_error_empty">Tags mogen niet leeg zijn</string>
     <string name="dialog_tag_error_message">Fout opgetreden bij het toevoegen van de tag. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Tag toevoegen</string>
     <string name="empty_tags_hint">Zodra je tags toevoegt aan je notities, worden je tags hier weergegeven.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: nl
     <string name="search_hint">Notities of tags zoeken</string>
     <string name="log_out">Uitloggen</string>
     <string name="log_in">Inloggen</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">De eenvoudigste manier om notities bij te houden.</string>
     <string name="simperium_hint_password">Wachtwoord</string>
     <string name="simperium_hint_email">E-mail</string>

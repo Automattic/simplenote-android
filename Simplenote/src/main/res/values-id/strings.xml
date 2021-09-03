@@ -67,10 +67,6 @@ Language: id
     <string name="tag_error_exists">Tag sudah ada</string>
     <string name="tag_error_empty">Tag tidak boleh kosong</string>
     <string name="dialog_tag_error_message">Terjadi kesalahan saat menambahkan tag. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
-    <string name="dialog_tag_add_title">@string/add_tag</string>
-    <string name="dialog_tag_add_hint">@string/tag_name</string>
-    <string name="dialog_tag_add_button_positive">@string/save</string>
-    <string name="dialog_tag_add_button_negative">@android:string/cancel</string>
     <string name="add_tag">Tambahkan Tag</string>
     <string name="empty_tags_hint">Setelah Anda menambahkan tag ke catatan, tag akan muncul di sini.</string>
     <string name="membership_premium">Premium</string>
@@ -201,7 +197,6 @@ Language: id
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
-    <string name="simperium_title">@string/app_name</string>
     <string name="simperium_subtitle">Cara paling mudah menyimpan catatan.</string>
     <string name="simperium_hint_password">Kata Sandi</string>
     <string name="simperium_hint_email">Email</string>
