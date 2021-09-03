@@ -1,0 +1,3 @@
+2.20:
+* Notlar listesinden sıralama çubuğu kaldırıldı ancak yine de ayarlardan erişebilirsiniz
+* Bileşenden bir nota erişildiği durumlar için ana ekrana geri dönüş düğmesi düzeltildi

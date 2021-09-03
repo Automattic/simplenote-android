@@ -1,6 +1,0 @@
-2.19:
-* Ondersteuning toegevoegd om notities te importeren
-* Crash verholpen tijdens het zoeken van notities op tablets
-* Accountverwijdering in de app toegevoegd
-* E-mailverificatiescherm verschijnt bij geverifieerde accounts
-* Het pictogram voor nieuwe notitie gewijzigd

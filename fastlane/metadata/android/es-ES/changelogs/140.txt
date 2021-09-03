@@ -1,6 +1,0 @@
-2.19:
-* Se ha añadido compatibilidad para importar notas
-* Se ha solucionado el bloqueo que se producía al buscar notas en tabletas
-* Se ha añadido la función de eliminar la cuenta en la aplicación
-* Se ha solucionado la pantalla de verificación del correo electrónico que aparecía para las cuentas verificadas
-* Se ha cambiado el icono de nota nueva

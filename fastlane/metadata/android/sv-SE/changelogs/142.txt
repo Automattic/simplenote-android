@@ -1,0 +1,3 @@
+2.20:
+* Sorteringsfältet har tagits bort från anteckningslistan, men det går fortfarande att komma åt via inställningarna
+* Tillbaka-knappen för att återgå till startskärmen om en anteckning öppnas via en widget har korrigerats

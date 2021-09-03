@@ -1,136 +1,86 @@
 <ar>
-2.19:
-* تمت إضافة الدعم لاستيراد الملحوظات
-* تم إصلاح خطأ كان يحدث عند البحث عن الملحوظات في أجهزة التابلت
-* تمت إضافة حذف الحساب داخل التطبيق
-* تم إصلاح شاشة التحقُّق من البريد الإلكتروني التي تظهر مع حسابات تم التحقُّق منها
-*تم تغيير أيقونة الملحوظة الجديدة
+2.20:
+* تمت إزالة شريط الفرز من قائمة الملحوظات، ولكنه ما زال قابلاً للوصول إليه من الإعدادات
+* تم إصلاح زر الرجوع للعودة إلى الشاشة الرئيسية عندما يتم الوصول إلى ملحوظة من مربع جانبي
 </ar>
 <de-DE>
-2.19:
-* Unterstützung zum Importieren von Notizen hinzugefügt
-* Absturz beim Durchsuchen von Notizen auf Tablets behoben
-* In-App-Kontolöschung hinzugefügt
-* Anzeige des E-Mail-Verifizierungsbildschirms in verifizierten Konten behoben
-* Icon für neue Notizen geändert
+2.20:
+* Die Sortierleiste wurde von der Notizenliste entfernt, ist aber immer noch über die Einstellungen zugänglich
+.* Ein Fehler bei der Schaltfläche „Zurück zur Startseite“, wenn auf eine Notiz über ein Widget zugegriffen wird, wurde behoben
+.
 </de-DE>
 <es-ES>
-2.19:
-* Se ha añadido compatibilidad para importar notas
-* Se ha solucionado el bloqueo que se producía al buscar notas en tabletas
-* Se ha añadido la función de eliminar la cuenta en la aplicación
-* Se ha solucionado la pantalla de verificación del correo electrónico que aparecía para las cuentas verificadas
-* Se ha cambiado el icono de nota nueva
+2.20:
+* Se ha eliminado la barra de clasificación de la lista de notas, pero se puede acceder a ella desde la configuración
+* Se ha arreglado el botón de vuelta a la pantalla de inicio cuando se accede a una nota desde un widget
 </es-ES>
 <fr-FR>
-2.19 :
-* Ajout de la prise en charge pour importer des notes
-* Résolution d’une défaillance lors de la recherche de notes sur tablettes
-* Ajout de la suppression de compte dans l’application
-* Correction de l’affichage de l’écran de vérification des e-mails avec des comptes vérifiés
-* Modification de l’icône de nouvelle note
+2.20 :
+* Suppression de la barre de tri de la liste de notes mais toujours accessible dans les réglages
+* Résolution du bouton Précédent pour qu’il renvoie à l’écran d’accueil lorsque l’on accède à une note depuis un widget
 </fr-FR>
 <iw-IL>
-2.19:
-* הוספנו תמיכה לייבוא פתקים
-* תיקנו קריסה שהתרחשה כאשר מחפשים פתקים במכשירי טאבלט
-* הוספנו אפשרות למחיקת חשבון באפליקציה
-* תיקנו את המסך לאימות אימייל שמופיע בחשבונות מאומתים
-* שינינו את הסמל של פתק חדש
+2.20:
+* הסרנו את סרגל המיון מרשימת הפתקים אבל עדיין ניתן לגשת אליו בהגדרות
+* תיקנו את הכפתור 'חזרה' כדי לחזור אל עמוד הבית לאחר שניגשים לפתק מווידג'ט
 </iw-IL>
 <id>
-2.19:
-* Penambahan dukungan untuk mengimpor catatan
-* Perbaikan kerusakan saat mencari catatan di tablet
-* Penambahan penghapusan Akun di Dalam Aplikasi
-* Perbaikan layar verifikasi email muncul dengan akun terverifikasi
-* Perubahan gambar catatan baru
+2.20:
+* Bilah pengurutan dihapus dari daftar catatan, tetapi masih dapat diakses dari pengaturan
+* Tombol kembali untuk kembali ke layar beranda saat catatan diakses dari widget sudah diperbaiki
 </id>
 <it-IT>
-2.19:
-* Aggiunto supporto per importazione note
-* Corretto arresto anomalo durante la ricerca delle note nei tablet
-* Aggiunta eliminazione account in-app
-* Corretta schermata di verifica e-mail che compare con gli account verificati
-* Cambiata icona nuova nota
+2.20:
+* Barra di ordinamento rimossa dall'elenco delle note, ma ancora accessibile dalle impostazioni
+* Risolto il problema con il pulsante di ritorno alla schermata principale quando si accede a una nota da un widget
 </it-IT>
 <ja-JP>
-2.19:
-* メモのインポートのサポートを追加
-* タブレットでメモを検索する際に発生するクラッシュを修正
-* アプリ内アカウントの削除を追加
-* 検証済みアカウントが表示されるメール検証画面が開く問題を修正
-* 新しいメモアイコンを変更
+2.20:
+* メモリストから並べ替えバーを削除しました (設定からアクセス可能)。
+* ウィジェットからメモにアクセスしたときは「固定背景」ボタンでホーム画面に戻ります。
 </ja-JP>
 <ko-KR>
-2.19:
-* 메모 가져오기에 대한 지원 추가함
-* 태블릿에서 메모 검색 시 충돌 수정함
-* 앱 내 계정 삭제 추가함
-* 확인한 계정이 표시되는 이메일 확인 화면을 수정함
-* 새 메모 아이콘 변경함
+2.20:
+* 정렬 바를 메모 목록에서 제거했지만 설정에서 계속 액세스할 수 있음
+* 위젯에서 메모에 액세스할 때 홈 화면으로 돌아가는 뒤로 버튼 수정함
 </ko-KR>
 <nl-NL>
-2.19:
-* Ondersteuning toegevoegd om notities te importeren
-* Crash verholpen tijdens het zoeken van notities op tablets
-* Accountverwijdering in de app toegevoegd
-* E-mailverificatiescherm verschijnt bij geverifieerde accounts
-* Het pictogram voor nieuwe notitie gewijzigd
+2.20:
+* Sorteerbalk verwijderd uit notitielijst, maar deze is nog steeds beschikbaar via instellingen
+* Probleem opgelost met de terug-knop op het terug naar home-scherm wanneer een notitie wordt geopend vanuit een widget.
 </nl-NL>
 <pt-BR>
-2.19:
-* Suporte adicionado para importar anotações
-* Falha corrigida ao pesquisar anotações em tablets
-* Exclusão de conta no aplicativo adicionada
-* Exibição da tela de verificação de e-mail com contas verificadas corrigida
-* Alteração do novo ícone de anotação
+2.20:
+* Removemos a barra de ordenação da lista de anotações. Agora você pode acessá-la pelas configurações
+* Fixamos o botão Voltar na tela inicial para quando uma anotação é acessada a partir de um widget
 </pt-BR>
 <ru-RU>
-2.19:
-* Добавлена поддержка импорта заметок.
-* Исправлен сбой, возникавший при поиске заметок на планшетах.
-* Добавлена поддержка удаления учётной записи в приложении.
-* Экран подтверждения адреса электронной почты больше не появляется для подтверждённых учётных записей.
-* Изменён новый значок заметок.
+2.20:
+* Строка сортировки удалена из списка заметок, однако всё ещё доступна в настройках.
+* При переходе из виджета в раздел заметок на домашнем экране закреплена кнопка "Назад".
 </ru-RU>
 <sv-SE>
-2.19:
-* Stöd för import av anteckningar har lagts till
-* En krasch som uppstod vid sökning efter anteckningar på surfplattor har åtgärdats
-* Kontoborttagning i appen har lagts till
-* Skärmen för e-postverifiering har korrigerats och visas nu med verifierade konton
-* Ikonen för ny anteckning har ändrats
+2.20:
+* Sorteringsfältet har tagits bort från anteckningslistan, men det går fortfarande att komma åt via inställningarna
+* Tillbaka-knappen för att återgå till startskärmen om en anteckning öppnas via en widget har korrigerats
 </sv-SE>
 <tr-TR>
-2.19:
-* Notları içe aktarmak için destek eklendi
-* Tabletlerde not ararken oluşan kilitlenme durumu düzeltildi
-* Uygulamada Hesap Silme özelliği eklendi
-* Doğrulanmış hesaplarda artık sabit e-posta doğrulama ekranı görüntülenir
-* Yeni not simgesi değiştirildi
+2.20:
+* Notlar listesinden sıralama çubuğu kaldırıldı ancak yine de ayarlardan erişebilirsiniz
+* Bileşenden bir nota erişildiği durumlar için ana ekrana geri dönüş düğmesi düzeltildi
 </tr-TR>
 <zh-CN>
-2.19：
-* 添加了对导入备注的支持
-* 修复了在平板电脑中搜索备注时发生的崩溃
-* 添加了应用程序内账户删除
-* 修复了已验证的账户中显示的电子邮件验证屏幕
-* 更改了新的备注图标
+2.20：
+* 从笔记列表移除了排序栏，但仍可通过设置访问
+* 从小工具访问笔记时，将返回按钮固定到主屏幕
 </zh-CN>
 <zh-TW>
-2.1：:
-* 新增匯入備註支援
-* 修復在平板電腦中搜尋備註時的當機情況
-* 新增應用程式內刪除帳號功能
-* 修復已驗證帳號顯示電子郵件驗證畫面的問題
-* 變更新備註圖示
+2.20：
+* 我們從筆記清單移除了排序列，但仍可從設定存取
+ * 修正從小工具存取筆記時，按一下返回按鈕返回主畫面的問題
 </zh-TW>
 <en-US>
-2.19:
-* Added support to import notes
-* Fixed crash when searching notes in tablets
-* Added In App Account Deletion
-* Fixed email verification screen appears with verified accounts
-* Changed the new note icon
+2.20:
+* Removed sort bar from notes list but still accessible from settings
+* Fixed back button return to home screen when a note is accessed from a widget
 </en-US>

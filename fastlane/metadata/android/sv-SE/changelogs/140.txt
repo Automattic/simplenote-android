@@ -1,6 +1,0 @@
-2.19:
-* Stöd för import av anteckningar har lagts till
-* En krasch som uppstod vid sökning efter anteckningar på surfplattor har åtgärdats
-* Kontoborttagning i appen har lagts till
-* Skärmen för e-postverifiering har korrigerats och visas nu med verifierade konton
-* Ikonen för ny anteckning har ändrats
