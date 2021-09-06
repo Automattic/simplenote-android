@@ -1,3 +1,7 @@
+2.22
+-----
+
+
 2.21
 -----
 * [Internal] Added login alert for unverified accounts [#1449](https://github.com/Automattic/simplenote-android/pull/1449)
