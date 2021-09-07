@@ -2,8 +2,9 @@ package com.automattic.simplenote.repositories
 
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
+import javax.inject.Inject
 
-class SimperiumCollaboratorsRepository : CollaboratorsRepository {
+class SimperiumCollaboratorsRepository @Inject constructor() : CollaboratorsRepository {
 
     /**
      * A valid [collaborator] is just a valid email address.
