@@ -12,7 +12,6 @@ sealed class TagValidationResult {
     object TagTooLong : TagValidationResult()
     object TagIsCollaborator : TagValidationResult()
     object TagExists : TagValidationResult()
-
 }
 
 class ValidateTagUseCase @Inject constructor(
