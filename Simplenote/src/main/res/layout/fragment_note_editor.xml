@@ -100,6 +100,7 @@
                         android:nextFocusUp="@id/note_editor"
                         android:textColor="?attr/noteEditorTextColor"
                         android:textColorHint="?attr/hintTextColor"
+                        android:imeOptions="flagNoExtractUi"
                         android:textSize="@dimen/text_tag">
                     </com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView>
 
