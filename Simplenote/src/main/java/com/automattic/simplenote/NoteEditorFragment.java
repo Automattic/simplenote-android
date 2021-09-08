@@ -570,10 +570,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         viewModel.getEvent().observe(this, new Observer<NoteEditorEvent>() {
             @Override
             public void onChanged(NoteEditorEvent noteEditorEvent) {
+                if (getContext() == null) {
+                    return;
+                }
+
                 if (noteEditorEvent instanceof NoteEditorEvent.TagAsCollaborator) {
-
+                    String collaborator = ((NoteEditorEvent.TagAsCollaborator) noteEditorEvent).getCollaborator();
+                    String toastMessage = getString(R.string.tag_added_as_collaborator, collaborator);
+                    Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_LONG).show();
                 } else if (noteEditorEvent instanceof NoteEditorEvent.InvalidTag) {
-
+                    Toast.makeText(requireContext(), R.string.invalid_tag, Toast.LENGTH_LONG).show();
                 }
             }
         });
