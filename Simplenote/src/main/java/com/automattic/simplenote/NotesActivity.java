@@ -105,6 +105,9 @@ import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class NotesActivity extends ThemedAppCompatActivity implements NoteListFragment.Callbacks,
     User.StatusChangeListener, Simperium.OnUserCreatedListener, UndoBarController.UndoListener,
     Bucket.Listener<Note> {
