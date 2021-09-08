@@ -66,4 +66,13 @@ class ValidateTagUseCaseTest {
         val result = validateTagUseCase.isTagValid("admin@test.com")
         assertEquals(TagValidationResult.TagIsCollaborator, result)
     }
+
+    @Test
+    fun emailAlreadyExistsAsTagShouldReturnTagIsCollaborator() {
+        whenever(tagsRepository.isTagValid(any())).thenReturn(true)
+        whenever(tagsRepository.isTagMissing(any())).thenReturn(false)
+
+        val result = validateTagUseCase.isTagValid("admin@test.com")
+        assertEquals(TagValidationResult.TagIsCollaborator, result)
+    }
 }

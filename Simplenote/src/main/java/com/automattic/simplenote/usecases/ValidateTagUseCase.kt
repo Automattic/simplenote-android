@@ -27,16 +27,16 @@ class ValidateTagUseCase @Inject constructor(
             return TagValidationResult.TagWithSpaces
         }
 
+        if (collaboratorsRepository.isValidCollaborator(tagName)) {
+            return TagValidationResult.TagIsCollaborator
+        }
+
         if (!tagsRepository.isTagValid(tagName)) {
             return TagValidationResult.TagTooLong
         }
 
         if (!tagsRepository.isTagMissing(tagName)) {
             return TagValidationResult.TagExists
-        }
-
-        if (collaboratorsRepository.isValidCollaborator(tagName)) {
-            return TagValidationResult.TagIsCollaborator
         }
 
 
