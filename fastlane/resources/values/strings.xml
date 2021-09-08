@@ -10,7 +10,7 @@
     <string name="new_note">New Note</string>
     <string name="account">Account</string>
     <string name="delete_account">Delete Account</string>
-    <string name="delete_account_message">By deleting your account, all notes created with this account will be permanently deleted. This action is not reversible.</string>
+    <string name="delete_account_email_message">By deleting the account for email %1$s, all notes created with this account will be permanently deleted. This action is not reversible.</string>
     <string name="request_received">Request Received</string>
     <string name="account_deletion_message">An email was sent to %1$s. Check your inbox and follow the instructions to confirm account deletion.\n\nYour account won\'t be deleted until we receive your confirmation.</string>
     <string name="error_ocurred_message">An error occurred. Please, try again. If the problem continues, contact us at %1$s%2$s%3$s%4$s%5$s for help.</string>
@@ -398,4 +398,8 @@
     <string name="simperium_subtitle">The simplest way to keep notes.</string>
     <string name="simperium_title" translatable="false">@string/app_name</string>
     <string name="simperium_url">http://simplenote.com</string>
+    <string name="simperium_account_verification">Account Verification Required</string>
+    <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_okay">Okay</string>
 </resources>

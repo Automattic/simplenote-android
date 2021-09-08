@@ -1,2 +1,3 @@
-* Removed sort bar from notes list but still accessible from settings
-* Fixed back button return to home screen when a note is accessed from a widget
+* Updated icons
+* Fixed scroll position of a note with matching keyword in not persistent
+* Fixed editor's background color in landscape mode for dark theme

@@ -33,9 +33,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.20"
+            versionName "2.21-rc-1"
         }
-        versionCode 142
+        versionCode 143
         minSdkVersion 23
         targetSdkVersion 29
 
@@ -102,7 +102,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:develop-78e8200288a4d0e75937720cbd0e503ddb04f035'
+    implementation 'com.automattic:simperium:v1.0.0'
     implementation('com.automattic:tracks:1.2') {
         exclude group: "org.jetbrains", module: "annotations-java5"
     }
