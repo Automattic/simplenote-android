@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
@@ -1159,7 +1160,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onTagAdded(String tag) {
-        if (mNote == null || !isAdded()) {
+        // When a tag is added, it triggers an event that sends an empty tag. For those cases or if the note is null,
+        // we avoid updating the UI and the note
+        if (mNote == null || !isAdded() || TextUtils.isEmpty(tag)) {
             return;
         }
 
