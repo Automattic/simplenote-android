@@ -7,9 +7,6 @@ import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_N
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_EDITED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_PUBLISHED;
 import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_UNPUBLISHED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_ADDED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_TAG_REMOVED;
-import static com.automattic.simplenote.utils.SearchTokenizer.SPACE;
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 import android.app.Activity;
@@ -28,7 +25,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spanned;
-import android.text.TextUtils.SimpleStringSplitter;
 import android.text.TextWatcher;
 import android.text.style.MetricAffectingSpan;
 import android.text.style.RelativeSizeSpan;
@@ -62,6 +58,8 @@ import androidx.core.view.MenuCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -81,12 +79,13 @@ import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteLinkify;
 import com.automattic.simplenote.utils.SimplenoteMovementMethod;
 import com.automattic.simplenote.utils.SpaceTokenizer;
-import com.automattic.simplenote.utils.TagUtils;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
+import com.automattic.simplenote.viewmodels.NoteEditorEvent;
+import com.automattic.simplenote.viewmodels.NoteEditorViewModel;
 import com.automattic.simplenote.widgets.SimplenoteEditText;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -97,8 +96,12 @@ import com.simperium.client.Query;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note>,
         TextWatcher, OnTagAddedListener, View.OnFocusChangeListener,
         SimplenoteEditText.OnSelectionChangedListener,
@@ -167,6 +170,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private WebView mMarkdown;
     private boolean mIsPaused;
     private boolean mIsFromWidget;
+
+    private NoteEditorViewModel viewModel;
 
     // Hides the history bottom sheet if no revisions are loaded
     private final Runnable mHistoryTimeoutRunnable = new Runnable() {
@@ -333,6 +338,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         Simplenote currentApp = (Simplenote) requireActivity().getApplication();
         mNotesBucket = currentApp.getNotesBucket();
+
+        viewModel = new ViewModelProvider(this).get(NoteEditorViewModel.class);
+        setObservers();
 
         mCallIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_call_white_24dp, R.attr.actionModeTextColor);
         mEmailIcon = DrawableUtils.tintDrawableWithAttribute(getActivity(), R.drawable.ic_email_24dp, R.attr.actionModeTextColor);
@@ -549,6 +557,32 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         setHasOptionsMenu(true);
         return mRootView;
+    }
+
+    private void setObservers() {
+        viewModel.getUiState().observe(this, new Observer<NoteEditorViewModel.UiState>() {
+            @Override
+            public void onChanged(NoteEditorViewModel.UiState uiState) {
+                updateTagList(uiState.getTags());
+            }
+        });
+
+        viewModel.getEvent().observe(this, new Observer<NoteEditorEvent>() {
+            @Override
+            public void onChanged(NoteEditorEvent noteEditorEvent) {
+                if (getContext() == null) {
+                    return;
+                }
+
+                if (noteEditorEvent instanceof NoteEditorEvent.TagAsCollaborator) {
+                    String collaborator = ((NoteEditorEvent.TagAsCollaborator) noteEditorEvent).getCollaborator();
+                    String toastMessage = getString(R.string.tag_added_as_collaborator, collaborator);
+                    Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_LONG).show();
+                } else if (noteEditorEvent instanceof NoteEditorEvent.InvalidTag) {
+                    Toast.makeText(requireContext(), R.string.invalid_tag, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -1076,12 +1110,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             afterTextChanged(mContentEditText.getText());
             mContentEditText.processChecklists();
-            updateTagList();
+            viewModel.update(mNote);
         }
     }
 
-    private void updateTagList() {
-        setChips(mNote.getTagString());
+    private void updateTagList(List<String> tags) {
+        setChips(tags);
         mTagInput.setText("");
     }
 
@@ -1129,18 +1163,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
-        if (mNote.getTagString() != null && tag.length() > mNote.getTagString().length()) {
-            AnalyticsTracker.track(
-                EDITOR_TAG_ADDED,
-                CATEGORY_NOTE,
-                "tag_added_to_note"
-            );
-        }
-
-        mNote.setTagString(mNote.getTagString() + String.valueOf(SPACE) + tag);
-        mNote.setModificationDate(Calendar.getInstance());
-        updateTagList();
-        mNote.save();
+        viewModel.addTag(tag, mNote);
     }
 
     @Override
@@ -1248,13 +1271,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            String tags = getNoteTagsString().trim();
-
-            if (mTagInput.getText().toString().trim().length() > 0
-                && TagUtils.hashTagValid(mTagInput.getText().toString().trim())) {
-                onTagAdded(mTagInput.getText().toString());
-            } else if (tags.length() > 0) {
-                setChips(tags);
+            // When the tag field looses focus, if it is not empty, the tag is added
+            String tag = mTagInput.getText().toString().trim();
+            if (tag.length() > 0 && mNote != null) {
+                viewModel.addTag(tag, mNote);
             }
         }
 
@@ -1919,13 +1939,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         return new ColorStateList(states, colors);
     }
 
-    private void setChips(CharSequence text) {
-        mTagPadding.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
-        mTagChips.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
+    private void setChips(List<String> tags) {
+        mTagPadding.setVisibility(tags.size() > 0 ? View.VISIBLE : View.GONE);
+        mTagChips.setVisibility(tags.size() > 0 ? View.VISIBLE : View.GONE);
         mTagChips.setSingleSelection(true);
         mTagChips.removeAllViews();
-        SimpleStringSplitter tags = new SimpleStringSplitter(SPACE);
-        tags.setString(text.toString());
 
         for (String tag : tags) {
             final Chip chip = new Chip(requireContext());
@@ -1944,27 +1962,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             chip.setOnCloseIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mTagChips.removeView(view);
-                    updateTags();
-                    AnalyticsTracker.track(
-                        EDITOR_TAG_REMOVED,
-                        CATEGORY_NOTE,
-                        "tag_removed_from_note"
-                    );
+                    if (mNote == null) {
+                        return;
+                    }
+
+                    String tagName = ((Chip) view).getText().toString();
+                    viewModel.removeTag(tagName, mNote);
                 }
             });
             mTagChips.addView(chip);
         }
-    }
-
-    private void updateTags() {
-        if (mNote == null) {
-            return;
-        }
-
-        mNote.setTagString(getNoteTagsString());
-        mNote.setModificationDate(Calendar.getInstance());
-        updateTagList();
-        mNote.save();
     }
 }

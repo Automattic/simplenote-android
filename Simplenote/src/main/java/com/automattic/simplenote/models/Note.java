@@ -342,6 +342,21 @@ public class Note extends BucketObject {
         return tagList;
     }
 
+    public void addTag(String tagName) {
+        List<String> tags = getTags();
+
+        // Avoid adding tags with the same canonical name
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        if (tagsMatched.isEmpty()) {
+            tags.add(tagName);
+        }
+
+        setTags(tags);
+        setModificationDate(Calendar.getInstance());
+
+        save();
+    }
+
     public void removeTag(String tagName) {
         List<String> tags = getTags();
 
@@ -349,6 +364,8 @@ public class Note extends BucketObject {
         tags.removeAll(tagsMatched);
 
         setTags(tags);
+        setModificationDate(Calendar.getInstance());
+
         save();
     }
 
