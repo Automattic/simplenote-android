@@ -39,7 +39,6 @@ class ValidateTagUseCase @Inject constructor(
             return TagValidationResult.TagExists
         }
 
-
         return TagValidationResult.TagValid
     }
 }
