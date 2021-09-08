@@ -31,10 +31,10 @@ class NoteEditorViewModel @Inject constructor(
     fun addTag(tagName: String, note: Note) {
         when (validateTagUseCase.isTagValid(tagName)) {
             TagValidationResult.TagEmpty,
-            TagValidationResult.TagExists,
             TagValidationResult.TagTooLong,
             TagValidationResult.TagWithSpaces -> _event.value = NoteEditorEvent.InvalidTag
             TagValidationResult.TagIsCollaborator -> _event.value = NoteEditorEvent.InvalidTagCollaborator
+            TagValidationResult.TagExists,
             TagValidationResult.TagValid -> addTagName(tagName, note)
         }
     }
