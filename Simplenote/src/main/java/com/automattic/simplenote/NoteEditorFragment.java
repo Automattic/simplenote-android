@@ -1320,16 +1320,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
     }
 
-    private String getNoteTagsString() {
-        StringBuilder tags = new StringBuilder();
-
-        for (int i= 0; i < mTagChips.getChildCount(); i++) {
-            tags.append(((Chip) mTagChips.getChildAt(i)).getText()).append(" ");
-        }
-
-        return tags.toString();
-    }
-
     /**
      * Share bottom sheet callbacks
      */
@@ -1430,11 +1420,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             String content = mContentEditText.getPlainTextContent();
-            String tagString = getNoteTagsString();
 
-            if (mNote.hasChanges(content, tagString.trim(), mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
+            if (mNote.hasChanges(content, mNote.isPinned(), mIsMarkdownEnabled, mIsPreviewEnabled)) {
                 mNote.setContent(content);
-                mNote.setTagString(tagString);
                 mNote.setModificationDate(Calendar.getInstance());
                 mNote.setMarkdownEnabled(mIsMarkdownEnabled);
                 mNote.setPreviewEnabled(mIsPreviewEnabled);

@@ -140,7 +140,7 @@ public class NoteTest {
         note.setPreviewEnabled(isPreviewEnabled);
 
         assertThat(note.hasChanges(
-                CONTENT, tag, isPinned, isMarkdownEnabled, isPreviewEnabled
+                CONTENT, isPinned, isMarkdownEnabled, isPreviewEnabled
         ), is(false));
 
         note.setContent("New content");
@@ -150,7 +150,7 @@ public class NoteTest {
         note.setPreviewEnabled(false);
 
         assertThat(note.hasChanges(
-                CONTENT, tag, isPinned, isMarkdownEnabled, isPreviewEnabled
+                CONTENT, isPinned, isMarkdownEnabled, isPreviewEnabled
         ), is(true));
 
     }
