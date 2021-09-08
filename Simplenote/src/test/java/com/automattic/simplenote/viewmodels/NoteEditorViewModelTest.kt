@@ -5,12 +5,15 @@ import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.usecases.GetTagsUseCase
+import com.automattic.simplenote.usecases.ValidateTagUseCase
 import com.simperium.client.Bucket
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 class NoteEditorViewModelTest {
     @get:Rule
@@ -24,8 +27,13 @@ class NoteEditorViewModelTest {
 
     @Before
     fun setup() {
-        val getTagsUseCase = GetTagsUseCase(tagsRepository, SimperiumCollaboratorsRepository())
-        viewModel = NoteEditorViewModel(getTagsUseCase)
+        whenever(tagsRepository.isTagValid(any())).thenReturn(true)
+        whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
+
+        val collaboratorsRepository = SimperiumCollaboratorsRepository()
+        val getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
+        val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
+        viewModel = NoteEditorViewModel(getTagsUseCase, validateTagUseCase)
 
         note = Note("key1")
         note.content = "Hello World"
@@ -51,18 +59,22 @@ class NoteEditorViewModelTest {
 
     @Test
     fun addCollaboratorShouldNotUpdateUiStateAndNote() {
+        viewModel.update(note)
         viewModel.addTag("name@email.com", note)
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
         assertEquals(listOf("tag1", "tag2", "name@test.com"), note.tags)
+        assertEquals(NoteEditorEvent.InvalidTagCollaborator, viewModel.event.value)
     }
 
     @Test
     fun addInvalidTagShouldNotUpdateUiStateAndNote() {
+        viewModel.update(note)
         viewModel.addTag("test test1", note)
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
         assertEquals(listOf("tag1", "tag2", "name@test.com"), note.tags)
+        assertEquals(NoteEditorEvent.InvalidTag, viewModel.event.value)
     }
 
     @Test
