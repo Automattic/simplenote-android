@@ -64,7 +64,7 @@ class NoteEditorViewModelTest {
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
         assertEquals(listOf("tag1", "tag2", "name@test.com", "name@email.com"), note.tags)
-        assertEquals(NoteEditorEvent.TagAsCollaborator, viewModel.event.value)
+        assertEquals(NoteEditorEvent.TagAsCollaborator("name@email.com"), viewModel.event.value)
     }
 
     @Test
