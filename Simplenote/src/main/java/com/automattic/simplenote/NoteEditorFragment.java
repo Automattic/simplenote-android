@@ -570,7 +570,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         viewModel.getEvent().observe(this, new Observer<NoteEditorEvent>() {
             @Override
             public void onChanged(NoteEditorEvent noteEditorEvent) {
-                if (noteEditorEvent instanceof NoteEditorEvent.InvalidTagCollaborator) {
+                if (noteEditorEvent instanceof NoteEditorEvent.TagAsCollaborator) {
 
                 } else if (noteEditorEvent instanceof NoteEditorEvent.InvalidTag) {
 

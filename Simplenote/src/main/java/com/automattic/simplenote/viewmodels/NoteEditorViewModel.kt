@@ -33,7 +33,10 @@ class NoteEditorViewModel @Inject constructor(
             TagValidationResult.TagEmpty,
             TagValidationResult.TagTooLong,
             TagValidationResult.TagWithSpaces -> _event.value = NoteEditorEvent.InvalidTag
-            TagValidationResult.TagIsCollaborator -> _event.value = NoteEditorEvent.InvalidTagCollaborator
+            TagValidationResult.TagIsCollaborator -> {
+                addTagName(tagName, note)
+                _event.value = NoteEditorEvent.TagAsCollaborator
+            }
             TagValidationResult.TagExists,
             TagValidationResult.TagValid -> addTagName(tagName, note)
         }
@@ -68,5 +71,5 @@ class NoteEditorViewModel @Inject constructor(
 
 sealed class NoteEditorEvent {
     object InvalidTag : NoteEditorEvent()
-    object InvalidTagCollaborator : NoteEditorEvent()
+    object TagAsCollaborator : NoteEditorEvent()
 }

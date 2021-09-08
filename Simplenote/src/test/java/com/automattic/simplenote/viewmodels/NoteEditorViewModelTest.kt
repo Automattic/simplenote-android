@@ -63,8 +63,8 @@ class NoteEditorViewModelTest {
         viewModel.addTag("name@email.com", note)
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
-        assertEquals(listOf("tag1", "tag2", "name@test.com"), note.tags)
-        assertEquals(NoteEditorEvent.InvalidTagCollaborator, viewModel.event.value)
+        assertEquals(listOf("tag1", "tag2", "name@test.com", "name@email.com"), note.tags)
+        assertEquals(NoteEditorEvent.TagAsCollaborator, viewModel.event.value)
     }
 
     @Test
